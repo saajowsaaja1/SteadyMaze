@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteadyMaze | International Skills Ecosystem & Tournaments</title>
+<meta name="description" content="SteadyMaze - Global Skills Ecosystem, Lower & Medium Tier Courses, and SteadyCash Tournaments.">
+<meta name="keywords" content="SteadyMaze, Online Courses, Lower Skills, Medium Skills, Forex, Crypto, Cybersecurity, Tournaments">
+<meta name="author" content="SteadyMaze">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+luxury: "#D4AF37",
+royal: "#0F52BA",
+glass: "#10131C",
+darkbg: "#050608"
+},
+fontFamily: {
+rubik: ["Rubik","sans-serif"]
+},
+boxShadow: {
+luxury: "0 0 40px rgba(212,175,55,.35)"
+}
+}
+}
+}
+</script>
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Rubik',sans-serif;
+scroll-behavior:smooth;
+}
+body{
+background:
+radial-gradient(circle at top left,#0F52BA22,transparent 35%),
+radial-gradient(circle at bottom right,#D4AF3720,transparent 35%),
+#050608;
+color:white;
+overflow-x:hidden;
+}
+body::before{
+content:"";
+position:fixed;
+inset:0;
+backdrop-filter:blur(100px);
+pointer-events:none;
+}
+.glass{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(30px);
+border-radius:30px;
+}
+.gold{
+color:#D4AF37;
+}
+.hero-title{
+font-size:65px;
+font-weight:800;
+line-height:1.1;
+}
+.hero-sub{
+font-size:20px;
+color:#b7b7b7;
+}
+.luxuryButton{
+background:linear-gradient(90deg,#D4AF37,#EBC86A);
+color:black;
+padding:16px 40px;
+border-radius:18px;
+font-size:17px;
+font-weight:700;
+transition:.4s;
+box-shadow:0 0 30px rgba(212,175,55,.45);
+}
+.luxuryButton:hover{
+transform:translateY(-4px);
+box-shadow:0 0 60px rgba(212,175,55,.8);
+}
+header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+z-index:999;
+background:rgba(0,0,0,.35);
+backdrop-filter:blur(25px);
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+.container{
+width:92%;
+max-width:1450px;
+margin:auto;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="container flex items-center justify-between py-5">
+<h1 class="text-4xl font-extrabold">
+<span class="text-white">Steady</span>
+<span class="gold">Maze</span>
+</h1>
+<nav class="hidden lg:flex gap-8 text-lg">
+<a href="#">Home</a>
+<a href="#tiersSection">Skill Tiers</a>
+<a href="#tournamentSection">SteadyCash Tournaments</a>
+<a href="#searchSection">Database Search</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="luxuryButton">
+SIGN UP
+</button>
+</div>
+</div>
+</header>
+
+<section class="min-h-screen flex items-center pt-28">
+<div class="container grid lg:grid-cols-2 gap-20 items-center">
+<div>
+<p class="gold uppercase tracking-[8px] mb-5">
+International Skills Ecosystem & Tournaments
+</p>
+<h1 class="hero-title">
+Master Lower & Medium Skills<br>
+Dominate SteadyCash
+</h1>
+<p class="hero-sub mt-6">
+Explore 20+ professional skill groups segmented across Lower and Medium tiers, featuring monthly 300-student competitive tournament rounds.
+</p>
+<div class="mt-8 flex gap-6">
+<a href="#tiersSection" class="luxuryButton">
+Explore Tiers
+</a>
+<a href="#tournamentSection" class="glass px-10 py-4 flex items-center font-bold">
+SteadyCash Rounds
+</a>
+</div>
+</div>
+<div>
+<img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200" class="rounded-[40px] shadow-2xl">
+</div>
+</div>
+</section>
+
+<!-- ======================================== -->
+<!-- SEARCH SECTION WITH FULL DATABASE LOGIC -->
+<!-- ======================================== -->
+
+<section id="searchSection" class="py-24">
+<div class="container">
+<div class="glass p-10">
+<h2 class="text-5xl font-bold text-center mb-10">
+Search Global Skills Database
+</h2>
+<div class="max-w-5xl mx-auto">
+<div class="flex bg-[#111827] rounded-2xl overflow-hidden border border-yellow-500">
+<input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="Search lower skills, medium skills, cybersecurity, forex, crypto..." class="flex-1 bg-transparent px-8 py-6 text-xl outline-none text-white"/>
+<button onclick="handleSearch(document.getElementById('searchInput').value)" class="bg-yellow-500 text-black px-12 font-bold hover:bg-yellow-400 transition-colors">
+SEARCH
+</button>
+</div>
+<div id="searchDropdown" class="hidden mt-4 glass p-6 rounded-2xl space-y-3 max-h-80 overflow-y-auto">
+<!-- Dropdown results populated via JS Database -->
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ======================================== -->
+<!-- SKILL TIERS SECTION (LOWER & MEDIUM) -->
+<!-- ======================================== -->
+
+<section id="tiersSection" class="py-24">
+<div class="container">
+<div class="text-center mb-16">
+<p class="gold uppercase tracking-[6px] mb-3">Structured Learning Path</p>
+<h2 class="text-5xl font-bold">Lower & Medium Skill Tiers</h2>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-12">
+<!-- LOWER SKILLS TIER -->
+<div class="glass p-10 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-6">
+<span class="bg-yellow-500 text-black px-5 py-2 rounded-full font-extrabold text-sm">LOWER SKILLS TIER</span>
+<span class="text-gray-400 text-sm font-semibold">Total: $19</span>
+</div>
+<p class="text-gray-300 mb-6 text-lg">Essential introductory foundations for beginners building practical multimedia and digital capabilities.</p>
+
+<div class="space-y-4 mb-8">
+<div class="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/10">
+<span>Level 1: Graphic Design, Video Editing, Thumbnail, Digital Marketing, Movie Recap, Social Experience</span>
+<span class="gold font-bold">$3</span>
+</div>
+<div class="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/10">
+<span>Level 2: Intermediate Content Execution & Optimization</span>
+<span class="gold font-bold">$5</span>
+</div>
+<div class="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/10">
+<span>Level 3: Advanced Lower-Tier Capstone & Portfolio Execution</span>
+<span class="gold font-bold">$11</span>
+</div>
+</div>
+</div>
+<button onclick="alert('Lower Tier Selected! Total: $19')" class="luxuryButton w-full">
+ENROLL LOWER TIER ($19)
+</button>
+</div>
+
+<!-- MEDIUM SKILLS TIER -->
+<div class="glass p-10 flex flex-col justify-between border-2 border-yellow-500/40 shadow-luxury">
+<div>
+<div class="flex justify-between items-center mb-6">
+<span class="bg-yellow-500 text-black px-5 py-2 rounded-full font-extrabold text-sm">MEDIUM SKILLS TIER</span>
+<span class="text-gray-400 text-sm font-semibold">Total: $80</span>
+</div>
+<p class="text-gray-300 mb-6 text-lg">Professional high-value technical disciplines including cybersecurity, markets, and advanced analytics.</p>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/10">
+<span>Level 1: Cybersecurity, Forex, Crypto, Content Marketing, Social Media Marketing, Email Marketing, Copywriting, Motion Graphics</span>
+<span class="gold font-bold">$15</span>
+</div>
+<div class="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/10">
+<span>Level 2: Adobe Photoshop, Illustrator, After Effects, Brand Identity Design, E-commerce, Data Analysis</span>
+<span class="gold font-bold">$25</span>
+</div>
+<div class="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/10">
+<span>Level 3: Advanced Execution, Live Market Integration & Systems Mastery</span>
+<span class="gold font-bold">$40</span>
+</div>
+</div>
+</div>
+<button onclick="alert('Medium Tier Selected! Total: $80')" class="luxuryButton w-full">
+ENROLL MEDIUM TIER ($80)
+</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ======================================== -->
+<!-- STEADYCASH TOURNAMENT SECTION -->
+<!-- ======================================== -->
+
+<section id="tournamentSection" class="py-24">
+<div class="container">
+<div class="glass p-12 lg:p-16 relative overflow-hidden">
+<div class="absolute -right-20 -top-20 w-80 h-80 bg-yellow-500/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div>
+<span class="bg-yellow-500 text-black px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest">SteadyCash Tournaments</span>
+<h2 class="text-4xl lg:text-5xl font-extrabold mt-4 mb-6">Monthly 300-Student Tournament Rounds</h2>
+<p class="text-gray-300 text-lg mb-6">
+Every single month, SteadyMaze hosts exclusive competitive rounds for exactly 300 active learners. Participants are structured across tiers (Lower, Medium, and Highest) to test real-world mastery, practical execution, and win major cash rewards.
+</p>
+<div class="space-y-4 mb-8">
+<div class="flex items-center gap-3 text-white">
+<span class="gold font-bold text-xl">✓</span> 300 Selected Ardayda per Monthly Round
+</div>
+<div class="items-center gap-3 text-white flex">
+<span class="gold font-bold text-xl">✓</span> Segmented Competition (Lower, Medium, & Highest Tiers)
+</div>
+<div class="flex items-center gap-3 text-white">
+<span class="gold font-bold text-xl">✓</span> Real-Time Performance Tracking & Leaderboards
+</div>
+</div>
+<button onclick="alert('Registration submitted for the next SteadyCash 300 Round!')" class="luxuryButton">
+JOIN NEXT TOURNAMENT ROUND
+</button>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="glass p-8 text-center rounded-3xl">
+<h3 class="text-5xl font-extrabold gold">300</h3>
+<p class="text-gray-300 mt-2 font-medium">Ardayda / Round</p>
+</div>
+<div class="glass p-8 text-center rounded-3xl">
+<h3 class="text-5xl font-extrabold gold">Monthly</h3>
+<p class="text-gray-300 mt-2 font-medium">Tournament Cycles</p>
+</div>
+<div class="glass p-8 text-center rounded-3xl col-span-2">
+<h3 class="text-4xl font-extrabold gold">Lower, Medium & Highest</h3>
+<p class="text-gray-300 mt-2 font-medium">Tier Classification System</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ======================================== -->
+<!-- DATABASE RENDERING CONTAINER -->
+<!-- ======================================== -->
+
+<section class="pb-28">
+<div class="container">
+<div class="flex justify-between items-center mb-16">
+<h2 class="text-4xl font-bold">
+Complete Skills Database Catalog
+</h2>
+<button class="luxuryButton">
+View All Items
+</button>
+</div>
+<div id="skillsContainer" class="grid lg:grid-cols-3 md:grid-cols-2 gap-10">
+<!-- Database items rendered dynamically -->
+</div>
+</div>
+</section>
+
+<script>
+// FULL INTERNATIONAL ENGLISH DATABASE INCLUDING LOWER & MEDIUM SKILL GROUPS
+const skillsDatabase = [
+{
+id: 1,
+title: "Lower Tier Group: Graphic Design & Video Editing",
+level: "LOWER TIER",
+price: "$19 Total ($3-$11)",
+category: "Graphic Design Video Editing Thumbnail Digital Marketing Movie Recap Social Experience",
+teacher1: "Robert Hall",
+teacher2: "James Walker",
+students: "14,200",
+rating: "4.9",
+image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200"
+},
+{
+id: 2,
+title: "Medium Tier Group 1: Cybersecurity, Forex & Crypto",
+level: "MEDIUM TIER - PART 1",
+price: "$15 - $40",
+category: "Cybersecurity Forex Crypto Content Marketing Social Media Marketing Email Marketing Copywriting Motion Graphics",
+teacher1: "Sophia Brown",
+teacher2: "Daniel Smith",
+students: "12,450",
+rating: "5.0",
+image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200"
+},
+{
+id: 3,
+title: "Medium Tier Group 2: Adobe Suite, Branding & Data",
+level: "MEDIUM TIER - PART 2",
+price: "$25 - $40",
+category: "Adobe Photoshop Adobe Illustrator Adobe After Effects Brand Identity Design E-commerce Management Data Analysis Excel Power BI",
+teacher1: "David Wilson",
+teacher2: "John Carter",
+students: "18,200",
+rating: "4.9",
+image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200"
+},
+{
+id: 4,
+title: "SteadyCash Tournament Prep: Highest Tier Pro Mastery",
+level: "HIGHEST TIER",
+price: "Tournament Access",
+category: "Tournament SteadyCash 300 Highest Tier Advanced Mastery",
+teacher1: "Michael Lee",
+teacher2: "Chris Adams",
+students: "10,450",
+rating: "4.8",
+image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200"
+}
+];
+
+function renderMarketplace(data) {
+const container = document.getElementById("skillsContainer");
+if (!container) return;
+container.innerHTML = "";
+
+if (data.length === 0) {
+container.innerHTML = `<p class="text-gray-400 text-xl col-span-3 text-center py-10">No results found in the database.</p>`;
+return;
+}
+
+data.forEach(skill => {
+container.innerHTML += `
+<div class="glass overflow-hidden rounded-[30px] flex flex-col justify-between">
+<img src="${skill.image}" class="w-full h-60 object-cover">
+<div class="p-7 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-4">
+<span class="bg-yellow-500 text-black px-4 py-2 rounded-full font-bold text-xs">
+${skill.level}
+</span>
+<span class="gold font-extrabold text-xl">
+${skill.price}
+</span>
+</div>
+<h2 class="text-2xl font-bold mt-2 text-white">
+${skill.title}
+</h2>
+<div class="mt-5 space-y-2 text-gray-300">
+<p>⭐ ${skill.rating} Rating</p>
+<p>👨‍🎓 ${skill.students} Students</p>
+<p>👨‍🏫 Instructors: ${skill.teacher1}, ${skill.teacher2}</p>
+</div>
+</div>
+<button onclick="alert('Selected database item: ${skill.title}')" class="luxuryButton w-full mt-8">
+ACCESS DISCIPLINE
+</button>
+</div>
+</div>
+`;
+});
+}
+
+function handleSearch(query) {
+const dropdown = document.getElementById("searchDropdown");
+const trimmed = query.trim().toLowerCase();
+
+if (!trimmed) {
+dropdown.classList.add("hidden");
+renderMarketplace(skillsDatabase);
+return;
+}
+
+const matched = skillsDatabase.filter(s => 
+s.title.toLowerCase().includes(trimmed) || 
+s.category.toLowerCase().includes(trimmed) ||
+s.teacher1.toLowerCase().includes(trimmed) ||
+s.teacher2.toLowerCase().includes(trimmed)
+);
+
+dropdown.classList.remove("hidden");
+if (matched.length > 0) {
+dropdown.innerHTML = matched.map(m => `
+<div onclick="document.getElementById('searchInput').value='${m.title}'; dropdown.classList.add('hidden'); renderMarketplace([${JSON.stringify(m).replace(/"/g, '&quot;')}]);" class="p-3 hover:bg-slate-800 rounded-xl cursor-pointer text-white flex justify-between items-center border border-slate-700">
+<span>${m.title}</span>
+<span class="gold font-bold">${m.price}</span>
+</div>
+`).join('');
+} else {
+dropdown.innerHTML = `<div class="p-3 text-gray-400 text-center">No matching items found in the database.</div>`;
+}
+
+renderMarketplace(matched);
+}
+
+// Initial Render on Page Load from Database
+renderMarketplace(skillsDatabase);
+</script>
+
+</body>
+</html>
