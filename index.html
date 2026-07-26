@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SteadyMaze | Global Luxury Education Ecosystem</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        luxury: {
+                            black: '#050505',
+                            charcoal: '#111111',
+                            card: '#161618',
+                            border: '#2A2A2E',
+                            gold: '#D4AF37',
+                            goldLight: '#F5D76E',
+                            goldDark: '#B8860B',
+                            grayText: '#B8B8B8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Inline Styles to keep everything in a single file -->
+    <style>
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(20px);
+        }
+        .glass-card {
+            background: rgba(22, 22, 24, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #F5D76E 0%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-luxury-black text-luxury-grayText font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-luxury-gold selection:text-black">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-luxury-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-luxury-goldLight to-luxury-goldDark flex items-center justify-center shadow-xl shadow-luxury-gold/20">
+                    <i data-lucide="crown" class="w-5 h-5 text-black"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-wider uppercase text-white">Steady<span class="gold-gradient-text">Maze</span></span>
+            </div>
+
+            <nav class="hidden xl:flex items-center space-x-4 text-xs font-semibold">
+                <button onclick="switchTab('home')" class="nav-btn text-luxury-grayText hover:text-luxury-gold transition-colors">Home</button>
+                <button onclick="switchTab('courses')" class="nav-btn text-luxury-grayText hover:text-luxury-gold transition-colors">Courses</button>
+                <button onclick="switchTab('teachers')" class="nav-btn text-luxury-grayText hover:text-luxury-gold transition-colors">Teachers</button>
+                <button onclick="switchTab('competition')" class="nav-btn text-luxury-gold transition-colors flex items-center space-x-1">
+                    <i data-lucide="award" class="w-3.5 h-3.5"></i><span>Competition</span>
+                </button>
+                <button onclick="switchTab('community')" class="nav-btn text-luxury-grayText hover:text-luxury-gold transition-colors">Community</button>
+                <button onclick="switchTab('marketplace')" class="nav-btn text-luxury-grayText hover:text-luxury-gold transition-colors">Marketplace</button>
+                <button onclick="switchTab('signup')" class="nav-btn text-luxury-gold font-bold">Start Earning</button>
+                <button onclick="switchTab('login')" class="nav-btn text-luxury-grayText hover:text-luxury-gold transition-colors">Login</button>
+            </nav>
+
+            <div class="hidden lg:flex items-center space-x-3">
+                <button onclick="switchTab('signup')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-luxury-goldLight to-luxury-goldDark text-black text-xs font-bold shadow-lg shadow-luxury-gold/25 transition-all hover:scale-105">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN DYNAMIC CONTENT -->
+    <main class="flex-grow pt-28 pb-20">
+        
+        <!-- 1. HOME SECTION -->
+        <section id="tab-home" class="tab-content active max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16">
+            <span class="px-4 py-1.5 rounded-full text-xs font-bold bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/30 mb-6 inline-block uppercase tracking-widest shadow-lg shadow-luxury-gold/10">Global Luxury Education Ecosystem</span>
+            <h1 class="text-5xl sm:text-7xl font-black mb-6 text-white tracking-tight">Steady<span class="gold-gradient-text">Maze</span></h1>
+            <p class="text-lg text-luxury-grayText max-w-3xl mx-auto mb-10 leading-relaxed">Master 16 elite disciplines across Creative, Financial, and Development tracks with automated AI multi-language subtitles, dual-instructor masterclasses, and verified gold standards.</p>
+            
+            <div class="max-w-2xl mx-auto mb-12">
+                <div class="glass-card p-2 rounded-2xl border border-luxury-gold/30 flex items-center shadow-2xl">
+                    <i data-lucide="search" class="w-5 h-5 text-luxury-gold ml-3 mr-2"></i>
+                    <input type="text" id="global-search-input" oninput="handleSearch(this.value)" placeholder="Search courses, teachers, skills..." class="w-full bg-transparent text-white text-xs focus:outline-none px-2">
+                    <button onclick="switchTab('courses')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-luxury-goldLight to-luxury-goldDark text-black font-bold text-xs">Search</button>
+                </div>
+                <div id="search-results-dropdown" class="hidden mt-2 glass-card rounded-2xl border border-luxury-gold/20 p-4 text-left max-h-60 overflow-y-auto space-y-2 text-xs"></div>
+            </div>
+
+            <div class="flex justify-center space-x-4">
+                <button onclick="switchTab('courses')" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-luxury-goldLight to-luxury-goldDark text-black font-bold text-xs shadow-xl shadow-luxury-gold/25 transition-all hover:scale-105">Explore Courses</button>
+                <button onclick="switchTab('signup')" class="px-8 py-4 rounded-2xl glass-card text-luxury-gold font-bold border border-luxury-gold/40 text-xs shadow-xl transition-all hover:scale-105">Start Earning</button>
+            </div>
+        </section>
+
+        <!-- 2. COURSES SECTION (16 Skills) -->
+        <section id="tab-courses" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black mb-4 text-white">World-Class <span class="gold-gradient-text">Courses (16 Skills)</span></h2>
+                <p class="text-luxury-grayText text-sm max-w-2xl mx-auto">Explore all 16 disciplines. Select your preferred instructor, choose your AI subtitle language, and progress through Level 1, Level 2, and Level 3.</p>
+            </div>
+            
+            <div class="glass-card p-4 rounded-2xl border border-luxury-gold/30 mb-10 max-w-md mx-auto flex items-center justify-between">
+                <span class="text-xs font-bold text-white flex items-center space-x-2">
+                    <i data-lucide="languages" class="w-4 h-4 text-luxury-gold"></i><span>AI Subtitle Language:</span>
+                </span>
+                <select id="ai-subtitle-lang" class="bg-luxury-black border border-luxury-border rounded-xl px-3 py-1.5 text-xs text-white focus:border-luxury-gold focus:outline-none">
+                    <option>English</option><option>Somali</option><option>Arabic</option><option>French</option><option>Spanish</option><option>German</option><option>Turkish</option><option>Portuguese</option><option>Hindi</option><option>Swahili</option>
+                </select>
+            </div>
+
+            <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+
+        <!-- 3. TEACHERS SECTION -->
+        <section id="tab-teachers" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black mb-4 text-white">Elite <span class="gold-gradient-text">Instructors</span></h2>
+                <p class="text-luxury-grayText text-sm">Every skill features two world-class masters with private upload dashboards.</p>
+            </div>
+            <div id="teachers-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+        </section>
+
+        <!-- 4. COMPETITION SECTION -->
+        <section id="tab-competition" class="tab-content max-w-5xl mx-auto px-4 text-center">
+            <div class="glass-card p-10 rounded-3xl border border-luxury-gold/40 shadow-2xl shadow-luxury-gold/15">
+                <i data-lucide="trophy" class="w-16 h-16 text-luxury-gold mx-auto mb-4 animate-bounce"></i>
+                <h2 class="text-4xl font-black mb-4 text-white">Monthly Innovation <span class="gold-gradient-text">Championship</span></h2>
+                <p class="text-luxury-grayText text-sm mb-6 max-w-2xl mx-auto">Strictly limited to 300 verified participants. Compete through elimination rounds for the Champion Gold Trophy.</p>
+                <div class="flex flex-wrap justify-center gap-4 mb-8 text-xs font-bold text-luxury-gold bg-luxury-black p-4 rounded-2xl border border-luxury-gold/30">
+                    <span>Slots: 284 / 300</span>
+                    <span>•</span>
+                    <span>Prize: Champion Gold Trophy + Cash</span>
+                </div>
+                <button onclick="alert('Championship Entry Portal Open!')" class="px-8 py-4 rounded-xl bg-gradient-to-r from-luxury-goldLight to-luxury-goldDark text-black font-extrabold text-xs shadow-xl transition-all hover:scale-105">Upload Competition Entry</button>
+            </div>
+        </section>
+
+        <!-- 5. COMMUNITY SECTION -->
+        <section id="tab-community" class="tab-content max-w-5xl mx-auto px-4">
+            <div class="glass-card p-8 rounded-3xl border border-luxury-gold/30 shadow-2xl">
+                <h2 class="text-3xl font-black mb-4 text-white">Global Encrypted <span class="gold-gradient-text">Community</span></h2>
+                <div class="bg-luxury-black h-80 rounded-2xl p-4 mb-4 border border-luxury-border overflow-y-auto space-y-3 text-xs">
+                    <div class="p-3 rounded-xl glass-card border border-luxury-gold/20"><span class="text-luxury-gold font-bold">Alex (USA):</span> Completed Level 3 AI Engineering with Somali subtitles!</div>
+                    <div class="p-3 rounded-xl glass-card border border-luxury-gold/20"><span class="text-luxury-gold font-bold">Fatima (Somalia):</span> The Masterclass instructors are exceptional.</div>
+                </div>
+                <div class="flex space-x-3">
+                    <input type="text" placeholder="Type secure message..." class="flex-grow bg-luxury-black border border-luxury-border rounded-xl px-4 py-3 text-white text-xs focus:outline-none focus:border-luxury-gold">
+                    <button onclick="alert('Message broadcasted securely.')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-luxury-goldLight to-luxury-goldDark text-black font-bold text-xs">Send</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. MARKETPLACE SECTION -->
+        <section id="tab-marketplace" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black mb-4 text-white">Luxury Delivery <span class="gold-gradient-text">Marketplace</span></h2>
+                <p class="text-luxury-grayText text-sm">Order high-performance custom digital systems.</p>
+            </div>
+            <div id="marketplace-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+        </section>
+
+        <!-- 7. LOGIN SECTION -->
+        <section id="tab-login" class="tab-content max-w-md mx-auto px-4">
+            <div class="glass-card p-8 rounded-3xl border border-luxury-gold/30 shadow-2xl text-xs">
+                <h2 class="text-2xl font-bold mb-6 text-center text-white">Secure <span class="gold-gradient-text">Login</span></h2>
+                <input type="email" placeholder="Email address" class="w-full bg-luxury-black border border-luxury-border rounded-xl p-3 mb-4 text-white focus:border-luxury-gold focus:outline-none">
+                <input type="password" placeholder="Password" class="w-full bg-luxury-black border border-luxury-border rounded-xl p-3 mb-6 text-white focus:border-luxury-gold focus:outline-none">
+                <button onclick="switchTab('courses')" class="w-full py-3 rounded-xl bg-gradient-to-r from-luxury-goldLight to-luxury-goldDark text-black font-bold text-sm shadow-xl">Login to Account</button>
+            </div>
+        </section>
+
+        <!-- 8. SIGN UP SECTION -->
+        <section id="tab-signup" class="tab-content max-w-xl mx-auto px-4">
+            <div class="glass-card p-8 rounded-3xl border border-luxury-gold/40 shadow-2xl text-xs space-y-4">
+                <h2 class="text-2xl font-bold mb-2 text-center text-white">Create Elite <span class="gold-gradient-text">Account</span></h2>
+                <input type="text" placeholder="Full Name" class="w-full bg-luxury-black border border-luxury-border rounded-xl p-3 text-white focus:border-luxury-gold focus:outline-none">
+                <input type="email" placeholder="Email Address" class="w-full bg-luxury-black border border-luxury-border rounded-xl p-3 text-white focus:border-luxury-gold focus:outline-none">
+                <input type="text" placeholder="Country" class="w-full bg-luxury-black border border-luxury-border rounded-xl p-3 text-white focus:border-luxury-gold focus:outline-none">
+                <input type="text" placeholder="Phone Number" class="w-full bg-luxury-black border border-luxury-border rounded-xl p-3 text-white focus:border-luxury-gold focus:outline-none">
+                <input type="password" placeholder="Password" class="w-full bg-luxury-black border border-luxury-border rounded-xl p-3 text-white focus:border-luxury-gold focus:outline-none">
+                <select class="w-full bg-luxury-black border border-luxury-border rounded-xl p-3 text-white focus:border-luxury-gold focus:outline-none">
+                    <option>Select Primary Skill Track</option>
+                    <option>Web Development</option><option>Artificial Intelligence</option><option>Cryptocurrency</option><option>Graphic Design</option>
+                </select>
+                <div class="pt-2 text-[11px] text-luxury-grayText">
+                    Payment Methods: Visa, Mastercard, PayPal, Apple Pay, Google Pay, M-Pesa, Flutterwave, Bank Transfer
+                </div>
+                <button onclick="switchTab('courses')" class="w-full py-3 rounded-xl bg-gradient-to-r from-luxury-goldLight to-luxury-goldDark text-black font-extrabold text-sm shadow-xl">Complete Registration</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="glass-nav border-t border-luxury-border py-8 text-center text-xs text-luxury-grayText">
+        <p>&copy; 2026 SteadyMaze Inc. All rights reserved. GitHub Pages Ready.</p>
+    </footer>
+
+    <!-- INLINE JAVASCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            renderSkills();
+            renderTeachers();
+            renderMarketplace();
+        });
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById('tab-' + tabId);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        const skillsData = [
+            { name: "Video Editing", cat: "Creative", l1: "$3", l2: "$5", l3: "$11", img: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80", instA: "Oliver Queen", instB: "Zainab Ali" },
+            { name: "Thumbnail Design", cat: "Creative", l1: "$3", l2: "$5", l3: "$11", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80", instA: "Leo Messi", instB: "Khadija Noor" },
+            { name: "Movie Recap & Storytelling", cat: "Creative", l1: "$3", l2: "$5", l3: "$11", img: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80", instA: "Ethan Hunt", instB: "Layla Mohamed" },
+            { name: "Graphic Design", cat: "Creative", l1: "$3", l2: "$5", l3: "$11", img: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80", instA: "Noah Sterling", instB: "Amirah Hassan" },
+            { name: "Digital Marketing", cat: "Creative", l1: "$3", l2: "$5", l3: "$11", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80", instA: "Mason Wright", instB: "Hibo Farah" },
+            { name: "Cryptocurrency", cat: "Financial", l1: "$5", l2: "$10", l3: "$18", img: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=600&q=80", instA: "Satoshi Fan", instB: "Hamza Dirie" },
+            { name: "Forex Trading", cat: "Financial", l1: "$5", l2: "$10", l3: "$18", img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=600&q=80", instA: "Jordan Belfort", instB: "Yusuf Abdi" },
+            { name: "Cyber Security", cat: "Financial", l1: "$5", l2: "$10", l3: "$18", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80", instA: "Agent 47", instB: "Sam Fisher" },
+            { name: "AI Agent", cat: "Financial", l1: "$5", l2: "$10", l3: "$18", img: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=600&q=80", instA: "Dr. Zayd Al-Farsi", instB: "Chloe Bennett" },
+            { name: "Stock Market Investing", cat: "Financial", l1: "$5", l2: "$10", l3: "$18", img: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=600&q=80", instA: "Warren Smith", instB: "Nasteho Jama" },
+            { name: "JavaScript App", cat: "Development", l1: "$30", l2: "$200", l3: "$800", img: "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?auto=format&fit=crop&w=600&q=80", instA: "Liam Chen", instB: "Sarah Jenkins" },
+            { name: "JavaScript Website", cat: "Development", l1: "$30", l2: "$200", l3: "$800", img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80", instA: "Dr. Marcus Vance", instB: "Elena Rostova" },
+            { name: "Python App", cat: "Development", l1: "$30", l2: "$200", l3: "$800", img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80", instA: "David Miller", instB: "Aisha Omar" },
+            { name: "GitHub Website", cat: "Development", l1: "$30", l2: "$200", l3: "$800", img: "https://images.unsplash.com/photo-1618401471353-b98aedd04e11?auto=format&fit=crop&w=600&q=80", instA: "Kenji Sato", instB: "Maria Santos" },
+            { name: "AI App Creator", cat: "Development", l1: "$30", l2: "$200", l3: "$800", img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=600&q=80", instA: "Sophia Loren", instB: "Lucas Vance" },
+            { name: "AI Website Creator", cat: "Development", l1: "$30", l2: "$200", l3: "$800", img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80", instA: "Jeff Bezos", instB: "Satya Nadella" }
+        ];
+
+        function renderSkills() {
+            const grid = document.getElementById('skills-grid');
+            if (!grid) return;
+            skillsData.forEach(s => {
+                grid.innerHTML += `
+                    <div class="glass-card rounded-3xl overflow-hidden p-6 flex flex-col justify-between border border-luxury-gold/20 transition-all hover:border-luxury-gold">
+                        <div class="h-40 rounded-2xl overflow-hidden mb-4 relative">
+                            <img src="${s.img}" alt="${s.name}" class="w-full h-full object-cover">
+                            <span class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold bg-black/80 text-luxury-gold border border-luxury-gold/30">${s.cat}</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white mb-1">${s.name}</h3>
+                        <p class="text-xs text-luxury-grayText mb-4">Instructors: <span class="text-white font-medium">${s.instA}</span> & <span class="text-white font-medium">${s.instB}</span></p>
+                        <div class="flex justify-between text-xs text-luxury-grayText mb-6 bg-black p-3 rounded-xl border border-luxury-border">
+                            <span>L1: <strong class="text-white">${s.l1}</strong></span>
+                            <span>L2: <strong class="text-white">${s.l2}</strong></span>
+                            <span class="text-luxury-gold font-bold">L3: ${s.l3}</span>
+                        </div>
+                        <button onclick="alert('Enrolling in ${s.name} with AI Subtitle Translation enabled.')" class="w-full py-3 rounded-xl bg-gradient-to-r from-luxury-goldLight to-luxury-goldDark text-black font-bold text-xs shadow-lg shadow-luxury-gold/20">Enroll Masterclass</button>
+                    </div>
+                `;
+            });
+        }
+
+        function renderTeachers() {
+            const grid = document.getElementById('teachers-grid');
+            if (!grid) return;
+            const teachers = [
+                { name: "Dr. Marcus Vance", skill: "Web Development", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" },
+                { name: "Elena Rostova", skill: "JavaScript", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" },
+                { name: "Jordan Belfort", skill: "Forex Trading", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" }
+            ];
+            teachers.forEach(t => {
+                grid.innerHTML += `
+                    <div class="glass-card p-6 rounded-3xl border border-luxury-gold/30 text-center">
+                        <img src="${t.img}" alt="${t.name}" class="w-24 h-24 rounded-full mx-auto object-cover mb-4 border-2 border-luxury-gold">
+                        <h3 class="text-lg font-bold text-white mb-1">${t.name}</h3>
+                        <p class="text-xs text-luxury-gold mb-4">${t.skill} Master</p>
+                        <button onclick="alert('Opening upload dashboard for ${t.name}')" class="px-6 py-2.5 rounded-xl bg-black border border-luxury-gold/40 text-luxury-gold font-bold text-xs">Instructor Upload Dashboard</button>
+                    </div>
+                `;
+            });
+        }
+
+        function renderMarketplace() {
+            const grid = document.getElementById('marketplace-grid');
+            if (!grid) return;
+            const items = [
+                { title: "Next.js Luxury Web App", price: "$1,200", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" },
+                { title: "Autonomous AI Chatbot", price: "$950", img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80" },
+                { title: "High-Frequency Trading System", price: "$2,500", img: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=600&q=80" }
+            ];
+            items.forEach(i => {
+                grid.innerHTML += `
+                    <div class="glass-card rounded-3xl overflow-hidden p-6 flex flex-col justify-between border border-luxury-gold/30">
+                        <div class="h-40 rounded-2xl overflow-hidden mb-4">
+                            <img src="${i.img}" alt="${i.title}" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-base font-bold text-white mb-2">${i.title}</h3>
+                        <p class="text-xl font-black gold-gradient-text mb-6">Starting at ${i.price}</p>
+                        <button onclick="alert('Order placed successfully for ${i.title}')" class="w-full py-3 rounded-xl bg-gradient-to-r from-luxury-goldLight to-luxury-goldDark text-black font-extrabold text-xs">Order System</button>
+                    </div>
+                `;
+            });
+        }
+
+        function handleSearch(query) {
+            const dropdown = document.getElementById('search-results-dropdown');
+            if (!query.trim()) {
+                dropdown.classList.add('hidden');
+                return;
+            }
+            dropdown.classList.remove('hidden');
+            const matched = skillsData.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
+            dropdown.innerHTML = matched.length ? matched.map(m => `<div onclick="switchTab('courses')" class="cursor-pointer hover:text-luxury-gold p-2 rounded-lg bg-black">${m.name} (${m.cat})</div>`).join('') : '<div class="p-2 text-luxury-grayText">No exact matches found.</div>';
+        }
+    </script>
+</body>
+</html>
