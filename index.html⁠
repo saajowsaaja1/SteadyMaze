@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEADYMAZE — The Future of Professional Skills</title>
+    <meta name="description" content="World-class elite learning platform, digital marketplace, and community infrastructure inspired by Apple, Tesla, Stripe, and Coursera.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="STEADYMAZE — Luxury Elite Learning Platform">
+    <meta property="og:description" content="Master high-income professional skills, commission custom software solutions, and scale your expertise.">
+    <meta property="og:type" content="website">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#030712',
+                        cardBg: 'rgba(17, 24, 39, 0.7)',
+                        glassBorder: 'rgba(255, 255, 255, 0.08)',
+                        accentPurple: '#8b5cf6',
+                        accentBlue: '#3b82f6',
+                        accentGold: '#f59e0b',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .luxury-gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .purple-glow {
+            box-shadow: 0 0 50px -10px rgba(139, 92, 246, 0.25);
+        }
+        .gold-glow {
+            box-shadow: 0 0 40px -10px rgba(245, 158, 11, 0.2);
+        }
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-6px);
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 20px 40px -15px rgba(139, 92, 246, 0.2);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-gray-100 antialiased selection:bg-purple-500 selection:text-white">
+
+    <!-- Top Luxury Announcement Bar -->
+    <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-amber-900 text-xs py-2 px-4 text-center font-medium tracking-wider uppercase border-b border-white/10">
+        <span class="gold-gradient-text font-bold">STEADYMAZE PHASE 1</span> — Bidding Open for Elite Global Cohorts & Custom Architecture Hub
+    </div>
+
+    <!-- NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#home" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-500 to-amber-400 p-[1px] flex items-center justify-center purple-glow group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-darkBg rounded-xl flex items-center justify-center">
+                        <i class="fa-solid fa-infinity text-purple-400 text-lg"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xl font-black tracking-widest uppercase text-white">STEADY<span class="text-purple-500">MAZE</span></span>
+                    <span class="text-[9px] tracking-widest text-amber-400 font-semibold uppercase">Billion-Dollar Ecosystem</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden xl:flex items-center space-x-6 text-sm font-medium text-gray-300">
+                <a href="#home" class="hover:text-purple-400 transition-colors">Home</a>
+                <a href="#courses" class="hover:text-purple-400 transition-colors">Courses</a>
+                <a href="#delivery" class="hover:text-purple-400 transition-colors">Delivery</a>
+                <a href="#teachers" class="hover:text-purple-400 transition-colors">Teachers</a>
+                <a href="#community" class="hover:text-purple-400 transition-colors">Community</a>
+                <a href="#tournaments" class="hover:text-purple-400 transition-colors">Tournaments</a>
+                <a href="#certificates" class="hover:text-purple-400 transition-colors">Certificates</a>
+                <a href="#pricing" class="hover:text-purple-400 transition-colors">Pricing</a>
+                <a href="#hall-of-excellence" class="hover:text-amber-400 transition-colors">Top 300</a>
+            </nav>
+
+            <!-- Auth & Dashboard Buttons -->
+            <div class="flex items-center space-x-4">
+                <a href="#login" class="hidden sm:inline-flex text-sm font-medium text-gray-300 hover:text-white px-4 py-2 rounded-lg transition-colors">Login</a>
+                <a href="#signup" class="relative group overflow-hidden rounded-xl p-[1px]">
+                    <span class="absolute inset-0 bg-gradient-to-r from-purple-500 via-indigo-500 to-amber-500 group-hover:opacity-95 transition-opacity"></span>
+                    <span class="relative px-5 py-2.5 bg-darkBg rounded-[11px] flex items-center space-x-2 text-sm font-semibold text-white transition-all group-hover:bg-opacity-0">
+                        <span>Sign Up</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HOME PAGE: Luxury Hero Section -->
+        <section id="home" class="relative min-h-[90vh] flex items-center justify-center px-4 overflow-hidden pt-12 pb-20">
+            <!-- Animated Background Glows -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[140px] pointer-events-none"></div>
+            <div class="absolute top-2/3 left-1/4 w-[400px] h-[400px] bg-amber-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+            <div class="max-w-5xl mx-auto text-center relative z-10">
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full glass-panel border border-purple-500/30 text-xs font-semibold text-purple-300 mb-8 uppercase tracking-widest">
+                    <i class="fa-solid fa-bolt text-amber-400"></i>
+                    <span>Next-Gen Elite Ecosystem</span>
+                </div>
+                
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white mb-6 uppercase">
+                    Steady<span class="luxury-gradient-text">Maze</span>
+                </h1>
+                
+                <p class="text-xl sm:text-2xl text-gray-400 font-light italic mb-10 max-w-2xl mx-auto tracking-wide">
+                    “The Future of Professional Skills”
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                    <a href="#courses" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-base shadow-lg shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] transition-all text-center">
+                        Start Learning
+                    </a>
+                    <a href="#teachers" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel text-gray-200 font-semibold text-base hover:bg-white/10 hover:border-white/20 transition-all text-center">
+                        Become Instructor
+                    </a>
+                </div>
+
+                <!-- Statistics Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 border-t border-white/10">
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <div class="text-3xl sm:text-4xl font-black text-white mb-1">250,000+</div>
+                        <div class="text-xs text-gray-400 uppercase tracking-wider font-medium">Students Worldwide</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <div class="text-3xl sm:text-4xl font-black text-purple-400 mb-1">1,200+</div>
+                        <div class="text-xs text-gray-400 uppercase tracking-wider font-medium">Expert Teachers</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <div class="text-3xl sm:text-4xl font-black text-amber-400 mb-1">15+</div>
+                        <div class="text-xs text-gray-400 uppercase tracking-wider font-medium">Elite Courses</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <div class="text-3xl sm:text-4xl font-black text-indigo-400 mb-1">84</div>
+                        <div class="text-xs text-gray-400 uppercase tracking-wider font-medium">Countries Reached</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COURSES SECTION -->
+        <section id="courses" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-purple-400 text-xs font-bold uppercase tracking-widest block mb-3">Curriculum Mastery</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">15 Premium Professional Courses</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Structured in 3 progressive tiers designed for maximum career acceleration.</p>
+            </div>
+
+            <!-- Courses Grid (15 Courses) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Course Template Generator helper via HTML for all 15 -->
+                <!-- 1. Full Stack Development -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-purple-900 to-indigo-900 flex items-center justify-center">
+                            <i class="fa-solid fa-code text-5xl text-purple-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-purple-300 border border-purple-500/30">Engineering</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">1. Full Stack Development</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Master modern frontend frameworks, robust backend microservices, and high-performance databases.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5">
+                                <span class="block text-[10px] text-gray-400 uppercase">Level 1</span>
+                                <span class="text-sm font-bold text-white">$6</span>
+                            </div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5">
+                                <span class="block text-[10px] text-gray-400 uppercase">Level 2</span>
+                                <span class="text-sm font-bold text-purple-400">$12</span>
+                            </div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5">
+                                <span class="block text-[10px] text-gray-400 uppercase">Level 3</span>
+                                <span class="text-sm font-bold text-amber-400">$20</span>
+                            </div>
+                        </div>
+                        <button onclick="alert('Enrolled in Full Stack Development!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors shadow-lg shadow-purple-600/20">
+                            Join Program
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. JavaScript Masterclass -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-yellow-900 to-amber-900 flex items-center justify-center">
+                            <i class="fa-brands fa-js text-5xl text-amber-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-amber-300 border border-amber-500/30">Language</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">2. JavaScript Masterclass</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Deep dive into asynchronous JavaScript, closures, V8 engine mechanics, and modern ESNext architecture.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$6</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$12</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$20</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in JavaScript Masterclass!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 3. Python Programming -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-blue-900 to-indigo-900 flex items-center justify-center">
+                            <i class="fa-brands fa-python text-5xl text-blue-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-blue-300 border border-blue-500/30">Core Tech</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">3. Python Programming</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Master data structures, algorithms, object-oriented programming, and backend API engineering with Python.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$6</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$12</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$20</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Python Programming!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 4. AI & Prompt Engineering -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-purple-950 to-pink-900 flex items-center justify-center">
+                            <i class="fa-solid fa-brain text-5xl text-pink-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-pink-300 border border-pink-500/30">Artificial Intelligence</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">4. AI & Prompt Engineering</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Learn advanced LLM architecture, chain-of-thought prompting, RAG implementations, and agentic workflows.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$10</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$18</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$30</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in AI & Prompt Engineering!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 5. Cybersecurity & Ethical Hacking -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-red-950 to-gray-900 flex items-center justify-center">
+                            <i class="fa-solid fa-shield-halved text-5xl text-red-400 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-red-300 border border-red-500/30">Security</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">5. Cybersecurity & Ethical Hacking</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Understand penetration testing, network defense, cryptography, and zero-day exploit mitigation.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$10</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$18</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$30</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Cybersecurity!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 6. Mobile App Development -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-cyan-950 to-blue-950 flex items-center justify-center">
+                            <i class="fa-solid fa-mobile-screen-button text-5xl text-cyan-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-cyan-300 border border-cyan-500/30">Mobile</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">6. Mobile App Development</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Build native iOS and Android applications utilizing React Native, Flutter, and Swift frameworks.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$6</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$12</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$20</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Mobile App Development!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 7. UI/UX Design -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-fuchsia-950 to-purple-900 flex items-center justify-center">
+                            <i class="fa-solid fa-pen-nib text-5xl text-fuchsia-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-fuchsia-300 border border-fuchsia-500/30">Design</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">7. UI/UX Design</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Design world-class digital experiences using Figma, human-centric design frameworks, and design systems.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$6</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$12</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$20</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in UI/UX Design!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 8. Graphic Design -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-rose-950 to-orange-950 flex items-center justify-center">
+                            <i class="fa-solid fa-palette text-5xl text-rose-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-rose-300 border border-rose-500/30">Creativity</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">8. Graphic Design</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Master Adobe Creative Suite, brand identity creation, typography, and professional visual composition.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$4</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$7</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$11</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Graphic Design!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 9. Video Editing -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-amber-950 to-yellow-950 flex items-center justify-center">
+                            <i class="fa-solid fa-video text-5xl text-amber-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-amber-300 border border-amber-500/30">Media</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">9. Video Editing</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Professional post-production, color grading, audio mixing, and high-retention pacing with Premiere & DaVinci.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$4</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$7</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$11</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Video Editing!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 10. Movie Recap & Storytelling -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-emerald-950 to-teal-950 flex items-center justify-center">
+                            <i class="fa-solid fa-clapperboard text-5xl text-emerald-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-emerald-300 border border-emerald-500/30">Storytelling</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">10. Movie Recap & Storytelling</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Craft viral narrative scripts, emotional hooks, and cinematic pacing for high-viewership digital channels.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$4</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$7</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$11</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Movie Recap!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 11. Digital Marketing -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-violet-950 to-purple-950 flex items-center justify-center">
+                            <i class="fa-solid fa-bullhorn text-5xl text-violet-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-violet-300 border border-violet-500/30">Growth</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">11. Digital Marketing</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Performance marketing, algorithmic funnel optimization, SEO dominance, and high-conversion paid ads.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$4</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$7</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$11</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Digital Marketing!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 12. Forex Trading -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-green-950 to-emerald-950 flex items-center justify-center">
+                            <i class="fa-solid fa-chart-line text-5xl text-green-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-green-300 border border-green-500/30">Finance</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">12. Forex Trading</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Institutional price action, risk management models, macroeconomic forecasting, and algorithmic execution.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$6</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$12</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$20</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Forex Trading!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 13. Cryptocurrency & Blockchain -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-amber-950 to-orange-900 flex items-center justify-center">
+                            <i class="fa-solid fa-coins text-5xl text-amber-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-amber-300 border border-amber-500/30">Web3</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">13. Cryptocurrency & Blockchain</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Smart contract auditing, Solidity development, decentralized finance (DeFi) architecture, and tokenomics.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$10</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$18</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$30</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Crypto & Blockchain!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 14. Cloud Computing -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-sky-950 to-blue-900 flex items-center justify-center">
+                            <i class="fa-solid fa-cloud text-5xl text-sky-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-sky-300 border border-sky-500/30">Infrastructure</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">14. Cloud Computing</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">AWS, Azure, Docker containerization, Kubernetes orchestration, and immutable CI/CD pipelines.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$6</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$12</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$20</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Cloud Computing!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+                <!-- 15. Machine Learning & Data Science -->
+                <div class="glass-panel rounded-2xl overflow-hidden card-hover flex flex-col justify-between border border-white/10">
+                    <div>
+                        <div class="h-48 relative overflow-hidden bg-gradient-to-tr from-indigo-950 to-purple-950 flex items-center justify-center">
+                            <i class="fa-solid fa-network-wired text-5xl text-indigo-300 opacity-80"></i>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-semibold text-indigo-300 border border-indigo-500/30">Data Science</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2">15. Machine Learning & Data Science</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-2">Neural networks, PyTorch, TensorFlow, statistical modeling, and advanced predictive analytics.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L1</span><span class="text-sm font-bold text-white">$10</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L2</span><span class="text-sm font-bold text-purple-400">$18</span></div>
+                            <div class="bg-darkBg/60 p-2 rounded-xl border border-white/5"><span class="block text-[10px] text-gray-400 uppercase">L3</span><span class="text-sm font-bold text-amber-400">$30</span></div>
+                        </div>
+                        <button onclick="alert('Enrolled in Machine Learning & Data Science!')" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Join Program</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DELIVERY HUB (Phase 1 Marketplace) -->
+        <section id="delivery" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-amber-400 text-xs font-bold uppercase tracking-widest block mb-3">Turnkey Architecture</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">Delivery Hub Marketplace</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Commission production-ready digital software systems built by elite SteadyMaze engineers.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Category 1: Websites -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-purple-400 font-bold">Websites Category</span>
+                            <i class="fa-solid fa-globe text-purple-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">GitHub Website</h3>
+                        <p class="text-gray-400 text-sm mb-6">Fully deployed high-performance static architecture optimized for speed and SEO.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$30</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed for GitHub Website!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Viewing specs for GitHub Website')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-purple-400 font-bold">Websites Category</span>
+                            <i class="fa-brands fa-js text-amber-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">JavaScript Website</h3>
+                        <p class="text-gray-400 text-sm mb-6">Interactive dynamic web platform featuring modern state handling and fluid animations.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$50</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed for JavaScript Website!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Viewing specs')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-purple-400 font-bold">Websites Category</span>
+                            <i class="fa-brands fa-react text-cyan-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">React Website</h3>
+                        <p class="text-gray-400 text-sm mb-6">Modular component-driven web application tailored for scalable startup ecosystems.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$150</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-purple-400 font-bold">Websites Category</span>
+                            <i class="fa-solid fa-server text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Next.js Website</h3>
+                        <p class="text-gray-400 text-sm mb-6">Enterprise-grade server-side rendered application with blistering search engine performance.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$250</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 2: Apps -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-cyan-400 font-bold">Apps Category</span>
+                            <i class="fa-brands fa-python text-blue-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Python Desktop App</h3>
+                        <p class="text-gray-400 text-sm mb-6">Robust standalone cross-platform desktop utility built with high-performance Python backends.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$600</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-cyan-400 font-bold">Apps Category</span>
+                            <i class="fa-solid fa-desktop text-purple-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">JavaScript Desktop App</h3>
+                        <p class="text-gray-400 text-sm mb-6">Electron-powered native desktop application engineered with sleek glassmorphism UI themes.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$900</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-cyan-400 font-bold">Apps Category</span>
+                            <i class="fa-brands fa-android text-green-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Android App</h3>
+                        <p class="text-gray-400 text-sm mb-6">Optimized native Android application ready for Google Play Store publication.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$700</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-cyan-400 font-bold">Apps Category</span>
+                            <i class="fa-brands fa-apple text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">iOS App</h3>
+                        <p class="text-gray-400 text-sm mb-6">High-performance Swift/SwiftUI application meticulously built for Apple App Store guidelines.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$1200</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 3: AI Systems -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-pink-400 font-bold">AI Systems</span>
+                            <i class="fa-solid fa-robot text-pink-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">AI Chatbot</h3>
+                        <p class="text-gray-400 text-sm mb-6">Custom trained LLM chatbot embedded with proprietary knowledge bases and customer routing.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$120</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-pink-400 font-bold">AI Systems</span>
+                            <i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">AI Automation</h3>
+                        <p class="text-gray-400 text-sm mb-6">Automated workflow pipelines integrating OpenAI APIs, Zapier, and custom webhooks.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$350</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-pink-400 font-bold">AI Systems</span>
+                            <i class="fa-solid fa-microchip text-pink-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Business AI System</h3>
+                        <p class="text-gray-400 text-sm mb-6">Complete enterprise AI infrastructure tailored for predictive analytics and automated operations.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$900</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 4: Cloud & Backend & Design -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold">Cloud & Design</span>
+                            <i class="fa-solid fa-database text-indigo-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">API Development & Database</h3>
+                        <p class="text-gray-400 text-sm mb-6">Secure REST/GraphQL API architecture backed by scalable PostgreSQL/MongoDB clusters.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$200</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold">Cloud & Design</span>
+                            <i class="fa-solid fa-lock text-indigo-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Authentication System</h3>
+                        <p class="text-gray-400 text-sm mb-6">Military-grade OAuth2, JWT, and multi-factor authentication security implementation.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$150</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between card-hover">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold">Cloud & Design</span>
+                            <i class="fa-solid fa-gem text-amber-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Luxury UI & Dashboard</h3>
+                        <p class="text-gray-400 text-sm mb-6">Billion-dollar startup aesthetic UI/UX systems featuring glassmorphism and fluid interactions.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pt-4 border-t border-white/5">
+                            <span class="text-xs text-gray-400 uppercase">Starting From</span>
+                            <span class="text-2xl font-black text-white">$300</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('Order placed!')" class="py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition-colors">Order Now</button>
+                            <button onclick="alert('Details')" class="py-2.5 bg-white/10 hover:bg-white/20 text-gray-200 font-semibold rounded-xl text-xs transition-colors">Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEACHERS SECTION -->
+        <section id="teachers" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <span class="text-purple-400 text-xs font-bold uppercase tracking-widest block mb-3">Elite Faculty</span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-white">World-Class Instructors</h2>
+                </div>
+                <div class="mt-6 md:mt-0 flex gap-4">
+                    <input type="text" placeholder="Search instructors..." class="px-4 py-2.5 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500">
+                    <select class="px-4 py-2.5 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none">
+                        <option>Filter by Skill</option>
+                        <option>Full Stack</option>
+                        <option>Artificial Intelligence</option>
+                        <option>Cybersecurity</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Teacher 1 -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 card-hover">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-amber-500 p-[2px]">
+                            <div class="w-full h-full bg-darkBg rounded-[14px] flex items-center justify-center font-bold text-xl text-white">AZ</div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Alex Vance</h3>
+                            <p class="text-xs text-purple-400 font-medium">United States 🇺🇸</p>
+                            <div class="flex items-center text-amber-400 text-xs mt-1">
+                                <i class="fa-solid fa-star mr-1"></i> 4.98 (14,200 Students)
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6">Ex-Principal Engineer at Silicon Valley AI Labs. Specializing in distributed systems and LLMs.</p>
+                    <div class="space-y-2 mb-6 text-xs text-gray-300">
+                        <div class="flex justify-between"><span>Experience:</span> <span class="font-semibold text-white">12 Years</span></div>
+                        <div class="flex justify-between"><span>Completed Projects:</span> <span class="font-semibold text-white">84</span></div>
+                    </div>
+                    <button onclick="alert('Playing Video Introduction for Alex Vance')" class="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-xs transition-colors flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-play"></i><span>Video Introduction</span>
+                    </button>
+                </div>
+
+                <!-- Teacher 2 -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 card-hover">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 to-cyan-500 p-[2px]">
+                            <div class="w-full h-full bg-darkBg rounded-[14px] flex items-center justify-center font-bold text-xl text-white">ES</div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Elena Rostova</h3>
+                            <p class="text-xs text-purple-400 font-medium">Switzerland 🇨🇭</p>
+                            <div class="flex items-center text-amber-400 text-xs mt-1">
+                                <i class="fa-solid fa-star mr-1"></i> 4.99 (19,800 Students)
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6">Cybersecurity pioneer and ethical hacking consultant for global financial institutions.</p>
+                    <div class="space-y-2 mb-6 text-xs text-gray-300">
+                        <div class="flex justify-between"><span>Experience:</span> <span class="font-semibold text-white">10 Years</span></div>
+                        <div class="flex justify-between"><span>Completed Projects:</span> <span class="font-semibold text-white">112</span></div>
+                    </div>
+                    <button onclick="alert('Playing Video Introduction for Elena Rostova')" class="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-xs transition-colors flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-play"></i><span>Video Introduction</span>
+                    </button>
+                </div>
+
+                <!-- Teacher 3 -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 card-hover">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-red-500 p-[2px]">
+                            <div class="w-full h-full bg-darkBg rounded-[14px] flex items-center justify-center font-bold text-xl text-white">KT</div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Kenji Takahashi</h3>
+                            <p class="text-xs text-purple-400 font-medium">Japan 🇯🇵</p>
+                            <div class="flex items-center text-amber-400 text-xs mt-1">
+                                <i class="fa-solid fa-star mr-1"></i> 4.95 (22,100 Students)
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6">Algorithmic trader and quantitative finance architect managing multi-million algorithmic portfolios.</p>
+                    <div class="space-y-2 mb-6 text-xs text-gray-300">
+                        <div class="flex justify-between"><span>Experience:</span> <span class="font-semibold text-white">15 Years</span></div>
+                        <div class="flex justify-between"><span>Completed Projects:</span> <span class="font-semibold text-white">95</span></div>
+                    </div>
+                    <button onclick="alert('Playing Video Introduction for Kenji Takahashi')" class="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-xs transition-colors flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-play"></i><span>Video Introduction</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOP 300 MEMBERS: Steady Hall of Excellence -->
+        <section id="hall-of-excellence" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="gold-gradient-text text-xs font-bold uppercase tracking-widest block mb-3"><i class="fa-solid fa-crown mr-1"></i> Elite Hierarchy</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">Steady Hall of Excellence</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Recognizing the absolute top 300 performing members across the global ecosystem.</p>
+            </div>
+
+            <!-- Member Preview Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <div class="glass-panel p-6 rounded-2xl border border-amber-500/20 gold-glow flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center font-bold text-amber-400">#1</div>
+                        <div>
+                            <h4 class="font-bold text-white">Marcus Sterling</h4>
+                            <p class="text-xs text-gray-400">United Kingdom 🇬🇧</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-amber-400 font-bold text-sm">SteadyCash</div>
+                        <div class="text-white font-black">$48,200</div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center font-bold text-purple-400">#2</div>
+                        <div>
+                            <h4 class="font-bold text-white">Sophia Chen</h4>
+                            <p class="text-xs text-gray-400">Singapore 🇸🇬</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-amber-400 font-bold text-sm">SteadyCash</div>
+                        <div class="text-white font-black">$42,900</div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center font-bold text-indigo-400">#3</div>
+                        <div>
+                            <h4 class="font-bold text-white">Liam Dubois</h4>
+                            <p class="text-xs text-gray-400">France 🇫🇷</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-amber-400 font-bold text-sm">SteadyCash</div>
+                        <div class="text-white font-black">$39,500</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button onclick="alert('Loading full Top 300 member registry...')" class="px-8 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm transition-all border border-white/10">
+                    View Complete Top 300 Registry
+                </button>
+            </div>
+        </section>
+
+        <!-- COMMUNITY SECTION -->
+        <section id="community" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-purple-400 text-xs font-bold uppercase tracking-widest block mb-3">Decentralized Synergy</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">SteadyMaze Community Hub</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Real-time collaboration across specialized high-income engineering and trading channels.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 glass-panel rounded-2xl border border-white/10 p-6">
+                <!-- Channels Sidebar -->
+                <div class="lg:col-span-1 border-r border-white/10 pr-4 space-y-2">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">Channels</div>
+                    <div class="p-2.5 rounded-xl bg-purple-600/20 text-purple-300 font-semibold text-sm flex items-center justify-between cursor-pointer">
+                        <span># general</span>
+                        <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                    </div>
+                    <div class="p-2.5 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white text-sm cursor-pointer transition-colors"># programming</div>
+                    <div class="p-2.5 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white text-sm cursor-pointer transition-colors"># python</div>
+                    <div class="p-2.5 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white text-sm cursor-pointer transition-colors"># javascript</div>
+                    <div class="p-2.5 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white text-sm cursor-pointer transition-colors"># ai</div>
+                    <div class="p-2.5 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white text-sm cursor-pointer transition-colors"># trading</div>
+                    <div class="p-2.5 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white text-sm cursor-pointer transition-colors"># cybersecurity</div>
+                    <div class="p-2.5 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white text-sm cursor-pointer transition-colors"># design</div>
+                    <div class="p-2.5 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white text-sm cursor-pointer transition-colors"># help</div>
+                    <div class="p-2.5 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white text-sm cursor-pointer transition-colors"># announcements</div>
+                </div>
+
+                <!-- Chat Feed & Pinned Messages -->
+                <div class="lg:col-span-3 flex flex-col justify-between pl-2">
+                    <!-- Pinned Notification Banner -->
+                    <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 mb-4 flex items-center justify-between text-xs text-amber-300">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-thumbtack"></i>
+                            <span class="font-semibold">Pinned Message:</span> <span>Phase 1 Global Tournament starts in exactly 48 hours. Ensure repository links are updated.</span>
+                        </div>
+                        <i class="fa-solid fa-bell text-amber-400 cursor-pointer"></i>
+                    </div>
+
+                    <!-- Messages Box -->
+                    <div class="space-y-4 mb-6 min-h-[300px] overflow-y-auto pr-2">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center font-bold text-white text-sm">AV</div>
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold text-white text-sm">Alex Vance</span>
+                                    <span class="text-[10px] text-gray-500">10:42 AM</span>
+                                </div>
+                                <p class="text-gray-300 text-sm mt-1">Welcome everyone to Phase 1! The new Next.js architecture modules have just been deployed to the curriculum hub.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-white text-sm">MS</div>
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold text-white text-sm">Marcus Sterling</span>
+                                    <span class="text-[10px] text-gray-500">10:45 AM</span>
+                                </div>
+                                <p class="text-gray-300 text-sm mt-1">Just reviewed the AI prompt engineering tier 3 modules. Absolutely world-class execution by the instructors!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input Box -->
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="Message #general..." class="flex-1 px-4 py-3 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500">
+                        <button onclick="alert('Message sent to community!')" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-sm transition-colors">Send</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOURNAMENTS SECTION DESIGN -->
+        <section id="tournaments" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="amber-400 text-xs font-bold uppercase tracking-widest block mb-3 text-amber-400"><i class="fa-solid fa-trophy mr-1"></i> Global Arena</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">SteadyMaze Tournaments</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Competitive global coding and trading showdowns with high-stakes crypto and cash rewards.</p>
+            </div>
+
+            <!-- Luxury Countdown Timer -->
+            <div class="glass-panel p-8 rounded-2xl border border-amber-500/30 text-center mb-12 gold-glow">
+                <h3 class="text-lg font-bold text-amber-400 uppercase tracking-widest mb-4">Phase 1 Global Championship Countdown</h3>
+                <div class="flex justify-center gap-4 sm:gap-8">
+                    <div class="bg-darkBg p-4 rounded-xl border border-white/10 min-w-[80px]">
+                        <div class="text-3xl font-black text-white">04</div>
+                        <div class="text-xs text-gray-400 uppercase">Days</div>
+                    </div>
+                    <div class="bg-darkBg p-4 rounded-xl border border-white/10 min-w-[80px]">
+                        <div class="text-3xl font-black text-white">18</div>
+                        <div class="text-xs text-gray-400 uppercase">Hours</div>
+                    </div>
+                    <div class="bg-darkBg p-4 rounded-xl border border-white/10 min-w-[80px]">
+                        <div class="text-3xl font-black text-white">32</div>
+                        <div class="text-xs text-gray-400 uppercase">Minutes</div>
+                    </div>
+                    <div class="bg-darkBg p-4 rounded-xl border border-white/10 min-w-[80px]">
+                        <div class="text-3xl font-black text-amber-400">45</div>
+                        <div class="text-xs text-gray-400 uppercase">Seconds</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Champion Section & Leaderboard -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 text-center flex flex-col justify-center items-center">
+                    <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-amber-500/30">Current Champion</span>
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-500 to-purple-600 p-1 mb-4">
+                        <div class="w-full h-full bg-darkBg rounded-full flex items-center justify-center font-black text-2xl text-amber-400">🏆</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1">Marcus Sterling</h3>
+                    <p class="text-xs text-gray-400 mb-4">Full Stack Architecture Showdown</p>
+                    <div class="text-amber-400 font-black text-lg">Reward: $10,000 SteadyCash</div>
+                </div>
+
+                <div class="lg:col-span-2 glass-panel p-6 rounded-2xl border border-white/10">
+                    <h3 class="text-lg font-bold text-white mb-4">Leaderboard (Top 10 & 100)</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-darkBg/60 rounded-xl border border-white/5">
+                            <div class="flex items-center space-x-3"><span class="font-bold text-amber-400">#1</span><span class="text-white font-semibold">Marcus Sterling</span></div>
+                            <span class="text-gray-400 text-sm">9,980 pts</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-darkBg/60 rounded-xl border border-white/5">
+                            <div class="flex items-center space-x-3"><span class="font-bold text-purple-400">#2</span><span class="text-white font-semibold">Sophia Chen</span></div>
+                            <span class="text-gray-400 text-sm">9,850 pts</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-darkBg/60 rounded-xl border border-white/5">
+                            <div class="flex items-center space-x-3"><span class="font-bold text-indigo-400">#3</span><span class="text-white font-semibold">Liam Dubois</span></div>
+                            <span class="text-gray-400 text-sm">9,720 pts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CERTIFICATES SECTION -->
+        <section id="certificates" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-purple-400 text-xs font-bold uppercase tracking-widest block mb-3">Cryptographic Verification</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">Verified Credentials</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Every completed course issues a tamper-proof luxury certificate embedded with instant QR verification.</p>
+            </div>
+
+            <!-- Luxury Certificate Box -->
+            <div class="max-w-4xl mx-auto glass-panel p-8 sm:p-12 rounded-3xl border border-purple-500/30 purple-glow relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="text-center border-b border-white/10 pb-8 mb-8">
+                    <span class="text-xs uppercase tracking-widest text-amber-400 font-bold block mb-2">SteadyMaze Global Academy</span>
+                    <h3 class="text-2xl sm:text-4xl font-black text-white uppercase tracking-wider mb-2">Certificate of Elite Mastery</h3>
+                    <p class="text-gray-400 text-sm">This is proudly certified that</p>
+                </div>
+
+                <div class="text-center my-8">
+                    <h4 class="text-3xl sm:text-4xl font-black luxury-gradient-text mb-4">Alex Vance</h4>
+                    <p class="text-gray-300 text-sm max-w-xl mx-auto">Has successfully demonstrated advanced proficiency and completed all practical requirements in <span class="text-white font-bold">Full Stack Development & Cloud Architecture</span>.</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-white/10 gap-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 bg-white rounded-xl p-2 flex items-center justify-center">
+                            <!-- QR Code Mock icon -->
+                            <i class="fa-solid fa-qrcode text-3xl text-darkBg"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-400 uppercase">Verification Code</div>
+                            <div class="text-sm font-mono font-bold text-amber-400">SM-9942-ELITE-2026</div>
+                        </div>
+                    </div>
+                    <button onclick="alert('Downloading PDF Certificate...')" class="px-6 py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-xl text-sm shadow-lg shadow-purple-600/30 hover:scale-105 transition-all">
+                        <i class="fa-solid fa-download mr-2"></i> Download PDF
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING & PAYMENT METHODS SECTION -->
+        <section id="pricing" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-amber-400 text-xs font-bold uppercase tracking-widest block mb-3">Global Infrastructure</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">Global Payment Gateways</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Seamless multi-currency transactions supported worldwide with instant settlement.</p>
+            </div>
+
+            <!-- Payment Icons Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 mb-16">
+                <div class="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center text-center card-hover">
+                    <i class="fa-brands fa-cc-visa text-3xl text-blue-400 mb-2"></i>
+                    <span class="text-xs font-semibold text-white">Visa</span>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center text-center card-hover">
+                    <i class="fa-brands fa-cc-mastercard text-3xl text-red-400 mb-2"></i>
+                    <span class="text-xs font-semibold text-white">Mastercard</span>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center text-center card-hover">
+                    <i class="fa-brands fa-paypal text-3xl text-blue-300 mb-2"></i>
+                    <span class="text-xs font-semibold text-white">PayPal</span>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center text-center card-hover">
+                    <i class="fa-brands fa-apple text-3xl text-white mb-2"></i>
+                    <span class="text-xs font-semibold text-white">Apple Pay</span>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center text-center card-hover">
+                    <i class="fa-brands fa-google-pay text-3xl text-green-400 mb-2"></i>
+                    <span class="text-xs font-semibold text-white">Google Pay</span>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center text-center card-hover">
+                    <i class="fa-solid fa-mobile-screen text-3xl text-emerald-400 mb-2"></i>
+                    <span class="text-xs font-semibold text-white">M-Pesa</span>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center text-center card-hover">
+                    <i class="fa-solid fa-wallet text-3xl text-purple-400 mb-2"></i>
+                    <span class="text-xs font-semibold text-white">Flutterwave</span>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center text-center card-hover">
+                    <i class="fa-solid fa-building-columns text-3xl text-amber-400 mb-2"></i>
+                    <span class="text-xs font-semibold text-white">Bank Transfer</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOGIN & SIGN UP SECTIONS -->
+        <section class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10 grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Login Form -->
+            <div id="login" class="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10">
+                <div class="mb-8">
+                    <span class="text-purple-400 text-xs font-bold uppercase tracking-widest block mb-2">Member Portal</span>
+                    <h3 class="text-2xl font-black text-white">Luxury Login</h3>
+                </div>
+                <form onsubmit="event.preventDefault(); alert('Login successful!');" class="space-y-4">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Email Address</label>
+                        <input type="email" required placeholder="name@domain.com" class="w-full px-4 py-3 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Password</label>
+                        <input type="password" required placeholder="••••••••" class="w-full px-4 py-3 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500">
+                    </div>
+                    <div class="flex items-center justify-between text-xs text-gray-400">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" class="rounded bg-darkBg border-white/10 text-purple-600 focus:ring-0">
+                            <span>Remember Me</span>
+                        </label>
+                        <a href="#forgot" class="hover:text-purple-400">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-xl text-sm shadow-lg shadow-purple-600/30 hover:scale-[1.01] transition-all">
+                        Sign In to Dashboard
+                    </button>
+                </form>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div id="signup" class="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10">
+                <div class="mb-8">
+                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest block mb-2">Global Registration</span>
+                    <h3 class="text-2xl font-black text-white">Create Account</h3>
+                </div>
+                <form onsubmit="event.preventDefault(); alert('Registration successful!');" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Full Name</label>
+                            <input type="text" required placeholder="John Doe" class="w-full px-4 py-3 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Email Address</label>
+                            <input type="email" required placeholder="name@domain.com" class="w-full px-4 py-3 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Country</label>
+                            <input type="text" required placeholder="United States" class="w-full px-4 py-3 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Phone Number</label>
+                            <input type="tel" required placeholder="+1 (555) 019-2834" class="w-full px-4 py-3 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Password</label>
+                            <input type="password" required placeholder="••••••••" class="w-full px-4 py-3 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Confirm Password</label>
+                            <input type="password" required placeholder="••••••••" class="w-full px-4 py-3 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-purple-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Primary Skill Interest</label>
+                        <select class="w-full px-4 py-3 bg-darkBg border border-white/10 rounded-xl text-sm text-white focus:outline-none">
+                            <option>Full Stack Development</option>
+                            <option>Artificial Intelligence & Prompt Engineering</option>
+                            <option>Cybersecurity</option>
+                            <option>Forex & Crypto Trading</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center space-x-2 text-xs text-gray-400">
+                        <input type="checkbox" required class="rounded bg-darkBg border-white/10 text-purple-600 focus:ring-0">
+                        <span>I accept the Terms of Service and Privacy Policy</span>
+                    </div>
+                    <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-purple-600 text-white font-bold rounded-xl text-sm shadow-lg shadow-amber-500/20 hover:scale-[1.01] transition-all">
+                        Initialize SteadyMaze Account
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- USER DASHBOARD PREVIEW SECTION -->
+        <section class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-purple-400 text-xs font-bold uppercase tracking-widest block mb-3">Client Center</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">User Dashboard Preview</h2>
+                <p class="text-gray-400 text-sm sm:text-base">Centralized control center tracking courses, certificates, messages, and SteadyCash balances.</p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-3xl border border-white/10">
+                <div class="flex flex-col md:flex-row items-center justify-between pb-8 mb-8 border-b border-white/10 gap-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-amber-500 p-[2px]">
+                            <div class="w-full h-full bg-darkBg rounded-[14px] flex items-center justify-center font-bold text-xl text-white">AV</div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Alex Vance</h3>
+                            <p class="text-xs text-gray-400">Member ID: #SM-84920</p>
+                        </div>
+                    </div>
+                    <div class="bg-darkBg/80 px-6 py-4 rounded-2xl border border-amber-500/30 text-center">
+                        <div class="text-xs text-amber-400 font-bold uppercase">SteadyCash Balance</div>
+                        <div class="text-2xl font-black text-white">$1,450.00</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-darkBg/60 p-6 rounded-2xl border border-white/5">
+                        <div class="text-purple-400 text-2xl font-bold mb-2">4</div>
+                        <div class="text-sm font-semibold text-white mb-1">Active Courses</div>
+                        <p class="text-xs text-gray-400">Full Stack, AI, Python, Crypto</p>
+                    </div>
+                    <div class="bg-darkBg/60 p-6 rounded-2xl border border-white/5">
+                        <div class="text-amber-400 text-2xl font-bold mb-2">2</div>
+                        <div class="text-sm font-semibold text-white mb-1">Verified Certificates</div>
+                        <p class="text-xs text-gray-400">QR Cryptographic Validated</p>
+                    </div>
+                    <div class="bg-darkBg/60 p-6 rounded-2xl border border-white/5">
+                        <div class="text-cyan-400 text-2xl font-bold mb-2">12</div>
+                        <div class="text-sm font-semibold text-white mb-1">Unread Messages</div>
+                        <p class="text-xs text-gray-400">Community & Instructor Sync</p>
+                    </div>
+                    <div class="bg-darkBg/60 p-6 rounded-2xl border border-white/5">
+                        <div class="text-green-400 text-2xl font-bold mb-2">Secure</div>
+                        <div class="text-sm font-semibold text-white mb-1">Account Status</div>
+                        <p class="text-xs text-gray-400">2FA Active & Verified</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="glass-panel border-t border-white/10 mt-20 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+                <a href="#home" class="flex items-center space-x-3 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-amber-400 flex items-center justify-center">
+                        <i class="fa-solid fa-infinity text-darkBg text-sm font-black"></i>
+                    </div>
+                    <span class="text-lg font-black tracking-widest uppercase text-white">STEADY<span class="text-purple-500">MAZE</span></span>
+                </a>
+                <p class="text-gray-400 text-sm">World-class elite learning infrastructure and digital software delivery marketplace.</p>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-4">Platform</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#courses" class="hover:text-white transition-colors">Courses</a></li>
+                    <li><a href="#delivery" class="hover:text-white transition-colors">Delivery Hub</a></li>
+                    <li><a href="#teachers" class="hover:text-white transition-colors">Instructors</a></li>
+                    <li><a href="#tournaments" class="hover:text-white transition-colors">Tournaments</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-4">Support</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#support" class="hover:text-white transition-colors">Help Center</a></li>
+                    <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+                    <li><a href="#privacy" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                    <li><a href="#terms" class="hover:text-white transition-colors">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-4">Global Headquarters</h4>
+                <p class="text-sm text-gray-400 mb-4">Silicon Valley & Zurich Global Infrastructure Network.</p>
+                <div class="flex space-x-4 text-gray-400 text-lg">
+                    <a href="#" class="hover:text-purple-400"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="hover:text-purple-400"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="hover:text-purple-400"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#" class="hover:text-purple-400"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-white/5 text-center text-xs text-gray-500">
+            &copy; 2026 SteadyMaze Inc. All rights reserved. Built with billion-dollar startup architecture standards.
+        </div>
+    </footer>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        console.log("SteadyMaze Phase 1 Luxury Platform Initialized Successfully.");
+    </script>
+</body>
+</html>
