@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SteadyMaze | The Future of Professional Skills</title>
+    
+    <meta name="description" content="SteadyMaze is a world-class luxury AI-powered skill academy and digital delivery ecosystem.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        luxury: {
+                            black: '#0A0A0C',
+                            dark: '#121216',
+                            card: '#181820',
+                            border: '#2A2A38',
+                            purple: '#8B5CF6',
+                            purpleDeep: '#6D28D9',
+                            gold: '#F59E0B',
+                            goldLight: '#FBBF24',
+                            accent: '#A855F7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-luxury-black text-gray-100 font-sans antialiased selection:bg-luxury-purple selection:text-white min-h-screen flex flex-col justify-between">
+
+    <!-- NAVIGATION -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-luxury-purple to-luxury-gold flex items-center justify-center shadow-lg shadow-luxury-purple/30">
+                    <i data-lucide="hexagon" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-wider uppercase text-white">Steady<span class="purple-gradient-text">Maze</span></span>
+            </div>
+
+            <nav class="hidden xl:flex items-center space-x-6 text-sm font-medium">
+                <button onclick="switchTab('home')" class="nav-link text-gray-300 hover:text-luxury-purple transition-colors">Home</button>
+                <button onclick="switchTab('courses')" class="nav-link text-gray-300 hover:text-luxury-purple transition-colors">Courses</button>
+                <button onclick="switchTab('delivery')" class="nav-link text-gray-300 hover:text-luxury-purple transition-colors">Delivery</button>
+                <button onclick="switchTab('teachers')" class="nav-link text-gray-300 hover:text-luxury-purple transition-colors">Teachers</button>
+                <button onclick="switchTab('hall')" class="nav-link text-gray-300 hover:text-luxury-purple transition-colors">Top 300</button>
+                <button onclick="switchTab('community')" class="nav-link text-gray-300 hover:text-luxury-purple transition-colors">Community</button>
+                <button onclick="switchTab('tournaments')" class="nav-link text-gray-300 hover:text-luxury-purple transition-colors">Tournaments</button>
+                <button onclick="switchTab('certificates')" class="nav-link text-gray-300 hover:text-luxury-purple transition-colors">Certificates</button>
+                <button onclick="switchTab('pricing')" class="nav-link text-gray-300 hover:text-luxury-purple transition-colors">Pricing</button>
+            </nav>
+
+            <div class="hidden md:flex items-center space-x-4">
+                <button onclick="switchTab('login')" class="px-5 py-2.5 text-sm font-semibold text-gray-300 hover:text-white transition-colors">Login</button>
+                <button onclick="switchTab('signup')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-luxury-purple to-luxury-purpleDeep text-white text-sm font-semibold shadow-lg shadow-luxury-purple/25">Sign Up</button>
+                <button onclick="switchTab('dashboard')" class="p-2.5 rounded-xl glass-card text-luxury-gold hover:text-white transition-colors" title="Dashboard">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow pt-28 pb-20">
+        <!-- HOME TAB -->
+        <section id="tab-home" class="tab-content active max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="relative z-10 text-center py-20 lg:py-28 max-w-4xl mx-auto">
+                <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-card mb-6 text-xs uppercase tracking-widest text-luxury-gold font-semibold">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>Next-Generation Luxury Skill Ecosystem</span>
+                </div>
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight mb-8">
+                    Steady<span class="purple-gradient-text">Maze</span>
+                </h1>
+                <p class="text-xl sm:text-2xl text-gray-400 font-medium tracking-wide mb-12">
+                    “The Future of Professional Skills”
+                </p>
+                <button onclick="switchTab('courses')" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-luxury-purple to-luxury-purpleDeep text-white font-bold text-base shadow-xl shadow-luxury-purple/30">Start Learning</button>
+            </div>
+        </section>
+
+        <!-- COURSES TAB -->
+        <section id="tab-courses" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black mb-4">World-Class <span class="purple-gradient-text">Courses</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Choose your mastery track across elite disciplines.</p>
+            </div>
+            <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+        
+        <!-- Other sections placeholders can be loaded dynamically via script.js -->
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="glass-nav border-t border-luxury-border py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-500">
+            <p>&copy; 2026 SteadyMaze Inc. All rights reserved. Built for GitHub Pages.</p>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
