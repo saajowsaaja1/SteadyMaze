@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="so">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SteadyMaze | Nidaamka Xirfadaha Casriga ah</title>
+
+<meta name="description" content="SteadyMaze - Nidaamka Xirfadaha Casriga ah ee Mustaqbalka">
+
+<meta name="keywords" content="SteadyMaze, Koorsooyin Online ah, AI, Forex, Crypto, Barnaamij-sameyn">
+
+<meta name="author" content="SteadyMaze">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+
+tailwind.config = {
+
+theme: {
+
+extend: {
+
+colors: {
+
+luxury: "#D4AF37",
+
+royal: "#0F52BA",
+
+glass: "#10131C",
+
+darkbg: "#050608"
+
+},
+
+fontFamily: {
+
+rubik: ["Rubik","sans-serif"]
+
+},
+
+boxShadow: {
+
+luxury: "0 0 40px rgba(212,175,55,.35)"
+
+}
+
+}
+
+}
+
+}
+
+</script>
+
+<style>
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+font-family:'Rubik',sans-serif;
+
+scroll-behavior:smooth;
+
+}
+
+body{
+
+background:
+
+radial-gradient(circle at top left,#0F52BA22,transparent 35%),
+
+radial-gradient(circle at bottom right,#D4AF3720,transparent 35%),
+
+#050608;
+
+color:white;
+
+overflow-x:hidden;
+
+}
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+backdrop-filter:blur(100px);
+
+pointer-events:none;
+
+}
+
+.glass{
+
+background:rgba(255,255,255,.05);
+
+border:1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(30px);
+
+border-radius:30px;
+
+}
+
+.gold{
+
+color:#D4AF37;
+
+}
+
+.hero-title{
+
+font-size:70px;
+
+font-weight:800;
+
+line-height:1.1;
+
+}
+
+.hero-sub{
+
+font-size:22px;
+
+color:#b7b7b7;
+
+}
+
+.luxuryButton{
+
+background:linear-gradient(90deg,#D4AF37,#EBC86A);
+
+color:black;
+
+padding:18px 45px;
+
+border-radius:18px;
+
+font-size:18px;
+
+font-weight:700;
+
+transition:.4s;
+
+box-shadow:0 0 30px rgba(212,175,55,.45);
+
+}
+
+.luxuryButton:hover{
+
+transform:translateY(-4px);
+
+box-shadow:0 0 60px rgba(212,175,55,.8);
+
+}
+
+header{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+z-index:999;
+
+background:rgba(0,0,0,.35);
+
+backdrop-filter:blur(25px);
+
+border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.container{
+
+width:92%;
+
+max-width:1450px;
+
+margin:auto;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="container flex items-center justify-between py-5">
+
+<h1 class="text-4xl font-extrabold">
+
+<span class="text-white">Steady</span>
+
+<span class="gold">Maze</span>
+
+</h1>
+
+<nav class="hidden lg:flex gap-10 text-lg">
+
+<a href="#">Bogga Hore</a>
+
+<a href="#">Koorsooyinka</a>
+
+<a href="#">Macallimiinta</a>
+
+<a href="#">Tartanka</a>
+
+<a href="#">Suuqa</a>
+
+<a href="#">Bulshada</a>
+
+</nav>
+
+<div class="flex gap-4">
+
+<button class="luxuryButton">
+
+IS-DIWANKELIN
+
+</button>
+
+</div>
+
+</div>
+
+</header>
+
+<section class="min-h-screen flex items-center pt-24">
+
+<div class="container grid lg:grid-cols-2 gap-20 items-center">
+
+<div>
+
+<p class="gold uppercase tracking-[8px] mb-5">
+
+Nidaamka Xirfadaha Casriga ah ee Mustaqbalka
+
+</p>
+
+<h1 class="hero-title">
+
+Baro Xirfadaha Qiimaha Leh<br>
+
+Dhis Mustaqbalkaaga
+
+</h1>
+
+<p class="hero-sub mt-8">
+
+Ka baro macallimiin khubaro ah, dhammaystir mashaariic dhab ah, hel shahaadooyin, oo la tartami ardayda adduunka ugu fiican gudaha SteadyMaze.
+
+</p>
+
+<div class="mt-10 flex gap-6">
+
+<button class="luxuryButton">
+
+Bilow Barashada
+
+</button>
+
+<button class="glass px-10 py-5">
+
+Baadi Goob Koorsooyinka
+
+</button>
+
+</div>
+
+</div>
+
+<div>
+
+<img
+
+src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200"
+
+class="rounded-[40px] shadow-2xl"
+
+>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ======================================== -->
+<!-- SEARCH SECTION -->
+<!-- ======================================== -->
+
+<section class="py-24">
+
+<div class="container">
+
+<div class="glass p-10">
+
+<h2 class="text-5xl font-bold text-center mb-10">
+
+Raadi Xirfadahaaga Riyada
+
+</h2>
+
+<div class="max-w-5xl mx-auto">
+
+<div class="flex bg-[#111827] rounded-2xl overflow-hidden border border-yellow-500">
+
+<input
+
+type="text"
+
+placeholder="Raadi Koorsooyin, Macallimiin, AI, Forex, Crypto..."
+
+class="flex-1 bg-transparent px-8 py-6 text-xl outline-none text-white"
+
+/>
+
+<button class="bg-yellow-500 text-black px-12 font-bold">
+
+RAADI
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ======================================== -->
+<!-- STATISTICS -->
+<!-- ======================================== -->
+
+<section class="pb-24">
+
+<div class="container">
+
+<div class="grid lg:grid-cols-4 gap-8">
+
+<div class="glass p-10 text-center">
+
+<h1 class="text-6xl font-extrabold gold">
+
+20+
+
+</h1>
+
+<p class="mt-4 text-gray-300">
+
+Xirfadaha Xirfadeed
+
+</p>
+
+</div>
+
+<div class="glass p-10 text-center">
+
+<h1 class="text-6xl font-extrabold gold">
+
+40+
+
+</h1>
+
+<p class="mt-4 text-gray-300">
+
+Macallimiin Khubaro ah
+
+</p>
+
+</div>
+
+<div class="glass p-10 text-center">
+
+<h1 class="text-6xl font-extrabold gold">
+
+300
+
+</h1>
+
+<p class="mt-4 text-gray-300">
+
+Tartanka Bilalaha ah
+
+</p>
+
+</div>
+
+<div class="glass p-10 text-center">
+
+<h1 class="text-6xl font-extrabold gold">
+
+100K+
+
+</h1>
+
+<p class="mt-4 text-gray-300">
+
+Ardayda Mustaqbalka
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ======================================== -->
+<!-- FEATURED SKILLS -->
+<!-- ======================================== -->
+
+<section class="pb-28">
+
+<div class="container">
+
+<div class="flex justify-between items-center mb-16">
+
+<h2 class="text-5xl font-bold">
+
+Xirfadaha Muhiimka ah
+
+</h2>
+
+<button class="luxuryButton">
+
+Eeg Dhammaan
+
+</button>
+
+</div>
+
+<div id="skillsContainer"
+
+class="grid lg:grid-cols-4 md:grid-cols-2 gap-10">
+
+<!-- JavaScript ayaa halkan ka soo saari doona dhammaan kaararka xirfadaha -->
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const skills=[
+
+{
+
+title:"Horumarinta Mareegaha",
+
+level:"SARE",
+
+price:"$11",
+
+teacher1:"David Wilson",
+
+teacher2:"John Carter",
+
+students:"14,200",
+
+rating:"4.9",
+
+image:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200"
+
+},
+
+{
+
+title:"Tifaftirka Muuqaalka",
+
+level:"HOOSE",
+
+price:"$3",
+
+teacher1:"Michael Lee",
+
+teacher2:"Chris Adams",
+
+students:"10,450",
+
+rating:"4.8",
+
+image:"https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200"
+
+},
+
+{
+
+title:"Sirdoonka Fal-abuurka (AI)",
+
+level:"SARE",
+
+price:"$11",
+
+teacher1:"Sophia Brown",
+
+teacher2:"Daniel Smith",
+
+students:"8,200",
+
+rating:"5.0",
+
+image:"https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200"
+
+},
+
+{
+
+title:"Ganacsiga Suuqa Forex",
+
+level:"DHEXE",
+
+price:"$5",
+
+teacher1:"Robert Hall",
+
+teacher2:"James Walker",
+
+students:"12,000",
+
+rating:"4.9",
+
+image:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200"
+
+}
+
+];
+
+const container=document.getElementById("skillsContainer");
+
+skills.forEach(skill=>{
+
+container.innerHTML+=`
+
+<div class="glass overflow-hidden rounded-[30px]">
+
+<img src="${skill.image}"
+
+class="w-full h-60 object-cover">
+
+<div class="p-7">
+
+<div class="flex justify-between">
+
+<span class="bg-yellow-500 text-black px-4 py-2 rounded-full font-bold">
+
+${skill.level}
+
+</span>
+
+<span class="gold font-bold">
+
+${skill.price}
+
+</span>
+
+</div>
+
+<h2 class="text-3xl font-bold mt-6">
+
+${skill.title}
+
+</h2>
+
+<div class="mt-5 space-y-2">
+
+<p>⭐ ${skill.rating}</p>
+
+<p>👨‍🎓 ${skill.students} Arday</p>
+
+<p>👨‍🏫 ${skill.teacher1}</p>
+
+<p>👨‍🏫 ${skill.teacher2}</p>
+
+</div>
+
+<button class="luxuryButton w-full mt-8">
+
+FUR KOORSADA
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+</script>
+
+</body>
+
+</html>
