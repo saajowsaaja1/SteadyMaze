@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SteadyMaze | Global Luxury Education Ecosystem</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        luxury: {
+                            black: '#070709',
+                            dark: '#0F0F13',
+                            card: '#16161D',
+                            border: '#272735',
+                            purple: '#8B5CF6',
+                            purpleDeep: '#6D28D9',
+                            gold: '#F59E0B',
+                            goldLight: '#FBBF24',
+                            accent: '#A855F7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-luxury-black text-gray-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-luxury-purple to-luxury-gold flex items-center justify-center shadow-xl shadow-luxury-purple/30">
+                    <i data-lucide="hexagon" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xl font-black tracking-wider uppercase text-white">Steady<span class="purple-gradient-text">Maze</span></span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden xl:flex items-center space-x-4 text-xs font-semibold">
+                <button onclick="switchTab('home')" class="nav-btn text-gray-300 hover:text-luxury-purple transition-colors">Home</button>
+                <button onclick="switchTab('courses')" class="nav-btn text-gray-300 hover:text-luxury-purple transition-colors">Skills (16)</button>
+                <button onclick="switchTab('delivery')" class="nav-btn text-gray-300 hover:text-luxury-purple transition-colors">Delivery Hub</button>
+                <button onclick="switchTab('championship')" class="nav-btn text-luxury-gold transition-colors flex items-center space-x-1">
+                    <i data-lucide="crown" class="w-3.5 h-3.5"></i><span>Championship</span>
+                </button>
+                <button onclick="switchTab('community')" class="nav-btn text-gray-300 hover:text-luxury-purple transition-colors">Community</button>
+                <button onclick="switchTab('features')" class="nav-btn text-gray-300 hover:text-luxury-purple transition-colors">Feature Requests</button>
+                <button onclick="switchTab('student-dash')" class="nav-btn text-gray-300 hover:text-luxury-purple transition-colors">Student Dash</button>
+                <button onclick="switchTab('teacher-dash')" class="nav-btn text-gray-300 hover:text-luxury-purple transition-colors">Teacher Dash</button>
+                <button onclick="switchTab('admin-dash')" class="nav-btn text-gray-300 hover:text-luxury-purple transition-colors">Admin Dash</button>
+            </nav>
+
+            <div class="hidden lg:flex items-center space-x-3">
+                <button onclick="switchTab('login')" class="px-3 py-2 text-xs font-semibold text-gray-300 hover:text-white">Login</button>
+                <button onclick="switchTab('signup')" class="px-4 py-2 rounded-xl bg-gradient-to-r from-luxury-purple to-luxury-purpleDeep text-white text-xs font-semibold shadow-lg shadow-luxury-purple/25">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN DYNAMIC CONTENT CONTAINER -->
+    <main class="flex-grow pt-28 pb-20">
+        
+        <!-- 1. HOME SECTION -->
+        <section id="tab-home" class="tab-content active max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-12">
+            <span class="px-4 py-1.5 rounded-full text-xs font-bold bg-luxury-purple/10 text-luxury-purple border border-luxury-purple/20 mb-6 inline-block">BILLION-DOLLAR GLOBAL EDUCATION PLATFORM</span>
+            <h1 class="text-5xl sm:text-7xl font-black mb-6">Steady<span class="purple-gradient-text">Maze</span></h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-10">Master professional, creative, financial, and premium disciplines with automated AI multi-language subtitles, dual-instructor options, and elite verification levels.</p>
+            
+            <!-- Real Search System -->
+            <div class="max-w-2xl mx-auto mb-12">
+                <div class="glass-card p-2 rounded-2xl border border-luxury-border flex items-center shadow-2xl">
+                    <i data-lucide="search" class="w-5 h-5 text-luxury-purple ml-3 mr-2"></i>
+                    <input type="text" id="global-search-input" oninput="handleSearch(this.value)" placeholder="Search courses, teachers, skills, categories..." class="w-full bg-transparent text-white text-sm focus:outline-none px-2">
+                    <button onclick="switchTab('courses')" class="px-6 py-3 rounded-xl bg-luxury-purple text-white font-bold text-xs">Search</button>
+                </div>
+                <div id="search-results-dropdown" class="hidden mt-2 glass-card rounded-2xl border border-luxury-border p-4 text-left max-h-60 overflow-y-auto space-y-2 text-xs"></div>
+            </div>
+
+            <div class="flex justify-center space-x-4">
+                <button onclick="switchTab('courses')" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-luxury-purple to-luxury-purpleDeep text-white font-bold shadow-xl shadow-luxury-purple/30 text-sm">Explore Courses</button>
+                <button onclick="switchTab('signup')" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-luxury-gold to-amber-600 text-luxury-black font-extrabold shadow-xl text-sm">Start Earning</button>
+            </div>
+        </section>
+
+        <!-- 2. COURSES / SKILLS SECTION (16 Skills with Levels & Dual Instructors) -->
+        <section id="tab-courses" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black mb-4">Elite Mastery <span class="purple-gradient-text">Skills (16 Disciplines)</span></h2>
+                <p class="text-gray-400">Choose your skill, select between 2 verified instructors, pick your subtitle language, and advance through Level 1, Level 2, and Level 3.</p>
+            </div>
+            
+            <!-- Language Selector for AI Subtitles -->
+            <div class="glass-card p-4 rounded-2xl border border-luxury-border mb-8 max-w-md mx-auto flex items-center justify-between">
+                <span class="text-xs font-bold text-gray-300">AI Subtitle Language:</span>
+                <select id="ai-subtitle-lang" class="bg-luxury-dark border border-luxury-border rounded-xl px-3 py-1.5 text-xs text-white">
+                    <option>English</option><option>Somali</option><option>Arabic</option><option>French</option><option>Spanish</option><option>German</option><option>Turkish</option><option>Portuguese</option><option>Hindi</option><option>Swahili</option>
+                </select>
+            </div>
+
+            <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+
+        <!-- 3. DELIVERY HUB SECTION -->
+        <section id="tab-delivery" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black mb-4">Luxury Delivery <span class="gold-gradient-text">Marketplace</span></h2>
+                <p class="text-gray-400">Order high-performance custom digital systems built by certified engineers.</p>
+            </div>
+            <div id="delivery-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+        </section>
+
+        <!-- 4. MONTHLY CHAMPIONSHIP SECTION -->
+        <section id="tab-championship" class="tab-content max-w-5xl mx-auto px-4 text-center">
+            <div class="glass-card p-10 rounded-3xl border border-luxury-border">
+                <i data-lucide="crown" class="w-16 h-16 text-luxury-gold mx-auto mb-4"></i>
+                <h2 class="text-4xl font-black mb-4">Monthly Innovation <span class="gold-gradient-text">Championship</span></h2>
+                <p class="text-gray-300 mb-6">Strictly limited to 300 verified participants worldwide. Upload your project video, photo, skill, and country to compete for the Champion Gold Trophy.</p>
+                <div class="flex justify-center space-x-8 mb-8 text-sm font-semibold text-luxury-gold bg-luxury-dark p-4 rounded-2xl border border-luxury-border">
+                    <span>Registered: 284 / 300 Slots</span><span>Countdown: 04d 12h 32m 15s</span>
+                </div>
+                <button onclick="alert('Championship Entry Portal Open! Upload video, profile, and skill.')" class="px-8 py-4 rounded-xl bg-gradient-to-r from-luxury-gold to-amber-600 text-luxury-black font-extrabold text-sm shadow-xl">Upload Competition Entry</button>
+            </div>
+        </section>
+
+        <!-- 5. COMMUNITY SECTION -->
+        <section id="tab-community" class="tab-content max-w-5xl mx-auto px-4">
+            <div class="glass-card p-8 rounded-3xl border border-luxury-border">
+                <h2 class="text-3xl font-black mb-6">Global Encrypted <span class="purple-gradient-text">Community Chat</span></h2>
+                <div class="flex space-x-3 mb-4">
+                    <button class="px-4 py-2 rounded-xl bg-luxury-purple text-white text-xs font-bold">Programming</button>
+                    <button class="px-4 py-2 rounded-xl bg-luxury-dark border border-luxury-border text-gray-300 text-xs font-bold">AI</button>
+                    <button class="px-4 py-2 rounded-xl bg-luxury-dark border border-luxury-border text-gray-300 text-xs font-bold">Trading</button>
+                    <button class="px-4 py-2 rounded-xl bg-luxury-dark border border-luxury-border text-gray-300 text-xs font-bold">General</button>
+                </div>
+                <div class="bg-luxury-dark h-80 rounded-2xl p-4 mb-4 border border-luxury-border overflow-y-auto space-y-3 text-xs">
+                    <div class="p-3 rounded-xl bg-luxury-card border border-luxury-border"><span class="text-luxury-purple font-bold">Alex (USA):</span> Just finished Level 3 AI Engineering with automated subtitles!</div>
+                    <div class="p-3 rounded-xl bg-luxury-card border border-luxury-border"><span class="text-luxury-gold font-bold">Fatima (Somalia):</span> The Somali AI translation for the Python masterclass is immaculate!</div>
+                </div>
+                <div class="flex space-x-3">
+                    <input type="text" placeholder="Type global secure message..." class="flex-grow bg-luxury-dark border border-luxury-border rounded-xl px-4 py-3 text-white text-xs">
+                    <button onclick="alert('Message broadcasted securely across global nodes.')" class="px-6 py-3 rounded-xl bg-luxury-purple font-bold text-white text-xs">Send</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. FEATURE REQUEST PAGE -->
+        <section id="tab-features" class="tab-content max-w-4xl mx-auto px-4">
+            <div class="glass-card p-8 rounded-3xl border border-luxury-border">
+                <h2 class="text-3xl font-black mb-4">Feature Request <span class="purple-gradient-text">Portal</span></h2>
+                <p class="text-gray-400 text-xs mb-6">Submit requests, vote, comment, and like upcoming platform additions for administrator review.</p>
+                <div class="flex space-x-3 mb-8">
+                    <input type="text" placeholder="Suggest a new platform feature..." class="flex-grow bg-luxury-dark border border-luxury-border rounded-xl px-4 py-3 text-white text-xs">
+                    <button onclick="alert('Feature request submitted successfully for admin review.')" class="px-6 py-3 rounded-xl bg-luxury-purple font-bold text-white text-xs">Submit Request</button>
+                </div>
+                <div class="space-y-3 text-xs">
+                    <div class="glass-card p-4 rounded-xl border border-luxury-border flex justify-between items-center">
+                        <div><h4 class="font-bold text-white mb-1">Advanced Neural Code Playground</h4><p class="text-gray-400">Instant browser compiler for Python & JS.</p></div>
+                        <button onclick="alert('Voted!')" class="px-4 py-2 rounded-lg bg-luxury-dark border border-luxury-border text-luxury-gold font-bold">👍 Vote (342)</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. STUDENT DASHBOARD -->
+        <section id="tab-student-dash" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-black mb-8">Student <span class="purple-gradient-text">Dashboard</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 text-xs">
+                <div class="glass-card p-6 rounded-2xl border border-luxury-border"><h4 class="text-gray-400 mb-1">Active Courses</h4><p class="text-2xl font-bold text-white">4 Enrolled</p></div>
+                <div class="glass-card p-6 rounded-2xl border border-luxury-border"><h4 class="text-gray-400 mb-1">Certificates</h4><p class="text-2xl font-bold text-white">2 Earned</p></div>
+                <div class="glass-card p-6 rounded-2xl border border-luxury-border"><h4 class="text-gray-400 mb-1">Wallet Balance</h4><p class="text-2xl font-bold text-luxury-gold">$450.00</p></div>
+                <div class="glass-card p-6 rounded-2xl border border-luxury-border"><h4 class="text-gray-400 mb-1">Global Ranking</h4><p class="text-2xl font-bold text-luxury-purple">Top 50</p></div>
+            </div>
+        </section>
+
+        <!-- 8. INSTRUCTOR DASHBOARD -->
+        <section id="tab-teacher-dash" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-black mb-8">Instructor <span class="purple-gradient-text">Private Dashboard</span></h2>
+            <div class="glass-card p-8 rounded-3xl border border-luxury-border text-xs space-y-4">
+                <h3 class="text-lg font-bold text-white mb-2">Upload Masterclass Video & Materials</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" placeholder="Course Title & Skill" class="bg-luxury-dark border border-luxury-border rounded-xl p-3 text-white">
+                    <select class="bg-luxury-dark border border-luxury-border rounded-xl p-3 text-white">
+                        <option>Level 1 Videos</option><option>Level 2 Videos</option><option>Level 3 Videos</option>
+                    </select>
+                </div>
+                <textarea placeholder="Course Description & Assignment Details..." class="w-full bg-luxury-dark border border-luxury-border rounded-xl p-3 text-white h-28"></textarea>
+                <button onclick="alert('Video, Thumbnail, Cover Image, and Resources uploaded! AI Subtitle engine active.')" class="px-6 py-3 rounded-xl bg-luxury-purple font-bold text-white">Upload & Generate AI Subtitles</button>
+            </div>
+        </section>
+
+        <!-- 9. ADMIN DASHBOARD -->
+        <section id="tab-admin-dash" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-black mb-8">Administrator <span class="gold-gradient-text">Control Center</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+                <div class="glass-card p-6 rounded-2xl border border-luxury-border"><h3 class="font-bold text-base mb-2 text-white">Manage Users</h3><p class="text-gray-400 mb-4">Oversee 12,450 students and teachers.</p><button onclick="alert('Opening User Database')" class="px-4 py-2 rounded-xl bg-luxury-dark border border-luxury-border font-bold">Manage Users</button></div>
+                <div class="glass-card p-6 rounded-2xl border border-luxury-border"><h3 class="font-bold text-base mb-2 text-white">Payment Gateways</h3><p class="text-gray-400 mb-4">Visa, Mastercard, M-Pesa, Flutterwave.</p><button onclick="alert('Opening Payment Transactions')" class="px-4 py-2 rounded-xl bg-luxury-dark border border-luxury-border font-bold">View Payments</button></div>
+                <div class="glass-card p-6 rounded-2xl border border-luxury-border"><h3 class="font-bold text-base mb-2 text-white">Platform Reports</h3><p class="text-gray-400 mb-4">System Uptime 99.99%.</p><button onclick="alert('Generating Diagnostics')" class="px-4 py-2 rounded-xl bg-luxury-dark border border-luxury-border font-bold">Run Reports</button></div>
+            </div>
+        </section>
+
+        <!-- 10. LOGIN SECTION -->
+        <section id="tab-login" class="tab-content max-w-md mx-auto px-4">
+            <div class="glass-card p-8 rounded-3xl border border-luxury-border text-xs">
+                <h2 class="text-2xl font-bold mb-6 text-center text-white">Secure <span class="purple-gradient-text">Login</span></h2>
+                <input type="email" placeholder="Email address" class="w-full bg-luxury-dark border border-luxury-border rounded-xl p-3 mb-4 text-white">
+                <input type="password" placeholder="Password" class="w-full bg-luxury-dark border border-luxury-border rounded-xl p-3 mb-6 text-white">
+                <button onclick="switchTab('student-dash')" class="w-full py-3 rounded-xl bg-luxury-purple font-bold text-white text-sm">Login to Account</button>
+            </div>
+        </section>
+
+        <!-- 11. SIGN UP SECTION -->
+        <section id="tab-signup" class="tab-content max-w-xl mx-auto px-4">
+            <div class="glass-card p-8 rounded-3xl border border-luxury-border text-xs space-y-4">
+                <h2 class="text-2xl font-bold mb-2 text-center text-white">Create Elite <span class="purple-gradient-text">Account</span></h2>
+                <input type="text" placeholder="Full Name" class="w-full bg-luxury-dark border border-luxury-border rounded-xl p-3 text-white">
+                <input type="email" placeholder="Email Address" class="w-full bg-luxury-dark border border-luxury-border rounded-xl p-3 text-white">
+                <input type="text" placeholder="Country" class="w-full bg-luxury-dark border border-luxury-border rounded-xl p-3 text-white">
+                <input type="text" placeholder="Phone Number" class="w-full bg-luxury-dark border border-luxury-border rounded-xl p-3 text-white">
+                <input type="password" placeholder="Password" class="w-full bg-luxury-dark border border-luxury-border rounded-xl p-3 text-white">
+                <select class="w-full bg-luxury-dark border border-luxury-border rounded-xl p-3 text-white">
+                    <option>Select Primary Skill Track</option>
+                    <option>Web Development</option><option>Artificial Intelligence</option><option>Cryptocurrency</option><option>Graphic Design</option>
+                </select>
+                <button onclick="switchTab('student-dash')" class="w-full py-3 rounded-xl bg-luxury-purple font-bold text-white text-sm">Complete Elite Registration</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="glass-nav border-t border-luxury-border py-8 text-center text-xs text-gray-500">
+        <p>&copy; 2026 SteadyMaze Inc. All rights reserved. GitHub Pages Ready.</p>
+    </footer>
+
+    <!-- JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
