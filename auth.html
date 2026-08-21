@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteadyMaze Authentication</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:
+radial-gradient(circle at top right,
+rgba(0,230,118,.15),
+transparent 35%),
+
+radial-gradient(circle at bottom left,
+rgba(0,230,118,.08),
+transparent 35%),
+
+#020504;
+
+padding:20px;
+}
+
+.container{
+
+width:100%;
+max-width:1000px;
+
+display:grid;
+grid-template-columns:1fr 1fr;
+
+background:#08110c;
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:24px;
+
+overflow:hidden;
+
+box-shadow:0 20px 60px rgba(0,0,0,.4);
+
+}
+
+.left{
+
+padding:60px;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+
+background:
+linear-gradient(
+180deg,
+rgba(0,230,118,.08),
+transparent
+);
+
+}
+
+.logo{
+
+font-size:34px;
+font-weight:900;
+margin-bottom:20px;
+
+}
+
+.logo span{
+color:#00e676;
+}
+
+.left h1{
+
+font-size:48px;
+line-height:1;
+
+color:white;
+
+margin-bottom:20px;
+
+}
+
+.left p{
+
+color:#95a29a;
+line-height:1.8;
+
+}
+
+.right{
+
+padding:50px;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+
+}
+
+.tabs{
+
+display:flex;
+gap:10px;
+
+margin-bottom:25px;
+
+}
+
+.tab{
+
+flex:1;
+
+padding:14px;
+
+background:#0e1913;
+
+border:none;
+
+color:#95a29a;
+
+border-radius:12px;
+
+cursor:pointer;
+
+font-weight:700;
+
+}
+
+.tab.active{
+
+background:#00e676;
+
+color:#001b0c;
+
+}
+
+.form{
+
+display:none;
+
+}
+
+.form.active{
+
+display:block;
+
+}
+
+.input-group{
+
+margin-bottom:16px;
+
+}
+
+.input-group label{
+
+display:block;
+
+margin-bottom:8px;
+
+font-size:14px;
+
+color:#dce4df;
+
+}
+
+.input-group input{
+
+width:100%;
+
+padding:14px;
+
+background:#101a15;
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:12px;
+
+color:white;
+
+}
+
+.submit-btn{
+
+width:100%;
+
+padding:15px;
+
+background:#00e676;
+
+border:none;
+
+border-radius:12px;
+
+font-weight:900;
+
+cursor:pointer;
+
+color:#001b0c;
+
+margin-top:10px;
+
+}
+
+.bottom-text{
+
+margin-top:20px;
+
+text-align:center;
+
+color:#95a29a;
+
+font-size:14px;
+
+}
+
+@media(max-width:900px){
+
+.container{
+
+grid-template-columns:1fr;
+
+}
+
+.left{
+
+padding:40px;
+
+}
+
+.left h1{
+
+font-size:36px;
+
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="left">
+
+<div class="logo">
+Steady<span>Maze</span>
+</div>
+
+<h1>
+Learn.<br>
+Build.<br>
+Compete.
+</h1>
+
+<p>
+Join SteadyMaze Academy and start learning
+real digital skills, build projects and
+participate in competitions.
+</p>
+
+</div>
+
+<div class="right">
+
+<div class="tabs">
+
+<button class="tab active" onclick="showLogin()">
+Login
+</button>
+
+<button class="tab" onclick="showSignup()">
+Sign Up
+</button>
+
+</div>
+
+<form class="form active" id="loginForm">
+
+<div class="input-group">
+<label>Email</label>
+<input type="email" placeholder="Enter email">
+</div>
+
+<div class="input-group">
+<label>Password</label>
+<input type="password" placeholder="Enter password">
+</div>
+
+<button type="submit" class="submit-btn">
+LOGIN
+</button>
+
+</form>
+
+<form class="form" id="signupForm">
+
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" placeholder="Full name">
+</div>
+
+<div class="input-group">
+<label>Email</label>
+<input type="email" placeholder="Email">
+</div>
+
+<div class="input-group">
+<label>Password</label>
+<input type="password" placeholder="Password">
+</div>
+
+<button type="submit" class="submit-btn">
+CREATE ACCOUNT
+</button>
+
+</form>
+
+<div class="bottom-text">
+SteadyMaze Academy
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const tabs =
+document.querySelectorAll('.tab');
+
+function showLogin(){
+
+tabs[0].classList.add('active');
+tabs[1].classList.remove('active');
+
+document
+.getElementById('loginForm')
+.classList.add('active');
+
+document
+.getElementById('signupForm')
+.classList.remove('active');
+
+}
+
+function showSignup(){
+
+tabs[1].classList.add('active');
+tabs[0].classList.remove('active');
+
+document
+.getElementById('signupForm')
+.classList.add('active');
+
+document
+.getElementById('loginForm')
+.classList.remove('active');
+
+}
+
+</script>
+
+</body>
+</html>
