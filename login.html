@@ -1,249 +1,760 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SteadyMaze Login</title>
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>SteadyMaze | Login</title>
 
 <style>
+
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:#020504;
-padding:20px;
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(0,230,118,.12),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(0,230,118,.07),
+            transparent 30%
+        ),
+        #020504;
+
+    color:#f5f8f6;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
 
-.container{
-width:100%;
-max-width:480px;
-background:#08110c;
-border:1px solid rgba(255,255,255,.08);
-border-radius:20px;
-padding:35px;
+
+/* CARD */
+
+.auth-card{
+
+    width:100%;
+    max-width:430px;
+
+    margin:20px;
+
+    padding:38px;
+
+    background:
+        rgba(7,16,11,.94);
+
+    border:1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:22px;
+
+    box-shadow:
+        0 25px 80px
+        rgba(0,0,0,.55);
 }
+
+
+/* LOGO */
 
 .logo{
-text-align:center;
-font-size:32px;
-font-weight:900;
-margin-bottom:25px;
-color:white;
+
+    text-align:center;
+
+    font-size:28px;
+
+    font-weight:900;
+
+    margin-bottom:8px;
 }
 
 .logo span{
-color:#00e676;
+    color:#00e676;
 }
 
+.subtitle{
+
+    text-align:center;
+
+    color:#68756d;
+
+    font-size:10px;
+
+    margin-bottom:30px;
+}
+
+
+/* TABS */
+
 .tabs{
-display:flex;
-gap:10px;
-margin-bottom:25px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:6px;
+
+    padding:5px;
+
+    margin-bottom:25px;
+
+    background:#020604;
+
+    border-radius:11px;
 }
 
 .tab{
-flex:1;
-padding:12px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:700;
-background:#0f1914;
-color:#95a29a;
+
+    border:0;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    background:transparent;
+
+    color:#66736b;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    cursor:pointer;
 }
 
 .tab.active{
-background:#00e676;
-color:#001b0c;
+
+    background:#00e676;
+
+    color:#001b0c;
 }
 
+
+/* FORM */
+
 .form{
-display:none;
+    display:none;
 }
 
 .form.active{
-display:block;
+    display:block;
 }
 
 label{
-display:block;
-margin-bottom:6px;
-color:#d9e2dc;
-font-size:14px;
+
+    display:block;
+
+    margin-bottom:7px;
+
+    color:#89958e;
+
+    font-size:9px;
+
+    font-weight:800;
 }
 
 input{
-width:100%;
-padding:14px;
-margin-bottom:14px;
-border-radius:10px;
-border:1px solid rgba(255,255,255,.08);
-background:#101914;
-color:white;
+
+    width:100%;
+
+    padding:14px;
+
+    margin-bottom:16px;
+
+    background:#020604;
+
+    border:1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:10px;
+
+    outline:none;
+
+    color:white;
+
+    font-size:11px;
 }
 
-button.submit{
-width:100%;
-padding:14px;
-border:none;
-border-radius:10px;
-background:#00e676;
-color:#001b0c;
-font-weight:900;
-cursor:pointer;
+input:focus{
+
+    border-color:#00e676;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(0,230,118,.06);
 }
+
+
+/* BUTTON */
+
+.main-button{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-top:5px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:#00e676;
+
+    color:#001b0c;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.main-button:hover{
+
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,230,118,.15);
+}
+
+
+/* FORGOT */
 
 .forgot{
-display:block;
-margin-top:15px;
-text-align:center;
-color:#00e676;
-font-size:14px;
-cursor:pointer;
+
+    display:block;
+
+    margin-top:16px;
+
+    text-align:center;
+
+    color:#00e676;
+
+    font-size:9px;
+
+    font-weight:800;
+
+    text-decoration:none;
+
+    cursor:pointer;
 }
+
+
+/* BACK */
+
+.back{
+
+    display:block;
+
+    margin-top:25px;
+
+    text-align:center;
+
+    color:#56635b;
+
+    font-size:9px;
+
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#00e676;
+}
+
+
+/* MESSAGE */
 
 .message{
-display:none;
-margin-top:15px;
-padding:12px;
-border-radius:10px;
-background:#101914;
-color:#d9e2dc;
-text-align:center;
-font-size:14px;
+
+    display:none;
+
+    margin-bottom:15px;
+
+    padding:11px;
+
+    border-radius:8px;
+
+    background:
+        rgba(0,230,118,.07);
+
+    color:#00e676;
+
+    font-size:9px;
+
+    text-align:center;
 }
 
-h2{
-color:white;
-margin-bottom:20px;
-text-align:center;
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+    .auth-card{
+        padding:27px 22px;
+    }
+
+    .logo{
+        font-size:24px;
+    }
+
 }
 
 </style>
+
 </head>
+
+
 <body>
 
-<div class="container">
 
-<div class="logo">
-Steady<span>Maze</span>
+<div class="auth-card">
+
+
+    <div class="logo">
+
+        Steady<span>Maze</span>
+
+    </div>
+
+
+    <div class="subtitle">
+
+        Learn digital skills. Build projects. Compete.
+
+    </div>
+
+
+    <!-- TABS -->
+
+    <div class="tabs">
+
+        <button
+            class="tab active"
+            id="loginTab"
+            onclick="showLogin()"
+        >
+            LOGIN
+        </button>
+
+
+        <button
+            class="tab"
+            id="signupTab"
+            onclick="showSignup()"
+        >
+            SIGN UP
+        </button>
+
+    </div>
+
+
+    <!-- MESSAGE -->
+
+    <div
+        class="message"
+        id="message"
+    ></div>
+
+
+    <!-- LOGIN -->
+
+    <form
+        class="form active"
+        id="loginForm"
+        onsubmit="loginStudent(event)"
+    >
+
+        <label>
+            EMAIL
+        </label>
+
+        <input
+            type="email"
+            id="loginEmail"
+            placeholder="Enter your email"
+            required
+        >
+
+
+        <label>
+            PASSWORD
+        </label>
+
+        <input
+            type="password"
+            id="loginPassword"
+            placeholder="Enter your password"
+            required
+        >
+
+
+        <button
+            type="submit"
+            class="main-button"
+        >
+            LOGIN
+        </button>
+
+
+        <a
+            class="forgot"
+            onclick="showForgot()"
+        >
+            Forgot Password?
+        </a>
+
+    </form>
+
+
+    <!-- SIGN UP -->
+
+    <form
+        class="form"
+        id="signupForm"
+        onsubmit="createAccount(event)"
+    >
+
+        <label>
+            FULL NAME
+        </label>
+
+        <input
+            type="text"
+            id="signupName"
+            placeholder="Enter your name"
+            required
+        >
+
+
+        <label>
+            EMAIL
+        </label>
+
+        <input
+            type="email"
+            id="signupEmail"
+            placeholder="Enter your email"
+            required
+        >
+
+
+        <label>
+            PASSWORD
+        </label>
+
+        <input
+            type="password"
+            id="signupPassword"
+            placeholder="Create a password"
+            required
+        >
+
+
+        <button
+            type="submit"
+            class="main-button"
+        >
+            CREATE ACCOUNT
+        </button>
+
+    </form>
+
+
+    <!-- FORGOT PASSWORD -->
+
+    <form
+        class="form"
+        id="forgotForm"
+        onsubmit="forgotPassword(event)"
+    >
+
+        <label>
+            EMAIL
+        </label>
+
+        <input
+            type="email"
+            id="forgotEmail"
+            placeholder="Enter your account email"
+            required
+        >
+
+
+        <button
+            type="submit"
+            class="main-button"
+        >
+            RESET PASSWORD
+        </button>
+
+
+        <a
+            class="forgot"
+            onclick="showLogin()"
+        >
+            ← Back to Login
+        </a>
+
+    </form>
+
+
+    <a
+        href="index.html"
+        class="back"
+    >
+        ← Back to Homepage
+    </a>
+
+
 </div>
 
-<div class="tabs">
-<button class="tab active" onclick="showLogin()">Login</button>
-<button class="tab" onclick="showSignup()">Create Account</button>
-</div>
-
-<!-- LOGIN -->
-
-<div id="loginForm" class="form active">
-
-<h2>Login</h2>
-
-<label>Email</label>
-<input type="email" placeholder="Enter email">
-
-<label>Password</label>
-<input type="password" placeholder="Enter password">
-
-<button class="submit">
-LOGIN
-</button>
-
-<a class="forgot" onclick="showForgot()">
-Forgot Password?
-</a>
-
-</div>
-
-<!-- CREATE ACCOUNT -->
-
-<div id="signupForm" class="form">
-
-<h2>Create Account</h2>
-
-<label>Full Name</label>
-<input type="text" placeholder="Full name">
-
-<label>Email</label>
-<input type="email" placeholder="Email">
-
-<label>Password</label>
-<input type="password" placeholder="Password">
-
-<label>Confirm Password</label>
-<input type="password" placeholder="Confirm password">
-
-<button class="submit">
-CREATE ACCOUNT
-</button>
-
-</div>
-
-<!-- FORGOT PASSWORD -->
-
-<div id="forgotForm" class="form">
-
-<h2>Reset Password</h2>
-
-<label>Email Address</label>
-<input type="email" placeholder="Enter your email">
-
-<button class="submit">
-SEND RESET LINK
-</button>
-
-<div class="message">
-Password reset functionality will be connected when the database is added.
-</div>
-
-</div>
-
-</div>
 
 <script>
 
-const tabs=document.querySelectorAll(".tab");
+
+/* SHOW LOGIN */
 
 function showLogin(){
 
-document.getElementById("loginForm").classList.add("active");
-document.getElementById("signupForm").classList.remove("active");
-document.getElementById("forgotForm").classList.remove("active");
+    document
+        .getElementById("loginForm")
+        .classList.add("active");
 
-tabs[0].classList.add("active");
-tabs[1].classList.remove("active");
+    document
+        .getElementById("signupForm")
+        .classList.remove("active");
+
+    document
+        .getElementById("forgotForm")
+        .classList.remove("active");
+
+
+    document
+        .getElementById("loginTab")
+        .classList.add("active");
+
+    document
+        .getElementById("signupTab")
+        .classList.remove("active");
+
+
+    clearMessage();
 }
+
+
+/* SHOW SIGN UP */
 
 function showSignup(){
 
-document.getElementById("signupForm").classList.add("active");
-document.getElementById("loginForm").classList.remove("active");
-document.getElementById("forgotForm").classList.remove("active");
+    document
+        .getElementById("loginForm")
+        .classList.remove("active");
 
-tabs[1].classList.add("active");
-tabs[0].classList.remove("active");
+    document
+        .getElementById("signupForm")
+        .classList.add("active");
+
+    document
+        .getElementById("forgotForm")
+        .classList.remove("active");
+
+
+    document
+        .getElementById("loginTab")
+        .classList.remove("active");
+
+    document
+        .getElementById("signupTab")
+        .classList.add("active");
+
+
+    clearMessage();
 }
+
+
+/* FORGOT PASSWORD */
 
 function showForgot(){
 
-document.getElementById("forgotForm").classList.add("active");
-document.getElementById("loginForm").classList.remove("active");
-document.getElementById("signupForm").classList.remove("active");
+    document
+        .getElementById("loginForm")
+        .classList.remove("active");
 
-tabs[0].classList.remove("active");
-tabs[1].classList.remove("active");
+    document
+        .getElementById("signupForm")
+        .classList.remove("active");
+
+    document
+        .getElementById("forgotForm")
+        .classList.add("active");
+
+
+    document
+        .getElementById("loginTab")
+        .classList.remove("active");
+
+    document
+        .getElementById("signupTab")
+        .classList.remove("active");
+
+
+    clearMessage();
+}
+
+
+/* CREATE ACCOUNT */
+
+function createAccount(event){
+
+    event.preventDefault();
+
+
+    const name =
+        document
+        .getElementById("signupName")
+        .value;
+
+    const email =
+        document
+        .getElementById("signupEmail")
+        .value;
+
+    const password =
+        document
+        .getElementById("signupPassword")
+        .value;
+
+
+    /*
+       DEMO ONLY
+
+       Later this will connect to
+       PostgreSQL/backend.
+    */
+
+    localStorage.setItem(
+        "steadymazeName",
+        name
+    );
+
+    localStorage.setItem(
+        "steadymazeEmail",
+        email
+    );
+
+
+    localStorage.setItem(
+        "steadymazeLoggedIn",
+        "true"
+    );
+
+
+    /*
+       SEND STUDENT TO DASHBOARD
+    */
+
+    window.location.href =
+        "student.html";
+}
+
+
+/* LOGIN */
+
+function loginStudent(event){
+
+    event.preventDefault();
+
+
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value;
+
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
+
+
+    if(email && password){
+
+        localStorage.setItem(
+            "steadymazeLoggedIn",
+            "true"
+        );
+
+
+        window.location.href =
+            "student.html";
+
+    }
+
+}
+
+
+/* FORGOT PASSWORD */
+
+function forgotPassword(event){
+
+    event.preventDefault();
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.style.display =
+        "block";
+
+    message.textContent =
+        "Password reset will be connected to email service later.";
+}
+
+
+/* MESSAGE */
+
+function clearMessage(){
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.style.display =
+        "none";
+
+    message.textContent =
+        "";
 }
 
 </script>
 
+
 </body>
+
 </html>
