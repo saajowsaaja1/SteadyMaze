@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteadyMaze Login</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#020504;
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:480px;
+background:#08110c;
+border:1px solid rgba(255,255,255,.08);
+border-radius:20px;
+padding:35px;
+}
+
+.logo{
+text-align:center;
+font-size:32px;
+font-weight:900;
+margin-bottom:25px;
+color:white;
+}
+
+.logo span{
+color:#00e676;
+}
+
+.tabs{
+display:flex;
+gap:10px;
+margin-bottom:25px;
+}
+
+.tab{
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:700;
+background:#0f1914;
+color:#95a29a;
+}
+
+.tab.active{
+background:#00e676;
+color:#001b0c;
+}
+
+.form{
+display:none;
+}
+
+.form.active{
+display:block;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+color:#d9e2dc;
+font-size:14px;
+}
+
+input{
+width:100%;
+padding:14px;
+margin-bottom:14px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,.08);
+background:#101914;
+color:white;
+}
+
+button.submit{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#00e676;
+color:#001b0c;
+font-weight:900;
+cursor:pointer;
+}
+
+.forgot{
+display:block;
+margin-top:15px;
+text-align:center;
+color:#00e676;
+font-size:14px;
+cursor:pointer;
+}
+
+.message{
+display:none;
+margin-top:15px;
+padding:12px;
+border-radius:10px;
+background:#101914;
+color:#d9e2dc;
+text-align:center;
+font-size:14px;
+}
+
+h2{
+color:white;
+margin-bottom:20px;
+text-align:center;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="logo">
+Steady<span>Maze</span>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="showLogin()">Login</button>
+<button class="tab" onclick="showSignup()">Create Account</button>
+</div>
+
+<!-- LOGIN -->
+
+<div id="loginForm" class="form active">
+
+<h2>Login</h2>
+
+<label>Email</label>
+<input type="email" placeholder="Enter email">
+
+<label>Password</label>
+<input type="password" placeholder="Enter password">
+
+<button class="submit">
+LOGIN
+</button>
+
+<a class="forgot" onclick="showForgot()">
+Forgot Password?
+</a>
+
+</div>
+
+<!-- CREATE ACCOUNT -->
+
+<div id="signupForm" class="form">
+
+<h2>Create Account</h2>
+
+<label>Full Name</label>
+<input type="text" placeholder="Full name">
+
+<label>Email</label>
+<input type="email" placeholder="Email">
+
+<label>Password</label>
+<input type="password" placeholder="Password">
+
+<label>Confirm Password</label>
+<input type="password" placeholder="Confirm password">
+
+<button class="submit">
+CREATE ACCOUNT
+</button>
+
+</div>
+
+<!-- FORGOT PASSWORD -->
+
+<div id="forgotForm" class="form">
+
+<h2>Reset Password</h2>
+
+<label>Email Address</label>
+<input type="email" placeholder="Enter your email">
+
+<button class="submit">
+SEND RESET LINK
+</button>
+
+<div class="message">
+Password reset functionality will be connected when the database is added.
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const tabs=document.querySelectorAll(".tab");
+
+function showLogin(){
+
+document.getElementById("loginForm").classList.add("active");
+document.getElementById("signupForm").classList.remove("active");
+document.getElementById("forgotForm").classList.remove("active");
+
+tabs[0].classList.add("active");
+tabs[1].classList.remove("active");
+}
+
+function showSignup(){
+
+document.getElementById("signupForm").classList.add("active");
+document.getElementById("loginForm").classList.remove("active");
+document.getElementById("forgotForm").classList.remove("active");
+
+tabs[1].classList.add("active");
+tabs[0].classList.remove("active");
+}
+
+function showForgot(){
+
+document.getElementById("forgotForm").classList.add("active");
+document.getElementById("loginForm").classList.remove("active");
+document.getElementById("signupForm").classList.remove("active");
+
+tabs[0].classList.remove("active");
+tabs[1].classList.remove("active");
+}
+
+</script>
+
+</body>
+</html>
