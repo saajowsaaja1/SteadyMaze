@@ -1,0 +1,2888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SkillRise — Learn. Build. Compete.</title>
+
+  <meta
+    name="description"
+    content="Learn valuable digital skills, work with professional teachers, and compete to become one of the final winners."
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #07111f;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: auto;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(7, 17, 31, 0.94);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: #5eead4;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #cbd5e1;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-primary {
+      background: #5eead4;
+      color: #04201d;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border-color: rgba(255,255,255,0.15);
+      color: #ffffff;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      min-height: 680px;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at 75% 25%, rgba(45, 212, 191, 0.14), transparent 30%),
+        radial-gradient(circle at 20% 70%, rgba(59, 130, 246, 0.12), transparent 30%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: center;
+      padding: 80px 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 30px;
+      background: rgba(94, 234, 212, 0.1);
+      color: #5eead4;
+      border: 1px solid rgba(94, 234, 212, 0.2);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(44px, 6vw, 76px);
+      line-height: 0.98;
+      letter-spacing: -4px;
+      max-width: 720px;
+    }
+
+    .hero h1 span {
+      color: #5eead4;
+    }
+
+    .hero p {
+      color: #94a3b8;
+      max-width: 610px;
+      font-size: 18px;
+      margin: 26px 0 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 35px;
+      margin-top: 42px;
+      flex-wrap: wrap;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 25px;
+    }
+
+    .stat span {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .hero-card {
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #0d1b2c;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+    }
+
+    .hero-card img {
+      height: 430px;
+      object-fit: cover;
+    }
+
+    .hero-card-info {
+      padding: 22px;
+    }
+
+    .hero-card-info h3 {
+      margin-bottom: 5px;
+    }
+
+    .hero-card-info p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    /* ================= SECTION ================= */
+
+    section {
+      padding: 100px 0;
+    }
+
+    .section-heading {
+      max-width: 650px;
+      margin-bottom: 45px;
+    }
+
+    .section-heading .small-title {
+      color: #5eead4;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(32px, 5vw, 48px);
+      letter-spacing: -2px;
+      line-height: 1.05;
+    }
+
+    .section-heading p {
+      color: #94a3b8;
+      margin-top: 15px;
+    }
+
+    /* ================= LEVELS ================= */
+
+    .level-section {
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .level-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .level-header h3 {
+      font-size: 30px;
+    }
+
+    .level-header p {
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .skill-card {
+      background: #0c192a;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 17px;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(94, 234, 212, 0.35);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.2);
+    }
+
+    .skill-image {
+      height: 210px;
+      object-fit: cover;
+    }
+
+    .skill-content {
+      padding: 20px;
+    }
+
+    .skill-content h4 {
+      font-size: 20px;
+      margin-bottom: 7px;
+    }
+
+    .skill-content p {
+      color: #64748b;
+      font-size: 13px;
+      min-height: 42px;
+    }
+
+    .price-row {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      color: #5eead4;
+      font-weight: 800;
+    }
+
+    .learn-link {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* ================= COMPETITION ================= */
+
+    .competition {
+      background: #0a1727;
+    }
+
+    .competition-box {
+      border: 1px solid rgba(94, 234, 212, 0.15);
+      border-radius: 25px;
+      padding: 45px;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(94,234,212,0.09), transparent 35%),
+        #0d1b2c;
+    }
+
+    .competition-flow {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      align-items: center;
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .round {
+      text-align: center;
+    }
+
+    .round-number {
+      width: 80px;
+      height: 80px;
+      margin: auto;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #12243a;
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .round span {
+      display: block;
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 9px;
+    }
+
+    .arrow {
+      color: #5eead4;
+      font-size: 25px;
+      text-align: center;
+    }
+
+    .winner {
+      border-color: rgba(94, 234, 212, 0.4);
+      background: rgba(94, 234, 212, 0.08);
+    }
+
+    /* ================= TEACHERS ================= */
+
+    .teachers-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .teacher-card {
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #0c192a;
+      border-radius: 18px;
+    }
+
+    .teacher-card h4 {
+      font-size: 20px;
+    }
+
+    .teacher-card p {
+      color: #64748b;
+      font-size: 14px;
+      margin-top: 7px;
+    }
+
+    .teacher-skill {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 6px 10px;
+      background: rgba(94,234,212,0.08);
+      color: #5eead4;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ================= CTA ================= */
+
+    .cta {
+      text-align: center;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, #102b3b, #0c192a);
+      border: 1px solid rgba(94,234,212,0.15);
+      border-radius: 25px;
+      padding: 70px 25px;
+    }
+
+    .cta h2 {
+      font-size: clamp(32px, 5vw, 52px);
+      letter-spacing: -2px;
+    }
+
+    .cta p {
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 15px auto 28px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 45px 0;
+      color: #64748b;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skill-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .competition-flow {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .arrow {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav-buttons .btn-outline {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-grid {
+        padding: 60px 0;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+
+      section {
+        padding: 70px 0;
+      }
+
+      .skill-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .teachers-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .competition-box {
+        padding: 25px 15px;
+      }
+
+      .competition-flow {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+      }
+
+      .round-number {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+
+  <header class="navbar">
+    <div class="container nav-inner">
+
+      <a href="#" class="logo">
+        Skill<span>Rise</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#competition">Competition</a></li>
+        <li><a href="#teachers">Teachers</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+
+      <div class="nav-buttons">
+        <a href="#" class="btn btn-outline">Login</a>
+        <a href="#" class="btn btn-primary">Get Started</a>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- ================= HERO ================= -->
+
+  <main>
+
+    <section class="hero">
+      <div class="container hero-grid">
+
+        <div>
+
+          <div class="badge">
+            Learn • Build • Compete
+          </div>
+
+          <h1>
+            Build skills that
+            <span>change your future.</span>
+          </h1>
+
+          <p>
+            Learn practical digital skills from dedicated teachers,
+            complete real projects, and compete with students from
+            different backgrounds to become one of the final winners.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#skills" class="btn btn-primary">
+              Explore Skills
+            </a>
+
+            <a href="#competition" class="btn btn-outline">
+              How It Works
+            </a>
+          </div>
+
+          <div class="hero-stats">
+
+            <div class="stat">
+              <strong>300</strong>
+              <span>Students</span>
+            </div>
+
+            <div class="stat">
+              <strong>17</strong>
+              <span>Skills</span>
+            </div>
+
+            <div class="stat">
+              <strong>6</strong>
+              <span>Final Winners</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+          <img
+            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=85"
+            alt="Students learning together"
+          >
+
+          <div class="hero-card-info">
+            <h3>Learn. Practice. Compete.</h3>
+
+            <p>
+              A structured learning platform built around
+              practical skills and competition.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================= SKILLS ================= -->
+
+    <section id="skills">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div class="small-title">
+            Choose your path
+          </div>
+
+          <h2>
+            Learn a skill. Build your future.
+          </h2>
+
+          <p>
+            Choose from beginner-friendly skills, intermediate
+            professional skills, or advanced technology skills.
+          </p>
+
+        </div>
+
+
+        <!-- LOWER -->
+
+        <div class="level-section">
+
+          <div class="level-header">
+            <div>
+              <h3>Lower Level</h3>
+              <p>Start with practical digital skills.</p>
+            </div>
+          </div>
+
+
+          <div class="skill-grid">
+
+            <article class="skill-card">
+
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=85"
+                alt="Video editing"
+              >
+
+              <div class="skill-content">
+                <h4>Video Editing</h4>
+                <p>Learn how to create and edit professional videos.</p>
+
+                <div class="price-row">
+                  <span class="price">$3 – $11</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+
+            </article>
+
+
+            <article class="skill-card">
+
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=900&q=85"
+                alt="Thumbnail design"
+              >
+
+              <div class="skill-content">
+                <h4>Thumbnail Design</h4>
+                <p>Learn visual design for YouTube and digital content.</p>
+
+                <div class="price-row">
+                  <span class="price">$3 – $11</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+
+            </article>
+
+
+            <article class="skill-card">
+
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=900&q=85"
+                alt="Movie recap"
+              >
+
+              <div class="skill-content">
+                <h4>Movie Recap</h4>
+                <p>Learn storytelling, research and video recap creation.</p>
+
+                <div class="price-row">
+                  <span class="price">$3 – $11</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+
+            </article>
+
+
+            <article class="skill-card">
+
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=900&q=85"
+                alt="Digital marketing"
+              >
+
+              <div class="skill-content">
+                <h4>Digital Marketing</h4>
+                <p>Learn modern marketing strategies for online businesses.</p>
+
+                <div class="price-row">
+                  <span class="price">$3 – $11</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+
+            </article>
+
+
+            <article class="skill-card">
+
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=85"
+                alt="Affiliate marketing"
+              >
+
+              <div class="skill-content">
+                <h4>Affiliate Marketing</h4>
+                <p>Understand online promotion and affiliate business models.</p>
+
+                <div class="price-row">
+                  <span class="price">$3 – $11</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+
+            </article>
+
+
+            <article class="skill-card">
+
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=900&q=85"
+                alt="Dropshipping ecommerce"
+              >
+
+              <div class="skill-content">
+                <h4>Dropshipping</h4>
+                <p>Learn ecommerce, online stores and product selling.</p>
+
+                <div class="price-row">
+                  <span class="price">$3 – $11</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+
+            </article>
+
+          </div>
+
+        </div>
+
+
+        <!-- MEDIUM -->
+
+        <div class="level-section" style="margin-top: 80px;">
+
+          <div class="level-header">
+            <div>
+              <h3>Medium Level</h3>
+              <p>Develop professional and technical skills.</p>
+            </div>
+          </div>
+
+
+          <div class="skill-grid">
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=85"
+                alt="Forex trading"
+              >
+              <div class="skill-content">
+                <h4>FX</h4>
+                <p>Learn the foundations of foreign exchange markets.</p>
+                <div class="price-row">
+                  <span class="price">$5 – $20</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=900&q=85"
+                alt="Cryptocurrency"
+              >
+              <div class="skill-content">
+                <h4>Crypto</h4>
+                <p>Understand blockchain and cryptocurrency concepts.</p>
+                <div class="price-row">
+                  <span class="price">$5 – $20</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85"
+                alt="Data analysis"
+              >
+              <div class="skill-content">
+                <h4>Data Analysis</h4>
+                <p>Turn data into useful information and decisions.</p>
+                <div class="price-row">
+                  <span class="price">$5 – $20</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=85"
+                alt="English learning"
+              >
+              <div class="skill-content">
+                <h4>English</h4>
+                <p>Improve communication and professional English skills.</p>
+                <div class="price-row">
+                  <span class="price">$5 – $20</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=85"
+                alt="Artificial intelligence"
+              >
+              <div class="skill-content">
+                <h4>AI Agent</h4>
+                <p>Explore intelligent AI workflows and automation.</p>
+                <div class="price-row">
+                  <span class="price">$5 – $20</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=85"
+                alt="Cybersecurity"
+              >
+              <div class="skill-content">
+                <h4>Cybersecurity</h4>
+                <p>Learn the foundations of digital security and protection.</p>
+                <div class="price-row">
+                  <span class="price">$5 – $20</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+        </div>
+
+
+        <!-- HIGH -->
+
+        <div class="level-section" style="margin-top: 80px;">
+
+          <div class="level-header">
+            <div>
+              <h3>High Level</h3>
+              <p>Advanced technology and development skills.</p>
+            </div>
+          </div>
+
+
+          <div class="skill-grid">
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=900&q=85"
+                alt="Python programming"
+              >
+              <div class="skill-content">
+                <h4>Python</h4>
+                <p>Build real applications and learn modern Python.</p>
+                <div class="price-row">
+                  <span class="price">$100 – $200</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&w=900&q=85"
+                alt="Java programming"
+              >
+              <div class="skill-content">
+                <h4>Java</h4>
+                <p>Learn programming fundamentals and Java development.</p>
+                <div class="price-row">
+                  <span class="price">$100 – $200</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=900&q=85"
+                alt="Web development"
+              >
+              <div class="skill-content">
+                <h4>Web Development</h4>
+                <p>Build modern websites and full web experiences.</p>
+                <div class="price-row">
+                  <span class="price">$100 – $200</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=900&q=85"
+                alt="AI web development"
+              >
+              <div class="skill-content">
+                <h4>AI Web</h4>
+                <p>Build web experiences powered by artificial intelligence.</p>
+                <div class="price-row">
+                  <span class="price">$100 – $200</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+
+            <article class="skill-card">
+              <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=900&q=85"
+                alt="AI app development"
+              >
+              <div class="skill-content">
+                <h4>AI App</h4>
+                <p>Learn how intelligent mobile applications are built.</p>
+                <div class="price-row">
+                  <span class="price">$100 – $200</span>
+                  <a href="#" class="learn-link">View Skill →</a>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================= COMPETITION ================= -->
+
+    <section class="competition" id="competition">
+
+      <div class="container">
+
+        <div class="competition-box">
+
+          <div class="section-heading">
+            <div class="small-title">
+              The Competition
+            </div>
+
+            <h2>
+              300 students. 6 final winners.
+            </h2>
+
+            <p>
+              Students progress through multiple competition rounds.
+              Each stage becomes more competitive until only the
+              final winners remain.
+            </p>
+          </div>
+
+
+          <div class="competition-flow">
+
+            <div class="round">
+              <div class="round-number">300</div>
+              <span>Start</span>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="round">
+              <div class="round-number">150</div>
+              <span>Round 1</span>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="round">
+              <div class="round-number">100</div>
+              <span>Round 2</span>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="round">
+              <div class="round-number">50</div>
+              <span>Round 3</span>
+            </div>
+
+            <div class="round">
+              <div class="round-number">25</div>
+              <span>Round 4</span>
+            </div>
+
+            <div class="round">
+              <div class="round-number">12</div>
+              <span>Round 5</span>
+            </div>
+
+            <div class="round">
+              <div class="round-number winner">6</div>
+              <span>Winners</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= TEACHERS ================= -->
+
+    <section id="teachers">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div class="small-title">
+            Learn from teachers
+          </div>
+
+          <h2>
+            Two teachers for every skill.
+          </h2>
+
+          <p>
+            Every skill will have two dedicated teachers who guide
+            students through lessons, projects and progress.
+          </p>
+
+        </div>
+
+
+        <div class="teachers-grid">
+
+          <div class="teacher-card">
+            <h4>Teacher One</h4>
+            <p>
+              Course instructor and student mentor.
+            </p>
+            <span class="teacher-skill">
+              Assigned Skill
+            </span>
+          </div>
+
+          <div class="teacher-card">
+            <h4>Teacher Two</h4>
+            <p>
+              Course instructor and student mentor.
+            </p>
+            <span class="teacher-skill">
+              Assigned Skill
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section id="about">
+
+      <div class="container">
+
+        <div class="cta-box">
+
+          <div class="section-heading" style="margin: 0 auto 30px; text-align:center;">
+
+            <div class="small-title">
+              Our mission
+            </div>
+
+            <h2>
+              Skills first. Progress always.
+            </h2>
+
+            <p>
+              Our platform is designed to help students learn
+              practical skills, work with teachers, complete
+              projects and compete through a structured system.
+            </p>
+
+          </div>
+
+          <a href="#skills" class="btn btn-primary">
+            Explore Skills
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer>
+
+    <div class="container footer-inner">
+
+      <div>
+        <div class="footer-logo">
+          SkillRise
+        </div>
+
+        <small>
+          Learn. Build. Compete.
+        </small>
+      </div>
+
+      <div class="footer-links">
+        <a href="#skills">Skills</a>
+        <a href="#competition">Competition</a>
+        <a href="#teachers">Teachers</a>
+        <a href="#about">About</a>
+        <a href="#">Login</a>
+      </div>
+
+      <div>
+        © 2026 SkillRise
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script>
+
+    // Smooth navigation
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+
+      link.addEventListener("click", function(event) {
+
+        const target = document.querySelector(this.getAttribute("href"));
+
+        if (target) {
+          event.preventDefault();
+
+          target.scrollIntoView({
+            behavior: "smooth"
+          });
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #16a34a;
+            --green-dark: #0b7a35;
+            --green-light: #22c55e;
+            --green-soft: #eaf8ef;
+
+            --bg: #f5f8f6;
+            --card: #ffffff;
+            --text: #122018;
+            --muted: #718078;
+            --border: #e4ebe6;
+
+            --red: #dc2626;
+            --red-soft: #fff0f0;
+
+            --shadow: 0 10px 30px rgba(15, 80, 40, .08);
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            padding: 25px 18px;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px 28px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+        }
+
+        .logo strong {
+            font-size: 19px;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            color: #9aa69f;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin: 12px 12px 8px;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 13px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #66736b;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            transition: .2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--green-soft);
+            color: var(--green-dark);
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 76px;
+            background: rgba(255,255,255,.94);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title h1 {
+            font-size: 21px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .student-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--green-soft);
+            border: 2px solid #bceacb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green-dark);
+            font-weight: 900;
+        }
+
+        .student-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .student-info span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .content {
+            padding: 30px 32px 60px;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        /* =========================
+           WELCOME
+        ========================= */
+
+        .welcome {
+            background:
+                radial-gradient(circle at 85% 20%, rgba(255,255,255,.20), transparent 25%),
+                linear-gradient(135deg, #087a35, #16a34a 55%, #20b85b);
+            color: white;
+            border-radius: 24px;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .welcome h2 {
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            opacity: .86;
+            font-size: 14px;
+        }
+
+        .welcome-badge {
+            background: rgba(255,255,255,.14);
+            border: 1px solid rgba(255,255,255,.22);
+            padding: 15px 20px;
+            border-radius: 16px;
+            text-align: center;
+            min-width: 160px;
+        }
+
+        .welcome-badge small {
+            display: block;
+            opacity: .8;
+            margin-bottom: 4px;
+        }
+
+        .welcome-badge strong {
+            font-size: 17px;
+        }
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 28px 0 15px;
+        }
+
+        .section-heading h2 {
+            font-size: 19px;
+        }
+
+        .section-heading p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.025);
+        }
+
+        .stat-card .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card h3 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* =========================
+           CURRENT SKILL
+        ========================= */
+
+        .current-skill {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 22px;
+            display: grid;
+            grid-template-columns: 210px 1fr;
+            gap: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .current-image {
+            height: 150px;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .current-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .skill-label {
+            display: inline-block;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 9px;
+        }
+
+        .current-info h3 {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .current-info p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .teacher {
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .teacher-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--green-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green-dark);
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .teacher span {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .teacher strong {
+            font-size: 12px;
+        }
+
+        /* =========================
+           SKILLS
+        ========================= */
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
+        }
+
+        .skill-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: .25s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-color: #c7e8d1;
+        }
+
+        .skill-image {
+            height: 135px;
+            overflow: hidden;
+        }
+
+        .skill-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .3s;
+        }
+
+        .skill-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .skill-body {
+            padding: 16px;
+        }
+
+        .group {
+            font-size: 10px;
+            font-weight: 900;
+            color: var(--green-dark);
+            text-transform: uppercase;
+            letter-spacing: .7px;
+        }
+
+        .skill-body h3 {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .skill-body p {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .skill-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 13px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .skill-footer span {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .open-btn {
+            border: 0;
+            background: var(--green);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        /* =========================
+           COMPETITION
+        ========================= */
+
+        .competition {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 18px;
+        }
+
+        .competition-card,
+        .upload-card,
+        .leaderboard-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 23px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.025);
+        }
+
+        .competition-card h3,
+        .upload-card h3,
+        .leaderboard-card h3 {
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .timer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .time-box {
+            background: var(--green-soft);
+            border-radius: 13px;
+            text-align: center;
+            padding: 13px 5px;
+        }
+
+        .time-box strong {
+            display: block;
+            color: var(--green-dark);
+            font-size: 23px;
+        }
+
+        .time-box span {
+            color: var(--muted);
+            font-size: 9px;
+            text-transform: uppercase;
+        }
+
+        .upload-box {
+            border: 2px dashed #cfe2d5;
+            background: #fbfefc;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .upload-icon {
+            width: 45px;
+            height: 45px;
+            margin: auto auto 10px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .upload-box h4 {
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .upload-box p {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .upload-btn {
+            margin-top: 14px;
+            border: 0;
+            background: var(--green);
+            color: white;
+            padding: 11px 20px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .upload-btn:disabled {
+            background: #cbd5ce;
+            cursor: not-allowed;
+        }
+
+        /* =========================
+           LEADERBOARD
+        ========================= */
+
+        .leaderboard-card {
+            margin-top: 18px;
+        }
+
+        .leaderboard-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 900;
+            color: var(--green-dark);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 0 4px #dff6e6;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            color: #87938c;
+            font-size: 10px;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #eef2ef;
+            font-size: 12px;
+        }
+
+        .rank {
+            font-weight: 900;
+        }
+
+        .student-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .small-avatar {
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            background: var(--green-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green-dark);
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 800;
+            font-size: 10px;
+        }
+
+        .status.green {
+            color: var(--green-dark);
+        }
+
+        .status.red {
+            color: var(--red);
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        .green .status-dot {
+            background: var(--green);
+        }
+
+        .red .status-dot {
+            background: var(--red);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media(max-width: 1100px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media(max-width: 850px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: .25s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+                border: 0;
+                background: var(--green-soft);
+                color: var(--green-dark);
+                width: 40px;
+                height: 40px;
+                border-radius: 11px;
+                cursor: pointer;
+                margin-right: 10px;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 22px 18px 50px;
+            }
+
+            .competition {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 560px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 9px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-card h3 {
+                font-size: 18px;
+            }
+
+            .welcome {
+                padding: 22px;
+                display: block;
+            }
+
+            .welcome h2 {
+                font-size: 22px;
+            }
+
+            .welcome-badge {
+                margin-top: 18px;
+                display: inline-block;
+            }
+
+            .current-skill {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .student-info {
+                display: none;
+            }
+
+            .page-title p {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">P</div>
+        <strong>Pro Skills</strong>
+    </div>
+
+    <div class="nav-title">Student</div>
+
+    <a href="#" class="nav-link active">
+        <span class="nav-icon">⌂</span>
+        Dashboard
+    </a>
+
+    <a href="#" class="nav-link">
+        <span class="nav-icon">▣</span>
+        My Skills
+    </a>
+
+    <a href="#" class="nav-link">
+        <span class="nav-icon">▶</span>
+        My Lessons
+    </a>
+
+    <a href="#" class="nav-link">
+        <span class="nav-icon">◈</span>
+        Competition
+    </a>
+
+    <a href="#" class="nav-link">
+        <span class="nav-icon">↗</span>
+        Leaderboard
+    </a>
+
+    <div class="nav-title">Account</div>
+
+    <a href="#" class="nav-link">
+        <span class="nav-icon">◎</span>
+        Profile
+    </a>
+
+    <a href="#" class="nav-link">
+        <span class="nav-icon">▤</span>
+        Payments
+    </a>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div style="display:flex;align-items:center;">
+
+            <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+
+            <div class="page-title">
+                <h1>Student Dashboard</h1>
+                <p>Your learning and competition center</p>
+            </div>
+
+        </div>
+
+        <div class="student-profile">
+
+            <div class="avatar">S</div>
+
+            <div class="student-info">
+                <strong>Student</strong>
+                <span>Student Account</span>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="content">
+
+
+        <!-- =========================
+             WELCOME
+        ========================= -->
+
+        <div class="welcome">
+
+            <div>
+                <h2>Welcome back 👋</h2>
+                <p>Continue learning, build your project and compete.</p>
+            </div>
+
+            <div class="welcome-badge">
+                <small>Account Status</small>
+                <strong>Active</strong>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STATS
+        ========================= -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <div class="stat-icon">◈</div>
+                <h3>—</h3>
+                <p>Current Skill</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">▣</div>
+                <h3>—</h3>
+                <p>Current Level</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">$</div>
+                <h3>—</h3>
+                <p>Total Paid</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">★</div>
+                <h3>—</h3>
+                <p>Competition Earnings</p>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             CURRENT SKILL
+        ========================= -->
+
+        <div class="section-heading">
+            <div>
+                <h2>My Current Skill</h2>
+                <p>Your selected learning path</p>
+            </div>
+        </div>
+
+        <div class="current-skill">
+
+            <div class="current-image">
+                <img
+                    src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=900&q=85"
+                    alt="Video Editing">
+            </div>
+
+            <div class="current-info">
+
+                <span class="skill-label">Student Skill</span>
+
+                <h3>—</h3>
+
+                <p>
+                    Your selected skill and level will appear here
+                    after your account data is connected to the database.
+                </p>
+
+                <div class="teacher">
+
+                    <div class="teacher-avatar">T</div>
+
+                    <div>
+                        <span>Teacher</span>
+                        <strong>—</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             17 SKILLS
+        ========================= -->
+
+        <div class="section-heading">
+
+            <div>
+                <h2>Explore Skills</h2>
+                <p>Choose your professional learning path</p>
+            </div>
+
+        </div>
+
+        <div class="skills-grid">
+
+
+            <!-- LOWER -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=85" alt="Video Editing">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Lower</span>
+                    <h3>Video Editing</h3>
+                    <p>Professional video editing and production.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=900&q=85" alt="Movie Recap">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Lower</span>
+                    <h3>Movie Recap</h3>
+                    <p>Learn movie storytelling and recap production.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=900&q=85" alt="Thumbnail">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Lower</span>
+                    <h3>Thumbnail</h3>
+                    <p>Create attractive digital thumbnails.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?auto=format&fit=crop&w=900&q=85" alt="Digital Marketing">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Lower</span>
+                    <h3>Digital Marketing</h3>
+                    <p>Learn modern digital marketing strategies.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=85" alt="Affiliate Marketing">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Lower</span>
+                    <h3>Affiliate Marketing</h3>
+                    <p>Build online affiliate marketing skills.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=85" alt="Dropshipping">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Lower</span>
+                    <h3>Dropshipping</h3>
+                    <p>Learn online store and e-commerce systems.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- MEDIUM -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=85" alt="FX">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Medium</span>
+                    <h3>FX</h3>
+                    <p>Learn financial markets and trading concepts.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=900&q=85" alt="Crypto">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Medium</span>
+                    <h3>Crypto</h3>
+                    <p>Understand blockchain and digital assets.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=85" alt="Cybersecurity">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Medium</span>
+                    <h3>Cybersecurity</h3>
+                    <p>Learn defensive security and digital protection.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=85" alt="AI Agent">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Medium</span>
+                    <h3>AI Agent</h3>
+                    <p>Build useful AI-powered agent systems.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=900&q=85" alt="English">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Medium</span>
+                    <h3>English</h3>
+                    <p>Develop practical English communication skills.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85" alt="Data Analysis">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">Medium</span>
+                    <h3>Data Analysis</h3>
+                    <p>Work with data, analysis and insights.</p>
+
+                    <div class="skill-footer">
+                        <span>3 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- HIGH -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=900&q=85" alt="Python">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">High</span>
+                    <h3>Python</h3>
+                    <p>Learn Python programming and development.</p>
+
+                    <div class="skill-footer">
+                        <span>2 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=900&q=85" alt="JavaScript">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">High</span>
+                    <h3>JavaScript</h3>
+                    <p>Build modern interactive web applications.</p>
+
+                    <div class="skill-footer">
+                        <span>2 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1676277791608-ac5e0c9a6a64?auto=format&fit=crop&w=900&q=85" alt="AI App">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">High</span>
+                    <h3>AI App</h3>
+                    <p>Create applications powered by artificial intelligence.</p>
+
+                    <div class="skill-footer">
+                        <span>2 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=900&q=85" alt="AI Web">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">High</span>
+                    <h3>AI Web</h3>
+                    <p>Develop modern websites with AI technology.</p>
+
+                    <div class="skill-footer">
+                        <span>2 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+                    <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=900&q=85" alt="Web Development">
+                </div>
+
+                <div class="skill-body">
+                    <span class="group">High</span>
+                    <h3>Web Development</h3>
+                    <p>Build complete professional web applications.</p>
+
+                    <div class="skill-footer">
+                        <span>2 Levels</span>
+                        <button class="open-btn">View</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             COMPETITION
+        ========================= -->
+
+        <div class="section-heading">
+            <div>
+                <h2>Competition</h2>
+                <p>Your competition and project submission</p>
+            </div>
+        </div>
+
+        <div class="competition">
+
+            <div class="competition-card">
+
+                <h3>Competition Timer</h3>
+
+                <p class="muted">
+                    The competition deadline will be loaded from the server.
+                </p>
+
+                <div class="timer">
+
+                    <div class="time-box">
+                        <strong id="days">—</strong>
+                        <span>Days</span>
+                    </div>
+
+                    <div class="time-box">
+                        <strong id="hours">—</strong>
+                        <span>Hours</span>
+                    </div>
+
+                    <div class="time-box">
+                        <strong id="minutes">—</strong>
+                        <span>Minutes</span>
+                    </div>
+
+                    <div class="time-box">
+                        <strong id="seconds">—</strong>
+                        <span>Seconds</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="upload-card">
+
+                <h3>Project Upload</h3>
+
+                <p class="muted">
+                    Upload opens automatically when the server
+                    reaches the official upload window.
+                </p>
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">↑</div>
+
+                    <h4>Project submission</h4>
+
+                    <p>
+                        Your upload status will be controlled by
+                        the competition deadline.
+                    </p>
+
+                    <button
+                        class="upload-btn"
+                        id="uploadButton"
+                        disabled>
+                        Upload Closed
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             LEADERBOARD
+        ========================= -->
+
+        <div class="leaderboard-card">
+
+            <div class="leaderboard-top">
+
+                <div>
+                    <h3>Live Leaderboard</h3>
+                    <p class="muted">
+                        Live competition ranking
+                    </p>
+                </div>
+
+                <div class="live">
+                    <span class="live-dot"></span>
+                    LIVE
+                </div>
+
+            </div>
+
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Rank</th>
+                            <th>Student</th>
+                            <th>Points</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="leaderboardBody">
+
+                        <!--
+                            Real leaderboard rows will be loaded
+                            from PostgreSQL through the backend.
+                        -->
+
+                        <tr>
+                            <td colspan="4"
+                                style="text-align:center;color:#87938c;padding:30px;">
+                                Waiting for live competition data...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    /* =========================
+       MOBILE SIDEBAR
+    ========================= */
+
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+    }
+
+
+    /* =========================
+       COMPETITION TIMER
+       =========================
+
+       IMPORTANT:
+       The real deadline will come from PostgreSQL/API.
+
+       Example backend response later:
+
+       {
+           "competition_start": "...",
+           "upload_start": "...",
+           "upload_deadline": "...",
+           "tie_break_start": "..."
+       }
+
+    */
+
+    let competitionDeadline = null;
+
+    function updateTimer() {
+
+        if (!competitionDeadline) {
+            document.getElementById("days").textContent = "—";
+            document.getElementById("hours").textContent = "—";
+            document.getElementById("minutes").textContent = "—";
+            document.getElementById("seconds").textContent = "—";
+            return;
+        }
+
+        const now = new Date().getTime();
+        const target = new Date(competitionDeadline).getTime();
+
+        let difference = target - now;
+
+        if (difference <= 0) {
+
+            document.getElementById("days").textContent = "0";
+            document.getElementById("hours").textContent = "0";
+            document.getElementById("minutes").textContent = "0";
+            document.getElementById("seconds").textContent = "0";
+
+            return;
+        }
+
+        const days = Math.floor(
+            difference / (1000 * 60 * 60 * 24)
+        );
+
+        difference %= (1000 * 60 * 60 * 24);
+
+        const hours = Math.floor(
+            difference / (1000 * 60 * 60)
+        );
+
+        difference %= (1000 * 60 * 60);
+
+        const minutes = Math.floor(
+            difference / (1000 * 60)
+        );
+
+        const seconds = Math.floor(
+            difference / 1000
+        );
+
+        document.getElementById("days").textContent = days;
+        document.getElementById("hours").textContent =
+            String(hours).padStart(2, "0");
+
+        document.getElementById("minutes").textContent =
+            String(minutes).padStart(2, "0");
+
+        document.getElementById("seconds").textContent =
+            String(seconds).padStart(2, "0");
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+
+    /* =========================
+       BACKEND CONNECTION
+       =========================
+
+       Later we will replace this with:
+
+       fetch("/api/student/dashboard")
+
+       and PostgreSQL data will populate:
+
+       - Student name
+       - Skill
+       - Level
+       - Teacher
+       - Payment
+       - Competition
+       - Timer
+       - Submission
+       - AI score
+       - Leaderboard
+
+    */
+
+</script>
+
+</body>
+</html>
