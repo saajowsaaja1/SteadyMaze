@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>SteadyMaze | Student Dashboard</title>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -15,520 +13,433 @@
 }
 
 :root{
-    --bg:#02050a;
-    --panel:rgba(9,16,25,.78);
-    --panel2:rgba(12,23,35,.72);
+    --bg:#02070b;
+    --panel:rgba(8,20,29,.82);
+    --panel2:rgba(10,28,39,.88);
     --green:#00e676;
-    --green2:#56ffb0;
-    --blue:#35a7ff;
-    --text:#f4f8ff;
-    --muted:#7d8d9d;
+    --green2:#65ffb2;
+    --blue:#29a9ff;
+    --white:#f4fbff;
+    --muted:#8293a1;
     --line:rgba(255,255,255,.08);
+    --danger:#ff5f67;
 }
 
 body{
     min-height:100vh;
-    color:var(--text);
+    color:var(--white);
     font-family:Arial,Helvetica,sans-serif;
-
     background:
-        radial-gradient(
-            circle at 10% 10%,
-            rgba(0,230,118,.14),
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 90% 20%,
-            rgba(53,167,255,.14),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 50% 90%,
-            rgba(0,230,118,.08),
-            transparent 35%
-        ),
-        #02050a;
+        radial-gradient(circle at 8% 5%,rgba(0,230,118,.15),transparent 28%),
+        radial-gradient(circle at 92% 8%,rgba(41,169,255,.17),transparent 30%),
+        radial-gradient(circle at 55% 100%,rgba(0,230,118,.08),transparent 35%),
+        var(--bg);
 }
 
+button{
+    font-family:inherit;
+}
 
-/* =========================
-   SIDEBAR
-========================= */
+/* SIDEBAR */
 
 .sidebar{
     position:fixed;
     left:0;
     top:0;
     bottom:0;
-
-    width:250px;
-
-    padding:25px 18px;
-
-    background:
-        rgba(3,9,14,.82);
-
-    backdrop-filter:blur(22px);
-
+    width:245px;
+    padding:28px 17px;
+    background:rgba(2,10,16,.88);
     border-right:1px solid var(--line);
-
+    backdrop-filter:blur(25px);
     z-index:20;
 }
 
 .logo{
+    padding:0 12px;
+    margin-bottom:42px;
     font-size:25px;
     font-weight:900;
-
-    padding:0 10px;
-
-    margin-bottom:40px;
 }
 
 .logo span{
     color:var(--green);
 }
 
-.menu-label{
-    color:#526272;
-
+.menu-title{
+    padding:0 12px;
+    margin-bottom:10px;
+    color:#5d7180;
     font-size:8px;
     font-weight:900;
-
     letter-spacing:2px;
-
-    padding:0 12px;
-
-    margin-bottom:12px;
 }
 
-.menu a{
-    display:block;
-
-    padding:13px 13px;
-
+.menu button{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#8496a4;
+    text-align:left;
+    padding:13px 12px;
     margin-bottom:5px;
-
-    border-radius:10px;
-
-    color:#8393a3;
-
-    text-decoration:none;
-
+    border-radius:11px;
     font-size:10px;
     font-weight:800;
-
+    cursor:pointer;
     transition:.2s;
 }
 
-.menu a:hover,
-.menu a.active{
+.menu button:hover,
+.menu button.active{
     color:var(--green);
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(0,230,118,.12),
-            rgba(53,167,255,.05)
-        );
-
-    border:1px solid
-        rgba(0,230,118,.08);
+    background:linear-gradient(
+        90deg,
+        rgba(0,230,118,.13),
+        rgba(41,169,255,.05)
+    );
 }
 
-
-/* =========================
-   MAIN
-========================= */
+/* MAIN */
 
 .main{
-    margin-left:250px;
-
-    padding:30px 35px;
-
-    min-height:100vh;
+    margin-left:245px;
+    padding:30px;
 }
-
-
-/* =========================
-   TOPBAR
-========================= */
 
 .topbar{
     display:flex;
-
     justify-content:space-between;
     align-items:center;
-
-    margin-bottom:28px;
+    margin-bottom:25px;
 }
 
-.title h1{
-    font-size:28px;
+.topbar h1{
+    font-size:29px;
     font-weight:900;
 }
 
-.title p{
+.topbar p{
     margin-top:7px;
-
     color:var(--muted);
-
     font-size:10px;
 }
 
 .profile{
-    width:42px;
-    height:42px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
+    width:46px;
+    height:46px;
     border-radius:50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--green),
-            var(--blue)
-        );
-
-    color:#00140b;
-
+    border:1px solid rgba(0,230,118,.3);
+    background:linear-gradient(135deg,var(--green),var(--blue));
+    color:#00170c;
     font-weight:900;
+    cursor:pointer;
 }
 
-
-/* =========================
-   STAT CARDS
-========================= */
+/* STATS */
 
 .stats{
     display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
+    grid-template-columns:repeat(4,1fr);
     gap:14px;
-
     margin-bottom:20px;
 }
 
 .stat{
     padding:20px;
-
     border:1px solid var(--line);
-
     border-radius:17px;
-
     background:var(--panel);
-
     backdrop-filter:blur(20px);
-
-    box-shadow:
-        0 20px 60px
-        rgba(0,0,0,.18);
 }
 
-.stat-label{
-    color:#718294;
-
+.stat small{
+    color:#718492;
     font-size:8px;
     font-weight:900;
-
     letter-spacing:1px;
 }
 
-.stat-number{
-    margin-top:10px;
-
+.stat strong{
+    display:block;
+    margin-top:9px;
     color:var(--green);
-
     font-size:27px;
-    font-weight:900;
 }
 
-.stat-note{
+.stat span{
+    display:block;
     margin-top:5px;
-
-    color:#536271;
-
+    color:#5d7180;
     font-size:8px;
 }
 
+/* TIMELINE */
 
-/* =========================
-   COMPETITION TIMER
-========================= */
-
-.competition{
-    padding:25px;
-
+.timeline-card{
     margin-bottom:20px;
-
+    padding:24px;
+    border:1px solid var(--line);
     border-radius:20px;
-
-    border:1px solid
-        rgba(0,230,118,.14);
-
     background:
         linear-gradient(
             135deg,
             rgba(0,230,118,.08),
-            rgba(53,167,255,.07)
+            rgba(41,169,255,.08)
         ),
         var(--panel);
-
-    backdrop-filter:blur(22px);
+    backdrop-filter:blur(25px);
 }
 
-.competition-top{
+.timeline-head{
     display:flex;
-
     justify-content:space-between;
-    align-items:center;
+    align-items:flex-start;
+    gap:20px;
 }
 
-.comp-label{
+.timeline-label{
     color:var(--green);
-
     font-size:8px;
     font-weight:900;
-
     letter-spacing:2px;
 }
 
-.comp-stage{
-    margin-top:10px;
-
-    font-size:22px;
+.timeline-title{
+    margin-top:8px;
+    font-size:21px;
     font-weight:900;
 }
 
-.comp-description{
+.timeline-text{
     margin-top:7px;
-
     color:var(--muted);
-
     font-size:9px;
+}
+
+.status-pill{
+    padding:9px 13px;
+    border-radius:20px;
+    color:var(--green);
+    background:rgba(0,230,118,.09);
+    border:1px solid rgba(0,230,118,.15);
+    font-size:8px;
+    font-weight:900;
+}
+
+.steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:23px;
+}
+
+.step{
+    position:relative;
+    padding:14px;
+    border-radius:12px;
+    background:rgba(0,0,0,.22);
+    border:1px solid var(--line);
+}
+
+.step.active{
+    border-color:rgba(0,230,118,.35);
+    box-shadow:0 0 20px rgba(0,230,118,.07);
+}
+
+.step-number{
+    color:#657887;
+    font-size:8px;
+    font-weight:900;
+}
+
+.step.active .step-number{
+    color:var(--green);
+}
+
+.step-name{
+    margin-top:7px;
+    font-size:9px;
+    font-weight:900;
+}
+
+.step-date{
+    margin-top:5px;
+    color:#627482;
+    font-size:7px;
 }
 
 .timer{
     display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
+    grid-template-columns:repeat(4,1fr);
     gap:10px;
-
-    margin-top:20px;
+    margin-top:18px;
 }
 
-.time-box{
-    padding:16px;
-
+.time{
+    padding:13px;
     text-align:center;
-
-    background:
-        rgba(2,6,10,.75);
-
+    border-radius:10px;
+    background:rgba(0,0,0,.27);
     border:1px solid var(--line);
-
-    border-radius:12px;
 }
 
-.time-number{
+.time strong{
+    display:block;
     color:var(--green);
-
-    font-size:27px;
-    font-weight:900;
+    font-size:24px;
 }
 
-.time-label{
-    margin-top:5px;
-
-    color:#607080;
-
+.time span{
+    color:#607381;
     font-size:7px;
     font-weight:900;
-
-    letter-spacing:1px;
 }
 
+/* UPLOAD / PAYMENT */
 
-/* =========================
-   UPLOAD
-========================= */
+.action-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-bottom:30px;
+}
 
-.upload{
+.action-card{
+    padding:20px;
+    border-radius:17px;
+    background:var(--panel);
+    border:1px solid var(--line);
+}
+
+.action-card h3{
+    font-size:12px;
+}
+
+.action-card p{
+    margin-top:6px;
+    color:var(--muted);
+    font-size:8px;
+    line-height:1.6;
+}
+
+.action-row{
     display:flex;
-
     justify-content:space-between;
     align-items:center;
-
-    gap:20px;
-
-    padding:20px;
-
-    margin-bottom:20px;
-
-    border-radius:17px;
-
-    background:var(--panel);
-
-    border:1px solid var(--line);
-
-    backdrop-filter:blur(20px);
+    gap:15px;
+    margin-top:15px;
 }
 
-.upload-title{
-    font-size:12px;
-    font-weight:900;
-}
-
-.upload-info{
-    margin-top:7px;
-
-    color:var(--muted);
-
-    font-size:8px;
-}
-
-.upload-button{
-    padding:12px 18px;
-
+.btn{
     border:0;
-
     border-radius:10px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--green),
-            var(--green2)
-        );
-
-    color:#00170c;
-
+    padding:11px 17px;
     font-size:8px;
     font-weight:900;
-
     cursor:pointer;
+    transition:.2s;
 }
 
-.upload-button:disabled{
-    background:#17212b;
+.btn:hover{
+    transform:translateY(-2px);
+}
 
-    color:#536271;
+.green{
+    color:#00170c;
+    background:linear-gradient(135deg,var(--green),var(--green2));
+}
 
+.blue{
+    color:white;
+    background:linear-gradient(135deg,#147dff,var(--blue));
+}
+
+.dark{
+    color:white;
+    background:#14232e;
+    border:1px solid var(--line);
+}
+
+.disabled{
+    opacity:.45;
     cursor:not-allowed;
+    transform:none!important;
 }
 
-
-/* =========================
-   SECTION
-========================= */
+/* SECTION */
 
 .section{
-    margin-top:28px;
+    margin-top:30px;
 }
 
 .section-head{
     display:flex;
-
     justify-content:space-between;
     align-items:center;
-
     margin-bottom:15px;
 }
 
 .section-head h2{
-    font-size:17px;
+    font-size:19px;
 }
 
 .section-head span{
-    color:var(--muted);
-
+    color:#657887;
     font-size:8px;
 }
 
+/* SKILLS */
 
-/* =========================
-   SKILL GROUP
-========================= */
-
-.group-title{
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    margin:22px 0 12px;
+.group{
+    margin-bottom:28px;
 }
 
-.group-title strong{
+.group-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:13px;
+}
+
+.group-head h3{
     font-size:12px;
 }
 
-.group-title span{
-    color:#617182;
-
+.group-head span{
+    color:#647787;
     font-size:8px;
 }
 
-
-/* =========================
-   SKILL CARDS
-========================= */
-
-.skills-grid{
+.skills{
     display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
+    grid-template-columns:repeat(3,1fr);
     gap:15px;
 }
 
-.skill-card{
+.skill{
     overflow:hidden;
-
-    border-radius:16px;
-
+    border-radius:17px;
+    background:var(--panel);
     border:1px solid var(--line);
-
-    background:
-        rgba(8,16,25,.78);
-
-    backdrop-filter:blur(18px);
-
-    transition:
-        transform .2s,
-        border-color .2s;
-
     cursor:pointer;
+    transition:.25s;
 }
 
-.skill-card:hover{
-    transform:translateY(-4px);
-
-    border-color:
-        rgba(0,230,118,.25);
+.skill:hover{
+    transform:translateY(-5px);
+    border-color:rgba(0,230,118,.28);
+    box-shadow:0 12px 35px rgba(0,0,0,.25);
 }
 
-.skill-image{
-    width:100%;
-
-    height:155px;
-
-    object-fit:cover;
-
+.skill img{
     display:block;
-
-    background:#081019;
+    width:100%;
+    height:165px;
+    object-fit:cover;
 }
 
-.skill-content{
+.skill-body{
     padding:15px;
 }
 
@@ -539,309 +450,226 @@ body{
 
 .skill-level{
     margin-top:6px;
-
     color:var(--green);
-
     font-size:8px;
     font-weight:900;
 }
 
 .skill-teacher{
     margin-top:7px;
-
-    color:#657585;
-
+    color:#647887;
     font-size:8px;
 }
 
-.view-skill{
-    display:block;
-
+.skill button{
+    width:100%;
     margin-top:13px;
-
     padding:10px;
-
-    text-align:center;
-
+    border:0;
     border-radius:8px;
-
-    background:
-        rgba(0,230,118,.07);
-
     color:var(--green);
-
+    background:rgba(0,230,118,.08);
     font-size:8px;
     font-weight:900;
+    cursor:pointer;
 }
 
+/* LEADERBOARD */
 
-/* =========================
-   LOWER / MEDIUM / HIGH
-   LEADERBOARDS
-========================= */
-
-.leaderboards{
+.boards{
     display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:18px;
+    grid-template-columns:repeat(3,1fr);
+    gap:17px;
 }
 
-.leaderboard{
-    min-width:0;
-
-    border-radius:18px;
-
+.board{
     overflow:hidden;
-
-    background:
-        rgba(7,14,22,.82);
-
+    border-radius:18px;
+    background:var(--panel);
     border:1px solid var(--line);
-
-    backdrop-filter:blur(20px);
 }
 
-.lb-header{
+.board-head{
     padding:18px;
-
     border-bottom:1px solid var(--line);
 }
 
-.lb-header h3{
+.board-head h3{
     font-size:12px;
 }
 
-.lb-header p{
+.board-head p{
     margin-top:5px;
-
-    color:#657585;
-
+    color:#647887;
     font-size:8px;
 }
 
-.lb-scroll{
-    max-height:470px;
-
+.rows{
+    height:460px;
     overflow-y:auto;
 }
 
-.lb-row{
+.row{
     display:grid;
-
-    grid-template-columns:
-        45px 1fr 70px 65px;
-
+    grid-template-columns:43px 1fr 55px 55px;
     align-items:center;
-
-    gap:8px;
-
-    min-width:390px;
-
-    padding:11px 14px;
-
-    border-bottom:1px solid
-        rgba(255,255,255,.04);
+    gap:7px;
+    padding:9px 12px;
+    border-bottom:1px solid rgba(255,255,255,.035);
+    cursor:pointer;
 }
 
-.lb-number{
-    color:#738292;
-
-    font-size:9px;
-    font-weight:900;
+.row:hover{
+    background:rgba(0,230,118,.04);
 }
 
-.lb-space{
-    height:30px;
-
-    border-radius:7px;
-
-    background:
-        rgba(255,255,255,.025);
-
-    border:1px solid
-        rgba(255,255,255,.04);
-}
-
-.lb-result{
-    color:var(--green);
-
-    font-size:9px;
-    font-weight:900;
-
-    text-align:right;
-}
-
-.lb-level{
-    color:#65829c;
-
+.rank{
+    color:#687b89;
     font-size:8px;
-
-    text-align:right;
+    font-weight:900;
 }
 
+.name-space{
+    height:27px;
+    border-radius:7px;
+    background:rgba(255,255,255,.025);
+    border:1px solid rgba(255,255,255,.035);
+}
 
-/* =========================
-   SKILL DETAIL MODAL
-========================= */
+.result{
+    color:var(--green);
+    text-align:right;
+    font-size:8px;
+    font-weight:900;
+}
+
+.level{
+    color:#658097;
+    text-align:right;
+    font-size:8px;
+}
+
+/* MODAL */
 
 .modal{
     position:fixed;
-
     inset:0;
-
     display:none;
-
     align-items:center;
     justify-content:center;
-
     padding:20px;
-
-    background:
-        rgba(0,0,0,.72);
-
-    backdrop-filter:blur(12px);
-
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(14px);
     z-index:100;
 }
 
-.modal.active{
+.modal.show{
     display:flex;
 }
 
-.modal-card{
+.modal-box{
     width:100%;
-    max-width:650px;
-
+    max-width:680px;
     max-height:90vh;
-
     overflow-y:auto;
-
-    padding:25px;
-
+    padding:24px;
     border-radius:20px;
-
-    background:
-        rgba(8,17,27,.95);
-
+    background:rgba(6,17,26,.97);
     border:1px solid var(--line);
-
-    box-shadow:
-        0 30px 100px
-        rgba(0,0,0,.6);
 }
 
-.modal-image{
+.modal-box img{
     width:100%;
-
-    height:260px;
-
+    height:270px;
     object-fit:cover;
-
     border-radius:14px;
-
-    margin-bottom:20px;
+    margin-bottom:17px;
 }
 
-.modal-card h2{
-    font-size:22px;
+.modal-box h2{
+    font-size:23px;
 }
 
-.modal-level{
-    margin-top:8px;
-
-    color:var(--green);
-
-    font-size:9px;
-    font-weight:900;
-}
-
-.modal-intro{
-    margin-top:15px;
-
-    color:#94a2b1;
-
+.modal-box p{
+    margin-top:11px;
+    color:#899aa8;
     font-size:10px;
-
     line-height:1.8;
 }
 
 .levels{
     display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
+    grid-template-columns:repeat(3,1fr);
     gap:10px;
-
     margin-top:20px;
 }
 
-.level{
+.level-btn{
     padding:15px;
-
-    border-radius:11px;
-
-    background:
-        rgba(255,255,255,.025);
-
     border:1px solid var(--line);
-}
-
-.level strong{
-    display:block;
-
+    border-radius:10px;
+    background:#0b1721;
     color:var(--green);
-
-    font-size:10px;
+    font-size:9px;
+    font-weight:900;
+    cursor:pointer;
 }
 
-.level span{
-    display:block;
-
-    margin-top:6px;
-
-    color:#647485;
-
-    font-size:8px;
+.level-btn:hover{
+    background:rgba(0,230,118,.08);
 }
 
 .close{
     width:100%;
-
-    margin-top:20px;
-
+    margin-top:17px;
     padding:12px;
-
     border:0;
-
     border-radius:10px;
-
-    background:#17212b;
-
-    color:#dbe7f0;
-
+    background:#15242f;
+    color:white;
     cursor:pointer;
+}
 
-    font-size:9px;
+/* FORM */
+
+.form-group{
+    margin-top:14px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    color:#728594;
+    font-size:8px;
     font-weight:900;
 }
 
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width:100%;
+    padding:12px;
+    border-radius:9px;
+    outline:none;
+    border:1px solid var(--line);
+    background:#09151e;
+    color:white;
+}
 
-/* =========================
-   RESPONSIVE
-========================= */
+.form-group textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+/* RESPONSIVE */
 
 @media(max-width:1200px){
 
-    .skills-grid{
-        grid-template-columns:
-            repeat(2,1fr);
+    .skills{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .leaderboards{
+    .boards{
         grid-template-columns:1fr;
     }
 }
@@ -849,36 +677,32 @@ body{
 @media(max-width:950px){
 
     .sidebar{
-        width:80px;
+        width:75px;
     }
 
     .logo{
         font-size:0;
-
-        text-align:center;
     }
 
     .logo span{
         font-size:20px;
     }
 
-    .menu-label{
+    .menu-title{
         display:none;
     }
 
-    .menu a{
-        font-size:0;
-
+    .menu button{
         text-align:center;
+        font-size:0;
     }
 
     .main{
-        margin-left:80px;
+        margin-left:75px;
     }
 
     .stats{
-        grid-template-columns:
-            repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 }
 
@@ -890,42 +714,35 @@ body{
 
     .main{
         margin-left:0;
-
-        padding:20px 14px;
+        padding:17px 12px;
     }
 
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .skills-grid{
+    .skills{
         grid-template-columns:1fr;
+    }
+
+    .action-grid{
+        grid-template-columns:1fr;
+    }
+
+    .steps{
+        grid-template-columns:1fr 1fr;
     }
 
     .timer{
         grid-template-columns:1fr 1fr;
     }
 
-    .upload{
+    .timeline-head{
         flex-direction:column;
-        align-items:stretch;
-    }
-
-    .upload-button{
-        width:100%;
     }
 }
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =========================
-     SIDEBAR
-========================= -->
+<!-- ================= SIDEBAR ================= -->
 
 <aside class="sidebar">
 
@@ -933,170 +750,139 @@ body{
         Steady<span>Maze</span>
     </div>
 
-    <div class="menu-label">
+    <div class="menu-title">
         STUDENT
     </div>
 
     <nav class="menu">
 
-        <a href="#" class="active">
+        <button class="active" onclick="scrollToId('dashboard')">
             ◉ Dashboard
-        </a>
+        </button>
 
-        <a href="#skills">
+        <button onclick="scrollToId('skills')">
             ◇ My Skills
-        </a>
+        </button>
 
-        <a href="#competition">
+        <button onclick="scrollToId('competition')">
             ★ Competition
-        </a>
+        </button>
 
-        <a href="#leaderboard">
-            ▣ Leaderboards
-        </a>
+        <button onclick="scrollToId('leaderboard')">
+            ▣ Leaderboard
+        </button>
+
+        <button onclick="openProfile()">
+            ● Profile
+        </button>
 
     </nav>
 
 </aside>
 
 
-<!-- =========================
-     MAIN
-========================= -->
+<!-- ================= MAIN ================= -->
 
-<main class="main">
+<main class="main" id="dashboard">
 
+    <header class="topbar">
 
-    <!-- TOPBAR -->
-
-    <div class="topbar">
-
-        <div class="title">
-
-            <h1>
-                Student Dashboard
-            </h1>
-
+        <div>
+            <h1>Student Dashboard</h1>
             <p>
-                Learn skills, build projects and compete.
+                Learn digital skills, build projects and compete.
             </p>
-
         </div>
 
-        <div class="profile">
+        <button class="profile" onclick="openProfile()">
             S
-        </div>
+        </button>
 
-    </div>
+    </header>
 
 
-    <!-- =========================
-         STATS
-    ========================= -->
+    <!-- STATS -->
 
     <section class="stats">
 
         <div class="stat">
-
-            <div class="stat-label">
-                ACCOUNT BALANCE
-            </div>
-
-            <div class="stat-number">
-                00
-            </div>
-
-            <div class="stat-note">
-                Database connected later
-            </div>
-
+            <small>BALANCE</small>
+            <strong>00</strong>
+            <span>Database controlled</span>
         </div>
 
-
         <div class="stat">
-
-            <div class="stat-label">
-                TOTAL PAYMENT
-            </div>
-
-            <div class="stat-number">
-                00
-            </div>
-
-            <div class="stat-note">
-                Payment account
-            </div>
-
+            <small>PAYMENT ACCOUNT</small>
+            <strong>00</strong>
+            <span>Payment status</span>
         </div>
 
-
         <div class="stat">
-
-            <div class="stat-label">
-                COURSES
-            </div>
-
-            <div class="stat-number">
-                00
-            </div>
-
-            <div class="stat-note">
-                Courses completed
-            </div>
-
+            <small>COURSES COMPLETED</small>
+            <strong>00</strong>
+            <span>Learning progress</span>
         </div>
 
-
         <div class="stat">
-
-            <div class="stat-label">
-                COMPETITION POINTS
-            </div>
-
-            <div class="stat-number">
-                00
-            </div>
-
-            <div class="stat-note">
-                Current result
-            </div>
-
+            <small>COMPETITION SCORE</small>
+            <strong>00</strong>
+            <span>Current result</span>
         </div>
 
     </section>
 
 
-    <!-- =========================
-         COMPETITION
-    ========================= -->
+    <!-- TIMELINE -->
 
-    <section
-        class="competition"
-        id="competition"
-    >
+    <section class="timeline-card" id="competition">
 
-        <div class="competition-top">
+        <div class="timeline-head">
 
             <div>
-
-                <div class="comp-label">
-                    COMPETITION
+                <div class="timeline-label">
+                    STEADYMAZE COMPETITION
                 </div>
 
-                <div
-                    class="comp-stage"
-                    id="stageName"
-                >
+                <div class="timeline-title" id="stageTitle">
                     LEARNING PERIOD
                 </div>
 
-                <div
-                    class="comp-description"
-                    id="stageDescription"
-                >
-                    Complete your learning period before project submission opens.
+                <div class="timeline-text" id="stageText">
+                    Students are currently in the learning period.
                 </div>
+            </div>
 
+            <div class="status-pill" id="statusPill">
+                ACTIVE
+            </div>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step active" id="step1">
+                <div class="step-number">01</div>
+                <div class="step-name">LEARNING</div>
+                <div class="step-date">7 DAYS</div>
+            </div>
+
+            <div class="step" id="step2">
+                <div class="step-number">02</div>
+                <div class="step-name">PROJECT UPLOAD</div>
+                <div class="step-date">SUBMISSION WINDOW</div>
+            </div>
+
+            <div class="step" id="step3">
+                <div class="step-number">03</div>
+                <div class="step-name">REVIEW</div>
+                <div class="step-date">AI + TEACHER REVIEW</div>
+            </div>
+
+            <div class="step" id="step4">
+                <div class="step-number">04</div>
+                <div class="step-name">TIE BREAK</div>
+                <div class="step-date">IF REQUIRED</div>
             </div>
 
         </div>
@@ -1104,66 +890,86 @@ body{
 
         <div class="timer">
 
-            <div class="time-box">
+            <div class="time">
+                <strong id="days">07</strong>
+                <span>DAYS</span>
+            </div>
 
-                <div
-                    class="time-number"
-                    id="days"
+            <div class="time">
+                <strong id="hours">00</strong>
+                <span>HOURS</span>
+            </div>
+
+            <div class="time">
+                <strong id="minutes">00</strong>
+                <span>MINUTES</span>
+            </div>
+
+            <div class="time">
+                <strong id="seconds">00</strong>
+                <span>SECONDS</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ACTIONS -->
+
+    <section class="action-grid">
+
+        <div class="action-card">
+
+            <h3>Project Upload</h3>
+
+            <p id="uploadText">
+                Upload will be controlled by the competition schedule.
+            </p>
+
+            <div class="action-row">
+
+                <span
+                    class="status-pill"
+                    id="uploadStatus"
                 >
-                    07
-                </div>
+                    CLOSED
+                </span>
 
-                <div class="time-label">
-                    DAYS
-                </div>
+                <button
+                    class="btn green disabled"
+                    id="uploadBtn"
+                    onclick="openUpload()"
+                >
+                    UPLOAD PROJECT
+                </button>
 
             </div>
 
+        </div>
 
-            <div class="time-box">
 
-                <div
-                    class="time-number"
-                    id="hours"
+        <div class="action-card">
+
+            <h3>Payments</h3>
+
+            <p>
+                Payment status and payment periods will be controlled
+                by the backend and database.
+            </p>
+
+            <div class="action-row">
+
+                <span class="status-pill">
+                    PAYMENT
+                </span>
+
+                <button
+                    class="btn blue"
+                    onclick="openPayment()"
                 >
-                    00
-                </div>
-
-                <div class="time-label">
-                    HOURS
-                </div>
-
-            </div>
-
-
-            <div class="time-box">
-
-                <div
-                    class="time-number"
-                    id="minutes"
-                >
-                    00
-                </div>
-
-                <div class="time-label">
-                    MINUTES
-                </div>
-
-            </div>
-
-
-            <div class="time-box">
-
-                <div
-                    class="time-number"
-                    id="seconds"
-                >
-                    00
-                </div>
-
-                <div class="time-label">
-                    SECONDS
-                </div>
+                    PAYMENT ACCOUNT
+                </button>
 
             </div>
 
@@ -1172,894 +978,116 @@ body{
     </section>
 
 
-    <!-- =========================
-         UPLOAD
-    ========================= -->
+    <!-- SKILLS -->
 
-    <section class="upload">
-
-        <div>
-
-            <div class="upload-title">
-                Project Submission
-            </div>
-
-            <div
-                class="upload-info"
-                id="uploadInfo"
-            >
-                Upload is currently closed.
-            </div>
-
-        </div>
-
-
-        <button
-            class="upload-button"
-            id="uploadButton"
-            disabled
-        >
-            UPLOAD PROJECT
-        </button>
-
-    </section>
-
-
-    <!-- =========================
-         SKILLS
-    ========================= -->
-
-    <section
-        class="section"
-        id="skills"
-    >
+    <section class="section" id="skills">
 
         <div class="section-head">
 
-            <h2>
-                17 Digital Skills
-            </h2>
+            <h2>Digital Skills</h2>
 
             <span>
-                6 Lower · 6 Medium · 5 High
+                17 SKILLS
             </span>
 
         </div>
 
-
-        <!-- LOWER -->
-
-        <div class="group-title">
-
-            <strong>
-                LOWER
-            </strong>
-
-            <span>
-                6 Skills
-            </span>
-
-        </div>
-
-
-        <div class="skills-grid">
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Video Editing','Lower','images/video-editing.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/video-editing.jpg"
-                    alt="Video Editing"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Video Editing
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Movie Recap','Lower','images/movie-recap.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/movie-recap.jpg"
-                    alt="Movie Recap"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Movie Recap
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Thumbnail Design','Lower','images/thumbnail.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/thumbnail.jpg"
-                    alt="Thumbnail Design"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Thumbnail Design
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Digital Marketing','Lower','images/digital-marketing.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/digital-marketing.jpg"
-                    alt="Digital Marketing"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Digital Marketing
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Affiliate Marketing','Lower','images/affiliate-marketing.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/affiliate-marketing.jpg"
-                    alt="Affiliate Marketing"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Affiliate Marketing
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Dropshipping','Lower','images/dropshipping.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/dropshipping.jpg"
-                    alt="Dropshipping"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Dropshipping
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- MEDIUM -->
-
-        <div class="group-title">
-
-            <strong>
-                MEDIUM
-            </strong>
-
-            <span>
-                6 Skills
-            </span>
-
-        </div>
-
-
-        <div class="skills-grid">
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Forex','Medium','images/forex.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/forex.jpg"
-                    alt="Forex"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Forex
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Crypto','Medium','images/crypto.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/crypto.jpg"
-                    alt="Crypto"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Crypto
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Cybersecurity','Medium','images/cybersecurity.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/cybersecurity.jpg"
-                    alt="Cybersecurity"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Cybersecurity
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('AI Agent','Medium','images/ai-agent.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/ai-agent.jpg"
-                    alt="AI Agent"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        AI Agent
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('English','Medium','images/english.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/english.jpg"
-                    alt="English"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        English
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Data Analysis','Medium','images/data-analysis.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/data-analysis.jpg"
-                    alt="Data Analysis"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Data Analysis
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- HIGH -->
-
-        <div class="group-title">
-
-            <strong>
-                HIGH
-            </strong>
-
-            <span>
-                5 Skills
-            </span>
-
-        </div>
-
-
-        <div class="skills-grid">
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Python','High','images/python.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/python.jpg"
-                    alt="Python"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Python
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('JavaScript','High','images/javascript.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/javascript.jpg"
-                    alt="JavaScript"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        JavaScript
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('AI App Development','High','images/ai-app.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/ai-app.jpg"
-                    alt="AI App Development"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        AI App Development
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('AI Web','High','images/ai-web.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/ai-web.jpg"
-                    alt="AI Web"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        AI Web
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="skill-card"
-                onclick="openSkill('Web Development','High','images/web-development.jpg')"
-            >
-
-                <img
-                    class="skill-image"
-                    src="images/web-development.jpg"
-                    alt="Web Development"
-                >
-
-                <div class="skill-content">
-
-                    <div class="skill-name">
-                        Web Development
-                    </div>
-
-                    <div class="skill-level">
-                        LEVEL 1 · LEVEL 2 · LEVEL 3
-                    </div>
-
-                    <div class="skill-teacher">
-                        Teacher assignment available
-                    </div>
-
-                    <div class="view-skill">
-                        VIEW SKILL
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
+        <div id="skillContainer"></div>
 
     </section>
 
 
-    <!-- =========================
-         LEADERBOARDS
-    ========================= -->
+    <!-- LEADERBOARD -->
 
-    <section
-        class="section"
-        id="leaderboard"
-    >
+    <section class="section" id="leaderboard">
 
         <div class="section-head">
 
-            <h2>
-                Competition Leaderboards
-            </h2>
+            <h2>Live Competition</h2>
 
             <span>
-                300 Students Per Group
+                300 STUDENTS PER GROUP
             </span>
 
         </div>
 
+        <div class="boards">
 
-        <div class="leaderboards">
+            <div class="board">
 
-
-            <!-- LOWER -->
-
-            <div class="leaderboard">
-
-                <div class="lb-header">
-
-                    <h3>
-                        LOWER
-                    </h3>
-
-                    <p>
-                        300 students · 6 winners
-                    </p>
-
+                <div class="board-head">
+                    <h3>LOWER</h3>
+                    <p>300 students · 6 winners</p>
                 </div>
 
-
-                <div
-                    class="lb-scroll"
-                    id="lowerBoard"
-                ></div>
+                <div class="rows" id="lowerRows"></div>
 
             </div>
 
 
-            <!-- MEDIUM -->
+            <div class="board">
 
-            <div class="leaderboard">
-
-                <div class="lb-header">
-
-                    <h3>
-                        MEDIUM
-                    </h3>
-
-                    <p>
-                        300 students · 6 winners
-                    </p>
-
+                <div class="board-head">
+                    <h3>MEDIUM</h3>
+                    <p>300 students · 6 winners</p>
                 </div>
 
-
-                <div
-                    class="lb-scroll"
-                    id="mediumBoard"
-                ></div>
+                <div class="rows" id="mediumRows"></div>
 
             </div>
 
 
-            <!-- HIGH -->
+            <div class="board">
 
-            <div class="leaderboard">
-
-                <div class="lb-header">
-
-                    <h3>
-                        HIGH
-                    </h3>
-
-                    <p>
-                        300 students · 6 winners
-                    </p>
-
+                <div class="board-head">
+                    <h3>HIGH</h3>
+                    <p>300 students · 6 winners</p>
                 </div>
 
-
-                <div
-                    class="lb-scroll"
-                    id="highBoard"
-                ></div>
+                <div class="rows" id="highRows"></div>
 
             </div>
 
         </div>
 
     </section>
-
 
 </main>
 
 
-<!-- =========================
-     SKILL DETAIL
-========================= -->
+<!-- ================= MODAL ================= -->
 
-<div
-    class="modal"
-    id="skillModal"
->
+<div class="modal" id="modal">
 
-    <div class="modal-card">
+    <div class="modal-box">
 
-        <img
-            class="modal-image"
-            id="modalImage"
-            src=""
-            alt=""
-        >
+        <img id="modalImage" src="" alt="Skill">
 
         <h2 id="modalTitle">
             Skill
         </h2>
 
-        <div
-            class="modal-level"
-            id="modalLevel"
-        >
-            LEVEL
-        </div>
-
-        <p class="modal-intro">
-
-            Learn the fundamentals of this skill,
-            understand the tools and concepts,
-            follow the lessons and progress through
-            Level 1, Level 2 and Level 3.
-
+        <p id="modalText">
+            Skill introduction.
         </p>
-
 
         <div class="levels">
 
-            <div class="level">
+            <button class="level-btn" onclick="openLevel(1)">
+                LEVEL 1
+            </button>
 
-                <strong>
-                    LEVEL 1
-                </strong>
+            <button class="level-btn" onclick="openLevel(2)">
+                LEVEL 2
+            </button>
 
-                <span>
-                    Foundation
-                </span>
-
-            </div>
-
-
-            <div class="level">
-
-                <strong>
-                    LEVEL 2
-                </strong>
-
-                <span>
-                    Intermediate
-                </span>
-
-            </div>
-
-
-            <div class="level">
-
-                <strong>
-                    LEVEL 3
-                </strong>
-
-                <span>
-                    Advanced
-                </span>
-
-            </div>
+            <button class="level-btn" onclick="openLevel(3)">
+                LEVEL 3
+            </button>
 
         </div>
 
-
-        <button
-            class="close"
-            onclick="closeSkill()"
-        >
+        <button class="close" onclick="closeModal()">
             CLOSE
         </button>
 
@@ -2071,22 +1099,538 @@ body{
 <script>
 
 /* =====================================================
+   17 SKILLS
+   6 LOWER
+   6 MEDIUM
+   5 HIGH
+===================================================== */
+
+const skills = [
+
+    /* LOWER */
+
+    {
+        group:"LOWER",
+        name:"Video Editing",
+        image:"https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"LOWER",
+        name:"Movie Recap",
+        image:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"LOWER",
+        name:"Thumbnail Design",
+        image:"https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"LOWER",
+        name:"Digital Marketing",
+        image:"https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"LOWER",
+        name:"Affiliate Marketing",
+        image:"https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"LOWER",
+        name:"Dropshipping",
+        image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=85"
+    },
+
+
+    /* MEDIUM */
+
+    {
+        group:"MEDIUM",
+        name:"Forex",
+        image:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"MEDIUM",
+        name:"Crypto",
+        image:"https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"MEDIUM",
+        name:"Cybersecurity",
+        image:"https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"MEDIUM",
+        name:"AI Agents",
+        image:"https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"MEDIUM",
+        name:"English",
+        image:"https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"MEDIUM",
+        name:"Data Analysis",
+        image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85"
+    },
+
+
+    /* HIGH */
+
+    {
+        group:"HIGH",
+        name:"Python",
+        image:"https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"HIGH",
+        name:"JavaScript",
+        image:"https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"HIGH",
+        name:"AI App Development",
+        image:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"HIGH",
+        name:"AI Web",
+        image:"https://images.unsplash.com/photo-1484417894907-623942c8ee29?auto=format&fit=crop&w=1200&q=85"
+    },
+
+    {
+        group:"HIGH",
+        name:"Web Development",
+        image:"https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=1200&q=85"
+    }
+
+];
+
+
+/* =====================================================
+   CREATE SKILL CARDS
+===================================================== */
+
+const groups = ["LOWER","MEDIUM","HIGH"];
+
+const skillContainer =
+    document.getElementById("skillContainer");
+
+
+groups.forEach(group => {
+
+    const groupSkills =
+        skills.filter(
+            skill => skill.group === group
+        );
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className = "group";
+
+    wrapper.innerHTML = `
+        <div class="group-head">
+            <h3>${group}</h3>
+            <span>${groupSkills.length} SKILLS</span>
+        </div>
+
+        <div class="skills"></div>
+    `;
+
+    const grid =
+        wrapper.querySelector(".skills");
+
+
+    groupSkills.forEach(skill => {
+
+        const card =
+            document.createElement("article");
+
+        card.className = "skill";
+
+        card.innerHTML = `
+            <img
+                src="${skill.image}"
+                alt="${skill.name}"
+                loading="lazy"
+            >
+
+            <div class="skill-body">
+
+                <div class="skill-name">
+                    ${skill.name}
+                </div>
+
+                <div class="skill-level">
+                    LEVEL 1 · LEVEL 2 · LEVEL 3
+                </div>
+
+                <div class="skill-teacher">
+                    Teacher assignment
+                </div>
+
+                <button>
+                    VIEW SKILL
+                </button>
+
+            </div>
+        `;
+
+        card.onclick = () => {
+            openSkill(skill);
+        };
+
+        grid.appendChild(card);
+
+    });
+
+    skillContainer.appendChild(wrapper);
+
+});
+
+
+/* =====================================================
+   SKILL DETAIL
+===================================================== */
+
+let selectedSkill = null;
+
+function openSkill(skill){
+
+    selectedSkill = skill;
+
+    document.getElementById("modalImage").src =
+        skill.image;
+
+    document.getElementById("modalTitle").textContent =
+        skill.name;
+
+    document.getElementById("modalText").textContent =
+        "Welcome to " + skill.name +
+        ". This skill will contain its introduction, " +
+        "teacher information, lessons, projects and " +
+        "Level 1, Level 2 and Level 3. Course data will " +
+        "later be loaded from PostgreSQL.";
+
+    document.getElementById("modal").classList.add("show");
+}
+
+
+function openLevel(level){
+
+    if(!selectedSkill) return;
+
+    alert(
+        selectedSkill.name +
+        " — LEVEL " +
+        level +
+        "\n\n" +
+        "The real lesson page will be connected to the database."
+    );
+}
+
+
+function closeModal(){
+
+    document.getElementById("modal")
+        .classList.remove("show");
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function scrollToId(id){
+
+    document.getElementById(id)
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function openProfile(){
+
+    document.getElementById("modalImage").style.display =
+        "none";
+
+    document.getElementById("modalTitle").textContent =
+        "Student Profile";
+
+    document.getElementById("modalText").innerHTML =
+        "Your real profile will contain your account information, " +
+        "skills, competition progress, projects and results.";
+
+    document.querySelector(".levels").innerHTML = `
+        <button class="level-btn" onclick="profileAction('profile')">
+            PROFILE
+        </button>
+
+        <button class="level-btn" onclick="profileAction('progress')">
+            PROGRESS
+        </button>
+
+        <button class="level-btn" onclick="profileAction('settings')">
+            SETTINGS
+        </button>
+    `;
+
+    document.getElementById("modal").classList.add("show");
+}
+
+
+function profileAction(type){
+
+    alert(
+        type.toUpperCase() +
+        " will be connected to the student account database."
+    );
+}
+
+
+/* =====================================================
+   PAYMENT
+===================================================== */
+
+function openPayment(){
+
+    document.getElementById("modalImage").style.display =
+        "none";
+
+    document.getElementById("modalTitle").textContent =
+        "Payment Account";
+
+    document.getElementById("modalText").innerHTML =
+        "Payment status, payment deadline and payment " +
+        "records will later be controlled by the backend. " +
+        "No real payment is processed by this HTML page.";
+
+    document.querySelector(".levels").innerHTML = `
+        <button class="level-btn" onclick="paymentAction('account')">
+            ACCOUNT
+        </button>
+
+        <button class="level-btn" onclick="paymentAction('history')">
+            HISTORY
+        </button>
+
+        <button class="level-btn" onclick="paymentAction('pay')">
+            MAKE PAYMENT
+        </button>
+    `;
+
+    document.getElementById("modal").classList.add("show");
+}
+
+
+function paymentAction(type){
+
+    alert(
+        type.toUpperCase() +
+        " will connect to the real payment/backend system."
+    );
+}
+
+
+/* =====================================================
+   UPLOAD
+===================================================== */
+
+function openUpload(){
+
+    const button =
+        document.getElementById("uploadBtn");
+
+    if(button.classList.contains("disabled")){
+
+        alert(
+            "Project upload is currently CLOSED."
+        );
+
+        return;
+    }
+
+    document.getElementById("modalImage").style.display =
+        "none";
+
+    document.getElementById("modalTitle").textContent =
+        "Upload Project";
+
+    document.getElementById("modalText").innerHTML = `
+        <div class="form-group">
+            <label>PROJECT VIDEO</label>
+            <input type="file" id="projectVideo" accept="video/*">
+        </div>
+
+        <div class="form-group">
+            <label>PROJECT TITLE</label>
+            <input
+                type="text"
+                id="projectTitle"
+                placeholder="Project title"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>DESCRIPTION</label>
+            <textarea
+                id="projectDescription"
+                placeholder="Project description"
+            ></textarea>
+        </div>
+    `;
+
+    document.querySelector(".levels").innerHTML = `
+        <button
+            class="level-btn"
+            onclick="submitProject()"
+        >
+            SUBMIT PROJECT
+        </button>
+    `;
+
+    document.getElementById("modal").classList.add("show");
+}
+
+
+function submitProject(){
+
+    const video =
+        document.getElementById("projectVideo");
+
+    const title =
+        document.getElementById("projectTitle");
+
+    if(!video.files.length){
+
+        alert("Please choose your project video.");
+
+        return;
+    }
+
+    if(!title.value.trim()){
+
+        alert("Please enter your project title.");
+
+        return;
+    }
+
+    alert(
+        "Frontend upload form is ready.\n\n" +
+        "The real video upload will be sent to the backend/storage " +
+        "when PostgreSQL and the server are connected."
+    );
+}
+
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
+
+function createLeaderboard(
+    elementId,
+    group
+){
+
+    const container =
+        document.getElementById(elementId);
+
+    let html = "";
+
+    for(let i=1;i<=300;i++){
+
+        const number =
+            String(i).padStart(3,"0");
+
+        html += `
+            <div
+                class="row"
+                onclick="openStudent('${group}','${number}')"
+            >
+
+                <div class="rank">
+                    ${number}
+                </div>
+
+                <div class="name-space"></div>
+
+                <div class="result">
+                    00
+                </div>
+
+                <div class="level">
+                    00
+                </div>
+
+            </div>
+        `;
+    }
+
+    container.innerHTML = html;
+}
+
+
+createLeaderboard(
+    "lowerRows",
+    "LOWER"
+);
+
+createLeaderboard(
+    "mediumRows",
+    "MEDIUM"
+);
+
+createLeaderboard(
+    "highRows",
+    "HIGH"
+);
+
+
+function openStudent(group,number){
+
+    alert(
+        group +
+        " · Student " +
+        number +
+        "\n\n" +
+        "Real student information will come from PostgreSQL."
+    );
+}
+
+
+/* =====================================================
    COMPETITION TIMER
 ===================================================== */
 
-const LEARNING_TIME =
-    7 * 24 * 60 * 60 * 1000;
-
-const UPLOAD_TIME =
-    24 * 60 * 60 * 1000;
-
-
 /*
- IMPORTANT:
- This is only frontend timing for now.
+   FRONTEND TEST TIMER
 
- Later PostgreSQL/backend will provide the
- official competition timestamps for all students.
+   Later:
+   PostgreSQL/backend will provide:
+   competition_start
+   upload_start
+   upload_end
+   tie_break_start
+   tie_break_end
 */
 
 let competitionStart =
@@ -2109,229 +1653,211 @@ competitionStart =
     Number(competitionStart);
 
 
-const uploadStart =
-    competitionStart +
-    LEARNING_TIME;
+/*
+   7 DAYS LEARNING
+*/
 
-const uploadEnd =
-    uploadStart +
-    UPLOAD_TIME;
+const learningDuration =
+    7 * 24 * 60 * 60 * 1000;
 
 
 /*
- Temporary submission count.
+   24 HOURS UPLOAD WINDOW
 
- Later:
- PostgreSQL = real count.
+   This will later come from database.
 */
 
-let submissionCount =
-    Number(
-        localStorage.getItem(
-            "steadymazeSubmissionCount"
-        ) || 0
-    );
+const uploadDuration =
+    24 * 60 * 60 * 1000;
 
-
-const MAX_SUBMISSIONS = 300;
-
-
-/* =====================================================
-   UPDATE COMPETITION
-===================================================== */
 
 function updateCompetition(){
 
     const now =
         Date.now();
 
-    const stageName =
-        document.getElementById(
-            "stageName"
-        );
+    const uploadStart =
+        competitionStart +
+        learningDuration;
 
-    const stageDescription =
-        document.getElementById(
-            "stageDescription"
-        );
+    const uploadEnd =
+        uploadStart +
+        uploadDuration;
 
-    const uploadInfo =
-        document.getElementById(
-            "uploadInfo"
-        );
+
+    const title =
+        document.getElementById("stageTitle");
+
+    const text =
+        document.getElementById("stageText");
+
+    const pill =
+        document.getElementById("statusPill");
+
+    const uploadStatus =
+        document.getElementById("uploadStatus");
+
+    const uploadText =
+        document.getElementById("uploadText");
 
     const uploadButton =
-        document.getElementById(
-            "uploadButton"
-        );
+        document.getElementById("uploadBtn");
 
 
-    /*
-    -----------------------------------------------
-    LEARNING
-    -----------------------------------------------
-    */
+    resetSteps();
+
 
     if(now < uploadStart){
 
-        const remaining =
-            uploadStart - now;
-
-        stageName.textContent =
+        title.textContent =
             "LEARNING PERIOD";
 
-        stageDescription.textContent =
-            "Complete your lessons before project submission opens.";
+        text.textContent =
+            "Students are learning before project submission.";
 
-        uploadInfo.textContent =
-            "🔒 Upload is closed. The project window opens after the 7-day learning period.";
+        pill.textContent =
+            "LEARNING";
 
-        uploadButton.disabled =
-            true;
+        uploadStatus.textContent =
+            "CLOSED";
 
-        updateTimer(remaining);
+        uploadText.textContent =
+            "Project upload will open when the submission window begins.";
+
+        uploadButton.classList.add("disabled");
+
+        setActiveStep(1);
+
+        updateTimer(
+            uploadStart - now
+        );
 
         return;
     }
 
-
-    /*
-    -----------------------------------------------
-    UPLOAD
-    -----------------------------------------------
-    */
 
     if(
         now >= uploadStart &&
-        now < uploadEnd &&
-        submissionCount < MAX_SUBMISSIONS
+        now < uploadEnd
     ){
 
-        const remaining =
-            uploadEnd - now;
-
-        stageName.textContent =
+        title.textContent =
             "PROJECT UPLOAD";
 
-        stageDescription.textContent =
-            "The project submission window is open.";
+        text.textContent =
+            "The project submission window is currently open.";
 
-        uploadInfo.textContent =
-            "🟢 Upload is open. Submit your project before the deadline.";
+        pill.textContent =
+            "UPLOAD OPEN";
 
-        uploadButton.disabled =
-            false;
+        uploadStatus.textContent =
+            "OPEN";
 
-        updateTimer(remaining);
+        uploadText.textContent =
+            "Submit your project before the submission window closes.";
+
+        uploadButton.classList.remove("disabled");
+
+        setActiveStep(2);
+
+        updateTimer(
+            uploadEnd - now
+        );
 
         return;
     }
 
 
-    /*
-    -----------------------------------------------
-    CLOSED
-    -----------------------------------------------
-    */
+    title.textContent =
+        "REVIEW PERIOD";
 
-    stageName.textContent =
-        "UPLOAD CLOSED";
+    text.textContent =
+        "Project submission is closed. Submitted projects move to review.";
 
-    uploadButton.disabled =
-        true;
+    pill.textContent =
+        "REVIEW";
 
+    uploadStatus.textContent =
+        "CLOSED";
 
-    if(
-        submissionCount >=
-        MAX_SUBMISSIONS
-    ){
+    uploadText.textContent =
+        "Submission is closed. Projects are now being reviewed.";
 
-        stageDescription.textContent =
-            "The maximum of 300 submissions has been reached.";
+    uploadButton.classList.add("disabled");
 
-        uploadInfo.textContent =
-            "🔒 Upload closed because 300 submissions were reached.";
-
-    }else{
-
-        stageDescription.textContent =
-            "The 24-hour upload window has ended.";
-
-        uploadInfo.textContent =
-            "🔒 Upload closed because the submission period ended.";
-    }
-
+    setActiveStep(3);
 
     updateTimer(0);
 }
 
 
-/* =====================================================
-   TIMER
-===================================================== */
+function resetSteps(){
 
-function updateTimer(milliseconds){
+    for(let i=1;i<=4;i++){
 
-    if(milliseconds < 0){
-        milliseconds = 0;
+        document.getElementById(
+            "step"+i
+        ).classList.remove("active");
+
     }
+}
 
+
+function setActiveStep(number){
+
+    document.getElementById(
+        "step"+number
+    ).classList.add("active");
+}
+
+
+function updateTimer(ms){
 
     const days =
         Math.floor(
-            milliseconds /
-            (1000 * 60 * 60 * 24)
+            ms /
+            (1000*60*60*24)
         );
-
 
     const hours =
         Math.floor(
-            (milliseconds %
-            (1000 * 60 * 60 * 24))
+            (ms %
+            (1000*60*60*24))
             /
-            (1000 * 60 * 60)
+            (1000*60*60)
         );
-
 
     const minutes =
         Math.floor(
-            (milliseconds %
-            (1000 * 60 * 60))
+            (ms %
+            (1000*60*60))
             /
-            (1000 * 60)
+            (1000*60)
         );
-
 
     const seconds =
         Math.floor(
-            (milliseconds %
-            (1000 * 60))
+            (ms %
+            (1000*60))
             /
             1000
         );
 
 
-    document.getElementById(
-        "days"
-    ).textContent =
+    document.getElementById("days")
+        .textContent =
         String(days).padStart(2,"0");
 
-
-    document.getElementById(
-        "hours"
-    ).textContent =
+    document.getElementById("hours")
+        .textContent =
         String(hours).padStart(2,"0");
 
-
-    document.getElementById(
-        "minutes"
-    ).textContent =
+    document.getElementById("minutes")
+        .textContent =
         String(minutes).padStart(2,"0");
 
-
-    document.getElementById(
-        "seconds"
-    ).textContent =
+    document.getElementById("seconds")
+        .textContent =
         String(seconds).padStart(2,"0");
 }
 
@@ -2345,170 +1871,19 @@ setInterval(
 
 
 /* =====================================================
-   SKILL DETAIL
+   CLOSE MODAL
 ===================================================== */
 
-function openSkill(
-    name,
-    level,
-    image
-){
-
-    document.getElementById(
-        "modalTitle"
-    ).textContent =
-        name;
-
-    document.getElementById(
-        "modalLevel"
-    ).textContent =
-        level.toUpperCase() +
-        " · LEVEL 1 · LEVEL 2 · LEVEL 3";
-
-    document.getElementById(
-        "modalImage"
-    ).src =
-        image;
-
-    document.getElementById(
-        "modalImage"
-    ).alt =
-        name;
-
-    document.getElementById(
-        "skillModal"
-    ).classList.add("active");
-}
-
-
-function closeSkill(){
-
-    document.getElementById(
-        "skillModal"
-    ).classList.remove("active");
-}
-
-
-document.getElementById(
-    "skillModal"
-).addEventListener(
+document.getElementById("modal")
+.addEventListener(
     "click",
     function(event){
 
-        if(
-            event.target ===
-            this
-        ){
+        if(event.target === this){
 
-            closeSkill();
+            closeModal();
+
         }
-
-    }
-);
-
-
-/* =====================================================
-   300 STUDENT ROWS
-=====================================================
-
- NO FAKE NAMES.
-
- Each row has:
- number
- empty student space
- result = 00
- level = 00
-
- PostgreSQL will later fill:
- student_name
- result
- level
-===================================================== */
-
-function createLeaderboard(
-    elementId
-){
-
-    const board =
-        document.getElementById(
-            elementId
-        );
-
-
-    let html = "";
-
-
-    for(
-        let i = 1;
-        i <= 300;
-        i++
-    ){
-
-        html += `
-
-            <div class="lb-row">
-
-                <div class="lb-number">
-                    ${String(i).padStart(3,"0")}
-                </div>
-
-                <div class="lb-space">
-                </div>
-
-                <div class="lb-result">
-                    00
-                </div>
-
-                <div class="lb-level">
-                    00
-                </div>
-
-            </div>
-
-        `;
-    }
-
-
-    board.innerHTML =
-        html;
-}
-
-
-createLeaderboard(
-    "lowerBoard"
-);
-
-createLeaderboard(
-    "mediumBoard"
-);
-
-createLeaderboard(
-    "highBoard"
-);
-
-
-/* =====================================================
-   UPLOAD BUTTON
-===================================================== */
-
-document.getElementById(
-    "uploadButton"
-).addEventListener(
-    "click",
-    function(){
-
-        if(this.disabled){
-            return;
-        }
-
-        /*
-        Later:
-        this will open the REAL upload page/system.
-        */
-
-        alert(
-            "Project upload will connect to the backend."
-        );
 
     }
 );
