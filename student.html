@@ -15,118 +15,104 @@
 }
 
 :root{
-    --bg:#02070b;
-    --card:rgba(7,16,22,.78);
+    --bg:#02050a;
+    --panel:rgba(9,16,25,.78);
+    --panel2:rgba(12,23,35,.72);
     --green:#00e676;
-    --green2:#7dffb2;
-    --blue:#28a9ff;
-    --white:#f4fbff;
-    --muted:#71818c;
-    --border:rgba(255,255,255,.08);
+    --green2:#56ffb0;
+    --blue:#35a7ff;
+    --text:#f4f8ff;
+    --muted:#7d8d9d;
+    --line:rgba(255,255,255,.08);
 }
 
 body{
     min-height:100vh;
-    color:var(--white);
+    color:var(--text);
     font-family:Arial,Helvetica,sans-serif;
+
     background:
         radial-gradient(
             circle at 10% 10%,
-            rgba(0,230,118,.13),
-            transparent 30%
+            rgba(0,230,118,.14),
+            transparent 28%
         ),
         radial-gradient(
             circle at 90% 20%,
-            rgba(40,169,255,.15),
-            transparent 32%
+            rgba(53,167,255,.14),
+            transparent 30%
         ),
         radial-gradient(
-            circle at 50% 100%,
+            circle at 50% 90%,
             rgba(0,230,118,.08),
             transparent 35%
         ),
-        var(--bg);
+        #02050a;
 }
 
 
-/* BLUR LIGHTS */
-
-body::before{
-    content:"";
-    position:fixed;
-    width:260px;
-    height:260px;
-    left:25%;
-    top:25%;
-    background:rgba(0,230,118,.08);
-    filter:blur(90px);
-    pointer-events:none;
-}
-
-body::after{
-    content:"";
-    position:fixed;
-    width:280px;
-    height:280px;
-    right:10%;
-    bottom:10%;
-    background:rgba(40,169,255,.08);
-    filter:blur(100px);
-    pointer-events:none;
-}
-
-
-/* SIDEBAR */
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar{
     position:fixed;
     left:0;
     top:0;
     bottom:0;
-    width:245px;
 
-    padding:26px 18px;
+    width:250px;
+
+    padding:25px 18px;
 
     background:
-        rgba(3,10,14,.82);
+        rgba(3,9,14,.82);
 
-    backdrop-filter:blur(25px);
+    backdrop-filter:blur(22px);
 
-    border-right:1px solid var(--border);
+    border-right:1px solid var(--line);
 
-    z-index:10;
+    z-index:20;
 }
 
 .logo{
     font-size:25px;
     font-weight:900;
+
     padding:0 10px;
-    margin-bottom:42px;
+
+    margin-bottom:40px;
 }
 
 .logo span{
     color:var(--green);
 }
 
-.menu-title{
-    color:#46545d;
+.menu-label{
+    color:#526272;
+
     font-size:8px;
     font-weight:900;
+
     letter-spacing:2px;
+
     padding:0 12px;
+
     margin-bottom:12px;
 }
 
 .menu a{
     display:block;
 
-    padding:13px 12px;
+    padding:13px 13px;
+
     margin-bottom:5px;
 
-    color:#71818a;
-    text-decoration:none;
-
     border-radius:10px;
+
+    color:#8393a3;
+
+    text-decoration:none;
 
     font-size:10px;
     font-weight:800;
@@ -137,41 +123,55 @@ body::after{
 .menu a:hover,
 .menu a.active{
     color:var(--green);
+
     background:
         linear-gradient(
             90deg,
-            rgba(0,230,118,.11),
-            rgba(40,169,255,.05)
+            rgba(0,230,118,.12),
+            rgba(53,167,255,.05)
         );
+
+    border:1px solid
+        rgba(0,230,118,.08);
 }
 
 
-/* MAIN */
+/* =========================
+   MAIN
+========================= */
 
 .main{
-    margin-left:245px;
+    margin-left:250px;
+
     padding:30px 35px;
+
+    min-height:100vh;
 }
 
 
-/* TOP */
+/* =========================
+   TOPBAR
+========================= */
 
 .topbar{
     display:flex;
-    align-items:center;
+
     justify-content:space-between;
+    align-items:center;
 
-    margin-bottom:30px;
+    margin-bottom:28px;
 }
 
-.welcome h1{
+.title h1{
     font-size:28px;
-    letter-spacing:-1px;
+    font-weight:900;
 }
 
-.welcome p{
+.title p{
     margin-top:7px;
+
     color:var(--muted);
+
     font-size:10px;
 }
 
@@ -192,15 +192,19 @@ body::after{
             var(--blue)
         );
 
-    color:#00130b;
+    color:#00140b;
+
     font-weight:900;
 }
 
 
-/* ANALYTICS */
+/* =========================
+   STAT CARDS
+========================= */
 
-.analytics{
+.stats{
     display:grid;
+
     grid-template-columns:
         repeat(4,1fr);
 
@@ -212,101 +216,105 @@ body::after{
 .stat{
     padding:20px;
 
-    background:var(--card);
-
-    backdrop-filter:blur(20px);
-
-    border:1px solid var(--border);
+    border:1px solid var(--line);
 
     border-radius:17px;
 
+    background:var(--panel);
+
+    backdrop-filter:blur(20px);
+
     box-shadow:
-        0 15px 50px
-        rgba(0,0,0,.25);
+        0 20px 60px
+        rgba(0,0,0,.18);
 }
 
 .stat-label{
-    color:#73828b;
+    color:#718294;
+
     font-size:8px;
     font-weight:900;
+
     letter-spacing:1px;
 }
 
 .stat-number{
     margin-top:10px;
 
-    font-size:28px;
+    color:var(--green);
+
+    font-size:27px;
     font-weight:900;
-
-    background:
-        linear-gradient(
-            90deg,
-            var(--green),
-            var(--blue)
-        );
-
-    -webkit-background-clip:text;
-    color:transparent;
 }
 
-.stat-small{
-    margin-top:6px;
-    color:#52616a;
+.stat-note{
+    margin-top:5px;
+
+    color:#536271;
+
     font-size:8px;
 }
 
 
-/* COMPETITION */
+/* =========================
+   COMPETITION TIMER
+========================= */
 
 .competition{
     padding:25px;
 
     margin-bottom:20px;
 
-    border-radius:19px;
+    border-radius:20px;
+
+    border:1px solid
+        rgba(0,230,118,.14);
 
     background:
         linear-gradient(
             135deg,
             rgba(0,230,118,.08),
-            rgba(40,169,255,.07)
+            rgba(53,167,255,.07)
         ),
-        var(--card);
+        var(--panel);
 
-    backdrop-filter:blur(25px);
-
-    border:1px solid
-        rgba(0,230,118,.15);
+    backdrop-filter:blur(22px);
 }
 
-.comp-top{
+.competition-top{
     display:flex;
+
     justify-content:space-between;
     align-items:center;
 }
 
-.comp-title{
+.comp-label{
     color:var(--green);
-    font-size:9px;
+
+    font-size:8px;
     font-weight:900;
+
     letter-spacing:2px;
 }
 
 .comp-stage{
     margin-top:10px;
-    font-size:21px;
+
+    font-size:22px;
     font-weight:900;
 }
 
-.comp-text{
+.comp-description{
     margin-top:7px;
+
     color:var(--muted);
+
     font-size:9px;
-    line-height:1.7;
 }
 
 .timer{
     display:grid;
+
     grid-template-columns:
         repeat(4,1fr);
 
@@ -315,42 +323,163 @@ body::after{
     margin-top:20px;
 }
 
-.time{
+.time-box{
+    padding:16px;
+
     text-align:center;
 
-    padding:17px 10px;
-
     background:
-        rgba(0,0,0,.28);
+        rgba(2,6,10,.75);
 
-    border:1px solid var(--border);
+    border:1px solid var(--line);
 
     border-radius:12px;
 }
 
 .time-number{
+    color:var(--green);
+
     font-size:27px;
     font-weight:900;
-    color:var(--green);
 }
 
 .time-label{
     margin-top:5px;
-    color:#52616a;
+
+    color:#607080;
+
     font-size:7px;
     font-weight:900;
+
     letter-spacing:1px;
 }
 
 
-/* SKILLS */
+/* =========================
+   UPLOAD
+========================= */
 
-.section-title{
-    margin-bottom:15px;
+.upload{
+    display:flex;
 
-    font-size:16px;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:20px;
+
+    padding:20px;
+
+    margin-bottom:20px;
+
+    border-radius:17px;
+
+    background:var(--panel);
+
+    border:1px solid var(--line);
+
+    backdrop-filter:blur(20px);
+}
+
+.upload-title{
+    font-size:12px;
     font-weight:900;
 }
+
+.upload-info{
+    margin-top:7px;
+
+    color:var(--muted);
+
+    font-size:8px;
+}
+
+.upload-button{
+    padding:12px 18px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            var(--green2)
+        );
+
+    color:#00170c;
+
+    font-size:8px;
+    font-weight:900;
+
+    cursor:pointer;
+}
+
+.upload-button:disabled{
+    background:#17212b;
+
+    color:#536271;
+
+    cursor:not-allowed;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+.section{
+    margin-top:28px;
+}
+
+.section-head{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:15px;
+}
+
+.section-head h2{
+    font-size:17px;
+}
+
+.section-head span{
+    color:var(--muted);
+
+    font-size:8px;
+}
+
+
+/* =========================
+   SKILL GROUP
+========================= */
+
+.group-title{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin:22px 0 12px;
+}
+
+.group-title strong{
+    font-size:12px;
+}
+
+.group-title span{
+    color:#617182;
+
+    font-size:8px;
+}
+
+
+/* =========================
+   SKILL CARDS
+========================= */
 
 .skills-grid{
     display:grid;
@@ -359,38 +488,44 @@ body::after{
         repeat(3,1fr);
 
     gap:15px;
-
-    margin-bottom:25px;
 }
 
 .skill-card{
     overflow:hidden;
 
-    background:var(--card);
-
-    backdrop-filter:blur(20px);
-
-    border:1px solid var(--border);
-
     border-radius:16px;
 
-    transition:.25s;
+    border:1px solid var(--line);
+
+    background:
+        rgba(8,16,25,.78);
+
+    backdrop-filter:blur(18px);
+
+    transition:
+        transform .2s,
+        border-color .2s;
+
+    cursor:pointer;
 }
 
 .skill-card:hover{
     transform:translateY(-4px);
 
     border-color:
-        rgba(0,230,118,.35);
+        rgba(0,230,118,.25);
 }
 
 .skill-image{
     width:100%;
-    height:150px;
+
+    height:155px;
 
     object-fit:cover;
 
     display:block;
+
+    background:#081019;
 }
 
 .skill-content{
@@ -402,26 +537,24 @@ body::after{
     font-weight:900;
 }
 
-.skill-meta{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.skill-level{
+    margin-top:6px;
 
-    margin-top:9px;
-}
+    color:var(--green);
 
-.level{
-    color:var(--blue);
     font-size:8px;
     font-weight:900;
 }
 
-.teacher-count{
-    color:#64747e;
+.skill-teacher{
+    margin-top:7px;
+
+    color:#657585;
+
     font-size:8px;
 }
 
-.skill-button{
+.view-skill{
     display:block;
 
     margin-top:13px;
@@ -430,323 +563,326 @@ body::after{
 
     text-align:center;
 
-    color:#00130b;
-
-    background:
-        linear-gradient(
-            90deg,
-            var(--green),
-            #65f5aa
-        );
-
     border-radius:8px;
 
-    text-decoration:none;
-
-    font-size:8px;
-    font-weight:900;
-}
-
-
-/* LOWER GRID */
-
-.lower-grid{
-    display:grid;
-
-    grid-template-columns:
-        1.35fr 1fr;
-
-    gap:20px;
-}
-
-
-/* CARD */
-
-.card{
-    padding:22px;
-
-    margin-bottom:20px;
-
-    background:var(--card);
-
-    backdrop-filter:blur(20px);
-
-    border:1px solid var(--border);
-
-    border-radius:17px;
-}
-
-.card-title{
-    font-size:13px;
-    font-weight:900;
-}
-
-.card-sub{
-    margin-top:5px;
-    color:#5d6d77;
-    font-size:8px;
-}
-
-
-/* LEADERBOARD */
-
-.board-group{
-    margin-top:18px;
-
-    padding:15px;
-
     background:
-        rgba(0,0,0,.18);
+        rgba(0,230,118,.07);
 
-    border:1px solid var(--border);
-
-    border-radius:13px;
-}
-
-.board-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-bottom:10px;
-}
-
-.board-name{
-    font-size:10px;
-    font-weight:900;
-}
-
-.board-count{
     color:var(--green);
+
     font-size:8px;
     font-weight:900;
 }
 
-.table-wrap{
-    overflow:auto;
 
-    max-height:350px;
-}
+/* =========================
+   LOWER / MEDIUM / HIGH
+   LEADERBOARDS
+========================= */
 
-table{
-    width:100%;
-
-    border-collapse:collapse;
-
-    min-width:520px;
-}
-
-th{
-    position:sticky;
-    top:0;
-
-    padding:11px 8px;
-
-    text-align:left;
-
-    background:#071219;
-
-    color:#63737d;
-
-    font-size:7px;
-    letter-spacing:1px;
-}
-
-td{
-    padding:10px 8px;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.045);
-
-    color:#c9d4d9;
-
-    font-size:8px;
-}
-
-.result{
-    color:var(--green);
-    font-weight:900;
-}
-
-.level-badge{
-    display:inline-block;
-
-    padding:5px 8px;
-
-    border-radius:6px;
-
-    color:#9edfff;
-
-    background:
-        rgba(40,169,255,.09);
-
-    font-size:7px;
-    font-weight:900;
-}
-
-
-/* WINNERS */
-
-.winners{
+.leaderboards{
     display:grid;
 
     grid-template-columns:
         repeat(3,1fr);
 
-    gap:8px;
-
-    margin-top:13px;
+    gap:18px;
 }
 
-.winner{
-    padding:12px 7px;
+.leaderboard{
+    min-width:0;
 
-    text-align:center;
+    border-radius:18px;
+
+    overflow:hidden;
 
     background:
-        linear-gradient(
-            135deg,
-            rgba(0,230,118,.08),
-            rgba(40,169,255,.05)
-        );
+        rgba(7,14,22,.82);
 
-    border:1px solid var(--border);
+    border:1px solid var(--line);
 
-    border-radius:9px;
+    backdrop-filter:blur(20px);
 }
 
-.winner-number{
-    color:var(--green);
+.lb-header{
+    padding:18px;
 
-    font-size:14px;
-    font-weight:900;
+    border-bottom:1px solid var(--line);
 }
 
-.winner-text{
-    margin-top:4px;
-
-    color:#687882;
-
-    font-size:7px;
+.lb-header h3{
+    font-size:12px;
 }
 
+.lb-header p{
+    margin-top:5px;
 
-/* TEACHERS */
-
-.teacher{
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    padding:13px 0;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.05);
-}
-
-.teacher:last-child{
-    border-bottom:0;
-}
-
-.teacher-photo{
-    width:39px;
-    height:39px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    border:2px solid
-        rgba(0,230,118,.25);
-}
-
-.stars{
-    color:#ffc107;
-
-    font-size:9px;
-    letter-spacing:1px;
-}
-
-.teacher-label{
-    margin-top:4px;
-
-    color:#667781;
+    color:#657585;
 
     font-size:8px;
 }
 
+.lb-scroll{
+    max-height:470px;
 
-/* UPLOAD */
-
-.upload{
-    padding:20px;
-
-    margin-top:20px;
-
-    background:
-        rgba(0,0,0,.2);
-
-    border:1px dashed
-        rgba(255,255,255,.10);
-
-    border-radius:13px;
+    overflow-y:auto;
 }
 
-.upload-status{
-    margin-top:10px;
+.lb-row{
+    display:grid;
 
-    color:#64747d;
+    grid-template-columns:
+        45px 1fr 70px 65px;
+
+    align-items:center;
+
+    gap:8px;
+
+    min-width:390px;
+
+    padding:11px 14px;
+
+    border-bottom:1px solid
+        rgba(255,255,255,.04);
+}
+
+.lb-number{
+    color:#738292;
 
     font-size:9px;
-    line-height:1.7;
+    font-weight:900;
 }
 
-.upload-button{
+.lb-space{
+    height:30px;
+
+    border-radius:7px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:1px solid
+        rgba(255,255,255,.04);
+}
+
+.lb-result{
+    color:var(--green);
+
+    font-size:9px;
+    font-weight:900;
+
+    text-align:right;
+}
+
+.lb-level{
+    color:#65829c;
+
+    font-size:8px;
+
+    text-align:right;
+}
+
+
+/* =========================
+   SKILL DETAIL MODAL
+========================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        rgba(0,0,0,.72);
+
+    backdrop-filter:blur(12px);
+
+    z-index:100;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-card{
+    width:100%;
+    max-width:650px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:
+        rgba(8,17,27,.95);
+
+    border:1px solid var(--line);
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,.6);
+}
+
+.modal-image{
     width:100%;
 
-    margin-top:13px;
+    height:260px;
+
+    object-fit:cover;
+
+    border-radius:14px;
+
+    margin-bottom:20px;
+}
+
+.modal-card h2{
+    font-size:22px;
+}
+
+.modal-level{
+    margin-top:8px;
+
+    color:var(--green);
+
+    font-size:9px;
+    font-weight:900;
+}
+
+.modal-intro{
+    margin-top:15px;
+
+    color:#94a2b1;
+
+    font-size:10px;
+
+    line-height:1.8;
+}
+
+.levels{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
+
+    margin-top:20px;
+}
+
+.level{
+    padding:15px;
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:1px solid var(--line);
+}
+
+.level strong{
+    display:block;
+
+    color:var(--green);
+
+    font-size:10px;
+}
+
+.level span{
+    display:block;
+
+    margin-top:6px;
+
+    color:#647485;
+
+    font-size:8px;
+}
+
+.close{
+    width:100%;
+
+    margin-top:20px;
 
     padding:12px;
 
     border:0;
 
-    border-radius:9px;
+    border-radius:10px;
 
-    background:#14201a;
+    background:#17212b;
 
-    color:#53635b;
+    color:#dbe7f0;
 
-    font-size:8px;
+    cursor:pointer;
+
+    font-size:9px;
     font-weight:900;
-
-    cursor:not-allowed;
 }
 
 
-/* RESPONSIVE */
+/* =========================
+   RESPONSIVE
+========================= */
 
-@media(max-width:1100px){
+@media(max-width:1200px){
 
     .skills-grid{
         grid-template-columns:
             repeat(2,1fr);
     }
 
-    .analytics{
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
-    .lower-grid{
+    .leaderboards{
         grid-template-columns:1fr;
     }
 }
 
-@media(max-width:700px){
+@media(max-width:950px){
+
+    .sidebar{
+        width:80px;
+    }
+
+    .logo{
+        font-size:0;
+
+        text-align:center;
+    }
+
+    .logo span{
+        font-size:20px;
+    }
+
+    .menu-label{
+        display:none;
+    }
+
+    .menu a{
+        font-size:0;
+
+        text-align:center;
+    }
+
+    .main{
+        margin-left:80px;
+    }
+
+    .stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px){
 
     .sidebar{
         display:none;
@@ -754,7 +890,12 @@ td{
 
     .main{
         margin-left:0;
+
         padding:20px 14px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
     }
 
     .skills-grid{
@@ -762,17 +903,16 @@ td{
     }
 
     .timer{
-        grid-template-columns:
-            repeat(2,1fr);
+        grid-template-columns:1fr 1fr;
     }
 
-    .analytics{
-        grid-template-columns:
-            repeat(2,1fr);
+    .upload{
+        flex-direction:column;
+        align-items:stretch;
     }
 
-    .welcome h1{
-        font-size:22px;
+    .upload-button{
+        width:100%;
     }
 }
 
@@ -783,7 +923,9 @@ td{
 <body>
 
 
-<!-- SIDEBAR -->
+<!-- =========================
+     SIDEBAR
+========================= -->
 
 <aside class="sidebar">
 
@@ -791,7 +933,7 @@ td{
         Steady<span>Maze</span>
     </div>
 
-    <div class="menu-title">
+    <div class="menu-label">
         STUDENT
     </div>
 
@@ -802,19 +944,15 @@ td{
         </a>
 
         <a href="#skills">
-            ◇ 17 Skills
+            ◇ My Skills
+        </a>
+
+        <a href="#competition">
+            ★ Competition
         </a>
 
         <a href="#leaderboard">
-            ★ Leaderboard
-        </a>
-
-        <a href="#teachers">
-            ◎ Teachers
-        </a>
-
-        <a href="#project">
-            ◆ Project
+            ▣ Leaderboards
         </a>
 
     </nav>
@@ -822,1198 +960,239 @@ td{
 </aside>
 
 
+<!-- =========================
+     MAIN
+========================= -->
+
 <main class="main">
 
 
-<!-- TOP -->
+    <!-- TOPBAR -->
 
-<div class="topbar">
+    <div class="topbar">
 
-    <div class="welcome">
+        <div class="title">
 
-        <h1>
-            Student Dashboard
-        </h1>
+            <h1>
+                Student Dashboard
+            </h1>
 
-        <p>
-            Learn skills, follow your progress and compete.
-        </p>
+            <p>
+                Learn skills, build projects and compete.
+            </p>
 
-    </div>
-
-    <div class="profile">
-        S
-    </div>
-
-</div>
-
-
-<!-- ANALYTICS -->
-
-<section class="analytics">
-
-    <div class="stat">
-
-        <div class="stat-label">
-            ACCOUNT BALANCE
         </div>
 
-        <div class="stat-number">
-            00
-        </div>
-
-        <div class="stat-small">
-            Available balance
+        <div class="profile">
+            S
         </div>
 
     </div>
 
 
-    <div class="stat">
+    <!-- =========================
+         STATS
+    ========================= -->
 
-        <div class="stat-label">
-            TOTAL PAYMENT
+    <section class="stats">
+
+        <div class="stat">
+
+            <div class="stat-label">
+                ACCOUNT BALANCE
+            </div>
+
+            <div class="stat-number">
+                00
+            </div>
+
+            <div class="stat-note">
+                Database connected later
+            </div>
+
         </div>
 
-        <div class="stat-number">
-            00
+
+        <div class="stat">
+
+            <div class="stat-label">
+                TOTAL PAYMENT
+            </div>
+
+            <div class="stat-number">
+                00
+            </div>
+
+            <div class="stat-note">
+                Payment account
+            </div>
+
         </div>
 
-        <div class="stat-small">
-            Course payments
+
+        <div class="stat">
+
+            <div class="stat-label">
+                COURSES
+            </div>
+
+            <div class="stat-number">
+                00
+            </div>
+
+            <div class="stat-note">
+                Courses completed
+            </div>
+
         </div>
 
-    </div>
 
+        <div class="stat">
 
-    <div class="stat">
+            <div class="stat-label">
+                COMPETITION POINTS
+            </div>
 
-        <div class="stat-label">
-            SKILLS
+            <div class="stat-number">
+                00
+            </div>
+
+            <div class="stat-note">
+                Current result
+            </div>
+
         </div>
 
-        <div class="stat-number">
-            17
+    </section>
+
+
+    <!-- =========================
+         COMPETITION
+    ========================= -->
+
+    <section
+        class="competition"
+        id="competition"
+    >
+
+        <div class="competition-top">
+
+            <div>
+
+                <div class="comp-label">
+                    COMPETITION
+                </div>
+
+                <div
+                    class="comp-stage"
+                    id="stageName"
+                >
+                    LEARNING PERIOD
+                </div>
+
+                <div
+                    class="comp-description"
+                    id="stageDescription"
+                >
+                    Complete your learning period before project submission opens.
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="stat-small">
-            Available skills
+
+        <div class="timer">
+
+            <div class="time-box">
+
+                <div
+                    class="time-number"
+                    id="days"
+                >
+                    07
+                </div>
+
+                <div class="time-label">
+                    DAYS
+                </div>
+
+            </div>
+
+
+            <div class="time-box">
+
+                <div
+                    class="time-number"
+                    id="hours"
+                >
+                    00
+                </div>
+
+                <div class="time-label">
+                    HOURS
+                </div>
+
+            </div>
+
+
+            <div class="time-box">
+
+                <div
+                    class="time-number"
+                    id="minutes"
+                >
+                    00
+                </div>
+
+                <div class="time-label">
+                    MINUTES
+                </div>
+
+            </div>
+
+
+            <div class="time-box">
+
+                <div
+                    class="time-number"
+                    id="seconds"
+                >
+                    00
+                </div>
+
+                <div class="time-label">
+                    SECONDS
+                </div>
+
+            </div>
+
         </div>
 
-    </div>
+    </section>
 
 
-    <div class="stat">
+    <!-- =========================
+         UPLOAD
+    ========================= -->
 
-        <div class="stat-label">
-            COMPETITION POINTS
-        </div>
-
-        <div class="stat-number">
-            00
-        </div>
-
-        <div class="stat-small">
-            Current result
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- COMPETITION -->
-
-<section class="competition">
-
-    <div class="comp-top">
+    <section class="upload">
 
         <div>
 
-            <div class="comp-title">
-                COMPETITION
+            <div class="upload-title">
+                Project Submission
             </div>
 
             <div
-                class="comp-stage"
-                id="stage"
+                class="upload-info"
+                id="uploadInfo"
             >
-                LEARNING PERIOD
+                Upload is currently closed.
             </div>
 
         </div>
 
-    </div>
-
-
-    <div
-        class="comp-text"
-        id="stageText"
-    >
-        Project upload is closed during the learning period.
-    </div>
-
-
-    <div class="timer">
-
-        <div class="time">
-
-            <div
-                class="time-number"
-                id="days"
-            >
-                07
-            </div>
-
-            <div class="time-label">
-                DAYS
-            </div>
-
-        </div>
-
-
-        <div class="time">
-
-            <div
-                class="time-number"
-                id="hours"
-            >
-                00
-            </div>
-
-            <div class="time-label">
-                HOURS
-            </div>
-
-        </div>
-
-
-        <div class="time">
-
-            <div
-                class="time-number"
-                id="minutes"
-            >
-                00
-            </div>
-
-            <div class="time-label">
-                MINUTES
-            </div>
-
-        </div>
-
-
-        <div class="time">
-
-            <div
-                class="time-number"
-                id="seconds"
-            >
-                00
-            </div>
-
-            <div class="time-label">
-                SECONDS
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- 17 SKILLS -->
-
-<section id="skills">
-
-    <div class="section-title">
-        17 Digital Skills
-    </div>
-
-
-    <div class="skills-grid">
-
-
-        <!-- 01 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/web,development?lock=1"
-                alt="Web Development"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Web Development
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=web-development"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 02 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/python,programming?lock=2"
-                alt="Python"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Python
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=python"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 03 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/artificial,intelligence?lock=3"
-                alt="AI"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    AI
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=ai"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 04 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/ui,ux,design?lock=4"
-                alt="UI UX Design"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    UI/UX Design
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=uiux"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 05 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/graphic,design?lock=5"
-                alt="Graphic Design"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Graphic Design
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=graphic-design"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 06 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/video,editing?lock=6"
-                alt="Video Editing"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Video Editing
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=video-editing"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 07 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/digital,marketing?lock=7"
-                alt="Digital Marketing"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Digital Marketing
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=digital-marketing"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 08 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/content,creator?lock=8"
-                alt="Content Creation"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Content Creation
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=content-creation"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 09 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/photography,camera?lock=9"
-                alt="Photography"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Photography
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=photography"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 10 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/cybersecurity,computer?lock=10"
-                alt="Cybersecurity"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Cybersecurity
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=cybersecurity"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 11 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/data,analytics?lock=11"
-                alt="Data Analysis"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Data Analysis
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=data-analysis"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 12 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/mobile,app,development?lock=12"
-                alt="Mobile App Development"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Mobile App Development
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=mobile-app"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 13 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/animation,studio?lock=13"
-                alt="Animation"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Animation
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=animation"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 14 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/3d,design?lock=14"
-                alt="3D Design"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    3D Design
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=3d-design"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 15 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/game,development?lock=15"
-                alt="Game Development"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Game Development
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=game-development"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 16 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/ecommerce,business?lock=16"
-                alt="E-commerce"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    E-commerce
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=ecommerce"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- 17 -->
-
-        <article class="skill-card">
-
-            <img
-                class="skill-image"
-                src="https://loremflickr.com/900/550/project,management?lock=17"
-                alt="Project Management"
-            >
-
-            <div class="skill-content">
-
-                <div class="skill-name">
-                    Project Management
-                </div>
-
-                <div class="skill-meta">
-
-                    <div class="level">
-                        LEVEL 1
-                    </div>
-
-                    <div class="teacher-count">
-                        2 Teachers
-                    </div>
-
-                </div>
-
-                <a
-                    href="course.html?skill=project-management"
-                    class="skill-button"
-                >
-                    OPEN SKILL
-                </a>
-
-            </div>
-
-        </article>
-
-
-    </div>
-
-</section>
-
-
-<!-- LOWER AREA -->
-
-<div class="lower-grid">
-
-
-<!-- LEADERBOARD -->
-
-<section
-    class="card"
-    id="leaderboard"
->
-
-    <div class="card-title">
-        Live Leaderboard
-    </div>
-
-    <div class="card-sub">
-        300 students • 3 groups • 6 winners per group
-    </div>
-
-
-    <!-- LOWER 100 -->
-
-    <div class="board-group">
-
-        <div class="board-head">
-
-            <div class="board-name">
-                LOWER — 100 STUDENTS
-            </div>
-
-            <div class="board-count">
-                100
-            </div>
-
-        </div>
-
-
-        <div class="table-wrap">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>#</th>
-                        <th>STUDENT</th>
-                        <th>RESULT</th>
-                        <th>SKILL</th>
-                        <th>LEVEL</th>
-                    </tr>
-
-                </thead>
-
-                <tbody id="lowerTable">
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        <div class="winners">
-
-            <div class="winner">
-                <div class="winner-number">01</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">02</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">03</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">04</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">05</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">06</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- MEDIUM 100 -->
-
-    <div class="board-group">
-
-        <div class="board-head">
-
-            <div class="board-name">
-                MEDIUM — 100 STUDENTS
-            </div>
-
-            <div class="board-count">
-                100
-            </div>
-
-        </div>
-
-
-        <div class="table-wrap">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>#</th>
-                        <th>STUDENT</th>
-                        <th>RESULT</th>
-                        <th>SKILL</th>
-                        <th>LEVEL</th>
-                    </tr>
-
-                </thead>
-
-                <tbody id="mediumTable">
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        <div class="winners">
-
-            <div class="winner">
-                <div class="winner-number">01</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">02</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">03</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">04</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">05</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">06</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- HIGH 100 -->
-
-    <div class="board-group">
-
-        <div class="board-head">
-
-            <div class="board-name">
-                HIGH — 100 STUDENTS
-            </div>
-
-            <div class="board-count">
-                100
-            </div>
-
-        </div>
-
-
-        <div class="table-wrap">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>#</th>
-                        <th>STUDENT</th>
-                        <th>RESULT</th>
-                        <th>SKILL</th>
-                        <th>LEVEL</th>
-                    </tr>
-
-                </thead>
-
-                <tbody id="highTable">
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        <div class="winners">
-
-            <div class="winner">
-                <div class="winner-number">01</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">02</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">03</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">04</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">05</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-            <div class="winner">
-                <div class="winner-number">06</div>
-                <div class="winner-text">WINNER</div>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- TEACHERS -->
-
-<section
-    class="card"
-    id="teachers"
->
-
-    <div class="card-title">
-        Teachers
-    </div>
-
-    <div class="card-sub">
-        Two teachers are assigned to every skill.
-    </div>
-
-
-    <div id="teacherList"></div>
-
-
-    <!-- UPLOAD -->
-
-    <div
-        class="upload"
-        id="project"
-    >
-
-        <div class="card-title">
-            Project Submission
-        </div>
-
-        <div
-            class="upload-status"
-            id="uploadStatus"
-        >
-            🔒 Project upload is currently closed.
-        </div>
 
         <button
             class="upload-button"
@@ -2023,266 +1202,877 @@ td{
             UPLOAD PROJECT
         </button>
 
-    </div>
-
-</section>
+    </section>
 
 
-</div>
+    <!-- =========================
+         SKILLS
+    ========================= -->
+
+    <section
+        class="section"
+        id="skills"
+    >
+
+        <div class="section-head">
+
+            <h2>
+                17 Digital Skills
+            </h2>
+
+            <span>
+                6 Lower · 6 Medium · 5 High
+            </span>
+
+        </div>
+
+
+        <!-- LOWER -->
+
+        <div class="group-title">
+
+            <strong>
+                LOWER
+            </strong>
+
+            <span>
+                6 Skills
+            </span>
+
+        </div>
+
+
+        <div class="skills-grid">
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Video Editing','Lower','images/video-editing.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/video-editing.jpg"
+                    alt="Video Editing"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Video Editing
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Movie Recap','Lower','images/movie-recap.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/movie-recap.jpg"
+                    alt="Movie Recap"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Movie Recap
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Thumbnail Design','Lower','images/thumbnail.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/thumbnail.jpg"
+                    alt="Thumbnail Design"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Thumbnail Design
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Digital Marketing','Lower','images/digital-marketing.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/digital-marketing.jpg"
+                    alt="Digital Marketing"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Digital Marketing
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Affiliate Marketing','Lower','images/affiliate-marketing.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/affiliate-marketing.jpg"
+                    alt="Affiliate Marketing"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Affiliate Marketing
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Dropshipping','Lower','images/dropshipping.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/dropshipping.jpg"
+                    alt="Dropshipping"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Dropshipping
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MEDIUM -->
+
+        <div class="group-title">
+
+            <strong>
+                MEDIUM
+            </strong>
+
+            <span>
+                6 Skills
+            </span>
+
+        </div>
+
+
+        <div class="skills-grid">
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Forex','Medium','images/forex.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/forex.jpg"
+                    alt="Forex"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Forex
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Crypto','Medium','images/crypto.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/crypto.jpg"
+                    alt="Crypto"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Crypto
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Cybersecurity','Medium','images/cybersecurity.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/cybersecurity.jpg"
+                    alt="Cybersecurity"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Cybersecurity
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('AI Agent','Medium','images/ai-agent.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/ai-agent.jpg"
+                    alt="AI Agent"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        AI Agent
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('English','Medium','images/english.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/english.jpg"
+                    alt="English"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        English
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Data Analysis','Medium','images/data-analysis.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/data-analysis.jpg"
+                    alt="Data Analysis"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Data Analysis
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- HIGH -->
+
+        <div class="group-title">
+
+            <strong>
+                HIGH
+            </strong>
+
+            <span>
+                5 Skills
+            </span>
+
+        </div>
+
+
+        <div class="skills-grid">
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Python','High','images/python.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/python.jpg"
+                    alt="Python"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Python
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('JavaScript','High','images/javascript.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/javascript.jpg"
+                    alt="JavaScript"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        JavaScript
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('AI App Development','High','images/ai-app.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/ai-app.jpg"
+                    alt="AI App Development"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        AI App Development
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('AI Web','High','images/ai-web.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/ai-web.jpg"
+                    alt="AI Web"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        AI Web
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="skill-card"
+                onclick="openSkill('Web Development','High','images/web-development.jpg')"
+            >
+
+                <img
+                    class="skill-image"
+                    src="images/web-development.jpg"
+                    alt="Web Development"
+                >
+
+                <div class="skill-content">
+
+                    <div class="skill-name">
+                        Web Development
+                    </div>
+
+                    <div class="skill-level">
+                        LEVEL 1 · LEVEL 2 · LEVEL 3
+                    </div>
+
+                    <div class="skill-teacher">
+                        Teacher assignment available
+                    </div>
+
+                    <div class="view-skill">
+                        VIEW SKILL
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         LEADERBOARDS
+    ========================= -->
+
+    <section
+        class="section"
+        id="leaderboard"
+    >
+
+        <div class="section-head">
+
+            <h2>
+                Competition Leaderboards
+            </h2>
+
+            <span>
+                300 Students Per Group
+            </span>
+
+        </div>
+
+
+        <div class="leaderboards">
+
+
+            <!-- LOWER -->
+
+            <div class="leaderboard">
+
+                <div class="lb-header">
+
+                    <h3>
+                        LOWER
+                    </h3>
+
+                    <p>
+                        300 students · 6 winners
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="lb-scroll"
+                    id="lowerBoard"
+                ></div>
+
+            </div>
+
+
+            <!-- MEDIUM -->
+
+            <div class="leaderboard">
+
+                <div class="lb-header">
+
+                    <h3>
+                        MEDIUM
+                    </h3>
+
+                    <p>
+                        300 students · 6 winners
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="lb-scroll"
+                    id="mediumBoard"
+                ></div>
+
+            </div>
+
+
+            <!-- HIGH -->
+
+            <div class="leaderboard">
+
+                <div class="lb-header">
+
+                    <h3>
+                        HIGH
+                    </h3>
+
+                    <p>
+                        300 students · 6 winners
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="lb-scroll"
+                    id="highBoard"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </section>
 
 
 </main>
 
 
+<!-- =========================
+     SKILL DETAIL
+========================= -->
+
+<div
+    class="modal"
+    id="skillModal"
+>
+
+    <div class="modal-card">
+
+        <img
+            class="modal-image"
+            id="modalImage"
+            src=""
+            alt=""
+        >
+
+        <h2 id="modalTitle">
+            Skill
+        </h2>
+
+        <div
+            class="modal-level"
+            id="modalLevel"
+        >
+            LEVEL
+        </div>
+
+        <p class="modal-intro">
+
+            Learn the fundamentals of this skill,
+            understand the tools and concepts,
+            follow the lessons and progress through
+            Level 1, Level 2 and Level 3.
+
+        </p>
+
+
+        <div class="levels">
+
+            <div class="level">
+
+                <strong>
+                    LEVEL 1
+                </strong>
+
+                <span>
+                    Foundation
+                </span>
+
+            </div>
+
+
+            <div class="level">
+
+                <strong>
+                    LEVEL 2
+                </strong>
+
+                <span>
+                    Intermediate
+                </span>
+
+            </div>
+
+
+            <div class="level">
+
+                <strong>
+                    LEVEL 3
+                </strong>
+
+                <span>
+                    Advanced
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="close"
+            onclick="closeSkill()"
+        >
+            CLOSE
+        </button>
+
+    </div>
+
+</div>
+
+
 <script>
 
-
-/*
-====================================================
-STEADYMAZE STUDENT DASHBOARD
-====================================================
-
-17 skills
-2 teachers per skill
-300 leaderboard students
-100 Lower
-100 Medium
-100 High
-6 winner positions per group
-
-IMPORTANT:
-This frontend currently displays the structure.
-
-REAL students, scores, teachers, ratings and
-payments must later come from the database.
-====================================================
-*/
-
-
-/* 17 SKILLS */
-
-const skills = [
-
-    "Web Development",
-    "Python",
-    "AI",
-    "UI/UX Design",
-    "Graphic Design",
-    "Video Editing",
-    "Digital Marketing",
-    "Content Creation",
-    "Photography",
-    "Cybersecurity",
-    "Data Analysis",
-    "Mobile App Development",
-    "Animation",
-    "3D Design",
-    "Game Development",
-    "E-commerce",
-    "Project Management"
-
-];
-
-
-/* LEVELS */
-
-const levels = [
-    "LEVEL 1",
-    "LEVEL 2",
-    "LEVEL 3"
-];
-
-
-/* CREATE 100 ROWS PER GROUP */
-
-function createRows(
-    elementId,
-    startNumber
-){
-
-    const table =
-        document.getElementById(
-            elementId
-        );
-
-    let html = "";
-
-
-    for(
-        let i = 0;
-        i < 100;
-        i++
-    ){
-
-        const number =
-            startNumber + i;
-
-        const skill =
-            skills[
-                i % skills.length
-            ];
-
-        const level =
-            levels[
-                i % 3
-            ];
-
-
-        html += `
-
-        <tr>
-
-            <td>
-                ${number}
-            </td>
-
-            <td>
-                Student ${String(number).padStart(3,"0")}
-            </td>
-
-            <td class="result">
-                00
-            </td>
-
-            <td>
-                ${skill}
-            </td>
-
-            <td>
-                <span class="level-badge">
-                    ${level}
-                </span>
-            </td>
-
-        </tr>
-
-        `;
-
-    }
-
-
-    table.innerHTML =
-        html;
-}
-
-
-/* 300 STUDENTS */
-
-createRows(
-    "lowerTable",
-    1
-);
-
-createRows(
-    "mediumTable",
-    101
-);
-
-createRows(
-    "highTable",
-    201
-);
-
-
-/*
-====================================================
-TEACHERS
-
-No teacher names are shown.
-
-Every skill has 2 teachers.
-====================================================
-*/
-
-const teacherList =
-    document.getElementById(
-        "teacherList"
-    );
-
-
-let teacherHTML = "";
-
-
-skills.forEach(
-    function(skill,index){
-
-        const photo1 =
-            "https://loremflickr.com/100/100/teacher?lock="
-            + (index * 2 + 1);
-
-        const photo2 =
-            "https://loremflickr.com/100/100/teacher?lock="
-            + (index * 2 + 2);
-
-
-        teacherHTML += `
-
-        <div class="teacher">
-
-            <img
-                class="teacher-photo"
-                src="${photo1}"
-                alt="Teacher"
-            >
-
-            <div>
-
-                <div class="stars">
-                    ★★★★★
-                </div>
-
-                <div class="teacher-label">
-                    ${skill} • Teacher 01
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="teacher">
-
-            <img
-                class="teacher-photo"
-                src="${photo2}"
-                alt="Teacher"
-            >
-
-            <div>
-
-                <div class="stars">
-                    ★★★★★
-                </div>
-
-                <div class="teacher-label">
-                    ${skill} • Teacher 02
-                </div>
-
-            </div>
-
-        </div>
-
-        `;
-
-    }
-);
-
-
-teacherList.innerHTML =
-    teacherHTML;
-
-
-/*
-====================================================
-COMPETITION TIMER
-
-7 DAYS LEARNING
-then 24 HOURS UPLOAD
-
-Later this must move to backend/database so
-all students share exactly the same clock.
-====================================================
-*/
+/* =====================================================
+   COMPETITION TIMER
+===================================================== */
 
 const LEARNING_TIME =
     7 * 24 * 60 * 60 * 1000;
@@ -2291,192 +2081,231 @@ const UPLOAD_TIME =
     24 * 60 * 60 * 1000;
 
 
-let start =
+/*
+ IMPORTANT:
+ This is only frontend timing for now.
+
+ Later PostgreSQL/backend will provide the
+ official competition timestamps for all students.
+*/
+
+let competitionStart =
     localStorage.getItem(
         "steadymazeCompetitionStart"
     );
 
+if(!competitionStart){
 
-if(!start){
-
-    start =
+    competitionStart =
         Date.now();
 
     localStorage.setItem(
         "steadymazeCompetitionStart",
-        start
+        competitionStart
     );
 }
 
-
-start =
-    Number(start);
+competitionStart =
+    Number(competitionStart);
 
 
 const uploadStart =
-    start + LEARNING_TIME;
-
+    competitionStart +
+    LEARNING_TIME;
 
 const uploadEnd =
-    uploadStart + UPLOAD_TIME;
+    uploadStart +
+    UPLOAD_TIME;
 
 
 /*
-====================================================
-TIMER
-====================================================
+ Temporary submission count.
+
+ Later:
+ PostgreSQL = real count.
 */
+
+let submissionCount =
+    Number(
+        localStorage.getItem(
+            "steadymazeSubmissionCount"
+        ) || 0
+    );
+
+
+const MAX_SUBMISSIONS = 300;
+
+
+/* =====================================================
+   UPDATE COMPETITION
+===================================================== */
 
 function updateCompetition(){
 
     const now =
         Date.now();
 
-
-    const stage =
+    const stageName =
         document.getElementById(
-            "stage"
+            "stageName"
         );
 
-    const text =
+    const stageDescription =
         document.getElementById(
-            "stageText"
+            "stageDescription"
         );
 
+    const uploadInfo =
+        document.getElementById(
+            "uploadInfo"
+        );
 
-    const button =
+    const uploadButton =
         document.getElementById(
             "uploadButton"
         );
 
-    const status =
-        document.getElementById(
-            "uploadStatus"
-        );
-
-
-    let remaining;
-
 
     /*
+    -----------------------------------------------
     LEARNING
+    -----------------------------------------------
     */
 
     if(now < uploadStart){
 
-        remaining =
+        const remaining =
             uploadStart - now;
 
-        stage.textContent =
+        stageName.textContent =
             "LEARNING PERIOD";
 
-        text.textContent =
-            "Complete your lessons. Project upload is closed until the 7-day learning period ends.";
+        stageDescription.textContent =
+            "Complete your lessons before project submission opens.";
 
-        button.disabled =
+        uploadInfo.textContent =
+            "🔒 Upload is closed. The project window opens after the 7-day learning period.";
+
+        uploadButton.disabled =
             true;
 
-        status.innerHTML =
-            "🔒 Project upload is <strong>closed</strong>.";
+        updateTimer(remaining);
 
+        return;
     }
 
 
     /*
+    -----------------------------------------------
     UPLOAD
+    -----------------------------------------------
     */
 
-    else if(now < uploadEnd){
+    if(
+        now >= uploadStart &&
+        now < uploadEnd &&
+        submissionCount < MAX_SUBMISSIONS
+    ){
 
-        remaining =
+        const remaining =
             uploadEnd - now;
 
-        stage.textContent =
+        stageName.textContent =
             "PROJECT UPLOAD";
 
-        text.textContent =
+        stageDescription.textContent =
             "The project submission window is open.";
 
-        button.disabled =
+        uploadInfo.textContent =
+            "🟢 Upload is open. Submit your project before the deadline.";
+
+        uploadButton.disabled =
             false;
 
-        button.style.background =
-            "linear-gradient(90deg,#00e676,#28a9ff)";
+        updateTimer(remaining);
 
-        button.style.color =
-            "#00130b";
-
-        button.style.cursor =
-            "pointer";
-
-        status.innerHTML =
-            "🟢 Project upload is <strong>OPEN</strong>.";
-
+        return;
     }
 
 
     /*
+    -----------------------------------------------
     CLOSED
+    -----------------------------------------------
     */
 
-    else{
+    stageName.textContent =
+        "UPLOAD CLOSED";
 
-        remaining = 0;
+    uploadButton.disabled =
+        true;
 
-        stage.textContent =
-            "UPLOAD CLOSED";
 
-        text.textContent =
-            "The 24-hour project submission period has ended.";
+    if(
+        submissionCount >=
+        MAX_SUBMISSIONS
+    ){
 
-        button.disabled =
-            true;
+        stageDescription.textContent =
+            "The maximum of 300 submissions has been reached.";
 
-        status.innerHTML =
-            "🔒 Project upload is <strong>closed</strong>.";
+        uploadInfo.textContent =
+            "🔒 Upload closed because 300 submissions were reached.";
 
+    }else{
+
+        stageDescription.textContent =
+            "The 24-hour upload window has ended.";
+
+        uploadInfo.textContent =
+            "🔒 Upload closed because the submission period ended.";
     }
 
 
-    showTimer(
-        remaining
-    );
-
+    updateTimer(0);
 }
 
 
-/*
-TIMER DISPLAY
-*/
+/* =====================================================
+   TIMER
+===================================================== */
 
-function showTimer(ms){
+function updateTimer(milliseconds){
+
+    if(milliseconds < 0){
+        milliseconds = 0;
+    }
+
 
     const days =
         Math.floor(
-            ms /
-            (1000*60*60*24)
+            milliseconds /
+            (1000 * 60 * 60 * 24)
         );
+
 
     const hours =
         Math.floor(
-            (ms %
-            (1000*60*60*24))
+            (milliseconds %
+            (1000 * 60 * 60 * 24))
             /
-            (1000*60*60)
+            (1000 * 60 * 60)
         );
+
 
     const minutes =
         Math.floor(
-            (ms %
-            (1000*60*60))
+            (milliseconds %
+            (1000 * 60 * 60))
             /
-            (1000*60)
+            (1000 * 60)
         );
+
 
     const seconds =
         Math.floor(
-            (ms %
-            (1000*60))
+            (milliseconds %
+            (1000 * 60))
             /
             1000
         );
@@ -2485,30 +2314,25 @@ function showTimer(ms){
     document.getElementById(
         "days"
     ).textContent =
-        String(days)
-        .padStart(2,"0");
+        String(days).padStart(2,"0");
 
 
     document.getElementById(
         "hours"
     ).textContent =
-        String(hours)
-        .padStart(2,"0");
+        String(hours).padStart(2,"0");
 
 
     document.getElementById(
         "minutes"
     ).textContent =
-        String(minutes)
-        .padStart(2,"0");
+        String(minutes).padStart(2,"0");
 
 
     document.getElementById(
         "seconds"
     ).textContent =
-        String(seconds)
-        .padStart(2,"0");
-
+        String(seconds).padStart(2,"0");
 }
 
 
@@ -2520,11 +2344,152 @@ setInterval(
 );
 
 
-/*
-UPLOAD BUTTON
+/* =====================================================
+   SKILL DETAIL
+===================================================== */
 
-Later this connects to the real upload backend.
-*/
+function openSkill(
+    name,
+    level,
+    image
+){
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        name;
+
+    document.getElementById(
+        "modalLevel"
+    ).textContent =
+        level.toUpperCase() +
+        " · LEVEL 1 · LEVEL 2 · LEVEL 3";
+
+    document.getElementById(
+        "modalImage"
+    ).src =
+        image;
+
+    document.getElementById(
+        "modalImage"
+    ).alt =
+        name;
+
+    document.getElementById(
+        "skillModal"
+    ).classList.add("active");
+}
+
+
+function closeSkill(){
+
+    document.getElementById(
+        "skillModal"
+    ).classList.remove("active");
+}
+
+
+document.getElementById(
+    "skillModal"
+).addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target ===
+            this
+        ){
+
+            closeSkill();
+        }
+
+    }
+);
+
+
+/* =====================================================
+   300 STUDENT ROWS
+=====================================================
+
+ NO FAKE NAMES.
+
+ Each row has:
+ number
+ empty student space
+ result = 00
+ level = 00
+
+ PostgreSQL will later fill:
+ student_name
+ result
+ level
+===================================================== */
+
+function createLeaderboard(
+    elementId
+){
+
+    const board =
+        document.getElementById(
+            elementId
+        );
+
+
+    let html = "";
+
+
+    for(
+        let i = 1;
+        i <= 300;
+        i++
+    ){
+
+        html += `
+
+            <div class="lb-row">
+
+                <div class="lb-number">
+                    ${String(i).padStart(3,"0")}
+                </div>
+
+                <div class="lb-space">
+                </div>
+
+                <div class="lb-result">
+                    00
+                </div>
+
+                <div class="lb-level">
+                    00
+                </div>
+
+            </div>
+
+        `;
+    }
+
+
+    board.innerHTML =
+        html;
+}
+
+
+createLeaderboard(
+    "lowerBoard"
+);
+
+createLeaderboard(
+    "mediumBoard"
+);
+
+createLeaderboard(
+    "highBoard"
+);
+
+
+/* =====================================================
+   UPLOAD BUTTON
+===================================================== */
 
 document.getElementById(
     "uploadButton"
@@ -2532,15 +2497,18 @@ document.getElementById(
     "click",
     function(){
 
-        if(
-            !this.disabled
-        ){
-
-            alert(
-                "Project upload will connect to the SteadyMaze backend here."
-            );
-
+        if(this.disabled){
+            return;
         }
+
+        /*
+        Later:
+        this will open the REAL upload page/system.
+        */
+
+        alert(
+            "Project upload will connect to the backend."
+        );
 
     }
 );
