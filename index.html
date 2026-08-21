@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SteadyMaze | Learn. Build. Compete.</title>
+<title>SteadyMaze Academy</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -20,12 +21,7 @@ html{
 body{
     background:#020504;
     color:#f5f8f6;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
-a{
-    text-decoration:none;
-    color:inherit;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 /* NAVBAR */
@@ -35,7 +31,7 @@ a{
     top:0;
     left:0;
     right:0;
-    z-index:999;
+    z-index:1000;
 
     height:72px;
 
@@ -45,16 +41,18 @@ a{
 
     padding:0 6%;
 
-    background:rgba(2,5,4,.82);
+    background:rgba(2,5,4,.88);
     backdrop-filter:blur(18px);
 
-    border-bottom:1px solid rgba(255,255,255,.07);
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .logo{
+    color:white;
+    text-decoration:none;
+
     font-size:24px;
     font-weight:900;
-    letter-spacing:-1px;
 }
 
 .logo span{
@@ -67,7 +65,9 @@ a{
 }
 
 .nav-links a{
-    color:#8c9891;
+    color:#8b9890;
+    text-decoration:none;
+
     font-size:10px;
     font-weight:800;
 }
@@ -82,15 +82,22 @@ a{
 }
 
 .signin{
-    padding:10px 15px;
+    padding:10px 16px;
+
+    color:#aeb8b2;
+
+    text-decoration:none;
 
     border:1px solid rgba(255,255,255,.09);
     border-radius:9px;
 
-    color:#aeb8b2;
-
     font-size:9px;
     font-weight:900;
+}
+
+.signin:hover{
+    color:#00e676;
+    border-color:#00e676;
 }
 
 .get-started{
@@ -99,11 +106,18 @@ a{
     background:#00e676;
     color:#001b0c;
 
+    text-decoration:none;
+
     border-radius:9px;
 
     font-size:9px;
     font-weight:900;
 }
+
+.get-started:hover{
+    box-shadow:0 10px 30px rgba(0,230,118,.20);
+}
+
 
 /* HERO */
 
@@ -116,16 +130,17 @@ a{
     padding:140px 6% 90px;
 
     background:
-        radial-gradient(
-            circle at 80% 15%,
-            rgba(0,230,118,.12),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 10% 80%,
-            rgba(0,230,118,.05),
-            transparent 30%
-        );
+    radial-gradient(
+        circle at 80% 15%,
+        rgba(0,230,118,.13),
+        transparent 30%
+    ),
+
+    radial-gradient(
+        circle at 10% 80%,
+        rgba(0,230,118,.06),
+        transparent 30%
+    );
 }
 
 .hero-content{
@@ -137,17 +152,18 @@ a{
     align-items:center;
     gap:8px;
 
-    padding:8px 12px;
+    padding:8px 13px;
 
-    border:1px solid rgba(0,230,118,.17);
+    border:1px solid rgba(0,230,118,.18);
     border-radius:30px;
 
-    color:#89958e;
+    color:#89968e;
 
     background:rgba(0,230,118,.03);
 
     font-size:8px;
     font-weight:900;
+
     letter-spacing:1.5px;
 }
 
@@ -158,6 +174,7 @@ a{
     border-radius:50%;
 
     background:#00e676;
+
     box-shadow:0 0 12px #00e676;
 }
 
@@ -165,6 +182,7 @@ a{
     margin-top:25px;
 
     font-size:clamp(48px,7vw,86px);
+
     line-height:.98;
 
     letter-spacing:-5px;
@@ -174,44 +192,50 @@ a{
     color:#00e676;
 }
 
-.hero-description{
+.hero p{
     max-width:620px;
 
-    margin-top:24px;
+    margin-top:25px;
 
-    color:#7f8b84;
+    color:#7e8b83;
 
     font-size:13px;
+
     line-height:1.8;
 }
 
 .hero-buttons{
     display:flex;
+
     gap:12px;
 
     margin-top:30px;
 }
 
 .primary-button{
-    padding:14px 22px;
+    display:inline-block;
 
-    border-radius:10px;
+    padding:14px 23px;
 
     background:#00e676;
     color:#001b0c;
 
+    text-decoration:none;
+
+    border-radius:10px;
+
     font-size:10px;
     font-weight:900;
-
-    transition:.2s;
 }
 
 .primary-button:hover{
+    box-shadow:0 12px 35px rgba(0,230,118,.20);
     transform:translateY(-2px);
-    box-shadow:0 12px 35px rgba(0,230,118,.18);
 }
 
 .secondary-button{
+    display:inline-block;
+
     padding:13px 21px;
 
     border:1px solid rgba(255,255,255,.09);
@@ -219,16 +243,19 @@ a{
 
     color:#aeb8b2;
 
+    text-decoration:none;
+
     font-size:10px;
     font-weight:900;
 }
 
 .secondary-button:hover{
-    border-color:rgba(0,230,118,.3);
     color:#00e676;
+    border-color:#00e676;
 }
 
-/* SECTIONS */
+
+/* SKILLS */
 
 .section{
     padding:95px 6%;
@@ -247,47 +274,20 @@ a{
     margin-top:9px;
 
     font-size:38px;
+
     letter-spacing:-2px;
 }
 
 .section-description{
-    max-width:540px;
+    max-width:550px;
 
     margin-top:10px;
 
     color:#758179;
 
     font-size:11px;
+
     line-height:1.8;
-}
-
-/* SKILLS */
-
-.skill-group{
-    margin-top:45px;
-}
-
-.group-title{
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    font-size:17px;
-}
-
-.group-line{
-    width:30px;
-    height:2px;
-
-    background:#00e676;
-}
-
-.group-description{
-    margin-top:7px;
-
-    color:#647169;
-
-    font-size:9px;
 }
 
 .skills-grid{
@@ -297,7 +297,7 @@ a{
 
     gap:16px;
 
-    margin-top:20px;
+    margin-top:35px;
 }
 
 .skill-card{
@@ -306,6 +306,7 @@ a{
     background:#07100b;
 
     border:1px solid rgba(255,255,255,.08);
+
     border-radius:15px;
 
     transition:.25s;
@@ -314,20 +315,16 @@ a{
 .skill-card:hover{
     transform:translateY(-5px);
 
-    border-color:rgba(0,230,118,.28);
-
-    box-shadow:0 20px 55px rgba(0,0,0,.4);
+    border-color:rgba(0,230,118,.3);
 }
 
 .skill-image{
     width:100%;
-    height:185px;
-
-    display:block;
+    height:180px;
 
     object-fit:cover;
 
-    background:#0b1510;
+    display:block;
 }
 
 .skill-content{
@@ -350,58 +347,16 @@ a{
     font-weight:900;
 }
 
-.skill-description{
+.skill-text{
     margin-top:6px;
 
     color:#68756d;
 
     font-size:9px;
+
     line-height:1.6;
 }
 
-/* LEVELS */
-
-.levels{
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:15px;
-
-    margin-top:30px;
-}
-
-.level-card{
-    padding:25px;
-
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:15px;
-
-    background:#07100b;
-}
-
-.level-number{
-    color:#00e676;
-
-    font-size:8px;
-    font-weight:900;
-    letter-spacing:1.5px;
-}
-
-.level-card h3{
-    margin-top:10px;
-
-    font-size:19px;
-}
-
-.level-card p{
-    margin-top:8px;
-
-    color:#758179;
-
-    font-size:10px;
-    line-height:1.7;
-}
 
 /* COMPETITION */
 
@@ -413,15 +368,17 @@ a{
     padding:55px;
 
     border:1px solid rgba(0,230,118,.12);
+
     border-radius:22px;
 
     background:
-        radial-gradient(
-            circle at 90% 15%,
-            rgba(0,230,118,.09),
-            transparent 35%
-        ),
-        #06100a;
+    radial-gradient(
+        circle at 90% 15%,
+        rgba(0,230,118,.09),
+        transparent 35%
+    ),
+
+    #06100a;
 }
 
 .competition-box h2{
@@ -430,6 +387,7 @@ a{
     margin-top:12px;
 
     font-size:42px;
+
     letter-spacing:-2px;
 }
 
@@ -441,6 +399,7 @@ a{
     color:#78847d;
 
     font-size:11px;
+
     line-height:1.8;
 }
 
@@ -458,6 +417,7 @@ a{
     padding:19px;
 
     border:1px solid rgba(255,255,255,.07);
+
     border-radius:12px;
 
     background:rgba(255,255,255,.015);
@@ -479,6 +439,7 @@ a{
     font-size:8px;
 }
 
+
 /* HOW */
 
 .steps{
@@ -495,6 +456,7 @@ a{
     padding:23px;
 
     border:1px solid rgba(255,255,255,.08);
+
     border-radius:14px;
 
     background:#07100b;
@@ -519,8 +481,10 @@ a{
     color:#68756d;
 
     font-size:9px;
+
     line-height:1.7;
 }
+
 
 /* CTA */
 
@@ -534,19 +498,22 @@ a{
     text-align:center;
 
     border:1px solid rgba(255,255,255,.08);
+
     border-radius:20px;
 
     background:
-        radial-gradient(
-            circle,
-            rgba(0,230,118,.07),
-            transparent 60%
-        ),
-        #050b07;
+    radial-gradient(
+        circle,
+        rgba(0,230,118,.07),
+        transparent 60%
+    ),
+
+    #050b07;
 }
 
 .cta-box h2{
     font-size:35px;
+
     letter-spacing:-1.5px;
 }
 
@@ -558,8 +525,10 @@ a{
     color:#78847d;
 
     font-size:11px;
+
     line-height:1.7;
 }
+
 
 /* FOOTER */
 
@@ -573,7 +542,9 @@ footer{
 
 .footer{
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 }
 
@@ -592,6 +563,7 @@ footer{
     font-size:8px;
 }
 
+
 /* MOBILE */
 
 @media(max-width:900px){
@@ -607,6 +579,7 @@ footer{
     .steps{
         grid-template-columns:repeat(2,1fr);
     }
+
 }
 
 @media(max-width:600px){
@@ -647,15 +620,11 @@ footer{
         grid-template-columns:1fr;
     }
 
-    .levels{
+    .competition-grid{
         grid-template-columns:1fr;
     }
 
     .steps{
-        grid-template-columns:1fr;
-    }
-
-    .competition-grid{
         grid-template-columns:1fr;
     }
 
@@ -671,34 +640,60 @@ footer{
         flex-direction:column;
         gap:12px;
     }
+
 }
+
 </style>
 </head>
 
 <body>
 
+
 <!-- NAVBAR -->
 
 <header class="navbar">
 
-    <a href="index.html" class="logo">
+    <a href="./index.html" class="logo">
         Steady<span>Maze</span>
     </a>
 
     <nav class="nav-links">
-        <a href="#skills">Skills</a>
-        <a href="#competition">Competition</a>
-        <a href="#how">How It Works</a>
-        <a href="#about">About</a>
+
+        <a href="#skills">
+            Skills
+        </a>
+
+        <a href="#competition">
+            Competition
+        </a>
+
+        <a href="#how">
+            How It Works
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
     </nav>
 
     <div class="nav-buttons">
 
-        <a href="login.html" class="signin">
+        <!-- WORKING LOGIN LINK -->
+
+        <a
+            href="./login.html"
+            class="signin"
+        >
             SIGN IN
         </a>
 
-        <a href="signup.html" class="get-started">
+        <!-- WORKING GET STARTED LINK -->
+
+        <a
+            href="./login.html"
+            class="get-started"
+        >
             GET STARTED
         </a>
 
@@ -714,29 +709,50 @@ footer{
     <div class="hero-content">
 
         <div class="badge">
+
             <span class="dot"></span>
+
             STEADYMAZE ACADEMY
+
         </div>
 
+
         <h1>
+
             Learn skills.<br>
+
             Build <span>projects.</span><br>
+
             Compete.
+
         </h1>
 
-        <p class="hero-description">
+
+        <p>
+
             Learn practical digital skills, build real projects,
             work with teachers and prepare yourself for structured
             competitions at SteadyMaze Academy.
+
         </p>
+
 
         <div class="hero-buttons">
 
-            <a href="signup.html" class="primary-button">
-                START LEARNING →
+            <!-- WORKING BUTTON -->
+
+            <a
+                href="./login.html"
+                class="primary-button"
+            >
+                GET STARTED →
             </a>
 
-            <a href="#skills" class="secondary-button">
+
+            <a
+                href="#skills"
+                class="secondary-button"
+            >
                 EXPLORE SKILLS
             </a>
 
@@ -749,7 +765,10 @@ footer{
 
 <!-- SKILLS -->
 
-<section class="section" id="skills">
+<section
+    class="section"
+    id="skills"
+>
 
     <div class="section-label">
         17 DIGITAL SKILLS
@@ -760,465 +779,508 @@ footer{
     </h2>
 
     <p class="section-description">
-        Select a skill and progress through structured learning
-        levels with practical projects.
+
+        Learn practical digital skills through structured
+        learning paths and project-based training.
+
     </p>
 
 
-    <!-- LOWER -->
-
-    <div class="skill-group">
-
-        <div class="group-title">
-            <span class="group-line"></span>
-            Lower
-        </div>
-
-        <p class="group-description">
-            Practical digital skills for building a strong foundation.
-        </p>
+    <div class="skills-grid">
 
 
-        <div class="skills-grid">
+        <!-- 1 -->
 
+        <article class="skill-card">
 
-            <article class="skill-card">
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1000&q=85"
+                alt="Video Editing"
+            >
 
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=85"
-                    alt="Video Editing"
-                >
+            <div class="skill-content">
 
-                <div class="skill-content">
-                    <div class="skill-level">LOWER</div>
-                    <div class="skill-name">Video Editing</div>
-                    <div class="skill-description">
-                        Learn professional video editing.
-                    </div>
+                <div class="skill-level">
+                    LOWER
                 </div>
 
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=85"
-                    alt="Movie Recap"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">LOWER</div>
-                    <div class="skill-name">Movie Recap</div>
-                    <div class="skill-description">
-                        Learn movie recap and storytelling.
-                    </div>
+                <div class="skill-name">
+                    Video Editing
                 </div>
 
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=1200&q=85"
-                    alt="Thumbnail Design"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">LOWER</div>
-                    <div class="skill-name">Thumbnail</div>
-                    <div class="skill-description">
-                        Create attractive digital thumbnails.
-                    </div>
+                <div class="skill-text">
+                    Learn professional video editing.
                 </div>
 
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=85"
-                    alt="Digital Marketing"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">LOWER</div>
-                    <div class="skill-name">Digital Marketing</div>
-                    <div class="skill-description">
-                        Learn digital marketing strategies.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=85"
-                    alt="Affiliate Marketing"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">LOWER</div>
-                    <div class="skill-name">Affiliate Marketing</div>
-                    <div class="skill-description">
-                        Understand affiliate marketing.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1200&q=85"
-                    alt="Dropshipping"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">LOWER</div>
-                    <div class="skill-name">Dropshipping</div>
-                    <div class="skill-description">
-                        Learn e-commerce and dropshipping.
-                    </div>
-                </div>
-
-            </article>
-
-        </div>
-
-    </div>
-
-
-    <!-- MEDIUM -->
-
-    <div class="skill-group">
-
-        <div class="group-title">
-            <span class="group-line"></span>
-            Medium
-        </div>
-
-        <p class="group-description">
-            Intermediate technical and digital skills.
-        </p>
-
-
-        <div class="skills-grid">
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=85"
-                    alt="Forex"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">MEDIUM</div>
-                    <div class="skill-name">Forex</div>
-                    <div class="skill-description">
-                        Learn market concepts and analysis.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=1200&q=85"
-                    alt="Crypto"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">MEDIUM</div>
-                    <div class="skill-name">Crypto</div>
-                    <div class="skill-description">
-                        Explore blockchain and crypto concepts.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=85"
-                    alt="Cybersecurity"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">MEDIUM</div>
-                    <div class="skill-name">Cybersecurity</div>
-                    <div class="skill-description">
-                        Learn cybersecurity fundamentals.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=85"
-                    alt="AI Agent"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">MEDIUM</div>
-                    <div class="skill-name">AI Agent</div>
-                    <div class="skill-description">
-                        Learn intelligent AI automation.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=85"
-                    alt="English"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">MEDIUM</div>
-                    <div class="skill-name">English</div>
-                    <div class="skill-description">
-                        Improve practical English skills.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85"
-                    alt="Data Analysis"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">MEDIUM</div>
-                    <div class="skill-name">Data Analysis</div>
-                    <div class="skill-description">
-                        Learn how to understand and analyze data.
-                    </div>
-                </div>
-
-            </article>
-
-        </div>
-
-    </div>
-
-
-    <!-- HIGH -->
-
-    <div class="skill-group">
-
-        <div class="group-title">
-            <span class="group-line"></span>
-            High
-        </div>
-
-        <p class="group-description">
-            Advanced programming, AI and web development skills.
-        </p>
-
-
-        <div class="skills-grid">
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=1200&q=85"
-                    alt="Python"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">HIGH</div>
-                    <div class="skill-name">Python</div>
-                    <div class="skill-description">
-                        Build applications with Python.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=1200&q=85"
-                    alt="JavaScript"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">HIGH</div>
-                    <div class="skill-name">JavaScript</div>
-                    <div class="skill-description">
-                        Build interactive web applications.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1676299081847-824916de030a?auto=format&fit=crop&w=1200&q=85"
-                    alt="AI App"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">HIGH</div>
-                    <div class="skill-name">AI App</div>
-                    <div class="skill-description">
-                        Build applications powered by AI.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1200&q=85"
-                    alt="AI Web"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">HIGH</div>
-                    <div class="skill-name">AI Web</div>
-                    <div class="skill-description">
-                        Create modern AI-powered websites.
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="skill-card">
-
-                <img
-                    class="skill-image"
-                    src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=85"
-                    alt="Web Development"
-                >
-
-                <div class="skill-content">
-                    <div class="skill-level">HIGH</div>
-                    <div class="skill-name">Web Development</div>
-                    <div class="skill-description">
-                        Build modern professional websites.
-                    </div>
-                </div>
-
-            </article>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- LEVELS -->
-
-<section class="section" id="about">
-
-    <div class="section-label">
-        STRUCTURED LEARNING
-    </div>
-
-    <h2 class="section-title">
-        Learn step by step
-    </h2>
-
-    <div class="levels">
-
-        <div class="level-card">
-
-            <div class="level-number">
-                LEVEL 01
             </div>
 
-            <h3>
-                Foundation
-            </h3>
-
-            <p>
-                Start with the fundamentals and understand
-                the basic concepts of your selected skill.
-            </p>
-
-        </div>
+        </article>
 
 
-        <div class="level-card">
+        <!-- 2 -->
 
-            <div class="level-number">
-                LEVEL 02
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1000&q=85"
+                alt="Movie Recap"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    LOWER
+                </div>
+
+                <div class="skill-name">
+                    Movie Recap
+                </div>
+
+                <div class="skill-text">
+                    Learn recap and storytelling.
+                </div>
+
             </div>
 
-            <h3>
-                Practical
-            </h3>
-
-            <p>
-                Apply what you learn by working on practical
-                projects.
-            </p>
-
-        </div>
+        </article>
 
 
-        <div class="level-card">
+        <!-- 3 -->
 
-            <div class="level-number">
-                LEVEL 03
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=1000&q=85"
+                alt="Thumbnail"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    LOWER
+                </div>
+
+                <div class="skill-name">
+                    Thumbnail
+                </div>
+
+                <div class="skill-text">
+                    Create strong digital thumbnails.
+                </div>
+
             </div>
 
-            <h3>
-                Advanced
-            </h3>
+        </article>
 
-            <p>
-                Develop advanced skills and prepare for
-                project competition.
-            </p>
 
-        </div>
+        <!-- 4 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=85"
+                alt="Digital Marketing"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    LOWER
+                </div>
+
+                <div class="skill-name">
+                    Digital Marketing
+                </div>
+
+                <div class="skill-text">
+                    Learn modern marketing strategies.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 5 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=85"
+                alt="Affiliate Marketing"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    LOWER
+                </div>
+
+                <div class="skill-name">
+                    Affiliate Marketing
+                </div>
+
+                <div class="skill-text">
+                    Learn affiliate marketing basics.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 6 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1000&q=85"
+                alt="Dropshipping"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    LOWER
+                </div>
+
+                <div class="skill-name">
+                    Dropshipping
+                </div>
+
+                <div class="skill-text">
+                    Learn e-commerce fundamentals.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 7 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1000&q=85"
+                alt="Forex"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    MEDIUM
+                </div>
+
+                <div class="skill-name">
+                    Forex
+                </div>
+
+                <div class="skill-text">
+                    Learn market analysis concepts.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 8 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=1000&q=85"
+                alt="Crypto"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    MEDIUM
+                </div>
+
+                <div class="skill-name">
+                    Crypto
+                </div>
+
+                <div class="skill-text">
+                    Explore blockchain concepts.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 9 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1000&q=85"
+                alt="Cybersecurity"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    MEDIUM
+                </div>
+
+                <div class="skill-name">
+                    Cybersecurity
+                </div>
+
+                <div class="skill-text">
+                    Learn cybersecurity fundamentals.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 10 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1000&q=85"
+                alt="AI Agent"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    MEDIUM
+                </div>
+
+                <div class="skill-name">
+                    AI Agent
+                </div>
+
+                <div class="skill-text">
+                    Explore AI automation.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 11 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1000&q=85"
+                alt="English"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    MEDIUM
+                </div>
+
+                <div class="skill-name">
+                    English
+                </div>
+
+                <div class="skill-text">
+                    Improve practical English skills.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 12 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85"
+                alt="Data Analysis"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    MEDIUM
+                </div>
+
+                <div class="skill-name">
+                    Data Analysis
+                </div>
+
+                <div class="skill-text">
+                    Turn data into useful insights.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 13 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=1000&q=85"
+                alt="Python"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    HIGH
+                </div>
+
+                <div class="skill-name">
+                    Python
+                </div>
+
+                <div class="skill-text">
+                    Build applications using Python.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 14 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=1000&q=85"
+                alt="JavaScript"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    HIGH
+                </div>
+
+                <div class="skill-name">
+                    JavaScript
+                </div>
+
+                <div class="skill-text">
+                    Build interactive websites.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 15 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1676299081847-824916de030a?auto=format&fit=crop&w=1000&q=85"
+                alt="AI App"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    HIGH
+                </div>
+
+                <div class="skill-name">
+                    AI App
+                </div>
+
+                <div class="skill-text">
+                    Build AI-powered applications.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 16 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1000&q=85"
+                alt="AI Web"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    HIGH
+                </div>
+
+                <div class="skill-name">
+                    AI Web
+                </div>
+
+                <div class="skill-text">
+                    Create AI-powered web experiences.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 17 -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1000&q=85"
+                alt="Web Development"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">
+                    HIGH
+                </div>
+
+                <div class="skill-name">
+                    Web Development
+                </div>
+
+                <div class="skill-text">
+                    Build modern professional websites.
+                </div>
+
+            </div>
+
+        </article>
+
 
     </div>
 
@@ -1227,7 +1289,10 @@ footer{
 
 <!-- COMPETITION -->
 
-<section class="competition" id="competition">
+<section
+    class="competition"
+    id="competition"
+>
 
     <div class="competition-box">
 
@@ -1240,50 +1305,25 @@ footer{
         </h2>
 
         <p>
-            Students compete using projects based on the
-            skill and level they have studied. Projects are
-            submitted during the official competition period.
+            Build projects based on the skill you study
+            and prepare for structured competitions.
         </p>
-
 
         <div class="competition-grid">
 
             <div class="competition-card">
-
-                <strong>
-                    Real Projects
-                </strong>
-
-                <span>
-                    Build and submit your work.
-                </span>
-
+                <strong>Real Projects</strong>
+                <span>Build and submit your work.</span>
             </div>
 
-
             <div class="competition-card">
-
-                <strong>
-                    AI Review
-                </strong>
-
-                <span>
-                    Projects can be reviewed by the AI system.
-                </span>
-
+                <strong>AI Review</strong>
+                <span>Project evaluation system.</span>
             </div>
 
-
             <div class="competition-card">
-
-                <strong>
-                    Live Leaderboard
-                </strong>
-
-                <span>
-                    Follow your competition position.
-                </span>
-
+                <strong>Live Leaderboard</strong>
+                <span>Follow competition progress.</span>
             </div>
 
         </div>
@@ -1295,7 +1335,10 @@ footer{
 
 <!-- HOW IT WORKS -->
 
-<section class="section" id="how">
+<section
+    class="section"
+    id="how"
+>
 
     <div class="section-label">
         HOW IT WORKS
@@ -1319,7 +1362,7 @@ footer{
             </h3>
 
             <p>
-                Create your SteadyMaze student account.
+                Create your SteadyMaze account.
             </p>
 
         </div>
@@ -1336,7 +1379,7 @@ footer{
             </h3>
 
             <p>
-                Choose the skill and learning level you want.
+                Select the skill you want to learn.
             </p>
 
         </div>
@@ -1353,7 +1396,7 @@ footer{
             </h3>
 
             <p>
-                Learn from teachers and build projects.
+                Learn with teachers and build projects.
             </p>
 
         </div>
@@ -1395,8 +1438,11 @@ footer{
             prepare for competition.
         </p>
 
+
+        <!-- WORKING BUTTON -->
+
         <a
-            href="signup.html"
+            href="./login.html"
             class="primary-button"
         >
             CREATE ACCOUNT →
@@ -1424,6 +1470,7 @@ footer{
     </div>
 
 </footer>
+
 
 </body>
 </html>
