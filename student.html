@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Dashboard | SkillPro</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#030605;
+    --bg2:#07100b;
+    --card:#09110d;
+    --card2:#0c1711;
+    --green:#00e676;
+    --green-soft:rgba(0,230,118,.10);
+    --border:rgba(255,255,255,.07);
+    --text:#f4f7f5;
+    --muted:#7d8b83;
+    --red:#ff4659;
+    --yellow:#e9c46a;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+        radial-gradient(
+            circle at 80% 5%,
+            rgba(0,230,118,.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(0,230,118,.035),
+            transparent 28%
+        ),
+        var(--bg);
+
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button{
+    font-family:inherit;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    height:76px;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 28px;
+
+    background:rgba(3,6,5,.82);
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid var(--border);
+}
+
+.logo{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    color:var(--green);
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.notification{
+    width:40px;
+    height:40px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid var(--border);
+    border-radius:11px;
+
+    color:#a8b2ac;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        #00e676,
+        #06351e
+    );
+
+    color:#001f0d;
+    font-weight:900;
+}
+
+.profile-info small{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+.profile-info strong{
+    font-size:12px;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    position:fixed;
+    top:76px;
+    left:0;
+    bottom:0;
+
+    width:245px;
+
+    padding:25px 14px;
+
+    background:#050a07;
+    border-right:1px solid var(--border);
+
+    z-index:900;
+}
+
+.sidebar-title{
+    margin:0 12px 12px;
+
+    color:#536159;
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:1.5px;
+}
+
+.sidebar-link{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:13px 14px;
+    margin-bottom:5px;
+
+    border-radius:11px;
+
+    color:#859189;
+
+    font-size:12px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.sidebar-link:hover{
+    color:white;
+    background:#0b140f;
+}
+
+.sidebar-link.active{
+    color:var(--green);
+    background:var(--green-soft);
+    border:1px solid rgba(0,230,118,.10);
+}
+
+.sidebar-icon{
+    width:20px;
+    text-align:center;
+    font-size:15px;
+}
+
+.sidebar-bottom{
+    position:absolute;
+    left:14px;
+    right:14px;
+    bottom:22px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    margin-left:245px;
+    padding:110px 35px 40px;
+}
+
+.container{
+    max-width:1300px;
+    margin:auto;
+}
+
+/* =========================
+   WELCOME
+========================= */
+
+.welcome{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    margin-bottom:27px;
+}
+
+.welcome-label{
+    color:var(--green);
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.welcome h1{
+    margin-top:7px;
+
+    font-size:34px;
+    line-height:1.1;
+
+    letter-spacing:-1.5px;
+}
+
+.welcome p{
+    margin-top:7px;
+
+    color:var(--muted);
+    font-size:12px;
+}
+
+.dashboard-date{
+    padding:10px 14px;
+
+    border:1px solid var(--border);
+    border-radius:10px;
+
+    color:#89958e;
+    font-size:10px;
+}
+
+/* =========================
+   STATISTICS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+
+    margin-bottom:18px;
+}
+
+.stat-card{
+    position:relative;
+    overflow:hidden;
+
+    padding:20px;
+
+    background:linear-gradient(
+        145deg,
+        var(--card2),
+        var(--card)
+    );
+
+    border:1px solid var(--border);
+    border-radius:15px;
+}
+
+.stat-card::after{
+    content:"";
+
+    position:absolute;
+    width:100px;
+    height:100px;
+
+    right:-45px;
+    top:-45px;
+
+    background:rgba(0,230,118,.06);
+
+    filter:blur(25px);
+    border-radius:50%;
+}
+
+.stat-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:700;
+}
+
+.stat-icon{
+    color:var(--green);
+    font-size:15px;
+}
+
+.stat-value{
+    margin-top:13px;
+
+    font-size:26px;
+    font-weight:900;
+}
+
+.stat-note{
+    margin-top:5px;
+
+    color:#66736b;
+    font-size:9px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:1.45fr .85fr;
+    gap:18px;
+
+    margin-bottom:18px;
+}
+
+.card{
+    background:linear-gradient(
+        145deg,
+        #0a130e,
+        #07100b
+    );
+
+    border:1px solid var(--border);
+    border-radius:16px;
+
+    overflow:hidden;
+}
+
+.card-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:19px 20px 8px;
+}
+
+.card-title{
+    font-size:14px;
+    font-weight:900;
+}
+
+.card-subtitle{
+    margin-top:4px;
+
+    color:var(--muted);
+    font-size:9px;
+}
+
+.card-link{
+    color:var(--green);
+    font-size:9px;
+    font-weight:900;
+}
+
+/* =========================
+   ANALYTICS
+========================= */
+
+.chart{
+    height:260px;
+
+    margin:10px 20px 0;
+
+    position:relative;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        100% 52px,
+        80px 100%;
+}
+
+.chart-empty{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#536159;
+
+    font-size:10px;
+}
+
+.chart-legend{
+    display:flex;
+    gap:18px;
+
+    padding:12px 20px 17px;
+
+    color:#59665e;
+
+    font-size:9px;
+}
+
+.legend-dot{
+    color:var(--green);
+}
+
+/* =========================
+   CURRENT SKILL
+========================= */
+
+.skill-content{
+    padding:16px 20px 20px;
+}
+
+.skill-empty{
+    min-height:160px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+}
+
+.skill-icon{
+    width:50px;
+    height:50px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:14px;
+
+    background:var(--green-soft);
+
+    color:var(--green);
+    font-size:22px;
+}
+
+.skill-empty strong{
+    margin-top:12px;
+
+    font-size:12px;
+}
+
+.skill-empty span{
+    margin-top:5px;
+
+    color:var(--muted);
+    font-size:9px;
+}
+
+/* =========================
+   COMPETITION
+========================= */
+
+.competition{
+    margin-bottom:18px;
+}
+
+.competition-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:19px 20px;
+}
+
+.status{
+    padding:6px 9px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.04);
+
+    color:#66736b;
+
+    font-size:8px;
+    font-weight:900;
+}
+
+.competition-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+}
+
+.comp-item{
+    padding:20px;
+
+    text-align:center;
+
+    border-right:1px solid var(--border);
+}
+
+.comp-item:last-child{
+    border-right:0;
+}
+
+.comp-item strong{
+    display:block;
+
+    font-size:23px;
+    font-weight:900;
+}
+
+.comp-item span{
+    display:block;
+
+    margin-top:4px;
+
+    color:var(--muted);
+    font-size:8px;
+}
+
+.timer-box{
+    margin:18px 20px;
+
+    padding:16px;
+
+    text-align:center;
+
+    background:rgba(0,230,118,.025);
+
+    border:1px solid rgba(0,230,118,.08);
+    border-radius:12px;
+}
+
+.timer-label{
+    color:var(--muted);
+    font-size:8px;
+    letter-spacing:1px;
+}
+
+.timer{
+    margin-top:6px;
+
+    color:var(--green);
+
+    font-size:20px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+/* =========================
+   TWO COLUMN
+========================= */
+
+.two-column{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+
+    margin-bottom:18px;
+}
+
+/* =========================
+   LESSONS
+========================= */
+
+.lesson-list{
+    padding:7px 20px 18px;
+}
+
+.lesson{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:13px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.lesson:last-child{
+    border-bottom:0;
+}
+
+.lesson-number{
+    width:30px;
+    height:30px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:#101913;
+
+    color:var(--green);
+
+    font-size:9px;
+    font-weight:900;
+}
+
+.lesson-info{
+    flex:1;
+}
+
+.lesson-info strong{
+    display:block;
+
+    color:#cbd3ce;
+
+    font-size:11px;
+}
+
+.lesson-info span{
+    display:block;
+
+    margin-top:4px;
+
+    color:#56635b;
+
+    font-size:8px;
+}
+
+.lesson-status{
+    color:#56635b;
+
+    font-size:8px;
+    font-weight:900;
+}
+
+/* =========================
+   TEACHERS
+========================= */
+
+.teacher-list{
+    padding:7px 20px 18px;
+}
+
+.teacher-empty{
+    min-height:210px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-direction:column;
+
+    text-align:center;
+}
+
+.teacher-empty-icon{
+    width:48px;
+    height:48px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.035);
+
+    color:#59665e;
+
+    font-size:20px;
+}
+
+.teacher-empty strong{
+    margin-top:11px;
+
+    font-size:11px;
+}
+
+.teacher-empty span{
+    margin-top:5px;
+
+    color:var(--muted);
+
+    font-size:8px;
+}
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+.leaderboard{
+    padding:7px 20px 18px;
+}
+
+.rank-row{
+    display:grid;
+    grid-template-columns:40px 1fr 75px 60px;
+
+    align-items:center;
+
+    padding:13px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+    color:#59665e;
+
+    font-size:9px;
+}
+
+.rank-row:last-child{
+    border-bottom:0;
+}
+
+.rank{
+    font-weight:900;
+}
+
+.rank-player{
+    color:#68756d;
+}
+
+.rank-points{
+    text-align:right;
+}
+
+.rank-status{
+    text-align:right;
+}
+
+/* =========================
+   PAYMENTS
+========================= */
+
+.payment-list{
+    padding:7px 20px 18px;
+}
+
+.payment-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:14px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.payment-row:last-child{
+    border-bottom:0;
+}
+
+.payment-left strong{
+    display:block;
+
+    color:#69756e;
+
+    font-size:10px;
+}
+
+.payment-left span{
+    display:block;
+
+    margin-top:4px;
+
+    color:#4e5a53;
+
+    font-size:8px;
+}
+
+.payment-right{
+    text-align:right;
+}
+
+.payment-right strong{
+    display:block;
+
+    color:#5e6a63;
+
+    font-size:10px;
+}
+
+.payment-right span{
+    display:block;
+
+    margin-top:4px;
+
+    color:#4e5a53;
+
+    font-size:8px;
+}
+
+/* =========================
+   PROJECT
+========================= */
+
+.project-card{
+    padding:22px;
+
+    border:1px dashed rgba(0,230,118,.13);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,230,118,.035),
+            rgba(255,255,255,.01)
+        );
+
+    border-radius:16px;
+}
+
+.project-content{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.project-content h3{
+    font-size:14px;
+}
+
+.project-content p{
+    margin-top:5px;
+
+    color:var(--muted);
+
+    font-size:9px;
+    line-height:1.6;
+}
+
+.upload-button{
+    min-width:135px;
+
+    padding:11px 16px;
+
+    border:1px solid rgba(0,230,118,.15);
+    border-radius:9px;
+
+    background:#07130c;
+
+    color:#59665e;
+
+    font-size:9px;
+    font-weight:900;
+
+    cursor:not-allowed;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+        width:70px;
+    }
+
+    .sidebar-title,
+    .sidebar-link span:not(.sidebar-icon){
+        display:none;
+    }
+
+    .sidebar-link{
+        justify-content:center;
+        padding:14px 5px;
+    }
+
+    .main{
+        margin-left:70px;
+        padding-left:20px;
+        padding-right:20px;
+    }
+
+    .two-column{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .header{
+        padding:0 15px;
+    }
+
+    .profile-info{
+        display:none;
+    }
+
+    .main{
+        padding:100px 12px 30px;
+    }
+
+    .welcome{
+        display:block;
+    }
+
+    .welcome h1{
+        font-size:27px;
+    }
+
+    .dashboard-date{
+        display:inline-block;
+        margin-top:14px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:9px;
+    }
+
+    .stat-card{
+        padding:15px;
+    }
+
+    .stat-value{
+        font-size:21px;
+    }
+
+    .competition-stats{
+        grid-template-columns:1fr;
+    }
+
+    .comp-item{
+        border-right:0;
+        border-bottom:1px solid var(--border);
+    }
+
+    .comp-item:last-child{
+        border-bottom:0;
+    }
+
+    .project-content{
+        display:block;
+    }
+
+    .upload-button{
+        width:100%;
+        margin-top:15px;
+    }
+
+    .rank-row{
+        grid-template-columns:30px 1fr 60px;
+    }
+
+    .rank-status{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <a href="index.html" class="logo">
+        Skill<span>Pro</span>
+    </a>
+
+    <div class="header-right">
+
+        <div class="notification">
+            🔔
+        </div>
+
+        <div class="profile">
+
+            <div class="avatar">
+                S
+            </div>
+
+            <div class="profile-info">
+                <small>STUDENT</small>
+                <strong>Student Account</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">
+        STUDENT
+    </div>
+
+    <a href="#dashboard" class="sidebar-link active">
+        <span class="sidebar-icon">▦</span>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="#analytics" class="sidebar-link">
+        <span class="sidebar-icon">↗</span>
+        <span>Analytics</span>
+    </a>
+
+    <a href="#lessons" class="sidebar-link">
+        <span class="sidebar-icon">▤</span>
+        <span>My Lessons</span>
+    </a>
+
+    <a href="#competition" class="sidebar-link">
+        <span class="sidebar-icon">🏆</span>
+        <span>Competition</span>
+    </a>
+
+    <a href="#teachers" class="sidebar-link">
+        <span class="sidebar-icon">♙</span>
+        <span>Teachers</span>
+    </a>
+
+    <a href="#payments" class="sidebar-link">
+        <span class="sidebar-icon">▣</span>
+        <span>Payments</span>
+    </a>
+
+    <div class="sidebar-bottom">
+
+        <a href="index.html" class="sidebar-link">
+            <span class="sidebar-icon">←</span>
+            <span>Home</span>
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+<div class="container" id="dashboard">
+
+
+<!-- =========================
+     WELCOME
+========================= -->
+
+<section class="welcome">
+
+    <div>
+
+        <div class="welcome-label">
+            STUDENT DASHBOARD
+        </div>
+
+        <h1>
+            Welcome back 👋
+        </h1>
+
+        <p>
+            Track your learning, competition and progress.
+        </p>
+
+    </div>
+
+    <div class="dashboard-date">
+        Dashboard
+    </div>
+
+</section>
+
+
+<!-- =========================
+     STATS
+========================= -->
+
+<section class="stats">
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+            <span>Lessons</span>
+            <span class="stat-icon">▤</span>
+        </div>
+
+        <div class="stat-value">
+            00
+        </div>
+
+        <div class="stat-note">
+            From database
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+            <span>Completed</span>
+            <span class="stat-icon">✓</span>
+        </div>
+
+        <div class="stat-value">
+            00
+        </div>
+
+        <div class="stat-note">
+            From database
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+            <span>Competition Points</span>
+            <span class="stat-icon">🏆</span>
+        </div>
+
+        <div class="stat-value">
+            00
+        </div>
+
+        <div class="stat-note">
+            From competition system
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+            <span>Total Paid</span>
+            <span class="stat-icon">$</span>
+        </div>
+
+        <div class="stat-value">
+            $0.00
+        </div>
+
+        <div class="stat-note">
+            Payment history
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ANALYTICS + SKILL
+========================= -->
+
+<section class="grid" id="analytics">
+
+
+    <!-- ANALYTICS -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+                <div class="card-title">
+                    Learning Analytics
+                </div>
+
+                <div class="card-subtitle">
+                    Performance data will appear here
+                </div>
+            </div>
+
+            <div class="card-link">
+                LIVE
+            </div>
+
+        </div>
+
+
+        <div class="chart">
+
+            <div class="chart-empty">
+                No performance data yet
+            </div>
+
+        </div>
+
+
+        <div class="chart-legend">
+
+            <span>
+                <span class="legend-dot">●</span>
+                Performance
+            </span>
+
+            <span>
+                Waiting for student activity
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- CURRENT SKILL -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Current Skill
+                </div>
+
+                <div class="card-subtitle">
+                    Student skill information
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="skill-content">
+
+            <div class="skill-empty">
+
+                <div class="skill-icon">
+                    ✦
+                </div>
+
+                <strong>
+                    No skill selected
+                </strong>
+
+                <span>
+                    Skill information will appear after enrollment.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     COMPETITION
+========================= -->
+
+<section class="card competition" id="competition">
+
+    <div class="competition-header">
+
+        <div>
+
+            <div class="card-title">
+                Competition
+            </div>
+
+            <div class="card-subtitle">
+                Competition statistics
+            </div>
+
+        </div>
+
+        <div class="status">
+            NOT STARTED
+        </div>
+
+    </div>
+
+
+    <div class="competition-stats">
+
+        <div class="comp-item">
+
+            <strong>
+                00
+            </strong>
+
+            <span>
+                CURRENT RANK
+            </span>
+
+        </div>
+
+
+        <div class="comp-item">
+
+            <strong>
+                00
+            </strong>
+
+            <span>
+                POINTS
+            </span>
+
+        </div>
+
+
+        <div class="comp-item">
+
+            <strong>
+                00
+            </strong>
+
+            <span>
+                STUDENTS REMAINING
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="timer-box">
+
+        <div class="timer-label">
+            COMPETITION TIME
+        </div>
+
+        <div class="timer" id="competitionTimer">
+            00D 00H 00M 00S
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     LESSONS + TEACHERS
+========================= -->
+
+<section class="two-column">
+
+
+    <!-- LESSONS -->
+
+    <div class="card" id="lessons">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    My Lessons
+                </div>
+
+                <div class="card-subtitle">
+                    Lessons assigned to you
+                </div>
+
+            </div>
+
+            <div class="card-link">
+                00
+            </div>
+
+        </div>
+
+
+        <div class="lesson-list">
+
+
+            <div class="lesson">
+
+                <div class="lesson-number">
+                    00
+                </div>
+
+                <div class="lesson-info">
+
+                    <strong>
+                        No lesson assigned
+                    </strong>
+
+                    <span>
+                        Waiting for teacher assignment
+                    </span>
+
+                </div>
+
+                <div class="lesson-status">
+                    —
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- TEACHERS -->
+
+    <div class="card" id="teachers">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    My Teachers
+                </div>
+
+                <div class="card-subtitle">
+                    Teachers assigned to you
+                </div>
+
+            </div>
+
+            <div class="card-link">
+                00
+            </div>
+
+        </div>
+
+
+        <div class="teacher-list">
+
+            <div class="teacher-empty">
+
+                <div class="teacher-empty-icon">
+                    ♙
+                </div>
+
+                <strong>
+                    No teacher assigned
+                </strong>
+
+                <span>
+                    Teacher information will appear here
+                    when assigned.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     LEADERBOARD + PAYMENTS
+========================= -->
+
+<section class="two-column">
+
+
+    <!-- LEADERBOARD -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Live Leaderboard
+                </div>
+
+                <div class="card-subtitle">
+                    Competition ranking
+                </div>
+
+            </div>
+
+            <div class="card-link">
+                LIVE
+            </div>
+
+        </div>
+
+
+        <div class="leaderboard">
+
+
+            <div class="rank-row">
+
+                <span class="rank">
+                    00
+                </span>
+
+                <span class="rank-player">
+                    No student data
+                </span>
+
+                <span class="rank-points">
+                    00
+                </span>
+
+                <span class="rank-status">
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="rank-row">
+
+                <span class="rank">
+                    00
+                </span>
+
+                <span class="rank-player">
+                    Waiting for competition
+                </span>
+
+                <span class="rank-points">
+                    00
+                </span>
+
+                <span class="rank-status">
+                    —
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- PAYMENTS -->
+
+    <div class="card" id="payments">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Payments
+                </div>
+
+                <div class="card-subtitle">
+                    Student payment history
+                </div>
+
+            </div>
+
+            <div class="card-link">
+                SECURE
+            </div>
+
+        </div>
+
+
+        <div class="payment-list">
+
+
+            <div class="payment-row">
+
+                <div class="payment-left">
+
+                    <strong>
+                        Total Payments
+                    </strong>
+
+                    <span>
+                        Completed transactions
+                    </span>
+
+                </div>
+
+                <div class="payment-right">
+
+                    <strong>
+                        $0.00
+                    </strong>
+
+                    <span>
+                        00 TRANSACTIONS
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="payment-row">
+
+                <div class="payment-left">
+
+                    <strong>
+                        Visa / Mastercard
+                    </strong>
+
+                    <span>
+                        Payment method
+                    </span>
+
+                </div>
+
+                <div class="payment-right">
+
+                    <strong>
+                        NOT CONNECTED
+                    </strong>
+
+                    <span>
+                        —
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="payment-row">
+
+                <div class="payment-left">
+
+                    <strong>
+                        PayPal
+                    </strong>
+
+                    <span>
+                        Payment method
+                    </span>
+
+                </div>
+
+                <div class="payment-right">
+
+                    <strong>
+                        NOT CONNECTED
+                    </strong>
+
+                    <span>
+                        —
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PROJECT UPLOAD
+========================= -->
+
+<section class="project-card">
+
+    <div class="project-content">
+
+        <div>
+
+            <h3>
+                Competition Project
+            </h3>
+
+            <p>
+                Project upload will open automatically according
+                to the official competition schedule.
+                After the submission window closes, the upload
+                system will remain closed until the tie-break stage
+                is officially activated.
+            </p>
+
+        </div>
+
+
+        <button
+            class="upload-button"
+            type="button"
+            disabled
+        >
+            UPLOAD CLOSED
+        </button>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</main>
+
+
+<script>
+
+/*
+    IMPORTANT
+
+    This page contains NO fake student statistics.
+
+    All student information will later come from:
+
+    PostgreSQL
+          ↓
+       Backend
+          ↓
+    student.html
+
+    Until then the dashboard displays 00 / $0.00.
+*/
+
+
+/*
+    Competition timer
+
+    It starts at 00 because there is no real
+    competition start/deadline in the database yet.
+
+    The real 7-day timer will be controlled by
+    the backend/database later.
+*/
+
+const competitionTimer =
+    document.getElementById("competitionTimer");
+
+function setCompetitionTimer(){
+
+    competitionTimer.textContent =
+        "00D 00H 00M 00S";
+}
+
+setCompetitionTimer();
+
+
+/*
+    Sidebar active navigation
+*/
+
+const sidebarLinks =
+    document.querySelectorAll(".sidebar-link");
+
+sidebarLinks.forEach(function(link){
+
+    link.addEventListener("click",function(){
+
+        sidebarLinks.forEach(function(item){
+            item.classList.remove("active");
+        });
+
+        if(
+            !this.href.includes("index.html")
+        ){
+            this.classList.add("active");
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
