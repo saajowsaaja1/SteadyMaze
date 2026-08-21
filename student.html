@@ -1,0 +1,3359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dashboard | Pro Skills</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #18a957;
+            --green-dark: #087c3a;
+            --green-light: #25c96b;
+            --green-soft: #eaf8ef;
+
+            --background: #f5f8f6;
+            --white: #ffffff;
+            --text: #142019;
+            --muted: #758179;
+            --border: #e1e9e4;
+
+            --red: #dc3030;
+            --red-soft: #fff0f0;
+
+            --shadow: 0 12px 35px rgba(12, 82, 40, 0.08);
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* ==============================
+           SIDEBAR
+        ============================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 250px;
+            height: 100vh;
+
+            background: var(--white);
+            border-right: 1px solid var(--border);
+
+            padding: 22px 17px;
+
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            padding: 8px 10px 30px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--green-dark),
+                    var(--green-light)
+                );
+
+            color: white;
+
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .logo-text {
+            font-size: 19px;
+            font-weight: 900;
+        }
+
+        .nav-title {
+            color: #9aa59f;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            margin: 12px 11px 8px;
+
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px 14px;
+
+            margin-bottom: 4px;
+
+            border-radius: 12px;
+
+            color: #65736b;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+        .nav-link:hover {
+            background: var(--green-soft);
+            color: var(--green-dark);
+        }
+
+        .nav-link.active {
+            background: var(--green-soft);
+            color: var(--green-dark);
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 76px;
+
+            background: rgba(255,255,255,0.96);
+
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 32px;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 50;
+        }
+
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mobile-menu {
+            display: none;
+
+            width: 40px;
+            height: 40px;
+
+            border: 0;
+
+            border-radius: 10px;
+
+            background: var(--green-soft);
+
+            color: var(--green-dark);
+
+            font-size: 19px;
+        }
+
+        .page-title h1 {
+            font-size: 21px;
+        }
+
+        .page-title p {
+            margin-top: 4px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: var(--green-soft);
+
+            border: 2px solid #bfe8cd;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--green-dark);
+
+            font-weight: 900;
+        }
+
+        .profile-text strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .profile-text span {
+            display: block;
+
+            margin-top: 2px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+        .content {
+            max-width: 1500px;
+
+            margin: auto;
+
+            padding: 30px 32px 60px;
+        }
+
+        /* ==============================
+           WELCOME
+        ============================== */
+
+        .welcome {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 30px;
+
+            border-radius: 23px;
+
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(255,255,255,0.2),
+                    transparent 25%
+                ),
+                linear-gradient(
+                    135deg,
+                    #087c3a,
+                    #18a957 55%,
+                    #25c96b
+                );
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 24px;
+        }
+
+        .welcome h2 {
+            font-size: 27px;
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            font-size: 13px;
+            opacity: .87;
+        }
+
+        .account-status {
+            position: absolute;
+
+            right: 28px;
+            top: 27px;
+
+            padding: 12px 18px;
+
+            border-radius: 14px;
+
+            background: rgba(255,255,255,.13);
+
+            border: 1px solid rgba(255,255,255,.22);
+
+            text-align: center;
+        }
+
+        .account-status span {
+            display: block;
+
+            font-size: 9px;
+
+            opacity: .75;
+
+            margin-bottom: 4px;
+        }
+
+        .account-status strong {
+            font-size: 13px;
+        }
+
+        /* ==============================
+           SECTION
+        ============================== */
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin: 28px 0 15px;
+        }
+
+        .section-heading h2 {
+            font-size: 19px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 11px;
+
+            margin-top: 4px;
+        }
+
+        /* ==============================
+           STATS
+        ============================== */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 17px;
+
+            padding: 19px;
+
+            box-shadow:
+                0 5px 18px rgba(0,0,0,.025);
+        }
+
+        .stat-icon {
+            width: 39px;
+            height: 39px;
+
+            border-radius: 11px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--green-soft);
+
+            color: var(--green-dark);
+
+            font-weight: 900;
+
+            margin-bottom: 13px;
+        }
+
+        .stat-card h3 {
+            font-size: 21px;
+            margin-bottom: 4px;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* ==============================
+           CURRENT COURSE
+        ============================== */
+
+        .current-course {
+            display: grid;
+
+            grid-template-columns:
+                210px 1fr;
+
+            gap: 21px;
+
+            padding: 21px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 19px;
+
+            box-shadow: var(--shadow);
+        }
+
+        .course-image {
+            height: 150px;
+
+            overflow: hidden;
+
+            border-radius: 15px;
+        }
+
+        .course-image img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .badge {
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            background: var(--green-soft);
+
+            color: var(--green-dark);
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+        }
+
+        .course-info h3 {
+            font-size: 22px;
+            margin: 8px 0 6px;
+        }
+
+        .course-info p {
+            color: var(--muted);
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        .teacher-row {
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            margin-top: 14px;
+        }
+
+        .teacher-avatar {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            background: var(--green-soft);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--green-dark);
+
+            font-weight: 900;
+
+            font-size: 11px;
+        }
+
+        .teacher-row small {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .teacher-row strong {
+            display: block;
+            font-size: 11px;
+        }
+
+        /* ==============================
+           SKILLS
+        ============================== */
+
+        .skills-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 16px;
+        }
+
+        .skill-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 17px;
+
+            overflow: hidden;
+
+            transition: .2s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow: var(--shadow);
+
+            border-color: #bde4ca;
+        }
+
+        .skill-image {
+            height: 130px;
+
+            overflow: hidden;
+        }
+
+        .skill-image img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition: .3s;
+        }
+
+        .skill-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .skill-body {
+            padding: 15px;
+        }
+
+        .skill-group {
+            color: var(--green-dark);
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+
+            letter-spacing: .7px;
+        }
+
+        .skill-body h3 {
+            font-size: 15px;
+
+            margin: 5px 0;
+        }
+
+        .skill-body p {
+            color: var(--muted);
+
+            font-size: 10px;
+
+            line-height: 1.5;
+
+            min-height: 30px;
+        }
+
+        .skill-bottom {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            margin-top: 12px;
+
+            padding-top: 11px;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .levels {
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .view-btn {
+            border: 0;
+
+            background: var(--green);
+
+            color: white;
+
+            padding: 8px 12px;
+
+            border-radius: 9px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+        .view-btn:hover {
+            background: var(--green-dark);
+        }
+
+        /* ==============================
+           PAYMENT
+        ============================== */
+
+        .payment-area {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 18px;
+        }
+
+        .panel {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 19px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 5px 18px rgba(0,0,0,.025);
+        }
+
+        .panel h3 {
+            font-size: 17px;
+
+            margin-bottom: 5px;
+        }
+
+        .panel-description {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+        .payment-methods {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 9px;
+
+            margin-top: 18px;
+        }
+
+        .payment-method {
+            padding: 14px 8px;
+
+            background: #fbfdfc;
+
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+        .payment-method:hover {
+            border-color: var(--green);
+
+            background: var(--green-soft);
+        }
+
+        .payment-logo {
+            font-size: 17px;
+
+            margin-bottom: 5px;
+
+            font-weight: 900;
+        }
+
+        .payment-note {
+            margin-top: 15px;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background: var(--green-soft);
+
+            color: var(--green-dark);
+
+            font-size: 10px;
+
+            line-height: 1.5;
+        }
+
+        /* ==============================
+           COMPETITION
+        ============================== */
+
+        .competition-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.15fr .85fr;
+
+            gap: 18px;
+        }
+
+        .timer {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 8px;
+
+            margin-top: 20px;
+        }
+
+        .timer-box {
+            background: var(--green-soft);
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            padding: 13px 4px;
+        }
+
+        .timer-box strong {
+            display: block;
+
+            color: var(--green-dark);
+
+            font-size: 22px;
+        }
+
+        .timer-box span {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 8px;
+
+            text-transform: uppercase;
+        }
+
+        .upload-box {
+            margin-top: 16px;
+
+            padding: 23px;
+
+            text-align: center;
+
+            border: 2px dashed #cce2d3;
+
+            border-radius: 15px;
+
+            background: #fbfefc;
+        }
+
+        .upload-icon {
+            width: 44px;
+            height: 44px;
+
+            margin: 0 auto 9px;
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--green-soft);
+
+            color: var(--green-dark);
+
+            font-size: 20px;
+        }
+
+        .upload-box h4 {
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+        .upload-box p {
+            color: var(--muted);
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+        .upload-btn {
+            margin-top: 13px;
+
+            padding: 10px 18px;
+
+            border: 0;
+
+            border-radius: 9px;
+
+            background: var(--green);
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+        .upload-btn:disabled {
+            background: #c9d3cd;
+            cursor: not-allowed;
+        }
+
+        /* ==============================
+           LEADERBOARD
+        ============================== */
+
+        .leaderboard {
+            margin-top: 18px;
+        }
+
+        .leaderboard-head {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 15px;
+        }
+
+        .live {
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            color: var(--green-dark);
+
+            font-size: 9px;
+
+            font-weight: 900;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: var(--green);
+
+            box-shadow:
+                0 0 0 4px #dff5e6;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+
+            color: #8b9790;
+
+            font-size: 9px;
+
+            text-transform: uppercase;
+
+            padding: 10px;
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+        td {
+            padding: 12px 10px;
+
+            border-bottom:
+                1px solid #edf1ee;
+
+            font-size: 11px;
+        }
+
+        .student-name {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .mini-avatar {
+            width: 28px;
+            height: 28px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--green-soft);
+
+            color: var(--green-dark);
+
+            font-size: 9px;
+
+            font-weight: 900;
+        }
+
+        .status {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            font-size: 9px;
+
+            font-weight: 900;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+        }
+
+        .status.green {
+            color: var(--green-dark);
+        }
+
+        .status.green .status-dot {
+            background: var(--green);
+        }
+
+        .status.red {
+            color: var(--red);
+        }
+
+        .status.red .status-dot {
+            background: var(--red);
+        }
+
+        /* ==============================
+           MODAL
+        ============================== */
+
+        .modal {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(5, 20, 11, .55);
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 300;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 470px;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 24px;
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,.2);
+        }
+
+        .modal-head {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .modal-head h3 {
+            font-size: 18px;
+        }
+
+        .close {
+            width: 34px;
+            height: 34px;
+
+            border: 0;
+
+            border-radius: 9px;
+
+            background: #f0f4f1;
+
+            font-size: 17px;
+        }
+
+        .level-list {
+            display: grid;
+
+            gap: 9px;
+        }
+
+        .level-option {
+            width: 100%;
+
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 14px;
+
+            border: 1px solid var(--border);
+
+            background: white;
+
+            border-radius: 12px;
+
+            text-align: left;
+        }
+
+        .level-option:hover {
+            background: var(--green-soft);
+
+            border-color: var(--green);
+        }
+
+        .level-option strong {
+            font-size: 12px;
+        }
+
+        .level-option span {
+            color: var(--green-dark);
+
+            font-weight: 900;
+
+            font-size: 12px;
+        }
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media(max-width:1100px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .skills-grid {
+                grid-template-columns:
+                    repeat(3,1fr);
+            }
+        }
+
+        @media(max-width:850px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+
+                transition: .25s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 22px 18px 50px;
+            }
+
+            .payment-area,
+            .competition-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+        }
+
+        @media(max-width:560px) {
+
+            .content {
+                padding: 17px 12px 40px;
+            }
+
+            .stats {
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-card h3 {
+                font-size: 17px;
+            }
+
+            .welcome {
+                padding: 22px;
+            }
+
+            .welcome h2 {
+                font-size: 21px;
+            }
+
+            .account-status {
+                position: static;
+
+                display: inline-block;
+
+                margin-top: 17px;
+            }
+
+            .current-course {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            P
+        </div>
+
+        <div class="logo-text">
+            Pro Skills
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        Student
+    </div>
+
+
+    <a href="student.html"
+       class="nav-link active">
+
+        <span class="nav-icon">⌂</span>
+
+        Dashboard
+
+    </a>
+
+
+    <a href="#skills"
+       class="nav-link">
+
+        <span class="nav-icon">◈</span>
+
+        My Skills
+
+    </a>
+
+
+    <a href="#lessons"
+       class="nav-link">
+
+        <span class="nav-icon">▶</span>
+
+        My Lessons
+
+    </a>
+
+
+    <a href="#competition"
+       class="nav-link">
+
+        <span class="nav-icon">◆</span>
+
+        Competition
+
+    </a>
+
+
+    <a href="#leaderboard"
+       class="nav-link">
+
+        <span class="nav-icon">↗</span>
+
+        Leaderboard
+
+    </a>
+
+
+    <div class="nav-title">
+        Account
+    </div>
+
+
+    <a href="#profile"
+       class="nav-link">
+
+        <span class="nav-icon">◎</span>
+
+        Profile
+
+    </a>
+
+
+    <a href="#payment"
+       class="nav-link">
+
+        <span class="nav-icon">$</span>
+
+        Payments
+
+    </a>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="top-left">
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()">
+
+                ☰
+
+            </button>
+
+
+            <div class="page-title">
+
+                <h1>
+                    Student Dashboard
+                </h1>
+
+                <p>
+                    Your learning, payment and competition center
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile">
+
+            <div class="avatar">
+                S
+            </div>
+
+            <div class="profile-text">
+
+                <strong>
+                    Student Account
+                </strong>
+
+                <span>
+                    Active account
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+
+        <!-- =================================================
+             WELCOME
+        ================================================== -->
+
+        <div class="welcome">
+
+            <h2>
+                Welcome back 👋
+            </h2>
+
+            <p>
+                Learn your skill, build your project and compete.
+            </p>
+
+
+            <div class="account-status">
+
+                <span>
+                    ACCOUNT STATUS
+                </span>
+
+                <strong>
+                    Active
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STATS
+        ================================================== -->
+
+        <div class="stats">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ◈
+                </div>
+
+                <h3 id="currentSkill">
+                    —
+                </h3>
+
+                <p>
+                    Current Skill
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    #
+                </div>
+
+                <h3 id="currentLevel">
+                    —
+                </h3>
+
+                <p>
+                    Current Level
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    $
+                </div>
+
+                <h3 id="totalPaid">
+                    —
+                </h3>
+
+                <p>
+                    Total Paid
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ★
+                </div>
+
+                <h3 id="competitionEarnings">
+                    —
+                </h3>
+
+                <p>
+                    Competition Earnings
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CURRENT COURSE
+        ================================================== -->
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    My Current Skill
+                </h2>
+
+                <p>
+                    Your active learning path
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="current-course">
+
+
+            <div class="course-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=85"
+                    alt="Video Editing">
+
+            </div>
+
+
+            <div class="course-info">
+
+                <span class="badge">
+                    ACTIVE COURSE
+                </span>
+
+                <h3 id="courseName">
+                    No skill selected
+                </h3>
+
+                <p id="courseDescription">
+                    Once the student selects and successfully
+                    pays for a skill level, the active course
+                    will appear here.
+                </p>
+
+
+                <div class="teacher-row">
+
+                    <div class="teacher-avatar">
+                        T
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Teacher
+                        </small>
+
+                        <strong id="teacherName">
+                            Not assigned yet
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SKILLS
+        ================================================== -->
+
+        <div
+            class="section-heading"
+            id="skills">
+
+            <div>
+
+                <h2>
+                    Explore Skills
+                </h2>
+
+                <p>
+                    17 professional skills
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="skills-grid">
+
+
+            <!-- LOWER 1 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=85"
+                        alt="Video Editing">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Lower
+                    </span>
+
+                    <h3>
+                        Video Editing
+                    </h3>
+
+                    <p>
+                        Professional video editing and production.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Video Editing','lower')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOWER 2 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=900&q=85"
+                        alt="Movie Recap">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Lower
+                    </span>
+
+                    <h3>
+                        Movie Recap
+                    </h3>
+
+                    <p>
+                        Storytelling and professional movie recap.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Movie Recap','lower')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOWER 3 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=900&q=85"
+                        alt="Thumbnail">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Lower
+                    </span>
+
+                    <h3>
+                        Thumbnail
+                    </h3>
+
+                    <p>
+                        Professional digital thumbnail creation.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Thumbnail','lower')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOWER 4 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?auto=format&fit=crop&w=900&q=85"
+                        alt="Digital Marketing">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Lower
+                    </span>
+
+                    <h3>
+                        Digital Marketing
+                    </h3>
+
+                    <p>
+                        Modern digital marketing strategies.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Digital Marketing','lower')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOWER 5 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=85"
+                        alt="Affiliate Marketing">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Lower
+                    </span>
+
+                    <h3>
+                        Affiliate Marketing
+                    </h3>
+
+                    <p>
+                        Learn online affiliate marketing.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Affiliate Marketing','lower')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOWER 6 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=85"
+                        alt="Dropshipping">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Lower
+                    </span>
+
+                    <h3>
+                        Dropshipping
+                    </h3>
+
+                    <p>
+                        Learn e-commerce and online stores.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Dropshipping','lower')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MEDIUM 1 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=85"
+                        alt="FX">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Medium
+                    </span>
+
+                    <h3>
+                        FX
+                    </h3>
+
+                    <p>
+                        Learn financial market concepts.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('FX','medium')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MEDIUM 2 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=900&q=85"
+                        alt="Crypto">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Medium
+                    </span>
+
+                    <h3>
+                        Crypto
+                    </h3>
+
+                    <p>
+                        Blockchain and digital asset concepts.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Crypto','medium')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MEDIUM 3 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=85"
+                        alt="Cybersecurity">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Medium
+                    </span>
+
+                    <h3>
+                        Cybersecurity
+                    </h3>
+
+                    <p>
+                        Defensive security and digital protection.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Cybersecurity','medium')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MEDIUM 4 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=85"
+                        alt="AI Agent">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Medium
+                    </span>
+
+                    <h3>
+                        AI Agent
+                    </h3>
+
+                    <p>
+                        Build useful AI-powered agent systems.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('AI Agent','medium')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MEDIUM 5 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=900&q=85"
+                        alt="English">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Medium
+                    </span>
+
+                    <h3>
+                        English
+                    </h3>
+
+                    <p>
+                        Practical English communication skills.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('English','medium')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MEDIUM 6 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85"
+                        alt="Data Analysis">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        Medium
+                    </span>
+
+                    <h3>
+                        Data Analysis
+                    </h3>
+
+                    <p>
+                        Data analysis and useful insights.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            3 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Data Analysis','medium')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HIGH 1 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=900&q=85"
+                        alt="Python">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        High
+                    </span>
+
+                    <h3>
+                        Python
+                    </h3>
+
+                    <p>
+                        Python programming and development.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            2 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Python','high')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HIGH 2 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=900&q=85"
+                        alt="JavaScript">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        High
+                    </span>
+
+                    <h3>
+                        JavaScript
+                    </h3>
+
+                    <p>
+                        Modern interactive web applications.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            2 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('JavaScript','high')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HIGH 3 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1676277791608-ac5e0c9a6a64?auto=format&fit=crop&w=900&q=85"
+                        alt="AI App">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        High
+                    </span>
+
+                    <h3>
+                        AI App
+                    </h3>
+
+                    <p>
+                        Build applications powered by AI.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            2 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('AI App','high')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HIGH 4 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=900&q=85"
+                        alt="AI Web">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        High
+                    </span>
+
+                    <h3>
+                        AI Web
+                    </h3>
+
+                    <p>
+                        Develop modern AI-powered websites.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            2 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('AI Web','high')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HIGH 5 -->
+
+            <div class="skill-card">
+
+                <div class="skill-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=900&q=85"
+                        alt="Web Development">
+
+                </div>
+
+                <div class="skill-body">
+
+                    <span class="skill-group">
+                        High
+                    </span>
+
+                    <h3>
+                        Web Development
+                    </h3>
+
+                    <p>
+                        Build professional web applications.
+                    </p>
+
+                    <div class="skill-bottom">
+
+                        <span class="levels">
+                            2 Levels
+                        </span>
+
+                        <button
+                            class="view-btn"
+                            onclick="openSkill('Web Development','high')">
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             PAYMENT
+        ================================================== -->
+
+        <div
+            class="section-heading"
+            id="payment">
+
+            <div>
+
+                <h2>
+                    Payment
+                </h2>
+
+                <p>
+                    Secure payment for your selected skill
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="payment-area">
+
+
+            <div class="panel">
+
+                <h3>
+                    Payment Methods
+                </h3>
+
+                <p class="panel-description">
+                    Choose your preferred payment method.
+                    The final payment will be processed through
+                    a secure payment provider.
+                </p>
+
+
+                <div class="payment-methods">
+
+
+                    <button
+                        class="payment-method"
+                        onclick="choosePayment('Visa / Mastercard')">
+
+                        <div class="payment-logo">
+                            💳
+                        </div>
+
+                        Visa / Mastercard
+
+                    </button>
+
+
+                    <button
+                        class="payment-method"
+                        onclick="choosePayment('PayPal')">
+
+                        <div class="payment-logo">
+                            P
+                        </div>
+
+                        PayPal
+
+                    </button>
+
+
+                    <button
+                        class="payment-method"
+                        onclick="choosePayment('Card Checkout')">
+
+                        <div class="payment-logo">
+                            ▣
+                        </div>
+
+                        Card Checkout
+
+                    </button>
+
+
+                </div>
+
+
+                <div
+                    class="payment-note"
+                    id="paymentMessage">
+
+                    Payment method will be connected to the
+                    secure backend/payment provider.
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <h3>
+                    Payment Status
+                </h3>
+
+                <p class="panel-description">
+                    Your payment information will be loaded
+                    from the database after authentication.
+                </p>
+
+
+                <div style="
+                    margin-top:20px;
+                    padding:18px;
+                    background:#fbfdfc;
+                    border:1px solid var(--border);
+                    border-radius:13px;
+                ">
+
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        margin-bottom:13px;
+                    ">
+
+                        <span style="
+                            color:var(--muted);
+                            font-size:11px;
+                        ">
+                            Selected Skill
+                        </span>
+
+                        <strong
+                            id="paymentSkill"
+                            style="font-size:11px;">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        margin-bottom:13px;
+                    ">
+
+                        <span style="
+                            color:var(--muted);
+                            font-size:11px;
+                        ">
+                            Level
+                        </span>
+
+                        <strong
+                            id="paymentLevel"
+                            style="font-size:11px;">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                    ">
+
+                        <span style="
+                            color:var(--muted);
+                            font-size:11px;
+                        ">
+                            Payment Status
+                        </span>
+
+                        <strong style="
+                            color:var(--muted);
+                            font-size:11px;
+                        ">
+                            Not connected
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             COMPETITION
+        ================================================== -->
+
+        <div
+            class="section-heading"
+            id="competition">
+
+            <div>
+
+                <h2>
+                    Competition
+                </h2>
+
+                <p>
+                    Your competition and project submission
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="competition-grid">
+
+
+            <div class="panel">
+
+                <h3>
+                    Competition Timer
+                </h3>
+
+                <p class="panel-description">
+                    The real competition start and deadline
+                    will come from the server/database.
+                </p>
+
+
+                <div class="timer">
+
+                    <div class="timer-box">
+
+                        <strong id="days">
+                            —
+                        </strong>
+
+                        <span>
+                            Days
+                        </span>
+
+                    </div>
+
+
+                    <div class="timer-box">
+
+                        <strong id="hours">
+                            —
+                        </strong>
+
+                        <span>
+                            Hours
+                        </span>
+
+                    </div>
+
+
+                    <div class="timer-box">
+
+                        <strong id="minutes">
+                            —
+                        </strong>
+
+                        <span>
+                            Minutes
+                        </span>
+
+                    </div>
+
+
+                    <div class="timer-box">
+
+                        <strong id="seconds">
+                            —
+                        </strong>
+
+                        <span>
+                            Seconds
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <h3>
+                    Project Upload
+                </h3>
+
+                <p class="panel-description">
+                    Upload opens automatically according to
+                    the official competition schedule.
+                </p>
+
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">
+                        ↑
+                    </div>
+
+                    <h4>
+                        Submit your project
+                    </h4>
+
+                    <p>
+                        Video upload will become available
+                        when the server opens the submission window.
+                    </p>
+
+
+                    <button
+                        id="uploadButton"
+                        class="upload-btn"
+                        disabled>
+
+                        Upload Closed
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             LEADERBOARD
+        ================================================== -->
+
+        <div
+            class="panel leaderboard"
+            id="leaderboard">
+
+
+            <div class="leaderboard-head">
+
+                <div>
+
+                    <h3>
+                        Live Leaderboard
+                    </h3>
+
+                    <p class="panel-description">
+                        Your group ranking and competition status.
+                    </p>
+
+                </div>
+
+
+                <div class="live">
+
+                    <span class="live-dot"></span>
+
+                    LIVE
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Rank
+                            </th>
+
+                            <th>
+                                Student
+                            </th>
+
+                            <th>
+                                Points
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="leaderboardBody">
+
+                        <tr>
+
+                            <td
+                                colspan="4"
+                                style="
+                                    text-align:center;
+                                    padding:28px;
+                                    color:var(--muted);
+                                ">
+
+                                Waiting for live competition data...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     SKILL MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="skillModal">
+
+
+    <div class="modal-box">
+
+
+        <div class="modal-head">
+
+            <h3 id="modalSkillName">
+                Skill
+            </h3>
+
+            <button
+                class="close"
+                onclick="closeSkill()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <p
+            style="
+                color:var(--muted);
+                font-size:11px;
+                margin-bottom:15px;
+            ">
+
+            Select the level you want to study.
+
+        </p>
+
+
+        <div
+            class="level-list"
+            id="levelList">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+    /* =====================================================
+       SIDEBAR
+    ===================================================== */
+
+    function toggleSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList
+            .toggle("open");
+
+    }
+
+
+
+    /* =====================================================
+       SKILL DATA
+       Prices are the actual prices you specified.
+    ===================================================== */
+
+    const skillPrices = {
+
+        "Video Editing": {
+            group: "lower",
+            levels: {
+                1: 3,
+                2: 5,
+                3: 11
+            }
+        },
+
+        "Movie Recap": {
+            group: "lower",
+            levels: {
+                1: 3,
+                2: 5,
+                3: 11
+            }
+        },
+
+        "Thumbnail": {
+            group: "lower",
+            levels: {
+                1: 3,
+                2: 5,
+                3: 11
+            }
+        },
+
+        "Digital Marketing": {
+            group: "lower",
+            levels: {
+                1: 3,
+                2: 5,
+                3: 11
+            }
+        },
+
+        "Affiliate Marketing": {
+            group: "lower",
+            levels: {
+                1: 3,
+                2: 5,
+                3: 11
+            }
+        },
+
+        "Dropshipping": {
+            group: "lower",
+            levels: {
+                1: 3,
+                2: 5,
+                3: 11
+            }
+        },
+
+
+        "FX": {
+            group: "medium",
+            levels: {
+                1: 5,
+                2: 10,
+                3: 20
+            }
+        },
+
+        "Crypto": {
+            group: "medium",
+            levels: {
+                1: 5,
+                2: 10,
+                3: 20
+            }
+        },
+
+        "Cybersecurity": {
+            group: "medium",
+            levels: {
+                1: 5,
+                2: 10,
+                3: 20
+            }
+        },
+
+        "AI Agent": {
+            group: "medium",
+            levels: {
+                1: 5,
+                2: 10,
+                3: 20
+            }
+        },
+
+        "English": {
+            group: "medium",
+            levels: {
+                1: 5,
+                2: 10,
+                3: 20
+            }
+        },
+
+        "Data Analysis": {
+            group: "medium",
+            levels: {
+                1: 5,
+                2: 10,
+                3: 20
+            }
+        },
+
+
+        "Python": {
+            group: "high",
+            levels: {
+                1: 100,
+                2: 200
+            }
+        },
+
+        "JavaScript": {
+            group: "high",
+            levels: {
+                1: 100,
+                2: 200
+            }
+        },
+
+        "AI App": {
+            group: "high",
+            levels: {
+                1: 100,
+                2: 200
+            }
+        },
+
+        "AI Web": {
+            group: "high",
+            levels: {
+                1: 100,
+                2: 200
+            }
+        },
+
+        "Web Development": {
+            group: "high",
+            levels: {
+                1: 100,
+                2: 200
+            }
+        }
+
+    };
+
+
+
+    /* =====================================================
+       OPEN SKILL
+    ===================================================== */
+
+    function openSkill(skillName, group) {
+
+        const modal =
+            document.getElementById("skillModal");
+
+        const title =
+            document.getElementById("modalSkillName");
+
+        const list =
+            document.getElementById("levelList");
+
+
+        title.textContent = skillName;
+
+        list.innerHTML = "";
+
+
+        const skill =
+            skillPrices[skillName];
+
+
+        Object.entries(skill.levels).forEach(
+            ([level, price]) => {
+
+                const button =
+                    document.createElement("button");
+
+
+                button.className =
+                    "level-option";
+
+
+                button.innerHTML = `
+                    <strong>
+                        Level ${level}
+                    </strong>
+
+                    <span>
+                        $${price}
+                    </span>
+                `;
+
+
+                button.onclick = function () {
+
+                    selectLevel(
+                        skillName,
+                        level,
+                        price
+                    );
+
+                };
+
+
+                list.appendChild(button);
+
+            }
+        );
+
+
+        modal.classList.add("show");
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE SKILL
+    ===================================================== */
+
+    function closeSkill() {
+
+        document
+            .getElementById("skillModal")
+            .classList
+            .remove("show");
+
+    }
+
+
+
+    /* =====================================================
+       SELECT LEVEL
+    ===================================================== */
+
+    function selectLevel(
+        skillName,
+        level,
+        price
+    ) {
+
+        document
+            .getElementById("paymentSkill")
+            .textContent = skillName;
+
+
+        document
+            .getElementById("paymentLevel")
+            .textContent =
+            "Level " + level;
+
+
+        document
+            .getElementById("paymentMessage")
+            .textContent =
+            `${skillName} — Level ${level} selected. Price: $${price}. Secure payment checkout will be connected through the backend.`;
+
+        closeSkill();
+
+
+        document
+            .getElementById("payment")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+
+    /* =====================================================
+       PAYMENT METHOD
+    ===================================================== */
+
+    function choosePayment(method) {
+
+        document
+            .getElementById("paymentMessage")
+            .textContent =
+            `${method} selected. Secure checkout will be opened after the payment backend is connected.`;
+
+    }
+
+
+
+    /* =====================================================
+       COMPETITION TIMER
+       
+       IMPORTANT:
+       No fake 7-day timer is hardcoded here.
+
+       Later backend response:
+
+       competition_start
+       upload_start
+       upload_deadline
+       tie_break_start
+
+       will be loaded from PostgreSQL/API.
+    ===================================================== */
+
+    let competitionDeadline = null;
+
+
+    function updateTimer() {
+
+        if (!competitionDeadline) {
+
+            document.getElementById("days")
+                .textContent = "—";
+
+            document.getElementById("hours")
+                .textContent = "—";
+
+            document.getElementById("minutes")
+                .textContent = "—";
+
+            document.getElementById("seconds")
+                .textContent = "—";
+
+            return;
+
+        }
+
+
+        const now =
+            new Date().getTime();
+
+
+        const target =
+            new Date(
+                competitionDeadline
+            ).getTime();
+
+
+        let difference =
+            target - now;
+
+
+        if (difference <= 0) {
+
+            document.getElementById("days")
+                .textContent = "0";
+
+            document.getElementById("hours")
+                .textContent = "00";
+
+            document.getElementById("minutes")
+                .textContent = "00";
+
+            document.getElementById("seconds")
+                .textContent = "00";
+
+
+            return;
+
+        }
+
+
+        const days =
+            Math.floor(
+                difference /
+                (1000 * 60 * 60 * 24)
+            );
+
+
+        difference %=
+            (1000 * 60 * 60 * 24);
+
+
+        const hours =
+            Math.floor(
+                difference /
+                (1000 * 60 * 60)
+            );
+
+
+        difference %=
+            (1000 * 60 * 60);
+
+
+        const minutes =
+            Math.floor(
+                difference /
+                (1000 * 60)
+            );
+
+
+        const seconds =
+            Math.floor(
+                difference /
+                1000
+            );
+
+
+        document.getElementById("days")
+            .textContent = days;
+
+
+        document.getElementById("hours")
+            .textContent =
+            String(hours).padStart(2, "0");
+
+
+        document.getElementById("minutes")
+            .textContent =
+            String(minutes).padStart(2, "0");
+
+
+        document.getElementById("seconds")
+            .textContent =
+            String(seconds).padStart(2, "0");
+
+    }
+
+
+    setInterval(updateTimer, 1000);
+
+    updateTimer();
+
+
+
+    /* =====================================================
+       FUTURE API STRUCTURE
+
+       When PostgreSQL/backend is ready,
+       this function will load REAL data.
+
+       Example:
+
+       fetch("/api/student/dashboard")
+       fetch("/api/student/competition")
+       fetch("/api/student/leaderboard")
+
+       No fake students or fake scores are inserted here.
+    ===================================================== */
+
+</script>
+
+</body>
+</html>
