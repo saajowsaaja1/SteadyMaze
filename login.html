@@ -758,22 +758,370 @@ function clearMessage(){
 </body>
 
 </html>
-<a href="teacher.html" class="teacher-link">
-    Teacher Sign Up
-</a>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteadyMaze — Teacher Sign Up</title>
 <style>
-.teacher-link{
-    display:block;
-    width:100%;
-    margin-top:12px;
-    padding:12px;
-    text-align:center;
-    text-decoration:none;
-    border:1px solid #00e676;
-    border-radius:10px;
-    background:#071b15;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    background:
+        radial-gradient(circle at top left,rgba(0,230,118,.13),transparent 35%),
+        radial-gradient(circle at bottom right,rgba(0,150,255,.12),transparent 35%),
+        #061018;
+    color:#fff;
+}
+.auth-card{
+    width:min(440px,100%);
+    padding:30px;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:22px;
+    background:rgba(8,24,33,.88);
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+    backdrop-filter:blur(18px);
+}
+.logo{
     color:#00e676;
-    font-weight:bold;
+    font-size:25px;
+    font-weight:900;
+    margin-bottom:8px;
+}
+.logo span{color:#fff}
+h1{
+    font-size:24px;
+    margin-bottom:8px;
+}
+.subtitle{
+    color:#78909c;
+    font-size:11px;
+    line-height:1.6;
+    margin-bottom:24px;
+}
+label{
+    display:block;
+    color:#90a4ae;
+    font-size:10px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+.field{
+    margin-bottom:15px;
+}
+input,select{
+    width:100%;
+    padding:13px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:10px;
+    outline:none;
+    background:#07151e;
+    color:#fff;
+    font-size:12px;
+}
+input:focus,select:focus{
+    border-color:#00e676;
+}
+button{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    background:#00e676;
+    color:#03120b;
+    font-weight:900;
+    cursor:pointer;
+}
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+.message{
+    display:none;
+    margin-top:15px;
+    padding:11px;
+    border-radius:9px;
+    font-size:10px;
+    line-height:1.5;
+}
+.message.show{
+    display:block;
+}
+.message.error{
+    background:rgba(255,70,70,.1);
+    color:#ff8a8a;
+}
+.message.success{
+    background:rgba(0,230,118,.1);
+    color:#00e676;
+}
+.links{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:18px;
+}
+.links a{
+    color:#00e676;
+    font-size:10px;
+    text-decoration:none;
+}
+.note{
+    margin-top:20px;
+    padding:12px;
+    border-radius:10px;
+    background:#07151e;
+    color:#607d8b;
+    font-size:9px;
+    line-height:1.6;
 }
 </style>
+</head>
+<body>
+<div class="auth-card">
+<div class="logo">
+    Steady<span>Maze</span>
+</div>
+<h1>Teacher Sign Up</h1>
+<p class="subtitle">
+    Create your teacher account and submit your application.
+</p>
+<form id="teacherSignupForm">
+    <div class="field">
+        <label>FULL NAME</label>
+        <input
+            id="name"
+            type="text"
+            placeholder="Your full name"
+            autocomplete="name"
+            required
+        >
+    </div>
+    <div class="field">
+        <label>EMAIL</label>
+        <input
+            id="email"
+            type="email"
+            placeholder="teacher@example.com"
+            autocomplete="email"
+            required
+        >
+    </div>
+    <div class="field">
+        <label>PASSWORD</label>
+        <input
+            id="password"
+            type="password"
+            placeholder="Create password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+        >
+    </div>
+    <div class="field">
+        <label>SKILL</label>
+        <select id="skill" required>
+            <option value="">
+                Select your skill
+            </option>
+            <option>Video Editing</option>
+            <option>Thumbnail Design</option>
+            <option>Movie Recap</option>
+            <option>Digital Marketing</option>
+            <option>Affiliate Marketing</option>
+            <option>Dropshipping</option>
+            <option>FX</option>
+            <option>Crypto</option>
+            <option>Data Analysis</option>
+            <option>English</option>
+            <option>AI Agent</option>
+            <option>Cybersecurity</option>
+            <option>Python</option>
+            <option>Java</option>
+            <option>Web Development</option>
+            <option>AI Web</option>
+            <option>AI App</option>
+        </select>
+    </div>
+    <div class="field">
+        <label>LEVEL</label>
+        <select id="level" required>
+            <option value="">
+                Select level
+            </option>
+            <option>Level 1</option>
+            <option>Level 2</option>
+            <option>Level 3</option>
+        </select>
+    </div>
+    <button
+        id="submitButton"
+        type="submit"
+    >
+        CREATE TEACHER ACCOUNT
+    </button>
+</form>
+<div
+    id="message"
+    class="message"
+></div>
+<div class="links">
+    <a href="login.html">
+        Student / Main Login
+    </a>
+    <a href="teacher-login.html">
+        Teacher Login
+    </a>
+</div>
+<div class="note">
+    Teacher accounts are created with role =
+    teacher. Approval can be controlled by the
+    administrator when the database backend is connected.
+</div>
+</div>
+<script>
+/*
+   IMPORTANT
+   This frontend sends the teacher information to the
+   backend endpoint below.
+   Do NOT put database passwords or PostgreSQL credentials
+   inside this HTML file.
+   Change only API_BASE_URL after your backend is created.
+*/
+const API_BASE_URL = "";
+const form =
+    document.getElementById(
+        "teacherSignupForm"
+    );
+const message =
+    document.getElementById(
+        "message"
+    );
+const submitButton =
+    document.getElementById(
+        "submitButton"
+    );
+function showMessage(text,type){
+    message.textContent = text;
+    message.className =
+        "message show " + type;
+}
+form.addEventListener(
+    "submit",
+    async function(event){
+        event.preventDefault();
+        const name =
+            document.getElementById(
+                "name"
+            ).value.trim();
+        const email =
+            document.getElementById(
+                "email"
+            ).value.trim()
+            .toLowerCase();
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
+        const skill =
+            document.getElementById(
+                "skill"
+            ).value;
+        const level =
+            document.getElementById(
+                "level"
+            ).value;
+        if(
+            !name ||
+            !email ||
+            !password ||
+            !skill ||
+            !level
+        ){
+            showMessage(
+                "Please complete all fields.",
+                "error"
+            );
+            return;
+        }
+        if(password.length < 8){
+            showMessage(
+                "Password must contain at least 8 characters.",
+                "error"
+            );
+            return;
+        }
+        submitButton.disabled = true;
+        submitButton.textContent =
+            "CREATING ACCOUNT...";
+        try{
+            /*
+              The real backend endpoint will create:
+              role = teacher
+              status = pending
+              Password must be hashed on the server.
+            */
+            const response =
+                await fetch(
+                    API_BASE_URL +
+                    "/api/auth/teacher/signup",
+                    {
+                        method:"POST",
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body:JSON.stringify({
+                            name:name,
+                            email:email,
+                            password:password,
+                            skill:skill,
+                            level:level
+                        })
+                    }
+                );
+            const data =
+                await response.json();
+            if(!response.ok){
+                throw new Error(
+                    data.message ||
+                    "Unable to create teacher account."
+                );
+            }
+            showMessage(
+                "Teacher account created. Your application is waiting for approval.",
+                "success"
+            );
+            form.reset();
+            setTimeout(
+                function(){
+                    window.location.href =
+                        "teacher-login.html";
+                },
+                1800
+            );
+        }catch(error){
+            showMessage(
+                error.message ||
+                "Server connection is not available yet.",
+                "error"
+            );
+        }finally{
+            submitButton.disabled = false;
+            submitButton.textContent =
+                "CREATE TEACHER ACCOUNT";
+        }
+    }
+);
+</script>
+</body>
+</html>
+
+
+
