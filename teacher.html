@@ -2,1184 +2,1018 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SteadyMaze | Teacher Dashboard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Teacher Dashboard</title>
+
 <style>
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
+
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:
-        radial-gradient(circle at 15% 10%,rgba(24,230,148,.15),transparent 28%),
-        radial-gradient(circle at 85% 15%,rgba(49,151,255,.14),transparent 30%),
-        linear-gradient(135deg,#031017,#071d25,#06151c);
-    color:#effff8;
-    min-height:100vh;
+background:linear-gradient(135deg,#00140f,#032a22,#06362b);
+color:white;
+min-height:100vh;
 }
-button{
-    font-family:inherit;
-    cursor:pointer;
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px;
+background:#031b15;
+border-bottom:1px solid rgba(255,255,255,.08);
 }
-.app{
-    display:flex;
-    min-height:100vh;
-}
-/* SIDEBAR */
-.sidebar{
-    width:250px;
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    padding:22px 15px;
-    background:rgba(3,13,18,.91);
-    border-right:1px solid rgba(255,255,255,.07);
-    backdrop-filter:blur(20px);
-    z-index:10;
-}
+
 .logo{
-    font-size:24px;
-    font-weight:900;
-    padding:5px 10px 24px;
-    color:#20e58a;
+font-size:32px;
+font-weight:bold;
+color:#00ff99;
 }
-.logo span{
-    color:#fff;
+
+.logout-btn{
+background:#071f18;
+color:white;
+border:1px solid #00ff99;
+padding:12px 20px;
+border-radius:12px;
+cursor:pointer;
 }
-.teacher-mini{
-    padding:13px;
-    border:1px solid rgba(255,255,255,.07);
-    background:rgba(255,255,255,.025);
-    border-radius:15px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:18px;
+
+.logout-btn:hover{
+background:#00ff99;
+color:black;
 }
-.teacher-photo{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-    background:linear-gradient(135deg,#20e58a,#4db8ff);
-    color:#03130c;
-    font-weight:900;
+
+.container{
+padding:20px;
+max-width:1400px;
+margin:auto;
 }
-.teacher-mini strong{
-    font-size:11px;
-    display:block;
+
+.title{
+font-size:42px;
+margin-bottom:10px;
 }
-.teacher-mini small{
-    color:#6e8791;
-    font-size:8px;
+
+.subtitle{
+color:#9db3ab;
+margin-bottom:30px;
 }
-.menu{
-    display:flex;
-    flex-direction:column;
-    gap:5px;
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
 }
-.menu button{
-    border:0;
-    background:transparent;
-    color:#8198a0;
-    text-align:left;
-    padding:12px;
-    border-radius:10px;
-    font-size:9px;
-    font-weight:800;
+
+.card{
+background:#031923;
+border:1px solid rgba(255,255,255,.08);
+border-radius:24px;
+padding:25px;
 }
-.menu button:hover,
-.menu button.active{
-    background:rgba(32,229,138,.09);
-    color:#20e58a;
+
+.card h3{
+color:#8aa39a;
+margin-bottom:10px;
+font-size:15px;
 }
-.signout{
-    position:absolute;
-    left:15px;
-    right:15px;
-    bottom:18px;
-    padding:11px;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:9px;
-    background:#071820;
-    color:#9bb0b8;
-    font-size:9px;
+
+.card .value{
+font-size:42px;
+font-weight:bold;
+color:#00ff99;
 }
-/* MAIN */
-.main{
-    width:calc(100% - 250px);
-    margin-left:250px;
+
+.quick-actions{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
 }
-.header{
-    height:75px;
-    position:sticky;
-    top:0;
-    z-index:5;
-    padding:0 30px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:rgba(4,16,22,.82);
-    border-bottom:1px solid rgba(255,255,255,.07);
-    backdrop-filter:blur(20px);
+
+.action-btn{
+padding:18px;
+border:none;
+border-radius:16px;
+background:#06291f;
+color:#00ff99;
+font-weight:bold;
+cursor:pointer;
 }
-.header h1{
-    font-size:18px;
+
+.action-btn:hover{
+background:#0a4333;
 }
-.header p{
-    margin-top:5px;
-    color:#718b94;
-    font-size:9px;
-}
-.status{
-    color:#20e58a;
-    font-size:8px;
-    font-weight:900;
-    padding:8px 11px;
-    border-radius:8px;
-    border:1px solid rgba(32,229,138,.2);
-    background:rgba(32,229,138,.06);
-}
-.content{
-    width:94%;
-    max-width:1450px;
-    margin:25px auto 60px;
-}
-/* HERO */
-.hero{
-    padding:27px;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:20px;
-    background:
-        linear-gradient(120deg,rgba(32,229,138,.09),rgba(77,184,255,.07)),
-        rgba(10,34,43,.82);
-}
-.hero h2{
-    font-size:27px;
-}
-.hero p{
-    max-width:750px;
-    color:#78939c;
-    font-size:10px;
-    line-height:1.8;
-    margin-top:9px;
-}
-.actions{
-    display:flex;
-    gap:9px;
-    margin-top:18px;
-}
-.btn-main,
-.btn-second{
-    padding:10px 14px;
-    border-radius:9px;
-    font-size:9px;
-    font-weight:900;
-}
-.btn-main{
-    background:#20e58a;
-    border:0;
-    color:#03140d;
-}
-.btn-second{
-    background:#081a22;
-    border:1px solid rgba(255,255,255,.08);
-    color:#b9cbd0;
-}
-/* STATS */
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin-top:20px;
-}
-.stat{
-    padding:20px;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:16px;
-    background:rgba(9,31,39,.82);
-}
-.stat-title{
-    color:#718991;
-    font-size:8px;
-    font-weight:900;
-}
-.stat-value{
-    color:#20e58a;
-    font-size:26px;
-    font-weight:900;
-    margin-top:9px;
-}
-.stat-bottom{
-    color:#4f6973;
-    font-size:8px;
-    margin-top:5px;
-}
-/* SECTIONS */
+
 .section{
-    margin-top:31px;
+margin-top:35px;
+background:#031923;
+border-radius:24px;
+padding:25px;
+border:1px solid rgba(255,255,255,.08);
 }
+
 .section-title{
-    margin-bottom:14px;
+font-size:24px;
+margin-bottom:20px;
 }
-.section-title h2{
-    font-size:18px;
+
+.table-wrap{
+overflow:auto;
 }
-.section-title p{
-    color:#718b94;
-    font-size:9px;
-    margin-top:5px;
-}
-/* SKILLS */
-.skills{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:13px;
-}
-.skill{
-    padding:17px;
-    border-radius:16px;
-    border:1px solid rgba(255,255,255,.07);
-    background:rgba(9,31,39,.82);
-    transition:.2s;
-}
-.skill:hover{
-    transform:translateY(-3px);
-    border-color:rgba(32,229,138,.25);
-}
-.skill-image{
-    width:54px;
-    height:54px;
-    border-radius:13px;
-    display:grid;
-    place-items:center;
-    background:
-        linear-gradient(135deg,rgba(32,229,138,.16),rgba(77,184,255,.13));
-    font-size:25px;
-}
-.skill h3{
-    margin-top:12px;
-    font-size:12px;
-}
-.skill p{
-    margin-top:6px;
-    color:#6f8891;
-    font-size:8px;
-    line-height:1.6;
-}
-.level-buttons{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:5px;
-    margin-top:12px;
-}
-.level-buttons button{
-    padding:7px 2px;
-    background:#071820;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:7px;
-    color:#78909a;
-    font-size:7px;
-    font-weight:900;
-}
-.level-buttons button:hover{
-    color:#20e58a;
-    border-color:rgba(32,229,138,.25);
-}
-/* GROUPS */
-.groups{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:14px;
-}
-.group{
-    padding:19px;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:16px;
-    background:rgba(9,31,39,.82);
-}
-.group h3{
-    font-size:14px;
-}
-.group p{
-    margin-top:5px;
-    color:#6f8891;
-    font-size:8px;
-}
-.group-info{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:6px;
-    margin-top:16px;
-}
-.group-info div{
-    background:#071820;
-    border-radius:8px;
-    padding:10px 5px;
-}
-.group-info strong{
-    color:#20e58a;
-    display:block;
-    font-size:14px;
-}
-.group-info span{
-    color:#58727c;
-    font-size:7px;
-}
-.group button{
-    width:100%;
-    margin-top:11px;
-    padding:9px;
-    border:1px solid rgba(77,184,255,.17);
-    border-radius:8px;
-    background:#07161d;
-    color:#4db8ff;
-    font-size:8px;
-    font-weight:900;
-}
-/* TABLE */
-.table{
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:16px;
-    background:rgba(6,22,29,.92);
-}
-.table-head{
-    padding:17px;
-    border-bottom:1px solid rgba(255,255,255,.06);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-.table-head h3{
-    font-size:13px;
-}
-.table-head span{
-    color:#5e7882;
-    font-size:8px;
-}
-.table-scroll{
-    overflow-x:auto;
-}
+
 table{
-    width:100%;
-    min-width:850px;
-    border-collapse:collapse;
+width:100%;
+border-collapse:collapse;
 }
+
+th,td{
+padding:14px;
+text-align:left;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
 th{
-    padding:12px;
-    text-align:left;
-    background:#06141b;
-    color:#5d7780;
-    font-size:7px;
+color:#00ff99;
 }
-td{
-    padding:12px;
-    border-top:1px solid rgba(255,255,255,.04);
-    color:#b5c4c8;
-    font-size:8px;
+
+.status{
+color:#00ff99;
+font-weight:bold;
 }
-.empty{
-    color:#344c55;
+
+.group-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
 }
-.pos{
-    color:#20e58a;
-    font-weight:900;
+
+.group-card{
+background:#07231b;
+padding:20px;
+border-radius:18px;
 }
-/* PROJECTS */
-.project-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:14px;
+
+.group-card h4{
+margin-bottom:10px;
+color:#00ff99;
 }
-.project{
-    padding:19px;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:16px;
-    background:rgba(9,31,39,.82);
+
+.bottom-buttons{
+margin-top:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 }
-.project-icon{
-    font-size:26px;
+
+.bottom-buttons button{
+padding:12px 18px;
+border:none;
+border-radius:12px;
+background:#00ff99;
+color:black;
+font-weight:bold;
+cursor:pointer;
 }
-.project h3{
-    margin-top:11px;
-    font-size:12px;
-}
-.project p{
-    color:#708a94;
-    margin-top:7px;
-    font-size:8px;
-    line-height:1.7;
-}
-.project button{
-    width:100%;
-    margin-top:13px;
-    padding:9px;
-    border:1px solid rgba(32,229,138,.18);
-    border-radius:8px;
-    background:#071b15;
-    color:#20e58a;
-    font-size:8px;
-    font-weight:900;
-}
-/* AI */
-.ai-box{
-    padding:21px;
-    border:1px solid rgba(77,184,255,.16);
-    border-radius:17px;
-    background:
-        linear-gradient(135deg,rgba(77,184,255,.07),rgba(32,229,138,.05)),
-        rgba(9,31,39,.82);
-}
-.ai-box h3{
-    font-size:14px;
-}
-.ai-box p{
-    color:#728b94;
-    font-size:9px;
-    line-height:1.8;
-    margin-top:7px;
-}
-.criteria{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:9px;
-    margin-top:16px;
-}
-.criteria div{
-    padding:13px;
-    border-radius:9px;
-    background:#071820;
-}
-.criteria strong{
-    display:block;
-    color:#4db8ff;
-    font-size:9px;
-}
-.criteria span{
-    display:block;
-    color:#58727c;
-    font-size:7px;
-    margin-top:4px;
-}
-/* PAYMENTS */
-.payment-grid{
-    display:grid;
-    grid-template-columns:1.2fr .8fr;
-    gap:14px;
-}
-.payment-card{
-    padding:20px;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:16px;
-    background:rgba(9,31,39,.82);
-}
-.payment-line{
-    display:flex;
-    justify-content:space-between;
-    padding:14px 0;
-    border-bottom:1px solid rgba(255,255,255,.04);
-}
-.payment-line:last-child{
-    border-bottom:0;
-}
-.payment-line span{
-    color:#718b94;
-    font-size:9px;
-}
-.payment-line strong{
-    color:#20e58a;
-    font-size:10px;
-}
-/* PROFILE */
-.profile{
-    display:grid;
-    grid-template-columns:170px 1fr;
-    gap:20px;
-    padding:20px;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:17px;
-    background:rgba(9,31,39,.82);
-}
-.profile-photo{
-    min-height:170px;
-    border-radius:14px;
-    display:grid;
-    place-items:center;
-    background:
-        linear-gradient(135deg,rgba(32,229,138,.14),rgba(77,184,255,.14));
-    color:#20e58a;
-    font-size:55px;
-    font-weight:900;
-}
-.profile-data{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-}
-.profile-item{
-    padding:13px;
-    background:#071820;
-    border-radius:9px;
-}
-.profile-item span{
-    display:block;
-    color:#57717b;
-    font-size:7px;
-}
-.profile-item strong{
-    display:block;
-    margin-top:5px;
-    font-size:10px;
-}
-/* MODAL */
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:100;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(8px);
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-.modal.open{
-    display:flex;
-}
-.modal-box{
-    width:min(500px,100%);
-    padding:24px;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:17px;
-    background:#091b23;
-}
-.modal-box h2{
-    font-size:18px;
-}
-.modal-box p{
-    color:#78939d;
-    font-size:9px;
-    line-height:1.8;
-    margin-top:10px;
-}
-.modal-close{
-    width:100%;
-    padding:10px;
-    margin-top:18px;
-    border:0;
-    border-radius:8px;
-    background:#20e58a;
-    color:#03140d;
-    font-size:9px;
-    font-weight:900;
-}
-/* RESPONSIVE */
-@media(max-width:1100px){
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-    .skills{
-        grid-template-columns:repeat(3,1fr);
-    }
-    .criteria{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-@media(max-width:800px){
-    .sidebar{
-        position:relative;
-        width:100%;
-        bottom:auto;
-    }
-    .app{
-        display:block;
-    }
-    .main{
-        width:100%;
-        margin-left:0;
-    }
-    .menu{
-        display:grid;
-        grid-template-columns:repeat(3,1fr);
-    }
-    .signout{
-        position:static;
-        width:100%;
-        margin-top:10px;
-    }
-    .groups,
-    .project-grid{
-        grid-template-columns:1fr;
-    }
-    .skills{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-@media(max-width:520px){
-    .header{
-        padding:0 15px;
-    }
-    .content{
-        width:93%;
-    }
-    .stats,
-    .skills{
-        grid-template-columns:1fr;
-    }
-    .payment-grid,
-    .profile{
-        grid-template-columns:1fr;
-    }
-    .profile-data{
-        grid-template-columns:1fr;
-    }
-    .criteria{
-        grid-template-columns:1fr;
-    }
-    .actions{
-        flex-direction:column;
-    }
+
+.bottom-buttons button:hover{
+opacity:.9;
 }
 </style>
 </head>
+
 <body>
-<div class="app">
-<!-- SIDEBAR -->
-<aside class="sidebar">
-<div class="logo">
-    Steady<span>Maze</span>
-</div>
-<div class="teacher-mini">
-    <div class="teacher-photo">
-        T
-    </div>
-    <div>
-        <strong>Teacher</strong>
-        <small>Teacher Account</small>
-    </div>
-</div>
-<nav class="menu">
-    <button class="active" onclick="go('home')">
-        Dashboard
-    </button>
-    <button onclick="go('skills')">
-        My Skills
-    </button>
-    <button onclick="go('students')">
-        Students
-    </button>
-    <button onclick="go('competition')">
-        Competition
-    </button>
-    <button onclick="go('projects')">
-        Projects
-    </button>
-    <button onclick="go('ai')">
-        AI Review
-    </button>
-    <button onclick="go('payments')">
-        Payments
-    </button>
-    <button onclick="go('profile')">
-        Profile
-    </button>
-</nav>
-<button class="signout" onclick="show('Sign Out','Teacher logout will be connected to the real authentication system.')">
-    Sign Out
+
+<header>
+<div class="logo">SteadyMaze</div>
+
+<button class="logout-btn" onclick="logout()">
+Log Out
 </button>
-</aside>
-<!-- MAIN -->
-<div class="main">
-<header class="header">
-<div>
-    <h1>Teacher Dashboard</h1>
-    <p>Teaching · Students · Projects · Competition</p>
-</div>
-<div class="status">
-    ● TEACHER
-</div>
 </header>
-<main class="content">
-<!-- HOME -->
-<section id="home">
-<div class="hero">
-    <h2>
-        Teacher Dashboard
-    </h2>
-    <p>
-        Manage your skills, lessons, students, projects,
-        competition reviews and payment analytics from one place.
-    </p>
-    <div class="actions">
-        <button class="btn-main"
-            onclick="show('Upload Lesson','Choose a skill and Level 1, Level 2 or Level 3 to upload a lesson video.')">
-            + Upload Lesson
-        </button>
-        <button class="btn-second"
-            onclick="go('students')">
-            View Students
-        </button>
-    </div>
+
+<div class="container">
+
+<h1 class="title">Teacher Dashboard</h1>
+<p class="subtitle">Manage students, projects, competition and earnings.</p>
+
+<div class="cards">
+
+<div class="card">
+<h3>TOTAL EARNINGS</h3>
+<div class="value">$0.00</div>
 </div>
-<div class="stats">
-    <div class="stat">
-        <div class="stat-title">STUDENTS</div>
-        <div class="stat-value">00</div>
-        <div class="stat-bottom">Real students from database</div>
-    </div>
-    <div class="stat">
-        <div class="stat-title">TOTAL EARNINGS</div>
-        <div class="stat-value">$00</div>
-        <div class="stat-bottom">Teacher share</div>
-    </div>
-    <div class="stat">
-        <div class="stat-title">LESSONS</div>
-        <div class="stat-value">00</div>
-        <div class="stat-bottom">Published lessons</div>
-    </div>
-    <div class="stat">
-        <div class="stat-title">PROJECTS</div>
-        <div class="stat-value">00</div>
-        <div class="stat-bottom">Projects reviewed</div>
-    </div>
+
+<div class="card">
+<h3>PAYMENTS RECEIVED</h3>
+<div class="value">$0.00</div>
 </div>
-</section>
-<!-- SKILLS -->
-<section class="section" id="skills">
-<div class="section-title">
-    <h2>17 Skills</h2>
-    <p>
-        Manage lessons for each skill and its three levels.
-    </p>
+
+<div class="card">
+<h3>PAID OUT</h3>
+<div class="value">$0.00</div>
 </div>
-<div class="skills" id="skillsList"></div>
-</section>
-<!-- STUDENTS -->
-<section class="section" id="students">
-<div class="section-title">
-    <h2>My Students</h2>
-    <p>
-        Student information will appear here from the database.
-    </p>
+
+<div class="card">
+<h3>TOTAL STUDENTS</h3>
+<div class="value">0</div>
 </div>
-<div class="table">
-    <div class="table-head">
-        <h3>Student List</h3>
-        <span>NO DEMO STUDENTS</span>
-    </div>
-    <div class="table-scroll">
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>STUDENT</th>
-                    <th>SKILL</th>
-                    <th>LEVEL</th>
-                    <th>PROGRESS</th>
-                    <th>SCORE</th>
-                    <th>VIEW</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="7" class="empty">
-                        No student account is connected yet.
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+
 </div>
-</section>
-<!-- COMPETITION -->
-<section class="section" id="competition">
-<div class="section-title">
-    <h2>Competition</h2>
-    <p>
-        Three separate groups. Each group has 300 positions and 6 winners.
-    </p>
+
+<div class="quick-actions">
+
+<button class="action-btn" onclick="openPage('skills')">
+My Skills
+</button>
+
+<button class="action-btn" onclick="openPage('projects')">
+Projects
+</button>
+
+<button class="action-btn" onclick="openPage('competition')">
+Competition
+</button>
+
+<button class="action-btn" onclick="openPage('payments')">
+Payments
+</button>
+
 </div>
-<div class="groups">
-    <div class="group">
-        <h3>Lower</h3>
-        <p>300 students · 6 winners</p>
-        <div class="group-info">
-            <div>
-                <strong>300</strong>
-                <span>PLACES</span>
-            </div>
-            <div>
-                <strong>00</strong>
-                <span>JOINED</span>
-            </div>
-            <div>
-                <strong>06</strong>
-                <span>WINNERS</span>
-            </div>
-        </div>
-        <button onclick="leaderboard('Lower')">
-            OPEN LEADERBOARD
-        </button>
-    </div>
-    <div class="group">
-        <h3>Medium</h3>
-        <p>300 students · 6 winners</p>
-        <div class="group-info">
-            <div>
-                <strong>300</strong>
-                <span>PLACES</span>
-            </div>
-            <div>
-                <strong>00</strong>
-                <span>JOINED</span>
-            </div>
-            <div>
-                <strong>06</strong>
-                <span>WINNERS</span>
-            </div>
-        </div>
-        <button onclick="leaderboard('Medium')">
-            OPEN LEADERBOARD
-        </button>
-    </div>
-    <div class="group">
-        <h3>High</h3>
-        <p>300 students · 6 winners</p>
-        <div class="group-info">
-            <div>
-                <strong>300</strong>
-                <span>PLACES</span>
-            </div>
-            <div>
-                <strong>00</strong>
-                <span>JOINED</span>
-            </div>
-            <div>
-                <strong>06</strong>
-                <span>WINNERS</span>
-            </div>
-        </div>
-        <button onclick="leaderboard('High')">
-            OPEN LEADERBOARD
-        </button>
-    </div>
+
+<div class="section">
+
+<h2 class="section-title">Recent Projects</h2>
+
+<div class="table-wrap">
+<table>
+
+<tr>
+<th>Student</th>
+<th>Skill</th>
+<th>Level</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>---</td>
+<td>---</td>
+<td>---</td>
+<td class="status">Pending</td>
+</tr>
+
+</table>
 </div>
-<div class="table" style="margin-top:15px">
-    <div class="table-head">
-        <h3 id="boardTitle">
-            Lower Leaderboard
-        </h3>
-        <span>001 — 300</span>
-    </div>
-    <div class="table-scroll">
-        <table>
-            <thead>
-                <tr>
-                    <th>POSITION</th>
-                    <th>STUDENT</th>
-                    <th>SKILL</th>
-                    <th>LEVEL</th>
-                    <th>RESULT</th>
-                    <th>STATUS</th>
-                </tr>
-            </thead>
-            <tbody id="boardRows"></tbody>
-        </table>
-    </div>
+
 </div>
-</section>
-<!-- PROJECTS -->
-<section class="section" id="projects">
-<div class="section-title">
-    <h2>Projects</h2>
-    <p>
-        Student submitted projects will be shown here.
-    </p>
+
+<div class="section">
+
+<h2 class="section-title">Competition Groups</h2>
+
+<div class="group-grid">
+
+<div class="group-card">
+<h4>LOWER</h4>
+<p>Students: 300</p>
+<p>Winners: 6</p>
 </div>
-<div class="project-grid">
-    <div class="project">
-        <div class="project-icon">🎬</div>
-        <h3>Video Projects</h3>
-        <p>
-            Review submitted videos according to the
-            student's skill and selected level.
-        </p>
-        <button onclick="show('Video Projects','No project has been submitted yet.')">
-            VIEW PROJECTS
-        </button>
-    </div>
-    <div class="project">
-        <div class="project-icon">⭐</div>
-        <h3>Teacher Scoring</h3>
-        <p>
-            Teacher gives the required points after reviewing
-            the submitted project.
-        </p>
-        <button onclick="show('Teacher Scoring','Scoring will be available when a real project is submitted.')">
-            OPEN SCORING
-        </button>
-    </div>
-    <div class="project">
-        <div class="project-icon">⏱️</div>
-        <h3>Upload Windows</h3>
-        <p>
-            Competition upload periods and tie-break periods
-            are controlled by the competition system.
-        </p>
-        <button onclick="show('Upload Windows','The real opening and closing time will be controlled by the database/backend.')">
-            VIEW STATUS
-        </button>
-    </div>
+
+<div class="group-card">
+<h4>MEDIUM</h4>
+<p>Students: 300</p>
+<p>Winners: 6</p>
 </div>
-</section>
-<!-- AI -->
-<section class="section" id="ai">
-<div class="section-title">
-    <h2>AI Review</h2>
-    <p>
-        Teacher explains what AI should check for each skill and level.
-    </p>
+
+<div class="group-card">
+<h4>HIGH</h4>
+<p>Students: 300</p>
+<p>Winners: 6</p>
 </div>
-<div class="ai-box">
-    <h3>
-        AI Review Instructions
-    </h3>
-    <p>
-        The teacher defines the requirements for each lesson.
-        When a student submits a project, the future AI system
-        will use those requirements to analyze the project.
-        Teacher scoring and AI scoring remain separate.
-    </p>
-    <div class="criteria">
-        <div>
-            <strong>Quality</strong>
-            <span>Video and technical quality</span>
-        </div>
-        <div>
-            <strong>Creativity</strong>
-            <span>Creative execution</span>
-        </div>
-        <div>
-            <strong>Skill</strong>
-            <span>Required skill requirements</span>
-        </div>
-        <div>
-            <strong>Completion</strong>
-            <span>Required lesson elements</span>
-        </div>
-    </div>
+
 </div>
-</section>
-<!-- PAYMENTS -->
-<section class="section" id="payments">
-<div class="section-title">
-    <h2>Payment Analytics</h2>
-    <p>
-        Teacher receives 70% and SteadyMaze receives 30%.
-    </p>
+
 </div>
-<div class="payment-grid">
-    <div class="payment-card">
-        <div class="payment-line">
-            <span>Total student payments</span>
-            <strong>$00.00</strong>
-        </div>
-        <div class="payment-line">
-            <span>Teacher 70%</span>
-            <strong>$00.00</strong>
-        </div>
-        <div class="payment-line">
-            <span>SteadyMaze 30%</span>
-            <strong>$00.00</strong>
-        </div>
-        <div class="payment-line">
-            <span>Paid to teacher</span>
-            <strong>$00.00</strong>
-        </div>
-    </div>
-    <div class="payment-card">
-        <div class="stat-title">
-            AVAILABLE PAYOUT
-        </div>
-        <div class="stat-value">
-            $00
-        </div>
-        <div class="stat-bottom">
-            Real payment data will be connected later.
-        </div>
-    </div>
+
+<div class="section">
+
+<h2 class="section-title">Teacher Actions</h2>
+
+<div class="bottom-buttons">
+
+<button onclick="alert('Skills Page')">
+Skills
+</button>
+
+<button onclick="alert('Projects Page')">
+Projects
+</button>
+
+<button onclick="alert('Analytics Page')">
+Analytics
+</button>
+
+<button onclick="alert('Payments Page')">
+Payments
+</button>
+
 </div>
-</section>
-<!-- PROFILE -->
-<section class="section" id="profile">
-<div class="section-title">
-    <h2>Teacher Profile</h2>
-    <p>
-        Teacher account information.
-    </p>
+
 </div>
-<div class="profile">
-    <div class="profile-photo">
-        T
-    </div>
-    <div class="profile-data">
-        <div class="profile-item">
-            <span>NAME</span>
-            <strong>Teacher</strong>
-        </div>
-        <div class="profile-item">
-            <span>EMAIL</span>
-            <strong>Teacher account</strong>
-        </div>
-        <div class="profile-item">
-            <span>ACCOUNT TYPE</span>
-            <strong>Teacher</strong>
-        </div>
-        <div class="profile-item">
-            <span>TEACHER SHARE</span>
-            <strong>70%</strong>
-        </div>
-        <div class="profile-item">
-            <span>PLATFORM SHARE</span>
-            <strong>30%</strong>
-        </div>
-        <div class="profile-item">
-            <span>SKILLS</span>
-            <strong>17 Skills</strong>
-        </div>
-    </div>
+
 </div>
-</section>
-</main>
-</div>
-</div>
-<!-- MODAL -->
-<div class="modal" id="modal">
-<div class="modal-box">
-    <h2 id="modalTitle">
-        Teacher Dashboard
-    </h2>
-    <p id="modalText">
-        Dashboard action.
-    </p>
-    <button class="modal-close" onclick="closeModal()">
-        CLOSE
-    </button>
-</div>
-</div>
+
 <script>
-/* 17 SKILLS */
-const skills = [
-    ["Video Editing","🎬"],
-    ["Thumbnail Design","🖼️"],
-    ["Movie Recap","🎞️"],
-    ["Digital Marketing","📣"],
-    ["Affiliate Marketing","🔗"],
-    ["Dropshipping","🛒"],
-    ["FX","📈"],
-    ["Crypto","₿"],
-    ["Data Analysis","📊"],
-    ["English","🔤"],
-    ["AI Agent","🤖"],
-    ["Cybersecurity","🔐"],
-    ["Python","🐍"],
-    ["Java","☕"],
-    ["Web Development","💻"],
-    ["AI Web","🌐"],
-    ["AI App","📱"]
-];
-/* SHOW 17 SKILLS */
-const skillsList =
-    document.getElementById("skillsList");
-skills.forEach(function(skill){
-    const card =
-        document.createElement("div");
-    card.className = "skill";
-    card.innerHTML = `
-        <div class="skill-image">
-            ${skill[1]}
-        </div>
-        <h3>${skill[0]}</h3>
-        <p>
-            Teacher lessons and learning
-            content for this skill.
-        </p>
-        <div class="level-buttons">
-            <button onclick="level('${skill[0]}','Level 1')">
-                LEVEL 1
-            </button>
-            <button onclick="level('${skill[0]}','Level 2')">
-                LEVEL 2
-            </button>
-            <button onclick="level('${skill[0]}','Level 3')">
-                LEVEL 3
-            </button>
-        </div>
-    `;
-    skillsList.appendChild(card);
-});
-/* NAVIGATION */
-function go(id){
-    document
-        .getElementById(id)
-        .scrollIntoView({
-            behavior:"smooth"
-        });
+
+function openPage(page){
+alert("Open: " + page);
 }
-/* LEVEL BUTTON */
-function level(skill,level){
-    show(
-        skill + " — " + level,
-        "This level is ready for the teacher's lesson content. " +
-        "The real video upload and database connection will be added later."
-    );
+
+function logout(){
+alert("Logged Out");
 }
-/* LEADERBOARD */
-function leaderboard(group){
-    document.getElementById("boardTitle").textContent =
-        group + " Leaderboard";
-    const rows =
-        document.getElementById("boardRows");
-    rows.innerHTML = "";
-    for(let i=1;i<=300;i++){
-        const row =
-            document.createElement("tr");
-        row.innerHTML = `
-            <td class="pos">
-                ${String(i).padStart(3,"0")}
-            </td>
-            <td class="empty">—</td>
-            <td class="empty">—</td>
-            <td class="empty">—</td>
-            <td class="empty">—</td>
-            <td class="empty">EMPTY</td>
-        `;
-        rows.appendChild(row);
-    }
-    document
-        .getElementById("competition")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
-}
-/* MODAL */
-function show(title,text){
-    document.getElementById("modalTitle").textContent =
-        title;
-    document.getElementById("modalText").textContent =
-        text;
-    document.getElementById("modal").classList.add("open");
-}
-function closeModal(){
-    document.getElementById("modal").classList.remove("open");
-}
-/* INITIAL LEADERBOARD */
-leaderboard("Lower");
+
 </script>
+
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Skills Manager</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#021611,#04271f,#06382c);
+color:#fff;
+min-height:100vh;
+padding:20px;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.header h1{
+font-size:40px;
+}
+
+.back-btn{
+padding:12px 20px;
+border:none;
+border-radius:12px;
+background:#00e676;
+color:#000;
+font-weight:bold;
+cursor:pointer;
+}
+
+.panel{
+background:#061c27;
+border:1px solid rgba(255,255,255,.08);
+border-radius:24px;
+padding:25px;
+margin-bottom:25px;
+}
+
+.panel-title{
+font-size:24px;
+margin-bottom:20px;
+color:#00e676;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
+}
+
+.box{
+background:#082330;
+padding:20px;
+border-radius:20px;
+}
+
+label{
+display:block;
+margin-bottom:8px;
+margin-top:14px;
+color:#9db4ae;
+}
+
+input,
+textarea,
+select{
+width:100%;
+padding:14px;
+border:none;
+outline:none;
+border-radius:12px;
+background:#02141d;
+color:white;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.levels{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+margin-top:20px;
+}
+
+.level-btn{
+height:55px;
+border:none;
+border-radius:12px;
+background:#0b3548;
+color:#00e676;
+font-weight:bold;
+cursor:pointer;
+}
+
+.level-btn.active{
+background:#00e676;
+color:black;
+}
+
+.upload-area{
+margin-top:20px;
+padding:20px;
+border-radius:16px;
+border:2px dashed #00e676;
+text-align:center;
+}
+
+.file-input{
+margin-top:15px;
+}
+
+.action-buttons{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+margin-top:25px;
+}
+
+.action-buttons button{
+padding:14px 25px;
+border:none;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.save-btn{
+background:#00e676;
+color:black;
+}
+
+.preview-btn{
+background:#1f3b47;
+color:white;
+}
+
+.delete-btn{
+background:#ff5252;
+color:white;
+}
+
+.preview-card{
+margin-top:25px;
+background:#04141d;
+border-radius:20px;
+overflow:hidden;
+}
+
+.preview-image{
+width:100%;
+height:250px;
+object-fit:cover;
+display:block;
+}
+
+.preview-content{
+padding:25px;
+}
+
+.preview-content h2{
+margin-bottom:10px;
+}
+
+.preview-content p{
+color:#9db4ae;
+line-height:1.7;
+}
+
+.preview-levels{
+display:flex;
+gap:10px;
+margin-top:20px;
+flex-wrap:wrap;
+}
+
+.preview-levels span{
+padding:10px 15px;
+border-radius:10px;
+background:#00e67622;
+color:#00e676;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>Teacher Skills</h1>
+<button class="back-btn">Dashboard</button>
+</div>
+
+<div class="panel">
+
+<h2 class="panel-title">
+Skill Setup
+</h2>
+
+<div class="grid">
+
+<div class="box">
+
+<label>Skill Cover Image</label>
+<input type="file" accept="image/*">
+
+<label>Skill Introduction</label>
+<textarea placeholder="Teacher introduction"></textarea>
+
+<label>Teacher Notes</label>
+<textarea placeholder="Information students will see"></textarea>
+
+</div>
+
+<div class="box">
+
+<label>Level Selection</label>
+
+<div class="levels">
+
+<button class="level-btn active">
+LEVEL 1
+</button>
+
+<button class="level-btn">
+LEVEL 2
+</button>
+
+<button class="level-btn">
+LEVEL 3
+</button>
+
+</div>
+
+<div class="upload-area">
+
+<h3>Lesson Video</h3>
+
+<input
+class="file-input"
+type="file"
+accept="video/*">
+
+</div>
+
+<label>Assignment</label>
+
+<textarea placeholder="Level assignment"></textarea>
+
+</div>
+
+</div>
+
+<div class="action-buttons">
+
+<button class="save-btn">
+Save Lesson
+</button>
+
+<button class="preview-btn">
+Preview
+</button>
+
+<button class="delete-btn">
+Delete
+</button>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2 class="panel-title">
+Student Preview
+</h2>
+
+<div class="preview-card">
+
+<img
+class="preview-image"
+src="https://images.unsplash.com/photo-1574717024453-354056dd1fd4?w=1200"
+alt="Skill">
+
+<div class="preview-content">
+
+<h2>
+Skill Title From Database
+</h2>
+
+<p>
+Teacher introduction and skill description
+will appear here after saving.
+Students will see this before opening
+Level 1, Level 2 or Level 3.
+</p>
+
+<div class="preview-levels">
+
+<span>LEVEL 1</span>
+<span>LEVEL 2</span>
+<span>LEVEL 3</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const levelButtons =
+document.querySelectorAll(".level-btn");
+
+levelButtons.forEach(button=>{
+
+button.addEventListener("click",()=>{
+
+levelButtons.forEach(btn=>{
+btn.classList.remove("active");
+});
+
+button.classList.add("active");
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
+<!-- COMPETITION SECTION -->
+
+<section class="competition-section">
+
+    <div class="competition-header">
+
+        <h2>Competition Management</h2>
+
+        <p>
+            Competition leaderboard and rewards management.
+        </p>
+
+    </div>
+
+    <!-- LOWER -->
+
+    <div class="competition-card">
+
+        <div class="competition-top">
+
+            <h3>LOWER GROUP</h3>
+
+            <div class="group-info">
+
+                <span>Capacity: 300</span>
+                <span>Winners: 6</span>
+
+            </div>
+
+        </div>
+
+        <div class="reward-box">
+
+            <h4>Reward Status</h4>
+
+            <span class="pending">
+                PENDING
+            </span>
+
+        </div>
+
+        <div class="winner-grid">
+
+            <div>🥇 Winner 1 - Pending</div>
+            <div>🥈 Winner 2 - Pending</div>
+            <div>🥉 Winner 3 - Pending</div>
+            <div>🏅 Winner 4 - Pending</div>
+            <div>🏅 Winner 5 - Pending</div>
+            <div>🏅 Winner 6 - Pending</div>
+
+        </div>
+
+        <div class="leaderboard-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Position</th>
+                        <th>Score</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="lowerTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- MEDIUM -->
+
+    <div class="competition-card">
+
+        <div class="competition-top">
+
+            <h3>MEDIUM GROUP</h3>
+
+            <div class="group-info">
+
+                <span>Capacity: 300</span>
+                <span>Winners: 6</span>
+
+            </div>
+
+        </div>
+
+        <div class="reward-box">
+
+            <h4>Reward Status</h4>
+
+            <span class="pending">
+                PENDING
+            </span>
+
+        </div>
+
+        <div class="winner-grid">
+
+            <div>🥇 Winner 1 - Pending</div>
+            <div>🥈 Winner 2 - Pending</div>
+            <div>🥉 Winner 3 - Pending</div>
+            <div>🏅 Winner 4 - Pending</div>
+            <div>🏅 Winner 5 - Pending</div>
+            <div>🏅 Winner 6 - Pending</div>
+
+        </div>
+
+        <div class="leaderboard-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Position</th>
+                        <th>Score</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="mediumTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- HIGH -->
+
+    <div class="competition-card">
+
+        <div class="competition-top">
+
+            <h3>HIGH GROUP</h3>
+
+            <div class="group-info">
+
+                <span>Capacity: 300</span>
+                <span>Winners: 6</span>
+
+            </div>
+
+        </div>
+
+        <div class="reward-box">
+
+            <h4>Reward Status</h4>
+
+            <span class="pending">
+                PENDING
+            </span>
+
+        </div>
+
+        <div class="winner-grid">
+
+            <div>🥇 Winner 1 - Pending</div>
+            <div>🥈 Winner 2 - Pending</div>
+            <div>🥉 Winner 3 - Pending</div>
+            <div>🏅 Winner 4 - Pending</div>
+            <div>🏅 Winner 5 - Pending</div>
+            <div>🏅 Winner 6 - Pending</div>
+
+        </div>
+
+        <div class="leaderboard-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Position</th>
+                        <th>Score</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="highTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+<style>
+
+.competition-section{
+margin-top:40px;
+}
+
+.competition-header{
+margin-bottom:25px;
+}
+
+.competition-header h2{
+font-size:34px;
+color:#00e676;
+}
+
+.competition-header p{
+color:#98b0aa;
+margin-top:8px;
+}
+
+.competition-card{
+background:#061c27;
+border-radius:24px;
+padding:25px;
+margin-bottom:30px;
+border:1px solid rgba(255,255,255,.08);
+}
+
+.competition-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.competition-top h3{
+color:#00e676;
+}
+
+.group-info{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.reward-box{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#082330;
+padding:15px;
+border-radius:14px;
+margin-bottom:15px;
+}
+
+.pending{
+background:#ffb30022;
+color:#ffb300;
+padding:8px 14px;
+border-radius:20px;
+font-weight:bold;
+}
+
+.winner-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:10px;
+margin-bottom:20px;
+}
+
+.winner-grid div{
+background:#082330;
+padding:14px;
+border-radius:12px;
+}
+
+.leaderboard-wrapper{
+max-height:500px;
+overflow:auto;
+border-radius:14px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#03141d;
+color:#00e676;
+padding:12px;
+text-align:left;
+position:sticky;
+top:0;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+</style>
+
+<script>
+
+function fillTable(id){
+
+const tbody=document.getElementById(id);
+
+for(let i=1;i<=300;i++){
+
+const row=document.createElement("tr");
+
+row.innerHTML=`
+<td>${String(i).padStart(3,"0")}</td>
+<td>0</td>
+`;
+
+tbody.appendChild(row);
+
+}
+
+}
+
+fillTable("lowerTable");
+fillTable("mediumTable");
+fillTable("highTable");
+
+</script>
