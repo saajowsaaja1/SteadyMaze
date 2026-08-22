@@ -1,4041 +1,2934 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>GurHub | Teacher Dashboard</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Inter, Arial, Helvetica, sans-serif;
-        }
-
-        :root {
-            --blue: #2563eb;
-            --blue-dark: #0f172a;
-            --blue-light: #eff6ff;
-            --gold: #c9a227;
-            --gold-light: #f7efd0;
-            --text: #0f172a;
-            --muted: #64748b;
-            --border: rgba(148, 163, 184, .22);
-            --white: rgba(255,255,255,.78);
-            --danger: #dc2626;
-        }
-
-        body {
-            min-height: 100vh;
-            color: var(--text);
-            background:
-                radial-gradient(
-                    circle at 10% 10%,
-                    rgba(37, 99, 235, .13),
-                    transparent 28%
-                ),
-                radial-gradient(
-                    circle at 90% 10%,
-                    rgba(201, 162, 39, .12),
-                    transparent 25%
-                ),
-                radial-gradient(
-                    circle at 50% 100%,
-                    rgba(37, 99, 235, .09),
-                    transparent 30%
-                ),
-                #f5f8fc;
-        }
-
-        button,
-        input,
-        textarea,
-        select {
-            font: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        /* =========================
-           APP
-        ========================= */
-
-        .app {
-            min-height: 100vh;
-            display: flex;
-        }
-
-        /* =========================
-           SIDEBAR
-        ========================= */
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 255px;
-            padding: 22px 15px;
-            background:
-                linear-gradient(
-                    180deg,
-                    rgba(255,255,255,.91),
-                    rgba(248,250,252,.78)
-                );
-            border-right: 1px solid var(--border);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            z-index: 100;
-            overflow-y: auto;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 5px 12px 27px;
-        }
-
-        .brand-logo {
-            width: 38px;
-            height: 38px;
-            border-radius: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 17px;
-            font-weight: 900;
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--blue),
-                    #1e40af
-                );
-            box-shadow: 0 8px 22px rgba(37,99,235,.23);
-        }
-
-        .brand-name {
-            font-size: 21px;
-            font-weight: 900;
-            letter-spacing: -.7px;
-        }
-
-        .brand-name span {
-            color: var(--blue);
-        }
-
-        .teacher-label {
-            padding: 0 12px 12px;
-            font-size: 10px;
-            font-weight: 800;
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-        }
-
-        .nav {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .nav-btn {
-            width: 100%;
-            height: 46px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 0 13px;
-            border: 0;
-            border-radius: 11px;
-            background: transparent;
-            color: #475569;
-            font-size: 13px;
-            font-weight: 700;
-            text-align: left;
-            transition: .2s ease;
-        }
-
-        .nav-btn:hover {
-            background: rgba(37,99,235,.06);
-            color: var(--blue);
-        }
-
-        .nav-btn.active {
-            background: linear-gradient(
-                135deg,
-                rgba(37,99,235,.11),
-                rgba(37,99,235,.05)
-            );
-            color: var(--blue);
-            box-shadow:
-                inset 3px 0 0 var(--blue);
-        }
-
-        .nav-icon {
-            width: 23px;
-            text-align: center;
-            font-size: 16px;
-        }
-
-        .sidebar-bottom {
-            margin-top: 25px;
-            padding-top: 18px;
-            border-top: 1px solid var(--border);
-        }
-
-        .logout-btn {
-            color: #b91c1c;
-        }
-
-        /* =========================
-           MAIN
-        ========================= */
-
-        .main {
-            width: calc(100% - 255px);
-            margin-left: 255px;
-            min-height: 100vh;
-        }
-
-        /* =========================
-           TOPBAR
-        ========================= */
-
-        .topbar {
-            height: 76px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            background: rgba(255,255,255,.67);
-            border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-
-        .mobile-menu {
-            display: none;
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: white;
-            font-size: 19px;
-        }
-
-        .top-search {
-            width: 300px;
-            height: 40px;
-            position: relative;
-        }
-
-        .top-search input {
-            width: 100%;
-            height: 100%;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            outline: none;
-            background: rgba(255,255,255,.72);
-            padding: 0 14px 0 40px;
-            color: var(--text);
-            font-size: 13px;
-        }
-
-        .top-search span {
-            position: absolute;
-            left: 14px;
-            top: 11px;
-            color: var(--muted);
-        }
-
-        .top-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .notification {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: rgba(255,255,255,.7);
-            position: relative;
-            font-size: 16px;
-        }
-
-        .notification-dot {
-            position: absolute;
-            width: 7px;
-            height: 7px;
-            right: 8px;
-            top: 7px;
-            border-radius: 50%;
-            background: var(--gold);
-        }
-
-        .top-profile {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            padding-left: 5px;
-        }
-
-        .profile-image {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #e2e8f0;
-            border: 2px solid rgba(201,162,39,.55);
-        }
-
-        .top-profile-text strong {
-            display: block;
-            font-size: 12px;
-        }
-
-        .top-profile-text small {
-            color: var(--muted);
-            font-size: 10px;
-        }
-
-        /* =========================
-           CONTENT
-        ========================= */
-
-        .content {
-            padding: 30px;
-            max-width: 1600px;
-            margin: auto;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-            animation: fadeIn .25s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* =========================
-           HEADER
-        ========================= */
-
-        .page-head {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .page-head h1 {
-            font-size: 29px;
-            letter-spacing: -1px;
-            margin-bottom: 7px;
-        }
-
-        .page-head p {
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        .gold-line {
-            width: 45px;
-            height: 3px;
-            margin-top: 12px;
-            border-radius: 20px;
-            background: var(--gold);
-        }
-
-        /* =========================
-           CARDS
-        ========================= */
-
-        .glass-card {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 17px;
-            box-shadow:
-                0 12px 35px rgba(15,23,42,.055);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            padding: 20px;
-            min-height: 128px;
-        }
-
-        .stat-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-        }
-
-        .stat-icon {
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            background: var(--blue-light);
-            color: var(--blue);
-        }
-
-        .stat-card.gold .stat-icon {
-            background: var(--gold-light);
-            color: #927313;
-        }
-
-        .stat-label {
-            color: var(--muted);
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .stat-value {
-            font-size: 25px;
-            font-weight: 900;
-            letter-spacing: -.7px;
-        }
-
-        .stat-note {
-            margin-top: 5px;
-            color: #94a3b8;
-            font-size: 10px;
-        }
-
-        /* =========================
-           DASHBOARD GRID
-        ========================= */
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1.45fr .85fr;
-            gap: 18px;
-            margin-bottom: 20px;
-        }
-
-        .card-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 20px 0;
-        }
-
-        .card-head h3 {
-            font-size: 15px;
-        }
-
-        .card-head span {
-            font-size: 10px;
-            color: var(--muted);
-        }
-
-        /* =========================
-           COMPETITION TIMER
-        ========================= */
-
-        .competition-card {
-            padding-bottom: 22px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .competition-card::before {
-            content: "";
-            position: absolute;
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            right: -80px;
-            top: -90px;
-            background: rgba(201,162,39,.09);
-        }
-
-        .competition-inner {
-            position: relative;
-            z-index: 2;
-            padding: 20px;
-        }
-
-        .competition-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 7px 10px;
-            border-radius: 30px;
-            background: rgba(37,99,235,.07);
-            color: var(--blue);
-            font-size: 10px;
-            font-weight: 800;
-        }
-
-        .live-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #22c55e;
-            box-shadow: 0 0 0 4px rgba(34,197,94,.12);
-        }
-
-        .competition-title {
-            margin-top: 16px;
-            font-size: 21px;
-            font-weight: 900;
-        }
-
-        .competition-sub {
-            margin-top: 6px;
-            color: var(--muted);
-            font-size: 11px;
-        }
-
-        .countdown {
-            display: grid;
-            grid-template-columns:
-                repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 20px;
-        }
-
-        .time-box {
-            padding: 13px 7px;
-            text-align: center;
-            border-radius: 11px;
-            background: rgba(15,23,42,.035);
-            border: 1px solid var(--border);
-        }
-
-        .time-box strong {
-            display: block;
-            font-size: 20px;
-        }
-
-        .time-box small {
-            color: var(--muted);
-            font-size: 9px;
-            text-transform: uppercase;
-        }
-
-        /* =========================
-           PAYMENT
-        ========================= */
-
-        .payment-card {
-            padding-bottom: 20px;
-        }
-
-        .payment-total {
-            padding: 20px;
-        }
-
-        .payment-total small {
-            display: block;
-            color: var(--muted);
-            font-size: 11px;
-            margin-bottom: 5px;
-        }
-
-        .payment-total strong {
-            font-size: 29px;
-            letter-spacing: -.8px;
-        }
-
-        .payment-split {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 15px;
-        }
-
-        .split {
-            padding: 10px;
-            border-radius: 9px;
-            background: rgba(37,99,235,.05);
-        }
-
-        .split.gold {
-            background: rgba(201,162,39,.08);
-        }
-
-        .split small {
-            display: block;
-            color: var(--muted);
-            font-size: 9px;
-        }
-
-        .split strong {
-            display: block;
-            margin-top: 3px;
-            font-size: 14px;
-        }
-
-        .payment-methods {
-            display: flex;
-            gap: 7px;
-            flex-wrap: wrap;
-            padding: 0 20px;
-        }
-
-        .method {
-            padding: 7px 10px;
-            border: 1px solid var(--border);
-            border-radius: 7px;
-            background: white;
-            font-size: 10px;
-            font-weight: 800;
-        }
-
-        .method.visa {
-            color: #1a1f71;
-        }
-
-        .method.mastercard {
-            color: #b91c1c;
-        }
-
-        .method.paypal {
-            color: #003087;
-        }
-
-        /* =========================
-           COMPETITION GROUPS
-        ========================= */
-
-        .group-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-            gap: 16px;
-        }
-
-        .group-card {
-            padding: 20px;
-        }
-
-        .group-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .group-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .group-badge {
-            width: 39px;
-            height: 39px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            background: var(--blue-light);
-            color: var(--blue);
-            font-weight: 900;
-            font-size: 12px;
-        }
-
-        .group-card:nth-child(2) .group-badge {
-            background: var(--gold-light);
-            color: #927313;
-        }
-
-        .group-card:nth-child(3) .group-badge {
-            background: #ede9fe;
-            color: #6d28d9;
-        }
-
-        .group-title strong {
-            display: block;
-            font-size: 14px;
-        }
-
-        .group-title small {
-            color: var(--muted);
-            font-size: 9px;
-        }
-
-        .group-number {
-            font-size: 21px;
-            font-weight: 900;
-        }
-
-        .group-number small {
-            color: var(--muted);
-            font-size: 9px;
-            font-weight: 600;
-        }
-
-        .group-progress {
-            height: 7px;
-            border-radius: 20px;
-            background: #e2e8f0;
-            overflow: hidden;
-        }
-
-        .group-progress span {
-            display: block;
-            width: 0%;
-            height: 100%;
-            background: var(--blue);
-        }
-
-        .group-card:nth-child(2)
-        .group-progress span {
-            background: var(--gold);
-        }
-
-        .group-card:nth-child(3)
-        .group-progress span {
-            background: #7c3aed;
-        }
-
-        .group-foot {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 9px;
-            color: var(--muted);
-            font-size: 9px;
-        }
-
-        /* =========================
-           TABLE
-        ========================= */
-
-        .table-card {
-            overflow: hidden;
-            margin-top: 20px;
-        }
-
-        .table-scroll {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 760px;
-        }
-
-        th,
-        td {
-            padding: 13px 18px;
-            text-align: left;
-            border-bottom: 1px solid rgba(148,163,184,.15);
-        }
-
-        th {
-            background: rgba(248,250,252,.85);
-            color: #64748b;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: .5px;
-        }
-
-        td {
-            font-size: 12px;
-            color: #334155;
-        }
-
-        .empty-value {
-            color: #94a3b8;
-        }
-
-        .pending {
-            display: inline-flex;
-            padding: 5px 8px;
-            border-radius: 20px;
-            background: #fff7ed;
-            color: #c2410c;
-            font-size: 9px;
-            font-weight: 800;
-        }
-
-        .group-switcher {
-            display: flex;
-            gap: 7px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .group-switch {
-            border: 1px solid var(--border);
-            background: white;
-            padding: 8px 13px;
-            border-radius: 8px;
-            color: var(--muted);
-            font-size: 10px;
-            font-weight: 800;
-        }
-
-        .group-switch.active {
-            background: var(--blue);
-            border-color: var(--blue);
-            color: white;
-        }
-
-        /* =========================
-           COURSES / VIDEO
-        ========================= */
-
-        .form-card {
-            padding: 24px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .field.full {
-            grid-column: 1 / -1;
-        }
-
-        .field label {
-            display: block;
-            margin-bottom: 7px;
-            color: #334155;
-            font-size: 11px;
-            font-weight: 800;
-        }
-
-        .field input,
-        .field select,
-        .field textarea {
-            width: 100%;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            outline: none;
-            background: rgba(255,255,255,.78);
-            padding: 12px;
-            color: var(--text);
-            font-size: 12px;
-            transition: .2s;
-        }
-
-        .field input,
-        .field select {
-            height: 45px;
-        }
-
-        .field textarea {
-            min-height: 110px;
-            resize: vertical;
-        }
-
-        .field input:focus,
-        .field select:focus,
-        .field textarea:focus {
-            border-color: var(--blue);
-            box-shadow:
-                0 0 0 3px rgba(37,99,235,.08);
-        }
-
-        .upload-box {
-            min-height: 155px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 8px;
-            padding: 20px;
-            border: 1.5px dashed #94a3b8;
-            border-radius: 12px;
-            background: rgba(248,250,252,.6);
-            text-align: center;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .upload-box:hover {
-            border-color: var(--blue);
-            background: rgba(37,99,235,.035);
-        }
-
-        .upload-icon {
-            font-size: 26px;
-        }
-
-        .upload-box strong {
-            font-size: 12px;
-        }
-
-        .upload-box small {
-            color: var(--muted);
-            font-size: 10px;
-        }
-
-        .upload-box input {
-            display: none;
-        }
-
-        .warning {
-            display: flex;
-            gap: 10px;
-            margin-top: 18px;
-            padding: 13px;
-            border-radius: 10px;
-            background: rgba(201,162,39,.08);
-            border: 1px solid rgba(201,162,39,.20);
-            color: #765f13;
-            font-size: 10px;
-            line-height: 1.6;
-        }
-
-        .primary-btn {
-            min-height: 44px;
-            padding: 0 17px;
-            border: none;
-            border-radius: 9px;
-            background: linear-gradient(
-                135deg,
-                var(--blue),
-                #1d4ed8
-            );
-            color: white;
-            font-size: 11px;
-            font-weight: 800;
-            box-shadow: 0 8px 20px rgba(37,99,235,.15);
-            transition: .2s;
-        }
-
-        .primary-btn:hover {
-            transform: translateY(-1px);
-        }
-
-        .secondary-btn {
-            min-height: 44px;
-            padding: 0 17px;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            background: white;
-            color: #475569;
-            font-size: 11px;
-            font-weight: 800;
-        }
-
-        .button-row {
-            display: flex;
-            gap: 9px;
-            margin-top: 18px;
-            flex-wrap: wrap;
-        }
-
-        /* =========================
-           PROFILE
-        ========================= */
-
-        .profile-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 18px;
-        }
-
-        .profile-card {
-            padding: 25px;
-            text-align: center;
-        }
-
-        .large-profile {
-            width: 105px;
-            height: 105px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 3px solid rgba(201,162,39,.65);
-            background: #e2e8f0;
-        }
-
-        .profile-upload {
-            display: inline-block;
-            margin-top: 13px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            background: var(--blue-light);
-            color: var(--blue);
-            font-size: 10px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-
-        .profile-upload input {
-            display: none;
-        }
-
-        .profile-card h3 {
-            margin-top: 13px;
-            font-size: 15px;
-        }
-
-        .profile-card p {
-            margin-top: 5px;
-            color: var(--muted);
-            font-size: 10px;
-        }
-
-        .profile-skill {
-            display: inline-block;
-            margin-top: 12px;
-            padding: 6px 10px;
-            border-radius: 20px;
-            background: var(--gold-light);
-            color: #765f13;
-            font-size: 9px;
-            font-weight: 800;
-        }
-
-        /* =========================
-           AI
-        ========================= */
-
-        .ai-layout {
-            display: grid;
-            grid-template-columns: 1fr 330px;
-            gap: 18px;
-        }
-
-        .chat-card {
-            min-height: 530px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .chat-header {
-            padding: 18px 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .chat-header strong {
-            font-size: 14px;
-        }
-
-        .chat-header small {
-            display: block;
-            margin-top: 4px;
-            color: var(--muted);
-            font-size: 9px;
-        }
-
-        .chat-body {
-            flex: 1;
-            padding: 20px;
-            min-height: 350px;
-            color: var(--muted);
-            font-size: 11px;
-        }
-
-        .chat-empty {
-            height: 100%;
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .chat-empty div {
-            max-width: 300px;
-        }
-
-        .chat-input {
-            display: flex;
-            gap: 8px;
-            padding: 15px;
-            border-top: 1px solid var(--border);
-        }
-
-        .chat-input input {
-            flex: 1;
-            min-width: 0;
-            height: 42px;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            padding: 0 12px;
-            outline: none;
-            font-size: 11px;
-        }
-
-        .chat-input button {
-            width: 44px;
-            border: 0;
-            border-radius: 9px;
-            background: var(--blue);
-            color: white;
-        }
-
-        .ai-info {
-            padding: 20px;
-        }
-
-        .ai-info h3 {
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
-
-        .ai-rule {
-            padding: 11px;
-            border-radius: 9px;
-            background: rgba(37,99,235,.05);
-            margin-bottom: 8px;
-            color: #475569;
-            font-size: 10px;
-            line-height: 1.6;
-        }
-
-        /* =========================
-           PAYMENT PAGE
-        ========================= */
-
-        .payment-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-        }
-
-        .method-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .method-card {
-            min-height: 80px;
-            border: 1px solid var(--border);
-            border-radius: 11px;
-            background: white;
-            padding: 12px;
-            cursor: pointer;
-            text-align: left;
-            transition: .2s;
-        }
-
-        .method-card:hover,
-        .method-card.selected {
-            border-color: var(--blue);
-            box-shadow:
-                0 0 0 2px rgba(37,99,235,.07);
-        }
-
-        .method-card strong {
-            display: block;
-            font-size: 12px;
-        }
-
-        .method-card small {
-            display: block;
-            color: var(--muted);
-            font-size: 9px;
-            margin-top: 5px;
-        }
-
-        .bank-note {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 10px;
-            background: rgba(201,162,39,.08);
-            color: #765f13;
-            font-size: 10px;
-            line-height: 1.6;
-        }
-
-        /* =========================
-           TOAST
-        ========================= */
-
-        .toast {
-            position: fixed;
-            right: 25px;
-            bottom: 25px;
-            max-width: 320px;
-            padding: 13px 16px;
-            border-radius: 10px;
-            background: #0f172a;
-            color: white;
-            font-size: 11px;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(10px);
-            transition: .25s;
-            z-index: 999;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 1100px) {
-
-            .stats-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-            .dashboard-grid,
-            .ai-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .group-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .profile-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 800px) {
-
-            .sidebar {
-                transform: translateX(-100%);
-                transition: .25s;
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main {
-                width: 100%;
-                margin-left: 0;
-            }
-
-            .mobile-menu {
-                display: block;
-            }
-
-            .topbar {
-                padding: 0 16px;
-            }
-
-            .top-search {
-                display: none;
-            }
-
-            .content {
-                padding: 20px 14px;
-            }
-
-            .form-grid,
-            .payment-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .field.full {
-                grid-column: auto;
-            }
-        }
-
-        @media (max-width: 500px) {
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .top-profile-text {
-                display: none;
-            }
-
-            .page-head {
-                flex-direction: column;
-            }
-
-            .countdown {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-            .method-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .payment-split {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Teacher Dashboard | GURHUB</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;
+}
+
+:root{
+    --bg:#06111f;
+    --panel:rgba(9,25,44,.78);
+    --panel2:rgba(14,34,58,.72);
+    --blue:#2563eb;
+    --blue2:#60a5fa;
+    --gold:#d4af37;
+    --gold2:#e8ca67;
+    --text:#f4f7fb;
+    --muted:#8fa1b5;
+    --border:rgba(255,255,255,.09);
+}
+
+body{
+    min-height:100vh;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 10% 10%,rgba(37,99,235,.20),transparent 28%),
+        radial-gradient(circle at 90% 80%,rgba(212,175,55,.12),transparent 25%),
+        linear-gradient(135deg,#050e1a,#091b30 50%,#06111f);
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    left:-180px;
+    top:-180px;
+    border-radius:50%;
+    background:rgba(37,99,235,.10);
+    filter:blur(100px);
+    pointer-events:none;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    width:450px;
+    height:450px;
+    right:-150px;
+    bottom:-180px;
+    border-radius:50%;
+    background:rgba(212,175,55,.08);
+    filter:blur(100px);
+    pointer-events:none;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:255px;
+    padding:25px 17px;
+    background:rgba(5,17,31,.88);
+    border-right:1px solid var(--border);
+    backdrop-filter:blur(20px);
+    z-index:100;
+}
+
+.logo{
+    padding:8px 14px 30px;
+    font-size:27px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:var(--gold);
+}
+
+.teacher-mini{
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:rgba(255,255,255,.035);
+    margin-bottom:20px;
+}
+
+.mini-row{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.avatar{
+    width:43px;
+    height:43px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid rgba(212,175,55,.65);
+    background:#10243b;
+}
+
+.teacher-mini strong{
+    display:block;
+    font-size:13px;
+}
+
+.teacher-mini span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.nav button{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#9cafc3;
+    text-align:left;
+    padding:12px 13px;
+    border-radius:11px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.nav button:hover,
+.nav button.active{
+    color:#fff;
+    background:linear-gradient(
+        90deg,
+        rgba(37,99,235,.25),
+        rgba(37,99,235,.07)
+    );
+}
+
+.nav button.active{
+    border-left:3px solid var(--gold);
+}
+
+.logout{
+    position:absolute;
+    left:17px;
+    right:17px;
+    bottom:20px;
+}
+
+.logout button{
+    width:100%;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.04);
+    color:#b9c5d2;
+    padding:11px;
+    border-radius:11px;
+    cursor:pointer;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:255px;
+    padding:25px;
+    position:relative;
+    z-index:1;
+}
+
+.topbar{
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:24px;
+}
+
+.top-title h1{
+    font-size:25px;
+}
+
+.top-title p{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:5px;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 13px;
+    border-radius:30px;
+    background:rgba(34,197,94,.07);
+    border:1px solid rgba(34,197,94,.16);
+    color:#8be3a7;
+    font-size:12px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#4ade80;
+}
+
+/* SECTIONS */
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+/* CARDS */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:19px;
+    backdrop-filter:blur(18px);
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.stat-value{
+    font-size:27px;
+    font-weight:750;
+    margin-top:9px;
+}
+
+.stat-note{
+    color:#71849a;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.gold{
+    color:var(--gold2);
+}
+
+.blue{
+    color:var(--blue2);
+}
+
+.content-grid{
+    display:grid;
+    grid-template-columns:1.4fr .8fr;
+    gap:18px;
+}
+
+.card h2{
+    font-size:18px;
+    margin-bottom:7px;
+}
+
+.card-subtitle{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:20px;
+}
+
+/* BUTTONS */
+
+.btn{
+    border:0;
+    border-radius:10px;
+    padding:11px 15px;
+    cursor:pointer;
+    color:white;
+    font-weight:650;
+    font-size:12px;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-blue{
+    background:linear-gradient(135deg,#2563eb,#1746a2);
+}
+
+.btn-gold{
+    background:linear-gradient(135deg,#d4af37,#9d7b18);
+    color:#071321;
+}
+
+.btn-dark{
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--border);
+}
+
+.btn-danger{
+    background:rgba(220,38,38,.12);
+    border:1px solid rgba(220,38,38,.18);
+    color:#ff9b9b;
+}
+
+/* LESSON */
+
+.lesson-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.lesson{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:rgba(255,255,255,.025);
+}
+
+.lesson-info{
+    min-width:0;
+}
+
+.lesson-info strong{
+    display:block;
+    font-size:13px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.lesson-info span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.level-badge{
+    padding:5px 8px;
+    border-radius:7px;
+    font-size:10px;
+    color:#dbeafe;
+    background:rgba(37,99,235,.14);
+    border:1px solid rgba(37,99,235,.18);
+}
+
+/* PROFILE */
+
+.profile-box{
+    display:grid;
+    grid-template-columns:180px 1fr;
+    gap:25px;
+}
+
+.profile-photo-area{
+    display:flex;
+    align-items:center;
+    flex-direction:column;
+    gap:12px;
+}
+
+.profile-photo{
+    width:135px;
+    height:135px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid var(--gold);
+    background:#10243b;
+}
+
+.upload-label{
+    cursor:pointer;
+    padding:9px 12px;
+    border-radius:9px;
+    background:rgba(37,99,235,.13);
+    border:1px solid rgba(37,99,235,.2);
+    color:#9fc5ff;
+    font-size:11px;
+}
+
+input[type="file"]{
+    display:none;
+}
+
+/* FORMS */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.field{
+    margin-bottom:14px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    color:#c8d4e1;
+    font-size:12px;
+    margin-bottom:7px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px 13px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    outline:none;
+    color:white;
+    background:rgba(255,255,255,.045);
+}
+
+select option{
+    background:#0b1c31;
+}
+
+textarea{
+    resize:vertical;
+    min-height:100px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:rgba(37,99,235,.65);
+    box-shadow:0 0 0 3px rgba(37,99,235,.08);
+}
+
+/* UPLOAD */
+
+.upload-box{
+    border:1px dashed rgba(96,165,250,.35);
+    background:rgba(37,99,235,.045);
+    padding:25px;
+    text-align:center;
+    border-radius:14px;
+    margin-bottom:18px;
+}
+
+.upload-box .icon{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.upload-box h3{
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.upload-box p{
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:14px;
+}
+
+.file-name{
+    color:#a8caff;
+    font-size:11px;
+    margin-top:9px;
+}
+
+/* WARNING */
+
+.warning{
+    padding:14px;
+    border-radius:12px;
+    background:rgba(212,175,55,.055);
+    border:1px solid rgba(212,175,55,.16);
+    color:#d9c88c;
+    font-size:11px;
+    line-height:1.6;
+    margin-bottom:18px;
+}
+
+/* LEVELS */
+
+.level-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.level-card{
+    padding:18px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:rgba(255,255,255,.025);
+}
+
+.level-card h3{
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+.level-card p{
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.5;
+}
+
+/* PAYMENT */
+
+.payment-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
+}
+
+.payment-method{
+    min-height:130px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:17px;
+    cursor:pointer;
+    background:rgba(255,255,255,.025);
+    transition:.2s;
+}
+
+.payment-method:hover,
+.payment-method.selected{
+    border-color:rgba(37,99,235,.55);
+    background:rgba(37,99,235,.08);
+}
+
+.payment-icon{
+    font-size:25px;
+    margin-bottom:15px;
+}
+
+.payment-method strong{
+    display:block;
+    font-size:13px;
+}
+
+.payment-method span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-top:5px;
+}
+
+.split-box{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:18px;
+}
+
+.split{
+    padding:17px;
+    border-radius:13px;
+    background:rgba(255,255,255,.035);
+    border:1px solid var(--border);
+}
+
+.split strong{
+    display:block;
+    font-size:23px;
+}
+
+.split span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* LEADERBOARD */
+
+.competition-tabs{
+    display:flex;
+    gap:7px;
+    margin-bottom:18px;
+    overflow-x:auto;
+}
+
+.competition-tabs button{
+    white-space:nowrap;
+    padding:9px 14px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.035);
+    color:#9cafc3;
+    cursor:pointer;
+}
+
+.competition-tabs button.active{
+    background:rgba(37,99,235,.16);
+    border-color:rgba(37,99,235,.35);
+    color:white;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    padding:12px;
+    color:#71859c;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:13px 12px;
+    font-size:12px;
+    border-bottom:1px solid rgba(255,255,255,.045);
+}
+
+.rank{
+    width:35px;
+    color:var(--gold2);
+    font-weight:700;
+}
+
+.pending{
+    color:#e5c45c;
+    font-size:10px;
+}
+
+.empty{
+    text-align:center;
+    color:var(--muted);
+    padding:35px;
+}
+
+/* AI */
+
+.ai-box{
+    display:flex;
+    flex-direction:column;
+    height:540px;
+}
+
+.chat-messages{
+    flex:1;
+    overflow-y:auto;
+    padding:10px 2px;
+}
+
+.message{
+    max-width:80%;
+    padding:11px 13px;
+    border-radius:12px;
+    margin-bottom:10px;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.message.ai{
+    background:rgba(255,255,255,.05);
+    border:1px solid var(--border);
+    color:#cbd6e3;
+}
+
+.message.user{
+    margin-left:auto;
+    background:rgba(37,99,235,.18);
+    border:1px solid rgba(37,99,235,.2);
+}
+
+.chat-form{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+}
+
+.chat-form input{
+    flex:1;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.68);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:500;
+    backdrop-filter:blur(8px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:650px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:#091a2d;
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 30px 90px rgba(0,0,0,.5);
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.close{
+    border:0;
+    background:rgba(255,255,255,.06);
+    color:#a9b7c7;
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* MOBILE */
+
+.mobile-menu{
+    display:none;
+}
+
+@media(max-width:1050px){
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .content-grid{
+        grid-template-columns:1fr;
+    }
+
+    .payment-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:760px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+        padding:15px;
+    }
+
+    .mobile-menu{
+        display:block;
+        border:1px solid var(--border);
+        background:rgba(255,255,255,.05);
+        color:white;
+        border-radius:9px;
+        padding:9px 11px;
+        cursor:pointer;
+    }
+
+    .topbar{
+        gap:10px;
+    }
+
+    .grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .profile-box,
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .level-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:500px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .payment-grid{
+        grid-template-columns:1fr;
+    }
+
+    .top-title h1{
+        font-size:20px;
+    }
+
+    .status{
+        display:none;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<div class="app">
+<!-- ================= SIDEBAR ================= -->
 
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
+<aside class="sidebar" id="sidebar">
 
-    <aside class="sidebar" id="sidebar">
+    <div class="logo">
+        GUR<span>HUB</span>
+    </div>
 
-        <div class="brand">
+    <div class="teacher-mini">
 
-            <div class="brand-logo">
-                G
-            </div>
+        <div class="mini-row">
 
-            <div class="brand-name">
-                Gur<span>Hub</span>
+            <img
+                src=""
+                id="sideAvatar"
+                class="avatar"
+                alt="Teacher profile">
+
+            <div>
+                <strong id="sideName">Teacher</strong>
+                <span id="sideSkill">Teacher Account</span>
             </div>
 
         </div>
 
-        <div class="teacher-label">
-            Teacher Portal
-        </div>
+    </div>
 
-        <nav class="nav">
+    <nav class="nav">
 
-            <button
-                class="nav-btn active"
-                onclick="openSection('dashboard', this)"
-            >
-                <span class="nav-icon">⌂</span>
-                Dashboard
-            </button>
+        <button
+            class="active"
+            onclick="showSection('dashboard',this)">
+            🏠 Dashboard
+        </button>
 
-            <button
-                class="nav-btn"
-                onclick="openSection('courses', this)"
-            >
-                <span class="nav-icon">▣</span>
-                My Courses
-            </button>
+        <button
+            onclick="showSection('profile',this)">
+            👤 My Profile
+        </button>
 
-            <button
-                class="nav-btn"
-                onclick="openSection('students', this)"
-            >
-                <span class="nav-icon">♙</span>
-                Students
-            </button>
+        <button
+            onclick="showSection('lessons',this)">
+            🎥 My Lessons
+        </button>
 
-            <button
-                class="nav-btn"
-                onclick="openSection('competition', this)"
-            >
-                <span class="nav-icon">♛</span>
-                Competition
-            </button>
+        <button
+            onclick="showSection('upload',this)">
+            ⬆️ Add Lesson
+        </button>
 
-            <button
-                class="nav-btn"
-                onclick="openSection('leaderboard', this)"
-            >
-                <span class="nav-icon">≡</span>
-                Live Leaderboard
-            </button>
+        <button
+            onclick="showSection('payments',this)">
+            💳 Payments
+        </button>
 
-            <button
-                class="nav-btn"
-                onclick="openSection('payments', this)"
-            >
-                <span class="nav-icon">◇</span>
-                Payments
-            </button>
+        <button
+            onclick="showSection('competition',this)">
+            🏆 Competition
+        </button>
 
-            <button
-                class="nav-btn"
-                onclick="openSection('ai', this)"
-            >
-                <span class="nav-icon">✦</span>
-                AI Review
-            </button>
+        <button
+            onclick="showSection('ai',this)">
+            🤖 AI Assistant
+        </button>
 
-            <button
-                class="nav-btn"
-                onclick="openSection('profile', this)"
-            >
-                <span class="nav-icon">◎</span>
-                Profile
-            </button>
+    </nav>
 
-        </nav>
+    <div class="logout">
 
-        <div class="sidebar-bottom">
+        <button onclick="logoutTeacher()">
+            ← Back to Teacher Login
+        </button>
 
-            <button
-                class="nav-btn logout-btn"
-                onclick="logoutTeacher()"
-            >
-                <span class="nav-icon">↪</span>
-                Logout
-            </button>
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <div class="topbar">
+
+        <button
+            class="mobile-menu"
+            onclick="toggleSidebar()">
+            ☰
+        </button>
+
+        <div class="top-title">
+
+            <h1 id="pageTitle">
+                Teacher Dashboard
+            </h1>
+
+            <p>
+                Manage your GURHUB teaching workspace.
+            </p>
 
         </div>
 
-    </aside>
+        <div class="status">
+
+            <span class="status-dot"></span>
+
+            Teacher workspace
+
+        </div>
+
+    </div>
 
 
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
+    <!-- ==================================================
+         DASHBOARD
+    ================================================== -->
 
-    <main class="main">
+    <section
+        id="dashboard"
+        class="section active">
 
-        <!-- TOPBAR -->
+        <div class="grid">
 
-        <header class="topbar">
+            <div class="card">
 
-            <button
-                class="mobile-menu"
-                onclick="toggleSidebar()"
-            >
-                ☰
-            </button>
+                <div class="stat-label">
+                    My Lessons
+                </div>
 
-            <div class="top-search">
+                <div
+                    class="stat-value blue"
+                    id="lessonCount">
+                    0
+                </div>
 
-                <span>⌕</span>
-
-                <input
-                    type="search"
-                    placeholder="Search dashboard..."
-                    id="dashboardSearch"
-                    oninput="searchDashboard()"
-                >
-
-            </div>
-
-            <div class="top-actions">
-
-                <button
-                    class="notification"
-                    onclick="showToast('Notifications will appear here when connected to the database.')"
-                >
-                    ♢
-                    <span class="notification-dot"></span>
-                </button>
-
-                <div class="top-profile">
-
-                    <img
-                        src=""
-                        class="profile-image"
-                        id="topProfileImage"
-                        alt="Teacher profile"
-                    >
-
-                    <div class="top-profile-text">
-
-                        <strong id="topTeacherName">
-                            Teacher
-                        </strong>
-
-                        <small>
-                            Teacher Account
-                        </small>
-
-                    </div>
-
+                <div class="stat-note">
+                    Uploaded lessons
                 </div>
 
             </div>
 
-        </header>
+
+            <div class="card">
+
+                <div class="stat-label">
+                    Active Levels
+                </div>
+
+                <div class="stat-value gold">
+                    3
+                </div>
+
+                <div class="stat-note">
+                    Beginner • Level 2 • Level 3
+                </div>
+
+            </div>
 
 
-        <div class="content">
+            <div class="card">
+
+                <div class="stat-label">
+                    Competition Group
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="teacherGroup">
+                    —
+                </div>
+
+                <div class="stat-note">
+                    Assigned group
+                </div>
+
+            </div>
 
 
-            <!-- =================================================
-                 DASHBOARD
-            ================================================== -->
+            <div class="card">
 
-            <section
-                class="section active"
-                id="dashboard"
-            >
+                <div class="stat-label">
+                    Teacher Share
+                </div>
 
-                <div class="page-head">
+                <div class="stat-value gold">
+                    70%
+                </div>
 
-                    <div>
+                <div class="stat-note">
+                    Payment split
+                </div>
 
-                        <h1>
-                            Teacher Dashboard
-                        </h1>
+            </div>
 
-                        <p>
-                            Manage your teaching activity, students,
-                            courses and competition.
-                        </p>
+        </div>
 
-                        <div class="gold-line"></div>
 
+        <div class="content-grid">
+
+            <div class="card">
+
+                <h2>
+                    My Recent Lessons
+                </h2>
+
+                <p class="card-subtitle">
+                    Lessons you have added to GURHUB.
+                </p>
+
+                <div
+                    class="lesson-list"
+                    id="dashboardLessons">
+
+                    <div class="empty">
+                        No lessons added yet.
                     </div>
 
                 </div>
 
+            </div>
 
-                <!-- STATS -->
 
-                <div class="stats-grid">
+            <div class="card">
 
-                    <div class="glass-card stat-card">
+                <h2>
+                    Teaching Levels
+                </h2>
 
-                        <div class="stat-top">
+                <p class="card-subtitle">
+                    You can publish lessons under each level.
+                </p>
 
-                            <span class="stat-label">
-                                Total Earnings
-                            </span>
+                <div class="level-grid">
 
-                            <span class="stat-icon">
-                                $
-                            </span>
-
-                        </div>
-
-                        <div class="stat-value">
-                            $0.00
-                        </div>
-
-                        <div class="stat-note">
-                            Waiting for real payment data
-                        </div>
-
-                    </div>
-
-
-                    <div class="glass-card stat-card">
-
-                        <div class="stat-top">
-
-                            <span class="stat-label">
-                                Students
-                            </span>
-
-                            <span class="stat-icon">
-                                ♙
-                            </span>
-
-                        </div>
-
-                        <div class="stat-value">
-                            00
-                        </div>
-
-                        <div class="stat-note">
-                            Real students appear from database
-                        </div>
-
-                    </div>
-
-
-                    <div class="glass-card stat-card">
-
-                        <div class="stat-top">
-
-                            <span class="stat-label">
-                                Courses
-                            </span>
-
-                            <span class="stat-icon">
-                                ▣
-                            </span>
-
-                        </div>
-
-                        <div class="stat-value">
-                            00
-                        </div>
-
-                        <div class="stat-note">
-                            Your published courses
-                        </div>
-
-                    </div>
-
-
-                    <div class="glass-card stat-card gold">
-
-                        <div class="stat-top">
-
-                            <span class="stat-label">
-                                Submissions
-                            </span>
-
-                            <span class="stat-icon">
-                                ↑
-                            </span>
-
-                        </div>
-
-                        <div class="stat-value">
-                            00
-                        </div>
-
-                        <div class="stat-note">
-                            Competition submissions
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="dashboard-grid">
-
-                    <!-- COMPETITION -->
-
-                    <div class="glass-card competition-card">
-
-                        <div class="card-head">
-
-                            <h3>
-                                Competition Timeline
-                            </h3>
-
-                            <span>
-                                7-day competition
-                            </span>
-
-                        </div>
-
-                        <div class="competition-inner">
-
-                            <div class="competition-status">
-
-                                <span class="live-dot"></span>
-
-                                Competition Active
-
-                            </div>
-
-                            <div class="competition-title">
-                                Time Remaining
-                            </div>
-
-                            <div class="competition-sub">
-                                The countdown is connected to the
-                                competition deadline configuration.
-                            </div>
-
-                            <div class="countdown">
-
-                                <div class="time-box">
-                                    <strong id="days">07</strong>
-                                    <small>Days</small>
-                                </div>
-
-                                <div class="time-box">
-                                    <strong id="hours">00</strong>
-                                    <small>Hours</small>
-                                </div>
-
-                                <div class="time-box">
-                                    <strong id="minutes">00</strong>
-                                    <small>Minutes</small>
-                                </div>
-
-                                <div class="time-box">
-                                    <strong id="seconds">00</strong>
-                                    <small>Seconds</small>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- PAYMENT -->
-
-                    <div class="glass-card payment-card">
-
-                        <div class="card-head">
-
-                            <h3>
-                                Payment
-                            </h3>
-
-                            <span>
-                                Teacher share
-                            </span>
-
-                        </div>
-
-                        <div class="payment-total">
-
-                            <small>
-                                Current Total
-                            </small>
-
-                            <strong>
-                                $0.00
-                            </strong>
-
-                            <div class="payment-split">
-
-                                <div class="split">
-
-                                    <small>
-                                        Teacher — 70%
-                                    </small>
-
-                                    <strong>
-                                        $0.00
-                                    </strong>
-
-                                </div>
-
-                                <div class="split gold">
-
-                                    <small>
-                                        GurHub — 30%
-                                    </small>
-
-                                    <strong>
-                                        $0.00
-                                    </strong>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="payment-methods">
-
-                            <span class="method visa">
-                                VISA
-                            </span>
-
-                            <span class="method mastercard">
-                                Mastercard
-                            </span>
-
-                            <span class="method paypal">
-                                PayPal
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- GROUPS -->
-
-                <div class="page-head">
-
-                    <div>
-
-                        <h1 style="font-size:20px;">
-                            Competition Groups
-                        </h1>
-
-                        <p>
-                            Each competition group has 300 positions.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="group-grid">
-
-                    <!-- LOWER -->
-
-                    <div class="glass-card group-card">
-
-                        <div class="group-header">
-
-                            <div class="group-title">
-
-                                <div class="group-badge">
-                                    L
-                                </div>
-
-                                <div>
-
-                                    <strong>
-                                        Lower
-                                    </strong>
-
-                                    <small>
-                                        300 student positions
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <div class="group-number">
-                                00
-                                <small>/ 300</small>
-                            </div>
-
-                        </div>
-
-                        <div class="group-progress">
-                            <span></span>
-                        </div>
-
-                        <div class="group-foot">
-
-                            <span>
-                                Students registered
-                            </span>
-
-                            <span>
-                                0%
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- MEDIUM -->
-
-                    <div class="glass-card group-card">
-
-                        <div class="group-header">
-
-                            <div class="group-title">
-
-                                <div class="group-badge">
-                                    M
-                                </div>
-
-                                <div>
-
-                                    <strong>
-                                        Medium
-                                    </strong>
-
-                                    <small>
-                                        300 student positions
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <div class="group-number">
-                                00
-                                <small>/ 300</small>
-                            </div>
-
-                        </div>
-
-                        <div class="group-progress">
-                            <span></span>
-                        </div>
-
-                        <div class="group-foot">
-
-                            <span>
-                                Students registered
-                            </span>
-
-                            <span>
-                                0%
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- HIGH -->
-
-                    <div class="glass-card group-card">
-
-                        <div class="group-header">
-
-                            <div class="group-title">
-
-                                <div class="group-badge">
-                                    H
-                                </div>
-
-                                <div>
-
-                                    <strong>
-                                        High
-                                    </strong>
-
-                                    <small>
-                                        300 student positions
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                            <div class="group-number">
-                                00
-                                <small>/ 300</small>
-                            </div>
-
-                        </div>
-
-                        <div class="group-progress">
-                            <span></span>
-                        </div>
-
-                        <div class="group-foot">
-
-                            <span>
-                                Students registered
-                            </span>
-
-                            <span>
-                                0%
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 COURSES
-            ================================================== -->
-
-            <section
-                class="section"
-                id="courses"
-            >
-
-                <div class="page-head">
-
-                    <div>
-
-                        <h1>
-                            My Courses
-                        </h1>
-
-                        <p>
-                            Create and manage your lessons and videos.
-                        </p>
-
-                        <div class="gold-line"></div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="glass-card form-card">
-
-                    <div class="card-head" style="padding:0 0 22px;">
+                    <div class="level-card">
 
                         <h3>
-                            Add Lesson / Video
+                            Level 1
                         </h3>
+
+                        <p>
+                            Beginner lessons and fundamentals.
+                        </p>
 
                     </div>
 
-                    <form
-                        id="courseForm"
-                        onsubmit="handleCourseSubmit(event)"
-                    >
+                    <div class="level-card">
 
-                        <div class="form-grid">
+                        <h3>
+                            Level 2
+                        </h3>
 
-                            <div class="field">
+                        <p>
+                            Intermediate lessons and practical skills.
+                        </p>
 
-                                <label>
-                                    Course / Skill
-                                </label>
+                    </div>
 
-                                <select
-                                    id="courseSkill"
-                                    required
-                                >
+                    <div class="level-card">
 
-                                    <option value="">
-                                        Select skill
-                                    </option>
+                        <h3>
+                            Level 3
+                        </h3>
 
-                                    <option>
-                                        Video Editing
-                                    </option>
+                        <p>
+                            Advanced lessons and projects.
+                        </p>
 
-                                    <option>
-                                        Thumbnail
-                                    </option>
+                    </div>
 
-                                    <option>
-                                        Movie Recap
-                                    </option>
+                </div>
 
-                                    <option>
-                                        Digital Marketing
-                                    </option>
+            </div>
 
-                                    <option>
-                                        Affiliate Marketing
-                                    </option>
+        </div>
 
-                                    <option>
-                                        Dropshipping
-                                    </option>
-
-                                    <option>
-                                        FX
-                                    </option>
-
-                                    <option>
-                                        Crypto
-                                    </option>
-
-                                    <option>
-                                        Data Analysis
-                                    </option>
-
-                                    <option>
-                                        English
-                                    </option>
-
-                                    <option>
-                                        AI Agent
-                                    </option>
-
-                                    <option>
-                                        Cybersecurity
-                                    </option>
-
-                                    <option>
-                                        Python
-                                    </option>
-
-                                    <option>
-                                        Java
-                                    </option>
-
-                                    <option>
-                                        Web Development
-                                    </option>
-
-                                    <option>
-                                        AI Web
-                                    </option>
-
-                                    <option>
-                                        AI App
-                                    </option>
-
-                                </select>
-
-                            </div>
+    </section>
 
 
-                            <div class="field">
+    <!-- ==================================================
+         PROFILE
+    ================================================== -->
 
-                                <label>
-                                    Level
-                                </label>
+    <section
+        id="profile"
+        class="section">
 
-                                <select
-                                    id="courseLevel"
-                                    required
-                                >
+        <div class="card">
 
-                                    <option value="">
-                                        Select level
-                                    </option>
+            <h2>
+                Teacher Profile
+            </h2>
 
-                                    <option value="1">
-                                        Level 1
-                                    </option>
+            <p class="card-subtitle">
+                Your profile information will be available to students.
+            </p>
 
-                                    <option value="2">
-                                        Level 2
-                                    </option>
+            <div class="profile-box">
 
-                                    <option value="3">
-                                        Level 3
-                                    </option>
+                <div class="profile-photo-area">
 
-                                </select>
+                    <img
+                        id="profileImage"
+                        class="profile-photo"
+                        src=""
+                        alt="Teacher profile">
 
-                            </div>
+                    <label
+                        class="upload-label"
+                        for="profileUpload">
 
+                        Upload Profile Photo
 
-                            <div class="field full">
+                    </label>
 
-                                <label>
-                                    Video Title
-                                </label>
+                    <input
+                        type="file"
+                        id="profileUpload"
+                        accept="image/*">
 
-                                <input
-                                    id="videoTitle"
-                                    type="text"
-                                    placeholder="Write the title of the lesson"
-                                    required
-                                >
-
-                            </div>
+                </div>
 
 
-                            <div class="field full">
+                <div>
 
-                                <label>
-                                    What does this video teach?
-                                </label>
+                    <div class="form-grid">
 
-                                <textarea
-                                    id="videoDescription"
-                                    placeholder="Explain clearly what students will learn in this video..."
-                                    required
-                                ></textarea>
+                        <div class="field">
 
-                            </div>
+                            <label>
+                                Full Name
+                            </label>
 
-
-                            <div class="field full">
-
-                                <label>
-                                    Video File
-                                </label>
-
-                                <label class="upload-box">
-
-                                    <div class="upload-icon">
-                                        ↑
-                                    </div>
-
-                                    <strong>
-                                        Select your teaching video
-                                    </strong>
-
-                                    <small>
-                                        1080p minimum recommended • 2K or higher supported
-                                    </small>
-
-                                    <input
-                                        id="videoFile"
-                                        type="file"
-                                        accept="video/*"
-                                        required
-                                        onchange="showSelectedFile(this)"
-                                    >
-
-                                </label>
-
-                                <small
-                                    id="selectedVideo"
-                                    style="
-                                        display:block;
-                                        margin-top:7px;
-                                        color:#64748b;
-                                        font-size:10px;
-                                    "
-                                ></small>
-
-                            </div>
+                            <input
+                                id="profileName"
+                                type="text"
+                                placeholder="Teacher full name">
 
                         </div>
 
 
-                        <div class="warning">
+                        <div class="field">
 
-                            <strong>!</strong>
+                            <label>
+                                Email
+                            </label>
 
-                            <span>
-                                Please upload high-quality teaching videos.
-                                Videos should be clear and preferably
-                                1080p, 2K or higher. Avoid harmful,
-                                inappropriate or offensive content,
-                                including offensive language inside the
-                                video or teaching material.
-                            </span>
+                            <input
+                                id="profileEmail"
+                                type="email"
+                                placeholder="Teacher email">
 
                         </div>
 
 
-                        <div class="button-row">
+                        <div class="field">
 
-                            <button
-                                type="submit"
-                                class="primary-btn"
-                            >
-                                Save Lesson
-                            </button>
+                            <label>
+                                Main Skill
+                            </label>
 
-                            <button
-                                type="button"
-                                class="secondary-btn"
-                                onclick="document.getElementById('courseForm').reset(); document.getElementById('selectedVideo').textContent='';"
-                            >
-                                Clear
-                            </button>
+                            <input
+                                id="profileSkill"
+                                type="text"
+                                placeholder="Your main skill">
 
                         </div>
 
-                    </form>
+
+                        <div class="field">
+
+                            <label>
+                                Competition Group
+                            </label>
+
+                            <select id="profileGroup">
+
+                                <option value="">
+                                    Select group
+                                </option>
+
+                                <option value="Lower">
+                                    Lower
+                                </option>
+
+                                <option value="Medium">
+                                    Medium
+                                </option>
+
+                                <option value="High">
+                                    High
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="field full">
+
+                            <label>
+                                Teacher Introduction
+                            </label>
+
+                            <textarea
+                                id="profileIntro"
+                                placeholder="Tell students about yourself and what you teach..."></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="btn btn-blue"
+                        onclick="saveProfile()">
+
+                        Save Profile
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         LESSONS
+    ================================================== -->
+
+    <section
+        id="lessons"
+        class="section">
+
+        <div class="card">
+
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px;">
+
+                <div>
+
+                    <h2>
+                        My Lessons
+                    </h2>
+
+                    <p class="card-subtitle" style="margin-bottom:0;">
+                        Manage your uploaded course lessons.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn btn-blue"
+                    onclick="showSectionById('upload')">
+
+                    + Add Lesson
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="allLessons"
+                class="lesson-list">
+
+                <div class="empty">
+                    No lessons added yet.
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         UPLOAD LESSON
+    ================================================== -->
+
+    <section
+        id="upload"
+        class="section">
+
+        <div class="card">
+
+            <h2>
+                Add New Lesson
+            </h2>
+
+            <p class="card-subtitle">
+                Create a lesson for Level 1, Level 2 or Level 3.
+            </p>
+
+
+            <div class="warning">
+
+                ⚠️ <strong>Video quality requirement:</strong>
+                Upload clear educational videos. Recommended quality
+                is <strong>1080p</strong> and up to <strong>2K or higher</strong>
+                when supported. Avoid unclear, misleading, offensive or
+                inappropriate content. Lesson information should accurately
+                describe what the student will learn.
+
+            </div>
+
+
+            <div class="upload-box">
+
+                <div class="icon">
+                    🎥
+                </div>
+
+                <h3>
+                    Select Lesson Video
+                </h3>
+
+                <p>
+                    Upload your actual lesson video from your device.
+                </p>
+
+                <label
+                    for="lessonVideo"
+                    class="btn btn-blue">
+
+                    Choose Video
+
+                </label>
+
+                <input
+                    type="file"
+                    id="lessonVideo"
+                    accept="video/*">
+
+                <div
+                    id="videoFileName"
+                    class="file-name">
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>
+                        Lesson Title
+                    </label>
+
+                    <input
+                        id="lessonTitle"
+                        type="text"
+                        placeholder="Example: Introduction to Dropshipping">
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Skill
+                    </label>
+
+                    <input
+                        id="lessonSkill"
+                        type="text"
+                        placeholder="Skill this lesson belongs to">
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Level
+                    </label>
+
+                    <select id="lessonLevel">
+
+                        <option value="">
+                            Select level
+                        </option>
+
+                        <option value="Level 1">
+                            Level 1 — Beginner
+                        </option>
+
+                        <option value="Level 2">
+                            Level 2 — Intermediate
+                        </option>
+
+                        <option value="Level 3">
+                            Level 3 — Advanced
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Lesson Number
+                    </label>
+
+                    <input
+                        id="lessonNumber"
+                        type="number"
+                        min="1"
+                        placeholder="1">
+
+                </div>
+
+
+                <div class="field full">
+
+                    <label>
+                        What does this video teach?
+                    </label>
+
+                    <textarea
+                        id="lessonDescription"
+                        placeholder="Explain clearly what students will learn in this lesson..."></textarea>
+
+                </div>
+
+
+                <div class="field full">
+
+                    <label>
+                        Lesson Introduction
+                    </label>
+
+                    <textarea
+                        id="lessonIntro"
+                        placeholder="Write the introduction students should see before starting the lesson..."></textarea>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn btn-blue"
+                onclick="saveLesson()">
+
+                Save Lesson
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         PAYMENTS
+    ================================================== -->
+
+    <section
+        id="payments"
+        class="section">
+
+        <div class="card">
+
+            <h2>
+                Payment Settings
+            </h2>
+
+            <p class="card-subtitle">
+                Choose the payment method that can later be connected
+                securely through the GURHUB payment backend.
+            </p>
+
+
+            <div class="payment-grid">
+
+                <div
+                    class="payment-method"
+                    onclick="selectPayment(this,'Visa')">
+
+                    <div class="payment-icon">
+                        💳
+                    </div>
+
+                    <strong>
+                        Visa
+                    </strong>
+
+                    <span>
+                        Card payment provider
+                    </span>
 
                 </div>
 
 
                 <div
-                    class="glass-card form-card"
-                    style="margin-top:18px;"
-                >
+                    class="payment-method"
+                    onclick="selectPayment(this,'Mastercard')">
 
-                    <div class="card-head" style="padding:0 0 17px;">
-
-                        <h3>
-                            Course Introduction
-                        </h3>
-
+                    <div class="payment-icon">
+                        💳
                     </div>
 
-                    <div class="form-grid">
+                    <strong>
+                        Mastercard
+                    </strong>
 
-                        <div class="field full">
-
-                            <label>
-                                Introduction for students
-                            </label>
-
-                            <textarea
-                                id="courseIntro"
-                                placeholder="Introduce your course and explain what students will learn..."
-                            ></textarea>
-
-                        </div>
-
-                        <div class="field full">
-
-                            <label>
-                                Homepage course introduction
-                            </label>
-
-                            <textarea
-                                id="homepageIntro"
-                                placeholder="Write the short introduction that can appear on the GurHub homepage..."
-                            ></textarea>
-
-                        </div>
-
-                    </div>
-
-                    <div class="button-row">
-
-                        <button
-                            class="primary-btn"
-                            onclick="saveCourseIntro()"
-                        >
-                            Save Introduction
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 STUDENTS
-            ================================================== -->
-
-            <section
-                class="section"
-                id="students"
-            >
-
-                <div class="page-head">
-
-                    <div>
-
-                        <h1>
-                            Students
-                        </h1>
-
-                        <p>
-                            Students assigned to your teaching skill
-                            will appear here.
-                        </p>
-
-                        <div class="gold-line"></div>
-
-                    </div>
+                    <span>
+                        Card payment provider
+                    </span>
 
                 </div>
 
 
-                <div class="glass-card table-card">
+                <div
+                    class="payment-method"
+                    onclick="selectPayment(this,'PayPal')">
 
-                    <div class="card-head">
-
-                        <h3>
-                            Student List
-                        </h3>
-
-                        <span>
-                            Real database data
-                        </span>
-
+                    <div class="payment-icon">
+                        🅿️
                     </div>
 
-                    <div class="table-scroll">
+                    <strong>
+                        PayPal
+                    </strong>
 
-                        <table>
-
-                            <thead>
-
-                                <tr>
-                                    <th>#</th>
-                                    <th>Student Name</th>
-                                    <th>Skill</th>
-                                    <th>Level</th>
-                                    <th>Points</th>
-                                    <th>Status</th>
-                                </tr>
-
-                            </thead>
-
-                            <tbody id="studentTable">
-
-                                <!-- Database will populate rows -->
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 COMPETITION
-            ================================================== -->
-
-            <section
-                class="section"
-                id="competition"
-            >
-
-                <div class="page-head">
-
-                    <div>
-
-                        <h1>
-                            Competition
-                        </h1>
-
-                        <p>
-                            Monitor Lower, Medium and High groups.
-                        </p>
-
-                        <div class="gold-line"></div>
-
-                    </div>
+                    <span>
+                        PayPal account connection
+                    </span>
 
                 </div>
 
 
-                <div class="group-switcher">
+                <div
+                    class="payment-method"
+                    onclick="selectPayment(this,'Bank')">
 
-                    <button
-                        class="group-switch active"
-                        onclick="changeCompetition('lower', this)"
-                    >
-                        Lower
-                    </button>
+                    <div class="payment-icon">
+                        🏦
+                    </div>
 
-                    <button
-                        class="group-switch"
-                        onclick="changeCompetition('medium', this)"
-                    >
-                        Medium
-                    </button>
+                    <strong>
+                        Bank Account
+                    </strong>
 
-                    <button
-                        class="group-switch"
-                        onclick="changeCompetition('high', this)"
-                    >
-                        High
-                    </button>
+                    <span>
+                        KCB or supported bank
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid" style="margin-top:20px;">
+
+                <div class="field">
+
+                    <label>
+                        Bank Name
+                    </label>
+
+                    <input
+                        id="bankName"
+                        type="text"
+                        placeholder="Example: KCB Bank">
 
                 </div>
 
 
-                <div class="glass-card table-card">
+                <div class="field">
 
-                    <div class="card-head">
+                    <label>
+                        Account Holder Name
+                    </label>
 
-                        <h3 id="competitionTitle">
-                            Lower Competition
-                        </h3>
-
-                        <span>
-                            300 positions
-                        </span>
-
-                    </div>
-
-                    <div class="table-scroll">
-
-                        <table>
-
-                            <thead>
-
-                                <tr>
-                                    <th>Number</th>
-                                    <th>Student Name</th>
-                                    <th>Skill</th>
-                                    <th>Points</th>
-                                    <th>Submission</th>
-                                    <th>Reward</th>
-                                </tr>
-
-                            </thead>
-
-                            <tbody id="competitionTable">
-
-                                <!-- 300 real positions will be populated by backend -->
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 LEADERBOARD
-            ================================================== -->
-
-            <section
-                class="section"
-                id="leaderboard"
-            >
-
-                <div class="page-head">
-
-                    <div>
-
-                        <h1>
-                            Live Leaderboard
-                        </h1>
-
-                        <p>
-                            Follow competition ranking and points
-                            for each group.
-                        </p>
-
-                        <div class="gold-line"></div>
-
-                    </div>
+                    <input
+                        id="accountHolder"
+                        type="text"
+                        placeholder="Account holder">
 
                 </div>
 
 
-                <div class="group-switcher">
+                <div class="field">
 
-                    <button
-                        class="group-switch active"
-                        onclick="changeLeaderboard('lower', this)"
-                    >
-                        Lower
-                    </button>
+                    <label>
+                        Payment Email
+                    </label>
 
-                    <button
-                        class="group-switch"
-                        onclick="changeLeaderboard('medium', this)"
-                    >
-                        Medium
-                    </button>
-
-                    <button
-                        class="group-switch"
-                        onclick="changeLeaderboard('high', this)"
-                    >
-                        High
-                    </button>
+                    <input
+                        id="paymentEmail"
+                        type="email"
+                        placeholder="Payment account email">
 
                 </div>
 
 
-                <div class="glass-card table-card">
+                <div class="field">
 
-                    <div class="card-head">
+                    <label>
+                        Account Reference
+                    </label>
 
-                        <h3>
-                            Competition Ranking
-                        </h3>
-
-                        <span>
-                            Live database data
-                        </span>
-
-                    </div>
-
-                    <div class="table-scroll">
-
-                        <table>
-
-                            <thead>
-
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Student Name</th>
-                                    <th>Skill</th>
-                                    <th>Points</th>
-                                    <th>Reward</th>
-                                </tr>
-
-                            </thead>
-
-                            <tbody id="leaderboardTable">
-
-                                <!-- Backend will populate live ranking -->
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
+                    <input
+                        id="accountReference"
+                        type="text"
+                        placeholder="Secure backend reference">
 
                 </div>
 
-            </section>
+            </div>
 
 
-            <!-- =================================================
-                 PAYMENTS
-            ================================================== -->
+            <div class="split-box">
 
-            <section
-                class="section"
-                id="payments"
-            >
+                <div class="split">
 
-                <div class="page-head">
+                    <strong class="gold">
+                        70%
+                    </strong>
 
-                    <div>
-
-                        <h1>
-                            Payments
-                        </h1>
-
-                        <p>
-                            Manage your future payment method.
-                        </p>
-
-                        <div class="gold-line"></div>
-
-                    </div>
+                    <span>
+                        Teacher share
+                    </span>
 
                 </div>
 
 
-                <div class="payment-layout">
+                <div class="split">
 
-                    <div class="glass-card form-card">
+                    <strong class="blue">
+                        30%
+                    </strong>
 
-                        <h3 style="font-size:15px;">
-                            Payment Method
-                        </h3>
-
-                        <p
-                            style="
-                                margin-top:6px;
-                                color:#64748b;
-                                font-size:10px;
-                            "
-                        >
-                            Select the payment method you want to use.
-                        </p>
-
-
-                        <div class="method-grid">
-
-                            <button
-                                class="method-card"
-                                onclick="selectPayment('Visa', this)"
-                            >
-
-                                <strong>
-                                    VISA
-                                </strong>
-
-                                <small>
-                                    Card payment
-                                </small>
-
-                            </button>
-
-
-                            <button
-                                class="method-card"
-                                onclick="selectPayment('Mastercard', this)"
-                            >
-
-                                <strong>
-                                    Mastercard
-                                </strong>
-
-                                <small>
-                                    Card payment
-                                </small>
-
-                            </button>
-
-
-                            <button
-                                class="method-card"
-                                onclick="selectPayment('PayPal', this)"
-                            >
-
-                                <strong>
-                                    PayPal
-                                </strong>
-
-                                <small>
-                                    Online payment
-                                </small>
-
-                            </button>
-
-                        </div>
-
-
-                        <div class="field" style="margin-top:18px;">
-
-                            <label>
-                                Payment Account / Reference
-                            </label>
-
-                            <input
-                                id="paymentReference"
-                                type="text"
-                                placeholder="Enter payment account information when ready"
-                            >
-
-                        </div>
-
-
-                        <button
-                            class="primary-btn"
-                            onclick="savePaymentMethod()"
-                        >
-                            Save Payment Method
-                        </button>
-
-                    </div>
-
-
-                    <div class="glass-card form-card">
-
-                        <h3 style="font-size:15px;">
-                            Bank Payment
-                        </h3>
-
-                        <p
-                            style="
-                                margin-top:6px;
-                                color:#64748b;
-                                font-size:10px;
-                            "
-                        >
-                            Bank details will be connected securely
-                            when the backend payment system is added.
-                        </p>
-
-
-                        <div class="field" style="margin-top:20px;">
-
-                            <label>
-                                Bank Name
-                            </label>
-
-                            <input
-                                id="bankName"
-                                type="text"
-                                placeholder="Example: KCB"
-                            >
-
-                        </div>
-
-
-                        <div class="field">
-
-                            <label>
-                                Account Holder
-                            </label>
-
-                            <input
-                                id="accountHolder"
-                                type="text"
-                                placeholder="Account holder name"
-                            >
-
-                        </div>
-
-
-                        <div class="field">
-
-                            <label>
-                                Account Number
-                            </label>
-
-                            <input
-                                id="accountNumber"
-                                type="text"
-                                placeholder="Bank account number"
-                            >
-
-                        </div>
-
-
-                        <div class="bank-note">
-
-                            Bank information will NOT be sent anywhere
-                            from this frontend page. Secure backend
-                            integration will handle real payment details
-                            later.
-
-                        </div>
-
-
-                        <div class="button-row">
-
-                            <button
-                                class="primary-btn"
-                                onclick="saveBank()"
-                            >
-                                Save Bank Details
-                            </button>
-
-                        </div>
-
-                    </div>
+                    <span>
+                        GURHUB platform share
+                    </span>
 
                 </div>
 
-            </section>
+            </div>
 
 
-            <!-- =================================================
-                 AI
-            ================================================== -->
+            <div class="warning" style="margin-top:18px;margin-bottom:0;">
 
-            <section
-                class="section"
-                id="ai"
-            >
+                🔐 Payment details should be connected through a secure
+                payment provider/backend. Do not store raw card numbers,
+                CVV or passwords inside this HTML page. The backend can
+                later connect the selected payment provider securely.
 
-                <div class="page-head">
+            </div>
 
-                    <div>
 
-                        <h1>
-                            AI Review
-                        </h1>
+            <button
+                class="btn btn-blue"
+                style="margin-top:18px;"
+                onclick="savePaymentSettings()">
 
-                        <p>
-                            AI review and teacher assistance area.
-                        </p>
+                Save Payment Settings
 
-                        <div class="gold-line"></div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="ai-layout">
-
-                    <div class="glass-card chat-card">
-
-                        <div class="chat-header">
-
-                            <strong>
-                                GurHub AI Assistant
-                            </strong>
-
-                            <small>
-                                AI backend connection will process
-                                teacher commands and review requests.
-                            </small>
-
-                        </div>
-
-
-                        <div
-                            class="chat-body"
-                            id="chatBody"
-                        >
-
-                            <div class="chat-empty">
-
-                                <div>
-
-                                    <div
-                                        style="
-                                            font-size:35px;
-                                            margin-bottom:12px;
-                                        "
-                                    >
-                                        ✦
-                                    </div>
-
-                                    <strong
-                                        style="
-                                            display:block;
-                                            color:#334155;
-                                            margin-bottom:7px;
-                                        "
-                                    >
-                                        AI Review Workspace
-                                    </strong>
-
-                                    <p>
-                                        The AI backend will review
-                                        competition videos on the
-                                        configured review day and
-                                        evaluate them according to
-                                        the competition rules.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <form
-                            class="chat-input"
-                            onsubmit="sendAIMessage(event)"
-                        >
-
-                            <input
-                                id="aiMessage"
-                                type="text"
-                                placeholder="Write an instruction..."
-                                autocomplete="off"
-                            >
-
-                            <button type="submit">
-                                ↑
-                            </button>
-
-                        </form>
-
-                    </div>
-
-
-                    <div class="glass-card ai-info">
-
-                        <h3>
-                            AI Review Rules
-                        </h3>
-
-                        <div class="ai-rule">
-                            Competition submissions will be reviewed
-                            by the AI backend according to the configured
-                            competition criteria.
-                        </div>
-
-                        <div class="ai-rule">
-                            Teachers can send instructions through the
-                            AI workspace after the backend is connected.
-                        </div>
-
-                        <div class="ai-rule">
-                            Student videos can be checked for teaching
-                            quality and inappropriate content.
-                        </div>
-
-                        <div class="ai-rule">
-                            Final scoring data will be stored in the
-                            database.
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 PROFILE
-            ================================================== -->
-
-            <section
-                class="section"
-                id="profile"
-            >
-
-                <div class="page-head">
-
-                    <div>
-
-                        <h1>
-                            Teacher Profile
-                        </h1>
-
-                        <p>
-                            Manage your public teacher information.
-                        </p>
-
-                        <div class="gold-line"></div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="profile-layout">
-
-                    <div class="glass-card profile-card">
-
-                        <img
-                            src=""
-                            id="largeProfileImage"
-                            class="large-profile"
-                            alt="Teacher profile"
-                        >
-
-                        <label class="profile-upload">
-
-                            Change Photo
-
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onchange="changeProfileImage(this)"
-                            >
-
-                        </label>
-
-                        <h3 id="profileDisplayName">
-                            Teacher
-                        </h3>
-
-                        <p id="profileDisplayEmail">
-                            Teacher email
-                        </p>
-
-                        <span class="profile-skill">
-                            Teaching Skill
-                        </span>
-
-                    </div>
-
-
-                    <div class="glass-card form-card">
-
-                        <div class="form-grid">
-
-                            <div class="field">
-
-                                <label>
-                                    First Name
-                                </label>
-
-                                <input
-                                    id="profileFirstName"
-                                    type="text"
-                                    placeholder="First name"
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Last Name
-                                </label>
-
-                                <input
-                                    id="profileLastName"
-                                    type="text"
-                                    placeholder="Last name"
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Email
-                                </label>
-
-                                <input
-                                    id="profileEmail"
-                                    type="email"
-                                    placeholder="Email"
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Teaching Skill
-                                </label>
-
-                                <input
-                                    id="profileSkill"
-                                    type="text"
-                                    placeholder="Teaching skill"
-                                >
-
-                            </div>
-
-
-                            <div class="field full">
-
-                                <label>
-                                    Teacher Introduction
-                                </label>
-
-                                <textarea
-                                    id="teacherIntroduction"
-                                    placeholder="Write an introduction about yourself and your teaching..."
-                                ></textarea>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="button-row">
-
-                            <button
-                                class="primary-btn"
-                                onclick="saveProfile()"
-                            >
-                                Save Profile
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
+            </button>
 
         </div>
 
-    </main>
+    </section>
+
+
+    <!-- ==================================================
+         COMPETITION
+    ================================================== -->
+
+    <section
+        id="competition"
+        class="section">
+
+        <div class="card">
+
+            <h2>
+                Competition Leaderboard
+            </h2>
+
+            <p class="card-subtitle">
+                Track the competition groups. Student names and scores
+                will come from the backend when the competition data is connected.
+            </p>
+
+
+            <div class="competition-tabs">
+
+                <button
+                    class="active"
+                    onclick="changeGroup('Lower',this)">
+                    Lower — 300
+                </button>
+
+                <button
+                    onclick="changeGroup('Medium',this)">
+                    Medium — 300
+                </button>
+
+                <button
+                    onclick="changeGroup('High',this)">
+                    High — 300
+                </button>
+
+            </div>
+
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                Skill
+                            </th>
+
+                            <th>
+                                Points
+                            </th>
+
+                            <th>
+                                Submission
+                            </th>
+
+                            <th>
+                                Reward
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="leaderboardBody">
+
+                        <tr>
+                            <td colspan="5" class="empty">
+                                Competition results will appear here
+                                when connected to the backend.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="warning" style="margin-top:18px;margin-bottom:0;">
+
+                🏆 Each group contains <strong>300 students</strong>.
+                The competition progresses through the configured
+                rounds, with the final winner determined by the competition
+                rules. Rewards remain <strong>Pending</strong> until the
+                backend/admin confirms and saves the result.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         AI ASSISTANT
+    ================================================== -->
+
+    <section
+        id="ai"
+        class="section">
+
+        <div class="card ai-box">
+
+            <h2>
+                AI Teacher Assistant
+            </h2>
+
+            <p class="card-subtitle">
+                The chat interface is ready for the GURHUB AI backend/API.
+            </p>
+
+
+            <div
+                class="chat-messages"
+                id="chatMessages">
+
+                <div class="message ai">
+
+                    Hello. I am the GURHUB teacher assistant.
+                    When the AI backend is connected, you can use this
+                    chat to review lesson information, teacher content
+                    and student-related tasks according to the platform rules.
+
+                </div>
+
+            </div>
+
+
+            <form
+                class="chat-form"
+                onsubmit="sendAIMessage(event)">
+
+                <input
+                    id="aiInput"
+                    type="text"
+                    placeholder="Write a message to the AI assistant..."
+                    autocomplete="off"
+                    required>
+
+                <button
+                    type="submit"
+                    class="btn btn-blue">
+
+                    Send
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= MODAL ================= -->
+
+<div
+    class="modal"
+    id="lessonModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Lesson Details
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeLessonModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+        <div id="lessonModalContent"></div>
+
+    </div>
 
 </div>
 
 
-<div
-    class="toast"
-    id="toast"
-></div>
-
-
 <script>
 
-    /* =========================================================
-       SECTION NAVIGATION
-    ========================================================= */
+/* =========================================================
+   GURHUB TEACHER DATA
+========================================================= */
 
-    function openSection(sectionId, button) {
+const STORAGE_KEY = "gurhub_teacher_data";
 
-        document
-            .querySelectorAll(".section")
-            .forEach(section => {
-                section.classList.remove("active");
-            });
+let teacherData = {
 
-        document
-            .getElementById(sectionId)
-            .classList.add("active");
+    name:"",
+    email:"",
+    skill:"",
+    group:"",
+    intro:"",
+    profileImage:"",
+    lessons:[],
+    payment:{
+        method:"",
+        bankName:"",
+        accountHolder:"",
+        paymentEmail:"",
+        accountReference:""
+    }
 
-        document
-            .querySelectorAll(".nav-btn")
-            .forEach(btn => {
-                btn.classList.remove("active");
-            });
+};
 
-        if (button) {
-            button.classList.add("active");
+
+/* =========================================================
+   LOAD TEACHER FROM LOGIN PAGE
+========================================================= */
+
+function loadTeacher(){
+
+    const loginTeacher =
+        sessionStorage.getItem("gurhub_teacher");
+
+    const savedTeacher =
+        localStorage.getItem(STORAGE_KEY);
+
+
+    if(savedTeacher){
+
+        try{
+
+            teacherData =
+                JSON.parse(savedTeacher);
+
+        }catch(error){
+
+            console.error(error);
+
         }
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
+    }
+
+
+    /*
+       teacher-login.html creates this object:
+
+       {
+          name,
+          email,
+          skill
+       }
+
+       We bring it into the teacher dashboard.
+    */
+
+    if(loginTeacher){
+
+        try{
+
+            const loginData =
+                JSON.parse(loginTeacher);
+
+            if(loginData.name)
+                teacherData.name = loginData.name;
+
+            if(loginData.email)
+                teacherData.email = loginData.email;
+
+            if(loginData.skill)
+                teacherData.skill = loginData.skill;
+
+        }catch(error){
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    saveLocal();
+
+    updateInterface();
+
+}
+
+
+/* =========================================================
+   SAVE FRONTEND STATE
+========================================================= */
+
+function saveLocal(){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(teacherData)
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE UI
+========================================================= */
+
+function updateInterface(){
+
+    const name =
+        teacherData.name || "Teacher";
+
+    const skill =
+        teacherData.skill || "Teacher Account";
+
+
+    document.getElementById("sideName").textContent =
+        name;
+
+    document.getElementById("sideSkill").textContent =
+        skill;
+
+
+    document.getElementById("profileName").value =
+        teacherData.name || "";
+
+    document.getElementById("profileEmail").value =
+        teacherData.email || "";
+
+    document.getElementById("profileSkill").value =
+        teacherData.skill || "";
+
+    document.getElementById("profileGroup").value =
+        teacherData.group || "";
+
+    document.getElementById("profileIntro").value =
+        teacherData.intro || "";
+
+
+    if(teacherData.profileImage){
+
+        document.getElementById("profileImage").src =
+            teacherData.profileImage;
+
+        document.getElementById("sideAvatar").src =
+            teacherData.profileImage;
+
+    }else{
+
+        document.getElementById("profileImage").src =
+            createAvatar(name);
+
+        document.getElementById("sideAvatar").src =
+            createAvatar(name);
+
+    }
+
+
+    document.getElementById("teacherGroup").textContent =
+        teacherData.group || "—";
+
+
+    renderLessons();
+
+}
+
+
+/* =========================================================
+   DEFAULT AVATAR
+========================================================= */
+
+function createAvatar(name){
+
+    const first =
+        (name || "T").charAt(0).toUpperCase();
+
+    const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="200"
+         height="200">
+
+        <rect width="200" height="200"
+              fill="#10243b"/>
+
+        <text x="100"
+              y="125"
+              text-anchor="middle"
+              font-size="90"
+              font-family="Arial"
+              fill="#d4af37">
+
+            ${first}
+
+        </text>
+
+    </svg>`;
+
+    return "data:image/svg+xml;charset=UTF-8," +
+        encodeURIComponent(svg);
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showSection(sectionId, button){
+
+    document
+        .querySelectorAll(".section")
+        .forEach(section => {
+
+            section.classList.remove("active");
+
         });
 
-        if (window.innerWidth <= 800) {
-            document
-                .getElementById("sidebar")
-                .classList.remove("open");
-        }
 
-    }
+    document
+        .getElementById(sectionId)
+        .classList.add("active");
 
 
-    /* =========================================================
-       MOBILE SIDEBAR
-    ========================================================= */
+    document
+        .querySelectorAll(".nav button")
+        .forEach(btn => {
 
-    function toggleSidebar() {
+            btn.classList.remove("active");
 
-        document
-            .getElementById("sidebar")
-            .classList.toggle("open");
+        });
 
-    }
 
-
-    /* =========================================================
-       PROFILE DATA
-       No fake teacher identity is inserted.
-    ========================================================= */
-
-    function loadTeacherProfile() {
-
-        const savedFirst =
-            sessionStorage.getItem("teacherFirstName");
-
-        const savedLast =
-            sessionStorage.getItem("teacherLastName");
-
-        const savedEmail =
-            sessionStorage.getItem("teacherEmail");
-
-        const savedSkill =
-            sessionStorage.getItem("teacherSkill");
-
-        if (savedFirst || savedLast) {
-
-            const fullName =
-                `${savedFirst || ""} ${savedLast || ""}`.trim();
-
-            document
-                .getElementById("topTeacherName")
-                .textContent = fullName || "Teacher";
-
-            document
-                .getElementById("profileDisplayName")
-                .textContent = fullName || "Teacher";
-
-            document
-                .getElementById("profileFirstName")
-                .value = savedFirst || "";
-
-            document
-                .getElementById("profileLastName")
-                .value = savedLast || "";
-
-        }
-
-        if (savedEmail) {
-
-            document
-                .getElementById("profileDisplayEmail")
-                .textContent = savedEmail;
-
-            document
-                .getElementById("profileEmail")
-                .value = savedEmail;
-
-        }
-
-        if (savedSkill) {
-
-            document
-                .getElementById("profileSkill")
-                .value = savedSkill;
-
-        }
-
-    }
-
-
-    /* =========================================================
-       PROFILE IMAGE
-    ========================================================= */
-
-    function changeProfileImage(input) {
-
-        const file = input.files[0];
-
-        if (!file) {
-            return;
-        }
-
-        if (!file.type.startsWith("image/")) {
-
-            showToast(
-                "Please select an image file."
-            );
-
-            return;
-
-        }
-
-        const reader =
-            new FileReader();
-
-        reader.onload = function(event) {
-
-            const imageData =
-                event.target.result;
-
-            document
-                .getElementById("largeProfileImage")
-                .src = imageData;
-
-            document
-                .getElementById("topProfileImage")
-                .src = imageData;
-
-            /*
-                Later:
-                POST image to backend/storage
-                and save the returned URL in PostgreSQL.
-            */
-
-            showToast(
-                "Profile photo selected. It is ready for backend storage."
-            );
-
-        };
-
-        reader.readAsDataURL(file);
-
-    }
-
-
-    /* =========================================================
-       VIDEO FILE
-    ========================================================= */
-
-    function showSelectedFile(input) {
-
-        const file = input.files[0];
-
-        if (!file) {
-            return;
-        }
-
-        document
-            .getElementById("selectedVideo")
-            .textContent =
-            "Selected: " + file.name;
-
-    }
-
-
-    /* =========================================================
-       COURSE
-    ========================================================= */
-
-    function handleCourseSubmit(event) {
-
-        event.preventDefault();
-
-        const skill =
-            document.getElementById("courseSkill").value;
-
-        const level =
-            document.getElementById("courseLevel").value;
-
-        const title =
-            document.getElementById("videoTitle").value.trim();
-
-        const description =
-            document
-                .getElementById("videoDescription")
-                .value
-                .trim();
-
-        const file =
-            document
-                .getElementById("videoFile")
-                .files[0];
-
-        if (!skill || !level || !title || !description || !file) {
-
-            showToast(
-                "Please complete all lesson fields."
-            );
-
-            return;
-
-        }
-
-        /*
-            IMPORTANT BACKEND CONNECTION POINT
-
-            Later:
-
-            POST /api/teacher/courses
-
-            FormData:
-            skill
-            level
-            title
-            description
-            video
-
-            Backend:
-            - authenticates teacher
-            - stores video
-            - stores metadata
-            - stores course in PostgreSQL
-        */
-
-        showToast(
-            "Lesson information is complete and ready for secure backend upload."
-        );
-
-    }
-
-
-    /* =========================================================
-       COURSE INTRODUCTION
-    ========================================================= */
-
-    function saveCourseIntro() {
-
-        const intro =
-            document
-                .getElementById("courseIntro")
-                .value
-                .trim();
-
-        const homepageIntro =
-            document
-                .getElementById("homepageIntro")
-                .value
-                .trim();
-
-        if (!intro && !homepageIntro) {
-
-            showToast(
-                "Write an introduction before saving."
-            );
-
-            return;
-
-        }
-
-        /*
-            Backend later:
-
-            POST /api/teacher/course-introduction
-        */
-
-        showToast(
-            "Course introductions are ready for database connection."
-        );
-
-    }
-
-
-    /* =========================================================
-       COMPETITION TABLE
-    ========================================================= */
-
-    function buildEmptyCompetitionTable() {
-
-        const table =
-            document.getElementById(
-                "competitionTable"
-            );
-
-        table.innerHTML = "";
-
-        /*
-            300 POSITIONS ONLY.
-
-            No fake student names.
-            No fake points.
-            No fake submissions.
-
-            Database will populate each position later.
-        */
-
-        for (let i = 1; i <= 300; i++) {
-
-            const row =
-                document.createElement("tr");
-
-            row.innerHTML = `
-                <td>${i}</td>
-                <td class="empty-value">—</td>
-                <td class="empty-value">—</td>
-                <td class="empty-value">00</td>
-                <td class="empty-value">—</td>
-                <td>
-                    <span class="pending">
-                        Pending
-                    </span>
-                </td>
-            `;
-
-            table.appendChild(row);
-
-        }
-
-    }
-
-
-    /* =========================================================
-       STUDENT TABLE
-    ========================================================= */
-
-    function buildEmptyStudentTable() {
-
-        const table =
-            document.getElementById(
-                "studentTable"
-            );
-
-        table.innerHTML = "";
-
-        /*
-            No fake students.
-
-            Empty table state is used until database
-            supplies real student records.
-        */
-
-        const row =
-            document.createElement("tr");
-
-        row.innerHTML = `
-            <td colspan="6"
-                style="
-                    text-align:center;
-                    padding:35px;
-                    color:#94a3b8;
-                "
-            >
-                No student data available yet.
-            </td>
-        `;
-
-        table.appendChild(row);
-
-    }
-
-
-    /* =========================================================
-       LEADERBOARD
-    ========================================================= */
-
-    function buildEmptyLeaderboard() {
-
-        const table =
-            document.getElementById(
-                "leaderboardTable"
-            );
-
-        table.innerHTML = "";
-
-        const row =
-            document.createElement("tr");
-
-        row.innerHTML = `
-            <td colspan="5"
-                style="
-                    text-align:center;
-                    padding:35px;
-                    color:#94a3b8;
-                "
-            >
-                Waiting for real competition data.
-            </td>
-        `;
-
-        table.appendChild(row);
-
-    }
-
-
-    /* =========================================================
-       COMPETITION GROUP SWITCH
-    ========================================================= */
-
-    function changeCompetition(group, button) {
-
-        document
-            .querySelectorAll("#competition .group-switch")
-            .forEach(btn => {
-                btn.classList.remove("active");
-            });
+    if(button){
 
         button.classList.add("active");
 
-        const title =
-            document.getElementById(
-                "competitionTitle"
-            );
-
-        title.textContent =
-            group.charAt(0).toUpperCase() +
-            group.slice(1) +
-            " Competition";
-
-        /*
-            Later:
-
-            GET /api/competition/{group}
-
-            will populate the exact 300 real records.
-        */
-
-        buildEmptyCompetitionTable();
-
     }
 
 
-    function changeLeaderboard(group, button) {
+    const titles = {
 
-        document
-            .querySelectorAll("#leaderboard .group-switch")
-            .forEach(btn => {
-                btn.classList.remove("active");
-            });
+        dashboard:"Teacher Dashboard",
 
-        button.classList.add("active");
+        profile:"My Profile",
 
-        /*
-            Later:
+        lessons:"My Lessons",
 
-            GET /api/leaderboard/{group}
+        upload:"Add Lesson",
 
-            Data:
-            rank
-            student_name
-            skill
-            points
-            reward_status
-        */
+        payments:"Payment Settings",
 
-        buildEmptyLeaderboard();
+        competition:"Competition",
 
-    }
+        ai:"AI Assistant"
+
+    };
 
 
-    /* =========================================================
-       PAYMENT
-    ========================================================= */
-
-    let selectedPaymentMethod = "";
-
-    function selectPayment(method, button) {
-
-        document
-            .querySelectorAll(".method-card")
-            .forEach(card => {
-                card.classList.remove("selected");
-            });
-
-        button.classList.add("selected");
-
-        selectedPaymentMethod = method;
-
-    }
+    document.getElementById("pageTitle").textContent =
+        titles[sectionId] || "Teacher Dashboard";
 
 
-    function savePaymentMethod() {
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
 
-        if (!selectedPaymentMethod) {
+}
 
-            showToast(
-                "Select Visa, Mastercard or PayPal first."
-            );
 
-            return;
+function showSectionById(sectionId){
 
-        }
-
-        /*
-            Backend later:
-
-            POST /api/teacher/payment-method
-
-            Secure payment provider integration will be
-            implemented on backend.
-        */
-
-        showToast(
-            selectedPaymentMethod +
-            " selected and ready for secure payment integration."
+    const button =
+        [...document.querySelectorAll(".nav button")]
+        .find(btn =>
+            btn.getAttribute("onclick") &&
+            btn.getAttribute("onclick")
+            .includes("'" + sectionId + "'")
         );
 
+
+    showSection(sectionId,button);
+
+}
+
+
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+/* =========================================================
+   PROFILE IMAGE
+========================================================= */
+
+document
+.getElementById("profileUpload")
+.addEventListener("change",function(){
+
+    const file = this.files[0];
+
+    if(!file)
+        return;
+
+
+    if(!file.type.startsWith("image/")){
+
+        alert("Please select an image file.");
+
+        return;
+
     }
 
 
-    function saveBank() {
+    const reader =
+        new FileReader();
 
-        const bank =
-            document
-                .getElementById("bankName")
-                .value
-                .trim();
 
-        const holder =
-            document
-                .getElementById("accountHolder")
-                .value
-                .trim();
+    reader.onload = function(event){
 
-        const account =
-            document
-                .getElementById("accountNumber")
-                .value
-                .trim();
+        teacherData.profileImage =
+            event.target.result;
 
-        if (!bank || !holder || !account) {
+        saveLocal();
 
-            showToast(
-                "Complete the bank details first."
-            );
+        updateInterface();
 
-            return;
+    };
 
-        }
 
-        /*
-            Backend later:
+    reader.readAsDataURL(file);
 
-            POST /api/teacher/bank-account
+});
 
-            IMPORTANT:
-            Bank data must be handled securely on backend.
-        */
 
-        showToast(
-            "Bank details are ready for secure backend integration."
+/* =========================================================
+   SAVE PROFILE
+========================================================= */
+
+function saveProfile(){
+
+    teacherData.name =
+        document.getElementById("profileName").value.trim();
+
+    teacherData.email =
+        document.getElementById("profileEmail").value.trim();
+
+    teacherData.skill =
+        document.getElementById("profileSkill").value.trim();
+
+    teacherData.group =
+        document.getElementById("profileGroup").value;
+
+    teacherData.intro =
+        document.getElementById("profileIntro").value.trim();
+
+
+    saveLocal();
+
+    updateInterface();
+
+    alert("Teacher profile saved.");
+
+}
+
+
+/* =========================================================
+   VIDEO FILE
+========================================================= */
+
+document
+.getElementById("lessonVideo")
+.addEventListener("change",function(){
+
+    const file = this.files[0];
+
+    const output =
+        document.getElementById("videoFileName");
+
+
+    if(!file){
+
+        output.textContent = "";
+
+        return;
+
+    }
+
+
+    if(!file.type.startsWith("video/")){
+
+        output.textContent =
+            "Please select a video file.";
+
+        this.value = "";
+
+        return;
+
+    }
+
+
+    output.textContent =
+        file.name;
+
+});
+
+
+/* =========================================================
+   SAVE LESSON
+========================================================= */
+
+function saveLesson(){
+
+    const video =
+        document.getElementById("lessonVideo").files[0];
+
+    const title =
+        document.getElementById("lessonTitle").value.trim();
+
+    const skill =
+        document.getElementById("lessonSkill").value.trim();
+
+    const level =
+        document.getElementById("lessonLevel").value;
+
+    const number =
+        document.getElementById("lessonNumber").value;
+
+    const description =
+        document.getElementById("lessonDescription").value.trim();
+
+    const intro =
+        document.getElementById("lessonIntro").value.trim();
+
+
+    if(!video){
+
+        alert("Please select the lesson video.");
+
+        return;
+
+    }
+
+
+    if(!title || !skill || !level || !description){
+
+        alert(
+            "Please complete the lesson title, skill, level and description."
         );
 
-    }
-
-
-    /* =========================================================
-       PROFILE
-    ========================================================= */
-
-    function saveProfile() {
-
-        const first =
-            document
-                .getElementById("profileFirstName")
-                .value
-                .trim();
-
-        const last =
-            document
-                .getElementById("profileLastName")
-                .value
-                .trim();
-
-        const email =
-            document
-                .getElementById("profileEmail")
-                .value
-                .trim();
-
-        const skill =
-            document
-                .getElementById("profileSkill")
-                .value
-                .trim();
-
-        const intro =
-            document
-                .getElementById("teacherIntroduction")
-                .value
-                .trim();
-
-        if (first) {
-            sessionStorage.setItem(
-                "teacherFirstName",
-                first
-            );
-        }
-
-        if (last) {
-            sessionStorage.setItem(
-                "teacherLastName",
-                last
-            );
-        }
-
-        if (email) {
-            sessionStorage.setItem(
-                "teacherEmail",
-                email
-            );
-        }
-
-        if (skill) {
-            sessionStorage.setItem(
-                "teacherSkill",
-                skill
-            );
-        }
-
-        const fullName =
-            `${first} ${last}`.trim();
-
-        document
-            .getElementById("topTeacherName")
-            .textContent =
-            fullName || "Teacher";
-
-        document
-            .getElementById("profileDisplayName")
-            .textContent =
-            fullName || "Teacher";
-
-        document
-            .getElementById("profileDisplayEmail")
-            .textContent =
-            email || "Teacher email";
-
-        /*
-            Later this entire profile object will be
-            sent to the backend and saved in PostgreSQL.
-        */
-
-        showToast(
-            "Profile information is ready for database synchronization."
-        );
+        return;
 
     }
 
 
-    /* =========================================================
-       AI CHAT
-    ========================================================= */
+    /*
+       Lesson object structure.
 
-    function sendAIMessage(event) {
+       These same fields can later be sent to:
 
-        event.preventDefault();
+       POST /api/teacher/lessons
 
-        const input =
-            document.getElementById("aiMessage");
+       and stored in PostgreSQL.
+    */
 
-        const message =
-            input.value.trim();
+    const lesson = {
 
-        if (!message) {
-            return;
-        }
+        id:
+            crypto.randomUUID
+            ? crypto.randomUUID()
+            : Date.now().toString(),
 
-        const body =
-            document.getElementById("chatBody");
+        title:title,
+
+        skill:skill,
+
+        level:level,
+
+        lessonNumber:number,
+
+        description:description,
+
+        intro:intro,
+
+        videoName:video.name,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    teacherData.lessons.unshift(lesson);
+
+    saveLocal();
+
+    renderLessons();
+
+    updateDashboardCount();
+
+    document.getElementById("lessonTitle").value = "";
+    document.getElementById("lessonSkill").value = "";
+    document.getElementById("lessonLevel").value = "";
+    document.getElementById("lessonNumber").value = "";
+    document.getElementById("lessonDescription").value = "";
+    document.getElementById("lessonIntro").value = "";
+    document.getElementById("lessonVideo").value = "";
+    document.getElementById("videoFileName").textContent = "";
+
+
+    alert(
+        "Lesson information saved. The video is ready for backend upload/storage when the API is connected."
+    );
+
+}
+
+
+/* =========================================================
+   RENDER LESSONS
+========================================================= */
+
+function renderLessons(){
+
+    const all =
+        document.getElementById("allLessons");
+
+    const dashboard =
+        document.getElementById("dashboardLessons");
+
+
+    if(!teacherData.lessons.length){
 
         const empty =
-            body.querySelector(".chat-empty");
+            `<div class="empty">
+                No lessons added yet.
+            </div>`;
 
-        if (empty) {
-            empty.remove();
-        }
+        all.innerHTML = empty;
 
-        const messageBox =
-            document.createElement("div");
+        dashboard.innerHTML = empty;
 
-        messageBox.style.cssText = `
-            display:flex;
-            justify-content:flex-end;
-            margin-bottom:10px;
-        `;
+        updateDashboardCount();
 
-        messageBox.innerHTML = `
-            <div style="
-                max-width:75%;
-                padding:10px 12px;
-                border-radius:10px 10px 2px 10px;
-                background:#2563eb;
-                color:white;
-                font-size:11px;
-                line-height:1.5;
-            ">
-                ${escapeHTML(message)}
+        return;
+
+    }
+
+
+    const html =
+        teacherData.lessons
+        .map((lesson,index) => `
+
+            <div class="lesson">
+
+                <div class="lesson-info">
+
+                    <strong>
+                        ${escapeHTML(lesson.title)}
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(lesson.skill)}
+                        •
+                        ${escapeHTML(lesson.videoName)}
+                    </span>
+
+                </div>
+
+                <div style="display:flex;align-items:center;gap:7px;">
+
+                    <span class="level-badge">
+                        ${escapeHTML(lesson.level)}
+                    </span>
+
+                    <button
+                        class="btn btn-dark"
+                        onclick="viewLesson(${index})">
+
+                        View
+
+                    </button>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="deleteLesson(${index})">
+
+                        Delete
+
+                    </button>
+
+                </div>
+
             </div>
-        `;
 
-        body.appendChild(messageBox);
+        `)
+        .join("");
 
-        input.value = "";
 
-        /*
-            IMPORTANT:
+    all.innerHTML = html;
 
-            No fake AI response is generated.
+    dashboard.innerHTML =
+        teacherData.lessons
+        .slice(0,4)
+        .map((lesson,index) => `
 
-            Later:
+            <div class="lesson">
 
-            POST /api/teacher/ai/chat
+                <div class="lesson-info">
 
-            Backend AI returns the real answer.
-        */
+                    <strong>
+                        ${escapeHTML(lesson.title)}
+                    </strong>
 
-        showToast(
-            "Message is ready to be sent through the AI backend."
+                    <span>
+                        ${escapeHTML(lesson.skill)}
+                    </span>
+
+                </div>
+
+                <span class="level-badge">
+                    ${escapeHTML(lesson.level)}
+                </span>
+
+            </div>
+
+        `)
+        .join("");
+
+
+    updateDashboardCount();
+
+}
+
+
+/* =========================================================
+   VIEW LESSON
+========================================================= */
+
+function viewLesson(index){
+
+    const lesson =
+        teacherData.lessons[index];
+
+
+    document.getElementById(
+        "lessonModalContent"
+    ).innerHTML = `
+
+        <div class="field">
+
+            <label>
+                Lesson Title
+            </label>
+
+            <input
+                value="${escapeHTML(lesson.title)}"
+                readonly>
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Skill
+            </label>
+
+            <input
+                value="${escapeHTML(lesson.skill)}"
+                readonly>
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Level
+            </label>
+
+            <input
+                value="${escapeHTML(lesson.level)}"
+                readonly>
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Video File
+            </label>
+
+            <input
+                value="${escapeHTML(lesson.videoName)}"
+                readonly>
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                What the video teaches
+            </label>
+
+            <textarea readonly>${escapeHTML(lesson.description)}</textarea>
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Introduction
+            </label>
+
+            <textarea readonly>${escapeHTML(lesson.intro || "")}</textarea>
+
+        </div>
+
+    `;
+
+
+    document
+        .getElementById("lessonModal")
+        .classList.add("show");
+
+}
+
+
+function closeLessonModal(){
+
+    document
+        .getElementById("lessonModal")
+        .classList.remove("show");
+
+}
+
+
+/* =========================================================
+   DELETE LESSON
+========================================================= */
+
+function deleteLesson(index){
+
+    const confirmDelete =
+        confirm(
+            "Delete this lesson from the teacher workspace?"
         );
 
-    }
+
+    if(!confirmDelete)
+        return;
 
 
-    function escapeHTML(text) {
+    teacherData.lessons.splice(index,1);
 
-        const div =
-            document.createElement("div");
+    saveLocal();
 
-        div.textContent = text;
+    renderLessons();
 
-        return div.innerHTML;
-
-    }
+}
 
 
-    /* =========================================================
-       SEARCH
-    ========================================================= */
+/* =========================================================
+   DASHBOARD COUNT
+========================================================= */
 
-    function searchDashboard() {
+function updateDashboardCount(){
 
-        const value =
-            document
-                .getElementById("dashboardSearch")
-                .value
-                .trim();
+    document.getElementById("lessonCount").textContent =
+        teacherData.lessons.length;
 
-        /*
-            Search API will be connected later.
-        */
-
-        if (value.length > 2) {
-
-            showToast(
-                "Search is ready for database/API connection."
-            );
-
-        }
-
-    }
+}
 
 
-    /* =========================================================
-       LOGOUT
-    ========================================================= */
+/* =========================================================
+   PAYMENT
+========================================================= */
 
-    function logoutTeacher() {
+function selectPayment(element,method){
 
-        sessionStorage.removeItem(
-            "teacherFirstName"
-        );
+    document
+        .querySelectorAll(".payment-method")
+        .forEach(card => {
 
-        sessionStorage.removeItem(
-            "teacherLastName"
-        );
+            card.classList.remove("selected");
 
-        sessionStorage.removeItem(
-            "teacherEmail"
-        );
-
-        sessionStorage.removeItem(
-            "teacherSkill"
-        );
-
-        window.location.href =
-            "teacher-login.html";
-
-    }
+        });
 
 
-    /* =========================================================
-       TOAST
-    ========================================================= */
+    element.classList.add("selected");
 
-    let toastTimer;
+    teacherData.payment.method =
+        method;
 
-    function showToast(message) {
-
-        const toast =
-            document.getElementById("toast");
-
-        toast.textContent = message;
-
-        toast.classList.add("show");
-
-        clearTimeout(toastTimer);
-
-        toastTimer =
-            setTimeout(() => {
-
-                toast.classList.remove("show");
-
-            }, 3500);
-
-    }
+}
 
 
-    /* =========================================================
-       COMPETITION TIMER
-       
-       Frontend test timer:
-       7 days from page initialization.
-       
-       Later backend supplies the REAL competition
-       deadline from PostgreSQL.
-    ========================================================= */
+function savePaymentSettings(){
 
-    const competitionDeadline =
-        Date.now() +
-        (7 * 24 * 60 * 60 * 1000);
+    teacherData.payment.bankName =
+        document.getElementById("bankName").value.trim();
 
+    teacherData.payment.accountHolder =
+        document.getElementById("accountHolder").value.trim();
 
-    function updateCountdown() {
+    teacherData.payment.paymentEmail =
+        document.getElementById("paymentEmail").value.trim();
 
-        const remaining =
-            Math.max(
-                0,
-                competitionDeadline - Date.now()
-            );
-
-        const totalSeconds =
-            Math.floor(
-                remaining / 1000
-            );
-
-        const days =
-            Math.floor(
-                totalSeconds /
-                (24 * 60 * 60)
-            );
-
-        const hours =
-            Math.floor(
-                (totalSeconds %
-                (24 * 60 * 60)) /
-                (60 * 60)
-            );
-
-        const minutes =
-            Math.floor(
-                (totalSeconds %
-                (60 * 60)) /
-                60
-            );
-
-        const seconds =
-            totalSeconds % 60;
+    teacherData.payment.accountReference =
+        document.getElementById("accountReference").value.trim();
 
 
-        document
-            .getElementById("days")
-            .textContent =
-            String(days).padStart(2, "0");
+    saveLocal();
 
-        document
-            .getElementById("hours")
-            .textContent =
-            String(hours).padStart(2, "0");
-
-        document
-            .getElementById("minutes")
-            .textContent =
-            String(minutes).padStart(2, "0");
-
-        document
-            .getElementById("seconds")
-            .textContent =
-            String(seconds).padStart(2, "0");
-
-    }
-
-
-    /* =========================================================
-       INITIALIZE
-    ========================================================= */
-
-    loadTeacherProfile();
-
-    buildEmptyCompetitionTable();
-
-    buildEmptyStudentTable();
-
-    buildEmptyLeaderboard();
-
-    updateCountdown();
-
-    setInterval(
-        updateCountdown,
-        1000
+    alert(
+        "Payment settings saved for backend connection."
     );
+
+}
+
+
+/* =========================================================
+   COMPETITION
+========================================================= */
+
+let currentCompetitionGroup = "Lower";
+
+
+function changeGroup(group,button){
+
+    currentCompetitionGroup =
+        group;
+
+
+    document
+        .querySelectorAll(".competition-tabs button")
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    button.classList.add("active");
+
+
+    /*
+       No fake student names or fake points are inserted.
+
+       The backend will later provide:
+
+       GET /api/competition/lower
+       GET /api/competition/medium
+       GET /api/competition/high
+    */
+
+    const body =
+        document.getElementById("leaderboardBody");
+
+
+    body.innerHTML = `
+
+        <tr>
+
+            <td colspan="5" class="empty">
+
+                ${group} group has 300 competition places.
+                Live student names, skills, points, submissions
+                and pending rewards will appear here after the
+                competition API is connected.
+
+            </td>
+
+        </tr>
+
+    `;
+
+}
+
+
+/* =========================================================
+   AI CHAT
+========================================================= */
+
+async function sendAIMessage(event){
+
+    event.preventDefault();
+
+
+    const input =
+        document.getElementById("aiInput");
+
+    const messages =
+        document.getElementById("chatMessages");
+
+
+    const text =
+        input.value.trim();
+
+
+    if(!text)
+        return;
+
+
+    const userMessage =
+        document.createElement("div");
+
+    userMessage.className =
+        "message user";
+
+    userMessage.textContent =
+        text;
+
+    messages.appendChild(userMessage);
+
+
+    input.value = "";
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+
+    /*
+       REAL BACKEND CONNECTION:
+
+       Later this function can call:
+
+       POST /api/teacher/ai
+
+       Example body:
+
+       {
+           message: text,
+           teacherId: ...
+       }
+
+       The backend can then connect the AI service.
+    */
+
+
+    const aiMessage =
+        document.createElement("div");
+
+    aiMessage.className =
+        "message ai";
+
+    aiMessage.textContent =
+        "AI backend is ready to be connected. Your message has been entered into the teacher assistant interface.";
+
+    messages.appendChild(aiMessage);
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logoutTeacher(){
+
+    sessionStorage.removeItem(
+        "gurhub_teacher"
+    );
+
+    window.location.href =
+        "teacher-login.html";
+
+}
+
+
+/* =========================================================
+   SECURITY HELPER
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadTeacher();
 
 </script>
 
