@@ -1,0 +1,3234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SteadyMaze — Teacher Portal</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    color:#172033;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    width:255px;
+    background:#111827;
+    color:white;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    padding:25px 16px;
+    z-index:100;
+    overflow-y:auto;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+    padding:0 12px 30px;
+}
+
+.logo span{
+    color:#4f8cff;
+}
+
+.portal-label{
+    color:#9ca3af;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1.2px;
+    padding:0 12px;
+    margin-bottom:10px;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.nav button{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#cbd5e1;
+    text-align:left;
+    padding:13px 12px;
+    border-radius:9px;
+    transition:.2s;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:#1f2937;
+    color:white;
+}
+
+.nav-icon{
+    display:inline-block;
+    width:28px;
+}
+
+.sidebar-bottom{
+    position:absolute;
+    bottom:25px;
+    left:16px;
+    right:16px;
+}
+
+.logout-btn{
+    width:100%;
+    padding:12px;
+    border:1px solid #374151;
+    border-radius:9px;
+    background:transparent;
+    color:#d1d5db;
+}
+
+.logout-btn:hover{
+    background:#1f2937;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    margin-left:255px;
+    width:calc(100% - 255px);
+    min-height:100vh;
+}
+
+.topbar{
+    height:72px;
+    background:white;
+    border-bottom:1px solid #e5e7eb;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.mobile-menu{
+    display:none;
+    border:0;
+    background:transparent;
+    font-size:24px;
+}
+
+.top-title{
+    font-size:18px;
+    font-weight:700;
+}
+
+.teacher-profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.teacher-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#e8efff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#2563eb;
+    font-weight:700;
+}
+
+.teacher-info strong{
+    display:block;
+    font-size:14px;
+}
+
+.teacher-info span{
+    display:block;
+    font-size:11px;
+    color:#6b7280;
+}
+
+.content{
+    padding:30px;
+    max-width:1500px;
+    margin:auto;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.page-section{
+    display:none;
+}
+
+.page-section.active{
+    display:block;
+}
+
+.welcome{
+    background:white;
+    border-radius:16px;
+    padding:25px;
+    border:1px solid #e5e7eb;
+    margin-bottom:22px;
+}
+
+.welcome h1{
+    font-size:25px;
+    margin-bottom:8px;
+}
+
+.welcome p{
+    color:#6b7280;
+    line-height:1.6;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card{
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:20px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card-header h2{
+    font-size:18px;
+}
+
+.card-header p{
+    font-size:12px;
+    color:#6b7280;
+    margin-top:5px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    padding:20px;
+}
+
+.stat-label{
+    color:#6b7280;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.stat-value{
+    font-size:26px;
+    font-weight:800;
+}
+
+.stat-note{
+    margin-top:8px;
+    color:#6b7280;
+    font-size:12px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+/* =========================
+   SKILL
+========================= */
+
+.skill-box{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    padding:18px;
+    border-radius:12px;
+}
+
+.skill-box h3{
+    font-size:17px;
+    margin-bottom:5px;
+}
+
+.skill-box p{
+    color:#6b7280;
+    font-size:13px;
+}
+
+.levels{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:16px;
+}
+
+.level{
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    padding:15px;
+    background:white;
+}
+
+.level strong{
+    display:block;
+    margin-bottom:7px;
+}
+
+.level span{
+    color:#6b7280;
+    font-size:12px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn{
+    border:0;
+    border-radius:8px;
+    padding:10px 16px;
+    font-weight:600;
+    font-size:13px;
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+}
+
+.btn-light{
+    background:#eef2f7;
+    color:#374151;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-group{
+    margin-bottom:17px;
+}
+
+.form-group label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    border:1px solid #d1d5db;
+    border-radius:9px;
+    padding:12px;
+    outline:none;
+    background:white;
+}
+
+.form-group textarea{
+    min-height:110px;
+    resize:vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:#2563eb;
+}
+
+.upload-area{
+    border:2px dashed #cbd5e1;
+    border-radius:12px;
+    padding:30px 20px;
+    text-align:center;
+    background:#f8fafc;
+    margin-bottom:20px;
+}
+
+.upload-icon{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+.upload-area p{
+    color:#6b7280;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th,
+td{
+    padding:14px 12px;
+    text-align:left;
+    border-bottom:1px solid #edf0f4;
+    font-size:13px;
+}
+
+th{
+    color:#6b7280;
+    font-size:12px;
+    background:#fafafa;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+}
+
+.badge-green{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.badge-yellow{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.badge-blue{
+    background:#dbeafe;
+    color:#1e40af;
+}
+
+.badge-gray{
+    background:#f3f4f6;
+    color:#4b5563;
+}
+
+/* =========================
+   COMPETITION
+========================= */
+
+.competition-group{
+    margin-bottom:25px;
+}
+
+.competition-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+}
+
+.competition-title h3{
+    font-size:18px;
+}
+
+.student-count{
+    font-size:12px;
+    color:#6b7280;
+    margin-top:5px;
+}
+
+.rounds{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:10px;
+}
+
+.round{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    padding:14px 10px;
+    text-align:center;
+}
+
+.round-number{
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:5px;
+}
+
+.round-label{
+    font-size:11px;
+    color:#6b7280;
+    line-height:1.4;
+}
+
+/* =========================
+   COMPETITION TABLE
+========================= */
+
+.competition-table{
+    margin-top:22px;
+    max-height:500px;
+    overflow-y:auto;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+}
+
+.competition-table thead{
+    position:sticky;
+    top:0;
+    z-index:2;
+}
+
+.competition-table tbody tr:hover{
+    background:#f8fafc;
+}
+
+/* =========================
+   TIMELINE
+========================= */
+
+.timeline{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:8px;
+    margin-top:15px;
+}
+
+.day{
+    border:1px solid #e5e7eb;
+    background:#f8fafc;
+    border-radius:10px;
+    padding:15px 10px;
+    text-align:center;
+    transition:.3s;
+}
+
+.day strong{
+    display:block;
+    margin-bottom:7px;
+}
+
+.day span{
+    font-size:11px;
+    color:#6b7280;
+}
+
+.day.active-day{
+    border-color:#2563eb;
+    background:#eff6ff;
+}
+
+.day.completed-day{
+    background:#ecfdf5;
+    border-color:#22c55e;
+}
+
+.day.completed-day span{
+    color:#15803d;
+}
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+.countdown-box{
+    background:#111827;
+    color:white;
+    border-radius:14px;
+    padding:22px;
+    margin-top:20px;
+    text-align:center;
+}
+
+.countdown-title{
+    color:#9ca3af;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:10px;
+}
+
+.countdown{
+    font-size:34px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.competition-status{
+    margin-top:10px;
+    font-size:13px;
+    color:#d1d5db;
+}
+
+/* =========================
+   REWARDS
+========================= */
+
+.reward-card{
+    padding:20px;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    text-align:center;
+}
+
+.reward-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.trophy{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.reward-card h3{
+    margin-bottom:5px;
+}
+
+.reward-card p{
+    font-size:12px;
+    color:#6b7280;
+    margin-bottom:12px;
+}
+
+/* =========================
+   NOTICE
+========================= */
+
+.notice{
+    padding:14px 16px;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    border-radius:10px;
+    color:#1e40af;
+    font-size:13px;
+    margin-bottom:20px;
+    line-height:1.5;
+}
+
+/* =========================
+   PAYMENT
+========================= */
+
+.payment-methods{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.payment-method{
+    border:1px solid #e5e7eb;
+    background:white;
+    border-radius:12px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-align:left;
+    transition:.2s;
+}
+
+.payment-method:hover{
+    border-color:#2563eb;
+    transform:translateY(-2px);
+}
+
+.payment-method.selected{
+    border-color:#2563eb;
+    background:#eff6ff;
+}
+
+.payment-method strong{
+    display:block;
+    font-size:14px;
+    margin-bottom:4px;
+}
+
+.payment-method small{
+    color:#6b7280;
+}
+
+.visa-logo{
+    font-size:20px;
+    font-weight:900;
+    font-style:italic;
+    color:#1d4ed8;
+}
+
+.mastercard-logo{
+    display:flex;
+    align-items:center;
+    width:45px;
+}
+
+.mastercard-logo span{
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    display:block;
+}
+
+.mastercard-logo span:first-child{
+    background:#ef4444;
+}
+
+.mastercard-logo span:last-child{
+    background:#f59e0b;
+    margin-left:-10px;
+}
+
+.paypal-logo{
+    color:#1d4ed8;
+    font-size:16px;
+    font-weight:800;
+}
+
+.payment-message{
+    margin-top:18px;
+    padding:12px;
+    border-radius:8px;
+    background:#f8fafc;
+    font-size:13px;
+    color:#2563eb;
+    display:none;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .rounds{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .timeline{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 16px;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .grid-2{
+        grid-template-columns:1fr;
+    }
+
+    .levels{
+        grid-template-columns:1fr;
+    }
+
+    .reward-grid{
+        grid-template-columns:1fr;
+    }
+
+    .payment-methods{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .rounds{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .timeline{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .teacher-info{
+        display:none;
+    }
+
+    .countdown{
+        font-size:25px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        Steady<span>Maze</span>
+    </div>
+
+    <div class="portal-label">
+        Teacher Portal
+    </div>
+
+    <nav class="nav">
+
+        <button class="nav-btn active" data-section="dashboard">
+            <span class="nav-icon">▣</span>
+            Dashboard
+        </button>
+
+        <button class="nav-btn" data-section="skill">
+            <span class="nav-icon">◆</span>
+            My Skill
+        </button>
+
+        <button class="nav-btn" data-section="lessons">
+            <span class="nav-icon">▶</span>
+            Lessons
+        </button>
+
+        <button class="nav-btn" data-section="students">
+            <span class="nav-icon">♙</span>
+            Students
+        </button>
+
+        <button class="nav-btn" data-section="submissions">
+            <span class="nav-icon">▤</span>
+            Submissions
+        </button>
+
+        <button class="nav-btn" data-section="competition">
+            <span class="nav-icon">🏆</span>
+            Competition
+        </button>
+
+        <button class="nav-btn" data-section="rewards">
+            <span class="nav-icon">★</span>
+            Rewards
+        </button>
+
+        <button class="nav-btn" data-section="earnings">
+            <span class="nav-icon">₿</span>
+            Earnings
+        </button>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+        <button class="logout-btn" id="logoutBtn">
+            Logout
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+    <div style="display:flex;align-items:center;gap:12px;">
+
+        <button class="mobile-menu" id="mobileMenu">
+            ☰
+        </button>
+
+        <div class="top-title">
+            Teacher Portal
+        </div>
+
+    </div>
+
+
+    <div class="teacher-profile">
+
+        <div class="teacher-avatar">
+            T
+        </div>
+
+        <div class="teacher-info">
+
+            <strong>Teacher</strong>
+
+            <span>
+                Instructor
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
+<section class="page-section active" id="dashboard">
+
+    <div class="welcome">
+
+        <h1>
+            Welcome to SteadyMaze Teacher Portal
+        </h1>
+
+        <p>
+            Manage your skill, lessons, students,
+            submissions, competition and earnings.
+        </p>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Assigned Skill
+            </div>
+
+            <div class="stat-value">
+                —
+            </div>
+
+            <div class="stat-note">
+                Loaded from database later
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Students
+            </div>
+
+            <div class="stat-value">
+                —
+            </div>
+
+            <div class="stat-note">
+                Real student count
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Submissions
+            </div>
+
+            <div class="stat-value">
+                —
+            </div>
+
+            <div class="stat-note">
+                Real submissions later
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Earnings
+            </div>
+
+            <div class="stat-value">
+                —
+            </div>
+
+            <div class="stat-note">
+                Real payment data later
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="grid-2">
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+                    <h2>Assigned Skill</h2>
+
+                    <p>
+                        Teacher's assigned skill
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="skill-box">
+
+                <h3>
+                    Skill Name
+                </h3>
+
+                <p>
+                    Real skill will be loaded from database.
+                </p>
+
+
+                <div class="levels">
+
+                    <div class="level">
+
+                        <strong>
+                            Level 1
+                        </strong>
+
+                        <span>
+                            Separate lessons
+                        </span>
+
+                    </div>
+
+
+                    <div class="level">
+
+                        <strong>
+                            Level 2
+                        </strong>
+
+                        <span>
+                            Separate lessons
+                        </span>
+
+                    </div>
+
+
+                    <div class="level">
+
+                        <strong>
+                            Level 3
+                        </strong>
+
+                        <span>
+                            Separate lessons
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+                    <h2>Competition</h2>
+
+                    <p>
+                        Current status
+                    </p>
+                </div>
+
+                <span class="badge badge-yellow">
+                    Pending
+                </span>
+
+            </div>
+
+
+            <p style="color:#6b7280;line-height:1.7;">
+
+                Competition includes Lower, Medium and High
+                groups with 300 students per group.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MY SKILL
+========================================================= -->
+
+<section class="page-section" id="skill">
+
+    <div class="welcome">
+
+        <h1>
+            My Skill
+        </h1>
+
+        <p>
+            Manage your assigned skill and three learning levels.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+                <h2>
+                    Assigned Skill
+                </h2>
+
+                <p>
+                    Skill assignment is controlled by Admin.
+                </p>
+            </div>
+
+            <span class="badge badge-blue">
+                Assigned
+            </span>
+
+        </div>
+
+
+        <div class="skill-box">
+
+            <h3>
+                Skill Name
+            </h3>
+
+            <p>
+                Skill will appear here after database connection.
+            </p>
+
+
+            <div class="levels">
+
+                <div class="level">
+
+                    <strong>
+                        Level 1
+                    </strong>
+
+                    <span>
+                        Beginner lessons
+                    </span>
+
+                </div>
+
+
+                <div class="level">
+
+                    <strong>
+                        Level 2
+                    </strong>
+
+                    <span>
+                        Intermediate lessons
+                    </span>
+
+                </div>
+
+
+                <div class="level">
+
+                    <strong>
+                        Level 3
+                    </strong>
+
+                    <span>
+                        Advanced lessons
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LESSONS
+========================================================= -->
+
+<section class="page-section" id="lessons">
+
+    <div class="welcome">
+
+        <h1>
+            Lessons
+        </h1>
+
+        <p>
+            Upload lessons separately for Level 1, Level 2 and Level 3.
+        </p>
+
+    </div>
+
+
+    <div class="notice">
+
+        Students will only watch the level they have access to.
+        Real payment/access control will be connected later.
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Upload New Lesson
+                </h2>
+
+                <p>
+                    Create a lesson for one specific level.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form id="lessonForm">
+
+
+            <div class="form-group">
+
+                <label>
+                    Lesson Title
+                </label>
+
+                <input
+                    type="text"
+                    id="lessonTitle"
+                    placeholder="Enter lesson title"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Level
+                </label>
+
+                <select id="lessonLevel" required>
+
+                    <option value="">
+                        Select Level
+                    </option>
+
+                    <option value="Level 1">
+                        Level 1
+                    </option>
+
+                    <option value="Level 2">
+                        Level 2
+                    </option>
+
+                    <option value="Level 3">
+                        Level 3
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Lesson Description
+                </label>
+
+                <textarea
+                    id="lessonDescription"
+                    placeholder="Write lesson description..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="upload-area">
+
+                <div class="upload-icon">
+                    🎥
+                </div>
+
+                <p>
+                    Select lesson video
+                </p>
+
+                <input
+                    type="file"
+                    id="lessonVideo"
+                    accept="video/*"
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                Save Lesson
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    My Lessons
+                </h2>
+
+                <p>
+                    Lessons created in this preview.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Lesson
+                        </th>
+
+                        <th>
+                            Level
+                        </th>
+
+                        <th>
+                            Access
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="lessonTable">
+
+                    <tr>
+
+                        <td colspan="4"
+                            style="text-align:center;color:#6b7280;">
+
+                            No lessons added yet.
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     STUDENTS
+========================================================= -->
+
+<section class="page-section" id="students">
+
+    <div class="welcome">
+
+        <h1>
+            Students
+        </h1>
+
+        <p>
+            Student information will come from database.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Total Students
+                </div>
+
+                <div class="stat-value">
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Level 1
+                </div>
+
+                <div class="stat-value">
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Level 2
+                </div>
+
+                <div class="stat-value">
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Level 3
+                </div>
+
+                <div class="stat-value">
+                    —
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SUBMISSIONS
+========================================================= -->
+
+<section class="page-section" id="submissions">
+
+    <div class="welcome">
+
+        <h1>
+            Student Submissions
+        </h1>
+
+        <p>
+            Review student competition submissions.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Submission
+                        </th>
+
+                        <th>
+                            Level
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            AI Review
+                        </th>
+
+                        <th>
+                            Teacher Review
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            Submission ID
+                        </td>
+
+                        <td>
+                            —
+                        </td>
+
+                        <td>
+                            <span class="badge badge-yellow">
+                                Pending
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="badge badge-yellow">
+                                Pending
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="badge badge-yellow">
+                                Pending
+                            </span>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     COMPETITION
+========================================================= -->
+
+<section class="page-section" id="competition">
+
+    <div class="welcome">
+
+        <h1>
+            Competition
+        </h1>
+
+        <p>
+            Three competition groups — Lower, Medium and High.
+        </p>
+
+    </div>
+
+
+    <!-- COUNTDOWN -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Competition Timeline
+                </h2>
+
+                <p>
+                    6-day competition window
+                </p>
+
+            </div>
+
+            <span
+                class="badge badge-green"
+                id="competitionBadge"
+            >
+                LIVE
+            </span>
+
+        </div>
+
+
+        <div class="timeline" id="timeline">
+
+            <div class="day" data-day="1">
+                <strong>Day 1</strong>
+                <span>Opening</span>
+            </div>
+
+            <div class="day" data-day="2">
+                <strong>Day 2</strong>
+                <span>Submissions</span>
+            </div>
+
+            <div class="day" data-day="3">
+                <strong>Day 3</strong>
+                <span>Submissions</span>
+            </div>
+
+            <div class="day" data-day="4">
+                <strong>Day 4</strong>
+                <span>Submissions</span>
+            </div>
+
+            <div class="day" data-day="5">
+                <strong>Day 5</strong>
+                <span>Final Submissions</span>
+            </div>
+
+            <div class="day" data-day="6">
+                <strong>Day 6</strong>
+                <span>Competition Closes</span>
+            </div>
+
+        </div>
+
+
+        <div class="countdown-box">
+
+            <div class="countdown-title">
+                Time Remaining
+            </div>
+
+            <div
+                class="countdown"
+                id="countdown"
+            >
+                06:00:00:00
+            </div>
+
+            <div
+                class="competition-status"
+                id="competitionStatus"
+            >
+                Competition is running
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOWER -->
+
+    <div class="card competition-group">
+
+        <div class="competition-title">
+
+            <div>
+
+                <h3>
+                    Lower Competition
+                </h3>
+
+                <div class="student-count">
+                    300 Students
+                </div>
+
+            </div>
+
+            <span class="badge badge-yellow">
+                Pending
+            </span>
+
+        </div>
+
+
+        <div class="rounds">
+
+            <div class="round">
+                <div class="round-number">300</div>
+                <div class="round-label">Starting</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">150</div>
+                <div class="round-label">Round 1</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">100</div>
+                <div class="round-label">Round 2</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">50</div>
+                <div class="round-label">Round 3</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">25</div>
+                <div class="round-label">Round 4</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">6</div>
+                <div class="round-label">Winners</div>
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper competition-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Student Number
+                        </th>
+
+                        <th>
+                            Current Round
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="lowerCompetitionTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- MEDIUM -->
+
+    <div class="card competition-group">
+
+        <div class="competition-title">
+
+            <div>
+
+                <h3>
+                    Medium Competition
+                </h3>
+
+                <div class="student-count">
+                    300 Students
+                </div>
+
+            </div>
+
+            <span class="badge badge-yellow">
+                Pending
+            </span>
+
+        </div>
+
+
+        <div class="rounds">
+
+            <div class="round">
+                <div class="round-number">300</div>
+                <div class="round-label">Starting</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">150</div>
+                <div class="round-label">Round 1</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">100</div>
+                <div class="round-label">Round 2</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">50</div>
+                <div class="round-label">Round 3</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">25</div>
+                <div class="round-label">Round 4</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">6</div>
+                <div class="round-label">Winners</div>
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper competition-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Student Number
+                        </th>
+
+                        <th>
+                            Current Round
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="mediumCompetitionTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- HIGH -->
+
+    <div class="card competition-group">
+
+        <div class="competition-title">
+
+            <div>
+
+                <h3>
+                    High Competition
+                </h3>
+
+                <div class="student-count">
+                    300 Students
+                </div>
+
+            </div>
+
+            <span class="badge badge-yellow">
+                Pending
+            </span>
+
+        </div>
+
+
+        <div class="rounds">
+
+            <div class="round">
+                <div class="round-number">300</div>
+                <div class="round-label">Starting</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">150</div>
+                <div class="round-label">Round 1</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">100</div>
+                <div class="round-label">Round 2</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">50</div>
+                <div class="round-label">Round 3</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">25</div>
+                <div class="round-label">Round 4</div>
+            </div>
+
+            <div class="round">
+                <div class="round-number">6</div>
+                <div class="round-label">Winners</div>
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper competition-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Student Number
+                        </th>
+
+                        <th>
+                            Current Round
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="highCompetitionTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <div class="notice">
+
+        The 300 student numbers shown above are only preview numbering.
+        Real students, rounds, scores and eliminations will come from
+        the database.
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     REWARDS
+========================================================= -->
+
+<section class="page-section" id="rewards">
+
+    <div class="welcome">
+
+        <h1>
+            Competition Rewards
+        </h1>
+
+        <p>
+            Six final winners for every competition group.
+        </p>
+
+    </div>
+
+
+    <!-- LOWER REWARDS -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Lower Group Rewards
+                </h2>
+
+                <p>
+                    6 winners
+                </p>
+
+            </div>
+
+            <span class="badge badge-yellow">
+                Pending
+            </span>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Winner Number
+                        </th>
+
+                        <th>
+                            Group
+                        </th>
+
+                        <th>
+                            Reward
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="lowerRewardsTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- MEDIUM REWARDS -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Medium Group Rewards
+                </h2>
+
+                <p>
+                    6 winners
+                </p>
+
+            </div>
+
+            <span class="badge badge-yellow">
+                Pending
+            </span>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Winner Number
+                        </th>
+
+                        <th>
+                            Group
+                        </th>
+
+                        <th>
+                            Reward
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="mediumRewardsTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- HIGH REWARDS -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    High Group Rewards
+                </h2>
+
+                <p>
+                    6 winners
+                </p>
+
+            </div>
+
+            <span class="badge badge-yellow">
+                Pending
+            </span>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Winner Number
+                        </th>
+
+                        <th>
+                            Group
+                        </th>
+
+                        <th>
+                            Reward
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="highRewardsTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     EARNINGS / PAYMENT
+========================================================= -->
+
+<section class="page-section" id="earnings">
+
+    <div class="welcome">
+
+        <h1>
+            Earnings
+        </h1>
+
+        <p>
+            Teacher earnings and payment methods.
+        </p>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Total Earnings
+            </div>
+
+            <div class="stat-value">
+                —
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Pending
+            </div>
+
+            <div class="stat-value">
+                —
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Paid
+            </div>
+
+            <div class="stat-value">
+                —
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Revenue Share
+            </div>
+
+            <div class="stat-value">
+                —
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="notice">
+
+        Payment methods below are frontend preview only.
+        Real payment processing will be connected later.
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Payment Methods
+                </h2>
+
+                <p>
+                    Select a payment method
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="payment-methods">
+
+
+            <button
+                class="payment-method"
+                data-payment="Visa"
+                type="button"
+            >
+
+                <div class="visa-logo">
+                    VISA
+                </div>
+
+                <div>
+
+                    <strong>
+                        Visa
+                    </strong>
+
+                    <small>
+                        Pay with Visa
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="payment-method"
+                data-payment="Mastercard"
+                type="button"
+            >
+
+                <div class="mastercard-logo">
+
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Mastercard
+                    </strong>
+
+                    <small>
+                        Pay with Mastercard
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="payment-method"
+                data-payment="PayPal"
+                type="button"
+            >
+
+                <div class="paypal-logo">
+                    PayPal
+                </div>
+
+                <div>
+
+                    <strong>
+                        PayPal
+                    </strong>
+
+                    <small>
+                        Pay with PayPal
+                    </small>
+
+                </div>
+
+            </button>
+
+
+        </div>
+
+
+        <div
+            class="payment-message"
+            id="paymentMessage"
+        ></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Payment History
+                </h2>
+
+                <p>
+                    Real transactions will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Payment
+                        </th>
+
+                        <th>
+                            Method
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            No payment records
+                        </td>
+
+                        <td>
+                            —
+                        </td>
+
+                        <td>
+
+                            <span class="badge badge-yellow">
+                                Pending
+                            </span>
+
+                        </td>
+
+                        <td>
+                            —
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</main>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const navButtons =
+    document.querySelectorAll(".nav-btn");
+
+const sections =
+    document.querySelectorAll(".page-section");
+
+
+navButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const target =
+            button.dataset.section;
+
+
+        navButtons.forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+        button.classList.add("active");
+
+
+        sections.forEach(section => {
+
+            section.classList.remove("active");
+
+        });
+
+
+        const targetSection =
+            document.getElementById(target);
+
+
+        if(targetSection){
+
+            targetSection.classList.add("active");
+
+        }
+
+
+        document
+            .getElementById("sidebar")
+            .classList.remove("open");
+
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
+
+        });
+
+    });
+
+});
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+const sidebar =
+    document.getElementById("sidebar");
+
+
+mobileMenu.addEventListener("click",() => {
+
+    sidebar.classList.toggle("open");
+
+});
+
+
+/* =========================================================
+   LESSON PREVIEW
+========================================================= */
+
+const lessonForm =
+    document.getElementById("lessonForm");
+
+const lessonTable =
+    document.getElementById("lessonTable");
+
+
+lessonForm.addEventListener("submit",(event)=>{
+
+    event.preventDefault();
+
+
+    const title =
+        document
+        .getElementById("lessonTitle")
+        .value
+        .trim();
+
+
+    const level =
+        document
+        .getElementById("lessonLevel")
+        .value;
+
+
+    const video =
+        document
+        .getElementById("lessonVideo")
+        .files[0];
+
+
+    if(!title || !level){
+
+        alert(
+            "Please enter lesson title and level."
+        );
+
+        return;
+
+    }
+
+
+    lessonTable.innerHTML = `
+
+        <tr>
+
+            <td>
+                ${escapeHTML(title)}
+            </td>
+
+            <td>
+                ${escapeHTML(level)}
+            </td>
+
+            <td>
+
+                <span class="badge badge-blue">
+                    Paid Access
+                </span>
+
+            </td>
+
+            <td>
+
+                <span class="badge badge-green">
+                    Ready
+                </span>
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    lessonForm.reset();
+
+
+    if(video){
+
+        alert(
+            "Lesson preview created. Real video storage will be connected later."
+        );
+
+    }else{
+
+        alert(
+            "Lesson preview created."
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value){
+
+    return value
+
+        .replaceAll("&","&amp;")
+
+        .replaceAll("<","&lt;")
+
+        .replaceAll(">","&gt;")
+
+        .replaceAll('"',"&quot;")
+
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   COMPETITION TABLE
+   300 NUMBERED STUDENTS
+========================================================= */
+
+function createCompetitionTable(tableId){
+
+    const table =
+        document.getElementById(tableId);
+
+
+    if(!table) return;
+
+
+    let html = "";
+
+
+    for(let number = 1; number <= 300; number++){
+
+        html += `
+
+            <tr>
+
+                <td>
+                    <strong>
+                        #${number}
+                    </strong>
+                </td>
+
+                <td>
+
+                    <span class="badge badge-blue">
+                        Starting
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <span class="badge badge-yellow">
+                        Pending
+                    </span>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+
+    table.innerHTML = html;
+
+}
+
+
+createCompetitionTable(
+    "lowerCompetitionTable"
+);
+
+createCompetitionTable(
+    "mediumCompetitionTable"
+);
+
+createCompetitionTable(
+    "highCompetitionTable"
+);
+
+
+/* =========================================================
+   REWARD TABLES
+   6 WINNERS EACH
+========================================================= */
+
+function createRewardTable(
+    tableId,
+    group
+){
+
+    const table =
+        document.getElementById(tableId);
+
+
+    if(!table) return;
+
+
+    let html = "";
+
+
+    for(let winner = 1; winner <= 6; winner++){
+
+        html += `
+
+            <tr>
+
+                <td>
+                    <strong>
+                        Winner ${winner}
+                    </strong>
+                </td>
+
+                <td>
+                    ${group}
+                </td>
+
+                <td>
+                    Pending
+                </td>
+
+                <td>
+
+                    <span class="badge badge-yellow">
+                        Pending
+                    </span>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+
+    table.innerHTML = html;
+
+}
+
+
+createRewardTable(
+    "lowerRewardsTable",
+    "Lower"
+);
+
+
+createRewardTable(
+    "mediumRewardsTable",
+    "Medium"
+);
+
+
+createRewardTable(
+    "highRewardsTable",
+    "High"
+);
+
+
+/* =========================================================
+   PAYMENT UI
+========================================================= */
+
+const paymentButtons =
+    document.querySelectorAll(".payment-method");
+
+const paymentMessage =
+    document.getElementById("paymentMessage");
+
+
+paymentButtons.forEach(button => {
+
+    button.addEventListener("click",()=>{
+
+        paymentButtons.forEach(btn=>{
+
+            btn.classList.remove("selected");
+
+        });
+
+
+        button.classList.add("selected");
+
+
+        const method =
+            button.dataset.payment;
+
+
+        paymentMessage.style.display =
+            "block";
+
+
+        paymentMessage.innerHTML =
+
+            `<strong>${method}</strong> selected.
+             Real payment processing will be connected later.`;
+
+    });
+
+});
+
+
+/* =========================================================
+   6-DAY LIVE COMPETITION TIMER
+========================================================= */
+
+/*
+
+   PREVIEW:
+   Competition starts when this page loads.
+
+   Duration:
+   6 days
+
+   This is frontend preview only.
+   Later the real start/end time will come
+   from PostgreSQL/backend.
+
+*/
+
+
+const competitionDuration =
+    6 * 24 * 60 * 60 * 1000;
+
+
+/*
+
+   Save a preview start time.
+
+   sessionStorage means the timer continues
+   while this browser tab/session is open.
+
+*/
+
+let startTime =
+    sessionStorage.getItem(
+        "steadymazeCompetitionStart"
+    );
+
+
+if(!startTime){
+
+    startTime =
+        Date.now();
+
+    sessionStorage.setItem(
+        "steadymazeCompetitionStart",
+        startTime
+    );
+
+}
+
+
+startTime =
+    Number(startTime);
+
+
+const competitionEnd =
+    startTime + competitionDuration;
+
+
+function updateCompetition(){
+
+    const now =
+        Date.now();
+
+
+    let remaining =
+        competitionEnd - now;
+
+
+    const countdown =
+        document.getElementById("countdown");
+
+
+    const status =
+        document.getElementById("competitionStatus");
+
+
+    const badge =
+        document.getElementById("competitionBadge");
+
+
+    const days =
+        document.querySelectorAll(".day");
+
+
+    /* COMPETITION FINISHED */
+
+    if(remaining <= 0){
+
+        countdown.textContent =
+            "00:00:00:00";
+
+
+        status.textContent =
+            "Competition has ended";
+
+
+        badge.textContent =
+            "CLOSED";
+
+
+        badge.className =
+            "badge badge-gray";
+
+
+        days.forEach(day => {
+
+            day.classList.remove(
+                "active-day"
+            );
+
+            day.classList.add(
+                "completed-day"
+            );
+
+        });
+
+
+        return;
+
+    }
+
+
+    /* TIME CALCULATION */
+
+    const day =
+        Math.floor(
+            remaining /
+            (24 * 60 * 60 * 1000)
+        );
+
+
+    const hour =
+        Math.floor(
+            (remaining %
+            (24 * 60 * 60 * 1000))
+            /
+            (60 * 60 * 1000)
+        );
+
+
+    const minute =
+        Math.floor(
+            (remaining %
+            (60 * 60 * 1000))
+            /
+            (60 * 1000)
+        );
+
+
+    const second =
+        Math.floor(
+            (remaining %
+            (60 * 1000))
+            /
+            1000
+        );
+
+
+    countdown.textContent =
+
+        `${String(day).padStart(2,"0")}:` +
+
+        `${String(hour).padStart(2,"0")}:` +
+
+        `${String(minute).padStart(2,"0")}:` +
+
+        `${String(second).padStart(2,"0")}`;
+
+
+    /* CURRENT DAY */
+
+    const elapsed =
+        now - startTime;
+
+
+    const currentDay =
+        Math.floor(
+            elapsed /
+            (24 * 60 * 60 * 1000)
+        ) + 1;
+
+
+    days.forEach(dayElement => {
+
+        const dayNumber =
+            Number(
+                dayElement.dataset.day
+            );
+
+
+        dayElement.classList.remove(
+            "active-day"
+        );
+
+        dayElement.classList.remove(
+            "completed-day"
+        );
+
+
+        if(dayNumber < currentDay){
+
+            dayElement.classList.add(
+                "completed-day"
+            );
+
+        }
+
+
+        if(dayNumber === currentDay){
+
+            dayElement.classList.add(
+                "active-day"
+            );
+
+        }
+
+    });
+
+
+    status.textContent =
+        `Competition is live — Day ${currentDay} of 6`;
+
+}
+
+
+updateCompetition();
+
+
+setInterval(
+    updateCompetition,
+    1000
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+document
+    .getElementById("logoutBtn")
+    .addEventListener("click",()=>{
+
+        alert(
+            "Real authentication and logout will be connected later."
+        );
+
+    });
+
+</script>
+
+</body>
+</html>
