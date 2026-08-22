@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GurHub | Teacher Account</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Inter, Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.12), transparent 30%),
+                radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.10), transparent 30%),
+                #f8fafc;
+            color: #0f172a;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 74px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            background: rgba(255,255,255,0.92);
+            border-bottom: 1px solid #e5e7eb;
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #111827;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .back-home {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-home:hover {
+            color: #2563eb;
+        }
+
+        /* ================= MAIN ================= */
+
+        .page {
+            min-height: calc(100vh - 74px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+        }
+
+        .auth-wrapper {
+            width: 100%;
+            max-width: 1050px;
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(15, 23, 42, 0.10);
+        }
+
+        /* ================= LEFT ================= */
+
+        .intro {
+            position: relative;
+            padding: 55px 45px;
+            background: linear-gradient(145deg, #0f172a, #172554);
+            color: white;
+            overflow: hidden;
+        }
+
+        .intro::before {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(59,130,246,0.15);
+            top: -100px;
+            right: -80px;
+        }
+
+        .intro::after {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(99,102,241,0.12);
+            bottom: -100px;
+            left: -70px;
+        }
+
+        .intro-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .teacher-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 13px;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.15);
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 28px;
+        }
+
+        .intro h1 {
+            font-size: 39px;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 18px;
+        }
+
+        .intro h1 span {
+            color: #60a5fa;
+        }
+
+        .intro p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            font-size: 15px;
+            max-width: 400px;
+        }
+
+        .benefits {
+            margin-top: 38px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+        }
+
+        .benefit-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.10);
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .benefit strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .benefit small {
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* ================= RIGHT ================= */
+
+        .auth-panel {
+            padding: 45px;
+            background: white;
+        }
+
+        .panel-header {
+            margin-bottom: 28px;
+        }
+
+        .panel-header h2 {
+            font-size: 27px;
+            letter-spacing: -0.8px;
+            margin-bottom: 7px;
+        }
+
+        .panel-header p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* ================= TABS ================= */
+
+        .tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 5px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            margin-bottom: 28px;
+        }
+
+        .tab {
+            border: none;
+            background: transparent;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .tab.active {
+            background: white;
+            color: #2563eb;
+            box-shadow: 0 3px 10px rgba(15,23,42,0.08);
+        }
+
+        /* ================= FORMS ================= */
+
+        .form {
+            display: none;
+        }
+
+        .form.active {
+            display: block;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .field {
+            margin-bottom: 17px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #dbe1ea;
+            border-radius: 10px;
+            padding: 0 14px;
+            font-size: 14px;
+            color: #0f172a;
+            background: white;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .input-wrapper input:focus,
+        .input-wrapper select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.10);
+        }
+
+        .password-input {
+            padding-right: 48px !important;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0 20px;
+            font-size: 12px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #64748b;
+        }
+
+        .remember input {
+            accent-color: #2563eb;
+        }
+
+        .forgot {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .main-btn {
+            width: 100%;
+            height: 49px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .main-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.20);
+        }
+
+        .main-btn:active {
+            transform: translateY(0);
+        }
+
+        .switch-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .switch-text button {
+            border: none;
+            background: transparent;
+            color: #2563eb;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .terms {
+            margin-top: 17px;
+            color: #94a3b8;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .message {
+            display: none;
+            padding: 11px 13px;
+            margin-bottom: 18px;
+            border-radius: 9px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .message.success {
+            display: block;
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 850px) {
+            .auth-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+            }
+
+            .intro {
+                padding: 38px 30px;
+            }
+
+            .intro h1 {
+                font-size: 32px;
+            }
+
+            .benefits {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .auth-panel {
+                padding: 35px 30px;
+            }
+        }
+
+        @media (max-width: 520px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .back-home {
+                font-size: 12px;
+            }
+
+            .page {
+                padding: 25px 12px;
+            }
+
+            .auth-wrapper {
+                border-radius: 18px;
+            }
+
+            .intro {
+                padding: 30px 23px;
+            }
+
+            .intro h1 {
+                font-size: 28px;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-panel {
+                padding: 28px 20px;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            Gur<span>Hub</span>
+        </a>
+
+        <a href="index.html" class="back-home">
+            ← Back to Homepage
+        </a>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="page">
+
+        <section class="auth-wrapper">
+
+            <!-- LEFT SIDE -->
+
+            <div class="intro">
+
+                <div class="intro-content">
+
+                    <div class="teacher-badge">
+                        🎓 Teacher Portal
+                    </div>
+
+                    <h1>
+                        Share your skills.<br>
+                        <span>Teach the future.</span>
+                    </h1>
+
+                    <p>
+                        Create your teacher account and manage your
+                        courses, students, lessons and teaching activity
+                        from one professional dashboard.
+                    </p>
+
+
+                    <div class="benefits">
+
+                        <div class="benefit">
+
+                            <div class="benefit-icon">
+                                ✓
+                            </div>
+
+                            <div>
+                                <strong>Manage your courses</strong>
+                                <small>
+                                    Build and manage your teaching content.
+                                </small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="benefit">
+
+                            <div class="benefit-icon">
+                                👥
+                            </div>
+
+                            <div>
+                                <strong>Teach students</strong>
+                                <small>
+                                    Access the students assigned to your skills.
+                                </small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="benefit">
+
+                            <div class="benefit-icon">
+                                📊
+                            </div>
+
+                            <div>
+                                <strong>Track your progress</strong>
+                                <small>
+                                    Monitor your teaching activity and results.
+                                </small>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="auth-panel">
+
+                <div class="panel-header">
+
+                    <h2 id="panelTitle">
+                        Teacher Login
+                    </h2>
+
+                    <p id="panelSubtitle">
+                        Sign in to access your teacher dashboard.
+                    </p>
+
+                </div>
+
+
+                <!-- TABS -->
+
+                <div class="tabs">
+
+                    <button
+                        type="button"
+                        class="tab active"
+                        id="loginTab"
+                        onclick="showForm('login')"
+                    >
+                        Login
+                    </button>
+
+                    <button
+                        type="button"
+                        class="tab"
+                        id="signupTab"
+                        onclick="showForm('signup')"
+                    >
+                        Create Account
+                    </button>
+
+                </div>
+
+
+                <!-- MESSAGE -->
+
+                <div id="message" class="message"></div>
+
+
+                <!-- ================= LOGIN ================= -->
+
+                <form
+                    id="loginForm"
+                    class="form active"
+                    onsubmit="handleLogin(event)"
+                    novalidate
+                >
+
+                    <div class="field">
+
+                        <label for="loginEmail">
+                            Email Address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="email"
+                                id="loginEmail"
+                                name="email"
+                                placeholder="teacher@example.com"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="loginPassword">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                name="password"
+                                class="password-input"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                onclick="togglePassword('loginPassword', this)"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-options">
+
+                        <label class="remember">
+
+                            <input
+                                type="checkbox"
+                                name="remember"
+                            >
+
+                            Remember me
+
+                        </label>
+
+                        <a
+                            href="#"
+                            class="forgot"
+                            onclick="forgotPassword(event)"
+                        >
+                            Forgot password?
+                        </a>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="main-btn"
+                    >
+                        Login to Teacher Dashboard
+                    </button>
+
+
+                    <div class="switch-text">
+
+                        Don't have an account?
+
+                        <button
+                            type="button"
+                            onclick="showForm('signup')"
+                        >
+                            Create Account
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                <!-- ================= SIGN UP ================= -->
+
+                <form
+                    id="signupForm"
+                    class="form"
+                    onsubmit="handleSignup(event)"
+                    novalidate
+                >
+
+                    <div class="row">
+
+                        <div class="field">
+
+                            <label for="firstName">
+                                First Name
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="text"
+                                    id="firstName"
+                                    name="first_name"
+                                    placeholder="First name"
+                                    autocomplete="given-name"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="lastName">
+                                Last Name
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="text"
+                                    id="lastName"
+                                    name="last_name"
+                                    placeholder="Last name"
+                                    autocomplete="family-name"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="signupEmail">
+                            Email Address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="email"
+                                id="signupEmail"
+                                name="email"
+                                placeholder="your@email.com"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="skill">
+                            Teaching Skill
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <select
+                                id="skill"
+                                name="skill"
+                                required
+                            >
+
+                                <option value="">
+                                    Select your teaching skill
+                                </option>
+
+                                <optgroup label="Lower Level">
+
+                                    <option value="video-editing">
+                                        Video Editing
+                                    </option>
+
+                                    <option value="thumbnail">
+                                        Thumbnail
+                                    </option>
+
+                                    <option value="movie-recap">
+                                        Movie Recap
+                                    </option>
+
+                                    <option value="digital-marketing">
+                                        Digital Marketing
+                                    </option>
+
+                                    <option value="affiliate-marketing">
+                                        Affiliate Marketing
+                                    </option>
+
+                                    <option value="dropshipping">
+                                        Dropshipping
+                                    </option>
+
+                                </optgroup>
+
+
+                                <optgroup label="Medium Level">
+
+                                    <option value="fx">
+                                        FX
+                                    </option>
+
+                                    <option value="crypto">
+                                        Crypto
+                                    </option>
+
+                                    <option value="data-analysis">
+                                        Data Analysis
+                                    </option>
+
+                                    <option value="english">
+                                        English
+                                    </option>
+
+                                    <option value="ai-agent">
+                                        AI Agent
+                                    </option>
+
+                                    <option value="cybersecurity">
+                                        Cybersecurity
+                                    </option>
+
+                                </optgroup>
+
+
+                                <optgroup label="High Level">
+
+                                    <option value="python">
+                                        Python
+                                    </option>
+
+                                    <option value="java">
+                                        Java
+                                    </option>
+
+                                    <option value="web-development">
+                                        Web Development
+                                    </option>
+
+                                    <option value="ai-web">
+                                        AI Web
+                                    </option>
+
+                                    <option value="ai-app">
+                                        AI App
+                                    </option>
+
+                                </optgroup>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="field">
+
+                            <label for="signupPassword">
+                                Password
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="signupPassword"
+                                    name="password"
+                                    class="password-input"
+                                    placeholder="Create password"
+                                    autocomplete="new-password"
+                                    required
+                                    minlength="8"
+                                >
+
+                                <button
+                                    type="button"
+                                    class="show-password"
+                                    onclick="togglePassword('signupPassword', this)"
+                                >
+                                    Show
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="confirmPassword">
+                                Confirm Password
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="confirmPassword"
+                                    name="confirm_password"
+                                    class="password-input"
+                                    placeholder="Confirm password"
+                                    autocomplete="new-password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="show-password"
+                                    onclick="togglePassword('confirmPassword', this)"
+                                >
+                                    Show
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="main-btn"
+                    >
+                        Create Teacher Account
+                    </button>
+
+
+                    <div class="switch-text">
+
+                        Already have an account?
+
+                        <button
+                            type="button"
+                            onclick="showForm('login')"
+                        >
+                            Login
+                        </button>
+
+                    </div>
+
+
+                    <div class="terms">
+
+                        By creating an account, you agree to GurHub's
+                        Terms of Service and Privacy Policy.
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        /* ================= FORM SWITCH ================= */
+
+        function showForm(type) {
+
+            const loginForm = document.getElementById("loginForm");
+            const signupForm = document.getElementById("signupForm");
+
+            const loginTab = document.getElementById("loginTab");
+            const signupTab = document.getElementById("signupTab");
+
+            const title = document.getElementById("panelTitle");
+            const subtitle = document.getElementById("panelSubtitle");
+
+            clearMessage();
+
+            if (type === "login") {
+
+                loginForm.classList.add("active");
+                signupForm.classList.remove("active");
+
+                loginTab.classList.add("active");
+                signupTab.classList.remove("active");
+
+                title.textContent = "Teacher Login";
+
+                subtitle.textContent =
+                    "Sign in to access your teacher dashboard.";
+
+            } else {
+
+                signupForm.classList.add("active");
+                loginForm.classList.remove("active");
+
+                signupTab.classList.add("active");
+                loginTab.classList.remove("active");
+
+                title.textContent = "Create Teacher Account";
+
+                subtitle.textContent =
+                    "Create your teacher account to get started.";
+
+            }
+
+        }
+
+
+        /* ================= PASSWORD ================= */
+
+        function togglePassword(inputId, button) {
+
+            const input = document.getElementById(inputId);
+
+            if (input.type === "password") {
+
+                input.type = "text";
+                button.textContent = "Hide";
+
+            } else {
+
+                input.type = "password";
+                button.textContent = "Show";
+
+            }
+
+        }
+
+
+        /* ================= MESSAGE ================= */
+
+        function showMessage(text, type) {
+
+            const message = document.getElementById("message");
+
+            message.textContent = text;
+
+            message.className = "message " + type;
+
+        }
+
+
+        function clearMessage() {
+
+            const message = document.getElementById("message");
+
+            message.textContent = "";
+
+            message.className = "message";
+
+        }
+
+
+        /* ================= LOGIN ================= */
+
+        function handleLogin(event) {
+
+            event.preventDefault();
+
+            clearMessage();
+
+            const email =
+                document.getElementById("loginEmail").value.trim();
+
+            const password =
+                document.getElementById("loginPassword").value;
+
+            if (!email || !password) {
+
+                showMessage(
+                    "Please enter your email and password.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+            if (!isValidEmail(email)) {
+
+                showMessage(
+                    "Please enter a valid email address.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+            /*
+                BACKEND CONNECTION POINT
+
+                Later this form will send:
+
+                {
+                    email,
+                    password
+                }
+
+                to your real backend authentication API.
+
+                Example endpoint later:
+
+                POST /api/teacher/login
+
+                The frontend does NOT create fake accounts.
+            */
+
+            showMessage(
+                "Your login form is ready for the teacher authentication API.",
+                "success"
+            );
+
+        }
+
+
+        /* ================= SIGN UP ================= */
+
+        function handleSignup(event) {
+
+            event.preventDefault();
+
+            clearMessage();
+
+            const firstName =
+                document.getElementById("firstName").value.trim();
+
+            const lastName =
+                document.getElementById("lastName").value.trim();
+
+            const email =
+                document.getElementById("signupEmail").value.trim();
+
+            const skill =
+                document.getElementById("skill").value;
+
+            const password =
+                document.getElementById("signupPassword").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+
+            if (
+                !firstName ||
+                !lastName ||
+                !email ||
+                !skill ||
+                !password ||
+                !confirmPassword
+            ) {
+
+                showMessage(
+                    "Please complete all required fields.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!isValidEmail(email)) {
+
+                showMessage(
+                    "Please enter a valid email address.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (password.length < 8) {
+
+                showMessage(
+                    "Password must contain at least 8 characters.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (password !== confirmPassword) {
+
+                showMessage(
+                    "Passwords do not match.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /*
+                BACKEND CONNECTION POINT
+
+                Later this form will send real teacher data:
+
+                {
+                    first_name,
+                    last_name,
+                    email,
+                    skill,
+                    password
+                }
+
+                to:
+
+                POST /api/teacher/register
+
+                Password hashing MUST happen on the backend.
+
+                No fake teacher account is created here.
+            */
+
+            showMessage(
+                "Your teacher registration form is ready for the real backend.",
+                "success"
+            );
+
+        }
+
+
+        /* ================= EMAIL VALIDATION ================= */
+
+        function isValidEmail(email) {
+
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        }
+
+
+        /* ================= FORGOT PASSWORD ================= */
+
+        function forgotPassword(event) {
+
+            event.preventDefault();
+
+            showMessage(
+                "Password recovery will be connected to the real backend.",
+                "success"
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
