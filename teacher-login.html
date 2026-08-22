@@ -196,3 +196,218 @@ function teacherLogin(event){
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteadyMaze Teacher Signup</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#0f172a;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.container{
+background:white;
+width:420px;
+padding:30px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin-top:10px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:8px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:14px;
+background:#22c55e;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#16a34a;
+}
+
+a{
+text-decoration:none;
+color:#2563eb;
+}
+
+.bottom{
+text-align:center;
+margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Create Teacher Account</h1>
+
+<form onsubmit="createAccount(event)">
+
+<input type="text" placeholder="Full Name" required>
+
+<input type="email" placeholder="Email Address" required>
+
+<select required>
+<option value="">Select Skill</option>
+<option>Video Editing</option>
+<option>Thumbnail Design</option>
+<option>Python</option>
+<option>Java</option>
+<option>Web Development</option>
+<option>AI App Development</option>
+</select>
+
+<input type="password" placeholder="Password" required>
+
+<input type="password" placeholder="Confirm Password" required>
+
+<button type="submit">
+Create Account
+</button>
+
+</form>
+
+<div class="bottom">
+Already have an account?
+<a href="teacher-login.html">Login</a>
+</div>
+
+</div>
+
+<script>
+function createAccount(e){
+e.preventDefault();
+alert("Teacher account created successfully.");
+window.location.href="teacher-login.html";
+}
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forgot Password</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#0f172a;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.box{
+background:white;
+width:400px;
+padding:30px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:12px;
+border:1px solid #ccc;
+border-radius:8px;
+margin-bottom:15px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:14px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+.bottom{
+text-align:center;
+margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Reset Password</h2>
+
+<form onsubmit="resetPassword(event)">
+
+<input type="email"
+placeholder="Enter your email address"
+required>
+
+<button type="submit">
+Send Reset Link
+</button>
+
+</form>
+
+<div class="bottom">
+<a href="teacher-login.html">
+Back To Teacher Login
+</a>
+</div>
+
+</div>
+
+<script>
+function resetPassword(e){
+e.preventDefault();
+alert("Password reset link sent.");
+window.location.href="teacher-login.html";
+}
+</script>
+
+</body>
+</html>
+
