@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteadyMaze Teacher Login</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.login-box{
+    width:100%;
+    max-width:450px;
+    background:#ffffff;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.logo h1{
+    color:#111827;
+    font-size:38px;
+}
+
+.logo span{
+    color:#22c55e;
+}
+
+.logo p{
+    color:#6b7280;
+    margin-top:8px;
+}
+
+h2{
+    margin-bottom:20px;
+    color:#111827;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.input-group input{
+    width:100%;
+    padding:14px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    font-size:15px;
+}
+
+.input-group input:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.row a{
+    text-decoration:none;
+    color:#2563eb;
+    font-weight:600;
+}
+
+.login-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.login-btn:hover{
+    background:#1d4ed8;
+}
+
+.bottom-links{
+    margin-top:25px;
+    text-align:center;
+}
+
+.bottom-links a{
+    display:block;
+    margin-top:10px;
+    text-decoration:none;
+    color:#2563eb;
+    font-weight:600;
+}
+
+.back-home{
+    color:#6b7280 !important;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <div class="logo">
+        <h1>Steady<span>Maze</span></h1>
+        <p>Teacher Portal</p>
+    </div>
+
+    <h2>Teacher Login</h2>
+
+    <form onsubmit="teacherLogin(event)">
+
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" required>
+        </div>
+
+        <div class="row">
+            <label>
+                <input type="checkbox">
+                Remember Me
+            </label>
+
+            <a href="forgot-password.html">
+                Forgot Password?
+            </a>
+        </div>
+
+        <button class="login-btn" type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <div class="bottom-links">
+
+        <a href="teacher-signup.html">
+            Create Teacher Account
+        </a>
+
+        <a href="index.html" class="back-home">
+            ← Back To Homepage
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+function teacherLogin(event){
+
+    event.preventDefault();
+
+    window.location.href = "teacher.html";
+
+}
+
+</script>
+
+</body>
+</html>
