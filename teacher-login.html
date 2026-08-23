@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Teacher Login | Gurhub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Login | GURHUB</title>
 
 <style>
 
@@ -19,8 +19,7 @@ min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:
-linear-gradient(135deg,#021427,#0d2f56);
+background:linear-gradient(135deg,#031326,#0d2f56);
 padding:20px;
 }
 
@@ -37,27 +36,28 @@ color:white;
 
 .logo{
 text-align:center;
-font-size:34px;
+font-size:38px;
 font-weight:800;
 margin-bottom:25px;
 }
 
 .logo span{
-color:gold;
+color:#d4af37;
 }
 
 .tabs{
 display:flex;
 margin-bottom:20px;
-border-radius:10px;
 overflow:hidden;
+border-radius:12px;
 }
 
 .tabs button{
 flex:1;
-padding:14px;
+padding:15px;
 border:none;
 cursor:pointer;
+font-size:16px;
 font-weight:bold;
 }
 
@@ -89,7 +89,7 @@ width:100%;
 padding:14px;
 border:none;
 border-radius:10px;
-background:white;
+outline:none;
 }
 
 .submit-btn{
@@ -97,26 +97,24 @@ width:100%;
 padding:15px;
 border:none;
 border-radius:10px;
-background:gold;
+background:#d4af37;
+font-size:16px;
 font-weight:bold;
 cursor:pointer;
 margin-top:10px;
 }
 
-.link{
-display:block;
-text-align:center;
-margin-top:15px;
-color:#9ec5ff;
-text-decoration:none;
+.submit-btn:hover{
+opacity:.9;
 }
 
 .home-link{
 display:block;
 text-align:center;
 margin-top:25px;
-color:white;
 text-decoration:none;
+color:white;
+font-size:18px;
 }
 
 .message{
@@ -127,6 +125,7 @@ color:#7fffd4;
 
 </style>
 </head>
+
 <body>
 
 <div class="card">
@@ -135,12 +134,17 @@ color:#7fffd4;
 GUR<span>HUB</span>
 </div>
 
-<div class="tabs">
-<button class="active" onclick="openTab('signup',this)">Sign Up</button>
-<button onclick="openTab('login',this)">Login</button>
-</div>
-
 <div id="msg" class="message"></div>
+
+<div class="tabs">
+<button class="active" onclick="openTab('signup',this)">
+Sign Up
+</button>
+
+<button onclick="openTab('login',this)">
+Login
+</button>
+</div>
 
 <!-- SIGNUP -->
 
@@ -185,10 +189,6 @@ Create Account
 Login
 </button>
 
-<a href="#" class="link" onclick="showForgot()">
-Forgot Password?
-</a>
-
 </div>
 
 <a href="index.html" class="home-link">
@@ -201,39 +201,44 @@ Forgot Password?
 
 function openTab(tab,btn){
 
-document.querySelectorAll('.tab')
-.forEach(t=>t.classList.remove('show'));
+document.querySelectorAll(".tab")
+.forEach(tabBox=>{
+tabBox.classList.remove("show");
+});
 
 document.getElementById(tab)
-.classList.add('show');
+.classList.add("show");
 
-document.querySelectorAll('.tabs button')
-.forEach(b=>b.classList.remove('active'));
+document.querySelectorAll(".tabs button")
+.forEach(button=>{
+button.classList.remove("active");
+});
 
-btn.classList.add('active');
+btn.classList.add("active");
 
 }
 
+/* CREATE ACCOUNT */
+
 function createAccount(){
 
-let name=
-document.getElementById('signupName').value.trim();
+const name =
+document.getElementById("signupName").value.trim();
 
-let email=
-document.getElementById('signupEmail').value.trim();
+const email =
+document.getElementById("signupEmail").value.trim();
 
-let password=
-document.getElementById('signupPassword').value.trim();
+const password =
+document.getElementById("signupPassword").value.trim();
 
 if(!name || !email || !password){
 
-alert('Fill all fields');
-
+alert("Fill all fields");
 return;
 
 }
 
-let teacher={
+const teacher = {
 
 name:name,
 email:email,
@@ -242,64 +247,64 @@ password:password
 };
 
 localStorage.setItem(
-'teacherAccount',
+"teacherAccount",
 JSON.stringify(teacher)
 );
 
-window.location.href=
-'teacher-dashboard.html';
+sessionStorage.setItem(
+"gurhub_teacher",
+JSON.stringify({
+name:name,
+email:email,
+skill:"Teacher"
+})
+);
+
+window.location.href = "teacher.html";
 
 }
 
+/* LOGIN */
+
 function loginTeacher(){
 
-let email=
-document.getElementById('loginEmail').value;
+const email =
+document.getElementById("loginEmail").value.trim();
 
-let password=
-document.getElementById('loginPassword').value;
+const password =
+document.getElementById("loginPassword").value.trim();
 
-let teacher=
+const teacher =
 JSON.parse(
-localStorage.getItem('teacherAccount')
+localStorage.getItem("teacherAccount")
 );
 
 if(!teacher){
 
-alert('Account not found');
-
+alert("Account not found");
 return;
 
 }
 
 if(
-teacher.email===email &&
-teacher.password===password
+teacher.email === email &&
+teacher.password === password
 ){
 
-window.location.href=
-'teacher-dashboard.html';
+sessionStorage.setItem(
+"gurhub_teacher",
+JSON.stringify({
+name:teacher.name,
+email:teacher.email,
+skill:"Teacher"
+})
+);
+
+window.location.href = "teacher.html";
 
 }else{
 
-alert('Invalid login');
-
-}
-
-}
-
-function showForgot(){
-
-let email=
-prompt(
-'Enter your account email'
-);
-
-if(email){
-
-document.getElementById('msg')
-.innerHTML=
-'Password reset request received for: '+email;
+alert("Invalid email or password");
 
 }
 
