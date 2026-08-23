@@ -1,784 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Teacher Login | Gurhub</title>
 
-    <title>Teacher Login | GURHUB</title>
+<style>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Inter, Arial, sans-serif;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
-        body {
-            min-height: 100vh;
-            background:
-                radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.30), transparent 30%),
-                radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.18), transparent 30%),
-                linear-gradient(135deg, #06111f, #0a1d35 50%, #071321);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 25px;
-            overflow-x: hidden;
-        }
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:
+linear-gradient(135deg,#021427,#0d2f56);
+padding:20px;
+}
 
-        body::before {
-            content: "";
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: rgba(37, 99, 235, 0.12);
-            filter: blur(100px);
-            border-radius: 50%;
-            top: -180px;
-            left: -150px;
-            pointer-events: none;
-        }
+.card{
+width:100%;
+max-width:500px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.1);
+border-radius:25px;
+padding:35px;
+color:white;
+}
 
-        body::after {
-            content: "";
-            position: fixed;
-            width: 450px;
-            height: 450px;
-            background: rgba(212, 175, 55, 0.08);
-            filter: blur(100px);
-            border-radius: 50%;
-            bottom: -150px;
-            right: -100px;
-            pointer-events: none;
-        }
+.logo{
+text-align:center;
+font-size:34px;
+font-weight:800;
+margin-bottom:25px;
+}
 
-        .container {
-            width: 100%;
-            max-width: 1050px;
-            min-height: 650px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            border: 1px solid rgba(255,255,255,0.10);
-            border-radius: 28px;
-            overflow: hidden;
-            background: rgba(8, 24, 43, 0.72);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            box-shadow:
-                0 30px 80px rgba(0,0,0,0.45),
-                inset 0 1px 0 rgba(255,255,255,0.06);
-            position: relative;
-            z-index: 2;
-        }
+.logo span{
+color:gold;
+}
 
-        /* LEFT SIDE */
+.tabs{
+display:flex;
+margin-bottom:20px;
+border-radius:10px;
+overflow:hidden;
+}
 
-        .left {
-            padding: 55px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            border-right: 1px solid rgba(255,255,255,0.08);
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(18, 59, 105, 0.45),
-                    rgba(7, 20, 35, 0.25)
-                );
-        }
+.tabs button{
+flex:1;
+padding:14px;
+border:none;
+cursor:pointer;
+font-weight:bold;
+}
 
-        .logo {
-            font-size: 30px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin-bottom: 45px;
-        }
+.active{
+background:#2563eb;
+color:white;
+}
 
-        .logo span {
-            color: #d4af37;
-        }
+.tab{
+display:none;
+}
 
-        .badge {
-            display: inline-flex;
-            width: fit-content;
-            padding: 8px 14px;
-            border-radius: 50px;
-            border: 1px solid rgba(212,175,55,0.35);
-            background: rgba(212,175,55,0.08);
-            color: #e5c45c;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
+.tab.show{
+display:block;
+}
 
-        .left h1 {
-            font-size: 46px;
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
+.input-group{
+margin-bottom:15px;
+}
 
-        .left h1 span {
-            color: #d4af37;
-        }
+.input-group label{
+display:block;
+margin-bottom:6px;
+font-size:14px;
+}
 
-        .left p {
-            color: #aab9ca;
-            line-height: 1.7;
-            font-size: 15px;
-            max-width: 430px;
-        }
+.input-group input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:white;
+}
 
-        .features {
-            margin-top: 35px;
-            display: grid;
-            gap: 15px;
-        }
+.submit-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:10px;
+background:gold;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+}
 
-        .feature {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            color: #dce5ef;
-            font-size: 14px;
-        }
+.link{
+display:block;
+text-align:center;
+margin-top:15px;
+color:#9ec5ff;
+text-decoration:none;
+}
 
-        .feature-icon {
-            width: 34px;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            background: rgba(37,99,235,0.16);
-            border: 1px solid rgba(37,99,235,0.25);
-            color: #60a5fa;
-        }
+.home-link{
+display:block;
+text-align:center;
+margin-top:25px;
+color:white;
+text-decoration:none;
+}
 
-        /* RIGHT SIDE */
+.message{
+text-align:center;
+margin-bottom:15px;
+color:#7fffd4;
+}
 
-        .right {
-            padding: 55px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .right h2 {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            color: #899aaf;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        .tabs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            padding: 5px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            margin-bottom: 25px;
-        }
-
-        .tab {
-            border: none;
-            background: transparent;
-            color: #8ea0b4;
-            padding: 12px;
-            border-radius: 9px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .tab.active {
-            background: rgba(37,99,235,0.22);
-            color: white;
-        }
-
-        .form {
-            display: none;
-        }
-
-        .form.active {
-            display: block;
-        }
-
-        .field {
-            margin-bottom: 17px;
-        }
-
-        .field label {
-            display: block;
-            color: #c7d2df;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-
-        .input-box {
-            position: relative;
-        }
-
-        .input-box input,
-        .input-box select {
-            width: 100%;
-            padding: 14px 15px;
-            background: rgba(255,255,255,0.045);
-            border: 1px solid rgba(255,255,255,0.10);
-            border-radius: 11px;
-            outline: none;
-            color: white;
-            font-size: 14px;
-            transition: 0.25s;
-        }
-
-        .input-box input:focus,
-        .input-box select:focus {
-            border-color: rgba(37,99,235,0.75);
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
-        }
-
-        .input-box select option {
-            background: #0b1b30;
-            color: white;
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 13px;
-            top: 50%;
-            transform: translateY(-50%);
-            border: none;
-            background: none;
-            color: #8da0b5;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .forgot {
-            text-align: right;
-            margin-top: -5px;
-            margin-bottom: 20px;
-        }
-
-        .forgot a {
-            color: #69a7ff;
-            text-decoration: none;
-            font-size: 13px;
-        }
-
-        .main-btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            color: white;
-            font-weight: 700;
-            font-size: 15px;
-            background: linear-gradient(135deg, #2563eb, #1746a2);
-            box-shadow: 0 10px 25px rgba(37,99,235,0.20);
-            transition: 0.25s;
-        }
-
-        .main-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 30px rgba(37,99,235,0.30);
-        }
-
-        .back {
-            text-align: center;
-            margin-top: 22px;
-        }
-
-        .back a {
-            color: #8ea0b4;
-            text-decoration: none;
-            font-size: 13px;
-        }
-
-        .back a:hover {
-            color: #d4af37;
-        }
-
-        .security {
-            margin-top: 25px;
-            padding: 12px;
-            border-radius: 10px;
-            background: rgba(212,175,55,0.055);
-            border: 1px solid rgba(212,175,55,0.12);
-            color: #a9b7c7;
-            font-size: 11px;
-            line-height: 1.5;
-            text-align: center;
-        }
-
-        @media (max-width: 850px) {
-            .container {
-                grid-template-columns: 1fr;
-                max-width: 570px;
-            }
-
-            .left {
-                padding: 40px;
-                border-right: none;
-                border-bottom: 1px solid rgba(255,255,255,0.08);
-            }
-
-            .left h1 {
-                font-size: 36px;
-            }
-
-            .right {
-                padding: 40px;
-            }
-        }
-
-        @media (max-width: 500px) {
-            body {
-                padding: 12px;
-            }
-
-            .container {
-                border-radius: 20px;
-            }
-
-            .left,
-            .right {
-                padding: 28px 22px;
-            }
-
-            .left h1 {
-                font-size: 31px;
-            }
-        }
-    </style>
+</style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="card">
 
-    <!-- LEFT -->
-    <section class="left">
+<div class="logo">
+GUR<span>HUB</span>
+</div>
 
-        <div class="logo">
-            GUR<span>HUB</span>
-        </div>
+<div class="tabs">
+<button class="active" onclick="openTab('signup',this)">Sign Up</button>
+<button onclick="openTab('login',this)">Login</button>
+</div>
 
-        <div class="badge">
-            Teacher Portal
-        </div>
+<div id="msg" class="message"></div>
 
-        <h1>
-            Teach your<br>
-            <span>skills.</span>
-        </h1>
+<!-- SIGNUP -->
 
-        <p>
-            Sign in to your GURHUB teacher account or create
-            your teacher account to start building and managing
-            your lessons.
-        </p>
+<div id="signup" class="tab show">
 
-        <div class="features">
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" id="signupName">
+</div>
 
-            <div class="feature">
-                <div class="feature-icon">✓</div>
-                <span>Create and manage your lessons</span>
-            </div>
+<div class="input-group">
+<label>Email</label>
+<input type="email" id="signupEmail">
+</div>
 
-            <div class="feature">
-                <div class="feature-icon">✓</div>
-                <span>Manage your teacher profile</span>
-            </div>
+<div class="input-group">
+<label>Password</label>
+<input type="password" id="signupPassword">
+</div>
 
-            <div class="feature">
-                <div class="feature-icon">✓</div>
-                <span>Manage your levels and videos</span>
-            </div>
-
-            <div class="feature">
-                <div class="feature-icon">✓</div>
-                <span>Teacher payments and earnings</span>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- RIGHT -->
-    <section class="right">
-
-        <h2>Teacher Account</h2>
-
-        <p class="subtitle">
-            Sign in or create your GURHUB teacher account.
-        </p>
-
-        <div class="tabs">
-
-            <button
-                type="button"
-                class="tab active"
-                id="loginTab"
-                onclick="showForm('login')">
-                Login
-            </button>
-
-            <button
-                type="button"
-                class="tab"
-                id="signupTab"
-                onclick="showForm('signup')">
-                Create Account
-            </button>
-
-        </div>
-
-
-        <!-- LOGIN FORM -->
-
-        <form
-            id="loginForm"
-            class="form active"
-            action="/api/teacher/login"
-            method="POST">
-
-            <div class="field">
-
-                <label for="loginEmail">
-                    Email address
-                </label>
-
-                <div class="input-box">
-
-                    <input
-                        type="email"
-                        id="loginEmail"
-                        name="email"
-                        placeholder="Enter your email"
-                        autocomplete="email"
-                        required>
-
-                </div>
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="loginPassword">
-                    Password
-                </label>
-
-                <div class="input-box">
-
-                    <input
-                        type="password"
-                        id="loginPassword"
-                        name="password"
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
-                        required>
-
-                    <button
-                        type="button"
-                        class="password-toggle"
-                        onclick="togglePassword('loginPassword', this)">
-                        Show
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="forgot">
-                <a href="teacher-forgot-password.html">
-                    Forgot password?
-                </a>
-            </div>
-
-
-            <button
-                type="submit"
-                class="main-btn">
-                Sign In
-            </button>
-
-        </form>
-
-
-        <!-- SIGN UP FORM -->
-
-        <form
-            id="signupForm"
-            class="form"
-            action="/api/teacher/register"
-            method="POST">
-
-            <div class="field">
-
-                <label for="teacherName">
-                    Full name
-                </label>
-
-                <div class="input-box">
-
-                    <input
-                        type="text"
-                        id="teacherName"
-                        name="full_name"
-                        placeholder="Enter your full name"
-                        autocomplete="name"
-                        required>
-
-                </div>
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signupEmail">
-                    Email address
-                </label>
-
-                <div class="input-box">
-
-                    <input
-                        type="email"
-                        id="signupEmail"
-                        name="email"
-                        placeholder="Enter your email"
-                        autocomplete="email"
-                        required>
-
-                </div>
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="skill">
-                    Main skill
-                </label>
-
-                <div class="input-box">
-
-                    <select
-                        id="skill"
-                        name="skill"
-                        required>
-
-                        <option value="">
-                            Select your skill
-                        </option>
-
-                        <option value="video-editing">
-                            Video Editing
-                        </option>
-
-                        <option value="thumbnail">
-                            Thumbnail Design
-                        </option>
-
-                        <option value="movie-recap">
-                            Movie Recap
-                        </option>
-
-                        <option value="digital-marketing">
-                            Digital Marketing
-                        </option>
-
-                        <option value="affiliate-marketing">
-                            Affiliate Marketing
-                        </option>
-
-                        <option value="dropshipping">
-                            Dropshipping
-                        </option>
-
-                        <option value="fx">
-                            FX
-                        </option>
-
-                        <option value="crypto">
-                            Crypto
-                        </option>
-
-                        <option value="data-analysis">
-                            Data Analysis
-                        </option>
-
-                        <option value="english">
-                            English
-                        </option>
-
-                        <option value="ai-agent">
-                            AI Agent
-                        </option>
-
-                        <option value="cybersecurity">
-                            Cybersecurity
-                        </option>
-
-                        <option value="python">
-                            Python
-                        </option>
-
-                        <option value="java">
-                            Java
-                        </option>
-
-                        <option value="web-development">
-                            Web Development
-                        </option>
-
-                        <option value="ai-web">
-                            AI Web
-                        </option>
-
-                        <option value="ai-app">
-                            AI App
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signupPassword">
-                    Password
-                </label>
-
-                <div class="input-box">
-
-                    <input
-                        type="password"
-                        id="signupPassword"
-                        name="password"
-                        placeholder="Create a password"
-                        autocomplete="new-password"
-                        required>
-
-                    <button
-                        type="button"
-                        class="password-toggle"
-                        onclick="togglePassword('signupPassword', this)">
-                        Show
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="confirmPassword">
-                    Confirm password
-                </label>
-
-                <div class="input-box">
-
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        name="confirm_password"
-                        placeholder="Confirm your password"
-                        autocomplete="new-password"
-                        required>
-
-                </div>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="main-btn">
-                Create Teacher Account
-            </button>
-
-        </form>
-
-
-        <div class="security">
-            🔒 Your teacher account will be securely connected
-            to the GURHUB backend and database.
-        </div>
-
-
-        <div class="back">
-            <a href="index.html">
-                ← Back to GURHUB Home
-            </a>
-        </div>
-
-    </section>
+<button class="submit-btn" onclick="createAccount()">
+Create Account
+</button>
 
 </div>
 
+<!-- LOGIN -->
+
+<div id="login" class="tab">
+
+<div class="input-group">
+<label>Email</label>
+<input type="email" id="loginEmail">
+</div>
+
+<div class="input-group">
+<label>Password</label>
+<input type="password" id="loginPassword">
+</div>
+
+<button class="submit-btn" onclick="loginTeacher()">
+Login
+</button>
+
+<a href="#" class="link" onclick="showForgot()">
+Forgot Password?
+</a>
+
+</div>
+
+<a href="index.html" class="home-link">
+← Back To Homepage
+</a>
+
+</div>
 
 <script>
 
-    function showForm(type) {
+function openTab(tab,btn){
 
-        const loginForm = document.getElementById("loginForm");
-        const signupForm = document.getElementById("signupForm");
+document.querySelectorAll('.tab')
+.forEach(t=>t.classList.remove('show'));
 
-        const loginTab = document.getElementById("loginTab");
-        const signupTab = document.getElementById("signupTab");
+document.getElementById(tab)
+.classList.add('show');
 
-        if (type === "login") {
+document.querySelectorAll('.tabs button')
+.forEach(b=>b.classList.remove('active'));
 
-            loginForm.classList.add("active");
-            signupForm.classList.remove("active");
+btn.classList.add('active');
 
-            loginTab.classList.add("active");
-            signupTab.classList.remove("active");
+}
 
-        } else {
+function createAccount(){
 
-            signupForm.classList.add("active");
-            loginForm.classList.remove("active");
+let name=
+document.getElementById('signupName').value.trim();
 
-            signupTab.classList.add("active");
-            loginTab.classList.remove("active");
+let email=
+document.getElementById('signupEmail').value.trim();
 
-        }
-    }
+let password=
+document.getElementById('signupPassword').value.trim();
 
+if(!name || !email || !password){
 
-    function togglePassword(id, button) {
+alert('Fill all fields');
 
-        const input = document.getElementById(id);
+return;
 
-        if (input.type === "password") {
+}
 
-            input.type = "text";
-            button.textContent = "Hide";
+let teacher={
 
-        } else {
+name:name,
+email:email,
+password:password
 
-            input.type = "password";
-            button.textContent = "Show";
+};
 
-        }
-    }
+localStorage.setItem(
+'teacherAccount',
+JSON.stringify(teacher)
+);
+
+window.location.href=
+'teacher-dashboard.html';
+
+}
+
+function loginTeacher(){
+
+let email=
+document.getElementById('loginEmail').value;
+
+let password=
+document.getElementById('loginPassword').value;
+
+let teacher=
+JSON.parse(
+localStorage.getItem('teacherAccount')
+);
+
+if(!teacher){
+
+alert('Account not found');
+
+return;
+
+}
+
+if(
+teacher.email===email &&
+teacher.password===password
+){
+
+window.location.href=
+'teacher-dashboard.html';
+
+}else{
+
+alert('Invalid login');
+
+}
+
+}
+
+function showForgot(){
+
+let email=
+prompt(
+'Enter your account email'
+);
+
+if(email){
+
+document.getElementById('msg')
+.innerHTML=
+'Password reset request received for: '+email;
+
+}
+
+}
 
 </script>
 
