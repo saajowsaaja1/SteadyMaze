@@ -2934,3 +2934,1275 @@ loadTeacher();
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GurHub Teacher - Competition</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+/* =========================
+   COMPETITION CONTAINER
+========================= */
+
+.competition-page {
+    padding: 30px;
+    max-width: 1500px;
+    margin: auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.competition-header {
+    background: #ffffff;
+    border: 1px solid #e6e9ef;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.competition-header h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.competition-header p {
+    color: #697386;
+    margin-bottom: 20px;
+}
+
+/* =========================
+   LIVE STATUS
+========================= */
+
+.competition-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.status-waiting {
+    background: #f1f3f6;
+    color: #657080;
+}
+
+.status-live {
+    background: #e9f9ef;
+    color: #168344;
+}
+
+.status-finished {
+    background: #fff0f0;
+    color: #d33131;
+}
+
+.countdown {
+    font-weight: 700;
+    color: #243047;
+}
+
+/* =========================
+   GROUP NAVIGATION
+========================= */
+
+.group-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.group-tab {
+    border: 1px solid #dfe3ea;
+    background: white;
+    padding: 11px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.group-tab.active {
+    background: #172033;
+    color: white;
+    border-color: #172033;
+}
+
+/* =========================
+   GROUP SUMMARY
+========================= */
+
+.group-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    background: white;
+    border: 1px solid #e5e8ee;
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.summary-label {
+    font-size: 13px;
+    color: #7b8494;
+    margin-bottom: 7px;
+}
+
+.summary-value {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+.leaderboard-card {
+    background: white;
+    border: 1px solid #e3e7ed;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.leaderboard-top {
+    padding: 20px;
+    border-bottom: 1px solid #e9ebef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.leaderboard-top h2 {
+    font-size: 20px;
+}
+
+.search-box {
+    width: 280px;
+    padding: 11px 14px;
+    border: 1px solid #dce1e8;
+    border-radius: 9px;
+    outline: none;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    max-height: 650px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #f8f9fb;
+}
+
+th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    color: #687284;
+    border-bottom: 1px solid #e5e8ee;
+}
+
+td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #eef0f4;
+    font-size: 14px;
+}
+
+/* =========================
+   ROW STATUS
+========================= */
+
+.student-row {
+    transition: background .2s;
+}
+
+.student-row:hover {
+    background: #fafbfc;
+}
+
+/*
+   LIVE STUDENT
+   Green only when competition has started
+*/
+
+.student-row.active-student {
+    background: #f0fbf4;
+}
+
+.student-row.active-student .status {
+    color: #168344;
+}
+
+/*
+   ELIMINATED STUDENT
+*/
+
+.student-row.eliminated-student {
+    background: #fff4f4;
+}
+
+.student-row.eliminated-student .status {
+    color: #d33131;
+}
+
+/*
+   WAITING STUDENT
+*/
+
+.student-row.waiting-student .status {
+    color: #7a8494;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 700;
+}
+
+.status-circle {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-circle.green {
+    background: #20a957;
+}
+
+.status-circle.red {
+    background: #dc3434;
+}
+
+.status-circle.gray {
+    background: #9aa3b1;
+}
+
+/* =========================
+   EMPTY DATA
+========================= */
+
+.empty-player {
+    color: #9aa3b1;
+    font-style: italic;
+}
+
+.points {
+    font-weight: 800;
+}
+
+.rank {
+    font-weight: 800;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .competition-page {
+        padding: 15px;
+    }
+
+    .group-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+
+    .group-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="competition-page">
+
+    <!-- =========================
+         COMPETITION HEADER
+    ========================== -->
+
+    <section class="competition-header">
+
+        <h1>Competition Liveboard</h1>
+
+        <p>
+            Monitor students, points, rankings and competition status
+            for Lower, Medium and High groups.
+        </p>
+
+        <div class="competition-status">
+
+            <div
+                id="competitionStatus"
+                class="status-badge status-waiting"
+            >
+                <span class="status-dot"></span>
+                <span id="statusText">Competition Not Started</span>
+            </div>
+
+            <div class="countdown">
+                <span id="countdown">Waiting for competition start</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         GROUP TABS
+    ========================== -->
+
+    <div class="group-tabs">
+
+        <button
+            class="group-tab active"
+            data-group="lower"
+        >
+            Lower
+        </button>
+
+        <button
+            class="group-tab"
+            data-group="medium"
+        >
+            Medium
+        </button>
+
+        <button
+            class="group-tab"
+            data-group="high"
+        >
+            High
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         SUMMARY
+    ========================== -->
+
+    <section class="group-summary">
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Total Students
+            </div>
+
+            <div
+                class="summary-value"
+                id="totalStudents"
+            >
+                300
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Active
+            </div>
+
+            <div
+                class="summary-value"
+                id="activeStudents"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Eliminated
+            </div>
+
+            <div
+                class="summary-value"
+                id="eliminatedStudents"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Highest Points
+            </div>
+
+            <div
+                class="summary-value"
+                id="highestPoints"
+            >
+                0
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         LEADERBOARD
+    ========================== -->
+
+    <section class="leaderboard-card">
+
+        <div class="leaderboard-top">
+
+            <div>
+
+                <h2 id="leaderboardTitle">
+                    Lower Competition
+                </h2>
+
+            </div>
+
+            <input
+                type="text"
+                id="searchStudent"
+                class="search-box"
+                placeholder="Search student..."
+            >
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Rank</th>
+
+                        <th>Student</th>
+
+                        <th>Student ID</th>
+
+                        <th>Points</th>
+
+                        <th>Round</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="leaderboardBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+/*
+=========================================================
+ GURHUB COMPETITION DATA STRUCTURE
+=========================================================
+
+IMPORTANT:
+
+This is NOT fake student data.
+
+300 positions are created for each group.
+
+Real student information will later come from PostgreSQL/API.
+
+Example database object:
+
+{
+    id: "student_uuid",
+    student_number: 1,
+    name: "...",
+    points: 0,
+    round: 300,
+    status: "waiting"
+}
+
+Possible statuses:
+
+waiting
+active
+eliminated
+
+Competition status:
+
+waiting
+live
+finished
+
+=========================================================
+*/
+
+
+const competition = {
+
+    status: "waiting",
+
+    startTime: null,
+
+    endTime: null,
+
+    groups: {
+
+        lower: {
+            name: "Lower",
+            capacity: 300,
+            students: []
+        },
+
+        medium: {
+            name: "Medium",
+            capacity: 300,
+            students: []
+        },
+
+        high: {
+            name: "High",
+            capacity: 300,
+            students: []
+        }
+
+    }
+
+};
+
+
+/*
+=========================================================
+ CREATE 300 EMPTY POSITIONS
+=========================================================
+*/
+
+function createEmptyPositions(group) {
+
+    const students = [];
+
+    for (let i = 1; i <= 300; i++) {
+
+        students.push({
+
+            /*
+            Database ID will come later
+            */
+            id: null,
+
+            /*
+            Position/seat number
+            */
+            studentNumber: i,
+
+            /*
+            No fake student name
+            */
+            name: null,
+
+            /*
+            No fake points
+            */
+            points: 0,
+
+            /*
+            Competition round
+            */
+            round: 300,
+
+            /*
+            Waiting until competition begins
+            */
+            status: "waiting"
+
+        });
+
+    }
+
+    competition.groups[group].students = students;
+
+}
+
+
+createEmptyPositions("lower");
+createEmptyPositions("medium");
+createEmptyPositions("high");
+
+
+/*
+=========================================================
+ CURRENT GROUP
+=========================================================
+*/
+
+let currentGroup = "lower";
+
+
+/*
+=========================================================
+ RENDER LEADERBOARD
+=========================================================
+*/
+
+function renderLeaderboard() {
+
+    const group =
+        competition.groups[currentGroup];
+
+    const tbody =
+        document.getElementById("leaderboardBody");
+
+    tbody.innerHTML = "";
+
+    const search =
+        document
+        .getElementById("searchStudent")
+        .value
+        .toLowerCase();
+
+
+    /*
+    Sort real students by points.
+
+    Empty positions remain after real students.
+    */
+
+    const students =
+        [...group.students]
+        .sort((a, b) => {
+
+            if (a.name === null && b.name !== null) {
+                return 1;
+            }
+
+            if (a.name !== null && b.name === null) {
+                return -1;
+            }
+
+            return b.points - a.points;
+
+        });
+
+
+    let visibleRank = 0;
+
+
+    students.forEach(student => {
+
+        const studentName =
+            student.name || "";
+
+
+        if (
+            search &&
+            !studentName
+            .toLowerCase()
+            .includes(search)
+        ) {
+            return;
+        }
+
+
+        if (student.name !== null) {
+            visibleRank++;
+        }
+
+
+        const row =
+            document.createElement("tr");
+
+        row.classList.add("student-row");
+
+
+        /*
+        GREEN ONLY WHEN COMPETITION IS LIVE
+        */
+
+        if (
+            competition.status === "live" &&
+            student.status === "active"
+        ) {
+
+            row.classList.add(
+                "active-student"
+            );
+
+        }
+
+
+        /*
+        RED = ELIMINATED
+        */
+
+        if (
+            student.status === "eliminated"
+        ) {
+
+            row.classList.add(
+                "eliminated-student"
+            );
+
+        }
+
+
+        /*
+        WAITING
+        */
+
+        if (
+            student.status === "waiting"
+        ) {
+
+            row.classList.add(
+                "waiting-student"
+            );
+
+        }
+
+
+        let statusHTML = "";
+
+
+        if (
+            competition.status !== "live"
+        ) {
+
+            statusHTML = `
+                <span class="status">
+                    <span class="status-circle gray"></span>
+                    Waiting
+                </span>
+            `;
+
+        }
+
+        else if (
+            student.status === "active"
+        ) {
+
+            statusHTML = `
+                <span class="status">
+                    <span class="status-circle green"></span>
+                    Active
+                </span>
+            `;
+
+        }
+
+        else if (
+            student.status === "eliminated"
+        ) {
+
+            statusHTML = `
+                <span class="status">
+                    <span class="status-circle red"></span>
+                    Eliminated
+                </span>
+            `;
+
+        }
+
+        else {
+
+            statusHTML = `
+                <span class="status">
+                    <span class="status-circle gray"></span>
+                    Waiting
+                </span>
+            `;
+
+        }
+
+
+        row.innerHTML = `
+
+            <td class="rank">
+                ${
+                    student.name !== null
+                    ? visibleRank
+                    : "-"
+                }
+            </td>
+
+            <td>
+                ${
+                    student.name !== null
+                    ? student.name
+                    : '<span class="empty-player">Waiting for student</span>'
+                }
+            </td>
+
+            <td>
+                ${
+                    student.id !== null
+                    ? student.id
+                    : "-"
+                }
+            </td>
+
+            <td class="points">
+                ${
+                    student.name !== null
+                    ? student.points
+                    : "-"
+                }
+            </td>
+
+            <td>
+                ${
+                    student.name !== null
+                    ? student.round
+                    : "-"
+                }
+            </td>
+
+            <td>
+                ${statusHTML}
+            </td>
+
+        `;
+
+
+        tbody.appendChild(row);
+
+    });
+
+
+    updateSummary(group);
+
+}
+
+
+/*
+=========================================================
+ UPDATE SUMMARY
+=========================================================
+*/
+
+function updateSummary(group) {
+
+    const realStudents =
+        group.students.filter(
+            student => student.name !== null
+        );
+
+
+    const active =
+        realStudents.filter(
+            student => student.status === "active"
+        ).length;
+
+
+    const eliminated =
+        realStudents.filter(
+            student => student.status === "eliminated"
+        ).length;
+
+
+    const highest =
+        realStudents.length > 0
+        ? Math.max(
+            ...realStudents.map(
+                student => student.points
+            )
+        )
+        : 0;
+
+
+    document.getElementById(
+        "totalStudents"
+    ).textContent = group.capacity;
+
+
+    document.getElementById(
+        "activeStudents"
+    ).textContent = active;
+
+
+    document.getElementById(
+        "eliminatedStudents"
+    ).textContent = eliminated;
+
+
+    document.getElementById(
+        "highestPoints"
+    ).textContent = highest;
+
+}
+
+
+/*
+=========================================================
+ GROUP SWITCH
+=========================================================
+*/
+
+document
+.querySelectorAll(".group-tab")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            document
+            .querySelectorAll(".group-tab")
+            .forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+
+            button.classList.add("active");
+
+
+            currentGroup =
+                button.dataset.group;
+
+
+            document.getElementById(
+                "leaderboardTitle"
+            ).textContent =
+                competition.groups[
+                    currentGroup
+                ].name +
+                " Competition";
+
+
+            renderLeaderboard();
+
+        }
+    );
+
+});
+
+
+/*
+=========================================================
+ SEARCH
+=========================================================
+*/
+
+document
+.getElementById("searchStudent")
+.addEventListener(
+    "input",
+    renderLeaderboard
+);
+
+
+/*
+=========================================================
+ COMPETITION STATUS
+=========================================================
+*/
+
+function updateCompetitionStatus() {
+
+    const badge =
+        document.getElementById(
+            "competitionStatus"
+        );
+
+    const statusText =
+        document.getElementById(
+            "statusText"
+        );
+
+    const countdown =
+        document.getElementById(
+            "countdown"
+        );
+
+
+    badge.className =
+        "status-badge";
+
+
+    /*
+    BEFORE START
+    */
+
+    if (
+        competition.status === "waiting"
+    ) {
+
+        badge.classList.add(
+            "status-waiting"
+        );
+
+        statusText.textContent =
+            "Competition Not Started";
+
+        countdown.textContent =
+            "Waiting for competition start";
+
+    }
+
+
+    /*
+    LIVE
+    */
+
+    else if (
+        competition.status === "live"
+    ) {
+
+        badge.classList.add(
+            "status-live"
+        );
+
+        statusText.textContent =
+            "Competition Live";
+
+        updateCountdown();
+
+    }
+
+
+    /*
+    FINISHED
+    */
+
+    else if (
+        competition.status === "finished"
+    ) {
+
+        badge.classList.add(
+            "status-finished"
+        );
+
+        statusText.textContent =
+            "Competition Finished";
+
+        countdown.textContent =
+            "Competition ended";
+
+    }
+
+
+    renderLeaderboard();
+
+}
+
+
+/*
+=========================================================
+ COUNTDOWN
+=========================================================
+*/
+
+function updateCountdown() {
+
+    if (!competition.endTime) {
+
+        document.getElementById(
+            "countdown"
+        ).textContent =
+            "Live";
+
+        return;
+
+    }
+
+
+    const now =
+        new Date().getTime();
+
+
+    const end =
+        new Date(
+            competition.endTime
+        ).getTime();
+
+
+    const difference =
+        end - now;
+
+
+    if (difference <= 0) {
+
+        competition.status =
+            "finished";
+
+        updateCompetitionStatus();
+
+        return;
+
+    }
+
+
+    const days =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    const hours =
+        Math.floor(
+            (difference %
+            (1000 * 60 * 60 * 24)) /
+            (1000 * 60 * 60)
+        );
+
+
+    const minutes =
+        Math.floor(
+            (difference %
+            (1000 * 60 * 60)) /
+            (1000 * 60)
+        );
+
+
+    const seconds =
+        Math.floor(
+            (difference %
+            (1000 * 60)) /
+            1000
+        );
+
+
+    document.getElementById(
+        "countdown"
+    ).textContent =
+
+        `${days}d ${hours}h ${minutes}m ${seconds}s remaining`;
+
+}
+
+
+/*
+=========================================================
+ INITIAL LOAD
+=========================================================
+*/
+
+updateCompetitionStatus();
+
+
+/*
+=========================================================
+ REAL BACKEND CONNECTION POINT
+=========================================================
+
+Later PostgreSQL/API will replace the empty arrays.
+
+Example:
+
+GET /api/competition/lower
+
+GET /api/competition/medium
+
+GET /api/competition/high
+
+
+The API can return:
+
+{
+    competitionStatus: "live",
+
+    startTime: "...",
+
+    endTime: "...",
+
+    students: [
+        {
+            id: "...",
+            studentNumber: 1,
+            name: "...",
+            points: 85,
+            round: 150,
+            status: "active"
+        }
+    ]
+}
+
+Then JavaScript will populate
+the exact same tables.
+
+=========================================================
+*/
+</script>
+
+</body>
+</html>
