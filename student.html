@@ -23,6 +23,7 @@
     --muted:#8293a1;
     --line:rgba(255,255,255,.08);
     --danger:#ff5f67;
+    --gold:#ffd76a;
 }
 
 body{
@@ -37,6 +38,12 @@ body{
 }
 
 button{
+    font-family:inherit;
+}
+
+input,
+textarea,
+select{
     font-family:inherit;
 }
 
@@ -125,6 +132,8 @@ button{
     font-size:10px;
 }
 
+/* PROFILE AVATAR */
+
 .profile{
     width:46px;
     height:46px;
@@ -134,6 +143,15 @@ button{
     color:#00170c;
     font-weight:900;
     cursor:pointer;
+    overflow:hidden;
+    padding:0;
+}
+
+.profile img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
 }
 
 /* STATS */
@@ -189,6 +207,9 @@ button{
         ),
         var(--panel);
     backdrop-filter:blur(25px);
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.22),
+        inset 0 1px 0 rgba(255,255,255,.03);
 }
 
 .timeline-head{
@@ -226,6 +247,68 @@ button{
     font-size:8px;
     font-weight:900;
 }
+
+/* LUXURY TIMER */
+
+.timer{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:20px;
+}
+
+.time{
+    position:relative;
+    overflow:hidden;
+    padding:18px 13px;
+    text-align:center;
+    border-radius:15px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(0,0,0,.34)
+        );
+    border:1px solid rgba(0,230,118,.12);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 10px 30px rgba(0,0,0,.18);
+}
+
+.time::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:18%;
+    right:18%;
+    height:1px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(0,230,118,.7),
+        transparent
+    );
+}
+
+.time strong{
+    display:block;
+    color:var(--green2);
+    font-size:30px;
+    font-weight:900;
+    letter-spacing:1px;
+    text-shadow:0 0 18px rgba(0,230,118,.22);
+}
+
+.time span{
+    display:block;
+    margin-top:5px;
+    color:#607381;
+    font-size:7px;
+    font-weight:900;
+    letter-spacing:1.5px;
+}
+
+/* OLD STEPS */
 
 .steps{
     display:grid;
@@ -269,34 +352,7 @@ button{
     font-size:7px;
 }
 
-.timer{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    margin-top:18px;
-}
-
-.time{
-    padding:13px;
-    text-align:center;
-    border-radius:10px;
-    background:rgba(0,0,0,.27);
-    border:1px solid var(--line);
-}
-
-.time strong{
-    display:block;
-    color:var(--green);
-    font-size:24px;
-}
-
-.time span{
-    color:#607381;
-    font-size:7px;
-    font-weight:900;
-}
-
-/* UPLOAD / PAYMENT */
+/* ACTIONS */
 
 .action-grid{
     display:grid;
@@ -511,12 +567,13 @@ button{
 
 .row{
     display:grid;
-    grid-template-columns:43px 1fr 55px 55px;
+    grid-template-columns:43px 1fr 70px 70px 65px 55px;
     align-items:center;
     gap:7px;
     padding:9px 12px;
     border-bottom:1px solid rgba(255,255,255,.035);
     cursor:pointer;
+    min-width:480px;
 }
 
 .row:hover{
@@ -547,6 +604,229 @@ button{
     color:#658097;
     text-align:right;
     font-size:8px;
+    font-weight:900;
+}
+
+.column-title{
+    color:#566a79;
+    text-align:right;
+    font-size:7px;
+    font-weight:900;
+    letter-spacing:.5px;
+}
+
+/* REWARDS */
+
+.reward-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:17px;
+}
+
+.reward-group{
+    padding:18px;
+    border-radius:18px;
+    background:var(--panel);
+    border:1px solid var(--line);
+}
+
+.reward-group h3{
+    font-size:12px;
+}
+
+.reward-group > p{
+    margin-top:5px;
+    color:#647887;
+    font-size:8px;
+}
+
+.reward-list{
+    display:grid;
+    gap:9px;
+    margin-top:15px;
+}
+
+.reward-slot{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px;
+    border-radius:11px;
+    background:rgba(0,0,0,.2);
+    border:1px solid rgba(255,255,255,.05);
+}
+
+.reward-avatar{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:linear-gradient(
+        135deg,
+        rgba(0,230,118,.18),
+        rgba(41,169,255,.18)
+    );
+    border:1px solid rgba(255,255,255,.07);
+    flex-shrink:0;
+}
+
+.reward-info{
+    flex:1;
+}
+
+.reward-info strong{
+    display:block;
+    color:#9aaab5;
+    font-size:8px;
+}
+
+.reward-info span{
+    display:block;
+    margin-top:3px;
+    color:#566b79;
+    font-size:7px;
+}
+
+.pending{
+    padding:5px 8px;
+    border-radius:20px;
+    color:#c5a650;
+    background:rgba(255,215,106,.07);
+    border:1px solid rgba(255,215,106,.13);
+    font-size:6px;
+    font-weight:900;
+}
+
+/* MY LESSONS */
+
+.lesson-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.lesson-card{
+    overflow:hidden;
+    border-radius:17px;
+    background:var(--panel);
+    border:1px solid var(--line);
+}
+
+.lesson-card img{
+    width:100%;
+    height:150px;
+    display:block;
+    object-fit:cover;
+}
+
+.lesson-body{
+    padding:15px;
+}
+
+.lesson-body h3{
+    font-size:11px;
+}
+
+.lesson-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:8px;
+}
+
+.lesson-tag{
+    padding:5px 7px;
+    border-radius:7px;
+    color:#79909e;
+    background:rgba(255,255,255,.035);
+    font-size:6px;
+    font-weight:900;
+}
+
+.lesson-description{
+    margin-top:9px;
+    color:#697d8b;
+    font-size:8px;
+    line-height:1.6;
+}
+
+.lesson-card .btn{
+    width:100%;
+    margin-top:12px;
+}
+
+.empty-lessons{
+    padding:28px;
+    border:1px dashed rgba(255,255,255,.09);
+    border-radius:16px;
+    color:#637784;
+    text-align:center;
+    font-size:8px;
+}
+
+/* PAYMENT METHODS */
+
+.payment-methods{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:18px;
+}
+
+.payment-method{
+    padding:15px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:#09151e;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.payment-method:hover,
+.payment-method.selected{
+    border-color:rgba(0,230,118,.35);
+    background:rgba(0,230,118,.045);
+}
+
+.payment-method img{
+    width:75px;
+    height:32px;
+    object-fit:contain;
+    object-position:left center;
+}
+
+.payment-method strong{
+    display:block;
+    margin-top:9px;
+    font-size:8px;
+}
+
+.payment-method span{
+    display:block;
+    margin-top:4px;
+    color:#627482;
+    font-size:7px;
+}
+
+.payment-input{
+    margin-top:15px;
+}
+
+.payment-input label{
+    display:block;
+    margin-bottom:6px;
+    color:#718492;
+    font-size:8px;
+    font-weight:900;
+}
+
+.payment-input input{
+    width:100%;
+    padding:12px;
+    border:1px solid var(--line);
+    border-radius:9px;
+    outline:none;
+    background:#09151e;
+    color:white;
 }
 
 /* MODAL */
@@ -630,6 +910,69 @@ button{
     cursor:pointer;
 }
 
+/* PROFILE */
+
+.profile-editor{
+    display:grid;
+    gap:15px;
+}
+
+.profile-preview{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:15px;
+    border:1px solid var(--line);
+    border-radius:15px;
+    background:#09151e;
+}
+
+.profile-large{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    object-fit:cover;
+    border:1px solid rgba(0,230,118,.25);
+    display:none;
+}
+
+.profile-letter{
+    width:65px;
+    height:65px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    color:#00170c;
+    background:linear-gradient(135deg,var(--green),var(--blue));
+    font-weight:900;
+    font-size:20px;
+}
+
+.profile-field label{
+    display:block;
+    margin-bottom:6px;
+    color:#728594;
+    font-size:8px;
+    font-weight:900;
+}
+
+.profile-field input{
+    width:100%;
+    padding:12px;
+    border-radius:9px;
+    outline:none;
+    border:1px solid var(--line);
+    background:#09151e;
+    color:white;
+}
+
+.profile-note{
+    color:#5f7381;
+    font-size:7px;
+    line-height:1.6;
+}
+
 /* FORM */
 
 .form-group{
@@ -671,6 +1014,14 @@ button{
 
     .boards{
         grid-template-columns:1fr;
+    }
+
+    .reward-grid{
+        grid-template-columns:1fr;
+    }
+
+    .lesson-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 }
 
@@ -736,6 +1087,14 @@ button{
     .timeline-head{
         flex-direction:column;
     }
+
+    .lesson-grid{
+        grid-template-columns:1fr;
+    }
+
+    .payment-methods{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
@@ -764,12 +1123,20 @@ button{
             ◇ My Skills
         </button>
 
+        <button onclick="scrollToId('myLessons')">
+            ▤ My Lessons
+        </button>
+
         <button onclick="scrollToId('competition')">
             ★ Competition
         </button>
 
         <button onclick="scrollToId('leaderboard')">
             ▣ Leaderboard
+        </button>
+
+        <button onclick="scrollToId('rewards')">
+            ◆ Rewards
         </button>
 
         <button onclick="openProfile()">
@@ -795,7 +1162,15 @@ button{
         </div>
 
         <button class="profile" onclick="openProfile()">
-            S
+
+            <span id="profileLetter">S</span>
+
+            <img
+                id="topProfileImage"
+                src=""
+                alt="Profile"
+            >
+
         </button>
 
     </header>
@@ -832,7 +1207,7 @@ button{
     </section>
 
 
-    <!-- TIMELINE -->
+    <!-- ================= TIMELINE ================= -->
 
     <section class="timeline-card" id="competition">
 
@@ -915,7 +1290,7 @@ button{
     </section>
 
 
-    <!-- ACTIONS -->
+    <!-- ================= ACTIONS ================= -->
 
     <section class="action-grid">
 
@@ -954,8 +1329,8 @@ button{
             <h3>Payments</h3>
 
             <p>
-                Payment status and payment periods will be controlled
-                by the backend and database.
+                Add and manage your payment method.
+                Payment records will later be controlled by the backend.
             </p>
 
             <div class="action-row">
@@ -978,7 +1353,7 @@ button{
     </section>
 
 
-    <!-- SKILLS -->
+    <!-- ================= SKILLS ================= -->
 
     <section class="section" id="skills">
 
@@ -997,7 +1372,37 @@ button{
     </section>
 
 
-    <!-- LEADERBOARD -->
+    <!-- ================= MY LESSONS ================= -->
+
+    <section class="section" id="myLessons">
+
+        <div class="section-head">
+
+            <h2>My Lessons</h2>
+
+            <span>
+                PURCHASED COURSES
+            </span>
+
+        </div>
+
+        <div
+            class="lesson-grid"
+            id="lessonContainer"
+        >
+
+            <div class="empty-lessons">
+                No purchased courses yet.
+                Your purchased course will appear here after
+                the course purchase is confirmed.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= LEADERBOARD ================= -->
 
     <section class="section" id="leaderboard">
 
@@ -1052,6 +1457,65 @@ button{
 
     </section>
 
+
+    <!-- ================= REWARDS ================= -->
+
+    <section class="section" id="rewards">
+
+        <div class="section-head">
+
+            <h2>Competition Rewards</h2>
+
+            <span>
+                18 WINNER POSITIONS
+            </span>
+
+        </div>
+
+        <div class="reward-grid">
+
+            <div class="reward-group">
+
+                <h3>LOWER</h3>
+                <p>6 winner positions</p>
+
+                <div
+                    class="reward-list"
+                    id="lowerRewards"
+                ></div>
+
+            </div>
+
+
+            <div class="reward-group">
+
+                <h3>MEDIUM</h3>
+                <p>6 winner positions</p>
+
+                <div
+                    class="reward-list"
+                    id="mediumRewards"
+                ></div>
+
+            </div>
+
+
+            <div class="reward-group">
+
+                <h3>HIGH</h3>
+                <p>6 winner positions</p>
+
+                <div
+                    class="reward-list"
+                    id="highRewards"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
 </main>
 
 
@@ -1061,7 +1525,11 @@ button{
 
     <div class="modal-box">
 
-        <img id="modalImage" src="" alt="Skill">
+        <img
+            id="modalImage"
+            src=""
+            alt="Skill"
+        >
 
         <h2 id="modalTitle">
             Skill
@@ -1071,23 +1539,12 @@ button{
             Skill introduction.
         </p>
 
-        <div class="levels">
+        <div class="levels"></div>
 
-            <button class="level-btn" onclick="openLevel(1)">
-                LEVEL 1
-            </button>
-
-            <button class="level-btn" onclick="openLevel(2)">
-                LEVEL 2
-            </button>
-
-            <button class="level-btn" onclick="openLevel(3)">
-                LEVEL 3
-            </button>
-
-        </div>
-
-        <button class="close" onclick="closeModal()">
+        <button
+            class="close"
+            onclick="closeModal()"
+        >
             CLOSE
         </button>
 
@@ -1100,9 +1557,7 @@ button{
 
 /* =====================================================
    17 SKILLS
-   6 LOWER
-   6 MEDIUM
-   5 HIGH
+   ORIGINAL SKILLS PRESERVED
 ===================================================== */
 
 const skills = [
@@ -1221,10 +1676,54 @@ const skills = [
 
 
 /* =====================================================
+   COURSE PRICES
+   READY FOR DATABASE LATER
+===================================================== */
+
+const coursePrices = {
+
+    LOWER:{
+        1:3,
+        2:5,
+        3:11
+    },
+
+    MEDIUM:{
+        1:5,
+        2:10,
+        3:20
+    },
+
+    HIGH:{
+        1:100,
+        2:200
+    }
+
+};
+
+
+/* =====================================================
+   COURSE STATE
+   DATABASE REPLACEMENT POINT
+===================================================== */
+
+let purchasedLessons =
+    JSON.parse(
+        localStorage.getItem(
+            "steadymazePurchasedLessons"
+        ) || "[]"
+    );
+
+
+/* =====================================================
    CREATE SKILL CARDS
 ===================================================== */
 
-const groups = ["LOWER","MEDIUM","HIGH"];
+const groups = [
+    "LOWER",
+    "MEDIUM",
+    "HIGH"
+];
 
 const skillContainer =
     document.getElementById("skillContainer");
@@ -1283,7 +1782,7 @@ groups.forEach(group => {
                     Teacher assignment
                 </div>
 
-                <button>
+                <button type="button">
                     VIEW SKILL
                 </button>
 
@@ -1313,41 +1812,466 @@ function openSkill(skill){
 
     selectedSkill = skill;
 
+    document.getElementById("modalImage").style.display =
+        "block";
+
     document.getElementById("modalImage").src =
         skill.image;
 
     document.getElementById("modalTitle").textContent =
         skill.name;
 
-    document.getElementById("modalText").textContent =
-        "Welcome to " + skill.name +
-        ". This skill will contain its introduction, " +
-        "teacher information, lessons, projects and " +
-        "Level 1, Level 2 and Level 3. Course data will " +
-        "later be loaded from PostgreSQL.";
+    document.getElementById("modalText").innerHTML = `
+        <strong>${skill.name}</strong><br><br>
+
+        This is the course introduction.
+        The complete lesson content, teacher information,
+        video lessons and projects will be controlled by
+        the database later.<br><br>
+
+        Choose a level below to view its course information
+        and purchase option.
+    `;
+
+    renderCourseLevels();
 
     document.getElementById("modal").classList.add("show");
 }
 
 
+/* =====================================================
+   COURSE LEVELS
+===================================================== */
+
+function renderCourseLevels(){
+
+    if(!selectedSkill) return;
+
+    const levels =
+        document.querySelector(".levels");
+
+    let maxLevel =
+        selectedSkill.group === "HIGH"
+        ? 2
+        : 3;
+
+    let html = "";
+
+    for(let level=1; level<=maxLevel; level++){
+
+        const price =
+            coursePrices[
+                selectedSkill.group
+            ][level];
+
+        html += `
+            <button
+                class="level-btn"
+                type="button"
+                onclick="openLevel(${level})"
+            >
+                LEVEL ${level}<br>
+                $${price}
+            </button>
+        `;
+    }
+
+    levels.innerHTML = html;
+}
+
+
+/* =====================================================
+   LEVEL / BUY COURSE
+===================================================== */
+
 function openLevel(level){
 
     if(!selectedSkill) return;
 
-    alert(
+    const price =
+        coursePrices[
+            selectedSkill.group
+        ][level];
+
+    document.getElementById("modalImage").style.display =
+        "block";
+
+    document.getElementById("modalTitle").textContent =
         selectedSkill.name +
         " — LEVEL " +
+        level;
+
+    document.getElementById("modalText").innerHTML = `
+
+        <div style="
+            padding:15px;
+            border-radius:13px;
+            background:#09151e;
+            border:1px solid rgba(255,255,255,.07);
+        ">
+
+            <strong>
+                ${selectedSkill.name}
+            </strong>
+
+            <br><br>
+
+            <span style="color:#00e676;">
+                LEVEL ${level}
+            </span>
+
+            <br><br>
+
+            <span style="color:#718492;">
+                Teacher:
+            </span>
+
+            <br>
+
+            Teacher assignment will be provided
+            by the database.
+
+            <br><br>
+
+            <span style="color:#718492;">
+                What you will learn:
+            </span>
+
+            <br>
+
+            The level introduction and learning objectives
+            will be provided by the teacher.
+
+            <br><br>
+
+            <span style="color:#718492;">
+                Course Price:
+            </span>
+
+            <strong style="color:#00e676;">
+                $${price}
+            </strong>
+
+        </div>
+
+        <br>
+
+        The complete lessons remain locked until
+        the level purchase is confirmed.
+    `;
+
+    document.querySelector(".levels").innerHTML = `
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="buyCourse(
+                '${selectedSkill.name}',
+                '${selectedSkill.group}',
+                ${level},
+                ${price},
+                '${selectedSkill.image}'
+            )"
+        >
+            BUY LEVEL ${level}
+            <br>
+            $${price}
+        </button>
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="renderCourseLevels()"
+        >
+            BACK TO LEVELS
+        </button>
+    `;
+}
+
+
+/* =====================================================
+   BUY COURSE
+   FRONTEND ONLY
+   DATABASE REPLACEMENT POINT
+===================================================== */
+
+function buyCourse(
+    name,
+    group,
+    level,
+    price,
+    image
+){
+
+    const existing =
+        purchasedLessons.find(
+            item =>
+                item.name === name &&
+                item.level === level
+        );
+
+    if(existing){
+
+        alert(
+            "This course is already in My Lessons."
+        );
+
+        return;
+    }
+
+    /*
+       IMPORTANT:
+       This is only a frontend purchase state.
+       Later this function will send:
+       student_id
+       skill_id
+       level_id
+       payment_id
+
+       to the backend/PostgreSQL.
+    */
+
+    purchasedLessons.push({
+        name:name,
+        group:group,
+        level:level,
+        price:price,
+        image:image,
+        status:"PURCHASED"
+    });
+
+    localStorage.setItem(
+        "steadymazePurchasedLessons",
+        JSON.stringify(purchasedLessons)
+    );
+
+    renderMyLessons();
+
+    closeModal();
+
+    scrollToId("myLessons");
+
+    alert(
+        name +
+        " Level " +
         level +
-        "\n\n" +
-        "The real lesson page will be connected to the database."
+        " has been added to My Lessons."
     );
 }
 
 
-function closeModal(){
+/* =====================================================
+   MY LESSONS
+===================================================== */
 
-    document.getElementById("modal")
-        .classList.remove("show");
+function renderMyLessons(){
+
+    const container =
+        document.getElementById(
+            "lessonContainer"
+        );
+
+    if(!purchasedLessons.length){
+
+        container.innerHTML = `
+            <div class="empty-lessons">
+                No purchased courses yet.
+                Your purchased course will appear here
+                after the course purchase is confirmed.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = "";
+
+    purchasedLessons.forEach(
+        (course,index) => {
+
+            const card =
+                document.createElement("article");
+
+            card.className =
+                "lesson-card";
+
+            card.innerHTML = `
+
+                <img
+                    src="${course.image}"
+                    alt="${course.name}"
+                >
+
+                <div class="lesson-body">
+
+                    <h3>
+                        ${course.name}
+                    </h3>
+
+                    <div class="lesson-meta">
+
+                        <span class="lesson-tag">
+                            ${course.group}
+                        </span>
+
+                        <span class="lesson-tag">
+                            LEVEL ${course.level}
+                        </span>
+
+                        <span class="lesson-tag">
+                            $${course.price}
+                        </span>
+
+                    </div>
+
+                    <p class="lesson-description">
+
+                        Course introduction,
+                        teacher information,
+                        learning objectives and
+                        lessons will appear here.
+
+                    </p>
+
+                    <button
+                        class="btn green"
+                        type="button"
+                        onclick="openPurchasedLesson(${index})"
+                    >
+                        OPEN LESSON
+                    </button>
+
+                </div>
+            `;
+
+            container.appendChild(card);
+        }
+    );
+}
+
+
+/* =====================================================
+   OPEN PURCHASED LESSON
+===================================================== */
+
+function openPurchasedLesson(index){
+
+    const course =
+        purchasedLessons[index];
+
+    if(!course) return;
+
+    document.getElementById("modalImage").style.display =
+        "block";
+
+    document.getElementById("modalImage").src =
+        course.image;
+
+    document.getElementById("modalTitle").textContent =
+        course.name +
+        " — Level " +
+        course.level;
+
+    document.getElementById("modalText").innerHTML = `
+
+        <div style="
+            padding:16px;
+            border-radius:14px;
+            background:#09151e;
+            border:1px solid rgba(255,255,255,.07);
+        ">
+
+            <div style="
+                color:#00e676;
+                font-size:9px;
+                font-weight:900;
+            ">
+                COURSE INTRODUCTION
+            </div>
+
+            <br>
+
+            <strong>
+                ${course.name}
+            </strong>
+
+            <br><br>
+
+            <span style="color:#718492;">
+                Level:
+            </span>
+
+            Level ${course.level}
+
+            <br><br>
+
+            <span style="color:#718492;">
+                Teacher:
+            </span>
+
+            Teacher assignment will come
+            from the Teacher Dashboard/database.
+
+            <br><br>
+
+            <span style="color:#718492;">
+                What you will learn:
+            </span>
+
+            The teacher's level introduction
+            and learning objectives will appear here.
+
+            <br><br>
+
+            <span style="color:#718492;">
+                Lessons:
+            </span>
+
+            <br>
+
+            Lesson content and video lessons
+            will be loaded from the database.
+
+        </div>
+    `;
+
+    document.querySelector(".levels").innerHTML = `
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="lessonAction('video')"
+        >
+            START LESSON
+        </button>
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="lessonAction('teacher')"
+        >
+            TEACHER
+        </button>
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="lessonAction('progress')"
+        >
+            PROGRESS
+        </button>
+    `;
+
+    document.getElementById("modal").classList.add("show");
+}
+
+
+function lessonAction(type){
+
+    alert(
+        type.toUpperCase() +
+        " is ready for the real lesson/database connection."
+    );
 }
 
 
@@ -1357,16 +2281,29 @@ function closeModal(){
 
 function scrollToId(id){
 
-    document.getElementById(id)
-        .scrollIntoView({
-            behavior:"smooth"
-        });
+    const target =
+        document.getElementById(id);
+
+    if(!target) return;
+
+    target.scrollIntoView({
+        behavior:"smooth"
+    });
 }
 
 
 /* =====================================================
    PROFILE
+   CHANGE NAME + CHANGE PHOTO
 ===================================================== */
+
+let studentProfile =
+    JSON.parse(
+        localStorage.getItem(
+            "steadymazeStudentProfile"
+        ) || "{}"
+    );
+
 
 function openProfile(){
 
@@ -1376,25 +2313,266 @@ function openProfile(){
     document.getElementById("modalTitle").textContent =
         "Student Profile";
 
-    document.getElementById("modalText").innerHTML =
-        "Your real profile will contain your account information, " +
-        "skills, competition progress, projects and results.";
+    document.getElementById("modalText").innerHTML = `
+
+        <div class="profile-editor">
+
+            <div class="profile-preview">
+
+                <div
+                    class="profile-letter"
+                    id="profileModalLetter"
+                >
+                    ${getProfileInitial()}
+                </div>
+
+                <img
+                    class="profile-large"
+                    id="profileModalImage"
+                    src="${studentProfile.photo || ""}"
+                    alt="Profile photo"
+                >
+
+                <div>
+
+                    <strong
+                        id="profileCurrentName"
+                        style="font-size:11px;"
+                    >
+                        ${studentProfile.name || "Student"}
+                    </strong>
+
+                    <div class="profile-note">
+                        Update your profile information.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-field">
+
+                <label>
+                    CHANGE NAME
+                </label>
+
+                <input
+                    type="text"
+                    id="profileNameInput"
+                    value="${studentProfile.name || ""}"
+                    placeholder="Enter your name"
+                >
+
+            </div>
+
+
+            <div class="profile-field">
+
+                <label>
+                    CHANGE PHOTO
+                </label>
+
+                <input
+                    type="file"
+                    id="profilePhotoInput"
+                    accept="image/*"
+                >
+
+            </div>
+
+            <div class="profile-note">
+                Profile information is currently stored
+                in the frontend only. Later it will be
+                connected to the student account in PostgreSQL.
+            </div>
+
+        </div>
+    `;
 
     document.querySelector(".levels").innerHTML = `
-        <button class="level-btn" onclick="profileAction('profile')">
-            PROFILE
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="saveProfile()"
+        >
+            SAVE PROFILE
         </button>
 
-        <button class="level-btn" onclick="profileAction('progress')">
-            PROGRESS
-        </button>
-
-        <button class="level-btn" onclick="profileAction('settings')">
+        <button
+            class="level-btn"
+            type="button"
+            onclick="profileAction('settings')"
+        >
             SETTINGS
         </button>
     `;
 
     document.getElementById("modal").classList.add("show");
+
+    const photo =
+        document.getElementById(
+            "profilePhotoInput"
+        );
+
+    photo.addEventListener(
+        "change",
+        previewProfilePhoto
+    );
+}
+
+
+function getProfileInitial(){
+
+    const name =
+        studentProfile.name ||
+        "Student";
+
+    return name
+        .trim()
+        .charAt(0)
+        .toUpperCase() || "S";
+}
+
+
+function previewProfilePhoto(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file) return;
+
+    const reader =
+        new FileReader();
+
+    reader.onload = function(e){
+
+        const image =
+            document.getElementById(
+                "profileModalImage"
+            );
+
+        const letter =
+            document.getElementById(
+                "profileModalLetter"
+            );
+
+        image.src =
+            e.target.result;
+
+        image.style.display =
+            "block";
+
+        letter.style.display =
+            "none";
+    };
+
+    reader.readAsDataURL(file);
+}
+
+
+function saveProfile(){
+
+    const nameInput =
+        document.getElementById(
+            "profileNameInput"
+        );
+
+    const photoInput =
+        document.getElementById(
+            "profilePhotoInput"
+        );
+
+    const name =
+        nameInput.value.trim();
+
+    if(!name){
+
+        alert("Please enter your name.");
+
+        return;
+    }
+
+    studentProfile.name =
+        name;
+
+    if(photoInput.files.length){
+
+        const file =
+            photoInput.files[0];
+
+        const reader =
+            new FileReader();
+
+        reader.onload = function(e){
+
+            studentProfile.photo =
+                e.target.result;
+
+            finishProfileSave();
+        };
+
+        reader.readAsDataURL(file);
+
+        return;
+    }
+
+    finishProfileSave();
+}
+
+
+function finishProfileSave(){
+
+    localStorage.setItem(
+        "steadymazeStudentProfile",
+        JSON.stringify(studentProfile)
+    );
+
+    updateProfileAvatar();
+
+    closeModal();
+
+    alert(
+        "Profile updated successfully."
+    );
+}
+
+
+function updateProfileAvatar(){
+
+    const letter =
+        document.getElementById(
+            "profileLetter"
+        );
+
+    const image =
+        document.getElementById(
+            "topProfileImage"
+        );
+
+    if(studentProfile.photo){
+
+        image.src =
+            studentProfile.photo;
+
+        image.style.display =
+            "block";
+
+        letter.style.display =
+            "none";
+
+    }else{
+
+        letter.textContent =
+            getProfileInitial();
+
+        letter.style.display =
+            "inline";
+
+        image.style.display =
+            "none";
+    }
 }
 
 
@@ -1402,14 +2580,18 @@ function profileAction(type){
 
     alert(
         type.toUpperCase() +
-        " will be connected to the student account database."
+        " is ready for the student account database."
     );
 }
 
 
 /* =====================================================
    PAYMENT
+   PAYPAL + VISA + MASTERCARD
 ===================================================== */
+
+let selectedPaymentMethod = null;
+
 
 function openPayment(){
 
@@ -1419,22 +2601,126 @@ function openPayment(){
     document.getElementById("modalTitle").textContent =
         "Payment Account";
 
-    document.getElementById("modalText").innerHTML =
-        "Payment status, payment deadline and payment " +
-        "records will later be controlled by the backend. " +
-        "No real payment is processed by this HTML page.";
+    document.getElementById("modalText").innerHTML = `
+
+        <div>
+
+            <div style="
+                color:#718492;
+                font-size:8px;
+                font-weight:900;
+                letter-spacing:1px;
+            ">
+                ADD YOUR PAYMENT METHOD
+            </div>
+
+            <div class="payment-methods">
+
+                <div
+                    class="payment-method"
+                    id="payment-paypal"
+                    onclick="selectPayment('PayPal')"
+                >
+
+                    <img
+                        src="https://cdn.simpleicons.org/paypal/ffffff"
+                        alt="PayPal"
+                    >
+
+                    <strong>
+                        PayPal
+                    </strong>
+
+                    <span>
+                        Online payment
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="payment-method"
+                    id="payment-visa"
+                    onclick="selectPayment('Visa')"
+                >
+
+                    <img
+                        src="https://cdn.simpleicons.org/visa/ffffff"
+                        alt="Visa"
+                    >
+
+                    <strong>
+                        Visa
+                    </strong>
+
+                    <span>
+                        Card payment
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="payment-method"
+                    id="payment-mastercard"
+                    onclick="selectPayment('Mastercard')"
+                >
+
+                    <img
+                        src="https://cdn.simpleicons.org/mastercard/ffffff"
+                        alt="Mastercard"
+                    >
+
+                    <strong>
+                        Mastercard
+                    </strong>
+
+                    <span>
+                        Card payment
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="payment-input"
+                id="paymentAccountField"
+            >
+
+                <label>
+                    PAYMENT ACCOUNT
+                </label>
+
+                <input
+                    type="text"
+                    id="paymentAccount"
+                    placeholder="Select a payment method first"
+                    disabled
+                >
+
+            </div>
+
+        </div>
+    `;
 
     document.querySelector(".levels").innerHTML = `
-        <button class="level-btn" onclick="paymentAction('account')">
-            ACCOUNT
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="savePaymentMethod()"
+        >
+            ADD PAYMENT
         </button>
 
-        <button class="level-btn" onclick="paymentAction('history')">
-            HISTORY
-        </button>
-
-        <button class="level-btn" onclick="paymentAction('pay')">
-            MAKE PAYMENT
+        <button
+            class="level-btn"
+            type="button"
+            onclick="paymentAction('history')"
+        >
+            PAYMENT HISTORY
         </button>
     `;
 
@@ -1442,17 +2728,101 @@ function openPayment(){
 }
 
 
+function selectPayment(method){
+
+    selectedPaymentMethod =
+        method;
+
+    document
+        .querySelectorAll(".payment-method")
+        .forEach(
+            item =>
+                item.classList.remove(
+                    "selected"
+                )
+        );
+
+    const id =
+        "payment-" +
+        method.toLowerCase();
+
+    document
+        .getElementById(id)
+        .classList.add("selected");
+
+
+    const input =
+        document.getElementById(
+            "paymentAccount"
+        );
+
+    input.disabled = false;
+
+    input.placeholder =
+        method === "PayPal"
+        ? "Enter PayPal email"
+        : "Enter card reference";
+}
+
+
+function savePaymentMethod(){
+
+    if(!selectedPaymentMethod){
+
+        alert(
+            "Please select PayPal, Visa or Mastercard."
+        );
+
+        return;
+    }
+
+    const account =
+        document.getElementById(
+            "paymentAccount"
+        ).value.trim();
+
+    if(!account){
+
+        alert(
+            "Please enter your payment account information."
+        );
+
+        return;
+    }
+
+    /*
+       DATABASE REPLACEMENT POINT
+
+       Later this function will send the selected
+       payment method to the backend.
+
+       IMPORTANT:
+       Do not store raw card numbers in PostgreSQL.
+       A real payment provider/tokenization system
+       should handle sensitive card information.
+    */
+
+    alert(
+        selectedPaymentMethod +
+        " payment method is ready for backend connection."
+    );
+
+    closeModal();
+}
+
+
 function paymentAction(type){
 
     alert(
         type.toUpperCase() +
-        " will connect to the real payment/backend system."
+        " is ready for the real payment/backend system."
     );
 }
 
 
 /* =====================================================
    UPLOAD
+   ORIGINAL FUNCTION PRESERVED
 ===================================================== */
 
 function openUpload(){
@@ -1476,9 +2846,14 @@ function openUpload(){
         "Upload Project";
 
     document.getElementById("modalText").innerHTML = `
+
         <div class="form-group">
             <label>PROJECT VIDEO</label>
-            <input type="file" id="projectVideo" accept="video/*">
+            <input
+                type="file"
+                id="projectVideo"
+                accept="video/*"
+            >
         </div>
 
         <div class="form-group">
@@ -1522,14 +2897,18 @@ function submitProject(){
 
     if(!video.files.length){
 
-        alert("Please choose your project video.");
+        alert(
+            "Please choose your project video."
+        );
 
         return;
     }
 
     if(!title.value.trim()){
 
-        alert("Please enter your project title.");
+        alert(
+            "Please enter your project title."
+        );
 
         return;
     }
@@ -1544,6 +2923,12 @@ function submitProject(){
 
 /* =====================================================
    LEADERBOARD
+   NEW COLUMNS:
+   RANK
+   STUDENT
+   POINTS
+   PROJECT/COURSES
+   LEVEL
 ===================================================== */
 
 function createLeaderboard(
@@ -1555,6 +2940,49 @@ function createLeaderboard(
         document.getElementById(elementId);
 
     let html = "";
+
+    /*
+       Header row.
+       Student names and results remain empty because
+       they will come from PostgreSQL.
+    */
+
+    html += `
+        <div
+            class="row"
+            style="
+                cursor:default;
+                background:rgba(255,255,255,.025);
+            "
+        >
+
+            <div class="column-title">
+                RANK
+            </div>
+
+            <div class="column-title">
+                STUDENT
+            </div>
+
+            <div class="column-title">
+                POINTS
+            </div>
+
+            <div class="column-title">
+                PROJECT/COURSES
+            </div>
+
+            <div class="column-title">
+                LEVEL
+            </div>
+
+            <div class="column-title">
+                STATUS
+            </div>
+
+        </div>
+    `;
+
 
     for(let i=1;i<=300;i++){
 
@@ -1577,15 +3005,24 @@ function createLeaderboard(
                     00
                 </div>
 
+                <div class="result">
+                    00
+                </div>
+
                 <div class="level">
                     00
+                </div>
+
+                <div class="level">
+                    —
                 </div>
 
             </div>
         `;
     }
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
 }
 
 
@@ -1605,33 +3042,92 @@ createLeaderboard(
 );
 
 
-function openStudent(group,number){
+function openStudent(
+    group,
+    number
+){
 
     alert(
         group +
         " · Student " +
         number +
         "\n\n" +
-        "Real student information will come from PostgreSQL."
+        "Student information, points, projects/courses " +
+        "and level will come from PostgreSQL."
     );
 }
 
 
 /* =====================================================
-   COMPETITION TIMER
+   REWARDS
+   18 REAL DATABASE POSITIONS
+   NO FAKE NAMES
 ===================================================== */
 
-/*
-   FRONTEND TEST TIMER
+function createRewardSlots(
+    elementId,
+    group
+){
 
-   Later:
-   PostgreSQL/backend will provide:
-   competition_start
-   upload_start
-   upload_end
-   tie_break_start
-   tie_break_end
-*/
+    const container =
+        document.getElementById(elementId);
+
+    let html = "";
+
+    for(let i=1;i<=6;i++){
+
+        html += `
+
+            <div class="reward-slot">
+
+                <div class="reward-avatar"></div>
+
+                <div class="reward-info">
+
+                    <strong>
+                        Winner Position ${i}
+                    </strong>
+
+                    <span>
+                        ${group} · Winner information pending
+                    </span>
+
+                </div>
+
+                <div class="pending">
+                    PENDING
+                </div>
+
+            </div>
+
+        `;
+    }
+
+    container.innerHTML =
+        html;
+}
+
+
+createRewardSlots(
+    "lowerRewards",
+    "LOWER"
+);
+
+createRewardSlots(
+    "mediumRewards",
+    "MEDIUM"
+);
+
+createRewardSlots(
+    "highRewards",
+    "HIGH"
+);
+
+
+/* =====================================================
+   COMPETITION TIMER
+   ORIGINAL LOGIC PRESERVED
+===================================================== */
 
 let competitionStart =
     localStorage.getItem(
@@ -1664,7 +3160,8 @@ const learningDuration =
 /*
    24 HOURS UPLOAD WINDOW
 
-   This will later come from database.
+   Later:
+   PostgreSQL/backend provides this.
 */
 
 const uploadDuration =
@@ -1686,22 +3183,34 @@ function updateCompetition(){
 
 
     const title =
-        document.getElementById("stageTitle");
+        document.getElementById(
+            "stageTitle"
+        );
 
     const text =
-        document.getElementById("stageText");
+        document.getElementById(
+            "stageText"
+        );
 
     const pill =
-        document.getElementById("statusPill");
+        document.getElementById(
+            "statusPill"
+        );
 
     const uploadStatus =
-        document.getElementById("uploadStatus");
+        document.getElementById(
+            "uploadStatus"
+        );
 
     const uploadText =
-        document.getElementById("uploadText");
+        document.getElementById(
+            "uploadText"
+        );
 
     const uploadButton =
-        document.getElementById("uploadBtn");
+        document.getElementById(
+            "uploadBtn"
+        );
 
 
     resetSteps();
@@ -1724,7 +3233,9 @@ function updateCompetition(){
         uploadText.textContent =
             "Project upload will open when the submission window begins.";
 
-        uploadButton.classList.add("disabled");
+        uploadButton.classList.add(
+            "disabled"
+        );
 
         setActiveStep(1);
 
@@ -1756,7 +3267,9 @@ function updateCompetition(){
         uploadText.textContent =
             "Submit your project before the submission window closes.";
 
-        uploadButton.classList.remove("disabled");
+        uploadButton.classList.remove(
+            "disabled"
+        );
 
         setActiveStep(2);
 
@@ -1783,7 +3296,9 @@ function updateCompetition(){
     uploadText.textContent =
         "Submission is closed. Projects are now being reviewed.";
 
-    uploadButton.classList.add("disabled");
+    uploadButton.classList.add(
+        "disabled"
+    );
 
     setActiveStep(3);
 
@@ -1797,7 +3312,9 @@ function resetSteps(){
 
         document.getElementById(
             "step"+i
-        ).classList.remove("active");
+        ).classList.remove(
+            "active"
+        );
 
     }
 }
@@ -1807,7 +3324,9 @@ function setActiveStep(number){
 
     document.getElementById(
         "step"+number
-    ).classList.add("active");
+    ).classList.add(
+        "active"
+    );
 }
 
 
@@ -1846,19 +3365,31 @@ function updateTimer(ms){
 
     document.getElementById("days")
         .textContent =
-        String(days).padStart(2,"0");
+        String(days).padStart(
+            2,
+            "0"
+        );
 
     document.getElementById("hours")
         .textContent =
-        String(hours).padStart(2,"0");
+        String(hours).padStart(
+            2,
+            "0"
+        );
 
     document.getElementById("minutes")
         .textContent =
-        String(minutes).padStart(2,"0");
+        String(minutes).padStart(
+            2,
+            "0"
+        );
 
     document.getElementById("seconds")
         .textContent =
-        String(seconds).padStart(2,"0");
+        String(seconds).padStart(
+            2,
+            "0"
+        );
 }
 
 
@@ -1887,6 +3418,27 @@ document.getElementById("modal")
 
     }
 );
+
+
+function closeModal(){
+
+    document.getElementById("modal")
+        .classList.remove("show");
+}
+
+
+/* =====================================================
+   INITIAL PROFILE
+===================================================== */
+
+updateProfileAvatar();
+
+
+/* =====================================================
+   INITIAL MY LESSONS
+===================================================== */
+
+renderMyLessons();
 
 </script>
 
