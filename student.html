@@ -248,7 +248,7 @@ select{
     font-weight:900;
 }
 
-/* LUXURY TIMER */
+/* TIMER */
 
 .timer{
     display:grid;
@@ -308,7 +308,7 @@ select{
     letter-spacing:1.5px;
 }
 
-/* OLD STEPS */
+/* STEPS */
 
 .steps{
     display:grid;
@@ -567,13 +567,13 @@ select{
 
 .row{
     display:grid;
-    grid-template-columns:43px 1fr 70px 70px 65px 55px;
+    grid-template-columns:43px 1fr 70px 90px 65px 65px;
     align-items:center;
     gap:7px;
     padding:9px 12px;
     border-bottom:1px solid rgba(255,255,255,.035);
     cursor:pointer;
-    min-width:480px;
+    min-width:500px;
 }
 
 .row:hover{
@@ -763,7 +763,7 @@ select{
     font-size:8px;
 }
 
-/* PAYMENT METHODS */
+/* PAYMENT */
 
 .payment-methods{
     display:grid;
@@ -805,6 +805,34 @@ select{
     margin-top:4px;
     color:#627482;
     font-size:7px;
+}
+
+/* NEW PAYMENT CHECKOUT */
+
+.buy-box{
+    margin-top:18px;
+    padding:18px;
+    border-radius:15px;
+    background:#09151e;
+    border:1px solid rgba(0,230,118,.12);
+}
+
+.buy-price{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.buy-price span{
+    color:#728594;
+    font-size:8px;
+    font-weight:900;
+}
+
+.buy-price strong{
+    color:var(--green);
+    font-size:22px;
 }
 
 .payment-input{
@@ -1101,8 +1129,6 @@ select{
 
 <body>
 
-<!-- ================= SIDEBAR ================= -->
-
 <aside class="sidebar">
 
     <div class="logo">
@@ -1147,15 +1173,13 @@ select{
 
 </aside>
 
-
-<!-- ================= MAIN ================= -->
-
 <main class="main" id="dashboard">
 
     <header class="topbar">
 
         <div>
             <h1>Student Dashboard</h1>
+
             <p>
                 Learn digital skills, build projects and compete.
             </p>
@@ -1174,9 +1198,6 @@ select{
         </button>
 
     </header>
-
-
-    <!-- STATS -->
 
     <section class="stats">
 
@@ -1206,14 +1227,12 @@ select{
 
     </section>
 
-
-    <!-- ================= TIMELINE ================= -->
-
     <section class="timeline-card" id="competition">
 
         <div class="timeline-head">
 
             <div>
+
                 <div class="timeline-label">
                     STEADYMAZE COMPETITION
                 </div>
@@ -1225,6 +1244,7 @@ select{
                 <div class="timeline-text" id="stageText">
                     Students are currently in the learning period.
                 </div>
+
             </div>
 
             <div class="status-pill" id="statusPill">
@@ -1232,7 +1252,6 @@ select{
             </div>
 
         </div>
-
 
         <div class="steps">
 
@@ -1262,7 +1281,6 @@ select{
 
         </div>
 
-
         <div class="timer">
 
             <div class="time">
@@ -1288,9 +1306,6 @@ select{
         </div>
 
     </section>
-
-
-    <!-- ================= ACTIONS ================= -->
 
     <section class="action-grid">
 
@@ -1323,7 +1338,6 @@ select{
 
         </div>
 
-
         <div class="action-card">
 
             <h3>Payments</h3>
@@ -1352,9 +1366,6 @@ select{
 
     </section>
 
-
-    <!-- ================= SKILLS ================= -->
-
     <section class="section" id="skills">
 
         <div class="section-head">
@@ -1370,9 +1381,6 @@ select{
         <div id="skillContainer"></div>
 
     </section>
-
-
-    <!-- ================= MY LESSONS ================= -->
 
     <section class="section" id="myLessons">
 
@@ -1401,9 +1409,6 @@ select{
 
     </section>
 
-
-    <!-- ================= LEADERBOARD ================= -->
-
     <section class="section" id="leaderboard">
 
         <div class="section-head">
@@ -1429,7 +1434,6 @@ select{
 
             </div>
 
-
             <div class="board">
 
                 <div class="board-head">
@@ -1440,7 +1444,6 @@ select{
                 <div class="rows" id="mediumRows"></div>
 
             </div>
-
 
             <div class="board">
 
@@ -1456,9 +1459,6 @@ select{
         </div>
 
     </section>
-
-
-    <!-- ================= REWARDS ================= -->
 
     <section class="section" id="rewards">
 
@@ -1486,7 +1486,6 @@ select{
 
             </div>
 
-
             <div class="reward-group">
 
                 <h3>MEDIUM</h3>
@@ -1498,7 +1497,6 @@ select{
                 ></div>
 
             </div>
-
 
             <div class="reward-group">
 
@@ -1517,9 +1515,6 @@ select{
     </section>
 
 </main>
-
-
-<!-- ================= MODAL ================= -->
 
 <div class="modal" id="modal">
 
@@ -1552,17 +1547,13 @@ select{
 
 </div>
 
-
 <script>
 
 /* =====================================================
    17 SKILLS
-   ORIGINAL SKILLS PRESERVED
 ===================================================== */
 
 const skills = [
-
-    /* LOWER */
 
     {
         group:"LOWER",
@@ -1600,9 +1591,6 @@ const skills = [
         image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=85"
     },
 
-
-    /* MEDIUM */
-
     {
         group:"MEDIUM",
         name:"Forex",
@@ -1639,9 +1627,6 @@ const skills = [
         image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85"
     },
 
-
-    /* HIGH */
-
     {
         group:"HIGH",
         name:"Python",
@@ -1677,7 +1662,7 @@ const skills = [
 
 /* =====================================================
    COURSE PRICES
-   READY FOR DATABASE LATER
+   LEVEL 1 / LEVEL 2 / LEVEL 3
 ===================================================== */
 
 const coursePrices = {
@@ -1703,8 +1688,7 @@ const coursePrices = {
 
 
 /* =====================================================
-   COURSE STATE
-   DATABASE REPLACEMENT POINT
+   PURCHASED LESSONS
 ===================================================== */
 
 let purchasedLessons =
@@ -1712,6 +1696,20 @@ let purchasedLessons =
         localStorage.getItem(
             "steadymazePurchasedLessons"
         ) || "[]"
+    );
+
+
+/* =====================================================
+   PAYMENT DATA
+===================================================== */
+
+let selectedPaymentMethod = null;
+
+let savedPayment =
+    JSON.parse(
+        localStorage.getItem(
+            "steadymazePayment"
+        ) || "null"
     );
 
 
@@ -1840,7 +1838,7 @@ function openSkill(skill){
 
 
 /* =====================================================
-   COURSE LEVELS
+   LEVELS
 ===================================================== */
 
 function renderCourseLevels(){
@@ -1864,6 +1862,13 @@ function renderCourseLevels(){
                 selectedSkill.group
             ][level];
 
+        const alreadyBought =
+            purchasedLessons.some(
+                item =>
+                    item.name === selectedSkill.name &&
+                    Number(item.level) === Number(level)
+            );
+
         html += `
             <button
                 class="level-btn"
@@ -1871,7 +1876,7 @@ function renderCourseLevels(){
                 onclick="openLevel(${level})"
             >
                 LEVEL ${level}<br>
-                $${price}
+                ${alreadyBought ? "PURCHASED" : "$"+price}
             </button>
         `;
     }
@@ -1881,7 +1886,7 @@ function renderCourseLevels(){
 
 
 /* =====================================================
-   LEVEL / BUY COURSE
+   LEVEL 1 / BUY
 ===================================================== */
 
 function openLevel(level){
@@ -1892,6 +1897,13 @@ function openLevel(level){
         coursePrices[
             selectedSkill.group
         ][level];
+
+    const alreadyBought =
+        purchasedLessons.some(
+            item =>
+                item.name === selectedSkill.name &&
+                Number(item.level) === Number(level)
+        );
 
     document.getElementById("modalImage").style.display =
         "block";
@@ -1956,16 +1968,49 @@ function openLevel(level){
 
         <br>
 
-        The complete lessons remain locked until
-        the level purchase is confirmed.
+        ${
+            alreadyBought
+            ? "This level is already available in My Lessons."
+            : "Choose BUY to continue to payment."
+        }
     `;
+
+    if(alreadyBought){
+
+        document.querySelector(".levels").innerHTML = `
+
+            <button
+                class="level-btn"
+                type="button"
+                onclick="openPurchasedLesson(
+                    purchasedLessons.findIndex(
+                        item =>
+                            item.name === '${selectedSkill.name}' &&
+                            Number(item.level) === ${level}
+                    )
+                )"
+            >
+                OPEN LESSON
+            </button>
+
+            <button
+                class="level-btn"
+                type="button"
+                onclick="renderCourseLevels()"
+            >
+                BACK
+            </button>
+        `;
+
+        return;
+    }
 
     document.querySelector(".levels").innerHTML = `
 
         <button
             class="level-btn"
             type="button"
-            onclick="buyCourse(
+            onclick="openCoursePayment(
                 '${selectedSkill.name}',
                 '${selectedSkill.group}',
                 ${level},
@@ -1990,12 +2035,11 @@ function openLevel(level){
 
 
 /* =====================================================
-   BUY COURSE
-   FRONTEND ONLY
-   DATABASE REPLACEMENT POINT
+   COURSE PAYMENT
+   LEVEL 1 BUY → PAYMENT → ADD → MY LESSON
 ===================================================== */
 
-function buyCourse(
+function openCoursePayment(
     name,
     group,
     level,
@@ -2003,11 +2047,251 @@ function buyCourse(
     image
 ){
 
+    selectedPaymentMethod = null;
+
+    document.getElementById("modalImage").style.display =
+        "block";
+
+    document.getElementById("modalImage").src =
+        image;
+
+    document.getElementById("modalTitle").textContent =
+        "PAY FOR LEVEL " + level;
+
+    document.getElementById("modalText").innerHTML = `
+
+        <div>
+
+            <div class="buy-box">
+
+                <div class="buy-price">
+
+                    <span>
+                        ${name} · LEVEL ${level}
+                    </span>
+
+                    <strong>
+                        $${price}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div style="
+                margin-top:17px;
+                color:#718492;
+                font-size:8px;
+                font-weight:900;
+                letter-spacing:1px;
+            ">
+                SELECT PAYMENT METHOD
+            </div>
+
+            <div class="payment-methods">
+
+                <div
+                    class="payment-method"
+                    id="payment-paypal"
+                    onclick="selectPayment('PayPal')"
+                >
+
+                    <img
+                        src="https://cdn.simpleicons.org/paypal/ffffff"
+                        alt="PayPal"
+                    >
+
+                    <strong>
+                        PayPal
+                    </strong>
+
+                    <span>
+                        Online payment
+                    </span>
+
+                </div>
+
+                <div
+                    class="payment-method"
+                    id="payment-visa"
+                    onclick="selectPayment('Visa')"
+                >
+
+                    <img
+                        src="https://cdn.simpleicons.org/visa/ffffff"
+                        alt="Visa"
+                    >
+
+                    <strong>
+                        Visa
+                    </strong>
+
+                    <span>
+                        Card payment
+                    </span>
+
+                </div>
+
+                <div
+                    class="payment-method"
+                    id="payment-mastercard"
+                    onclick="selectPayment('Mastercard')"
+                >
+
+                    <img
+                        src="https://cdn.simpleicons.org/mastercard/ffffff"
+                        alt="Mastercard"
+                    >
+
+                    <strong>
+                        Mastercard
+                    </strong>
+
+                    <span>
+                        Card payment
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="payment-input">
+
+                <label>
+                    PAYMENT ACCOUNT
+                </label>
+
+                <input
+                    type="text"
+                    id="paymentAccount"
+                    placeholder="Select a payment method first"
+                    disabled
+                >
+
+            </div>
+
+        </div>
+    `;
+
+    document.querySelector(".levels").innerHTML = `
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="payForCourse(
+                '${name}',
+                '${group}',
+                ${level},
+                ${price},
+                '${image}'
+            )"
+        >
+            PAY $${price}
+        </button>
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="openLevel(${level})"
+        >
+            BACK
+        </button>
+    `;
+
+    document.getElementById("modal").classList.add("show");
+}
+
+
+/* =====================================================
+   SELECT PAYMENT
+===================================================== */
+
+function selectPayment(method){
+
+    selectedPaymentMethod =
+        method;
+
+    document
+        .querySelectorAll(".payment-method")
+        .forEach(
+            item =>
+                item.classList.remove(
+                    "selected"
+                )
+        );
+
+    const id =
+        "payment-" +
+        method.toLowerCase();
+
+    const selected =
+        document.getElementById(id);
+
+    if(selected){
+        selected.classList.add("selected");
+    }
+
+    const input =
+        document.getElementById(
+            "paymentAccount"
+        );
+
+    if(!input) return;
+
+    input.disabled = false;
+
+    input.placeholder =
+        method === "PayPal"
+        ? "Enter PayPal email"
+        : "Enter card reference";
+}
+
+
+/* =====================================================
+   PAY COURSE
+===================================================== */
+
+function payForCourse(
+    name,
+    group,
+    level,
+    price,
+    image
+){
+
+    if(!selectedPaymentMethod){
+
+        alert(
+            "Please select PayPal, Visa or Mastercard."
+        );
+
+        return;
+    }
+
+    const accountInput =
+        document.getElementById(
+            "paymentAccount"
+        );
+
+    const account =
+        accountInput
+        ? accountInput.value.trim()
+        : "";
+
+    if(!account){
+
+        alert(
+            "Please enter your payment account information."
+        );
+
+        return;
+    }
+
     const existing =
         purchasedLessons.find(
             item =>
                 item.name === name &&
-                item.level === level
+                Number(item.level) === Number(level)
         );
 
     if(existing){
@@ -2020,42 +2304,77 @@ function buyCourse(
     }
 
     /*
-       IMPORTANT:
-       This is only a frontend purchase state.
-       Later this function will send:
-       student_id
-       skill_id
-       level_id
-       payment_id
+       FRONTEND PREVIEW ONLY.
 
-       to the backend/PostgreSQL.
+       Later this exact action will become:
+
+       student_id
+       course_id
+       level_id
+       payment_method
+       payment_id
+       amount
+
+       → backend
+       → payment provider
+       → PostgreSQL
+
+       No raw card number should be stored.
     */
 
-    purchasedLessons.push({
+    const purchase = {
+
         name:name,
         group:group,
         level:level,
         price:price,
         image:image,
-        status:"PURCHASED"
-    });
+        paymentMethod:selectedPaymentMethod,
+        paymentAccount:account,
+        status:"PURCHASED",
+        purchasedAt:new Date().toISOString()
+
+    };
+
+    purchasedLessons.push(
+        purchase
+    );
 
     localStorage.setItem(
         "steadymazePurchasedLessons",
         JSON.stringify(purchasedLessons)
     );
 
+    savedPayment = {
+
+        method:selectedPaymentMethod,
+        account:account,
+        status:"ADDED"
+
+    };
+
+    localStorage.setItem(
+        "steadymazePayment",
+        JSON.stringify(savedPayment)
+    );
+
     renderMyLessons();
 
     closeModal();
 
-    scrollToId("myLessons");
+    setTimeout(
+        () => {
+            scrollToId("myLessons");
+        },
+        150
+    );
 
     alert(
         name +
         " Level " +
         level +
-        " has been added to My Lessons."
+        " purchased successfully.\n\n" +
+        "The course is now available in My Lessons."
     );
 }
 
@@ -2122,6 +2441,15 @@ function renderMyLessons(){
                             $${course.price}
                         </span>
 
+                        <span
+                            class="lesson-tag"
+                            style="
+                                color:#00e676;
+                            "
+                        >
+                            ${course.status}
+                        </span>
+
                     </div>
 
                     <p class="lesson-description">
@@ -2145,6 +2473,7 @@ function renderMyLessons(){
             `;
 
             container.appendChild(card);
+
         }
     );
 }
@@ -2202,6 +2531,14 @@ function openPurchasedLesson(index){
             </span>
 
             Level ${course.level}
+
+            <br><br>
+
+            <span style="color:#718492;">
+                Payment:
+            </span>
+
+            ${course.paymentMethod}
 
             <br><br>
 
@@ -2276,25 +2613,201 @@ function lessonAction(type){
 
 
 /* =====================================================
-   NAVIGATION
+   PAYMENT ACCOUNT
 ===================================================== */
 
-function scrollToId(id){
+function openPayment(){
 
-    const target =
-        document.getElementById(id);
+    selectedPaymentMethod = null;
 
-    if(!target) return;
+    document.getElementById("modalImage").style.display =
+        "none";
 
-    target.scrollIntoView({
-        behavior:"smooth"
-    });
+    document.getElementById("modalTitle").textContent =
+        "Payment Account";
+
+    document.getElementById("modalText").innerHTML = `
+
+        <div>
+
+            <div style="
+                color:#718492;
+                font-size:8px;
+                font-weight:900;
+                letter-spacing:1px;
+            ">
+                ADD YOUR PAYMENT METHOD
+            </div>
+
+            <div class="payment-methods">
+
+                <div
+                    class="payment-method"
+                    id="payment-paypal"
+                    onclick="selectPayment('PayPal')"
+                >
+
+                    <img
+                        src="https://cdn.simpleicons.org/paypal/ffffff"
+                        alt="PayPal"
+                    >
+
+                    <strong>
+                        PayPal
+                    </strong>
+
+                    <span>
+                        Online payment
+                    </span>
+
+                </div>
+
+                <div
+                    class="payment-method"
+                    id="payment-visa"
+                    onclick="selectPayment('Visa')"
+                >
+
+                    <img
+                        src="https://cdn.simpleicons.org/visa/ffffff"
+                        alt="Visa"
+                    >
+
+                    <strong>
+                        Visa
+                    </strong>
+
+                    <span>
+                        Card payment
+                    </span>
+
+                </div>
+
+                <div
+                    class="payment-method"
+                    id="payment-mastercard"
+                    onclick="selectPayment('Mastercard')"
+                >
+
+                    <img
+                        src="https://cdn.simpleicons.org/mastercard/ffffff"
+                        alt="Mastercard"
+                    >
+
+                    <strong>
+                        Mastercard
+                    </strong>
+
+                    <span>
+                        Card payment
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div
+                class="payment-input"
+                id="paymentAccountField"
+            >
+
+                <label>
+                    PAYMENT ACCOUNT
+                </label>
+
+                <input
+                    type="text"
+                    id="paymentAccount"
+                    placeholder="Select a payment method first"
+                    disabled
+                >
+
+            </div>
+
+        </div>
+    `;
+
+    document.querySelector(".levels").innerHTML = `
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="savePaymentMethod()"
+        >
+            ADD PAYMENT
+        </button>
+
+        <button
+            class="level-btn"
+            type="button"
+            onclick="paymentAction('history')"
+        >
+            PAYMENT HISTORY
+        </button>
+    `;
+
+    document.getElementById("modal").classList.add("show");
+}
+
+
+function savePaymentMethod(){
+
+    if(!selectedPaymentMethod){
+
+        alert(
+            "Please select PayPal, Visa or Mastercard."
+        );
+
+        return;
+    }
+
+    const account =
+        document.getElementById(
+            "paymentAccount"
+        ).value.trim();
+
+    if(!account){
+
+        alert(
+            "Please enter your payment account information."
+        );
+
+        return;
+    }
+
+    savedPayment = {
+
+        method:selectedPaymentMethod,
+        account:account,
+        status:"ADDED"
+
+    };
+
+    localStorage.setItem(
+        "steadymazePayment",
+        JSON.stringify(savedPayment)
+    );
+
+    alert(
+        selectedPaymentMethod +
+        " payment method added successfully."
+    );
+
+    closeModal();
+}
+
+
+function paymentAction(type){
+
+    alert(
+        type.toUpperCase() +
+        " is ready for the real payment/backend system."
+    );
 }
 
 
 /* =====================================================
    PROFILE
-   CHANGE NAME + CHANGE PHOTO
 ===================================================== */
 
 let studentProfile =
@@ -2350,7 +2863,6 @@ function openProfile(){
 
             </div>
 
-
             <div class="profile-field">
 
                 <label>
@@ -2365,7 +2877,6 @@ function openProfile(){
                 >
 
             </div>
-
 
             <div class="profile-field">
 
@@ -2586,243 +3097,7 @@ function profileAction(type){
 
 
 /* =====================================================
-   PAYMENT
-   PAYPAL + VISA + MASTERCARD
-===================================================== */
-
-let selectedPaymentMethod = null;
-
-
-function openPayment(){
-
-    document.getElementById("modalImage").style.display =
-        "none";
-
-    document.getElementById("modalTitle").textContent =
-        "Payment Account";
-
-    document.getElementById("modalText").innerHTML = `
-
-        <div>
-
-            <div style="
-                color:#718492;
-                font-size:8px;
-                font-weight:900;
-                letter-spacing:1px;
-            ">
-                ADD YOUR PAYMENT METHOD
-            </div>
-
-            <div class="payment-methods">
-
-                <div
-                    class="payment-method"
-                    id="payment-paypal"
-                    onclick="selectPayment('PayPal')"
-                >
-
-                    <img
-                        src="https://cdn.simpleicons.org/paypal/ffffff"
-                        alt="PayPal"
-                    >
-
-                    <strong>
-                        PayPal
-                    </strong>
-
-                    <span>
-                        Online payment
-                    </span>
-
-                </div>
-
-
-                <div
-                    class="payment-method"
-                    id="payment-visa"
-                    onclick="selectPayment('Visa')"
-                >
-
-                    <img
-                        src="https://cdn.simpleicons.org/visa/ffffff"
-                        alt="Visa"
-                    >
-
-                    <strong>
-                        Visa
-                    </strong>
-
-                    <span>
-                        Card payment
-                    </span>
-
-                </div>
-
-
-                <div
-                    class="payment-method"
-                    id="payment-mastercard"
-                    onclick="selectPayment('Mastercard')"
-                >
-
-                    <img
-                        src="https://cdn.simpleicons.org/mastercard/ffffff"
-                        alt="Mastercard"
-                    >
-
-                    <strong>
-                        Mastercard
-                    </strong>
-
-                    <span>
-                        Card payment
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="payment-input"
-                id="paymentAccountField"
-            >
-
-                <label>
-                    PAYMENT ACCOUNT
-                </label>
-
-                <input
-                    type="text"
-                    id="paymentAccount"
-                    placeholder="Select a payment method first"
-                    disabled
-                >
-
-            </div>
-
-        </div>
-    `;
-
-    document.querySelector(".levels").innerHTML = `
-
-        <button
-            class="level-btn"
-            type="button"
-            onclick="savePaymentMethod()"
-        >
-            ADD PAYMENT
-        </button>
-
-        <button
-            class="level-btn"
-            type="button"
-            onclick="paymentAction('history')"
-        >
-            PAYMENT HISTORY
-        </button>
-    `;
-
-    document.getElementById("modal").classList.add("show");
-}
-
-
-function selectPayment(method){
-
-    selectedPaymentMethod =
-        method;
-
-    document
-        .querySelectorAll(".payment-method")
-        .forEach(
-            item =>
-                item.classList.remove(
-                    "selected"
-                )
-        );
-
-    const id =
-        "payment-" +
-        method.toLowerCase();
-
-    document
-        .getElementById(id)
-        .classList.add("selected");
-
-
-    const input =
-        document.getElementById(
-            "paymentAccount"
-        );
-
-    input.disabled = false;
-
-    input.placeholder =
-        method === "PayPal"
-        ? "Enter PayPal email"
-        : "Enter card reference";
-}
-
-
-function savePaymentMethod(){
-
-    if(!selectedPaymentMethod){
-
-        alert(
-            "Please select PayPal, Visa or Mastercard."
-        );
-
-        return;
-    }
-
-    const account =
-        document.getElementById(
-            "paymentAccount"
-        ).value.trim();
-
-    if(!account){
-
-        alert(
-            "Please enter your payment account information."
-        );
-
-        return;
-    }
-
-    /*
-       DATABASE REPLACEMENT POINT
-
-       Later this function will send the selected
-       payment method to the backend.
-
-       IMPORTANT:
-       Do not store raw card numbers in PostgreSQL.
-       A real payment provider/tokenization system
-       should handle sensitive card information.
-    */
-
-    alert(
-        selectedPaymentMethod +
-        " payment method is ready for backend connection."
-    );
-
-    closeModal();
-}
-
-
-function paymentAction(type){
-
-    alert(
-        type.toUpperCase() +
-        " is ready for the real payment/backend system."
-    );
-}
-
-
-/* =====================================================
    UPLOAD
-   ORIGINAL FUNCTION PRESERVED
 ===================================================== */
 
 function openUpload(){
@@ -2849,6 +3124,7 @@ function openUpload(){
 
         <div class="form-group">
             <label>PROJECT VIDEO</label>
+
             <input
                 type="file"
                 id="projectVideo"
@@ -2858,6 +3134,7 @@ function openUpload(){
 
         <div class="form-group">
             <label>PROJECT TITLE</label>
+
             <input
                 type="text"
                 id="projectTitle"
@@ -2867,6 +3144,7 @@ function openUpload(){
 
         <div class="form-group">
             <label>DESCRIPTION</label>
+
             <textarea
                 id="projectDescription"
                 placeholder="Project description"
@@ -2923,12 +3201,6 @@ function submitProject(){
 
 /* =====================================================
    LEADERBOARD
-   NEW COLUMNS:
-   RANK
-   STUDENT
-   POINTS
-   PROJECT/COURSES
-   LEVEL
 ===================================================== */
 
 function createLeaderboard(
@@ -2940,12 +3212,6 @@ function createLeaderboard(
         document.getElementById(elementId);
 
     let html = "";
-
-    /*
-       Header row.
-       Student names and results remain empty because
-       they will come from PostgreSQL.
-    */
 
     html += `
         <div
@@ -2982,7 +3248,6 @@ function createLeaderboard(
 
         </div>
     `;
-
 
     for(let i=1;i<=300;i++){
 
@@ -3060,8 +3325,6 @@ function openStudent(
 
 /* =====================================================
    REWARDS
-   18 REAL DATABASE POSITIONS
-   NO FAKE NAMES
 ===================================================== */
 
 function createRewardSlots(
@@ -3126,7 +3389,6 @@ createRewardSlots(
 
 /* =====================================================
    COMPETITION TIMER
-   ORIGINAL LOGIC PRESERVED
 ===================================================== */
 
 let competitionStart =
@@ -3148,21 +3410,8 @@ if(!competitionStart){
 competitionStart =
     Number(competitionStart);
 
-
-/*
-   7 DAYS LEARNING
-*/
-
 const learningDuration =
     7 * 24 * 60 * 60 * 1000;
-
-
-/*
-   24 HOURS UPLOAD WINDOW
-
-   Later:
-   PostgreSQL/backend provides this.
-*/
 
 const uploadDuration =
     24 * 60 * 60 * 1000;
@@ -3180,7 +3429,6 @@ function updateCompetition(){
     const uploadEnd =
         uploadStart +
         uploadDuration;
-
 
     const title =
         document.getElementById(
@@ -3212,9 +3460,7 @@ function updateCompetition(){
             "uploadBtn"
         );
 
-
     resetSteps();
-
 
     if(now < uploadStart){
 
@@ -3245,7 +3491,6 @@ function updateCompetition(){
 
         return;
     }
-
 
     if(
         now >= uploadStart &&
@@ -3279,7 +3524,6 @@ function updateCompetition(){
 
         return;
     }
-
 
     title.textContent =
         "REVIEW PERIOD";
@@ -3362,7 +3606,6 @@ function updateTimer(ms){
             1000
         );
 
-
     document.getElementById("days")
         .textContent =
         String(days).padStart(
@@ -3402,7 +3645,24 @@ setInterval(
 
 
 /* =====================================================
-   CLOSE MODAL
+   NAVIGATION
+===================================================== */
+
+function scrollToId(id){
+
+    const target =
+        document.getElementById(id);
+
+    if(!target) return;
+
+    target.scrollIntoView({
+        behavior:"smooth"
+    });
+}
+
+
+/* =====================================================
+   MODAL
 ===================================================== */
 
 document.getElementById("modal")
@@ -3428,15 +3688,10 @@ function closeModal(){
 
 
 /* =====================================================
-   INITIAL PROFILE
+   INITIAL
 ===================================================== */
 
 updateProfileAvatar();
-
-
-/* =====================================================
-   INITIAL MY LESSONS
-===================================================== */
 
 renderMyLessons();
 
