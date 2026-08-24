@@ -857,6 +857,51 @@ select{
     color:white;
 }
 
+/* CARD DETAILS */
+
+.card-payment-fields{
+    display:grid;
+    gap:13px;
+    margin-top:17px;
+}
+
+.card-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.card-field label{
+    display:block;
+    margin-bottom:6px;
+    color:#718492;
+    font-size:8px;
+    font-weight:900;
+}
+
+.card-field input{
+    width:100%;
+    padding:12px;
+    border:1px solid var(--line);
+    border-radius:9px;
+    outline:none;
+    background:#09151e;
+    color:white;
+    font-size:10px;
+}
+
+.card-field input:focus{
+    border-color:rgba(0,230,118,.4);
+    box-shadow:0 0 0 2px rgba(0,230,118,.05);
+}
+
+.card-security-note{
+    margin-top:3px;
+    color:#596d7b;
+    font-size:7px;
+    line-height:1.6;
+}
+
 /* MODAL */
 
 .modal{
@@ -1121,6 +1166,10 @@ select{
     }
 
     .payment-methods{
+        grid-template-columns:1fr;
+    }
+
+    .card-row{
         grid-template-columns:1fr;
     }
 }
@@ -1662,7 +1711,6 @@ const skills = [
 
 /* =====================================================
    COURSE PRICES
-   LEVEL 1 / LEVEL 2 / LEVEL 3
 ===================================================== */
 
 const coursePrices = {
@@ -2036,7 +2084,6 @@ function openLevel(level){
 
 /* =====================================================
    COURSE PAYMENT
-   LEVEL 1 BUY → PAYMENT → ADD → MY LESSON
 ===================================================== */
 
 function openCoursePayment(
@@ -2170,6 +2217,90 @@ function openCoursePayment(
 
             </div>
 
+            <div
+                class="card-payment-fields"
+                id="cardPaymentFields"
+                style="display:none;"
+            >
+
+                <div class="card-field">
+
+                    <label>
+                        NAME ON CARD
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cardName"
+                        autocomplete="cc-name"
+                        placeholder="Name on card"
+                    >
+
+                </div>
+
+                <div class="card-field">
+
+                    <label>
+                        CARD NUMBER
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cardNumber"
+                        inputmode="numeric"
+                        autocomplete="cc-number"
+                        maxlength="19"
+                        placeholder="Card number"
+                    >
+
+                </div>
+
+                <div class="card-row">
+
+                    <div class="card-field">
+
+                        <label>
+                            EXPIRY DATE
+                        </label>
+
+                        <input
+                            type="text"
+                            id="cardExpiry"
+                            inputmode="numeric"
+                            autocomplete="cc-exp"
+                            maxlength="5"
+                            placeholder="MM/YY"
+                        >
+
+                    </div>
+
+                    <div class="card-field">
+
+                        <label>
+                            CVC / CVV
+                        </label>
+
+                        <input
+                            type="password"
+                            id="cardCvc"
+                            inputmode="numeric"
+                            autocomplete="cc-csc"
+                            maxlength="4"
+                            placeholder="CVC / CVV"
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="card-security-note">
+                    Card details are not stored in this page.
+                    Secure payment processing will be connected
+                    to the payment provider/backend.
+                </div>
+
+            </div>
+
         </div>
     `;
 
@@ -2236,14 +2367,37 @@ function selectPayment(method){
             "paymentAccount"
         );
 
-    if(!input) return;
+    if(input){
 
-    input.disabled = false;
+        input.disabled = false;
 
-    input.placeholder =
-        method === "PayPal"
-        ? "Enter PayPal email"
-        : "Enter card reference";
+        input.placeholder =
+            method === "PayPal"
+            ? "Enter PayPal email"
+            : "Card payment selected";
+    }
+
+    const cardFields =
+        document.getElementById(
+            "cardPaymentFields"
+        );
+
+    if(cardFields){
+
+        if(
+            method === "Visa" ||
+            method === "Mastercard"
+        ){
+
+            cardFields.style.display =
+                "grid";
+
+        }else{
+
+            cardFields.style.display =
+                "none";
+        }
+    }
 }
 
 
@@ -2278,13 +2432,82 @@ function payForCourse(
         ? accountInput.value.trim()
         : "";
 
-    if(!account){
+    if(
+        selectedPaymentMethod === "PayPal" &&
+        !account
+    ){
 
         alert(
-            "Please enter your payment account information."
+            "Please enter your PayPal account information."
         );
 
         return;
+    }
+
+    if(
+        selectedPaymentMethod === "Visa" ||
+        selectedPaymentMethod === "Mastercard"
+    ){
+
+        const cardName =
+            document.getElementById("cardName");
+
+        const cardNumber =
+            document.getElementById("cardNumber");
+
+        const cardExpiry =
+            document.getElementById("cardExpiry");
+
+        const cardCvc =
+            document.getElementById("cardCvc");
+
+        if(
+            !cardName ||
+            !cardName.value.trim()
+        ){
+
+            alert("Please enter the name on the card.");
+
+            return;
+        }
+
+        if(
+            !cardNumber ||
+            !cardNumber.value.trim()
+        ){
+
+            alert("Please enter the card number.");
+
+            return;
+        }
+
+        if(
+            !cardExpiry ||
+            !cardExpiry.value.trim()
+        ){
+
+            alert("Please enter the expiry date.");
+
+            return;
+        }
+
+        if(
+            !cardCvc ||
+            !cardCvc.value.trim()
+        ){
+
+            alert("Please enter the CVC/CVV.");
+
+            return;
+        }
+
+        /*
+          Card number, expiry and CVC/CVV are intentionally
+          NOT saved in localStorage.
+
+          A real payment provider/backend must tokenize and
+          process these details securely.
+        */
     }
 
     const existing =
@@ -2303,25 +2526,6 @@ function payForCourse(
         return;
     }
 
-    /*
-       FRONTEND PREVIEW ONLY.
-
-       Later this exact action will become:
-
-       student_id
-       course_id
-       level_id
-       payment_method
-       payment_id
-       amount
-
-       → backend
-       → payment provider
-       → PostgreSQL
-
-       No raw card number should be stored.
-    */
-
     const purchase = {
 
         name:name,
@@ -2330,8 +2534,11 @@ function payForCourse(
         price:price,
         image:image,
         paymentMethod:selectedPaymentMethod,
-        paymentAccount:account,
-        status:"PURCHASED",
+        paymentAccount:
+            selectedPaymentMethod === "PayPal"
+            ? account
+            : "SECURE_CARD_PAYMENT",
+        status:"PAYMENT_PENDING",
         purchasedAt:new Date().toISOString()
 
     };
@@ -2348,7 +2555,10 @@ function payForCourse(
     savedPayment = {
 
         method:selectedPaymentMethod,
-        account:account,
+        account:
+            selectedPaymentMethod === "PayPal"
+            ? account
+            : "SECURE_CARD_PAYMENT",
         status:"ADDED"
 
     };
@@ -2370,11 +2580,9 @@ function payForCourse(
     );
 
     alert(
-        name +
-        " Level " +
-        level +
-        " purchased successfully.\n\n" +
-        "The course is now available in My Lessons."
+        "Payment form submitted.\n\n" +
+        "The real payment provider/backend must confirm " +
+        "the transaction before the course becomes active."
     );
 }
 
@@ -2724,6 +2932,90 @@ function openPayment(){
 
             </div>
 
+            <div
+                class="card-payment-fields"
+                id="cardPaymentFields"
+                style="display:none;"
+            >
+
+                <div class="card-field">
+
+                    <label>
+                        NAME ON CARD
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cardName"
+                        autocomplete="cc-name"
+                        placeholder="Name on card"
+                    >
+
+                </div>
+
+                <div class="card-field">
+
+                    <label>
+                        CARD NUMBER
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cardNumber"
+                        inputmode="numeric"
+                        autocomplete="cc-number"
+                        maxlength="19"
+                        placeholder="Card number"
+                    >
+
+                </div>
+
+                <div class="card-row">
+
+                    <div class="card-field">
+
+                        <label>
+                            EXPIRY DATE
+                        </label>
+
+                        <input
+                            type="text"
+                            id="cardExpiry"
+                            inputmode="numeric"
+                            autocomplete="cc-exp"
+                            maxlength="5"
+                            placeholder="MM/YY"
+                        >
+
+                    </div>
+
+                    <div class="card-field">
+
+                        <label>
+                            CVC / CVV
+                        </label>
+
+                        <input
+                            type="password"
+                            id="cardCvc"
+                            inputmode="numeric"
+                            autocomplete="cc-csc"
+                            maxlength="4"
+                            placeholder="CVC / CVV"
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="card-security-note">
+                    Card details are not stored in this page.
+                    Secure payment processing will be connected
+                    to the payment provider/backend.
+                </div>
+
+            </div>
+
         </div>
     `;
 
@@ -2761,27 +3053,117 @@ function savePaymentMethod(){
         return;
     }
 
-    const account =
+    const accountInput =
         document.getElementById(
             "paymentAccount"
-        ).value.trim();
+        );
 
-    if(!account){
+    const account =
+        accountInput
+        ? accountInput.value.trim()
+        : "";
+
+    if(
+        selectedPaymentMethod === "PayPal" &&
+        !account
+    ){
 
         alert(
-            "Please enter your payment account information."
+            "Please enter your PayPal account information."
         );
 
         return;
     }
 
-    savedPayment = {
+    if(
+        selectedPaymentMethod === "Visa" ||
+        selectedPaymentMethod === "Mastercard"
+    ){
 
-        method:selectedPaymentMethod,
-        account:account,
-        status:"ADDED"
+        const cardName =
+            document.getElementById("cardName");
 
-    };
+        const cardNumber =
+            document.getElementById("cardNumber");
+
+        const cardExpiry =
+            document.getElementById("cardExpiry");
+
+        const cardCvc =
+            document.getElementById("cardCvc");
+
+        if(
+            !cardName ||
+            !cardName.value.trim()
+        ){
+
+            alert(
+                "Please enter the name on the card."
+            );
+
+            return;
+        }
+
+        if(
+            !cardNumber ||
+            !cardNumber.value.trim()
+        ){
+
+            alert(
+                "Please enter the card number."
+            );
+
+            return;
+        }
+
+        if(
+            !cardExpiry ||
+            !cardExpiry.value.trim()
+        ){
+
+            alert(
+                "Please enter the expiry date."
+            );
+
+            return;
+        }
+
+        if(
+            !cardCvc ||
+            !cardCvc.value.trim()
+        ){
+
+            alert(
+                "Please enter the CVC/CVV."
+            );
+
+            return;
+        }
+
+        /*
+          Card details are not saved in localStorage.
+          Real payment processing will be connected
+          through a secure payment provider.
+        */
+
+        savedPayment = {
+
+            method:selectedPaymentMethod,
+            account:"SECURE_CARD_PAYMENT",
+            status:"ADDED"
+
+        };
+
+    }else{
+
+        savedPayment = {
+
+            method:selectedPaymentMethod,
+            account:account,
+            status:"ADDED"
+
+        };
+    }
 
     localStorage.setItem(
         "steadymazePayment",
