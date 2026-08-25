@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>SteadyMaze Admin Login</title>
 
 <style>
@@ -80,8 +81,8 @@ body{
     font-weight:bold;
 }
 
-.active{
-    background:#2563eb !important;
+.tabs button.active{
+    background:#2563eb;
     color:white;
 }
 
@@ -108,6 +109,11 @@ body{
     padding:14px;
     border:1px solid #d1d5db;
     border-radius:10px;
+    outline:none;
+}
+
+.input-group input:focus{
+    border-color:#2563eb;
 }
 
 .btn{
@@ -119,6 +125,10 @@ body{
     color:white;
     font-size:16px;
     cursor:pointer;
+}
+
+.btn:hover{
+    opacity:.9;
 }
 
 .links{
@@ -140,132 +150,273 @@ body{
 }
 
 @media(max-width:900px){
-.container{
-grid-template-columns:1fr;
-}
-.left{
-display:none;
-}
+
+    .container{
+        grid-template-columns:1fr;
+    }
+
+    .left{
+        display:none;
+    }
+
+    .right{
+        padding:30px 20px;
+    }
+
+    .tabs{
+        flex-direction:column;
+    }
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-<div class="left">
-<h1>SteadyMaze</h1>
-<p>
-Admin Portal for managing students, teachers,
-competitions, lessons, rewards and system settings.
-</p>
+    <div class="left">
 
-<div class="features">
-<div>✓ Secure Admin Access</div>
-<div>✓ Competition Management</div>
-<div>✓ Student Analytics</div>
-<div>✓ Teacher Dashboard Control</div>
-<div>✓ Reward Management</div>
+        <h1>SteadyMaze</h1>
+
+        <p>
+            Admin Portal for managing students, teachers,
+            competitions, lessons, rewards and system settings.
+        </p>
+
+        <div class="features">
+            <div>✓ Secure Admin Access</div>
+            <div>✓ Competition Management</div>
+            <div>✓ Student Analytics</div>
+            <div>✓ Teacher Dashboard Control</div>
+            <div>✓ Reward Management</div>
+        </div>
+
+    </div>
+
+
+    <div class="right">
+
+        <div class="tabs">
+
+            <button
+                type="button"
+                class="active"
+                onclick="showForm('login', this)">
+                Login
+            </button>
+
+            <button
+                type="button"
+                onclick="showForm('signup', this)">
+                Create Account
+            </button>
+
+            <button
+                type="button"
+                onclick="showForm('forgot', this)">
+                Forgot Password
+            </button>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <form id="login" class="form">
+
+            <div class="input-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    placeholder="admin@example.com"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    placeholder="Enter password"
+                    required>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn"
+                onclick="goToAdmin()">
+
+                Login
+
+            </button>
+
+
+            <div class="links">
+
+                <a
+                    href="#"
+                    onclick="showForm('forgot', document.querySelectorAll('.tabs button')[2]); return false;">
+
+                    Forgot Password?
+
+                </a>
+
+
+                <a
+                    href="#"
+                    onclick="showForm('signup', document.querySelectorAll('.tabs button')[1]); return false;">
+
+                    Create Account
+
+                </a>
+
+            </div>
+
+        </form>
+
+
+        <!-- SIGNUP -->
+
+        <form id="signup" class="form hidden">
+
+            <div class="input-group">
+
+                <label>Full Name</label>
+
+                <input
+                    type="text"
+                    placeholder="Full Name">
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    placeholder="Email Address">
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    placeholder="Password">
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Confirm Password</label>
+
+                <input
+                    type="password"
+                    placeholder="Confirm Password">
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn">
+
+                Create Account
+
+            </button>
+
+        </form>
+
+
+        <!-- FORGOT PASSWORD -->
+
+        <form id="forgot" class="form hidden">
+
+            <div class="input-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    placeholder="Enter Email">
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn">
+
+                Send Reset Link
+
+            </button>
+
+        </form>
+
+
+        <div class="footer">
+
+            SteadyMaze Admin Portal © 2026
+
+        </div>
+
+    </div>
+
 </div>
-</div>
 
-<div class="right">
-
-<div class="tabs">
-<button class="active" onclick="showForm('login')">Login</button>
-<button onclick="showForm('signup')">Create Account</button>
-<button onclick="showForm('forgot')">Forgot Password</button>
-</div>
-
-<!-- LOGIN -->
-<form id="login" class="form">
-
-<div class="input-group">
-<label>Email Address</label>
-<input type="email" placeholder="admin@example.com">
-</div>
-
-<div class="input-group">
-<label>Password</label>
-<input type="password" placeholder="Enter password">
-</div>
-
-<button type="button" class="btn"
-onclick="window.location.href='admin.html'">
-Login
-</button>
-
-<div class="links">
-<a href="#" onclick="showForm('forgot')">Forgot Password?</a>
-<a href="#" onclick="showForm('signup')">Create Account</a>
-</div>
-
-</form>
-
-<!-- SIGNUP -->
-<form id="signup" class="form hidden">
-
-<div class="input-group">
-<label>Full Name</label>
-<input type="text" placeholder="Full Name">
-</div>
-
-<div class="input-group">
-<label>Email Address</label>
-<input type="email" placeholder="Email Address">
-</div>
-
-<div class="input-group">
-<label>Password</label>
-<input type="password" placeholder="Password">
-</div>
-
-<div class="input-group">
-<label>Confirm Password</label>
-<input type="password" placeholder="Confirm Password">
-</div>
-
-<button type="button" class="btn">
-Create Account
-</button>
-
-</form>
-
-<!-- FORGOT -->
-<form id="forgot" class="form hidden">
-
-<div class="input-group">
-<label>Email Address</label>
-<input type="email" placeholder="Enter Email">
-</div>
-
-<button type="button" class="btn">
-Send Reset Link
-</button>
-
-</form>
-
-<div class="footer">
-SteadyMaze Admin Portal © 2026
-</div>
-
-</div>
-</div>
 
 <script>
 
-function showForm(formId){
+function showForm(formId, clickedButton){
 
-document.getElementById('login').classList.add('hidden');
-document.getElementById('signup').classList.add('hidden');
-document.getElementById('forgot').classList.add('hidden');
+    document.getElementById("login")
+        .classList.add("hidden");
 
-document.getElementById(formId).classList.remove('hidden');
+    document.getElementById("signup")
+        .classList.add("hidden");
 
-document.querySelectorAll('.tabs button')
-.forEach(btn=>btn.classList.remove('active'));
+    document.getElementById("forgot")
+        .classList.add("hidden");
 
-event.target.classList.add('active');
+
+    document.getElementById(formId)
+        .classList.remove("hidden");
+
+
+    document.querySelectorAll(".tabs button")
+        .forEach(function(button){
+
+            button.classList.remove("active");
+
+        });
+
+
+    if(clickedButton){
+
+        clickedButton.classList.add("active");
+
+    }
+
+}
+
+
+function goToAdmin(){
+
+    window.location.href = "admin.html";
+
 }
 
 </script>
