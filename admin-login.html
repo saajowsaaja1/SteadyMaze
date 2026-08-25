@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteadyMaze Admin Login</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#0f172a;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    box-shadow:0 20px 50px rgba(0,0,0,.3);
+}
+
+.left{
+    background:linear-gradient(135deg,#2563eb,#0f172a);
+    color:#fff;
+    padding:50px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.left h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.left p{
+    line-height:1.8;
+    opacity:.9;
+}
+
+.features{
+    margin-top:30px;
+}
+
+.features div{
+    margin-bottom:15px;
+}
+
+.right{
+    padding:40px;
+}
+
+.tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:25px;
+}
+
+.tabs button{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#e5e7eb;
+    font-weight:bold;
+}
+
+.active{
+    background:#2563eb !important;
+    color:white;
+}
+
+.form{
+    display:block;
+}
+
+.hidden{
+    display:none;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+.input-group input{
+    width:100%;
+    padding:14px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.links{
+    display:flex;
+    justify-content:space-between;
+    margin-top:15px;
+}
+
+.links a{
+    text-decoration:none;
+    color:#2563eb;
+}
+
+.footer{
+    margin-top:20px;
+    text-align:center;
+    color:#6b7280;
+    font-size:14px;
+}
+
+@media(max-width:900px){
+.container{
+grid-template-columns:1fr;
+}
+.left{
+display:none;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="left">
+<h1>SteadyMaze</h1>
+<p>
+Admin Portal for managing students, teachers,
+competitions, lessons, rewards and system settings.
+</p>
+
+<div class="features">
+<div>✓ Secure Admin Access</div>
+<div>✓ Competition Management</div>
+<div>✓ Student Analytics</div>
+<div>✓ Teacher Dashboard Control</div>
+<div>✓ Reward Management</div>
+</div>
+</div>
+
+<div class="right">
+
+<div class="tabs">
+<button class="active" onclick="showForm('login')">Login</button>
+<button onclick="showForm('signup')">Create Account</button>
+<button onclick="showForm('forgot')">Forgot Password</button>
+</div>
+
+<!-- LOGIN -->
+<form id="login" class="form">
+
+<div class="input-group">
+<label>Email Address</label>
+<input type="email" placeholder="admin@example.com">
+</div>
+
+<div class="input-group">
+<label>Password</label>
+<input type="password" placeholder="Enter password">
+</div>
+
+<button type="button" class="btn"
+onclick="window.location.href='admin.html'">
+Login
+</button>
+
+<div class="links">
+<a href="#" onclick="showForm('forgot')">Forgot Password?</a>
+<a href="#" onclick="showForm('signup')">Create Account</a>
+</div>
+
+</form>
+
+<!-- SIGNUP -->
+<form id="signup" class="form hidden">
+
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" placeholder="Full Name">
+</div>
+
+<div class="input-group">
+<label>Email Address</label>
+<input type="email" placeholder="Email Address">
+</div>
+
+<div class="input-group">
+<label>Password</label>
+<input type="password" placeholder="Password">
+</div>
+
+<div class="input-group">
+<label>Confirm Password</label>
+<input type="password" placeholder="Confirm Password">
+</div>
+
+<button type="button" class="btn">
+Create Account
+</button>
+
+</form>
+
+<!-- FORGOT -->
+<form id="forgot" class="form hidden">
+
+<div class="input-group">
+<label>Email Address</label>
+<input type="email" placeholder="Enter Email">
+</div>
+
+<button type="button" class="btn">
+Send Reset Link
+</button>
+
+</form>
+
+<div class="footer">
+SteadyMaze Admin Portal © 2026
+</div>
+
+</div>
+</div>
+
+<script>
+
+function showForm(formId){
+
+document.getElementById('login').classList.add('hidden');
+document.getElementById('signup').classList.add('hidden');
+document.getElementById('forgot').classList.add('hidden');
+
+document.getElementById(formId).classList.remove('hidden');
+
+document.querySelectorAll('.tabs button')
+.forEach(btn=>btn.classList.remove('active'));
+
+event.target.classList.add('active');
+}
+
+</script>
+
+</body>
+</html>
