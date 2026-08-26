@@ -7,45 +7,57 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 :root{
- --bg:#050816;
- --panel:#0b1024;
- --panel2:#101631;
- --purple:#8b5cf6;
- --purple2:#6d28d9;
- --blue:#2563eb;
- --blue2:#38bdf8;
+ --bg:#f5f7f6;
+ --panel:#ffffff;
+ --panel2:#f0f5f2;
+ --green:#16a34a;
+ --green2:#22c55e;
+ --greenSoft:#dcfce7;
+ --red:#dc2626;
+ --red2:#ef4444;
+ --redSoft:#fee2e2;
  --gold:#d4af37;
  --orange:#f59e0b;
- --green:#22c55e;
- --red:#ef4444;
- --text:#fff;
- --muted:#8994ad;
- --line:rgba(255,255,255,.08);
+ --blue:#2563eb;
+ --blue2:#38bdf8;
+ --purple:#7c3aed;
+ --text:#111827;
+ --muted:#6b7280;
+ --line:#e5e7eb;
+ --shadow:0 8px 30px rgba(15,23,42,.07);
 }
+
 body{
  font-family:Inter,Arial,sans-serif;
  background:
- radial-gradient(circle at 80% 0%,rgba(109,40,217,.16),transparent 30%),
- radial-gradient(circle at 20% 30%,rgba(37,99,235,.1),transparent 28%),
+ radial-gradient(circle at 85% 0%,rgba(34,197,94,.12),transparent 27%),
+ radial-gradient(circle at 5% 30%,rgba(220,38,38,.07),transparent 24%),
  var(--bg);
  color:var(--text);
  min-height:100vh;
 }
+
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
+
 .app{display:flex;min-height:100vh}
 
 /* SIDEBAR */
 .sidebar{
  width:275px;
  position:fixed;
- left:0;top:0;bottom:0;
- background:rgba(7,10,27,.96);
+ left:0;
+ top:0;
+ bottom:0;
+ background:#fff;
  border-right:1px solid var(--line);
  z-index:100;
  overflow:auto;
+ box-shadow:4px 0 20px rgba(15,23,42,.04);
 }
+
 .logo{
  height:82px;
  padding:0 25px;
@@ -55,22 +67,27 @@ button{cursor:pointer}
  font-weight:900;
  letter-spacing:1px;
  border-bottom:1px solid var(--line);
+ color:#111827;
 }
-.logo span{color:var(--purple)}
+
+.logo span{color:var(--green)}
+
 .admin-tag{
  margin:20px 18px 10px;
  font-size:10px;
  letter-spacing:1.6px;
- color:#5d6881;
+ color:#9ca3af;
  font-weight:800;
  text-transform:uppercase;
 }
+
 .nav{padding:0 12px 30px}
+
 .nav button{
  width:100%;
  border:1px solid transparent;
  background:transparent;
- color:#9ca8bd;
+ color:#64748b;
  padding:12px 13px;
  border-radius:10px;
  display:flex;
@@ -80,24 +97,36 @@ button{cursor:pointer}
  text-align:left;
  transition:.2s;
 }
+
 .nav button:hover{
- background:rgba(139,92,246,.08);
- color:#fff;
+ background:#f0fdf4;
+ color:#166534;
 }
+
 .nav button.active{
- color:#c4b5fd;
- background:linear-gradient(90deg,rgba(109,40,217,.22),rgba(37,99,235,.08));
- border-color:rgba(139,92,246,.2);
+ color:#15803d;
+ background:linear-gradient(90deg,#dcfce7,#fef2f2);
+ border-color:#bbf7d0;
 }
-.navicon{width:22px;text-align:center}
+
+.navicon{
+ width:22px;
+ text-align:center;
+}
+
 .navname{flex:1}
-.arrow{font-size:11px;color:#5d6881}
+
+.arrow{
+ font-size:11px;
+ color:#94a3b8;
+}
 
 /* MAIN */
 .main{
  margin-left:275px;
  width:calc(100% - 275px);
 }
+
 .topbar{
  height:82px;
  position:sticky;
@@ -107,33 +136,62 @@ button{cursor:pointer}
  justify-content:space-between;
  align-items:center;
  padding:0 28px;
- background:rgba(5,8,22,.9);
+ background:rgba(255,255,255,.92);
  backdrop-filter:blur(18px);
  border-bottom:1px solid var(--line);
 }
+
 .mobile-menu{
  display:none;
  background:none;
  border:0;
- color:#fff;
+ color:#111827;
  font-size:24px;
 }
-.page-title{font-size:20px;font-weight:850}
-.page-sub{font-size:11px;color:var(--muted);margin-top:4px}
+
+.page-title{
+ font-size:20px;
+ font-weight:850;
+}
+
+.page-sub{
+ font-size:11px;
+ color:var(--muted);
+ margin-top:4px;
+}
+
 .admin{
  display:flex;
  align-items:center;
  gap:11px;
 }
+
 .admin-avatar{
- width:40px;height:40px;border-radius:50%;
- display:grid;place-items:center;
- background:linear-gradient(135deg,var(--purple),var(--blue));
+ width:40px;
+ height:40px;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ background:linear-gradient(135deg,var(--green),var(--red));
+ color:#fff;
  font-weight:900;
+ overflow:hidden;
+ border:2px solid #fff;
+ box-shadow:0 2px 10px rgba(0,0,0,.12);
 }
+
+.admin-avatar img{
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ display:none;
+}
+
 .content{padding:28px}
+
 .section{display:none}
 .section.active{display:block}
+
 .head{
  display:flex;
  justify-content:space-between;
@@ -141,26 +199,66 @@ button{cursor:pointer}
  gap:15px;
  margin-bottom:22px;
 }
+
 .head h1{font-size:27px}
-.head p{color:var(--muted);font-size:12px;margin-top:7px}
-.actions{display:flex;gap:9px;flex-wrap:wrap}
+
+.head p{
+ color:var(--muted);
+ font-size:12px;
+ margin-top:7px;
+}
+
+.actions{
+ display:flex;
+ gap:9px;
+ flex-wrap:wrap;
+}
+
 .btn{
  border:1px solid var(--line);
- background:#111936;
- color:#fff;
+ background:#fff;
+ color:#374151;
  padding:10px 15px;
  border-radius:9px;
  font-weight:700;
  font-size:12px;
+ transition:.2s;
 }
-.btn:hover{border-color:rgba(139,92,246,.45)}
+
+.btn:hover{
+ border-color:#86efac;
+ background:#f0fdf4;
+}
+
 .btn.purple{
- background:linear-gradient(135deg,var(--purple2),var(--blue));
+ background:linear-gradient(135deg,var(--green),#15803d);
+ color:#fff;
  border:0;
 }
-.btn.gold{background:var(--gold);color:#090b13;border:0}
-.btn.green{color:#4ade80;background:rgba(34,197,94,.1)}
-.btn.red{color:#f87171;background:rgba(239,68,68,.09)}
+
+.btn.gold{
+ background:var(--gold);
+ color:#090b13;
+ border:0;
+}
+
+.btn.green{
+ color:#15803d;
+ background:var(--greenSoft);
+ border-color:#bbf7d0;
+}
+
+.btn.red{
+ color:#b91c1c;
+ background:var(--redSoft);
+ border-color:#fecaca;
+}
+
+.btn.blue{
+ color:#1d4ed8;
+ background:#dbeafe;
+ border-color:#bfdbfe;
+}
 
 /* DASHBOARD CARDS */
 .stats{
@@ -168,86 +266,131 @@ button{cursor:pointer}
  grid-template-columns:repeat(4,1fr);
  gap:15px;
 }
+
 .stat{
- background:linear-gradient(145deg,#0d132d,#090e20);
+ background:#fff;
  border:1px solid var(--line);
  border-radius:15px;
  padding:19px;
  position:relative;
  overflow:hidden;
+ box-shadow:var(--shadow);
 }
+
 .stat:after{
  content:"";
  position:absolute;
- width:100px;height:100px;
+ width:100px;
+ height:100px;
  border-radius:50%;
  background:var(--accent);
- right:-40px;bottom:-45px;
+ right:-40px;
+ bottom:-45px;
  opacity:.08;
 }
-.stat-top{display:flex;justify-content:space-between;align-items:center}
-.stat small{color:var(--muted);font-size:11px}
+
+.stat-top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+.stat small{
+ color:var(--muted);
+ font-size:11px;
+}
+
 .stat-icon{
- width:40px;height:40px;
- display:grid;place-items:center;
+ width:40px;
+ height:40px;
+ display:grid;
+ place-items:center;
  border-radius:10px;
  color:var(--accent);
- background:rgba(255,255,255,.035);
+ background:#f8fafc;
 }
-.stat h2{font-size:25px;margin-top:17px}
+
+.stat h2{
+ font-size:25px;
+ margin-top:17px;
+}
 
 /* CARDS */
 .card{
- background:linear-gradient(145deg,#0d132b,#090e20);
+ background:#fff;
  border:1px solid var(--line);
  border-radius:15px;
  padding:20px;
+ box-shadow:var(--shadow);
 }
+
 .grid2{
  display:grid;
  grid-template-columns:1.3fr .7fr;
  gap:17px;
  margin-top:18px;
 }
+
 .card-title{
  display:flex;
  justify-content:space-between;
  align-items:center;
  margin-bottom:17px;
 }
+
 .card-title h3{font-size:15px}
-.muted{color:var(--muted);font-size:11px}
+
+.muted{
+ color:var(--muted);
+ font-size:11px;
+}
 
 /* TABLE */
 .table-card{
- background:#0b1024;
+ background:#fff;
  border:1px solid var(--line);
  border-radius:14px;
  overflow:hidden;
+ box-shadow:var(--shadow);
 }
+
 .table-scroll{overflow:auto}
+
 table{
  width:100%;
  border-collapse:collapse;
  min-width:700px;
 }
+
 th{
  padding:14px 15px;
- background:#0f1730;
- color:#78849d;
+ background:#f8fafc;
+ color:#64748b;
  font-size:10px;
  letter-spacing:.8px;
  text-transform:uppercase;
  text-align:left;
 }
+
 td{
  padding:13px 15px;
  border-top:1px solid var(--line);
  font-size:12px;
 }
-tr:hover td{background:rgba(139,92,246,.025)}
-.rank{color:var(--gold);font-weight:900}
-.empty{color:#59657e}
+
+tr:hover td{
+ background:#f8fafc;
+}
+
+.rank{
+ color:#b08b12;
+ font-weight:900;
+}
+
+.empty{
+ color:#94a3b8;
+}
+
 .badge{
  display:inline-flex;
  padding:5px 9px;
@@ -255,10 +398,26 @@ tr:hover td{background:rgba(139,92,246,.025)}
  font-size:9px;
  font-weight:800;
 }
-.badge.green{background:rgba(34,197,94,.1);color:#4ade80}
-.badge.yellow{background:rgba(245,158,11,.1);color:#fbbf24}
-.badge.red{background:rgba(239,68,68,.1);color:#f87171}
-.badge.blue{background:rgba(59,130,246,.1);color:#60a5fa}
+
+.badge.green{
+ background:var(--greenSoft);
+ color:#15803d;
+}
+
+.badge.yellow{
+ background:#fef3c7;
+ color:#b45309;
+}
+
+.badge.red{
+ background:var(--redSoft);
+ color:#b91c1c;
+}
+
+.badge.blue{
+ background:#dbeafe;
+ color:#1d4ed8;
+}
 
 /* PROFILE */
 .profile-layout{
@@ -266,28 +425,49 @@ tr:hover td{background:rgba(139,92,246,.025)}
  grid-template-columns:310px 1fr;
  gap:18px;
 }
+
 .profile-card{text-align:center}
+
 .profile-photo{
- width:125px;height:125px;
+ width:125px;
+ height:125px;
  border-radius:50%;
  margin:8px auto 15px;
- background:
- linear-gradient(135deg,rgba(139,92,246,.35),rgba(37,99,235,.2)),
- #111936;
- border:2px solid rgba(139,92,246,.4);
+ background:linear-gradient(135deg,#dcfce7,#fee2e2);
+ border:3px solid rgba(34,197,94,.35);
  display:grid;
  place-items:center;
  overflow:hidden;
 }
+
 .profile-photo img{
- width:100%;height:100%;
+ width:100%;
+ height:100%;
  object-fit:cover;
  display:none;
 }
-.profile-photo span{font-size:35px;color:#68748c}
-.profile-name{font-size:18px;font-weight:800}
-.profile-role{color:var(--muted);font-size:11px;margin-top:5px}
-.profile-actions{margin-top:18px;display:grid;gap:9px}
+
+.profile-photo span{
+ font-size:35px;
+ color:#68748c;
+}
+
+.profile-name{
+ font-size:18px;
+ font-weight:800;
+}
+
+.profile-role{
+ color:var(--muted);
+ font-size:11px;
+ margin-top:5px;
+}
+
+.profile-actions{
+ margin-top:18px;
+ display:grid;
+ gap:9px;
+}
 
 /* FORM */
 .form-grid{
@@ -295,62 +475,90 @@ tr:hover td{background:rgba(139,92,246,.025)}
  grid-template-columns:repeat(2,1fr);
  gap:14px;
 }
-.form-group{display:flex;flex-direction:column;gap:7px}
-.form-group.full{grid-column:1/-1}
-.form-group label{font-size:11px;color:#8d99b1}
+
+.form-group{
+ display:flex;
+ flex-direction:column;
+ gap:7px;
+}
+
+.form-group.full{
+ grid-column:1/-1;
+}
+
+.form-group label{
+ font-size:11px;
+ color:#64748b;
+}
+
 .input,.select,.textarea{
  width:100%;
- background:#070d20;
- color:#fff;
- border:1px solid var(--line);
+ background:#fff;
+ color:#111827;
+ border:1px solid #dbe1e8;
  border-radius:9px;
  padding:11px 12px;
  outline:none;
 }
-.textarea{min-height:105px;resize:vertical}
-.input:focus,.select:focus,.textarea:focus{
- border-color:rgba(139,92,246,.5);
+
+.textarea{
+ min-height:105px;
+ resize:vertical;
 }
 
-/* AI CHAT */
+.input:focus,
+.select:focus,
+.textarea:focus{
+ border-color:#4ade80;
+ box-shadow:0 0 0 3px rgba(34,197,94,.08);
+}
+
+/* AI */
 .ai-layout{
  display:grid;
  grid-template-columns:230px 1fr;
  gap:15px;
  min-height:580px;
 }
+
 .chat-list{
- background:#0b1024;
+ background:#fff;
  border:1px solid var(--line);
  border-radius:14px;
  padding:12px;
 }
+
 .chat-list button{
  width:100%;
  padding:12px;
  border:0;
  background:transparent;
- color:#9ba6bb;
+ color:#64748b;
  text-align:left;
  border-radius:8px;
 }
+
 .chat-list button.active{
- background:rgba(139,92,246,.12);
- color:#c4b5fd;
+ background:#dcfce7;
+ color:#15803d;
 }
+
 .chat{
- background:#0b1024;
+ background:#fff;
  border:1px solid var(--line);
  border-radius:14px;
  display:flex;
  flex-direction:column;
  overflow:hidden;
 }
+
 .chat-head{
  padding:15px 18px;
  border-bottom:1px solid var(--line);
 }
+
 .chat-head strong{font-size:13px}
+
 .chat-body{
  flex:1;
  padding:20px;
@@ -358,6 +566,7 @@ tr:hover td{background:rgba(139,92,246,.025)}
  flex-direction:column;
  gap:12px;
 }
+
 .message{
  max-width:70%;
  padding:11px 13px;
@@ -365,21 +574,26 @@ tr:hover td{background:rgba(139,92,246,.025)}
  font-size:12px;
  line-height:1.5;
 }
+
 .message.ai{
- background:#111936;
- color:#cbd5e1;
+ background:#f1f5f9;
+ color:#475569;
  align-self:flex-start;
 }
+
 .message.me{
- background:linear-gradient(135deg,var(--purple2),var(--blue));
+ background:linear-gradient(135deg,var(--green),#15803d);
+ color:#fff;
  align-self:flex-end;
 }
+
 .chat-input{
  padding:13px;
  border-top:1px solid var(--line);
  display:flex;
  gap:8px;
 }
+
 .chat-input input{flex:1}
 
 /* PAYMENT */
@@ -388,33 +602,41 @@ tr:hover td{background:rgba(139,92,246,.025)}
  grid-template-columns:repeat(3,1fr);
  gap:15px;
 }
+
 .payment-card{
  min-height:150px;
  border-radius:16px;
  padding:20px;
  position:relative;
  overflow:hidden;
- border:1px solid rgba(255,255,255,.08);
+ border:1px solid rgba(255,255,255,.2);
+ color:#fff;
 }
+
 .visa{
  background:linear-gradient(135deg,#172554,#1d4ed8);
 }
+
 .mastercard{
  background:linear-gradient(135deg,#210c19,#7f1d1d,#111827);
 }
+
 .paypal{
  background:linear-gradient(135deg,#06233c,#0369a1);
 }
+
 .payment-logo{
  font-size:25px;
  font-weight:950;
  font-style:italic;
 }
+
 .payment-number{
  margin-top:35px;
  letter-spacing:2px;
  font-size:13px;
 }
+
 .payment-meta{
  display:flex;
  justify-content:space-between;
@@ -422,35 +644,125 @@ tr:hover td{background:rgba(139,92,246,.025)}
  color:#dbeafe;
  margin-top:12px;
 }
+
 .add-account{
  margin-top:16px;
- border:1px dashed rgba(139,92,246,.35);
+ border:1px dashed #86efac;
  border-radius:13px;
  padding:18px;
  text-align:center;
- color:#a5b4fc;
- background:rgba(139,92,246,.04);
+ color:#15803d;
+ background:#f0fdf4;
 }
 
-/* BALANCE / ANALYTICS */
+/* ANALYSIS */
 .balance-grid{
  display:grid;
  grid-template-columns:1fr 1fr;
  gap:17px;
 }
+
 .balance{
  padding:25px;
  border-radius:16px;
  color:#fff;
+ box-shadow:var(--shadow);
 }
+
 .balance.orange{
  background:linear-gradient(135deg,#7c2d12,#f59e0b,#78350f);
 }
+
 .balance.gold{
- background:linear-gradient(135deg,#6b4f0b,#d4af37,#8a6a16);
+ background:linear-gradient(135deg,#166534,#22c55e,#15803d);
 }
-.balance small{opacity:.8;font-size:11px}
-.balance h2{font-size:31px;margin:14px 0}
+
+.balance small{
+ opacity:.8;
+ font-size:11px;
+}
+
+.balance h2{
+ font-size:31px;
+ margin:14px 0;
+}
+
+.analysis-grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:15px;
+ margin-top:17px;
+}
+
+.analysis-card{
+ background:#fff;
+ border:1px solid var(--line);
+ border-radius:15px;
+ padding:18px;
+ box-shadow:var(--shadow);
+}
+
+.analysis-card .analysis-icon{
+ width:42px;
+ height:42px;
+ display:grid;
+ place-items:center;
+ border-radius:10px;
+ margin-bottom:14px;
+ font-weight:900;
+}
+
+.analysis-card.green .analysis-icon{
+ color:#15803d;
+ background:#dcfce7;
+}
+
+.analysis-card.red .analysis-icon{
+ color:#b91c1c;
+ background:#fee2e2;
+}
+
+.analysis-card.blue .analysis-icon{
+ color:#1d4ed8;
+ background:#dbeafe;
+}
+
+.analysis-card.gold .analysis-icon{
+ color:#a16207;
+ background:#fef3c7;
+}
+
+.analysis-card.purple .analysis-icon{
+ color:#6d28d9;
+ background:#ede9fe;
+}
+
+.analysis-card.orange .analysis-icon{
+ color:#c2410c;
+ background:#ffedd5;
+}
+
+.analysis-card h4{
+ font-size:12px;
+ color:#64748b;
+ font-weight:700;
+}
+
+.analysis-number{
+ font-size:25px;
+ font-weight:900;
+ margin-top:8px;
+}
+
+.growth{
+ margin-top:8px;
+ font-size:10px;
+ font-weight:800;
+}
+
+.growth.up{color:#16a34a}
+.growth.down{color:#dc2626}
+
 .chart{
  height:300px;
  margin-top:18px;
@@ -461,29 +773,73 @@ tr:hover td{background:rgba(139,92,246,.025)}
   to bottom,
   transparent 0,
   transparent 49px,
-  rgba(255,255,255,.045) 50px
+  rgba(15,23,42,.045) 50px
  ),
- #090e20;
+ #fff;
  overflow:hidden;
  position:relative;
 }
-.chart svg{width:100%;height:100%}
+
+.chart svg{
+ width:100%;
+ height:100%;
+}
+
 .chart-line{
  fill:none;
  stroke:url(#lineGradient);
- stroke-width:3;
+ stroke-width:4;
  stroke-linecap:round;
  stroke-linejoin:round;
  stroke-dasharray:1000;
  stroke-dashoffset:1000;
  animation:draw 4s linear infinite alternate;
 }
+
 @keyframes draw{
  to{stroke-dashoffset:0}
 }
+
 .chart-dot{
- fill:#d4af37;
- filter:drop-shadow(0 0 6px #d4af37);
+ fill:#16a34a;
+ filter:drop-shadow(0 0 6px #16a34a);
+}
+
+/* REVENUE MINI BARS */
+.revenue-bars{
+ display:flex;
+ align-items:flex-end;
+ gap:10px;
+ height:150px;
+ padding:10px 4px 0;
+}
+
+.revenue-bar-wrap{
+ flex:1;
+ height:100%;
+ display:flex;
+ align-items:flex-end;
+ justify-content:center;
+}
+
+.revenue-bar{
+ width:70%;
+ min-height:8px;
+ border-radius:7px 7px 0 0;
+ background:linear-gradient(to top,#16a34a,#4ade80);
+ transition:.3s;
+}
+
+.revenue-bar:hover{
+ transform:translateY(-4px);
+}
+
+.bar-labels{
+ display:flex;
+ justify-content:space-between;
+ margin-top:8px;
+ color:#94a3b8;
+ font-size:9px;
 }
 
 /* VIDEO */
@@ -492,26 +848,39 @@ tr:hover td{background:rgba(139,92,246,.025)}
  grid-template-columns:repeat(3,1fr);
  gap:15px;
 }
+
 .video-card{
- background:#0b1024;
+ background:#fff;
  border:1px solid var(--line);
  border-radius:14px;
  overflow:hidden;
+ box-shadow:var(--shadow);
 }
+
 .video-thumb{
  height:145px;
- background:
- linear-gradient(135deg,rgba(37,99,235,.25),rgba(139,92,246,.2)),
- #111936;
+ background:linear-gradient(135deg,#dcfce7,#fee2e2);
  display:grid;
  place-items:center;
- color:#94a3b8;
+ color:#64748b;
  font-size:30px;
 }
+
 .video-info{padding:15px}
+
 .video-info strong{font-size:13px}
-.video-info small{display:block;color:var(--muted);margin-top:6px}
-.video-actions{display:flex;gap:7px;margin-top:13px}
+
+.video-info small{
+ display:block;
+ color:var(--muted);
+ margin-top:6px;
+}
+
+.video-actions{
+ display:flex;
+ gap:7px;
+ margin-top:13px;
+}
 
 /* REWARDS */
 .reward-groups{
@@ -520,15 +889,202 @@ tr:hover td{background:rgba(139,92,246,.025)}
  gap:15px;
  margin-bottom:18px;
 }
+
 .reward-group{
  padding:20px;
  border-radius:14px;
  border:1px solid var(--line);
- background:linear-gradient(145deg,#0d1730,#090e20);
+ background:#fff;
+ box-shadow:var(--shadow);
 }
+
 .reward-group h3{font-size:14px}
-.reward-group strong{font-size:26px;color:#c4b5fd;display:block;margin-top:8px}
-.reward-group small{color:var(--muted);font-size:10px}
+
+.reward-group strong{
+ font-size:26px;
+ color:#15803d;
+ display:block;
+ margin-top:8px;
+}
+
+.reward-group small{
+ color:var(--muted);
+ font-size:10px;
+}
+
+/* REWARD IMAGE */
+.reward-preview{
+ width:58px;
+ height:58px;
+ border-radius:10px;
+ overflow:hidden;
+ border:1px solid var(--line);
+ background:#f8fafc;
+ display:grid;
+ place-items:center;
+ color:#94a3b8;
+}
+
+.reward-preview img{
+ width:100%;
+ height:100%;
+ object-fit:cover;
+}
+
+/* MODAL */
+.modal-overlay{
+ position:fixed;
+ inset:0;
+ background:rgba(15,23,42,.55);
+ backdrop-filter:blur(6px);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ z-index:300;
+ padding:20px;
+}
+
+.modal-overlay.show{
+ display:flex;
+}
+
+.modal{
+ width:min(620px,100%);
+ background:#fff;
+ border-radius:18px;
+ border:1px solid var(--line);
+ box-shadow:0 25px 70px rgba(15,23,42,.25);
+ overflow:hidden;
+}
+
+.modal-head{
+ padding:18px 20px;
+ border-bottom:1px solid var(--line);
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+.modal-head h3{
+ font-size:16px;
+}
+
+.modal-close{
+ width:32px;
+ height:32px;
+ border:0;
+ border-radius:8px;
+ background:#f1f5f9;
+ color:#64748b;
+}
+
+.modal-body{
+ padding:20px;
+}
+
+.reward-upload{
+ border:2px dashed #bbf7d0;
+ background:#f0fdf4;
+ border-radius:14px;
+ padding:24px;
+ text-align:center;
+ cursor:pointer;
+}
+
+.reward-upload strong{
+ display:block;
+ margin-bottom:5px;
+ color:#15803d;
+}
+
+.reward-upload small{
+ color:#64748b;
+}
+
+.reward-upload img{
+ width:110px;
+ height:110px;
+ object-fit:cover;
+ border-radius:14px;
+ display:none;
+ margin:0 auto 12px;
+}
+
+.modal-actions{
+ display:flex;
+ justify-content:flex-end;
+ gap:9px;
+ margin-top:18px;
+}
+
+/* COMPETITION */
+.competition-control{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:12px;
+ margin-top:18px;
+}
+
+.control-card{
+ background:#fff;
+ border:1px solid var(--line);
+ border-radius:13px;
+ padding:16px;
+ box-shadow:var(--shadow);
+}
+
+.control-card h4{
+ font-size:12px;
+ margin-bottom:8px;
+}
+
+.control-status{
+ font-size:10px;
+ margin-bottom:12px;
+}
+
+.timer{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:10px;
+}
+
+.timer .stat{
+ box-shadow:none;
+ padding:13px;
+}
+
+/* PROJECT CONTROL */
+.project-control{
+ margin-top:18px;
+ background:#fff;
+ border:1px solid var(--line);
+ border-radius:15px;
+ padding:20px;
+ box-shadow:var(--shadow);
+}
+
+.project-status-box{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ padding:15px;
+ border-radius:12px;
+ background:#f8fafc;
+ border:1px solid var(--line);
+}
+
+.project-status-box strong{
+ font-size:13px;
+}
+
+.project-status-box small{
+ display:block;
+ color:var(--muted);
+ margin-top:5px;
+ font-size:10px;
+}
 
 /* NOTIFICATIONS */
 .notification-layout{
@@ -536,32 +1092,60 @@ tr:hover td{background:rgba(139,92,246,.025)}
  grid-template-columns:1fr .7fr;
  gap:17px;
 }
+
 .notify-box{
- background:#0b1024;
+ background:#fff;
  border:1px solid var(--line);
  border-radius:14px;
  padding:20px;
+ box-shadow:var(--shadow);
 }
+
 .recipient{
  display:flex;
  gap:8px;
  margin-bottom:15px;
 }
+
 .recipient button{
  padding:9px 12px;
  border-radius:8px;
  border:1px solid var(--line);
- background:#111936;
- color:#9ca8bd;
+ background:#fff;
+ color:#64748b;
 }
+
 .recipient button.active{
- background:rgba(139,92,246,.14);
- color:#c4b5fd;
- border-color:rgba(139,92,246,.3);
+ background:#dcfce7;
+ color:#15803d;
+ border-color:#bbf7d0;
 }
 
 /* OVERLAY */
 .overlay{display:none}
+
+/* TOAST */
+.toast{
+ position:fixed;
+ right:22px;
+ bottom:22px;
+ z-index:500;
+ background:#111827;
+ color:#fff;
+ padding:13px 17px;
+ border-radius:10px;
+ font-size:12px;
+ box-shadow:0 12px 30px rgba(0,0,0,.2);
+ transform:translateY(120px);
+ opacity:0;
+ pointer-events:none;
+ transition:.3s;
+}
+
+.toast.show{
+ transform:translateY(0);
+ opacity:1;
+}
 
 /* MOBILE */
 @media(max-width:1100px){
@@ -569,36 +1153,87 @@ tr:hover td{background:rgba(139,92,246,.025)}
  .video-grid{grid-template-columns:repeat(2,1fr)}
  .payment-methods{grid-template-columns:1fr}
  .grid2,.notification-layout{grid-template-columns:1fr}
+ .analysis-grid{grid-template-columns:repeat(2,1fr)}
+ .competition-control{grid-template-columns:repeat(2,1fr)}
 }
+
 @media(max-width:800px){
  .sidebar{
   transform:translateX(-100%);
   transition:.25s;
  }
- .sidebar.open{transform:translateX(0)}
+
+ .sidebar.open{
+  transform:translateX(0);
+ }
+
  .overlay{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.65);
+  background:rgba(0,0,0,.45);
   z-index:90;
  }
+
  .overlay.show{display:block}
- .main{margin-left:0;width:100%}
+
+ .main{
+  margin-left:0;
+  width:100%;
+ }
+
  .mobile-menu{display:block}
+
  .topbar{padding:0 16px}
+
  .content{padding:18px}
- .profile-layout,.balance-grid{grid-template-columns:1fr}
+
+ .profile-layout,
+ .balance-grid{
+  grid-template-columns:1fr;
+ }
+
  .ai-layout{grid-template-columns:1fr}
+
  .chat-list{display:none}
- .reward-groups{grid-template-columns:1fr}
+
+ .reward-groups{
+  grid-template-columns:1fr;
+ }
+
+ .analysis-grid{
+  grid-template-columns:1fr;
+ }
+
+ .competition-control{
+  grid-template-columns:1fr;
+ }
 }
+
 @media(max-width:550px){
  .stats{grid-template-columns:1fr}
+
  .video-grid{grid-template-columns:1fr}
+
  .form-grid{grid-template-columns:1fr}
+
  .form-group.full{grid-column:auto}
+
  .admin>div:first-child{display:none}
+
+ .timer{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .head{
+  align-items:flex-start;
+  flex-direction:column;
+ }
+
+ .project-status-box{
+  align-items:flex-start;
+  flex-direction:column;
+ }
 }
 </style>
 </head>
@@ -607,7 +1242,7 @@ tr:hover td{background:rgba(139,92,246,.025)}
 
 <div class="app">
 
-<!-- ================= SIDEBAR ================= -->
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
 
 <div class="logo">STEADY<span>MAZE</span></div>
@@ -685,33 +1320,41 @@ tr:hover td{background:rgba(139,92,246,.025)}
 
 <div class="overlay" id="overlay"></div>
 
-<!-- ================= MAIN ================= -->
+<!-- MAIN -->
 <main class="main">
 
 <header class="topbar">
 
 <div style="display:flex;align-items:center;gap:14px">
+
 <button class="mobile-menu" id="mobileMenu">☰</button>
 
 <div>
 <div class="page-title" id="pageTitle">Admin Dashboard</div>
 <div class="page-sub">SteadyMaze administration control center</div>
 </div>
+
 </div>
 
 <div class="admin">
+
 <div>
 <strong style="font-size:12px">Administrator</strong>
 <div style="color:var(--muted);font-size:10px;text-align:right">Admin Account</div>
 </div>
-<div class="admin-avatar">A</div>
+
+<div class="admin-avatar" id="adminAvatar">
+<span id="adminAvatarLetter">A</span>
+<img id="adminAvatarImage">
+</div>
+
 </div>
 
 </header>
 
 <div class="content">
 
-<!-- ================= DASHBOARD ================= -->
+<!-- DASHBOARD -->
 <section class="section active" id="dashboard">
 
 <div class="head">
@@ -784,7 +1427,7 @@ tr:hover td{background:rgba(139,92,246,.025)}
 <small>Pending Rewards</small>
 <div class="stat-icon">🥇</div>
 </div>
-<h2 id="pending">0</h2>
+<h2 id="pending">18</h2>
 </div>
 
 </div>
@@ -792,6 +1435,7 @@ tr:hover td{background:rgba(139,92,246,.025)}
 <div class="grid2">
 
 <div class="card">
+
 <div class="card-title">
 <h3>System Overview</h3>
 <span class="muted">Database ready structure</span>
@@ -817,6 +1461,7 @@ Teacher profile, email, skills and revenue are database fields.
 <strong style="font-size:12px">Competition</strong>
 <div class="muted" style="margin-top:5px">
 Lower, Medium and High each contain rank positions 1–300.
+Admin manually controls competition, project upload and tie-break.
 </div>
 </div>
 
@@ -824,6 +1469,7 @@ Lower, Medium and High each contain rank positions 1–300.
 </div>
 
 <div class="card">
+
 <div class="card-title">
 <h3>Quick Control</h3>
 </div>
@@ -850,7 +1496,7 @@ View Analysis
 </section>
 
 
-<!-- ================= PROFILE ================= -->
+<!-- PROFILE -->
 <section class="section" id="profile">
 
 <div class="head">
@@ -865,7 +1511,7 @@ View Analysis
 <div class="card profile-card">
 
 <div class="profile-photo" id="profilePhoto">
-<span>👤</span>
+<span id="profilePlaceholder">👤</span>
 <img id="profileImage">
 </div>
 
@@ -888,6 +1534,7 @@ Change Password
 </button>
 
 </div>
+
 </div>
 
 <div class="card">
@@ -916,7 +1563,7 @@ Change Password
 
 <div class="form-group">
 <label>Confirm Password</label>
-<input class="input" type="password" placeholder="Confirm password">
+<input class="input" id="confirmPassword" type="password" placeholder="Confirm password">
 </div>
 
 <div class="form-group full">
@@ -930,7 +1577,7 @@ Change Password
 </section>
 
 
-<!-- ================= STUDENTS ================= -->
+<!-- STUDENTS -->
 <section class="section" id="students">
 
 <div class="head">
@@ -1000,7 +1647,7 @@ Change Password
 </section>
 
 
-<!-- ================= TEACHERS ================= -->
+<!-- TEACHERS -->
 <section class="section" id="teachers">
 
 <div class="head">
@@ -1050,7 +1697,7 @@ Change Password
 </section>
 
 
-<!-- ================= LESSONS ================= -->
+<!-- LESSONS -->
 <section class="section" id="lessons">
 
 <div class="head">
@@ -1062,7 +1709,7 @@ Change Password
 <button class="btn purple">Add Lesson</button>
 </div>
 
-<div class="menu-card">
+<div class="card">
 
 <div class="form-grid">
 
@@ -1106,7 +1753,7 @@ Change Password
 </section>
 
 
-<!-- ================= VIDEOS ================= -->
+<!-- VIDEOS -->
 <section class="section" id="videos">
 
 <div class="head">
@@ -1125,13 +1772,16 @@ Upload Video
 
 <div class="video-card">
 <div class="video-thumb">▶</div>
+
 <div class="video-info">
 <strong>No uploaded videos</strong>
 <small>Real teacher videos will appear here.</small>
+
 <div class="video-actions">
 <button class="btn">Edit</button>
 <button class="btn red">Delete</button>
 </div>
+
 </div>
 </div>
 
@@ -1140,19 +1790,21 @@ Upload Video
 </section>
 
 
-<!-- ================= COMPETITION ================= -->
+<!-- COMPETITION -->
 <section class="section" id="competition">
 
 <div class="head">
+
 <div>
 <h1>Competition</h1>
-<p>Control the full competition system.</p>
+<p>Admin manually controls competition, project uploads and tie-break.</p>
 </div>
 
 <div class="actions">
 <button class="btn green" onclick="competitionOpen()">Open Competition</button>
 <button class="btn red" onclick="competitionClose()">Close Competition</button>
 </div>
+
 </div>
 
 <div class="grid2" style="margin-top:0">
@@ -1188,20 +1840,13 @@ Upload Video
 
 </div>
 
-<div class="actions" style="margin-top:15px">
-<button class="btn green" onclick="uploadOpen()">Open Upload</button>
-<button class="btn red" onclick="uploadClose()">Close Upload</button>
-<button class="btn" onclick="tieOpen()">Open Tie-Break</button>
-<button class="btn red" onclick="tieClose()">Close Tie-Break</button>
-</div>
-
 </div>
 
 <div class="card">
 
 <div class="card-title">
 <h3>Competition Timeline</h3>
-<span class="muted">7 Days</span>
+<span class="muted">Admin Controlled</span>
 </div>
 
 <div style="display:grid;gap:8px">
@@ -1209,11 +1854,15 @@ Upload Video
 <div class="badge blue">DAY 1 — DAY 7</div>
 
 <div class="muted">
-Upload automatically closes when the configured deadline is reached.
+Competition timing is controlled by the Admin.
 </div>
 
 <div class="muted">
-Tie-break remains closed unless Admin opens it.
+Project upload can be opened or closed manually by Admin.
+</div>
+
+<div class="muted">
+Tie-break can be opened manually for Admin and Student.
 </div>
 
 </div>
@@ -1222,21 +1871,164 @@ Tie-break remains closed unless Admin opens it.
 
 </div>
 
+
+<!-- MANUAL CONTROLS -->
+<div class="competition-control">
+
+<div class="control-card">
+
+<h4>Competition</h4>
+
+<div class="control-status">
+Current:
+<strong id="competitionControlStatus">CLOSED</strong>
+</div>
+
+<button class="btn green" style="width:100%;margin-bottom:7px"
+onclick="competitionOpen()">
+Open
+</button>
+
+<button class="btn red" style="width:100%"
+onclick="competitionClose()">
+Close
+</button>
+
+</div>
+
+<div class="control-card">
+
+<h4>Project Upload</h4>
+
+<div class="control-status">
+Current:
+<strong id="projectControlStatus">CLOSED</strong>
+</div>
+
+<button class="btn green" style="width:100%;margin-bottom:7px"
+onclick="projectOpen()">
+Open Project
+</button>
+
+<button class="btn red" style="width:100%"
+onclick="projectClose()">
+Close Project
+</button>
+
+</div>
+
+<div class="control-card">
+
+<h4>Admin Tie-Break</h4>
+
+<div class="control-status">
+Current:
+<strong id="adminTieStatus">CLOSED</strong>
+</div>
+
+<button class="btn green" style="width:100%;margin-bottom:7px"
+onclick="adminTieOpen()">
+Open Tie-Break
+</button>
+
+<button class="btn red" style="width:100%"
+onclick="adminTieClose()">
+Close Tie-Break
+</button>
+
+</div>
+
+<div class="control-card">
+
+<h4>Student Tie-Break</h4>
+
+<div class="control-status">
+Current:
+<strong id="studentTieStatus">CLOSED</strong>
+</div>
+
+<button class="btn green" style="width:100%;margin-bottom:7px"
+onclick="studentTieOpen()">
+Open for Students
+</button>
+
+<button class="btn red" style="width:100%"
+onclick="studentTieClose()">
+Close for Students
+</button>
+
+</div>
+
+</div>
+
+
+<!-- PROJECT STATUS -->
+<div class="project-control">
+
+<div class="card-title">
+<h3>Project Upload Control</h3>
+<span class="muted">Manual Admin Control</span>
+</div>
+
+<div class="project-status-box">
+
+<div>
+<strong>Student Competition Project Upload</strong>
+<small id="projectDescription">
+Students cannot upload competition projects until Admin opens Project Upload.
+</small>
+</div>
+
+<div>
+<span id="projectBigStatus" class="badge red">PROJECT CLOSED</span>
+</div>
+
+</div>
+
+<div class="actions" style="margin-top:14px">
+
+<button class="btn green" onclick="projectOpen()">
+Open Project Upload
+</button>
+
+<button class="btn red" onclick="projectClose()">
+Close Project Upload
+</button>
+
+</div>
+
+</div>
+
+
+<!-- GROUPS -->
 <div style="margin-top:18px">
 
 <div class="actions" style="margin-bottom:15px">
 
-<button class="btn purple groupBtn active" data-group="lower">Lower Group</button>
-<button class="btn groupBtn" data-group="medium">Medium Group</button>
-<button class="btn groupBtn" data-group="high">High Group</button>
+<button class="btn purple groupBtn active" data-group="lower">
+Lower Group
+</button>
+
+<button class="btn groupBtn" data-group="medium">
+Medium Group
+</button>
+
+<button class="btn groupBtn" data-group="high">
+High Group
+</button>
 
 </div>
 
 <div class="table-card">
 
 <div style="padding:16px;border-bottom:1px solid var(--line)">
+
 <strong id="groupTitle">Lower Group</strong>
-<div class="muted" style="margin-top:4px">Rank 1–300</div>
+
+<div class="muted" style="margin-top:4px">
+Rank 1–300
+</div>
+
 </div>
 
 <div class="table-scroll">
@@ -1264,16 +2056,20 @@ Tie-break remains closed unless Admin opens it.
 </section>
 
 
-<!-- ================= REWARDS ================= -->
+<!-- REWARDS -->
 <section class="section" id="rewards">
 
 <div class="head">
+
 <div>
 <h1>Rewards</h1>
 <p>18 winners divided between Lower, Medium and High.</p>
 </div>
 
-<button class="btn gold">Add Award</button>
+<button class="btn gold" onclick="openRewardModal()">
+Add Reward
+</button>
+
 </div>
 
 <div class="reward-groups">
@@ -1325,14 +2121,16 @@ Tie-break remains closed unless Admin opens it.
 </section>
 
 
-<!-- ================= AI CHAT ================= -->
+<!-- AI -->
 <section class="section" id="ai">
 
 <div class="head">
+
 <div>
 <h1>AI Chat</h1>
 <p>Separate AI assistant area. Backend/API can be connected later.</p>
 </div>
+
 </div>
 
 <div class="ai-layout">
@@ -1362,8 +2160,13 @@ Hello. AI Chat is ready. The real AI service can be connected through your backe
 </div>
 
 <div class="chat-input">
+
 <input id="chatInput" placeholder="Write a message...">
-<button class="btn purple" onclick="sendMessage()">Send</button>
+
+<button class="btn purple" onclick="sendMessage()">
+Send
+</button>
+
 </div>
 
 </div>
@@ -1373,14 +2176,16 @@ Hello. AI Chat is ready. The real AI service can be connected through your backe
 </section>
 
 
-<!-- ================= PAYMENTS ================= -->
+<!-- PAYMENTS -->
 <section class="section" id="payments">
 
 <div class="head">
+
 <div>
 <h1>Payments</h1>
 <p>Payment methods and account information.</p>
 </div>
+
 </div>
 
 <div class="payment-methods">
@@ -1425,11 +2230,13 @@ Hello. AI Chat is ready. The real AI service can be connected through your backe
 
 <div class="form-group">
 <label>Payment Method</label>
+
 <select class="select">
 <option>Visa</option>
 <option>Mastercard</option>
 <option>PayPal</option>
 </select>
+
 </div>
 
 <div class="form-group">
@@ -1473,16 +2280,20 @@ The frontend does not store sensitive card information.
 </section>
 
 
-<!-- ================= ANALYSIS ================= -->
+<!-- ANALYSIS -->
 <section class="section" id="analysis">
 
 <div class="head">
+
 <div>
 <h1>Analysis</h1>
-<p>Account balance, teacher revenue and financial movement.</p>
-</div>
+<p>Student growth, teacher payment growth, buying growth, monthly growth, competition growth and revenue analytics.</p>
 </div>
 
+</div>
+
+
+<!-- BALANCE -->
 <div class="balance-grid">
 
 <div class="balance orange">
@@ -1492,18 +2303,82 @@ The frontend does not store sensitive card information.
 </div>
 
 <div class="balance gold">
-<small>TEACHER REVENUE</small>
+<small>TEACHER PAYMENT REVENUE</small>
 <h2>$0.00</h2>
-<span style="font-size:11px;opacity:.8">Teacher earnings</span>
+<span style="font-size:11px;opacity:.8">Teacher earnings movement</span>
 </div>
 
 </div>
 
+
+<!-- 7 ANALYTICS -->
+<div class="analysis-grid">
+
+<!-- 1 -->
+<div class="analysis-card green">
+<div class="analysis-icon">♙</div>
+<h4>STUDENT GROWTH</h4>
+<div class="analysis-number" id="studentGrowth">0</div>
+<div class="growth up">↑ Growth from previous period</div>
+</div>
+
+<!-- 2 -->
+<div class="analysis-card red">
+<div class="analysis-icon">$</div>
+<h4>TEACHER PAYMENT GROWTH</h4>
+<div class="analysis-number" id="teacherPaymentGrowth">$0.00</div>
+<div class="growth up">↑ Teacher payment movement</div>
+</div>
+
+<!-- 3 -->
+<div class="analysis-card blue">
+<div class="analysis-icon">🛒</div>
+<h4>MOST MONEY BUY GROWTH</h4>
+<div class="analysis-number" id="mostMoneyBuyGrowth">$0.00</div>
+<div class="growth up">↑ Highest purchase growth</div>
+</div>
+
+<!-- 4 -->
+<div class="analysis-card gold">
+<div class="analysis-icon">◷</div>
+<h4>MONTH GROWTH</h4>
+<div class="analysis-number" id="monthGrowth">0%</div>
+<div class="growth up">↑ Monthly system growth</div>
+</div>
+
+<!-- 5 -->
+<div class="analysis-card purple">
+<div class="analysis-icon">🏆</div>
+<h4>COMPETITION GROWTH</h4>
+<div class="analysis-number" id="competitionGrowth">0</div>
+<div class="growth up">↑ Competition participation</div>
+</div>
+
+<!-- 6 -->
+<div class="analysis-card orange">
+<div class="analysis-icon">D</div>
+<h4>TODAY REVENUE</h4>
+<div class="analysis-number" id="todayRevenue">$0.00</div>
+<div class="growth up">↑ Today's revenue</div>
+</div>
+
+<!-- 7 -->
+<div class="analysis-card green">
+<div class="analysis-icon">W</div>
+<h4>WEEKLY REVENUE</h4>
+<div class="analysis-number" id="weeklyRevenue">$0.00</div>
+<div class="growth up">↑ This week's revenue</div>
+</div>
+
+</div>
+
+
+<!-- REVENUE CHART -->
 <div class="card" style="margin-top:17px">
 
 <div class="card-title">
 <h3>Revenue Movement</h3>
-<span class="muted">Live-style financial chart</span>
+<span class="muted">Today & Weekly revenue</span>
 </div>
 
 <div class="chart">
@@ -1511,29 +2386,33 @@ The frontend does not store sensitive card information.
 <svg viewBox="0 0 1000 300" preserveAspectRatio="none">
 
 <defs>
+
 <linearGradient id="lineGradient" x1="0" x2="1">
-<stop offset="0%" stop-color="#8b5cf6"/>
-<stop offset="50%" stop-color="#38bdf8"/>
-<stop offset="100%" stop-color="#d4af37"/>
+
+<stop offset="0%" stop-color="#16a34a"/>
+<stop offset="50%" stop-color="#22c55e"/>
+<stop offset="100%" stop-color="#dc2626"/>
+
 </linearGradient>
+
 </defs>
 
 <path
 class="chart-line"
-d="M0 210
-C45 190 60 235 100 205
-C140 175 170 215 210 165
-C250 115 285 180 325 145
-C370 105 395 155 435 130
-C475 105 510 175 550 120
-C595 70 625 135 665 105
-C710 75 735 130 775 85
-C820 40 850 100 890 70
-C930 40 955 65 1000 30"/>
+d="M0 235
+C45 220 60 245 100 215
+C140 190 170 220 210 175
+C250 130 285 190 325 155
+C370 115 395 165 435 140
+C475 110 510 180 550 125
+C595 75 625 140 665 110
+C710 80 735 135 775 90
+C820 45 850 105 890 75
+C930 45 955 70 1000 35"/>
 
-<circle class="chart-dot" cx="325" cy="145" r="5"/>
-<circle class="chart-dot" cx="665" cy="105" r="5"/>
-<circle class="chart-dot" cx="1000" cy="30" r="5"/>
+<circle class="chart-dot" cx="325" cy="155" r="5"/>
+<circle class="chart-dot" cx="665" cy="110" r="5"/>
+<circle class="chart-dot" cx="1000" cy="35" r="5"/>
 
 </svg>
 
@@ -1541,17 +2420,72 @@ C930 40 955 65 1000 30"/>
 
 </div>
 
+
+<!-- WEEKLY REVENUE -->
+<div class="card" style="margin-top:17px">
+
+<div class="card-title">
+<h3>Weekly Revenue Growth</h3>
+<span class="muted">Database values will replace these bars</span>
+</div>
+
+<div class="revenue-bars">
+
+<div class="revenue-bar-wrap">
+<div class="revenue-bar" style="height:25%"></div>
+</div>
+
+<div class="revenue-bar-wrap">
+<div class="revenue-bar" style="height:38%"></div>
+</div>
+
+<div class="revenue-bar-wrap">
+<div class="revenue-bar" style="height:32%"></div>
+</div>
+
+<div class="revenue-bar-wrap">
+<div class="revenue-bar" style="height:52%"></div>
+</div>
+
+<div class="revenue-bar-wrap">
+<div class="revenue-bar" style="height:48%"></div>
+</div>
+
+<div class="revenue-bar-wrap">
+<div class="revenue-bar" style="height:70%"></div>
+</div>
+
+<div class="revenue-bar-wrap">
+<div class="revenue-bar" style="height:85%"></div>
+</div>
+
+</div>
+
+<div class="bar-labels">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span>Sat</span>
+<span>Sun</span>
+</div>
+
+</div>
+
 </section>
 
 
-<!-- ================= NOTIFICATIONS ================= -->
+<!-- NOTIFICATIONS -->
 <section class="section" id="notifications">
 
 <div class="head">
+
 <div>
 <h1>Notifications</h1>
 <p>Send messages and email notifications to students and teachers.</p>
 </div>
+
 </div>
 
 <div class="notification-layout">
@@ -1584,11 +2518,13 @@ C930 40 955 65 1000 30"/>
 
 <div class="form-group">
 <label>Notification Type</label>
+
 <select class="select">
 <option>Email</option>
 <option>Dashboard Notification</option>
 <option>Both</option>
 </select>
+
 </div>
 
 <div class="form-group full">
@@ -1646,9 +2582,123 @@ Email provider/API can be connected later.
 </div>
 
 
+<!-- REWARD MODAL -->
+<div class="modal-overlay" id="rewardModal">
+
+<div class="modal">
+
+<div class="modal-head">
+
+<h3>Add Reward Award</h3>
+
+<button class="modal-close" onclick="closeRewardModal()">✕</button>
+
+</div>
+
+<div class="modal-body">
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>Winner Group</label>
+
+<select class="select" id="rewardGroup">
+<option value="Lower">Lower</option>
+<option value="Medium">Medium</option>
+<option value="High">High</option>
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Winner Rank</label>
+
+<select class="select" id="rewardRank">
+<option value="1">Rank 1</option>
+<option value="2">Rank 2</option>
+<option value="3">Rank 3</option>
+<option value="4">Rank 4</option>
+<option value="5">Rank 5</option>
+<option value="6">Rank 6</option>
+</select>
+
+</div>
+
+<div class="form-group full">
+
+<label>Reward Image</label>
+
+<label class="reward-upload" for="rewardImageInput">
+
+<img id="rewardImagePreview">
+
+<strong>Upload Reward Image</strong>
+
+<small>Choose the reward image you want to display.</small>
+
+<input
+type="file"
+id="rewardImageInput"
+accept="image/*"
+hidden>
+
+</label>
+
+</div>
+
+<div class="form-group full">
+
+<label>Reward Title</label>
+
+<input
+class="input"
+id="rewardTitle"
+placeholder="Example: First Place Award">
+
+</div>
+
+<div class="form-group full">
+
+<label>Reward Description</label>
+
+<textarea
+class="textarea"
+id="rewardDescription"
+placeholder="Write the reward details..."></textarea>
+
+</div>
+
+</div>
+
+<div class="modal-actions">
+
+<button class="btn" onclick="closeRewardModal()">
+Cancel
+</button>
+
+<button class="btn gold" onclick="saveReward()">
+Save Reward
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+
 <script>
+
 /* =========================================
-   NAVIGATION
+ NAVIGATION
 ========================================= */
 
 const sections=document.querySelectorAll(".section");
@@ -1685,7 +2735,10 @@ function showSection(id){
  sidebar.classList.remove("open");
  overlay.classList.remove("show");
 
- window.scrollTo({top:0,behavior:"smooth"});
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
 }
 
 nav.forEach(button=>{
@@ -1696,7 +2749,7 @@ nav.forEach(button=>{
 
 
 /* =========================================
-   MOBILE
+ MOBILE
 ========================================= */
 
 const sidebar=document.getElementById("sidebar");
@@ -1714,7 +2767,29 @@ overlay.onclick=()=>{
 
 
 /* =========================================
-   PROFILE PHOTO
+ TOAST
+========================================= */
+
+let toastTimer;
+
+function showToast(message){
+
+ const toast=document.getElementById("toast");
+
+ toast.textContent=message;
+ toast.classList.add("show");
+
+ clearTimeout(toastTimer);
+
+ toastTimer=setTimeout(()=>{
+  toast.classList.remove("show");
+ },2500);
+}
+
+
+/* =========================================
+ PROFILE PHOTO
+ ADMIN A CHANGES TO PHOTO
 ========================================= */
 
 document.getElementById("photoInput").addEventListener("change",function(){
@@ -1728,21 +2803,35 @@ document.getElementById("photoInput").addEventListener("change",function(){
  reader.onload=function(e){
 
   const image=document.getElementById("profileImage");
+
   image.src=e.target.result;
   image.style.display="block";
 
-  document.querySelector("#profilePhoto span").style.display="none";
+  document.getElementById("profilePlaceholder").style.display="none";
+
+  /* ADMIN TOP AVATAR */
+  const avatarImage=document.getElementById("adminAvatarImage");
+  const avatarLetter=document.getElementById("adminAvatarLetter");
+
+  avatarImage.src=e.target.result;
+  avatarImage.style.display="block";
+  avatarLetter.style.display="none";
+
  };
 
  reader.readAsDataURL(file);
+
 });
 
 
 function focusInput(id){
+
  showSection("profile");
+
  setTimeout(()=>{
   document.getElementById(id).focus();
  },200);
+
 }
 
 
@@ -1750,17 +2839,31 @@ function saveProfile(){
 
  const name=document.getElementById("newName").value.trim();
 
- if(name){
-  document.getElementById("profileDisplayName").textContent=name;
+ const password=document.getElementById("newPassword").value;
+ const confirm=document.getElementById("confirmPassword").value;
+
+ if(password && password!==confirm){
+
+  showToast("Passwords do not match.");
+
+  return;
  }
+
+ if(name){
+
+  document.getElementById("profileDisplayName").textContent=name;
+
+ }
+
+ showToast("Profile changes saved.");
 
 }
 
 
 /* =========================================
-   COMPETITION TABLE
-   EXACTLY 300 RANKS
-   NO FAKE STUDENTS
+ COMPETITION TABLE
+ EXACTLY 300 RANKS
+ NO FAKE STUDENTS
 ========================================= */
 
 const competitionTable=document.getElementById("competitionTable");
@@ -1782,6 +2885,7 @@ function renderCompetition(){
 
   competitionTable.appendChild(row);
  }
+
 }
 
 renderCompetition();
@@ -1796,7 +2900,11 @@ document.querySelectorAll(".groupBtn").forEach(btn=>{
  btn.addEventListener("click",()=>{
 
   document.querySelectorAll(".groupBtn")
-  .forEach(b=>b.classList.remove("purple"));
+  .forEach(b=>{
+
+   b.classList.remove("purple");
+
+  });
 
   btn.classList.add("purple");
 
@@ -1815,47 +2923,144 @@ document.querySelectorAll(".groupBtn").forEach(btn=>{
   }
 
   renderCompetition();
+
  });
 
 });
 
 
 /* =========================================
-   COMPETITION CONTROL
+ COMPETITION CONTROL
 ========================================= */
 
+let competitionIsOpen=false;
+let projectIsOpen=false;
+let adminTieIsOpen=false;
+let studentTieIsOpen=false;
+
+
 function competitionOpen(){
+
+ competitionIsOpen=true;
+
  const el=document.getElementById("compStatus");
+
  el.textContent="OPEN";
  el.className="badge green";
+
+ document.getElementById("competitionControlStatus").textContent="OPEN";
+
+ showToast("Competition opened by Admin.");
+
 }
+
 
 function competitionClose(){
+
+ competitionIsOpen=false;
+
  const el=document.getElementById("compStatus");
+
  el.textContent="CLOSED";
  el.className="badge red";
+
+ document.getElementById("competitionControlStatus").textContent="CLOSED";
+
+ showToast("Competition closed by Admin.");
+
 }
 
-function uploadOpen(){
- alert("Upload status: OPEN");
+
+/* PROJECT */
+
+function projectOpen(){
+
+ projectIsOpen=true;
+
+ document.getElementById("projectControlStatus").textContent="OPEN";
+
+ const status=document.getElementById("projectBigStatus");
+
+ status.textContent="PROJECT OPEN";
+ status.className="badge green";
+
+ document.getElementById("projectDescription").textContent=
+ "Students can now upload their competition projects.";
+
+ showToast("Project Upload opened by Admin.");
+
 }
 
-function uploadClose(){
- alert("Upload status: CLOSED");
+
+function projectClose(){
+
+ projectIsOpen=false;
+
+ document.getElementById("projectControlStatus").textContent="CLOSED";
+
+ const status=document.getElementById("projectBigStatus");
+
+ status.textContent="PROJECT CLOSED";
+ status.className="badge red";
+
+ document.getElementById("projectDescription").textContent=
+ "Students cannot upload competition projects until Admin opens Project Upload.";
+
+ showToast("Project Upload closed by Admin.");
+
 }
 
-function tieOpen(){
- alert("Tie-Break: OPEN");
+
+/* ADMIN TIE BREAK */
+
+function adminTieOpen(){
+
+ adminTieIsOpen=true;
+
+ document.getElementById("adminTieStatus").textContent="OPEN";
+
+ showToast("Admin Tie-Break opened.");
+
 }
 
-function tieClose(){
- alert("Tie-Break: CLOSED");
+
+function adminTieClose(){
+
+ adminTieIsOpen=false;
+
+ document.getElementById("adminTieStatus").textContent="CLOSED";
+
+ showToast("Admin Tie-Break closed.");
+
+}
+
+
+/* STUDENT TIE BREAK */
+
+function studentTieOpen(){
+
+ studentTieIsOpen=true;
+
+ document.getElementById("studentTieStatus").textContent="OPEN";
+
+ showToast("Student Tie-Break opened.");
+
+}
+
+
+function studentTieClose(){
+
+ studentTieIsOpen=false;
+
+ document.getElementById("studentTieStatus").textContent="CLOSED";
+
+ showToast("Student Tie-Break closed.");
+
 }
 
 
 /* =========================================
-   7 DAY TIMER
-   FRONTEND PREVIEW ONLY
+ TIMER
 ========================================= */
 
 let secondsLeft=7*24*60*60;
@@ -1867,23 +3072,37 @@ function timer(){
  const m=Math.floor((secondsLeft%3600)/60);
  const s=secondsLeft%60;
 
- document.getElementById("days").textContent=String(d).padStart(2,"0");
- document.getElementById("hours").textContent=String(h).padStart(2,"0");
- document.getElementById("minutes").textContent=String(m).padStart(2,"0");
- document.getElementById("seconds").textContent=String(s).padStart(2,"0");
+ document.getElementById("days").textContent=
+ String(d).padStart(2,"0");
 
- if(secondsLeft>0)secondsLeft--;
+ document.getElementById("hours").textContent=
+ String(h).padStart(2,"0");
+
+ document.getElementById("minutes").textContent=
+ String(m).padStart(2,"0");
+
+ document.getElementById("seconds").textContent=
+ String(s).padStart(2,"0");
+
+ if(secondsLeft>0){
+  secondsLeft--;
+ }
+
 }
 
 timer();
+
 setInterval(timer,1000);
 
 
 /* =========================================
-   18 REWARD POSITIONS
+ REWARDS
+ 18 POSITIONS
 ========================================= */
 
 const winners=document.getElementById("winnersTable");
+
+let rewards=[];
 
 function renderWinners(){
 
@@ -1899,44 +3118,102 @@ function renderWinners(){
 
   for(let rank=1;rank<=group.count;rank++){
 
+   const reward=rewards.find(
+    r=>r.group===group.name &&
+    String(r.rank)===String(rank)
+   );
+
    const row=document.createElement("tr");
 
-   row.innerHTML=`
-    <td>
-      <div style="
-       width:38px;height:38px;
-       border-radius:50%;
-       display:grid;
-       place-items:center;
-       background:#111936;
-       color:#59657e;
-       border:1px solid var(--line)">
+   if(reward){
+
+    row.innerHTML=`
+
+     <td>
+
+      <div class="reward-preview">
+
+       <img src="${reward.image}">
+
+      </div>
+
+     </td>
+
+     <td>
+
+      <strong>${escapeHTML(reward.title)}</strong>
+
+      <div class="muted" style="margin-top:4px">
+       ${escapeHTML(reward.description)}
+      </div>
+
+     </td>
+
+     <td>${group.name}</td>
+
+     <td class="rank">${rank}</td>
+
+     <td>
+
+      <span class="badge green">
+       AWARD ADDED
+      </span>
+
+     </td>
+
+     <td>
+
+      <span class="badge green">
+       READY
+      </span>
+
+     </td>
+
+    `;
+
+   }else{
+
+    row.innerHTML=`
+
+     <td>
+
+      <div class="reward-preview">
        —
       </div>
-    </td>
 
-    <td class="empty">Winner name pending</td>
+     </td>
 
-    <td>${group.name}</td>
+     <td class="empty">
+      Winner name pending
+     </td>
 
-    <td class="rank">${rank}</td>
+     <td>${group.name}</td>
 
-    <td>
-      <input
-       class="input"
-       style="min-width:150px"
-       placeholder="Add award">
-    </td>
+     <td class="rank">${rank}</td>
 
-    <td>
-      <span class="badge yellow">PENDING</span>
-    </td>
-   `;
+     <td class="empty">
+      —
+     </td>
+
+     <td>
+
+      <span class="badge yellow">
+       PENDING
+      </span>
+
+     </td>
+
+    `;
+
+   }
 
    winners.appendChild(row);
+
   }
 
  });
+
+ updatePendingCount();
 
 }
 
@@ -1944,7 +3221,151 @@ renderWinners();
 
 
 /* =========================================
-   AI CHAT
+ REWARD MODAL
+========================================= */
+
+const rewardModal=document.getElementById("rewardModal");
+
+function openRewardModal(){
+
+ rewardModal.classList.add("show");
+
+}
+
+
+function closeRewardModal(){
+
+ rewardModal.classList.remove("show");
+
+}
+
+
+/* Reward image preview */
+
+document.getElementById("rewardImageInput")
+.addEventListener("change",function(){
+
+ const file=this.files[0];
+
+ if(!file)return;
+
+ const reader=new FileReader();
+
+ reader.onload=function(e){
+
+  const preview=document.getElementById("rewardImagePreview");
+
+  preview.src=e.target.result;
+
+  preview.style.display="block";
+
+ };
+
+ reader.readAsDataURL(file);
+
+});
+
+
+function saveReward(){
+
+ const group=document.getElementById("rewardGroup").value;
+ const rank=document.getElementById("rewardRank").value;
+
+ const titleValue=document.getElementById("rewardTitle").value.trim();
+ const description=document.getElementById("rewardDescription").value.trim();
+
+ const imageInput=document.getElementById("rewardImageInput");
+
+ if(!imageInput.files.length){
+
+  showToast("Please upload the reward image.");
+
+  return;
+ }
+
+ if(!titleValue){
+
+  showToast("Please enter the reward title.");
+
+  return;
+ }
+
+ const file=imageInput.files[0];
+
+ const reader=new FileReader();
+
+ reader.onload=function(e){
+
+  const existingIndex=rewards.findIndex(
+   r=>r.group===group &&
+   String(r.rank)===String(rank)
+  );
+
+  const rewardData={
+   group:group,
+   rank:rank,
+   title:titleValue,
+   description:description || "Reward award",
+   image:e.target.result
+  };
+
+  if(existingIndex>=0){
+
+   rewards[existingIndex]=rewardData;
+
+  }else{
+
+   rewards.push(rewardData);
+
+  }
+
+  renderWinners();
+
+  closeRewardModal();
+
+  document.getElementById("rewardTitle").value="";
+  document.getElementById("rewardDescription").value="";
+  document.getElementById("rewardImageInput").value="";
+
+  document.getElementById("rewardImagePreview").style.display="none";
+
+  showToast("Reward added successfully.");
+
+ };
+
+ reader.readAsDataURL(file);
+
+}
+
+
+/* Pending rewards automatically decreases after award is added */
+
+function updatePendingCount(){
+
+ const pendingCount=18-rewards.length;
+
+ document.getElementById("pending").textContent=
+ Math.max(0,pendingCount);
+
+}
+
+
+/* Safe text */
+
+function escapeHTML(value){
+
+ return String(value)
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================
+ AI CHAT
 ========================================= */
 
 function sendMessage(){
@@ -1957,6 +3378,7 @@ function sendMessage(){
  if(!message)return;
 
  const me=document.createElement("div");
+
  me.className="message me";
  me.textContent=message;
 
@@ -1967,23 +3389,32 @@ function sendMessage(){
  setTimeout(()=>{
 
   const ai=document.createElement("div");
+
   ai.className="message ai";
-  ai.textContent="AI backend is ready to be connected. This frontend does not generate fake AI responses.";
+
+  ai.textContent=
+  "AI backend is ready to be connected. This frontend does not generate fake AI responses.";
 
   body.appendChild(ai);
 
   body.scrollTop=body.scrollHeight;
 
  },500);
+
 }
 
-document.getElementById("chatInput").addEventListener("keydown",e=>{
- if(e.key==="Enter")sendMessage();
+document.getElementById("chatInput")
+.addEventListener("keydown",e=>{
+
+ if(e.key==="Enter"){
+  sendMessage();
+ }
+
 });
 
 
 /* =========================================
-   VIDEO
+ VIDEO
 ========================================= */
 
 function videoSelected(input){
@@ -1992,69 +3423,161 @@ function videoSelected(input){
 
  const file=input.files[0];
 
- alert(
-  "Video selected: "+
-  file.name+
-  "\n\nConnect this upload to backend/storage when database is added."
- );
+ showToast("Video selected: "+file.name);
+
 }
 
 
 /* =========================================
-   BACKEND API STRUCTURE
+ ANALYSIS
+ LIVE BACKEND VALUES WILL REPLACE 0 VALUES
+========================================= */
+
+function updateAnalysis(data={}){
+
+ document.getElementById("studentGrowth").textContent=
+ data.studentGrowth ?? 0;
+
+ document.getElementById("teacherPaymentGrowth").textContent=
+ "$"+Number(data.teacherPaymentGrowth ?? 0).toFixed(2);
+
+ document.getElementById("mostMoneyBuyGrowth").textContent=
+ "$"+Number(data.mostMoneyBuyGrowth ?? 0).toFixed(2);
+
+ document.getElementById("monthGrowth").textContent=
+ (data.monthGrowth ?? 0)+"%";
+
+ document.getElementById("competitionGrowth").textContent=
+ data.competitionGrowth ?? 0;
+
+ document.getElementById("todayRevenue").textContent=
+ "$"+Number(data.todayRevenue ?? 0).toFixed(2);
+
+ document.getElementById("weeklyRevenue").textContent=
+ "$"+Number(data.weeklyRevenue ?? 0).toFixed(2);
+
+}
+
+
+/*
+ FUTURE REAL DATABASE EXAMPLE:
+
+ fetch("/api/admin/analytics")
+ .then(res=>res.json())
+ .then(data=>{
+    updateAnalysis(data);
+ });
+
+ Expected backend fields:
+
+ {
+   studentGrowth: 0,
+   teacherPaymentGrowth: 0,
+   mostMoneyBuyGrowth: 0,
+   monthGrowth: 0,
+   competitionGrowth: 0,
+   todayRevenue: 0,
+   weeklyRevenue: 0
+ }
+
+*/
+
+
+/* =========================================
+ RECIPIENT BUTTONS
+========================================= */
+
+document.querySelectorAll(".recipient button")
+.forEach(button=>{
+
+ button.addEventListener("click",()=>{
+
+  document.querySelectorAll(".recipient button")
+  .forEach(b=>b.classList.remove("active"));
+
+  button.classList.add("active");
+
+ });
+
+});
+
+
+/* =========================================
+ BACKEND API STRUCTURE
 ========================================= */
 
 /*
- FUTURE API CONNECTION POINTS:
+ FUTURE REAL API CONNECTION:
 
  GET  /api/admin/dashboard
+
  GET  /api/students
  GET  /api/teachers
  GET  /api/lessons
  GET  /api/videos
+
  GET  /api/competition/lower
  GET  /api/competition/medium
  GET  /api/competition/high
+
  GET  /api/rewards
+ POST /api/rewards
+ PUT  /api/rewards/:id
+
  GET  /api/analytics
 
- POST /api/students/:id/block
- POST /api/students/:id/unblock
- DELETE /api/students/:id
-
- POST /api/teachers
- POST /api/teachers/:id/approve
- POST /api/teachers/:id/block
- DELETE /api/teachers/:id
-
- POST /api/lessons
- PUT  /api/lessons/:id
- DELETE /api/lessons/:id
-
- POST /api/videos
- PUT  /api/videos/:id
- DELETE /api/videos/:id
+ GET  /api/analytics/student-growth
+ GET  /api/analytics/teacher-payment-growth
+ GET  /api/analytics/most-money-buy-growth
+ GET  /api/analytics/month-growth
+ GET  /api/analytics/competition-growth
+ GET  /api/analytics/today-revenue
+ GET  /api/analytics/weekly-revenue
 
  POST /api/competition/open
  POST /api/competition/close
- POST /api/competition/upload/open
- POST /api/competition/upload/close
- POST /api/competition/tiebreak/open
- POST /api/competition/tiebreak/close
 
- GET  /api/ai/reviews
+ POST /api/competition/project/open
+ POST /api/competition/project/close
+
+ POST /api/competition/tiebreak/admin/open
+ POST /api/competition/tiebreak/admin/close
+
+ POST /api/competition/tiebreak/student/open
+ POST /api/competition/tiebreak/student/close
+
  POST /api/ai/chat
 
- GET  /api/payments
- POST /api/payment-account
-
- GET  /api/analytics
  POST /api/notifications
 
  IMPORTANT:
- Sensitive card data should NOT be stored directly
- by this frontend. Use a secure payment provider/tokenization
- system when backend is connected.
+
+ The frontend controls above are UI controls.
+
+ When PostgreSQL/backend is connected,
+ these controls should call the API so the same
+ competition/project/tie-break state is shared
+ between Admin Dashboard and Student Dashboard.
+
+ The Admin decides manually:
+
+ 1. Open Competition
+ 2. Close Competition
+ 3. Open Project Upload
+ 4. Close Project Upload
+ 5. Open Admin Tie-Break
+ 6. Close Admin Tie-Break
+ 7. Open Student Tie-Break
+ 8. Close Student Tie-Break
+
+ Project Upload and Tie-Break must NOT depend
+ only on the frontend when production backend
+ is connected.
+
+ Sensitive payment/card information must be
+ handled by a secure payment provider/tokenization
+ system rather than storing raw card details
+ in this HTML.
 */
 
 </script>
