@@ -12,6 +12,8 @@
 
 <title>SteadyMaze | Student Dashboard</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 /* =====================================================
@@ -1308,7 +1310,7 @@ body{
                 BALANCE
             </small>
 
-            <strong>
+            <strong id="studentBalance">
                 00
             </strong>
 
@@ -1325,7 +1327,7 @@ body{
                 PAYMENT ACCOUNT
             </small>
 
-            <strong>
+            <strong id="studentPayment">
                 00
             </strong>
 
@@ -1342,7 +1344,7 @@ body{
                 COURSES COMPLETED
             </small>
 
-            <strong>
+            <strong id="studentCompleted">
                 00
             </strong>
 
@@ -1359,7 +1361,7 @@ body{
                 COMPETITION SCORE
             </small>
 
-            <strong>
+            <strong id="studentScore">
                 00
             </strong>
 
@@ -1911,6 +1913,162 @@ body{
 <script>
 
 /* =====================================================
+   SUPABASE CONNECTION
+===================================================== */
+
+const SUPABASE_URL =
+    "https://uxrltzlxdttbjstomhkb.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4cmx0emx4ZHR0YmpzdG9taGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1MTkwMjEsImV4cCI6MjEwMTA5NTAyMX0.7yyvaq8lFZ5y67Pk0Bqjva2sKDEbjI2x2Qz7AmAykCs";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+/* =====================================================
+   SUPABASE STUDENT SESSION
+===================================================== */
+
+let supabaseStudent = null;
+
+
+async function loadSupabaseSession(){
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+            .auth
+            .getSession();
+
+
+        if(error){
+
+            console.error(
+                "Supabase session error:",
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        if(
+            data &&
+            data.session &&
+            data.session.user
+        ){
+
+            supabaseStudent =
+                data.session.user;
+
+
+            console.log(
+                "SteadyMaze student connected:",
+                supabaseStudent.id
+            );
+
+
+            const metadata =
+                supabaseStudent.user_metadata ||
+                {};
+
+
+            const accountName =
+                metadata.full_name ||
+                metadata.name ||
+                metadata.username;
+
+
+            if(
+                accountName
+            ){
+
+                studentProfile.name =
+                    accountName;
+
+                updateProfileAvatar();
+
+            }
+
+        }else{
+
+            console.log(
+                "Supabase connected. No active student session."
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Supabase connection error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SUPABASE AUTH LISTENER
+===================================================== */
+
+supabaseClient
+    .auth
+    .onAuthStateChange(
+        function(
+            event,
+            session
+        ){
+
+            if(
+                session &&
+                session.user
+            ){
+
+                supabaseStudent =
+                    session.user;
+
+                const metadata =
+                    session.user.user_metadata ||
+                    {};
+
+                const accountName =
+                    metadata.full_name ||
+                    metadata.name ||
+                    metadata.username;
+
+                if(accountName){
+
+                    studentProfile.name =
+                        accountName;
+
+                    updateProfileAvatar();
+
+                }
+
+            }else{
+
+                supabaseStudent =
+                    null;
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
    17 SKILLS
 ===================================================== */
 
@@ -2164,9 +2322,15 @@ groups.forEach(group => {
             openSkill(skill);
         };
 
-        skillContainer.appendChild(
-            wrapper
-        );
+        if(
+            !wrapper.parentNode
+        ){
+
+            skillContainer.appendChild(
+                wrapper
+            );
+
+        }
 
         grid.appendChild(card);
 
@@ -4083,6 +4247,13 @@ function updateProfileAvatar(){
         );
 
 
+    if(!letter || !image){
+
+        return;
+
+    }
+
+
     if(studentProfile.photo){
 
         image.src =
@@ -4908,6 +5079,8 @@ updateProfileAvatar();
 renderMyLessons();
 
 updateCompetition();
+
+loadSupabaseSession();
 
 </script>
 
