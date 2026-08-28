@@ -649,35 +649,16 @@ function createAccount(event){
 
 
     /*
-       DEMO ONLY
-
-       Later this will connect to
-       PostgreSQL/backend.
+       SUPABASE SIGN UP
+       WILL BE CONNECTED HERE
     */
 
-    localStorage.setItem(
-        "steadymazeName",
-        name
-    );
+    console.log("Signup data ready:", {
+        name: name,
+        email: email,
+        password: password
+    });
 
-    localStorage.setItem(
-        "steadymazeEmail",
-        email
-    );
-
-
-    localStorage.setItem(
-        "steadymazeLoggedIn",
-        "true"
-    );
-
-
-    /*
-       SEND STUDENT TO DASHBOARD
-    */
-
-    window.location.href =
-        "student.html";
 }
 
 
@@ -699,18 +680,15 @@ function loginStudent(event){
         .value;
 
 
-    if(email && password){
+    /*
+       SUPABASE LOGIN
+       WILL BE CONNECTED HERE
+    */
 
-        localStorage.setItem(
-            "steadymazeLoggedIn",
-            "true"
-        );
-
-
-        window.location.href =
-            "student.html";
-
-    }
+    console.log("Login data ready:", {
+        email: email,
+        password: password
+    });
 
 }
 
@@ -732,7 +710,7 @@ function forgotPassword(event){
         "block";
 
     message.textContent =
-        "Password reset will be connected to email service later.";
+        "Password reset will be connected to Supabase.";
 }
 
 
@@ -758,4 +736,3 @@ function clearMessage(){
 </body>
 
 </html>
-sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b
