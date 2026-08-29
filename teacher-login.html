@@ -4,13 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Login | GURHUB</title>
+
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:Arial,sans-serif;
 }
+
 body{
 min-height:100vh;
 display:flex;
@@ -19,6 +22,7 @@ align-items:center;
 background:linear-gradient(135deg,#031326,#0d2f56);
 padding:20px;
 }
+
 .card{
 width:100%;
 max-width:500px;
@@ -29,21 +33,25 @@ border-radius:25px;
 padding:35px;
 color:white;
 }
+
 .logo{
 text-align:center;
 font-size:38px;
 font-weight:800;
 margin-bottom:25px;
 }
+
 .logo span{
 color:#d4af37;
 }
+
 .tabs{
 display:flex;
 margin-bottom:20px;
 overflow:hidden;
 border-radius:12px;
 }
+
 .tabs button{
 flex:1;
 padding:15px;
@@ -52,24 +60,30 @@ cursor:pointer;
 font-size:16px;
 font-weight:bold;
 }
+
 .active{
 background:#2563eb;
 color:white;
 }
+
 .tab{
 display:none;
 }
+
 .tab.show{
 display:block;
 }
+
 .input-group{
 margin-bottom:15px;
 }
+
 .input-group label{
 display:block;
 margin-bottom:6px;
 font-size:14px;
 }
+
 .input-group input{
 width:100%;
 padding:14px;
@@ -77,6 +91,7 @@ border:none;
 border-radius:10px;
 outline:none;
 }
+
 .submit-btn{
 width:100%;
 padding:15px;
@@ -88,13 +103,11 @@ font-weight:bold;
 cursor:pointer;
 margin-top:10px;
 }
+
 .submit-btn:hover{
 opacity:.9;
 }
-.submit-btn:disabled{
-opacity:.6;
-cursor:not-allowed;
-}
+
 .home-link{
 display:block;
 text-align:center;
@@ -103,367 +116,201 @@ text-decoration:none;
 color:white;
 font-size:18px;
 }
+
 .message{
 text-align:center;
 margin-bottom:15px;
 color:#7fffd4;
-min-height:20px;
 }
+
 </style>
 </head>
+
 <body>
+
 <div class="card">
+
 <div class="logo">
 GUR<span>HUB</span>
 </div>
+
 <div id="msg" class="message"></div>
+
 <div class="tabs">
 <button class="active" onclick="openTab('signup',this)">
 Sign Up
 </button>
+
 <button onclick="openTab('login',this)">
 Login
 </button>
 </div>
-<!-- =========================
-     SIGN UP
-========================= -->
+
+<!-- SIGNUP -->
+
 <div id="signup" class="tab show">
+
 <div class="input-group">
 <label>Full Name</label>
-<input
-type="text"
-id="signupName"
-autocomplete="name"
->
+<input type="text" id="signupName">
 </div>
+
 <div class="input-group">
 <label>Email</label>
-<input
-type="email"
-id="signupEmail"
-autocomplete="email"
->
+<input type="email" id="signupEmail">
 </div>
+
 <div class="input-group">
 <label>Password</label>
-<input
-type="password"
-id="signupPassword"
-autocomplete="new-password"
->
+<input type="password" id="signupPassword">
 </div>
 
-<button
-class=“submit-btn”
-id=“signupBtn”
-onclick=“createAccount()”
-
+<button class="submit-btn" onclick="createAccount()">
 Create Account
+</button>
+
 </div>
-<!-- =========================
-     LOGIN
-========================= -->
+
+<!-- LOGIN -->
+
 <div id="login" class="tab">
+
 <div class="input-group">
 <label>Email</label>
-<input
-type="email"
-id="loginEmail"
-autocomplete="email"
->
+<input type="email" id="loginEmail">
 </div>
+
 <div class="input-group">
 <label>Password</label>
-<input
-type="password"
-id="loginPassword"
-autocomplete="current-password"
->
+<input type="password" id="loginPassword">
 </div>
 
-<button
-class=“submit-btn”
-id=“loginBtn”
-onclick=“loginTeacher()”
-
+<button class="submit-btn" onclick="loginTeacher()">
 Login
+</button>
+
 </div>
+
 <a href="index.html" class="home-link">
 ← Back To Homepage
 </a>
+
 </div>
-<!-- =========================
-     SUPABASE LIBRARY
-========================= -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-/* ==========================================
-   SUPABASE CONFIGURATION
-   ========================================== */
-const SUPABASE_URL =
-"YOUR_SUPABASE_PROJECT_URL";
-const SUPABASE_ANON_KEY =
-"YOUR_SUPABASE_ANON_KEY";
-const db =
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
-);
-/* ==========================================
-   TAB SYSTEM
-   ========================================== */
+
 function openTab(tab,btn){
-document
-.querySelectorAll(".tab")
+
+document.querySelectorAll(".tab")
 .forEach(tabBox=>{
 tabBox.classList.remove("show");
 });
-document
-.getElementById(tab)
+
+document.getElementById(tab)
 .classList.add("show");
-document
-.querySelectorAll(".tabs button")
+
+document.querySelectorAll(".tabs button")
 .forEach(button=>{
 button.classList.remove("active");
 });
+
 btn.classList.add("active");
-clearMessage();
+
 }
-/* ==========================================
-   MESSAGE
-   ========================================== */
-function showMessage(text){
-document.getElementById("msg").textContent =
-text;
-}
-function clearMessage(){
-document.getElementById("msg").textContent =
-"";
-}
-/* ==========================================
-   CREATE TEACHER ACCOUNT
-   ========================================== */
-async function createAccount(){
+
+/* CREATE ACCOUNT */
+
+function createAccount(){
+
 const name =
-document
-.getElementById("signupName")
-.value
-.trim();
+document.getElementById("signupName").value.trim();
+
 const email =
-document
-.getElementById("signupEmail")
-.value
-.trim();
+document.getElementById("signupEmail").value.trim();
+
 const password =
-document
-.getElementById("signupPassword")
-.value
-.trim();
+document.getElementById("signupPassword").value.trim();
+
 if(!name || !email || !password){
+
 alert("Fill all fields");
 return;
+
 }
-if(password.length < 6){
-alert("Password must be at least 6 characters");
-return;
-}
-const button =
-document.getElementById("signupBtn");
-button.disabled = true;
-button.textContent =
-"Creating Account...";
-try{
-/*
-==========================================
-SUPABASE AUTH SIGN UP
-Password is NOT stored in localStorage.
-Every email creates/uses its own
-Supabase Auth user.
-==========================================
-*/
-const { data, error } =
-await db.auth.signUp({
-email:email,
-password:password,
-options:{
-data:{
+
+const teacher = {
+
 name:name,
-role:"teacher"
-}
-}
-});
-if(error){
-console.error(error);
-alert(error.message);
-button.disabled = false;
-button.textContent =
-"Create Account";
-return;
-}
-if(!data.user){
-alert("Account could not be created.");
-button.disabled = false;
-button.textContent =
-"Create Account";
-return;
-}
-/*
-==========================================
-IF EMAIL CONFIRMATION IS OFF
-==========================================
-*/
-if(data.session){
-showMessage(
-"Account created successfully!"
-);
-setTimeout(function(){
-window.location.href =
-"teacher.html";
-},700);
-return;
-}
-/*
-==========================================
-IF EMAIL CONFIRMATION IS ON
-==========================================
-*/
-showMessage(
-"Account created. Check your email to confirm your account, then login."
-);
-/*
-Open login tab automatically
-*/
-const loginButton =
-document.querySelectorAll(".tabs button")[1];
-openTab(
-"login",
-loginButton
-);
-document.getElementById("loginEmail").value =
-email;
-document.getElementById("loginPassword").value =
-"";
-}catch(error){
-console.error(error);
-alert(
-"Something went wrong. Please try again."
-);
-}
-button.disabled = false;
-button.textContent =
-"Create Account";
-}
-/* ==========================================
-   TEACHER LOGIN
-   ========================================== */
-async function loginTeacher(){
-const email =
-document
-.getElementById("loginEmail")
-.value
-.trim();
-const password =
-document
-.getElementById("loginPassword")
-.value
-.trim();
-if(!email || !password){
-alert(
-"Enter email and password"
-);
-return;
-}
-const button =
-document.getElementById("loginBtn");
-button.disabled = true;
-button.textContent =
-"Logging in...";
-try{
-/*
-==========================================
-SUPABASE AUTH LOGIN
-==========================================
-*/
-const { data, error } =
-await db.auth.signInWithPassword({
 email:email,
 password:password
-});
-if(error){
-console.error(error);
-alert(error.message);
-button.disabled = false;
-button.textContent =
-"Login";
+
+};
+
+localStorage.setItem(
+"teacherAccount",
+JSON.stringify(teacher)
+);
+
+sessionStorage.setItem(
+"gurhub_teacher",
+JSON.stringify({
+name:name,
+email:email,
+skill:"Teacher"
+})
+);
+
+window.location.href = "teacher.html";
+
+}
+
+/* LOGIN */
+
+function loginTeacher(){
+
+const email =
+document.getElementById("loginEmail").value.trim();
+
+const password =
+document.getElementById("loginPassword").value.trim();
+
+const teacher =
+JSON.parse(
+localStorage.getItem("teacherAccount")
+);
+
+if(!teacher){
+
+alert("Account not found");
 return;
+
 }
-if(!data.user){
-alert(
-"Teacher account not found."
+
+if(
+teacher.email === email &&
+teacher.password === password
+){
+
+sessionStorage.setItem(
+"gurhub_teacher",
+JSON.stringify({
+name:teacher.name,
+email:teacher.email,
+skill:"Teacher"
+})
 );
-button.disabled = false;
-button.textContent =
-"Login";
-return;
+
+window.location.href = "teacher.html";
+
+}else{
+
+alert("Invalid email or password");
+
 }
-/*
-==========================================
-SUCCESS
-Supabase session now belongs to the exact
-teacher who entered this email/password.
-NO localStorage teacher profile.
-NO shared teacher account.
-==========================================
-*/
-showMessage(
-"Login successful!"
-);
-setTimeout(function(){
-window.location.href =
-"teacher.html";
-},500);
-}catch(error){
-console.error(error);
-alert(
-"Login failed. Please try again."
-);
+
 }
-button.disabled = false;
-button.textContent =
-"Login";
-}
-/* ==========================================
-   CHECK SUPABASE SESSION
-   ========================================== */
-async function checkTeacherSession(){
-try{
-const { data, error } =
-await db.auth.getSession();
-if(error){
-console.error(error);
-return;
-}
-/*
-If a Supabase session already exists,
-the user is already authenticated.
-We DO NOT create/read a profile from
-localStorage.
-*/
-if(data.session){
-console.log(
-"Supabase teacher session active:",
-data.session.user.email
-);
-}
-}catch(error){
-console.error(error);
-}
-}
-/* ==========================================
-   START
-   ========================================== */
-checkTeacherSession();
+
 </script>
+
 </body>
 </html>
