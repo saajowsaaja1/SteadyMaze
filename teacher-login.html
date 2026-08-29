@@ -125,114 +125,87 @@ Sign Up
 Login
 </button>
 </div>
-<!-- =========================
-     SIGN UP
-========================= -->
+<!-- SIGNUP -->
 <div id="signup" class="tab show">
 <div class="input-group">
 <label>Full Name</label>
-<input
-type="text"
-id="signupName"
-autocomplete="name"
->
+<input type="text" id="signupName">
 </div>
 <div class="input-group">
 <label>Email</label>
-<input
-type="email"
-id="signupEmail"
-autocomplete="email"
->
+<input type="email" id="signupEmail">
 </div>
 <div class="input-group">
 <label>Password</label>
-<input
-type="password"
-id="signupPassword"
-autocomplete="new-password"
->
+<input type="password" id="signupPassword">
 </div>
-
-<button
-class=“submit-btn”
-id=“signupBtn”
-onclick=“createAccount()”
-
+<button class="submit-btn" id="signupBtn" onclick="createAccount()">
 Create Account
+</button>
 </div>
-<!-- =========================
-     LOGIN
-========================= -->
+<!-- LOGIN -->
 <div id="login" class="tab">
 <div class="input-group">
 <label>Email</label>
-<input
-type="email"
-id="loginEmail"
-autocomplete="email"
->
+<input type="email" id="loginEmail">
 </div>
 <div class="input-group">
 <label>Password</label>
-<input
-type="password"
-id="loginPassword"
-autocomplete="current-password"
->
+<input type="password" id="loginPassword">
 </div>
-
-<button
-class=“submit-btn”
-id=“loginBtn”
-onclick=“loginTeacher()”
-
+<button class="submit-btn" id="loginBtn" onclick="loginTeacher()">
 Login
+</button>
 </div>
 <a href="index.html" class="home-link">
 ← Back To Homepage
 </a>
 </div>
-<!-- =========================
-     SUPABASE LIBRARY
-========================= -->
+<!-- =====================================
+     SUPABASE
+===================================== -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ==========================================
-   SUPABASE SETTINGS
-   ========================================== */
-const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-const db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
+/* =====================================
+   SUPABASE CONFIG
+   KU BEDDEL KUWAAGA
+===================================== */
+const SUPABASE_URL =
+"YOUR_SUPABASE_PROJECT_URL";
+const SUPABASE_ANON_KEY =
+"YOUR_SUPABASE_ANON_KEY";
+const { createClient } = supabase;
+const supabaseClient =
+createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
 );
-/* ==========================================
+/* =====================================
    TAB SYSTEM
-   ========================================== */
+===================================== */
 function openTab(tab,btn){
 document.querySelectorAll(".tab")
 .forEach(tabBox=>{
-    tabBox.classList.remove("show");
+tabBox.classList.remove("show");
 });
 document.getElementById(tab)
 .classList.add("show");
 document.querySelectorAll(".tabs button")
 .forEach(button=>{
-    button.classList.remove("active");
+button.classList.remove("active");
 });
 btn.classList.add("active");
 document.getElementById("msg").textContent="";
 }
-/* ==========================================
+/* =====================================
    MESSAGE
-   ========================================== */
+===================================== */
 function showMessage(text){
 document.getElementById("msg").textContent=text;
 }
-/* ==========================================
+/* =====================================
    CREATE TEACHER ACCOUNT
-   ========================================== */
+===================================== */
 async function createAccount(){
 const name =
 document.getElementById("signupName")
@@ -241,7 +214,8 @@ document.getElementById("signupName")
 const email =
 document.getElementById("signupEmail")
 .value
-.trim();
+.trim()
+.toLowerCase();
 const password =
 document.getElementById("signupPassword")
 .value
@@ -260,79 +234,68 @@ button.disabled=true;
 button.textContent="Creating Account...";
 try{
 /*
-   Supabase Auth creates the real account.
-   Password is NOT stored in:
-   localStorage
-   sessionStorage
-   JavaScript variables permanently
+   SUPABASE AUTH
+   Password-ka localStorage laguma kaydinayo.
 */
-const {data,error} =
-await db.auth.signUp({
+const { data, error } =
+await supabaseClient.auth.signUp({
 email:email,
 password:password,
 options:{
 data:{
-name:name,
+full_name:name,
 role:"teacher"
 }
 }
 });
 if(error){
+console.error(error);
 alert(error.message);
 button.disabled=false;
 button.textContent="Create Account";
 return;
 }
-/* ==========================================
-   ACCOUNT CREATED
-   ========================================== */
-if(data.user){
 /*
-   If Supabase email confirmation is OFF,
-   the user gets a session immediately.
+   EMAIL CONFIRMATION OFF
+   ama session isla markiiba la helay
 */
-if(data.session){
-showMessage(
-"Account created successfully!"
-);
+if(data.session && data.user){
+showMessage("Account created successfully!");
 setTimeout(()=>{
 window.location.href="teacher.html";
 },700);
 return;
 }
 /*
-   If email confirmation is ON,
-   Supabase will not give a session yet.
+   EMAIL CONFIRMATION ON
 */
+if(data.user){
 showMessage(
-"Account created. Check your email to confirm your account."
+"Account created. Please confirm your email, then login."
 );
-/*
-   Move to login tab.
-*/
+document.getElementById("loginEmail").value=email;
+setTimeout(()=>{
 const loginButton =
 document.querySelectorAll(".tabs button")[1];
 openTab("login",loginButton);
-document.getElementById("loginEmail").value=email;
-document.getElementById("loginPassword").value="";
+},1200);
 }
 }catch(error){
 console.error(error);
-alert(
-"Something went wrong. Please try again."
-);
+alert("Something went wrong. Please try again.");
 }
 button.disabled=false;
 button.textContent="Create Account";
 }
-/* ==========================================
+/* =====================================
    TEACHER LOGIN
-   ========================================== */
+===================================== */
 async function loginTeacher(){
 const email =
 document.getElementById("loginEmail")
 .value
-.trim();
+.trim()
+.toLowerCase();
 const password =
 document.getElementById("loginPassword")
 .value
@@ -346,33 +309,26 @@ document.getElementById("loginBtn");
 button.disabled=true;
 button.textContent="Logging in...";
 try{
-/*
-   Supabase checks the email/password.
-   No old localStorage teacher account
-   is used.
-*/
-const {data,error} =
-await db.auth.signInWithPassword({
+const { data, error } =
+await supabaseClient.auth.signInWithPassword({
 email:email,
 password:password
 });
 if(error){
+console.error(error);
 alert(error.message);
 button.disabled=false;
 button.textContent="Login";
 return;
 }
 if(data.user){
+showMessage("Login successful!");
 /*
-   The Supabase session now belongs
-   to THIS exact teacher account.
-*/
-showMessage(
-"Login successful!"
-);
-/*
-   teacher.html will receive the
-   current Supabase session.
+   Supabase session ayaa hadda
+   aqoonsanaya teacher-kan.
+   
+   localStorage lama isticmaalayo.
+   sessionStorage lama isticmaalayo.
 */
 setTimeout(()=>{
 window.location.href="teacher.html";
@@ -380,38 +336,30 @@ window.location.href="teacher.html";
 }
 }catch(error){
 console.error(error);
-alert(
-"Login failed. Please try again."
-);
+alert("Login failed. Please try again.");
 }
 button.disabled=false;
 button.textContent="Login";
 }
-/* ==========================================
+/* =====================================
    CHECK SUPABASE SESSION
-   ========================================== */
-async function checkSession(){
-try{
-const {data,error} =
-await db.auth.getSession();
+===================================== */
+async function checkTeacherSession(){
+const { data, error } =
+await supabaseClient.auth.getSession();
 if(error){
 console.error(error);
 return;
 }
 /*
-   Session is controlled by Supabase.
-   No localStorage teacher profile is used.
+   Haddii teacher horey u login yahay,
+   session-ka Supabase ayaa jira.
 */
 if(data.session){
-console.log(
-"Teacher already has a Supabase session."
-);
-}
-}catch(error){
-console.error(error);
+console.log("Teacher Supabase session active");
 }
 }
-checkSession();
+checkTeacherSession();
 </script>
 </body>
 </html>
