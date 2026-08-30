@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Login | GURHUB</title>
-<!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{
 margin:0;
@@ -53,8 +51,10 @@ border:none;
 cursor:pointer;
 font-size:16px;
 font-weight:bold;
+background:#e5e7eb;
+color:#111827;
 }
-.active{
+.tabs button.active{
 background:#2563eb;
 color:white;
 }
@@ -78,6 +78,7 @@ padding:14px;
 border:none;
 border-radius:10px;
 outline:none;
+font-size:15px;
 }
 .submit-btn{
 width:100%;
@@ -109,7 +110,8 @@ font-size:18px;
 text-align:center;
 margin-bottom:15px;
 color:#7fffd4;
-min-height:18px;
+min-height:20px;
+font-size:14px;
 }
 </style>
 </head>
@@ -131,39 +133,41 @@ onclick=“openTab(‘login’,this)”
 
 Login
 </div>
-<!-- SIGNUP -->
+<!-- =========================
+     SIGN UP
+========================= -->
 <div id="signup" class="tab show">
 <div class="input-group">
-<label>
+
 Full Name
-</label>
 
 <input
 type=“text”
 id=“signupName”
 autocomplete=“name”
+placeholder=“Enter your full name”
 
 </div>
 <div class="input-group">
-<label>
+
 Email
-</label>
 
 <input
 type=“email”
 id=“signupEmail”
 autocomplete=“email”
+placeholder=“Enter your email”
 
 </div>
 <div class="input-group">
-<label>
+
 Password
-</label>
 
 <input
 type=“password”
 id=“signupPassword”
 autocomplete=“new-password”
+placeholder=“Create a password”
 
 </div>
 
@@ -174,28 +178,30 @@ onclick=“createAccount()”
 
 Create Account
 </div>
-<!-- LOGIN -->
+<!-- =========================
+     LOGIN
+========================= -->
 <div id="login" class="tab">
 <div class="input-group">
-<label>
+
 Email
-</label>
 
 <input
 type=“email”
 id=“loginEmail”
 autocomplete=“email”
+placeholder=“Enter your email”
 
 </div>
 <div class="input-group">
-<label>
+
 Password
-</label>
 
 <input
 type=“password”
 id=“loginPassword”
 autocomplete=“current-password”
+placeholder=“Enter your password”
 
 </div>
 
@@ -213,464 +219,231 @@ class=“home-link”
 
 ← Back To Homepage
 </div>
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* =====================================================
-   SUPABASE CONNECTION
+   SUPABASE CONFIG
 ===================================================== */
 const SUPABASE_URL =
-    "https://uxrltzlxdttbjstomhkb.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+"https://uxrltzlxdttbjstom hkb.supabase.co".replace(" ","");
+const SUPABASE_KEY =
+"sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+const {
+createClient
+} = supabase;
 const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
+createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+/* =====================================================
+   TAB SYSTEM
+===================================================== */
+function openTab(tab,btn){
+document
+.querySelectorAll(".tab")
+.forEach(tabBox => {
+tabBox.classList.remove("show");
+});
+document
+.getElementById(tab)
+.classList.add("show");
+document
+.querySelectorAll(".tabs button")
+.forEach(button => {
+button.classList.remove("active");
+});
+btn.classList.add("active");
+clearMessage();
+}
 /* =====================================================
    MESSAGE
 ===================================================== */
-function showMessage(
-    text,
-    success = true
-){
-    const message =
-        document.getElementById("msg");
-    message.textContent =
-        text;
-    message.style.color =
-        success
-        ? "#7fffd4"
-        : "#ff8a8a";
+function showMessage(text){
+document.getElementById("msg").textContent =
+text;
+}
+function clearMessage(){
+document.getElementById("msg").textContent =
+"";
 }
 /* =====================================================
-   TAB
-===================================================== */
-function openTab(
-    tab,
-    btn
-){
-    document
-        .querySelectorAll(".tab")
-        .forEach(tabBox => {
-            tabBox.classList.remove(
-                "show"
-            );
-        });
-    document
-        .getElementById(tab)
-        .classList.add("show");
-    document
-        .querySelectorAll(".tabs button")
-        .forEach(button => {
-            button.classList.remove(
-                "active"
-            );
-        });
-    btn.classList.add("active");
-    showMessage("");
-}
-/* =====================================================
-   CREATE ACCOUNT
+   CREATE TEACHER ACCOUNT
+   SUPABASE AUTH
 ===================================================== */
 async function createAccount(){
-    const name =
-        document
-            .getElementById("signupName")
-            .value
-            .trim();
-    const email =
-        document
-            .getElementById("signupEmail")
-            .value
-            .trim()
-            .toLowerCase();
-    const password =
-        document
-            .getElementById("signupPassword")
-            .value;
-    if(
-        !name ||
-        !email ||
-        !password
-    ){
-        showMessage(
-            "Fill all fields.",
-            false
-        );
-        return;
-    }
-    if(password.length < 6){
-        showMessage(
-            "Password must be at least 6 characters.",
-            false
-        );
-        return;
-    }
-    const button =
-        document.getElementById(
-            "signupBtn"
-        );
-    button.disabled = true;
-    button.textContent =
-        "Creating...";
-    try{
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .auth
-            .signUp({
-                email: email,
-                password: password,
-                options: {
-                    data: {
-                        full_name:
-                            name,
-                        name:
-                            name,
-                        role:
-                            "teacher"
-                    }
-                }
-            });
-        if(error){
-            console.error(
-                "Supabase signup error:",
-                error
-            );
-            showMessage(
-                error.message,
-                false
-            );
-            return;
-        }
-        /*
-         * Confirm Email is already enabled
-         * in Supabase Authentication.
-         *
-         * Therefore we DO NOT create our own
-         * email-confirmation system here.
-         */
-        if(
-            data &&
-            data.session
-        ){
-            /*
-             * This can happen if email confirmation
-             * is disabled in the Supabase project.
-             */
-            showMessage(
-                "Account created successfully."
-            );
-            setTimeout(
-                () => {
-                    window.location.href =
-                        "teacher.html";
-                },
-                700
-            );
-        }else{
-            /*
-             * With Confirm Email enabled,
-             * Supabase normally returns no session
-             * until the email is confirmed.
-             */
-            showMessage(
-                "Account created successfully."
-            );
-            document
-                .getElementById(
-                    "signupPassword"
-                )
-                .value = "";
-            openLoginTab();
-        }
-    }catch(error){
-        console.error(
-            "Signup error:",
-            error
-        );
-        showMessage(
-            "Unable to create account.",
-            false
-        );
-    }finally{
-        button.disabled = false;
-        button.textContent =
-            "Create Account";
-    }
+clearMessage();
+const name =
+document
+.getElementById("signupName")
+.value
+.trim();
+const email =
+document
+.getElementById("signupEmail")
+.value
+.trim()
+.toLowerCase();
+const password =
+document
+.getElementById("signupPassword")
+.value;
+if(!name || !email || !password){
+alert("Fill all fields.");
+return;
+}
+/*
+   Supabase Auth handles:
+   - email validation
+   - password authentication
+   - confirmation email
+   - user account creation
+*/
+const signupBtn =
+document.getElementById("signupBtn");
+signupBtn.disabled = true;
+signupBtn.textContent = "Creating...";
+try{
+const {
+data,
+error
+} =
+await supabaseClient.auth.signUp({
+email:email,
+password:password,
+options:{
+data:{
+full_name:name,
+role:"teacher"
+}
+}
+});
+if(error){
+alert(error.message);
+return;
+}
+/*
+   IMPORTANT:
+   We do NOT create our own verification system.
+   Supabase Auth controls email confirmation.
+*/
+document
+.getElementById("signupPassword")
+.value = "";
+/*
+   Go to Login tab.
+*/
+const loginButton =
+document.querySelectorAll(".tabs button")[1];
+openTab(
+"login",
+loginButton
+);
+/*
+   Put email into login field.
+*/
+document
+.getElementById("loginEmail")
+.value =
+email;
+/*
+   No custom email verification message.
+*/
+}
+catch(error){
+alert(
+error.message ||
+"Something went wrong."
+);
+}
+finally{
+signupBtn.disabled = false;
+signupBtn.textContent = "Create Account";
+}
 }
 /* =====================================================
-   OPEN LOGIN TAB
-===================================================== */
-function openLoginTab(){
-    const loginButton =
-        document.querySelectorAll(
-            ".tabs button"
-        )[1];
-    openTab(
-        "login",
-        loginButton
-    );
-}
-/* =====================================================
-   LOGIN
+   TEACHER LOGIN
+   SUPABASE AUTH
 ===================================================== */
 async function loginTeacher(){
-    const email =
-        document
-            .getElementById("loginEmail")
-            .value
-            .trim()
-            .toLowerCase();
-    const password =
-        document
-            .getElementById("loginPassword")
-            .value;
-    if(
-        !email ||
-        !password
-    ){
-        showMessage(
-            "Enter your email and password.",
-            false
-        );
-        return;
-    }
-    const button =
-        document.getElementById(
-            "loginBtn"
-        );
-    button.disabled = true;
-    button.textContent =
-        "Logging in...";
-    try{
-        /*
-         * Sign in through Supabase Auth.
-         */
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .auth
-            .signInWithPassword({
-                email:
-                    email,
-                password:
-                    password
-            });
-        if(error){
-            console.error(
-                "Supabase login error:",
-                error
-            );
-            showMessage(
-                error.message,
-                false
-            );
-            return;
-        }
-        const user =
-            data &&
-            data.user
-            ? data.user
-            : null;
-        if(!user){
-            showMessage(
-                "Unable to verify the account.",
-                false
-            );
-            return;
-        }
-        /* =================================================
-           EMAIL CONFIRMATION CHECK
-        ================================================= */
-        if(
-            !user.email_confirmed_at
-        ){
-            /*
-             * Sign out immediately if the email
-             * has not been confirmed.
-             */
-            await supabaseClient
-                .auth
-                .signOut();
-            showMessage(
-                "Email verification required.",
-                false
-            );
-            return;
-        }
-        /* =================================================
-           TEACHER ROLE CHECK
-        ================================================= */
-        const metadata =
-            user.user_metadata ||
-            {};
-        const role =
-            String(
-                metadata.role ||
-                ""
-            ).toLowerCase();
-        /*
-         * If a role exists and it is not teacher,
-         * do not allow it into teacher dashboard.
-         *
-         * Existing accounts without metadata are
-         * still allowed so your current accounts
-         * are not broken.
-         */
-        if(
-            role &&
-            role !== "teacher"
-        ){
-            await supabaseClient
-                .auth
-                .signOut();
-            showMessage(
-                "This account is not a teacher account.",
-                false
-            );
-            return;
-        }
-        /* =================================================
-           SUCCESS
-        ================================================= */
-        showMessage(
-            "Login successful."
-        );
-        /*
-         * Supabase Auth now owns the session.
-         * No password is stored in localStorage.
-         */
-        setTimeout(
-            () => {
-                window.location.href =
-                    "teacher.html";
-            },
-            500
-        );
-    }catch(error){
-        console.error(
-            "Login error:",
-            error
-        );
-        showMessage(
-            "Unable to login.",
-            false
-        );
-    }finally{
-        button.disabled = false;
-        button.textContent =
-            "Login";
-    }
+clearMessage();
+const email =
+document
+.getElementById("loginEmail")
+.value
+.trim()
+.toLowerCase();
+const password =
+document
+.getElementById("loginPassword")
+.value;
+if(!email || !password){
+alert("Enter your email and password.");
+return;
+}
+const loginBtn =
+document.getElementById("loginBtn");
+loginBtn.disabled = true;
+loginBtn.textContent = "Logging in...";
+try{
+const {
+data,
+error
+} =
+await supabaseClient.auth.signInWithPassword({
+email:email,
+password:password
+});
+if(error){
+alert(error.message);
+return;
+}
+if(!data.session){
+alert("Login session was not created.");
+return;
+}
+/*
+   Supabase session is now active.
+   teacher.html can use:
+   supabase.auth.getSession()
+*/
+window.location.href =
+"teacher.html";
+}
+catch(error){
+alert(
+error.message ||
+"Login failed."
+);
+}
+finally{
+loginBtn.disabled = false;
+loginBtn.textContent = "Login";
+}
 }
 /* =====================================================
-   EXISTING SESSION CHECK
+   CHECK CURRENT SESSION
 ===================================================== */
-async function checkExistingTeacher(){
-    try{
-        /*
-         * getUser() asks the Supabase Auth server
-         * for the authenticated user.
-         */
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .auth
-            .getUser();
-        if(error){
-            return;
-        }
-        const user =
-            data &&
-            data.user
-            ? data.user
-            : null;
-        if(!user){
-            return;
-        }
-        /*
-         * Do not automatically enter the teacher
-         * dashboard if email confirmation is missing.
-         */
-        if(
-            !user.email_confirmed_at
-        ){
-            await supabaseClient
-                .auth
-                .signOut();
-            return;
-        }
-        const metadata =
-            user.user_metadata ||
-            {};
-        const role =
-            String(
-                metadata.role ||
-                ""
-            ).toLowerCase();
-        if(
-            role &&
-            role !== "teacher"
-        ){
-            await supabaseClient
-                .auth
-                .signOut();
-            return;
-        }
-        /*
-         * Valid authenticated teacher.
-         */
-        window.location.href =
-            "teacher.html";
-    }catch(error){
-        console.error(
-            "Session check error:",
-            error
-        );
-    }
+async function checkExistingSession(){
+const {
+data
+} =
+await supabaseClient.auth.getSession();
+if(data.session){
+/*
+   Teacher is already logged in.
+*/
+window.location.href =
+"teacher.html";
+}
 }
 /* =====================================================
-   AUTH STATE LISTENER
+   RUN
 ===================================================== */
-supabaseClient
-    .auth
-    .onAuthStateChange(
-        async function(
-            event,
-            session
-        ){
-            if(
-                event ===
-                "SIGNED_OUT"
-            ){
-                return;
-            }
-            if(
-                event ===
-                    "SIGNED_IN" &&
-                session &&
-                session.user
-            ){
-                /*
-                 * The login function itself performs
-                 * the confirmation and role checks.
-                 */
-                console.log(
-                    "Supabase teacher authentication active."
-                );
-            }
-        }
-    );
-/* =====================================================
-   START
-===================================================== */
-checkExistingTeacher();
+checkExistingSession();
 </script>
 </body>
 </html>
