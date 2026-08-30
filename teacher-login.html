@@ -1,54 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SteadyMaze | Teacher Login</title>
-
 <style>
-
-/* =========================
-   RESET
-========================= */
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
 }
-
-
-/* =========================
-   BODY
-========================= */
-
 body{
-
     min-height:100vh;
-
     display:flex;
-    justify-content:center;
     align-items:center;
-
-    padding:20px;
-
-    color:white;
-
+    justify-content:center;
     background:
         radial-gradient(
             circle at top right,
-            rgba(212,175,55,.16),
+            rgba(212,175,55,.14),
             transparent 35%
         ),
         radial-gradient(
             circle at bottom left,
-            rgba(37,99,235,.18),
+            rgba(37,99,235,.16),
             transparent 35%
         ),
         linear-gradient(
@@ -56,1233 +31,727 @@ body{
             #031326,
             #0d2f56
         );
-
+    color:#f5f8f6;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
-
-
-/* =========================
-   CARD
-========================= */
-
-.card{
-
+.auth-card{
     width:100%;
     max-width:460px;
-
+    margin:20px;
     padding:36px;
-
-    border-radius:25px;
-
-    background:
-        rgba(255,255,255,.08);
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
+    background:rgba(7,18,34,.94);
+    border:1px solid
+        rgba(255,255,255,.09);
+    border-radius:22px;
     box-shadow:
         0 25px 80px
-        rgba(0,0,0,.50);
-
+        rgba(0,0,0,.55);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
 }
-
-
-/* =========================
-   LOGO
-========================= */
-
 .logo{
-
     text-align:center;
-
-    font-size:34px;
-
+    font-size:30px;
     font-weight:900;
-
     margin-bottom:7px;
-
 }
-
 .logo span{
-
     color:#d4af37;
-
 }
-
-
 .subtitle{
-
     text-align:center;
-
-    color:#aebccd;
-
-    font-size:12px;
-
+    color:#8393a7;
+    font-size:11px;
     margin-bottom:28px;
-
 }
-
-
-/* =========================
-   MESSAGE
-========================= */
-
-.message{
-
-    display:none;
-
-    margin-bottom:16px;
-
-    padding:12px;
-
-    border-radius:10px;
-
-    text-align:center;
-
-    font-size:12px;
-
-    line-height:1.5;
-
-    background:
-        rgba(0,230,118,.09);
-
-    color:#7fffd4;
-
-}
-
-.message.show{
-    display:block;
-}
-
-.message.error{
-
-    background:
-        rgba(255,70,70,.10);
-
-    color:#ff8585;
-
-}
-
-
-/* =========================
-   TABS
-========================= */
-
 .tabs{
-
     display:grid;
-
     grid-template-columns:1fr 1fr;
-
-    gap:5px;
-
+    gap:6px;
     padding:5px;
-
-    margin-bottom:23px;
-
-    background:
-        rgba(0,0,0,.28);
-
-    border-radius:12px;
-
+    margin-bottom:24px;
+    background:#020914;
+    border-radius:11px;
 }
-
-.tab-button{
-
+.tab{
     border:0;
-
     padding:13px;
-
     border-radius:8px;
-
     background:transparent;
-
-    color:#93a2b5;
-
-    font-size:12px;
-
+    color:#66788d;
+    font-size:10px;
     font-weight:900;
-
     cursor:pointer;
-
 }
-
-.tab-button.active{
-
+.tab.active{
     background:#2563eb;
-
     color:white;
-
 }
-
-
-/* =========================
-   FORMS
-========================= */
-
 .form{
     display:none;
 }
-
 .form.active{
     display:block;
 }
-
-
-/* =========================
-   INPUTS
-========================= */
-
-.input-group{
-
-    margin-bottom:16px;
-
-}
-
-.input-group label{
-
+label{
     display:block;
-
     margin-bottom:7px;
-
-    color:#c5cfdb;
-
-    font-size:10px;
-
+    color:#9eacbc;
+    font-size:9px;
     font-weight:900;
-
 }
-
-.input-group input{
-
+input{
     width:100%;
-
     padding:14px;
-
+    margin-bottom:16px;
+    background:#020914;
     border:1px solid
-        rgba(255,255,255,.10);
-
+        rgba(255,255,255,.08);
     border-radius:10px;
-
     outline:none;
-
-    background:#f7f9fc;
-
-    color:#111;
-
-    font-size:14px;
-
+    color:white;
+    font-size:11px;
 }
-
-.input-group input:focus{
-
+input::placeholder{
+    color:#536276;
+}
+input:focus{
     border-color:#d4af37;
-
     box-shadow:
         0 0 0 3px
-        rgba(212,175,55,.12);
-
+        rgba(212,175,55,.08);
 }
-
-
-/* =========================
-   BUTTON
-========================= */
-
-.submit-btn{
-
+.main-button{
     width:100%;
-
     padding:14px;
-
     margin-top:5px;
-
     border:0;
-
     border-radius:10px;
-
     background:
         linear-gradient(
             135deg,
             #d4af37,
             #f1cc62
         );
-
     color:#071426;
-
-    font-size:12px;
-
+    font-size:10px;
     font-weight:900;
-
     cursor:pointer;
-
     transition:.2s;
-
 }
-
-.submit-btn:hover{
-
+.main-button:hover{
     transform:translateY(-1px);
-
     box-shadow:
         0 10px 30px
-        rgba(212,175,55,.20);
-
+        rgba(212,175,55,.18);
 }
-
-.submit-btn:disabled{
-
-    opacity:.6;
-
+.main-button:disabled{
+    opacity:.55;
     cursor:not-allowed;
-
     transform:none;
-
 }
-
-
-/* =========================
-   LINKS
-========================= */
-
 .forgot{
-
     display:block;
-
     margin-top:16px;
-
     text-align:center;
-
-    color:#79aaff;
-
-    font-size:11px;
-
-    font-weight:800;
-
+    color:#70a2ff;
+    font-size:9px;
+    font-weight:900;
+    text-decoration:none;
     cursor:pointer;
-
-    text-decoration:none;
-
 }
-
 .forgot:hover{
-
     color:#d4af37;
-
 }
-
-
 .back{
-
     display:block;
-
     margin-top:25px;
-
     text-align:center;
-
-    color:#aab7c7;
-
-    font-size:11px;
-
+    color:#566579;
+    font-size:9px;
     text-decoration:none;
-
 }
-
 .back:hover{
-
     color:#d4af37;
-
 }
-
-
-/* =========================
-   INFO
-========================= */
-
-.info{
-
-    margin-top:13px;
-
+.message{
+    display:none;
+    margin-bottom:15px;
+    padding:11px;
+    border-radius:8px;
+    background:
+        rgba(0,230,118,.07);
+    color:#63e6be;
+    font-size:9px;
+    line-height:1.5;
     text-align:center;
-
-    color:#8e9daf;
-
-    font-size:10px;
-
-    line-height:1.6;
-
 }
-
-
-/* =========================
-   MOBILE
-========================= */
-
+.message.error{
+    background:
+        rgba(255,70,70,.08);
+    color:#ff7070;
+}
+.info{
+    margin-top:13px;
+    color:#6f8094;
+    font-size:9px;
+    line-height:1.5;
+    text-align:center;
+}
 @media(max-width:500px){
-
-    .card{
-
+    .auth-card{
         padding:28px 22px;
-
     }
-
     .logo{
-
-        font-size:29px;
-
+        font-size:26px;
     }
-
 }
-
 </style>
-
 </head>
-
-
 <body>
-
-
-<div class="card">
-
-
-    <!-- =====================
-         LOGO
-    ====================== -->
-
+<div class="auth-card">
+    <!-- LOGO -->
     <div class="logo">
-
         Steady<span>Maze</span>
-
     </div>
-
-
     <div class="subtitle">
-
         Teacher Portal
-
     </div>
-
-
-    <!-- =====================
-         MESSAGE
-    ====================== -->
-
+    <!-- MESSAGE -->
     <div
         id="message"
-        class="message">
-    </div>
-
-
-    <!-- =====================
-         TABS
-    ====================== -->
-
+        class="message"
+    ></div>
+    <!-- TABS -->
     <div
         id="tabs"
-        class="tabs">
-
-        <button
-            id="signupTab"
-            class="tab-button active"
-            type="button"
-            onclick="showSignup()">
-
-            SIGN UP
-
-        </button>
-
-
+        class="tabs"
+    >
         <button
             id="loginTab"
-            class="tab-button"
+            class="tab active"
             type="button"
-            onclick="showLogin()">
-
+            onclick="showLogin()"
+        >
             LOGIN
-
         </button>
-
-    </div>
-
-
-    <!-- =====================
-         SIGN UP
-    ====================== -->
-
-    <div
-        id="signupForm"
-        class="form active">
-
-
-        <div class="input-group">
-
-            <label>
-                FULL NAME
-            </label>
-
-            <input
-                type="text"
-                id="signupName"
-                placeholder="Enter your full name"
-                autocomplete="name">
-
-        </div>
-
-
-        <div class="input-group">
-
-            <label>
-                EMAIL
-            </label>
-
-            <input
-                type="email"
-                id="signupEmail"
-                placeholder="Enter your email"
-                autocomplete="email">
-
-        </div>
-
-
-        <div class="input-group">
-
-            <label>
-                PASSWORD
-            </label>
-
-            <input
-                type="password"
-                id="signupPassword"
-                placeholder="Create your password"
-                minlength="6"
-                autocomplete="new-password">
-
-        </div>
-
-
         <button
-            id="signupButton"
-            class="submit-btn"
+            id="signupTab"
+            class="tab"
             type="button"
-            onclick="createTeacherAccount()">
-
-            CREATE TEACHER ACCOUNT
-
+            onclick="showSignup()"
+        >
+            SIGN UP
         </button>
-
-
-        <div class="info">
-
-            After registration, Supabase will send
-            a confirmation email to your email address.
-
-        </div>
-
     </div>
-
-
-    <!-- =====================
+    <!-- =========================
          LOGIN
-    ====================== -->
-
-    <div
+    ========================== -->
+    <form
         id="loginForm"
-        class="form">
-
-
-        <div class="input-group">
-
-            <label>
-                EMAIL
-            </label>
-
-            <input
-                type="email"
-                id="loginEmail"
-                placeholder="Enter your email"
-                autocomplete="email">
-
-        </div>
-
-
-        <div class="input-group">
-
-            <label>
-                PASSWORD
-            </label>
-
-            <input
-                type="password"
-                id="loginPassword"
-                placeholder="Enter your password"
-                autocomplete="current-password">
-
-        </div>
-
-
+        class="form active"
+        onsubmit="loginTeacher(event)"
+    >
+        <label>
+            EMAIL
+        </label>
+        <input
+            type="email"
+            id="loginEmail"
+            placeholder="Enter your teacher email"
+            autocomplete="email"
+            required
+        >
+        <label>
+            PASSWORD
+        </label>
+        <input
+            type="password"
+            id="loginPassword"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+        >
         <button
+            type="submit"
             id="loginButton"
-            class="submit-btn"
-            type="button"
-            onclick="loginTeacher()">
-
+            class="main-button"
+        >
             LOGIN
-
         </button>
-
-
         <a
             class="forgot"
-            onclick="showForgot()">
-
+            onclick="showForgot()"
+        >
             Forgot Password?
-
         </a>
-
-    </div>
-
-
-    <!-- =====================
-         FORGOT PASSWORD
-    ====================== -->
-
-    <div
-        id="forgotForm"
-        class="form">
-
-
-        <div class="input-group">
-
-            <label>
-                ACCOUNT EMAIL
-            </label>
-
-            <input
-                type="email"
-                id="forgotEmail"
-                placeholder="Enter your teacher email"
-                autocomplete="email">
-
-        </div>
-
-
+    </form>
+    <!-- =========================
+         SIGN UP
+    ========================== -->
+    <form
+        id="signupForm"
+        class="form"
+        onsubmit="createTeacher(event)"
+    >
+        <label>
+            FULL NAME
+        </label>
+        <input
+            type="text"
+            id="signupName"
+            placeholder="Enter your full name"
+            autocomplete="name"
+            required
+        >
+        <label>
+            EMAIL
+        </label>
+        <input
+            type="email"
+            id="signupEmail"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+        >
+        <label>
+            PASSWORD
+        </label>
+        <input
+            type="password"
+            id="signupPassword"
+            placeholder="Create your password"
+            autocomplete="new-password"
+            minlength="6"
+            required
+        >
         <button
-            id="forgotButton"
-            class="submit-btn"
-            type="button"
-            onclick="sendResetLink()">
-
-            SEND RESET LINK
-
+            type="submit"
+            id="signupButton"
+            class="main-button"
+        >
+            CREATE TEACHER ACCOUNT
         </button>
-
-
         <div class="info">
-
-            Supabase will send a password reset
-            link to your email.
-
+            Your account will be created with Supabase.
+            If email confirmation is enabled, check your email
+            before logging in.
         </div>
-
-
+    </form>
+    <!-- =========================
+         FORGOT PASSWORD
+    ========================== -->
+    <form
+        id="forgotForm"
+        class="form"
+        onsubmit="sendResetEmail(event)"
+    >
+        <label>
+            ACCOUNT EMAIL
+        </label>
+        <input
+            type="email"
+            id="forgotEmail"
+            placeholder="Enter your teacher email"
+            autocomplete="email"
+            required
+        >
+        <button
+            type="submit"
+            id="forgotButton"
+            class="main-button"
+        >
+            SEND RESET LINK
+        </button>
+        <div class="info">
+            A secure password reset link will be sent
+            to your email by Supabase.
+        </div>
         <a
             class="forgot"
-            onclick="showLogin()">
-
+            onclick="showLogin()"
+        >
             ← Back To Login
-
         </a>
-
-    </div>
-
-
-    <!-- =====================
+    </form>
+    <!-- =========================
          NEW PASSWORD
-    ====================== -->
-
-    <div
+    ========================== -->
+    <form
         id="newPasswordForm"
-        class="form">
-
-
-        <div class="input-group">
-
-            <label>
-                NEW PASSWORD
-            </label>
-
-            <input
-                type="password"
-                id="newPassword"
-                placeholder="Create new password"
-                minlength="6"
-                autocomplete="new-password">
-
-        </div>
-
-
-        <div class="input-group">
-
-            <label>
-                CONFIRM NEW PASSWORD
-            </label>
-
-            <input
-                type="password"
-                id="confirmNewPassword"
-                placeholder="Confirm new password"
-                minlength="6"
-                autocomplete="new-password">
-
-        </div>
-
-
+        class="form"
+        onsubmit="updatePassword(event)"
+    >
+        <label>
+            NEW PASSWORD
+        </label>
+        <input
+            type="password"
+            id="newPassword"
+            placeholder="Create new password"
+            autocomplete="new-password"
+            minlength="6"
+            required
+        >
+        <label>
+            CONFIRM NEW PASSWORD
+        </label>
+        <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm new password"
+            autocomplete="new-password"
+            minlength="6"
+            required
+        >
         <button
-            id="updatePasswordButton"
-            class="submit-btn"
-            type="button"
-            onclick="updateTeacherPassword()">
-
+            type="submit"
+            id="updateButton"
+            class="main-button"
+        >
             CREATE NEW PASSWORD
-
         </button>
-
-    </div>
-
-
-    <!-- =====================
-         HOME
-    ====================== -->
-
+    </form>
     <a
         href="index.html"
-        class="back">
-
+        class="back"
+    >
         ← Back To Homepage
-
     </a>
-
-
 </div>
-
-
-
-<!-- =====================================================
-     SUPABASE JAVASCRIPT
-====================================================== -->
-
+<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
 <script>
-
-/* =====================================================
+/* =========================================
    SUPABASE CONFIG
-===================================================== */
-
+========================================= */
 const SUPABASE_URL =
     "https://uxrltzlxdttbjstomhkb.supabase.co";
-
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
-
-
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
     );
-
-
-/* =====================================================
+/* =========================================
    MESSAGE
-===================================================== */
-
-function showMessage(text, isError = false){
-
-    const message =
+========================================= */
+function showMessage(text,isError=false){
+    const box =
         document.getElementById("message");
-
-    message.textContent = text;
-
-    message.classList.add("show");
-
-    message.classList.toggle(
+    box.textContent = text;
+    box.style.display = "block";
+    box.classList.toggle(
         "error",
         isError
     );
-
 }
-
-
 function clearMessage(){
-
-    const message =
+    const box =
         document.getElementById("message");
-
-    message.textContent = "";
-
-    message.classList.remove(
-        "show",
-        "error"
-    );
-
+    box.textContent = "";
+    box.style.display = "none";
+    box.classList.remove("error");
 }
-
-
-/* =====================================================
+/* =========================================
    HIDE ALL FORMS
-===================================================== */
-
+========================================= */
 function hideForms(){
-
     document
         .querySelectorAll(".form")
-        .forEach(form => {
-
+        .forEach(function(form){
             form.classList.remove("active");
-
         });
-
 }
-
-
-/* =====================================================
-   SIGNUP SCREEN
-===================================================== */
-
-function showSignup(){
-
-    hideForms();
-
-    document
-        .getElementById("signupForm")
-        .classList.add("active");
-
-
-    document
-        .getElementById("signupTab")
-        .classList.add("active");
-
-
-    document
-        .getElementById("loginTab")
-        .classList.remove("active");
-
-
-    document
-        .getElementById("tabs")
-        .style.display = "grid";
-
-
-    clearMessage();
-
-}
-
-
-/* =====================================================
+/* =========================================
    LOGIN SCREEN
-===================================================== */
-
+========================================= */
 function showLogin(){
-
     hideForms();
-
     document
         .getElementById("loginForm")
         .classList.add("active");
-
-
     document
         .getElementById("loginTab")
         .classList.add("active");
-
-
     document
         .getElementById("signupTab")
         .classList.remove("active");
-
-
     document
         .getElementById("tabs")
         .style.display = "grid";
-
-
     clearMessage();
-
 }
-
-
-/* =====================================================
-   FORGOT SCREEN
-===================================================== */
-
-function showForgot(){
-
+/* =========================================
+   SIGNUP SCREEN
+========================================= */
+function showSignup(){
     hideForms();
-
+    document
+        .getElementById("signupForm")
+        .classList.add("active");
+    document
+        .getElementById("signupTab")
+        .classList.add("active");
+    document
+        .getElementById("loginTab")
+        .classList.remove("active");
+    document
+        .getElementById("tabs")
+        .style.display = "grid";
+    clearMessage();
+}
+/* =========================================
+   FORGOT PASSWORD SCREEN
+========================================= */
+function showForgot(){
+    hideForms();
     document
         .getElementById("forgotForm")
         .classList.add("active");
-
-
     document
         .getElementById("tabs")
         .style.display = "none";
-
-
     clearMessage();
-
 }
-
-
-/* =====================================================
+/* =========================================
    NEW PASSWORD SCREEN
-===================================================== */
-
+========================================= */
 function showNewPassword(){
-
     hideForms();
-
     document
         .getElementById("newPasswordForm")
         .classList.add("active");
-
-
     document
         .getElementById("tabs")
         .style.display = "none";
-
 }
-
-
-/* =====================================================
-   CREATE TEACHER ACCOUNT
-===================================================== */
-
-async function createTeacherAccount(){
-
+/* =========================================
+   CREATE TEACHER
+========================================= */
+async function createTeacher(event){
+    event.preventDefault();
     clearMessage();
-
-
     const name =
         document
             .getElementById("signupName")
             .value
             .trim();
-
-
     const email =
         document
             .getElementById("signupEmail")
             .value
             .trim()
             .toLowerCase();
-
-
     const password =
         document
             .getElementById("signupPassword")
             .value;
-
-
-    if(!name){
-
+    if(!name || !email || !password){
         showMessage(
-            "Please enter your full name.",
+            "Please fill in all fields.",
             true
         );
-
         return;
-
     }
-
-
-    if(!email){
-
-        showMessage(
-            "Please enter your email.",
-            true
-        );
-
-        return;
-
-    }
-
-
-    if(!password){
-
-        showMessage(
-            "Please enter a password.",
-            true
-        );
-
-        return;
-
-    }
-
-
     if(password.length < 6){
-
         showMessage(
             "Password must be at least 6 characters.",
             true
         );
-
         return;
-
     }
-
-
     const button =
         document.getElementById(
             "signupButton"
         );
-
-
     button.disabled = true;
-
     button.textContent =
         "CREATING...";
-
-
     try{
-
-
-        /* =========================
-           SUPABASE SIGN UP
-        ========================= */
-
+        /*
+         * CREATE SUPABASE AUTH USER
+         */
         const {
             data,
             error
         } =
         await supabaseClient.auth.signUp({
-
-            email: email,
-
-            password: password,
-
-            options: {
-
-                data: {
-
-                    full_name: name,
-
-                    role: "teacher"
-
+            email:email,
+            password:password,
+            options:{
+                data:{
+                    full_name:name,
+                    role:"teacher"
                 },
-
                 emailRedirectTo:
                     window.location.origin +
                     window.location.pathname
-
             }
-
         });
-
-
         if(error){
-
             throw error;
-
         }
-
-
-        /* =========================
-           SESSION EXISTS
-           ONLY WHEN CONFIRM EMAIL
-           IS DISABLED
-        ========================= */
-
-        if(data.session){
-
-            showMessage(
-                "Account created successfully. Please login."
+        /*
+         * Supabase may return:
+         *
+         * session = user can login immediately
+         *
+         * session = null when email confirmation
+         * is required.
+         */
+        if(!data.user){
+            throw new Error(
+                "Supabase could not create the account."
             );
-
-            document
-                .getElementById("signupName")
-                .value = "";
-
-            document
-                .getElementById("signupEmail")
-                .value = "";
-
-            document
-                .getElementById("signupPassword")
-                .value = "";
-
-            showLogin();
-
-            return;
-
         }
-
-
-        /* =========================
-           CONFIRM EMAIL ON
-        ========================= */
-
+        /*
+         * CREATE TEACHER DATABASE PROFILE
+         *
+         * status starts as pending.
+         */
+        const {
+            error:teacherError
+        } =
+        await supabaseClient
+            .from("teachers")
+            .insert({
+                user_id:data.user.id,
+                full_name:name,
+                email:email,
+                status:"pending"
+            });
+        /*
+         * If the teacher row already exists,
+         * do not break the signup flow.
+         */
+        if(
+            teacherError &&
+            teacherError.code !== "23505"
+        ){
+            console.error(
+                "Teacher profile error:",
+                teacherError
+            );
+            /*
+             * The Auth account exists even if
+             * the profile insert failed.
+             */
+            showMessage(
+                "Your Supabase account was created, but the teacher profile could not be created. Please contact the administrator.",
+                true
+            );
+            return;
+        }
+        /*
+         * EMAIL CONFIRMATION ON
+         */
+        if(!data.session){
+            showMessage(
+                "Account created. Supabase has sent a confirmation email. Confirm your email, then login."
+            );
+            document
+                .getElementById("signupForm")
+                .reset();
+            return;
+        }
+        /*
+         * EMAIL CONFIRMATION OFF
+         */
         showMessage(
-            "Account created. Supabase has sent a confirmation email. Confirm your email, then login."
+            "Account created. Your teacher account is waiting for administrator approval."
         );
-
-
         document
-            .getElementById("signupName")
-            .value = "";
-
-        document
-            .getElementById("signupEmail")
-            .value = "";
-
-        document
-            .getElementById("signupPassword")
-            .value = "";
-
-
-    }
-    catch(error){
-
+            .getElementById("signupForm")
+            .reset();
+        /*
+         * Sign out because the teacher is
+         * still pending approval.
+         */
+        await supabaseClient.auth.signOut();
+    }catch(error){
         console.error(error);
-
         showMessage(
-            getSupabaseError(error),
+            error.message ||
+            "Could not create teacher account.",
             true
         );
-
-    }
-    finally{
-
+    }finally{
         button.disabled = false;
-
         button.textContent =
             "CREATE TEACHER ACCOUNT";
-
     }
-
 }
-
-
-/* =====================================================
+/* =========================================
    LOGIN TEACHER
-===================================================== */
-
-async function loginTeacher(){
-
+========================================= */
+async function loginTeacher(event){
+    event.preventDefault();
     clearMessage();
-
-
     const email =
         document
             .getElementById("loginEmail")
             .value
             .trim()
             .toLowerCase();
-
-
     const password =
         document
             .getElementById("loginPassword")
             .value;
-
-
     if(!email || !password){
-
         showMessage(
-            "Please enter your email and password.",
+            "Enter your email and password.",
             true
         );
-
         return;
-
     }
-
-
     const button =
         document.getElementById(
             "loginButton"
         );
-
-
     button.disabled = true;
-
     button.textContent =
         "LOGGING IN...";
-
-
     try{
-
-
-        /* =========================
-           SUPABASE AUTH LOGIN
-        ========================= */
-
+        /*
+         * AUTHENTICATE WITH SUPABASE
+         */
         const {
             data,
             error
         } =
         await supabaseClient.auth
             .signInWithPassword({
-
-                email: email,
-
-                password: password
-
+                email:email,
+                password:password
             });
-
-
         if(error){
-
             throw error;
-
         }
-
-
         if(!data.user){
-
             throw new Error(
                 "User account was not found."
             );
-
         }
-
-
-        /* =========================
-           CONFIRMATION CHECK
-        ========================= */
-
+        /*
+         * EMAIL CONFIRMATION CHECK
+         */
         if(!data.user.email_confirmed_at){
-
             await supabaseClient.auth.signOut();
-
             throw new Error(
                 "Please confirm your email before logging in."
             );
-
         }
-
-
-        /* =================================================
-           TEACHER TABLE CHECK
-
-           Expected columns:
-
-           id
-           user_id
-           full_name
-           email
-           status
-        ================================================= */
-
-
+        /*
+         * FIND TEACHER PROFILE
+         */
         const {
-            data: teacher,
-            error: teacherError
+            data:teacher,
+            error:teacherError
         } =
         await supabaseClient
             .from("teachers")
@@ -1294,548 +763,281 @@ async function loginTeacher(){
                 data.user.id
             )
             .maybeSingle();
-
-
         if(teacherError){
-
             throw teacherError;
-
         }
-
-
         if(!teacher){
-
             await supabaseClient.auth.signOut();
-
             throw new Error(
                 "Teacher profile was not found. Please contact the administrator."
             );
-
         }
-
-
-        /* =========================
-           APPROVED
-        ========================= */
-
+        /*
+         * APPROVED
+         */
         if(
             teacher.status ===
             "approved"
         ){
-
             window.location.replace(
                 "teacher.html"
             );
-
             return;
-
         }
-
-
-        /* =========================
-           PENDING
-        ========================= */
-
+        /*
+         * PENDING
+         */
         if(
             teacher.status ===
             "pending"
         ){
-
             await supabaseClient.auth.signOut();
-
             throw new Error(
                 "Your teacher account is waiting for administrator approval."
             );
-
         }
-
-
-        /* =========================
-           REJECTED
-        ========================= */
-
+        /*
+         * REJECTED
+         */
         if(
             teacher.status ===
             "rejected"
         ){
-
             await supabaseClient.auth.signOut();
-
             throw new Error(
                 "Your teacher application was rejected."
             );
-
         }
-
-
-        /* =========================
-           OTHER STATUS
-        ========================= */
-
         await supabaseClient.auth.signOut();
-
         throw new Error(
             "Your teacher account is not active."
         );
-
-
-    }
-    catch(error){
-
+    }catch(error){
         console.error(error);
-
         showMessage(
-            getSupabaseError(error),
+            error.message ||
+            "Invalid email or password.",
             true
         );
-
-    }
-    finally{
-
+    }finally{
         button.disabled = false;
-
         button.textContent =
             "LOGIN";
-
     }
-
 }
-
-
-/* =====================================================
-   FORGOT PASSWORD
-===================================================== */
-
-async function sendResetLink(){
-
+/* =========================================
+   SEND PASSWORD RESET EMAIL
+========================================= */
+async function sendResetEmail(event){
+    event.preventDefault();
     clearMessage();
-
-
     const email =
         document
             .getElementById("forgotEmail")
             .value
             .trim()
             .toLowerCase();
-
-
     if(!email){
-
         showMessage(
-            "Please enter your account email.",
+            "Enter your account email.",
             true
         );
-
         return;
-
     }
-
-
     const button =
         document.getElementById(
             "forgotButton"
         );
-
-
     button.disabled = true;
-
     button.textContent =
         "SENDING...";
-
-
     try{
-
-
-        /* =========================
-           RESET LINK RETURNS TO
-           THIS SAME PAGE
-        ========================= */
-
+        /*
+         * IMPORTANT:
+         *
+         * This is the page Supabase will
+         * return to after the teacher clicks
+         * the reset link.
+         */
         const redirectUrl =
             window.location.origin +
             window.location.pathname;
-
-
         const {
             error
         } =
         await supabaseClient.auth
             .resetPasswordForEmail(
-
                 email,
-
                 {
                     redirectTo:
                         redirectUrl
                 }
-
             );
-
-
         if(error){
-
             throw error;
-
         }
-
-
         showMessage(
-            "Password reset link has been sent to your email."
+            "Password reset link has been sent. Please check your email."
         );
-
-
-    }
-    catch(error){
-
+    }catch(error){
         console.error(error);
-
         showMessage(
-            getSupabaseError(error),
+            error.message ||
+            "Could not send password reset email.",
             true
         );
-
-    }
-    finally{
-
+    }finally{
         button.disabled = false;
-
         button.textContent =
             "SEND RESET LINK";
-
     }
-
 }
-
-
-/* =====================================================
-   UPDATE NEW PASSWORD
-===================================================== */
-
-async function updateTeacherPassword(){
-
+/* =========================================
+   UPDATE PASSWORD
+========================================= */
+async function updatePassword(event){
+    event.preventDefault();
     clearMessage();
-
-
     const password =
         document
             .getElementById("newPassword")
             .value;
-
-
     const confirmPassword =
         document
-            .getElementById("confirmNewPassword")
+            .getElementById("confirmPassword")
             .value;
-
-
-    if(!password){
-
-        showMessage(
-            "Please enter your new password.",
-            true
-        );
-
-        return;
-
-    }
-
-
     if(password.length < 6){
-
         showMessage(
             "Password must be at least 6 characters.",
             true
         );
-
         return;
-
     }
-
-
     if(password !== confirmPassword){
-
         showMessage(
             "Passwords do not match.",
             true
         );
-
         return;
-
     }
-
-
     const button =
         document.getElementById(
-            "updatePasswordButton"
+            "updateButton"
         );
-
-
     button.disabled = true;
-
     button.textContent =
         "UPDATING...";
-
-
     try{
-
-
+        /*
+         * Supabase created a recovery
+         * session when the email link
+         * was opened.
+         */
         const {
-            data,
+            data:sessionData
+        } =
+        await supabaseClient.auth
+            .getSession();
+        if(!sessionData.session){
+            throw new Error(
+                "Password reset session has expired. Please request a new reset link."
+            );
+        }
+        const {
             error
         } =
         await supabaseClient.auth
             .updateUser({
-
-                password: password
-
+                password:password
             });
-
-
         if(error){
-
             throw error;
-
         }
-
-
         showMessage(
-            "Password changed successfully. You can now login."
+            "Password changed successfully. Please login again."
         );
-
-
-        document
-            .getElementById("newPassword")
-            .value = "";
-
-        document
-            .getElementById("confirmNewPassword")
-            .value = "";
-
-
         setTimeout(
             async function(){
-
-                await supabaseClient.auth.signOut();
-
+                await supabaseClient.auth
+                    .signOut();
+                window.location.hash = "";
                 showLogin();
-
             },
-            1500
+            1200
         );
-
-
-    }
-    catch(error){
-
+    }catch(error){
         console.error(error);
-
         showMessage(
-            getSupabaseError(error),
+            error.message ||
+            "Could not change password.",
             true
         );
-
         button.disabled = false;
-
         button.textContent =
             "CREATE NEW PASSWORD";
-
     }
-
 }
-
-
-/* =====================================================
-   AUTH STATE CHANGE
-===================================================== */
-
+/* =========================================
+   SUPABASE AUTH STATE
+========================================= */
 supabaseClient.auth
-    .onAuthStateChange(
-        async function(event, session){
-
-            console.log(
-                "Supabase Auth Event:",
-                event
-            );
-
-
-            /* =========================
-               PASSWORD RECOVERY
-            ========================= */
-
-            if(
-                event ===
-                "PASSWORD_RECOVERY"
-            ){
-
-                showNewPassword();
-
-                showMessage(
-                    "Create your new SteadyMaze password."
-                );
-
-            }
-
-        }
-    );
-
-
-/* =====================================================
-   CHECK PASSWORD RECOVERY
-===================================================== */
-
-async function checkPasswordRecovery(){
-
-    try{
-
-        const {
-            data
-        } =
-        await supabaseClient.auth
-            .getSession();
-
-
-        const hash =
-            window.location.hash;
-
-
+.onAuthStateChange(
+    function(event){
+        /*
+         * Supabase fires PASSWORD_RECOVERY
+         * after the reset link is opened.
+         */
         if(
-            hash &&
-            hash.includes(
-                "type=recovery"
-            )
+            event ===
+            "PASSWORD_RECOVERY"
         ){
-
             showNewPassword();
-
             showMessage(
                 "Create your new SteadyMaze password."
             );
-
-            return;
-
         }
-
-
-        if(
-            data &&
-            data.session &&
-            data.session.user
-        ){
-
-            /*
-             * Do not automatically redirect here.
-             * User can still use this page.
-             */
-
-        }
-
     }
-    catch(error){
-
-        console.error(error);
-
+);
+/* =========================================
+   CHECK RECOVERY URL
+========================================= */
+async function checkRecovery(){
+    /*
+     * Supabase versions can use a hash
+     * containing type=recovery.
+     */
+    const hash =
+        window.location.hash;
+    if(
+        hash &&
+        hash.includes("type=recovery")
+    ){
+        /*
+         * Allow Supabase to establish
+         * the recovery session first.
+         */
+        setTimeout(
+            async function(){
+                const {
+                    data
+                } =
+                await supabaseClient.auth
+                    .getSession();
+                if(data.session){
+                    showNewPassword();
+                    showMessage(
+                        "Create your new SteadyMaze password."
+                    );
+                }
+            },
+            500
+        );
     }
-
 }
-
-
-/* =====================================================
-   SUPABASE ERROR HANDLER
-===================================================== */
-
-function getSupabaseError(error){
-
-    if(!error){
-
-        return "Something went wrong.";
-
-    }
-
-
-    const message =
-        error.message || "";
-
-
-    if(
-        message
-            .toLowerCase()
-            .includes(
-                "user already registered"
-            )
-    ){
-
-        return(
-            "This email is already registered. Please login."
-        );
-
-    }
-
-
-    if(
-        message
-            .toLowerCase()
-            .includes(
-                "invalid login credentials"
-            )
-    ){
-
-        return(
-            "Invalid email or password."
-        );
-
-    }
-
-
-    if(
-        message
-            .toLowerCase()
-            .includes(
-                "email not confirmed"
-            )
-    ){
-
-        return(
-            "Please confirm your email before logging in."
-        );
-
-    }
-
-
-    if(
-        message
-            .toLowerCase()
-            .includes(
-                "password"
-            ) &&
-        message
-            .toLowerCase()
-            .includes(
-                "6"
-            )
-    ){
-
-        return(
-            "Password must be at least 6 characters."
-        );
-
-    }
-
-
-    return message ||
-        "Something went wrong. Please try again.";
-
-}
-
-
-/* =====================================================
+/* =========================================
    START
-===================================================== */
-
-checkPasswordRecovery();
-
+========================================= */
+checkRecovery();
 </script>
-
-
 </body>
-
 </html>
