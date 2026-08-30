@@ -580,7 +580,9 @@ textarea{
     font-size:11px;
 }
 
-/* ================= COMPETITION ================= */
+/* =====================================================
+   COMPETITION
+===================================================== */
 
 .competition-head{
     display:flex;
@@ -704,8 +706,6 @@ textarea{
 
 .competition-table{
     min-width:900px;
-    width:100%;
-    border-collapse:collapse;
 }
 
 .competition-table thead{
@@ -970,6 +970,10 @@ textarea{
 
 <body>
 
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
 <aside class="sidebar" id="sidebar">
 
     <div class="logo">
@@ -997,31 +1001,39 @@ textarea{
 
     <nav class="nav">
 
-        <button class="active" onclick="showSection('dashboard',this)">
+        <button
+            class="active"
+            onclick="showSection('dashboard',this)">
             🏠 Dashboard
         </button>
 
-        <button onclick="showSection('profile',this)">
+        <button
+            onclick="showSection('profile',this)">
             👤 My Profile
         </button>
 
-        <button onclick="showSection('lessons',this)">
+        <button
+            onclick="showSection('lessons',this)">
             🎥 My Lessons
         </button>
 
-        <button onclick="showSection('upload',this)">
+        <button
+            onclick="showSection('upload',this)">
             ⬆️ Add Lesson
         </button>
 
-        <button onclick="showSection('payments',this)">
+        <button
+            onclick="showSection('payments',this)">
             💳 Payments
         </button>
 
-        <button onclick="showSection('competition',this)">
+        <button
+            onclick="showSection('competition',this)">
             🏆 Competition
         </button>
 
-        <button onclick="showSection('ai',this)">
+        <button
+            onclick="showSection('ai',this)">
             🤖 AI Assistant
         </button>
 
@@ -1035,11 +1047,17 @@ textarea{
 
 </aside>
 
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
 <main class="main">
 
     <div class="topbar">
 
-        <button class="mobile-menu" onclick="toggleSidebar()">
+        <button
+            class="mobile-menu"
+            onclick="toggleSidebar()">
             ☰
         </button>
 
@@ -1065,6 +1083,10 @@ textarea{
 
     </div>
 
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
 <section id="dashboard" class="section active">
 
     <div class="grid">
@@ -1072,7 +1094,9 @@ textarea{
         <div class="card">
             <div class="stat-label">My Lessons</div>
 
-            <div class="stat-value blue" id="lessonCount">
+            <div
+                class="stat-value blue"
+                id="lessonCount">
                 0
             </div>
 
@@ -1103,7 +1127,9 @@ textarea{
                 Competition Group
             </div>
 
-            <div class="stat-value" id="teacherGroup">
+            <div
+                class="stat-value"
+                id="teacherGroup">
                 —
             </div>
 
@@ -1141,7 +1167,9 @@ textarea{
                 Lessons you have added to GURHUB.
             </p>
 
-            <div class="lesson-list" id="dashboardLessons">
+            <div
+                class="lesson-list"
+                id="dashboardLessons">
 
                 <div class="empty">
                     No lessons added yet.
@@ -1190,6 +1218,10 @@ textarea{
 
 </section>
 
+<!-- =====================================================
+     PROFILE
+===================================================== -->
+
 <section id="profile" class="section">
 
     <div class="card">
@@ -1210,8 +1242,12 @@ textarea{
                     src=""
                     alt="Teacher profile">
 
-                <label class="upload-label" for="profileUpload">
+                <label
+                    class="upload-label"
+                    for="profileUpload">
+
                     Upload Profile Photo
+
                 </label>
 
                 <input
@@ -1298,8 +1334,12 @@ textarea{
 
                 </div>
 
-                <button class="btn btn-blue" onclick="saveProfile()">
+                <button
+                    class="btn btn-blue"
+                    onclick="saveProfile()">
+
                     Save Profile
+
                 </button>
 
             </div>
@@ -1309,6 +1349,10 @@ textarea{
     </div>
 
 </section>
+
+<!-- =====================================================
+     LESSONS
+===================================================== -->
 
 <section id="lessons" class="section">
 
@@ -1326,8 +1370,12 @@ textarea{
 
                 <h2>My Lessons</h2>
 
-                <p class="card-subtitle" style="margin-bottom:0;">
+                <p
+                    class="card-subtitle"
+                    style="margin-bottom:0;">
+
                     Manage your uploaded course lessons.
+
                 </p>
 
             </div>
@@ -1342,7 +1390,9 @@ textarea{
 
         </div>
 
-        <div id="allLessons" class="lesson-list">
+        <div
+            id="allLessons"
+            class="lesson-list">
 
             <div class="empty">
                 No lessons added yet.
@@ -1353,6 +1403,10 @@ textarea{
     </div>
 
 </section>
+
+<!-- =====================================================
+     UPLOAD
+===================================================== -->
 
 <section id="upload" class="section">
 
@@ -1383,8 +1437,12 @@ textarea{
                 Upload your actual lesson video from your device.
             </p>
 
-            <label for="lessonVideo" class="btn btn-blue">
+            <label
+                for="lessonVideo"
+                class="btn btn-blue">
+
                 Choose Video
+
             </label>
 
             <input
@@ -1392,7 +1450,10 @@ textarea{
                 id="lessonVideo"
                 accept="video/*">
 
-            <div id="videoFileName" class="file-name"></div>
+            <div
+                id="videoFileName"
+                class="file-name">
+            </div>
 
         </div>
 
@@ -1484,13 +1545,21 @@ textarea{
 
         </div>
 
-        <button class="btn btn-blue" onclick="saveLesson()">
+        <button
+            class="btn btn-blue"
+            onclick="saveLesson()">
+
             Save Lesson
+
         </button>
 
     </div>
 
 </section>
+
+<!-- =====================================================
+     PAYMENTS
+===================================================== -->
 
 <section id="payments" class="section">
 
@@ -1635,6 +1704,10 @@ textarea{
 
 </section>
 
+<!-- =====================================================
+     COMPETITION — NEW VERSION
+===================================================== -->
+
 <section id="competition" class="section">
 
     <div class="card">
@@ -1654,7 +1727,9 @@ textarea{
 
             </div>
 
-            <div id="competitionStatus" class="competition-status">
+            <div
+                id="competitionStatus"
+                class="competition-status">
 
                 <span class="competition-status-dot"></span>
 
@@ -1666,11 +1741,15 @@ textarea{
 
         </div>
 
+        <!-- TIMER -->
+
         <div class="competition-info-grid">
 
             <div class="competition-info">
 
-                <span>Competition Time</span>
+                <span>
+                    Competition Time
+                </span>
 
                 <strong id="competitionTimer">
                     7 Days
@@ -1680,7 +1759,9 @@ textarea{
 
             <div class="competition-info">
 
-                <span>Current Group</span>
+                <span>
+                    Current Group
+                </span>
 
                 <strong id="currentGroupName">
                     Lower
@@ -1690,23 +1771,32 @@ textarea{
 
             <div class="competition-info">
 
-                <span>Total Positions</span>
+                <span>
+                    Total Positions
+                </span>
 
-                <strong>300</strong>
+                <strong>
+                    300
+                </strong>
 
             </div>
 
             <div class="competition-info">
 
-                <span>Highest Points</span>
+                <span>
+                    Highest Points
+                </span>
 
-                <strong id="competitionHighestPoints">
+                <strong
+                    id="competitionHighestPoints">
                     0
                 </strong>
 
             </div>
 
         </div>
+
+        <!-- THREE GROUPS -->
 
         <div class="competition-groups">
 
@@ -1751,6 +1841,8 @@ textarea{
 
         </div>
 
+        <!-- TABLE HEADER -->
+
         <div class="competition-toolbar">
 
             <div>
@@ -1769,6 +1861,8 @@ textarea{
 
         </div>
 
+        <!-- TABLE -->
+
         <div class="competition-table-wrap">
 
             <table class="competition-table">
@@ -1777,13 +1871,33 @@ textarea{
 
                     <tr>
 
-                        <th>Rank</th>
-                        <th>Student</th>
-                        <th>Student ID</th>
-                        <th>Points</th>
-                        <th>Round</th>
-                        <th>Status</th>
-                        <th>Reward</th>
+                        <th>
+                            Rank
+                        </th>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            Student ID
+                        </th>
+
+                        <th>
+                            Points
+                        </th>
+
+                        <th>
+                            Round
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Reward
+                        </th>
 
                     </tr>
 
@@ -1804,7 +1918,8 @@ textarea{
             High = 300 positions.
 
             Student names, IDs, points, rounds and statuses are
-            received from the Supabase backend.
+            intentionally empty until real competition data is
+            received from the backend.
 
             Rewards remain <strong>Pending</strong> until the
             official competition result is confirmed.
@@ -1814,6 +1929,10 @@ textarea{
     </div>
 
 </section>
+
+<!-- =====================================================
+     AI
+===================================================== -->
 
 <section id="ai" class="section">
 
@@ -1825,10 +1944,14 @@ textarea{
             The chat interface is ready for the GURHUB AI backend/API.
         </p>
 
-        <div class="chat-messages" id="chatMessages">
+        <div
+            class="chat-messages"
+            id="chatMessages">
 
             <div class="message ai">
+
                 Hello. I am the GURHUB teacher assistant.
+
             </div>
 
         </div>
@@ -1859,7 +1982,13 @@ textarea{
 
 </main>
 
-<div class="modal" id="lessonModal">
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="lessonModal">
 
     <div class="modal-box">
 
@@ -1885,30 +2014,7 @@ textarea{
 
 </div>
 
-<!-- =====================================================
-     SUPABASE
-===================================================== -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-
-/* =====================================================
-   SUPABASE CONNECTION
-===================================================== */
-
-const SUPABASE_URL =
-    "https://uxrltzlxdttbjstomhkb.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
-
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
 
 /* =====================================================
    TEACHER DATA
@@ -1918,8 +2024,6 @@ const STORAGE_KEY = "gurhub_teacher_data";
 
 let teacherData = {
 
-    id:"",
-    user_id:"",
     name:"",
     email:"",
     skill:"",
@@ -1938,107 +2042,65 @@ let teacherData = {
 
 };
 
-
 /* =====================================================
-   SUPABASE ERROR
+   LOAD
 ===================================================== */
 
-function showSupabaseError(error){
+function loadTeacher(){
 
-    if(!error)
-        return;
-
-    console.error(
-        "Supabase:",
-        error
-    );
-
-}
-
-
-/* =====================================================
-   GET AUTH TEACHER
-===================================================== */
-
-async function getAuthenticatedTeacher(){
-
-    try{
-
-        const {
-            data:{
-                user
-            },
-            error
-        } =
-            await supabaseClient.auth.getUser();
-
-        if(error)
-            throw error;
-
-        if(user){
-
-            teacherData.user_id =
-                user.id;
-
-            teacherData.email =
-                user.email ||
-                teacherData.email;
-
-            return user;
-
-        }
-
-    }catch(error){
-
-        console.warn(
-            "Supabase Auth user not available:",
-            error
-        );
-
-    }
-
-    return null;
-
-}
-
-
-/* =====================================================
-   LOAD LOCAL DATA
-===================================================== */
-
-function loadLocal(){
+    const loginTeacher =
+        sessionStorage.getItem("gurhub_teacher");
 
     const savedTeacher =
         localStorage.getItem(STORAGE_KEY);
 
-    if(!savedTeacher)
-        return;
+    if(savedTeacher){
 
-    try{
+        try{
 
-        const saved =
-            JSON.parse(savedTeacher);
+            teacherData =
+                JSON.parse(savedTeacher);
 
-        teacherData = {
-            ...teacherData,
-            ...saved,
-            payment:{
-                ...teacherData.payment,
-                ...(saved.payment || {})
-            }
-        };
+        }catch(error){
 
-    }catch(error){
+            console.error(error);
 
-        console.error(error);
+        }
 
     }
 
+    if(loginTeacher){
+
+        try{
+
+            const loginData =
+                JSON.parse(loginTeacher);
+
+            if(loginData.name)
+                teacherData.name = loginData.name;
+
+            if(loginData.email)
+                teacherData.email = loginData.email;
+
+            if(loginData.skill)
+                teacherData.skill = loginData.skill;
+
+        }catch(error){
+
+            console.error(error);
+
+        }
+
+    }
+
+    saveLocal();
+
+    updateInterface();
+
 }
 
-
 /* =====================================================
-   SAVE LOCAL CACHE
+   SAVE
 ===================================================== */
 
 function saveLocal(){
@@ -2049,391 +2111,6 @@ function saveLocal(){
     );
 
 }
-
-
-/* =====================================================
-   LOAD TEACHER FROM SUPABASE
-===================================================== */
-
-async function loadTeacherFromSupabase(){
-
-    try{
-
-        const user =
-            await getAuthenticatedTeacher();
-
-        if(!user)
-            return;
-
-
-        /*
-         * First try teachers table.
-         */
-
-        let teacher = null;
-
-
-        const teacherResponse =
-            await supabaseClient
-            .from("teachers")
-            .select("*")
-            .eq("user_id",user.id)
-            .maybeSingle();
-
-
-        if(
-            !teacherResponse.error &&
-            teacherResponse.data
-        ){
-
-            teacher =
-                teacherResponse.data;
-
-        }
-
-
-        /*
-         * If teachers uses id/auth_user_id,
-         * try auth_user_id as well.
-         */
-
-        if(!teacher){
-
-            const response2 =
-                await supabaseClient
-                .from("teachers")
-                .select("*")
-                .eq("auth_user_id",user.id)
-                .maybeSingle();
-
-            if(
-                !response2.error &&
-                response2.data
-            ){
-
-                teacher =
-                    response2.data;
-
-            }
-
-        }
-
-
-        if(teacher){
-
-            teacherData.id =
-                teacher.id ||
-                teacherData.id;
-
-            teacherData.user_id =
-                teacher.user_id ||
-                teacher.auth_user_id ||
-                user.id;
-
-            teacherData.name =
-                teacher.name ||
-                teacher.full_name ||
-                teacherData.name;
-
-            teacherData.email =
-                teacher.email ||
-                user.email ||
-                teacherData.email;
-
-            teacherData.skill =
-                teacher.skill ||
-                teacher.main_skill ||
-                teacherData.skill;
-
-            teacherData.group =
-                teacher.group ||
-                teacher.competition_group ||
-                teacherData.group;
-
-            teacherData.intro =
-                teacher.intro ||
-                teacher.description ||
-                teacher.bio ||
-                teacherData.intro;
-
-            teacherData.profileImage =
-                teacher.profile_image ||
-                teacher.avatar_url ||
-                teacher.photo_url ||
-                teacherData.profileImage;
-
-        }
-
-
-        /*
-         * Also check profiles.
-         */
-
-        const profileResponse =
-            await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq("id",user.id)
-            .maybeSingle();
-
-
-        if(
-            !profileResponse.error &&
-            profileResponse.data
-        ){
-
-            const profile =
-                profileResponse.data;
-
-            teacherData.name =
-                profile.full_name ||
-                profile.name ||
-                teacherData.name;
-
-            teacherData.email =
-                profile.email ||
-                teacherData.email;
-
-            teacherData.profileImage =
-                profile.avatar_url ||
-                profile.profile_image ||
-                profile.photo_url ||
-                teacherData.profileImage;
-
-        }
-
-
-        /*
-         * Load lessons belonging to teacher.
-         */
-
-        await loadLessonsFromSupabase();
-
-
-        /*
-         * Load payment information.
-         */
-
-        await loadPaymentFromSupabase();
-
-
-        saveLocal();
-
-        updateInterface();
-
-    }catch(error){
-
-        showSupabaseError(error);
-
-    }
-
-}
-
-
-/* =====================================================
-   LOAD LESSONS
-===================================================== */
-
-async function loadLessonsFromSupabase(){
-
-    if(!teacherData.user_id && !teacherData.id)
-        return;
-
-
-    let response =
-        await supabaseClient
-        .from("lessons")
-        .select("*")
-        .eq(
-            "teacher_id",
-            teacherData.id || teacherData.user_id
-        )
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
-
-
-    /*
-     * Some databases use user_id.
-     */
-
-    if(
-        response.error ||
-        !response.data
-    ){
-
-        response =
-            await supabaseClient
-            .from("lessons")
-            .select("*")
-            .eq(
-                "user_id",
-                teacherData.user_id
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            );
-
-    }
-
-
-    if(
-        !response.error &&
-        response.data
-    ){
-
-        teacherData.lessons =
-            response.data.map(
-                normalizeLesson
-            );
-
-    }
-
-}
-
-
-/* =====================================================
-   NORMALIZE LESSON
-===================================================== */
-
-function normalizeLesson(lesson){
-
-    return {
-
-        id:
-            lesson.id ||
-            crypto.randomUUID(),
-
-        title:
-            lesson.title ||
-            lesson.lesson_title ||
-            "",
-
-        skill:
-            lesson.skill ||
-            "",
-
-        level:
-            lesson.level ||
-            "",
-
-        lessonNumber:
-            lesson.lesson_number ||
-            lesson.lessonNumber ||
-            "",
-
-        description:
-            lesson.description ||
-            "",
-
-        intro:
-            lesson.intro ||
-            lesson.introduction ||
-            "",
-
-        videoName:
-            lesson.video_name ||
-            lesson.videoName ||
-            lesson.file_name ||
-            "",
-
-        videoUrl:
-            lesson.video_url ||
-            lesson.videoUrl ||
-            lesson.video ||
-            "",
-
-        createdAt:
-            lesson.created_at ||
-            lesson.createdAt ||
-            new Date().toISOString()
-
-    };
-
-}
-
-
-/* =====================================================
-   LOAD PAYMENT
-===================================================== */
-
-async function loadPaymentFromSupabase(){
-
-    if(!teacherData.user_id && !teacherData.id)
-        return;
-
-
-    let response =
-        await supabaseClient
-        .from("bank_accounts")
-        .select("*")
-        .eq(
-            "teacher_id",
-            teacherData.id || teacherData.user_id
-        )
-        .maybeSingle();
-
-
-    if(
-        response.error ||
-        !response.data
-    ){
-
-        response =
-            await supabaseClient
-            .from("bank_accounts")
-            .select("*")
-            .eq(
-                "user_id",
-                teacherData.user_id
-            )
-            .maybeSingle();
-
-    }
-
-
-    if(
-        !response.error &&
-        response.data
-    ){
-
-        const payment =
-            response.data;
-
-        teacherData.payment.method =
-            payment.method ||
-            payment.payment_method ||
-            "";
-
-        teacherData.payment.bankName =
-            payment.bank_name ||
-            "";
-
-        teacherData.payment.accountHolder =
-            payment.account_holder ||
-            payment.account_holder_name ||
-            "";
-
-        teacherData.payment.paymentEmail =
-            payment.payment_email ||
-            payment.email ||
-            "";
-
-        teacherData.payment.accountReference =
-            payment.account_reference ||
-            payment.reference ||
-            "";
-
-    }
-
-}
-
 
 /* =====================================================
    UI
@@ -2447,59 +2124,33 @@ function updateInterface(){
     const skill =
         teacherData.skill || "Teacher Account";
 
-
-    document.getElementById(
-        "sideName"
-    ).textContent =
+    document.getElementById("sideName").textContent =
         name;
 
-
-    document.getElementById(
-        "sideSkill"
-    ).textContent =
+    document.getElementById("sideSkill").textContent =
         skill;
 
-
-    document.getElementById(
-        "profileName"
-    ).value =
+    document.getElementById("profileName").value =
         teacherData.name || "";
 
-
-    document.getElementById(
-        "profileEmail"
-    ).value =
+    document.getElementById("profileEmail").value =
         teacherData.email || "";
 
-
-    document.getElementById(
-        "profileSkill"
-    ).value =
+    document.getElementById("profileSkill").value =
         teacherData.skill || "";
 
-
-    document.getElementById(
-        "profileGroup"
-    ).value =
+    document.getElementById("profileGroup").value =
         teacherData.group || "";
 
-
-    document.getElementById(
-        "profileIntro"
-    ).value =
+    document.getElementById("profileIntro").value =
         teacherData.intro || "";
-
 
     if(teacherData.profileImage){
 
-        document.getElementById(
-            "profileImage"
-        ).src =
+        document.getElementById("profileImage").src =
             teacherData.profileImage;
 
-        document.getElementById(
-            "sideAvatar"
-        ).src =
+        document.getElementById("sideAvatar").src =
             teacherData.profileImage;
 
     }else{
@@ -2507,14 +2158,1228 @@ function updateInterface(){
         const avatar =
             createAvatar(name);
 
-        document.getElementById(
-            "profileImage"
-        ).src =
+        document.getElementById("profileImage").src =
             avatar;
 
-        document.getElementById(
-            "sideAvatar"
-        ).src =
+        document.getElementById("sideAvatar").src =
             avatar;
 
     }
+
+    document.getElementById("teacherGroup").textContent =
+        teacherData.group || "—";
+
+    renderLessons();
+
+}
+
+/* =====================================================
+   AVATAR
+===================================================== */
+
+function createAvatar(name){
+
+    const first =
+        (name || "T").charAt(0).toUpperCase();
+
+    const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="200"
+         height="200">
+
+        <rect width="200"
+              height="200"
+              fill="#10243b"/>
+
+        <text x="100"
+              y="125"
+              text-anchor="middle"
+              font-size="90"
+              font-family="Arial"
+              fill="#d4af37">
+
+            ${first}
+
+        </text>
+
+    </svg>`;
+
+    return "data:image/svg+xml;charset=UTF-8," +
+        encodeURIComponent(svg);
+
+}
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showSection(sectionId,button){
+
+    document
+    .querySelectorAll(".section")
+    .forEach(section => {
+
+        section.classList.remove("active");
+
+    });
+
+    document
+    .getElementById(sectionId)
+    .classList.add("active");
+
+    document
+    .querySelectorAll(".nav button")
+    .forEach(btn => {
+
+        btn.classList.remove("active");
+
+    });
+
+    if(button)
+        button.classList.add("active");
+
+    const titles = {
+
+        dashboard:"Teacher Dashboard",
+        profile:"My Profile",
+        lessons:"My Lessons",
+        upload:"Add Lesson",
+        payments:"Payment Settings",
+        competition:"Competition",
+        ai:"AI Assistant"
+
+    };
+
+    document.getElementById("pageTitle").textContent =
+        titles[sectionId];
+
+    if(sectionId === "competition"){
+
+        renderCompetition();
+
+    }
+
+    document
+    .getElementById("sidebar")
+    .classList.remove("open");
+
+}
+
+function showSectionById(sectionId){
+
+    const button =
+        [...document.querySelectorAll(".nav button")]
+        .find(btn =>
+            btn.getAttribute("onclick") &&
+            btn.getAttribute("onclick")
+            .includes("'" + sectionId + "'")
+        );
+
+    showSection(sectionId,button);
+
+}
+
+function toggleSidebar(){
+
+    document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+
+}
+
+/* =====================================================
+   PROFILE PHOTO
+===================================================== */
+
+document
+.getElementById("profileUpload")
+.addEventListener("change",function(){
+
+    const file = this.files[0];
+
+    if(!file)
+        return;
+
+    if(!file.type.startsWith("image/")){
+
+        alert("Please select an image.");
+
+        return;
+
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function(event){
+
+            teacherData.profileImage =
+                event.target.result;
+
+            saveLocal();
+
+            updateInterface();
+
+        };
+
+    reader.readAsDataURL(file);
+
+});
+
+/* =====================================================
+   PROFILE SAVE
+===================================================== */
+
+function saveProfile(){
+
+    teacherData.name =
+        document.getElementById("profileName").value.trim();
+
+    teacherData.email =
+        document.getElementById("profileEmail").value.trim();
+
+    teacherData.skill =
+        document.getElementById("profileSkill").value.trim();
+
+    teacherData.group =
+        document.getElementById("profileGroup").value;
+
+    teacherData.intro =
+        document.getElementById("profileIntro").value.trim();
+
+    saveLocal();
+
+    updateInterface();
+
+    alert("Teacher profile saved.");
+
+}
+
+/* =====================================================
+   VIDEO
+===================================================== */
+
+document
+.getElementById("lessonVideo")
+.addEventListener("change",function(){
+
+    const file = this.files[0];
+
+    const output =
+        document.getElementById("videoFileName");
+
+    if(!file){
+
+        output.textContent = "";
+
+        return;
+
+    }
+
+    if(!file.type.startsWith("video/")){
+
+        output.textContent =
+            "Please select a video.";
+
+        this.value = "";
+
+        return;
+
+    }
+
+    output.textContent =
+        file.name;
+
+});
+
+/* =====================================================
+   LESSON SAVE
+===================================================== */
+
+function saveLesson(){
+
+    const video =
+        document.getElementById("lessonVideo").files[0];
+
+    const title =
+        document.getElementById("lessonTitle").value.trim();
+
+    const skill =
+        document.getElementById("lessonSkill").value.trim();
+
+    const level =
+        document.getElementById("lessonLevel").value;
+
+    const number =
+        document.getElementById("lessonNumber").value;
+
+    const description =
+        document.getElementById("lessonDescription").value.trim();
+
+    const intro =
+        document.getElementById("lessonIntro").value.trim();
+
+    if(!video){
+
+        alert("Please select the lesson video.");
+
+        return;
+
+    }
+
+    if(!title || !skill || !level || !description){
+
+        alert(
+            "Please complete the required lesson information."
+        );
+
+        return;
+
+    }
+
+    const lesson = {
+
+        id:
+            crypto.randomUUID
+            ? crypto.randomUUID()
+            : Date.now().toString(),
+
+        title,
+        skill,
+        level,
+        lessonNumber:number,
+        description,
+        intro,
+        videoName:video.name,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+    teacherData.lessons.unshift(lesson);
+
+    saveLocal();
+
+    renderLessons();
+
+    document.getElementById("lessonTitle").value = "";
+    document.getElementById("lessonSkill").value = "";
+    document.getElementById("lessonLevel").value = "";
+    document.getElementById("lessonNumber").value = "";
+    document.getElementById("lessonDescription").value = "";
+    document.getElementById("lessonIntro").value = "";
+    document.getElementById("lessonVideo").value = "";
+    document.getElementById("videoFileName").textContent = "";
+
+    alert(
+        "Lesson information saved."
+    );
+
+}
+
+/* =====================================================
+   LESSON RENDER
+===================================================== */
+
+function renderLessons(){
+
+    const all =
+        document.getElementById("allLessons");
+
+    const dashboard =
+        document.getElementById("dashboardLessons");
+
+    if(!teacherData.lessons.length){
+
+        const empty =
+            `<div class="empty">
+                No lessons added yet.
+            </div>`;
+
+        all.innerHTML = empty;
+        dashboard.innerHTML = empty;
+
+        updateDashboardCount();
+
+        return;
+
+    }
+
+    all.innerHTML =
+        teacherData.lessons
+        .map((lesson,index) => `
+
+            <div class="lesson">
+
+                <div class="lesson-info">
+
+                    <strong>
+                        ${escapeHTML(lesson.title)}
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(lesson.skill)}
+                        •
+                        ${escapeHTML(lesson.videoName)}
+                    </span>
+
+                </div>
+
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:7px;
+                ">
+
+                    <span class="level-badge">
+                        ${escapeHTML(lesson.level)}
+                    </span>
+
+                    <button
+                        class="btn btn-dark"
+                        onclick="viewLesson(${index})">
+
+                        View
+
+                    </button>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="deleteLesson(${index})">
+
+                        Delete
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        `)
+        .join("");
+
+    dashboard.innerHTML =
+        teacherData.lessons
+        .slice(0,4)
+        .map(lesson => `
+
+            <div class="lesson">
+
+                <div class="lesson-info">
+
+                    <strong>
+                        ${escapeHTML(lesson.title)}
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(lesson.skill)}
+                    </span>
+
+                </div>
+
+                <span class="level-badge">
+                    ${escapeHTML(lesson.level)}
+                </span>
+
+            </div>
+
+        `)
+        .join("");
+
+    updateDashboardCount();
+
+}
+
+/* =====================================================
+   LESSON MODAL
+===================================================== */
+
+function viewLesson(index){
+
+    const lesson =
+        teacherData.lessons[index];
+
+    document.getElementById(
+        "lessonModalContent"
+    ).innerHTML = `
+
+        <div class="field">
+
+            <label>Lesson Title</label>
+
+            <input
+                value="${escapeHTML(lesson.title)}"
+                readonly>
+
+        </div>
+
+        <div class="field">
+
+            <label>Skill</label>
+
+            <input
+                value="${escapeHTML(lesson.skill)}"
+                readonly>
+
+        </div>
+
+        <div class="field">
+
+            <label>Level</label>
+
+            <input
+                value="${escapeHTML(lesson.level)}"
+                readonly>
+
+        </div>
+
+        <div class="field">
+
+            <label>Video File</label>
+
+            <input
+                value="${escapeHTML(lesson.videoName)}"
+                readonly>
+
+        </div>
+
+        <div class="field">
+
+            <label>Description</label>
+
+            <textarea readonly>${escapeHTML(lesson.description)}</textarea>
+
+        </div>
+
+        <div class="field">
+
+            <label>Introduction</label>
+
+            <textarea readonly>${escapeHTML(lesson.intro || "")}</textarea>
+
+        </div>
+
+    `;
+
+    document
+    .getElementById("lessonModal")
+    .classList.add("show");
+
+}
+
+function closeLessonModal(){
+
+    document
+    .getElementById("lessonModal")
+    .classList.remove("show");
+
+}
+
+function deleteLesson(index){
+
+    if(!confirm("Delete this lesson?"))
+        return;
+
+    teacherData.lessons.splice(index,1);
+
+    saveLocal();
+
+    renderLessons();
+
+}
+
+function updateDashboardCount(){
+
+    document.getElementById("lessonCount").textContent =
+        teacherData.lessons.length;
+
+}
+
+/* =====================================================
+   PAYMENT
+===================================================== */
+
+function selectPayment(element,method){
+
+    document
+    .querySelectorAll(".payment-method")
+    .forEach(card => {
+
+        card.classList.remove("selected");
+
+    });
+
+    element.classList.add("selected");
+
+    teacherData.payment.method =
+        method;
+
+}
+
+function savePaymentSettings(){
+
+    teacherData.payment.bankName =
+        document.getElementById("bankName").value.trim();
+
+    teacherData.payment.accountHolder =
+        document.getElementById("accountHolder").value.trim();
+
+    teacherData.payment.paymentEmail =
+        document.getElementById("paymentEmail").value.trim();
+
+    teacherData.payment.accountReference =
+        document.getElementById("accountReference").value.trim();
+
+    saveLocal();
+
+    alert(
+        "Payment settings saved."
+    );
+
+}
+
+/* =====================================================
+   =====================================================
+   GURHUB COMPETITION
+   =====================================================
+===================================================== */
+
+/*
+    IMPORTANT:
+
+    These are ONLY 300 empty positions.
+
+    NO fake students.
+    NO fake names.
+    NO fake points.
+
+    PostgreSQL/API can later replace these
+    positions with real student records.
+*/
+
+const competitionData = {
+
+    status:"waiting",
+
+    startTime:null,
+
+    endTime:null,
+
+    groups:{
+
+        lower:{
+            name:"Lower",
+            capacity:300,
+            students:[]
+        },
+
+        medium:{
+            name:"Medium",
+            capacity:300,
+            students:[]
+        },
+
+        high:{
+            name:"High",
+            capacity:300,
+            students:[]
+        }
+
+    }
+
+};
+
+/* =====================================================
+   CREATE RANK 1–300
+===================================================== */
+
+function createCompetitionPositions(){
+
+    ["lower","medium","high"]
+    .forEach(groupName => {
+
+        const positions = [];
+
+        for(let rank = 1; rank <= 300; rank++){
+
+            positions.push({
+
+                rank:rank,
+
+                id:null,
+
+                name:null,
+
+                points:null,
+
+                round:null,
+
+                status:"waiting",
+
+                reward:"Pending"
+
+            });
+
+        }
+
+        competitionData
+        .groups[groupName]
+        .students = positions;
+
+    });
+
+}
+
+/*
+    Create once.
+
+    Later this exact array can be replaced
+    by PostgreSQL/API response.
+*/
+
+createCompetitionPositions();
+
+/* =====================================================
+   CURRENT GROUP
+===================================================== */
+
+let currentCompetitionGroup =
+    "lower";
+
+/* =====================================================
+   SWITCH LOWER / MEDIUM / HIGH
+===================================================== */
+
+function switchCompetitionGroup(
+    group,
+    button
+){
+
+    currentCompetitionGroup =
+        group;
+
+    document
+    .querySelectorAll(
+        ".competition-group-btn"
+    )
+    .forEach(btn => {
+
+        btn.classList.remove("active");
+
+    });
+
+    button.classList.add("active");
+
+    renderCompetition();
+
+}
+
+/* =====================================================
+   RENDER COMPETITION
+===================================================== */
+
+function renderCompetition(){
+
+    const group =
+        competitionData
+        .groups[currentCompetitionGroup];
+
+    document.getElementById(
+        "currentGroupName"
+    ).textContent =
+        group.name;
+
+    document.getElementById(
+        "competitionTableTitle"
+    ).textContent =
+        group.name +
+        " — Liveboard";
+
+    const search =
+        document.getElementById(
+            "competitionSearch"
+        ).value
+        .trim()
+        .toLowerCase();
+
+    const tbody =
+        document.getElementById(
+            "competitionTableBody"
+        );
+
+    tbody.innerHTML = "";
+
+    group.students.forEach(student => {
+
+        const name =
+            student.name || "";
+
+        const studentId =
+            student.id || "";
+
+        if(
+            search &&
+            !name.toLowerCase().includes(search) &&
+            !studentId.toLowerCase().includes(search)
+        ){
+
+            return;
+
+        }
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>
+
+                <span class="rank-number">
+
+                    ${student.rank}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                ${
+                    student.name
+                    ? escapeHTML(student.name)
+                    : `<span class="empty-student">
+                        Waiting for student
+                       </span>`
+                }
+
+            </td>
+
+            <td>
+
+                ${
+                    student.id
+                    ? escapeHTML(student.id)
+                    : "—"
+                }
+
+            </td>
+
+            <td>
+
+                ${
+                    student.points !== null
+                    ? `<span class="points-number">
+                        ${student.points}
+                       </span>`
+                    : "—"
+                }
+
+            </td>
+
+            <td>
+
+                ${
+                    student.round !== null
+                    ? student.round
+                    : "—"
+                }
+
+            </td>
+
+            <td>
+
+                ${getStudentStatusHTML(student)}
+
+            </td>
+
+            <td>
+
+                <span class="reward-pending">
+
+                    ${escapeHTML(student.reward)}
+
+                </span>
+
+            </td>
+
+        `;
+
+        tbody.appendChild(row);
+
+    });
+
+    updateCompetitionSummary(group);
+
+}
+
+/* =====================================================
+   STATUS HTML
+===================================================== */
+
+function getStudentStatusHTML(student){
+
+    let label =
+        "Waiting";
+
+    let className =
+        "status-waiting";
+
+    if(
+        competitionData.status === "live" &&
+        student.status === "active"
+    ){
+
+        label =
+            "Active";
+
+        className =
+            "status-active";
+
+    }
+
+    if(
+        student.status === "eliminated"
+    ){
+
+        label =
+            "Eliminated";
+
+        className =
+            "status-eliminated";
+
+    }
+
+    return `
+
+        <span class="student-status ${className}">
+
+            <span class="student-status-dot"></span>
+
+            ${label}
+
+        </span>
+
+    `;
+
+}
+
+/* =====================================================
+   COMPETITION SUMMARY
+===================================================== */
+
+function updateCompetitionSummary(group){
+
+    const realStudents =
+        group.students.filter(
+            student =>
+                student.name !== null
+        );
+
+    const highestPoints =
+        realStudents.length
+        ? Math.max(
+            ...realStudents.map(
+                student =>
+                    Number(student.points) || 0
+            )
+        )
+        : 0;
+
+    document.getElementById(
+        "competitionHighestPoints"
+    ).textContent =
+        highestPoints;
+
+}
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+document
+.getElementById("competitionSearch")
+.addEventListener(
+    "input",
+    renderCompetition
+);
+
+/* =====================================================
+   COMPETITION STATUS
+===================================================== */
+
+function updateCompetitionStatus(){
+
+    const status =
+        competitionData.status;
+
+    const badge =
+        document.getElementById(
+            "competitionStatus"
+        );
+
+    const text =
+        document.getElementById(
+            "competitionStatusText"
+        );
+
+    const timer =
+        document.getElementById(
+            "competitionTimer"
+        );
+
+    badge.className =
+        "competition-status";
+
+    if(status === "waiting"){
+
+        text.textContent =
+            "Competition Not Started";
+
+        timer.textContent =
+            "Waiting";
+
+    }
+
+    else if(status === "live"){
+
+        badge.classList.add("live");
+
+        text.textContent =
+            "Competition Live";
+
+        updateCompetitionTimer();
+
+    }
+
+    else if(status === "finished"){
+
+        badge.classList.add("finished");
+
+        text.textContent =
+            "Competition Finished";
+
+        timer.textContent =
+            "Finished";
+
+    }
+
+    renderCompetition();
+
+}
+
+/* =====================================================
+   7 DAY TIMER
+===================================================== */
+
+function updateCompetitionTimer(){
+
+    if(!competitionData.endTime){
+
+        document.getElementById(
+            "competitionTimer"
+        ).textContent =
+            "7 Days";
+
+        return;
+
+    }
+
+    const now =
+        Date.now();
+
+    const end =
+        new Date(
+            competitionData.endTime
+        ).getTime();
+
+    const remaining =
+        end - now;
+
+    if(remaining <= 0){
+
+        competitionData.status =
+            "finished";
+
+        updateCompetitionStatus();
+
+        return;
+
+    }
+
+    const days =
+        Math.floor(
+            remaining /
+            (1000 * 60 * 60 * 24)
+        );
+
+    const hours =
+        Math.floor(
+            (remaining %
+            (1000 * 60 * 60 * 24)) /
+            (1000 * 60 * 60)
+        );
+
+    const minutes =
+        Math.floor(
+            (remaining %
+            (1000 * 60 * 60)) /
+            (1000 * 60)
+        );
+
+    const seconds =
+        Math.floor(
+            (remaining %
+            (1000 * 60)) /
+            1000
+        );
+
+    document.getElementById(
+        "competitionTimer"
+    ).textContent =
+
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+}
+
+/* =====================================================
+   UPDATE TIMER EVERY SECOND
+===================================================== */
+
+setInterval(
+    updateCompetitionTimer,
+    1000
+);
+
+/* =====================================================
+   BACKEND CONNECTION READY
+=====================================================
+
+   Later PostgreSQL/API can return:
+
+   {
+       status: "live",
+       startTime: "...",
+       endTime: "...",
+
+       groups: {
+
+           lower: [...],
+
+           medium: [...],
+
+           high: [...]
+
+       }
+   }
+
+   Each student:
+
+   {
+       rank: 1,
+       id: "student_uuid",
+       name: "real student",
+       points: 85,
+       round: 1,
+       status: "active",
+       reward: "Pending"
+   }
+
+   The frontend table does NOT need
+   to be redesigned when PostgreSQL
+   is connected.
+
+===================================================== */
+
+/* =====================================================
+   AI
+===================================================== */
+
+async function sendAIMessage(event){
+
+    event.preventDefault();
+
+    const input =
+        document.getElementById("aiInput");
+
+    const messages =
+        document.getElementById("chatMessages");
+
+    const text =
+        input.value.trim();
+
+    if(!text)
+        return;
+
+    const userMessage =
+        document.createElement("div");
+
+    userMessage.className =
+        "message user";
+
+    userMessage.textContent =
+        text;
+
+    messages.appendChild(userMessage);
+
+    input.value = "";
+
+    const aiMessage =
+        document.createElement("div");
+
+    aiMessage.className =
+        "message ai";
+
+    aiMessage.textContent =
+        "AI backend is ready to be connected.";
+
+    messages.appendChild(aiMessage);
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+}
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logoutTeacher(){
+
+    sessionStorage.removeItem(
+        "gurhub_teacher"
+    );
+
+    window.location.href =
+        "teacher-login.html";
+
+}
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+/* =====================================================
+   START
+===================================================== */
+
+loadTeacher();
+
+updateCompetitionStatus();
+
+</script>
+
+</body>
+</html>
