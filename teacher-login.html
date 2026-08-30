@@ -1,717 +1,1352 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
 <title>Teacher Login | GURHUB</title>
+
+
+<!-- SUPABASE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 <style>
+
+/* ================================
+   RESET
+================================ */
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
     font-family:Arial,sans-serif;
 }
+
+
+/* ================================
+   BODY
+================================ */
+
 body{
+
     min-height:100vh;
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
     padding:20px;
+
     background:
+
         radial-gradient(
             circle at 10% 10%,
             rgba(37,99,235,.35),
             transparent 35%
         ),
+
         radial-gradient(
             circle at 90% 90%,
             rgba(212,175,55,.20),
             transparent 35%
         ),
+
         linear-gradient(
             135deg,
             #020b18,
             #08264a,
             #031326
         );
+
 }
+
+
+/* ================================
+   CARD
+================================ */
+
 .card{
+
     width:100%;
+
     max-width:500px;
+
     padding:35px;
+
     color:white;
-    background:rgba(255,255,255,.07);
-    border:1px solid rgba(255,255,255,.12);
+
+    background:
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
     border-radius:25px;
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
     box-shadow:
         0 25px 70px rgba(0,0,0,.40);
+
 }
+
+
+/* ================================
+   LOGO
+================================ */
+
 .logo{
+
     text-align:center;
+
     font-size:40px;
+
     font-weight:900;
-    margin-bottom:7px;
+
     letter-spacing:1px;
+
+    margin-bottom:7px;
+
 }
+
 .logo span{
+
     color:#d4af37;
+
 }
+
+
 .subtitle{
+
     text-align:center;
+
     color:#aebed3;
+
     font-size:14px;
+
     margin-bottom:25px;
+
 }
+
+
+/* ================================
+   MESSAGE
+================================ */
+
 .message{
+
     min-height:22px;
+
     text-align:center;
+
     margin-bottom:15px;
+
     font-size:14px;
+
 }
+
 .message.success{
+
     color:#7fffd4;
+
 }
+
 .message.error{
+
     color:#ff8585;
+
 }
+
+
+/* ================================
+   TABS
+================================ */
+
 .tabs{
+
     display:flex;
+
     gap:4px;
+
     padding:4px;
+
     margin-bottom:22px;
+
     border-radius:13px;
-    background:rgba(0,0,0,.25);
+
+    background:
+        rgba(0,0,0,.25);
+
 }
+
+
 .tabs button{
+
     flex:1;
+
     padding:14px;
+
     border:none;
+
     border-radius:10px;
+
     background:transparent;
+
     color:#bdc9d9;
+
     font-size:15px;
+
     font-weight:bold;
+
     cursor:pointer;
+
+    transition:.2s;
+
 }
+
+
 .tabs button.active{
+
     background:#2563eb;
+
     color:white;
+
     box-shadow:
         0 5px 18px rgba(37,99,235,.35);
+
 }
+
+
+/* ================================
+   TAB
+================================ */
+
 .tab{
+
     display:none;
+
 }
+
+
 .tab.show{
+
     display:block;
+
 }
+
+
+/* ================================
+   INPUT
+================================ */
+
 .input-group{
+
     margin-bottom:17px;
+
 }
+
+
 .input-group label{
+
     display:block;
+
     margin-bottom:7px;
+
     color:#e8edf5;
+
     font-size:14px;
+
 }
+
+
 .input-group input{
+
     width:100%;
+
     padding:15px;
-    border:1px solid rgba(255,255,255,.12);
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
     border-radius:11px;
+
     outline:none;
+
     background:#fff;
+
     color:#071426;
+
     font-size:15px;
+
 }
+
+
 .input-group input:focus{
-    border:2px solid #d4af37;
+
+    border:
+        2px solid #d4af37;
+
 }
+
+
+/* ================================
+   BUTTON
+================================ */
+
 .submit-btn{
+
     width:100%;
+
     padding:15px;
+
     margin-top:5px;
+
     border:none;
+
     border-radius:11px;
+
     background:
         linear-gradient(
             135deg,
             #d4af37,
             #f0ce62
         );
+
     color:#071426;
+
     font-size:16px;
+
     font-weight:800;
+
     cursor:pointer;
+
     transition:.2s;
+
 }
+
+
 .submit-btn:hover{
-    transform:translateY(-1px);
+
+    transform:
+        translateY(-1px);
+
     box-shadow:
         0 8px 25px rgba(212,175,55,.25);
+
 }
+
+
 .submit-btn:disabled{
+
     opacity:.6;
+
     cursor:not-allowed;
+
     transform:none;
+
 }
+
+
+/* ================================
+   FORGOT
+================================ */
+
 .forgot{
+
     display:block;
+
     text-align:right;
+
     margin-top:10px;
+
     color:#70a7ff;
+
     font-size:14px;
+
     cursor:pointer;
+
 }
+
+
 .forgot:hover{
+
     color:#d4af37;
+
 }
-.back-login{
-    display:block;
-    text-align:center;
-    margin-top:16px;
-    color:#70a7ff;
-    cursor:pointer;
-    font-size:14px;
-}
-.back-login:hover{
-    color:#d4af37;
-}
+
+
+/* ================================
+   HOME
+================================ */
+
 .home-link{
+
     display:block;
+
     text-align:center;
+
     margin-top:25px;
+
     color:white;
+
     text-decoration:none;
+
     font-size:16px;
+
 }
+
+
 .home-link:hover{
+
     color:#d4af37;
+
 }
+
+
+/* ================================
+   SMALL
+================================ */
+
 .small-text{
+
     text-align:center;
+
     color:#9fb0c7;
+
     font-size:13px;
+
     line-height:1.5;
+
     margin-top:14px;
+
 }
+
+
+.back-login{
+
+    text-align:center;
+
+    margin-top:15px;
+
+    color:#70a7ff;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+}
+
+
+.back-login:hover{
+
+    color:#d4af37;
+
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
 @media(max-width:520px){
+
     .card{
+
         padding:25px 20px;
+
     }
+
     .logo{
+
         font-size:34px;
+
     }
+
 }
+
 </style>
+
 </head>
+
+
 <body>
+
+
 <div class="card">
+
+
+    <!-- =========================
+         LOGO
+    ========================== -->
+
     <div class="logo">
+
         GUR<span>HUB</span>
+
     </div>
+
+
     <div class="subtitle">
+
         Teacher Account
+
     </div>
+
+
+    <!-- =========================
+         MESSAGE
+    ========================== -->
+
     <div
         id="msg"
         class="message"
     ></div>
-    <!-- TABS -->
+
+
+    <!-- =========================
+         TABS
+    ========================== -->
+
     <div class="tabs">
+
         <button
             id="signupTab"
             class="active"
             onclick="openTab('signup',this)"
         >
+
             Sign Up
+
         </button>
+
+
         <button
             id="loginTab"
             onclick="openTab('login',this)"
         >
+
             Login
+
         </button>
+
     </div>
-    <!-- SIGN UP -->
+
+
+    <!-- =========================
+         SIGN UP
+    ========================== -->
+
     <div
         id="signup"
         class="tab show"
     >
+
+
         <div class="input-group">
-            <label>Full Name</label>
+
+            <label>
+                Full Name
+            </label>
+
             <input
                 type="text"
                 id="signupName"
                 placeholder="Enter your full name"
                 autocomplete="name"
             >
+
         </div>
+
+
         <div class="input-group">
-            <label>Email</label>
+
+            <label>
+                Email
+            </label>
+
             <input
                 type="email"
                 id="signupEmail"
-                placeholder="Enter your email"
+                placeholder="Enter your real email"
                 autocomplete="email"
             >
+
         </div>
+
+
         <div class="input-group">
-            <label>Password</label>
+
+            <label>
+                Password
+            </label>
+
             <input
                 type="password"
                 id="signupPassword"
-                placeholder="Create your password"
+                placeholder="Create password"
                 autocomplete="new-password"
             >
+
         </div>
+
+
         <button
             id="signupBtn"
             class="submit-btn"
             onclick="createTeacher()"
         >
+
             Create Teacher Account
+
         </button>
+
+
     </div>
-    <!-- LOGIN -->
+
+
+    <!-- =========================
+         LOGIN
+    ========================== -->
+
     <div
         id="login"
         class="tab"
     >
+
+
         <div class="input-group">
-            <label>Email</label>
+
+            <label>
+                Email
+            </label>
+
             <input
                 type="email"
                 id="loginEmail"
                 placeholder="Enter your email"
                 autocomplete="email"
             >
+
         </div>
+
+
         <div class="input-group">
-            <label>Password</label>
+
+            <label>
+                Password
+            </label>
+
             <input
                 type="password"
                 id="loginPassword"
                 placeholder="Enter your password"
                 autocomplete="current-password"
             >
+
         </div>
+
+
         <a
             class="forgot"
             onclick="openForgot()"
         >
+
             Forgot Password?
+
         </a>
+
+
         <button
             id="loginBtn"
             class="submit-btn"
             onclick="loginTeacher()"
         >
+
             Login
+
         </button>
+
+
     </div>
-    <!-- FORGOT PASSWORD -->
+
+
+    <!-- =========================
+         FORGOT PASSWORD
+    ========================== -->
+
     <div
         id="forgot"
         class="tab"
     >
+
+
         <div class="input-group">
-            <label>Email</label>
+
+            <label>
+                Email
+            </label>
+
             <input
                 type="email"
                 id="forgotEmail"
-                placeholder="Enter your email"
+                placeholder="Enter your account email"
                 autocomplete="email"
             >
+
         </div>
-        <div class="input-group">
-            <label>New Password</label>
-            <input
-                type="password"
-                id="newPassword"
-                placeholder="Enter new password"
-                autocomplete="new-password"
-            >
-        </div>
-        <div class="input-group">
-            <label>Confirm New Password</label>
-            <input
-                type="password"
-                id="confirmPassword"
-                placeholder="Confirm new password"
-                autocomplete="new-password"
-            >
-        </div>
+
+
         <button
-            id="resetBtn"
+            id="forgotBtn"
             class="submit-btn"
-            onclick="resetPassword()"
+            onclick="sendResetLink()"
         >
-            Change Password
+
+            Send Reset Link
+
         </button>
+
+
+        <div class="small-text">
+
+            A password reset link will be sent
+            to your email.
+
+        </div>
+
+
         <div
             class="back-login"
             onclick="backToLogin()"
         >
-            ← Back to Login
+
+            ← Back To Login
+
         </div>
+
+
     </div>
+
+
+    <!-- =========================
+         HOME
+    ========================== -->
+
     <a
         href="index.html"
         class="home-link"
     >
+
         ← Back To Homepage
+
     </a>
+
+
 </div>
+
+
 <script>
+
+
 /* =========================================
-   SUPABASE
+   SUPABASE CONFIG
 ========================================= */
+
 const SUPABASE_URL =
 "https://uxrltzlxdttbjstomhkb.supabase.co";
+
+
 const SUPABASE_KEY =
 "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+
+
 const supabaseClient =
 window.supabase.createClient(
+
     SUPABASE_URL,
+
     SUPABASE_KEY
+
 );
+
+
 /* =========================================
    MESSAGE
 ========================================= */
-function showMessage(text,type=""){
+
+function showMessage(
+    text,
+    type=""
+){
+
     const msg =
         document.getElementById("msg");
-    msg.textContent = text;
+
+
+    msg.textContent =
+        text;
+
+
     msg.className =
         "message " + type;
+
 }
+
+
 /* =========================================
    OPEN TAB
 ========================================= */
-function openTab(tab,button){
+
+function openTab(
+    tab,
+    button
+){
+
     document
         .querySelectorAll(".tab")
         .forEach(box=>{
+
             box.classList.remove("show");
+
         });
+
+
     document
         .getElementById(tab)
         .classList.add("show");
+
+
     document
         .querySelectorAll(".tabs button")
         .forEach(btn=>{
+
             btn.classList.remove("active");
+
         });
+
+
     if(button){
+
         button.classList.add("active");
+
     }
+
+
     showMessage("");
+
 }
+
+
 /* =========================================
-   FORGOT
+   FORGOT TAB
 ========================================= */
+
 function openForgot(){
+
     document
         .querySelectorAll(".tab")
         .forEach(box=>{
+
             box.classList.remove("show");
+
         });
+
+
     document
         .getElementById("forgot")
         .classList.add("show");
+
+
     document
         .querySelectorAll(".tabs button")
         .forEach(btn=>{
+
             btn.classList.remove("active");
+
         });
+
+
     showMessage("");
+
 }
+
+
 /* =========================================
    BACK LOGIN
 ========================================= */
+
 function backToLogin(){
+
     openTab(
+
         "login",
+
         document.getElementById("loginTab")
+
     );
+
 }
+
+
 /* =========================================
-   CREATE TEACHER
+   CREATE TEACHER ACCOUNT
 ========================================= */
+
 async function createTeacher(){
+
     const name =
         document
         .getElementById("signupName")
         .value
         .trim();
+
+
     const email =
         document
         .getElementById("signupEmail")
         .value
         .trim();
+
+
     const password =
         document
         .getElementById("signupPassword")
         .value;
-    if(!name || !email || !password){
+
+
+    if(
+        !name ||
+        !email ||
+        !password
+    ){
+
         showMessage(
             "Please fill all fields.",
             "error"
         );
+
         return;
+
     }
+
+
     if(password.length < 6){
+
         showMessage(
             "Password must be at least 6 characters.",
             "error"
         );
+
         return;
+
     }
+
+
     const button =
-        document.getElementById("signupBtn");
-    button.disabled = true;
+        document.getElementById(
+            "signupBtn"
+        );
+
+
+    button.disabled =
+        true;
+
+
     button.textContent =
         "Creating Account...";
+
+
     try{
-        const {data,error} =
-            await supabaseClient.auth.signUp({
-                email:email,
-                password:password,
-                options:{
-                    data:{
-                        full_name:name,
-                        role:"teacher"
-                    }
-                }
-            });
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.signUp({
+
+            email:email,
+
+            password:password,
+
+            options:{
+
+                data:{
+
+                    full_name:name,
+
+                    role:"teacher"
+
+                },
+
+                /*
+                 * After the email is confirmed,
+                 * Supabase returns the user to teacher.html.
+                 */
+
+                emailRedirectTo:
+                    window.location.origin +
+                    "/teacher.html"
+
+            }
+
+        });
+
+
         if(error){
+
             throw error;
+
         }
+
+
         /*
-         * If Supabase returns an active session,
-         * go directly to teacher.html.
+         * If Supabase returns a session,
+         * immediately open teacher dashboard.
          */
+
         if(data.session){
-            showMessage(
-                "Account created successfully.",
-                "success"
-            );
-            setTimeout(()=>{
-                window.location.href =
-                    "teacher.html";
-            },500);
+
+            window.location.href =
+                "teacher.html";
+
             return;
+
         }
+
+
         /*
-         * No verification screen.
+         * There is intentionally NO
+         * verification screen here.
          *
-         * If email confirmation is ON in Supabase,
-         * there will be no session here.
+         * Supabase handles email confirmation.
          */
+
         showMessage(
-            "Account created. Please login.",
+            "Account created. Please confirm your email, then login.",
             "success"
         );
-        button.disabled = false;
+
+
+        button.disabled =
+            false;
+
+
         button.textContent =
             "Create Teacher Account";
+
+
         openTab(
+
             "login",
+
             document.getElementById("loginTab")
+
         );
+
+
     }catch(error){
+
         showMessage(
+
             error.message ||
-            "Unable to create account.",
+            "Could not create teacher account.",
+
             "error"
+
         );
-        button.disabled = false;
+
+
+        button.disabled =
+            false;
+
+
         button.textContent =
             "Create Teacher Account";
+
     }
+
 }
+
+
 /* =========================================
    LOGIN
 ========================================= */
+
 async function loginTeacher(){
+
     const email =
         document
         .getElementById("loginEmail")
         .value
         .trim();
+
+
     const password =
         document
         .getElementById("loginPassword")
         .value;
-    if(!email || !password){
+
+
+    if(
+        !email ||
+        !password
+    ){
+
         showMessage(
-            "Please enter email and password.",
+            "Please enter your email and password.",
             "error"
         );
+
         return;
+
     }
+
+
     const button =
-        document.getElementById("loginBtn");
-    button.disabled = true;
+        document.getElementById(
+            "loginBtn"
+        );
+
+
+    button.disabled =
+        true;
+
+
     button.textContent =
-        "Logging in...";
+        "Logging In...";
+
+
     try{
-        const {data,error} =
-            await supabaseClient.auth
-            .signInWithPassword({
-                email:email,
-                password:password
-            });
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth
+        .signInWithPassword({
+
+            email:email,
+
+            password:password
+
+        });
+
+
         if(error){
+
             throw error;
+
         }
+
+
         if(data.session){
-            showMessage(
-                "Login successful.",
-                "success"
-            );
-            setTimeout(()=>{
-                window.location.href =
-                    "teacher.html";
-            },400);
+
+            window.location.href =
+                "teacher.html";
+
         }
+
+
     }catch(error){
+
         showMessage(
+
             error.message ||
             "Invalid email or password.",
+
             "error"
+
         );
-        button.disabled = false;
+
+
+        button.disabled =
+            false;
+
+
         button.textContent =
             "Login";
+
     }
+
 }
+
+
 /* =========================================
    FORGOT PASSWORD
 ========================================= */
-async function resetPassword(){
+
+async function sendResetLink(){
+
     const email =
         document
         .getElementById("forgotEmail")
         .value
         .trim();
-    const newPassword =
-        document
-        .getElementById("newPassword")
-        .value;
-    const confirmPassword =
-        document
-        .getElementById("confirmPassword")
-        .value;
-    if(
-        !email ||
-        !newPassword ||
-        !confirmPassword
-    ){
+
+
+    if(!email){
+
         showMessage(
-            "Please fill all password fields.",
+            "Please enter your email.",
             "error"
         );
+
         return;
+
     }
-    if(newPassword.length < 6){
-        showMessage(
-            "Password must be at least 6 characters.",
-            "error"
-        );
-        return;
-    }
-    if(newPassword !== confirmPassword){
-        showMessage(
-            "Passwords do not match.",
-            "error"
-        );
-        return;
-    }
-    /*
-     * Supabase does NOT allow changing another
-     * user's password just by entering their email.
-     *
-     * First send a real recovery email.
-     */
+
+
     const button =
-        document.getElementById("resetBtn");
-    button.disabled = true;
+        document.getElementById(
+            "forgotBtn"
+        );
+
+
+    button.disabled =
+        true;
+
+
     button.textContent =
-        "Sending Reset Link...";
+        "Sending...";
+
+
     try{
-        const resetUrl =
+
+        /*
+         * The email contains the Supabase
+         * password recovery link.
+         *
+         * The redirect returns to this same
+         * teacher-login.html with a recovery session.
+         */
+
+        const redirectUrl =
             window.location.origin +
             window.location.pathname;
-        const {error} =
-            await supabaseClient.auth
-            .resetPasswordForEmail(
-                email,
-                {
-                    redirectTo:resetUrl
-                }
-            );
-        if(error){
-            throw error;
-        }
-        showMessage(
-            "Reset link sent. Open it to change your password.",
-            "success"
+
+
+        const {
+            error
+        } =
+        await supabaseClient.auth
+        .resetPasswordForEmail(
+
+            email,
+
+            {
+
+                redirectTo:
+                    redirectUrl
+
+            }
+
         );
-        button.disabled = false;
-        button.textContent =
-            "Change Password";
-    }catch(error){
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
         showMessage(
+
+            "Password reset link sent to your email.",
+
+            "success"
+
+        );
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "Send Reset Link";
+
+
+    }catch(error){
+
+        showMessage(
+
             error.message ||
             "Could not send reset link.",
+
             "error"
+
         );
-        button.disabled = false;
+
+
+        button.disabled =
+            false;
+
+
         button.textContent =
-            "Change Password";
+            "Send Reset Link";
+
     }
+
 }
+
+
 /* =========================================
-   AUTH SESSION
+   AUTH STATE
 ========================================= */
+
 supabaseClient.auth.onAuthStateChange(
+
     (event,session)=>{
+
+        /*
+         * Normal login.
+         */
+
         if(
-            session &&
-            (
-                event === "SIGNED_IN" ||
-                event === "INITIAL_SESSION"
-            )
+            event === "SIGNED_IN" &&
+            session
         ){
+
             /*
-             * Do not redirect if the user is already
-             * on the recovery flow.
+             * If this is a normal session,
+             * send directly to teacher dashboard.
              */
+
             if(
                 !window.location.hash
                 .includes("type=recovery")
             ){
-                /*
-                 * Only redirect when currently
-                 * on teacher-login.html.
-                 */
-                if(
-                    window.location.pathname
-                    .toLowerCase()
-                    .includes("teacher-login")
-                ){
-                    window.location.href =
-                        "teacher.html";
-                }
+
+                window.location.href =
+                    "teacher.html";
+
             }
+
         }
+
     }
+
 );
+
+
 </script>
+
 </body>
+
 </html>
