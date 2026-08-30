@@ -149,14 +149,12 @@ GUR<span>HUB</span>
 
 <button
 class="active"
-type="button"
 onclick="openTab('signup',this)"
 >
 Sign Up
 </button>
 
 <button
-type="button"
 onclick="openTab('login',this)"
 >
 Login
@@ -169,51 +167,35 @@ Login
 <div id="signup" class="tab show">
 
 <div class="input-group">
-
-<label>
-Full Name
-</label>
-
+<label>Full Name</label>
 <input
 type="text"
 id="signupName"
 autocomplete="name"
 >
-
 </div>
 
 <div class="input-group">
-
-<label>
-Email
-</label>
-
+<label>Email</label>
 <input
 type="email"
 id="signupEmail"
 autocomplete="email"
 >
-
 </div>
 
 <div class="input-group">
-
-<label>
-Password
-</label>
-
+<label>Password</label>
 <input
 type="password"
 id="signupPassword"
 autocomplete="new-password"
 >
-
 </div>
 
 <button
 class="submit-btn"
 id="signupBtn"
-type="button"
 onclick="createAccount()"
 >
 Create Account
@@ -226,37 +208,26 @@ Create Account
 <div id="login" class="tab">
 
 <div class="input-group">
-
-<label>
-Email
-</label>
-
+<label>Email</label>
 <input
 type="email"
 id="loginEmail"
 autocomplete="email"
 >
-
 </div>
 
 <div class="input-group">
-
-<label>
-Password
-</label>
-
+<label>Password</label>
 <input
 type="password"
 id="loginPassword"
 autocomplete="current-password"
 >
-
 </div>
 
 <button
 class="submit-btn"
 id="loginBtn"
-type="button"
 onclick="loginTeacher()"
 >
 Login
@@ -264,10 +235,7 @@ Login
 
 </div>
 
-<a
-href="index.html"
-class="home-link"
->
+<a href="index.html" class="home-link">
 ← Back To Homepage
 </a>
 
@@ -282,19 +250,13 @@ class="home-link"
 const SUPABASE_URL =
 "https://uxrltzlxdttbjstomhkb.supabase.co";
 
-/*
-   PUT YOUR SUPABASE PUBLISHABLE KEY HERE.
-
-   Do NOT put a service_role key in this HTML file.
-*/
-
-const SUPABASE_ANON_KEY =
+const SUPABASE_KEY =
 "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
 
 const supabaseClient =
 window.supabase.createClient(
 SUPABASE_URL,
-SUPABASE_ANON_KEY
+SUPABASE_KEY
 );
 
 
@@ -303,33 +265,25 @@ SUPABASE_ANON_KEY
 ===================================================== */
 
 function showMessage(
-message,
-type="success"
+    text,
+    success = false
 ){
 
 const msg =
 document.getElementById("msg");
 
-msg.textContent =
-message;
-
-if(type === "error"){
+msg.textContent = text;
 
 msg.style.color =
-"#ff7b7b";
-
-}else{
-
-msg.style.color =
-"#7fffd4";
-
-}
+success
+? "#7fffd4"
+: "#ffb4b4";
 
 }
 
 
 /* =====================================================
-   TAB SYSTEM
+   TABS
 ===================================================== */
 
 function openTab(tab,btn){
@@ -337,9 +291,7 @@ function openTab(tab,btn){
 document
 .querySelectorAll(".tab")
 .forEach(tabBox=>{
-
 tabBox.classList.remove("show");
-
 });
 
 document
@@ -349,9 +301,7 @@ document
 document
 .querySelectorAll(".tabs button")
 .forEach(button=>{
-
 button.classList.remove("active");
-
 });
 
 btn.classList.add("active");
@@ -391,20 +341,17 @@ document
 if(!name || !email || !password){
 
 showMessage(
-"Fill all fields.",
-"error"
+"Please fill all fields."
 );
 
 return;
 
 }
 
-
 if(password.length < 6){
 
 showMessage(
-"Password must be at least 6 characters.",
-"error"
+"Password must be at least 6 characters."
 );
 
 return;
@@ -415,9 +362,7 @@ return;
 /* BUTTON */
 
 const button =
-document.getElementById(
-"signupBtn"
-);
+document.getElementById("signupBtn");
 
 button.disabled = true;
 
@@ -427,9 +372,9 @@ button.textContent =
 
 try{
 
-/*
+/* =================================================
    SUPABASE AUTH SIGN UP
-*/
+================================================= */
 
 const {
 data,
@@ -446,13 +391,8 @@ password:password,
 options:{
 
 data:{
-
 full_name:name,
-
-role:"teacher",
-
-skill:"Teacher"
-
+role:"teacher"
 },
 
 emailRedirectTo:
@@ -464,86 +404,63 @@ window.location.origin +
 });
 
 
+/* ERROR */
+
 if(error){
 
-throw error;
-
-}
-
-
-/*
-   EMAIL VERIFICATION
-*/
-
-if(
-data &&
-data.user &&
-!data.session
-){
-
-showMessage(
-"Account created. Please check your email and confirm your email address."
+console.error(
+"Supabase Sign Up Error:",
+error
 );
 
-/*
-   IMPORTANT:
-   Do NOT redirect to teacher.html yet.
-   User must confirm email first.
-*/
+showMessage(
+error.message
+);
 
 return;
 
 }
 
 
-/*
-   If confirmation is disabled
-   and Supabase immediately gives
-   a session, continue to teacher.html.
-*/
+/* =================================================
+   EMAIL VERIFICATION
+================================================= */
 
-if(
-data &&
-data.session
-){
+if(data && data.user){
 
-sessionStorage.setItem(
-"gurhub_teacher",
-JSON.stringify({
-
-name:name,
-
-email:email,
-
-skill:"Teacher",
-
-id:data.user.id
-
-})
+showMessage(
+"Account created successfully. Check your email and click the verification link before logging in.",
+true
 );
 
-window.location.href =
-"teacher.html";
+
+/*
+   Do NOT automatically send the teacher
+   to teacher.html.
+
+   The teacher must first verify the email.
+*/
+
+document
+.getElementById("signupPassword")
+.value = "";
 
 }
 
 }catch(error){
 
 console.error(
-"Teacher signup error:",
+"Sign Up Error:",
 error
 );
 
 showMessage(
-error.message ||
-"Unable to create teacher account.",
-"error"
+"Unable to create account. Please try again."
 );
 
 }finally{
 
-button.disabled =
-false;
+button.disabled = false;
 
 button.textContent =
 "Create Account";
@@ -554,7 +471,7 @@ button.textContent =
 
 
 /* =====================================================
-   LOGIN TEACHER
+   TEACHER LOGIN
 ===================================================== */
 
 async function loginTeacher(){
@@ -577,8 +494,7 @@ document
 if(!email || !password){
 
 showMessage(
-"Enter your email and password.",
-"error"
+"Please enter your email and password."
 );
 
 return;
@@ -589,12 +505,9 @@ return;
 /* BUTTON */
 
 const button =
-document.getElementById(
-"loginBtn"
-);
+document.getElementById("loginBtn");
 
-button.disabled =
-true;
+button.disabled = true;
 
 button.textContent =
 "Logging in...";
@@ -602,9 +515,9 @@ button.textContent =
 
 try{
 
-/*
+/* =================================================
    SUPABASE AUTH LOGIN
-*/
+================================================= */
 
 const {
 data,
@@ -621,49 +534,17 @@ password:password
 });
 
 
+/* ERROR */
+
 if(error){
 
-throw error;
-
-}
-
-
-if(
-!data ||
-!data.user
-){
-
-throw new Error(
-"Teacher account not found."
+console.error(
+"Supabase Login Error:",
+error
 );
 
-}
-
-
-/*
-   EMAIL VERIFICATION CHECK
-*/
-
-const user =
-data.user;
-
-if(
-!user.email_confirmed_at
-){
-
-/*
-   Sign out immediately.
-   Teacher cannot enter dashboard
-   until email is confirmed.
-*/
-
-await supabaseClient
-.auth
-.signOut();
-
 showMessage(
-"Please confirm your email before logging in.",
-"error"
+error.message
 );
 
 return;
@@ -671,47 +552,65 @@ return;
 }
 
 
+/* =================================================
+   CHECK USER
+================================================= */
+
+if(
+!data ||
+!data.user
+){
+
+showMessage(
+"Login failed. User account was not found."
+);
+
+return;
+
+}
+
+
+/* =================================================
+   CHECK EMAIL VERIFICATION
+================================================= */
+
+const user =
+data.user;
+
+if(!user.email_confirmed_at){
+
+await supabaseClient
+.auth
+.signOut();
+
+showMessage(
+"Please verify your email first. Check your inbox for the Supabase verification email."
+);
+
+return;
+
+}
+
+
+/* =================================================
+   TEACHER SESSION
+================================================= */
+
 /*
-   GET USER METADATA
+   Supabase Auth now controls the session.
+
+   We do NOT save the password in localStorage.
 */
 
-const metadata =
-user.user_metadata || {};
-
-const teacherName =
-metadata.full_name ||
-metadata.name ||
-"Teacher";
-
-
-/*
-   KEEP THE EXISTING
-   TEACHER SESSION FORMAT
-
-   This does NOT store password.
-*/
-
-sessionStorage.setItem(
-"gurhub_teacher",
-JSON.stringify({
-
-name:teacherName,
-
-email:user.email,
-
-skill:
-metadata.skill ||
-"Teacher",
-
-id:user.id
-
-})
+console.log(
+"Teacher logged in:",
+user.id
 );
 
 
-/*
-   LOGIN SUCCESS
-*/
+/* =================================================
+   GO TO TEACHER DASHBOARD
+================================================= */
 
 window.location.href =
 "teacher.html";
@@ -720,20 +619,17 @@ window.location.href =
 }catch(error){
 
 console.error(
-"Teacher login error:",
+"Teacher Login Error:",
 error
 );
 
 showMessage(
-error.message ||
-"Invalid email or password.",
-"error"
+"Login failed. Please check your email and password."
 );
 
 }finally{
 
-button.disabled =
-false;
+button.disabled = false;
 
 button.textContent =
 "Login";
@@ -744,7 +640,7 @@ button.textContent =
 
 
 /* =====================================================
-   CHECK EXISTING SUPABASE SESSION
+   CHECK EXISTING SESSION
 ===================================================== */
 
 async function checkExistingTeacher(){
@@ -762,7 +658,7 @@ await supabaseClient
 if(error){
 
 console.error(
-"Session error:",
+"Session Error:",
 error
 );
 
@@ -770,71 +666,42 @@ return;
 
 }
 
-const session =
-data.session;
-
 if(
-!session ||
-!session.user
+data &&
+data.session &&
+data.session.user
 ){
-
-return;
-
-}
 
 const user =
-session.user;
+data.session.user;
 
 
 /*
-   Do not allow unverified
-   teacher accounts.
+   Only redirect if the email
+   has already been verified.
 */
 
-if(
-!user.email_confirmed_at
-){
+if(user.email_confirmed_at){
 
-await supabaseClient
-.auth
-.signOut();
+console.log(
+"Existing verified teacher session:",
+user.id
+);
 
-return;
+/*
+   Uncomment this if you want
+   already logged-in teachers to
+   automatically enter dashboard.
+*/
 
 }
 
-
-/*
-   Existing verified session
-*/
-
-const metadata =
-user.user_metadata || {};
-
-sessionStorage.setItem(
-"gurhub_teacher",
-JSON.stringify({
-
-name:
-metadata.full_name ||
-metadata.name ||
-"Teacher",
-
-email:user.email,
-
-skill:
-metadata.skill ||
-"Teacher",
-
-id:user.id
-
-})
-);
+}
 
 }catch(error){
 
 console.error(
-"Existing session error:",
+"Existing Session Error:",
 error
 );
 
@@ -850,17 +717,21 @@ error
 supabaseClient
 .auth
 .onAuthStateChange(
-async (
-event,
-session
-)=>{
+(event,session)=>{
+
+console.log(
+"Auth event:",
+event
+);
 
 if(
-event === "SIGNED_OUT"
+session &&
+session.user
 ){
 
-sessionStorage.removeItem(
-"gurhub_teacher"
+console.log(
+"Authenticated teacher:",
+session.user.id
 );
 
 }
