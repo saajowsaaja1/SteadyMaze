@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -16,9 +18,11 @@
 
 body{
     min-height:100vh;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     padding:20px;
 
     background:
@@ -36,12 +40,16 @@ body{
 
     color:#f5f8f6;
 
-    font-family:Arial,Helvetica,sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
 
 .auth-card{
     width:100%;
     max-width:430px;
+
     padding:38px;
 
     background:rgba(7,16,11,.94);
@@ -56,8 +64,10 @@ body{
 
 .logo{
     text-align:center;
+
     font-size:30px;
     font-weight:900;
+
     margin-bottom:8px;
 }
 
@@ -67,32 +77,43 @@ body{
 
 .subtitle{
     text-align:center;
+
     color:#68756d;
+
     font-size:10px;
+
     margin-bottom:28px;
 }
 
 .tabs{
     display:grid;
+
     grid-template-columns:1fr 1fr;
+
     gap:6px;
+
     padding:5px;
+
     margin-bottom:22px;
 
     background:#020604;
+
     border-radius:11px;
 }
 
 .tab{
     border:0;
+
     padding:12px;
 
     border-radius:8px;
 
     background:transparent;
+
     color:#66736b;
 
     font-size:10px;
+
     font-weight:900;
 
     cursor:pointer;
@@ -100,6 +121,7 @@ body{
 
 .tab.active{
     background:#00e676;
+
     color:#001b0c;
 }
 
@@ -113,17 +135,21 @@ body{
 
 label{
     display:block;
+
     margin-bottom:7px;
 
     color:#89958e;
 
     font-size:9px;
+
     font-weight:800;
 }
 
 input{
     width:100%;
+
     padding:14px;
+
     margin-bottom:15px;
 
     background:#020604;
@@ -148,16 +174,21 @@ input:focus{
 
 .main-button{
     width:100%;
+
     padding:14px;
+
     margin-top:5px;
 
     border:0;
+
     border-radius:10px;
 
     background:#00e676;
+
     color:#001b0c;
 
     font-size:10px;
+
     font-weight:900;
 
     cursor:pointer;
@@ -174,12 +205,15 @@ input:focus{
 
 .main-button:disabled{
     opacity:.6;
+
     cursor:not-allowed;
+
     transform:none;
 }
 
 .forgot{
     display:block;
+
     margin-top:16px;
 
     text-align:center;
@@ -187,6 +221,7 @@ input:focus{
     color:#00e676;
 
     font-size:9px;
+
     font-weight:800;
 
     text-decoration:none;
@@ -194,12 +229,9 @@ input:focus{
     cursor:pointer;
 }
 
-.forgot:hover{
-    color:#7dffb2;
-}
-
 .back{
     display:block;
+
     margin-top:25px;
 
     text-align:center;
@@ -219,6 +251,7 @@ input:focus{
     display:none;
 
     margin-bottom:15px;
+
     padding:11px;
 
     border-radius:8px;
@@ -228,6 +261,7 @@ input:focus{
     color:#00e676;
 
     font-size:9px;
+
     line-height:1.5;
 
     text-align:center;
@@ -235,6 +269,7 @@ input:focus{
 
 .message.error{
     background:rgba(255,70,70,.08);
+
     color:#ff7070;
 }
 
@@ -246,6 +281,7 @@ input:focus{
     text-align:center;
 
     font-size:9px;
+
     line-height:1.5;
 }
 
@@ -262,6 +298,7 @@ input:focus{
 }
 
 </style>
+
 </head>
 
 <body>
@@ -276,11 +313,19 @@ input:focus{
         Teacher Portal
     </div>
 
-    <div id="message" class="message"></div>
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
 
     <!-- TABS -->
 
-    <div class="tabs" id="tabs">
+    <div
+        class="tabs"
+        id="tabs"
+    >
 
         <button
             id="loginTab"
@@ -321,6 +366,7 @@ input:focus{
             required
         >
 
+
         <label>PASSWORD</label>
 
         <input
@@ -331,6 +377,7 @@ input:focus{
             required
         >
 
+
         <button
             type="submit"
             id="loginButton"
@@ -338,6 +385,7 @@ input:focus{
         >
             LOGIN
         </button>
+
 
         <a
             class="forgot"
@@ -367,6 +415,7 @@ input:focus{
             required
         >
 
+
         <label>EMAIL</label>
 
         <input
@@ -376,6 +425,7 @@ input:focus{
             autocomplete="email"
             required
         >
+
 
         <label>PASSWORD</label>
 
@@ -388,6 +438,7 @@ input:focus{
             required
         >
 
+
         <button
             type="submit"
             id="signupButton"
@@ -396,9 +447,10 @@ input:focus{
             CREATE TEACHER ACCOUNT
         </button>
 
+
         <div class="info">
-            You will receive a confirmation email
-            after creating your account.
+            A confirmation email will be sent
+            after registration.
         </div>
 
     </form>
@@ -418,9 +470,9 @@ input:focus{
             type="email"
             id="forgotEmail"
             placeholder="Enter your teacher email"
-            autocomplete="email"
             required
         >
+
 
         <button
             type="submit"
@@ -430,10 +482,12 @@ input:focus{
             SEND RESET LINK
         </button>
 
+
         <div class="info">
             A password reset link will be sent
             to your email.
         </div>
+
 
         <a
             class="forgot"
@@ -458,20 +512,22 @@ input:focus{
         <input
             type="password"
             id="newPassword"
-            placeholder="Create new password"
             minlength="6"
+            placeholder="Create new password"
             required
         >
+
 
         <label>CONFIRM PASSWORD</label>
 
         <input
             type="password"
             id="confirmPassword"
-            placeholder="Confirm new password"
             minlength="6"
+            placeholder="Confirm new password"
             required
         >
+
 
         <button
             type="submit"
@@ -498,13 +554,19 @@ input:focus{
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <script>
+
+/* =========================================
+   SUPABASE CONFIG
+========================================= */
 
 const SUPABASE_URL =
     "https://uxrltzlxdttbjstomhkb.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_bAbA5_9yIPt5IWQ0WphMg_gdZ6E8-b";
+    "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -513,11 +575,11 @@ const supabaseClient =
     );
 
 
-/* ===============================
+/* =========================================
    MESSAGE
-=============================== */
+========================================= */
 
-function showMessage(text,error=false){
+function showMessage(text,isError=false){
 
     const box =
         document.getElementById("message");
@@ -526,7 +588,10 @@ function showMessage(text,error=false){
 
     box.style.display = "block";
 
-    box.classList.toggle("error",error);
+    box.classList.toggle(
+        "error",
+        isError
+    );
 }
 
 
@@ -543,25 +608,26 @@ function clearMessage(){
 }
 
 
-/* ===============================
+/* =========================================
    HIDE FORMS
-=============================== */
+========================================= */
 
 function hideForms(){
 
     document
         .querySelectorAll(".form")
-        .forEach(form => {
+        .forEach(function(form){
 
             form.classList.remove("active");
 
         });
+
 }
 
 
-/* ===============================
+/* =========================================
    LOGIN SCREEN
-=============================== */
+========================================= */
 
 function showLogin(){
 
@@ -587,9 +653,9 @@ function showLogin(){
 }
 
 
-/* ===============================
+/* =========================================
    SIGNUP SCREEN
-=============================== */
+========================================= */
 
 function showSignup(){
 
@@ -615,9 +681,9 @@ function showSignup(){
 }
 
 
-/* ===============================
+/* =========================================
    FORGOT SCREEN
-=============================== */
+========================================= */
 
 function showForgot(){
 
@@ -635,9 +701,9 @@ function showForgot(){
 }
 
 
-/* ===============================
+/* =========================================
    NEW PASSWORD
-=============================== */
+========================================= */
 
 function showNewPassword(){
 
@@ -650,12 +716,13 @@ function showNewPassword(){
     document
         .getElementById("tabs")
         .style.display = "none";
+
 }
 
 
-/* ===============================
+/* =========================================
    CREATE TEACHER
-=============================== */
+========================================= */
 
 async function createTeacher(event){
 
@@ -663,11 +730,13 @@ async function createTeacher(event){
 
     clearMessage();
 
+
     const name =
         document
             .getElementById("signupName")
             .value
             .trim();
+
 
     const email =
         document
@@ -676,29 +745,24 @@ async function createTeacher(event){
             .trim()
             .toLowerCase();
 
+
     const password =
         document
             .getElementById("signupPassword")
             .value;
 
+
     const button =
         document.getElementById("signupButton");
 
+
     button.disabled = true;
-    button.textContent = "CREATING...";
+
+    button.textContent =
+        "CREATING...";
 
 
     try{
-
-        /*
-        IMPORTANT:
-
-        role = teacher
-
-        This value is used by your
-        Supabase handle_new_user()
-        trigger.
-        */
 
         const {
             data,
@@ -713,8 +777,11 @@ async function createTeacher(event){
             options:{
 
                 data:{
+
                     full_name:name,
+
                     role:"teacher"
+
                 },
 
                 emailRedirectTo:
@@ -734,11 +801,7 @@ async function createTeacher(event){
 
 
         /*
-        CONFIRM EMAIL ON
-
-        Supabase normally returns
-        no session until email is
-        confirmed.
+        EMAIL CONFIRMATION ON
         */
 
         if(!data.session){
@@ -748,7 +811,7 @@ async function createTeacher(event){
                 .reset();
 
             showMessage(
-                "Account created. Please check your email and confirm your SteadyMaze account, then login."
+                "Account created. Check your email and confirm your SteadyMaze account, then login."
             );
 
             return;
@@ -757,17 +820,19 @@ async function createTeacher(event){
 
 
         /*
-        If confirmation is OFF,
-        sign out and return to login.
+        EMAIL CONFIRMATION OFF
         */
 
         await supabaseClient.auth.signOut();
+
 
         document
             .getElementById("signupForm")
             .reset();
 
+
         showLogin();
+
 
         showMessage(
             "Account created successfully. You can now login."
@@ -776,10 +841,7 @@ async function createTeacher(event){
 
     }catch(error){
 
-        console.error(
-            "Teacher signup error:",
-            error
-        );
+        console.error(error);
 
         showMessage(
             error.message ||
@@ -799,15 +861,16 @@ async function createTeacher(event){
 }
 
 
-/* ===============================
-   LOGIN TEACHER
-=============================== */
+/* =========================================
+   TEACHER LOGIN
+========================================= */
 
 async function loginTeacher(event){
 
     event.preventDefault();
 
     clearMessage();
+
 
     const email =
         document
@@ -816,19 +879,28 @@ async function loginTeacher(event){
             .trim()
             .toLowerCase();
 
+
     const password =
         document
             .getElementById("loginPassword")
             .value;
 
+
     const button =
         document.getElementById("loginButton");
 
+
     button.disabled = true;
-    button.textContent = "LOGGING IN...";
+
+    button.textContent =
+        "LOGGING IN...";
 
 
     try{
+
+        /*
+        SUPABASE AUTH LOGIN
+        */
 
         const {
             data,
@@ -838,6 +910,7 @@ async function loginTeacher(event){
             .signInWithPassword({
 
                 email:email,
+
                 password:password
 
             });
@@ -861,10 +934,6 @@ async function loginTeacher(event){
 
         /*
         GET TEACHER PROFILE
-
-        We use user_id because your
-        teachers table now contains
-        user_id.
         */
 
         const {
@@ -912,15 +981,16 @@ async function loginTeacher(event){
 
 
         /*
-        APPROVED TEACHER
+        APPROVED
         */
 
         if(
             teacher.status === "approved"
         ){
 
-            window.location.href =
-                "teacher.html";
+            window.location.replace(
+                "teacher.html"
+            );
 
             return;
 
@@ -928,7 +998,7 @@ async function loginTeacher(event){
 
 
         /*
-        PENDING TEACHER
+        PENDING
         */
 
         if(
@@ -958,7 +1028,7 @@ async function loginTeacher(event){
             await supabaseClient.auth.signOut();
 
             showMessage(
-                "Your teacher application has been rejected.",
+                "Your teacher application was rejected.",
                 true
             );
 
@@ -977,10 +1047,7 @@ async function loginTeacher(event){
 
     }catch(error){
 
-        console.error(
-            "Teacher login error:",
-            error
-        );
+        console.error(error);
 
         showMessage(
             error.message ||
@@ -991,22 +1058,25 @@ async function loginTeacher(event){
     }finally{
 
         button.disabled = false;
-        button.textContent = "LOGIN";
+
+        button.textContent =
+            "LOGIN";
 
     }
 
 }
 
 
-/* ===============================
-   PASSWORD RESET
-=============================== */
+/* =========================================
+   FORGOT PASSWORD
+========================================= */
 
 async function sendReset(event){
 
     event.preventDefault();
 
     clearMessage();
+
 
     const email =
         document
@@ -1015,11 +1085,15 @@ async function sendReset(event){
             .trim()
             .toLowerCase();
 
+
     const button =
         document.getElementById("forgotButton");
 
+
     button.disabled = true;
-    button.textContent = "SENDING...";
+
+    button.textContent =
+        "SENDING...";
 
 
     try{
@@ -1038,7 +1112,8 @@ async function sendReset(event){
                 email,
 
                 {
-                    redirectTo:redirectUrl
+                    redirectTo:
+                        redirectUrl
                 }
 
             );
@@ -1067,16 +1142,18 @@ async function sendReset(event){
     }finally{
 
         button.disabled = false;
-        button.textContent = "SEND RESET LINK";
+
+        button.textContent =
+            "SEND RESET LINK";
 
     }
 
 }
 
 
-/* ===============================
+/* =========================================
    CHANGE PASSWORD
-=============================== */
+========================================= */
 
 async function changePassword(event){
 
@@ -1084,10 +1161,12 @@ async function changePassword(event){
 
     clearMessage();
 
+
     const password =
         document
             .getElementById("newPassword")
             .value;
+
 
     const confirm =
         document
@@ -1124,8 +1203,11 @@ async function changePassword(event){
             "changePasswordButton"
         );
 
+
     button.disabled = true;
-    button.textContent = "UPDATING...";
+
+    button.textContent =
+        "UPDATING...";
 
 
     try{
@@ -1176,6 +1258,7 @@ async function changePassword(event){
     }finally{
 
         button.disabled = false;
+
         button.textContent =
             "CREATE NEW PASSWORD";
 
@@ -1184,9 +1267,9 @@ async function changePassword(event){
 }
 
 
-/* ===============================
-   AUTH STATE
-=============================== */
+/* =========================================
+   PASSWORD RECOVERY
+========================================= */
 
 supabaseClient.auth
 .onAuthStateChange(
@@ -1208,9 +1291,9 @@ supabaseClient.auth
 );
 
 
-/* ===============================
-   RECOVERY URL
-=============================== */
+/* =========================================
+   CHECK RECOVERY URL
+========================================= */
 
 function checkRecovery(){
 
@@ -1240,13 +1323,14 @@ function checkRecovery(){
 }
 
 
-/* ===============================
+/* =========================================
    START
-=============================== */
+========================================= */
 
 checkRecovery();
 
 </script>
 
 </body>
+
 </html>
