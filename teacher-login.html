@@ -4,13 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Login | GURHUB</title>
+
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:Arial,sans-serif;
 }
+
 body{
 min-height:100vh;
 display:flex;
@@ -19,6 +22,7 @@ align-items:center;
 background:linear-gradient(135deg,#031326,#0d2f56);
 padding:20px;
 }
+
 .card{
 width:100%;
 max-width:500px;
@@ -29,21 +33,25 @@ border-radius:25px;
 padding:35px;
 color:white;
 }
+
 .logo{
 text-align:center;
 font-size:38px;
 font-weight:800;
 margin-bottom:25px;
 }
+
 .logo span{
 color:#d4af37;
 }
+
 .tabs{
 display:flex;
 margin-bottom:20px;
 overflow:hidden;
 border-radius:12px;
 }
+
 .tabs button{
 flex:1;
 padding:15px;
@@ -51,35 +59,39 @@ border:none;
 cursor:pointer;
 font-size:16px;
 font-weight:bold;
-background:#e5e7eb;
-color:#111827;
 }
-.tabs button.active{
+
+.active{
 background:#2563eb;
 color:white;
 }
+
 .tab{
 display:none;
 }
+
 .tab.show{
 display:block;
 }
+
 .input-group{
 margin-bottom:15px;
 }
+
 .input-group label{
 display:block;
 margin-bottom:6px;
 font-size:14px;
 }
+
 .input-group input{
 width:100%;
 padding:14px;
 border:none;
 border-radius:10px;
 outline:none;
-font-size:15px;
 }
+
 .submit-btn{
 width:100%;
 padding:15px;
@@ -91,13 +103,11 @@ font-weight:bold;
 cursor:pointer;
 margin-top:10px;
 }
+
 .submit-btn:hover{
 opacity:.9;
 }
-.submit-btn:disabled{
-opacity:.6;
-cursor:not-allowed;
-}
+
 .home-link{
 display:block;
 text-align:center;
@@ -106,344 +116,346 @@ text-decoration:none;
 color:white;
 font-size:18px;
 }
+
 .message{
 text-align:center;
 margin-bottom:15px;
 color:#7fffd4;
-min-height:20px;
-font-size:14px;
 }
+
 </style>
 </head>
+
 <body>
+
 <div class="card">
+
 <div class="logo">
 GUR<span>HUB</span>
 </div>
+
 <div id="msg" class="message"></div>
+
 <div class="tabs">
 
 <button
-class=“active”
-onclick=“openTab(‘signup’,this)”
-
+class="active"
+onclick="openTab('signup',this)"
+>
 Sign Up
-<button
-onclick=“openTab(‘login’,this)”
+</button>
 
+<button
+onclick="openTab('login',this)"
+>
 Login
+</button>
+
 </div>
-<!-- =========================
-     SIGN UP
-========================= -->
+
+
+<!-- SIGNUP -->
+
 <div id="signup" class="tab show">
-<div class="input-group">
 
-Full Name
+<div class="input-group">
+<label>Full Name</label>
 
 <input
-type=“text”
-id=“signupName”
-autocomplete=“name”
-placeholder=“Enter your full name”
-
+type="text"
+id="signupName"
+>
 </div>
-<div class="input-group">
 
-Email
+
+<div class="input-group">
+<label>Email</label>
 
 <input
-type=“email”
-id=“signupEmail”
-autocomplete=“email”
-placeholder=“Enter your email”
-
+type="email"
+id="signupEmail"
+>
 </div>
-<div class="input-group">
 
-Password
+
+<div class="input-group">
+<label>Password</label>
 
 <input
-type=“password”
-id=“signupPassword”
-autocomplete=“new-password”
-placeholder=“Create a password”
-
+type="password"
+id="signupPassword"
+>
 </div>
+
 
 <button
-class=“submit-btn”
-id=“signupBtn”
-onclick=“createAccount()”
-
+class="submit-btn"
+id="signupBtn"
+onclick="createAccount()"
+>
 Create Account
+</button>
+
 </div>
-<!-- =========================
-     LOGIN
-========================= -->
+
+
+<!-- LOGIN -->
+
 <div id="login" class="tab">
-<div class="input-group">
 
-Email
+<div class="input-group">
+<label>Email</label>
 
 <input
-type=“email”
-id=“loginEmail”
-autocomplete=“email”
-placeholder=“Enter your email”
-
+type="email"
+id="loginEmail"
+>
 </div>
-<div class="input-group">
 
-Password
+
+<div class="input-group">
+<label>Password</label>
 
 <input
-type=“password”
-id=“loginPassword”
-autocomplete=“current-password”
-placeholder=“Enter your password”
-
+type="password"
+id="loginPassword"
+>
 </div>
+
 
 <button
-class=“submit-btn”
-id=“loginBtn”
-onclick=“loginTeacher()”
-
+class="submit-btn"
+id="loginBtn"
+onclick="loginTeacher()"
+>
 Login
+</button>
+
 </div>
+
 
 <a
-href=“index.html”
-class=“home-link”
-
+href="index.html"
+class="home-link"
+>
 ← Back To Homepage
+</a>
+
 </div>
-<!-- =====================================================
-     SUPABASE
-===================================================== -->
+
+
+<!-- SUPABASE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
 /* =====================================================
-   SUPABASE CONFIG
+   SUPABASE
 ===================================================== */
+
 const SUPABASE_URL =
-"https://uxrltzlxdttbjstom hkb.supabase.co".replace(" ","");
+"https://uxrltzlxdttbjstom.supabase.co";
+
 const SUPABASE_KEY =
 "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
-const {
-createClient
-} = supabase;
+
 const supabaseClient =
-createClient(
+supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 );
+
+
 /* =====================================================
-   TAB SYSTEM
+   TAB
 ===================================================== */
+
 function openTab(tab,btn){
-document
-.querySelectorAll(".tab")
-.forEach(tabBox => {
+
+document.querySelectorAll(".tab")
+.forEach(tabBox=>{
+
 tabBox.classList.remove("show");
+
 });
-document
-.getElementById(tab)
+
+document.getElementById(tab)
 .classList.add("show");
-document
-.querySelectorAll(".tabs button")
-.forEach(button => {
+
+document.querySelectorAll(".tabs button")
+.forEach(button=>{
+
 button.classList.remove("active");
+
 });
+
 btn.classList.add("active");
-clearMessage();
+
 }
+
+
 /* =====================================================
-   MESSAGE
+   CREATE ACCOUNT
 ===================================================== */
-function showMessage(text){
-document.getElementById("msg").textContent =
-text;
-}
-function clearMessage(){
-document.getElementById("msg").textContent =
-"";
-}
-/* =====================================================
-   CREATE TEACHER ACCOUNT
-   SUPABASE AUTH
-===================================================== */
+
 async function createAccount(){
-clearMessage();
+
 const name =
 document
 .getElementById("signupName")
 .value
 .trim();
+
 const email =
 document
 .getElementById("signupEmail")
 .value
-.trim()
-.toLowerCase();
+.trim();
+
 const password =
 document
 .getElementById("signupPassword")
 .value;
+
+
 if(!name || !email || !password){
-alert("Fill all fields.");
+
+alert("Fill all fields");
+
 return;
+
 }
-/*
-   Supabase Auth handles:
-   - email validation
-   - password authentication
-   - confirmation email
-   - user account creation
-*/
-const signupBtn =
+
+
+const button =
 document.getElementById("signupBtn");
-signupBtn.disabled = true;
-signupBtn.textContent = "Creating...";
-try{
-const {
-data,
-error
-} =
+
+button.disabled = true;
+button.textContent = "Creating...";
+
+
+const { data, error } =
 await supabaseClient.auth.signUp({
+
 email:email,
+
 password:password,
+
 options:{
+
 data:{
 full_name:name,
 role:"teacher"
 }
+
 }
+
 });
+
+
+button.disabled = false;
+button.textContent = "Create Account";
+
+
 if(error){
+
 alert(error.message);
+
 return;
+
 }
+
+
 /*
-   IMPORTANT:
-   We do NOT create our own verification system.
-   Supabase Auth controls email confirmation.
+   Supabase Auth handles
+   email confirmation.
 */
-document
-.getElementById("signupPassword")
-.value = "";
-/*
-   Go to Login tab.
-*/
-const loginButton =
-document.querySelectorAll(".tabs button")[1];
+
 openTab(
 "login",
-loginButton
+document.querySelectorAll(".tabs button")[1]
 );
-/*
-   Put email into login field.
-*/
-document
-.getElementById("loginEmail")
-.value =
-email;
-/*
-   No custom email verification message.
-*/
+
+document.getElementById(
+"loginEmail"
+).value = email;
+
 }
-catch(error){
-alert(
-error.message ||
-"Something went wrong."
-);
-}
-finally{
-signupBtn.disabled = false;
-signupBtn.textContent = "Create Account";
-}
-}
+
+
 /* =====================================================
-   TEACHER LOGIN
-   SUPABASE AUTH
+   LOGIN
 ===================================================== */
+
 async function loginTeacher(){
-clearMessage();
+
 const email =
 document
 .getElementById("loginEmail")
 .value
-.trim()
-.toLowerCase();
+.trim();
+
 const password =
 document
 .getElementById("loginPassword")
 .value;
+
+
 if(!email || !password){
-alert("Enter your email and password.");
+
+alert("Enter your email and password");
+
 return;
+
 }
-const loginBtn =
+
+
+const button =
 document.getElementById("loginBtn");
-loginBtn.disabled = true;
-loginBtn.textContent = "Logging in...";
-try{
-const {
-data,
-error
-} =
+
+button.disabled = true;
+button.textContent = "Logging in...";
+
+
+const { data, error } =
 await supabaseClient.auth.signInWithPassword({
+
 email:email,
+
 password:password
+
 });
+
+
+button.disabled = false;
+button.textContent = "Login";
+
+
 if(error){
+
 alert(error.message);
+
 return;
+
 }
+
+
 if(!data.session){
-alert("Login session was not created.");
+
+alert("Login failed");
+
 return;
+
 }
-/*
-   Supabase session is now active.
-   teacher.html can use:
-   supabase.auth.getSession()
-*/
+
+
 window.location.href =
 "teacher.html";
+
 }
-catch(error){
-alert(
-error.message ||
-"Login failed."
-);
-}
-finally{
-loginBtn.disabled = false;
-loginBtn.textContent = "Login";
-}
-}
-/* =====================================================
-   CHECK CURRENT SESSION
-===================================================== */
-async function checkExistingSession(){
-const {
-data
-} =
-await supabaseClient.auth.getSession();
-if(data.session){
-/*
-   Teacher is already logged in.
-*/
-window.location.href =
-"teacher.html";
-}
-}
-/* =====================================================
-   RUN
-===================================================== */
-checkExistingSession();
+
 </script>
+
 </body>
 </html>
