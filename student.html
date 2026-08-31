@@ -16,10 +16,6 @@
 
 <style>
 
-/* =====================================================
-   RESET
-===================================================== */
-
 *{
     margin:0;
     padding:0;
@@ -1261,7 +1257,7 @@ body{
                 Student Dashboard
             </h1>
 
-            <p>
+            <p id="welcomeText">
                 Learn digital skills, build projects and compete.
             </p>
 
@@ -1850,33 +1846,42 @@ const SUPABASE_URL =
     "https://uxrltzlxdttbjstomhkb.supabase.co";
 
 const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4cmx0emx4ZHR0bWJzdG9ta2IiwiaWF0IjoxNzg1NTE5MDIyLCJleHAiOjIxMDEwOTUwMjJ9.7yyvaq8lFZ5y67Pk0Bqjva2sKDEbjI2x2Qz7AmAykCs";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4cmx0emx4ZHR0bWJzdG9ta2IsImlhdCI6MTc4NTUxOTAyMiwiZXhwIjoyMTAxMDk1MDIyfQ.7yyvaq8lFZ5y67Pk0Bqjva2sKDEbjI2x2Qz7AmAykCs";
 
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_ANON_KEY
+        SUPABASE_ANON_KEY,
+        {
+            auth:{
+                persistSession:true,
+                autoRefreshToken:true,
+                detectSessionInUrl:true
+            }
+        }
     );
 
 
 /* =====================================================
-   CURRENT SUPABASE STUDENT
-   AUTH USER → PROFILES → STUDENTS
+   CURRENT USER DATA
 ===================================================== */
 
 let supabaseStudent = null;
 
 let studentProfile = {
+
     id:"",
-    name:"",
+    full_name:"",
     email:"",
-    photo:"",
     role:"",
+    profile_photo:"",
     phone:"",
     status:""
+
 };
 
 let studentData = {
+
     id:"",
     user_id:"",
     balance:0,
@@ -1887,11 +1892,36 @@ let studentData = {
     current_level:"",
     created_at:"",
     updated_at:""
+
 };
 
 
 /* =====================================================
-   LOAD CURRENT SUPABASE SESSION
+   SAFE TEXT
+===================================================== */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+function escapeJs(value){
+
+    return String(value ?? "")
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'");
+
+}
+
+
+/* =====================================================
+   LOAD CURRENT SESSION
 ===================================================== */
 
 async function loadSupabaseSession(){
@@ -1910,6 +1940,10 @@ async function loadSupabaseSession(){
 
             console.error(
                 "Supabase session error:",
+                error.message
+            );
+
+            showSupabaseError(
                 error.message
             );
 
@@ -1932,7 +1966,7 @@ async function loadSupabaseSession(){
             clearStudentData();
 
             console.warn(
-                "No active Supabase session."
+                "No active Supabase Auth session."
             );
 
         }
@@ -1944,14 +1978,61 @@ async function loadSupabaseSession(){
             error
         );
 
+        showSupabaseError(
+            error.message
+        );
+
     }
 
 }
 
 
 /* =====================================================
+   AUTH STATE
+===================================================== */
+
+supabaseClient
+    .auth
+    .onAuthStateChange(
+        function(
+            event,
+            session
+        ){
+
+            if(
+                session &&
+                session.user
+            ){
+
+                setTimeout(
+                    function(){
+
+                        loadCurrentStudent(
+                            session.user
+                        );
+
+                    },
+                    0
+                );
+
+            }else{
+
+                clearStudentData();
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
    LOAD CURRENT STUDENT
-   AUTH USER → PROFILES → STUDENTS
+
+   AUTH USER.ID
+        ↓
+   PROFILES.ID
+        ↓
+   STUDENTS.USER_ID
 ===================================================== */
 
 async function loadCurrentStudent(user){
@@ -1964,33 +2045,23 @@ async function loadCurrentStudent(user){
 
     }
 
+    const userId =
+        user.id;
+
+    supabaseStudent =
+        user;
+
+
     try{
 
-        /*
-           THE ONLY ACCOUNT ID USED HERE IS:
-
-           Supabase Auth user.id
-
-           No localStorage.
-           No students.full_name.
-           No old profile.
-        */
-
-        supabaseStudent =
-            user;
-
-        const userId =
-            user.id;
-
-
         console.log(
-            "CURRENT AUTH USER ID:",
+            "Current Auth user.id:",
             userId
         );
 
 
         /* =================================================
-           STEP 1
+           PROFILE
            profiles.id = auth.users.id
         ================================================= */
 
@@ -2023,17 +2094,12 @@ async function loadCurrentStudent(user){
                 profileError.message
             );
 
+            showSupabaseError(
+                profileError.message
+            );
+
         }
 
-
-        /*
-           IMPORTANT:
-
-           We DO NOT create a profile here.
-
-           Existing profile is loaded only by:
-           profiles.id = current auth user.id
-        */
 
         const metadata =
             user.user_metadata || {};
@@ -2045,7 +2111,7 @@ async function loadCurrentStudent(user){
                 profile?.id ||
                 userId,
 
-            name:
+            full_name:
                 profile?.full_name ||
                 metadata.full_name ||
                 metadata.name ||
@@ -2056,13 +2122,13 @@ async function loadCurrentStudent(user){
                 user.email ||
                 "",
 
-            photo:
-                profile?.profile_photo ||
-                metadata.profile_photo ||
-                "",
-
             role:
                 profile?.role ||
+                "",
+
+            profile_photo:
+                profile?.profile_photo ||
+                metadata.profile_photo ||
                 "",
 
             phone:
@@ -2076,15 +2142,12 @@ async function loadCurrentStudent(user){
         };
 
 
-        console.log(
-            "CURRENT PROFILE:",
-            studentProfile
-        );
-
-
         /* =================================================
-           STEP 2
+           STUDENT
            students.user_id = auth.users.id
+
+           IMPORTANT:
+           NO students.full_name
         ================================================= */
 
         const {
@@ -2116,6 +2179,10 @@ async function loadCurrentStudent(user){
 
             console.error(
                 "students error:",
+                studentError.message
+            );
+
+            showSupabaseError(
                 studentError.message
             );
 
@@ -2170,10 +2237,8 @@ async function loadCurrentStudent(user){
 
             /*
                DO NOT CREATE A NEW STUDENT.
-
-               If this user has no students row,
-               the dashboard remains connected to
-               this Auth user only.
+               The existing account must remain connected
+               to its existing database row.
             */
 
             studentData = {
@@ -2192,32 +2257,38 @@ async function loadCurrentStudent(user){
             };
 
             console.warn(
-                "No students row found for:",
+                "No students row found for user_id:",
                 userId
             );
 
         }
 
 
-        console.log(
-            "CURRENT STUDENT:",
-            studentData
-        );
-
-
-        /* =================================================
-           UPDATE DASHBOARD
-        ================================================= */
-
         updateStudentDashboard();
 
         updateProfileAvatar();
 
+
+        console.log(
+            "SteadyMaze profile:",
+            studentProfile
+        );
+
+        console.log(
+            "SteadyMaze student:",
+            studentData
+        );
+
+
     }catch(error){
 
         console.error(
-            "Current student loading error:",
+            "Student loading error:",
             error
+        );
+
+        showSupabaseError(
+            error.message
         );
 
     }
@@ -2226,7 +2297,7 @@ async function loadCurrentStudent(user){
 
 
 /* =====================================================
-   UPDATE STUDENT DASHBOARD
+   DASHBOARD DATA
 ===================================================== */
 
 function updateStudentDashboard(){
@@ -2251,6 +2322,11 @@ function updateStudentDashboard(){
             "studentScore"
         );
 
+    const welcome =
+        document.getElementById(
+            "welcomeText"
+        );
+
 
     if(balance){
 
@@ -2266,8 +2342,8 @@ function updateStudentDashboard(){
 
         payment.textContent =
             savedPayment &&
-            savedPayment.status === "ADDED"
-            ? "01"
+            savedPayment.method
+            ? "ADDED"
             : "00";
 
     }
@@ -2292,11 +2368,24 @@ function updateStudentDashboard(){
 
     }
 
+
+    if(welcome){
+
+        const name =
+            studentProfile.full_name;
+
+        welcome.textContent =
+            name
+            ? "Welcome back, " + name + "."
+            : "Learn digital skills, build projects and compete.";
+
+    }
+
 }
 
 
 /* =====================================================
-   CLEAR CURRENT STUDENT
+   CLEAR DATA
 ===================================================== */
 
 function clearStudentData(){
@@ -2306,10 +2395,10 @@ function clearStudentData(){
     studentProfile = {
 
         id:"",
-        name:"",
+        full_name:"",
         email:"",
-        photo:"",
         role:"",
+        profile_photo:"",
         phone:"",
         status:""
 
@@ -2338,46 +2427,90 @@ function clearStudentData(){
 
 
 /* =====================================================
-   AUTH STATE LISTENER
+   SUPABASE ERROR
 ===================================================== */
 
-supabaseClient
-    .auth
-    .onAuthStateChange(
-        function(
-            event,
-            session
-        ){
+function showSupabaseError(message){
 
-            console.log(
-                "Supabase auth event:",
-                event
-            );
+    if(!message) return;
 
-            if(
-                session &&
-                session.user
-            ){
-
-                setTimeout(
-                    function(){
-
-                        loadCurrentStudent(
-                            session.user
-                        );
-
-                    },
-                    0
-                );
-
-            }else{
-
-                clearStudentData();
-
-            }
-
-        }
+    console.error(
+        "SteadyMaze Supabase:",
+        message
     );
+
+}
+
+
+/* =====================================================
+   PROFILE INITIAL
+===================================================== */
+
+function getProfileInitial(){
+
+    const name =
+        studentProfile.full_name ||
+        "Student";
+
+    return name
+        .trim()
+        .charAt(0)
+        .toUpperCase() ||
+        "S";
+
+}
+
+
+/* =====================================================
+   PROFILE AVATAR
+===================================================== */
+
+function updateProfileAvatar(){
+
+    const letter =
+        document.getElementById(
+            "profileLetter"
+        );
+
+    const image =
+        document.getElementById(
+            "topProfileImage"
+        );
+
+    if(!letter || !image){
+
+        return;
+
+    }
+
+
+    if(
+        studentProfile.profile_photo
+    ){
+
+        image.src =
+            studentProfile.profile_photo;
+
+        image.style.display =
+            "block";
+
+        letter.style.display =
+            "none";
+
+    }else{
+
+        letter.textContent =
+            getProfileInitial();
+
+        letter.style.display =
+            "inline";
+
+        image.style.display =
+            "none";
+
+    }
+
+}
 
 
 /* =====================================================
@@ -2518,33 +2651,56 @@ const coursePrices = {
 
 
 /* =====================================================
-   PURCHASED LESSONS
+   LOCAL UI ONLY
+   NOT USED FOR PROFILE IDENTITY
 ===================================================== */
 
-let purchasedLessons =
-    JSON.parse(
-        localStorage.getItem(
-            "steadymazePurchasedLessons"
-        ) || "[]"
-    );
+let purchasedLessons = [];
 
+try{
 
-/* =====================================================
-   PAYMENT DATA
-===================================================== */
+    purchasedLessons =
+        JSON.parse(
+            localStorage.getItem(
+                "steadymazePurchasedLessons"
+            ) || "[]"
+        );
+
+    if(!Array.isArray(purchasedLessons)){
+
+        purchasedLessons = [];
+
+    }
+
+}catch(error){
+
+    purchasedLessons = [];
+
+}
+
 
 let selectedPaymentMethod = null;
 
-let savedPayment =
-    JSON.parse(
-        localStorage.getItem(
-            "steadymazePayment"
-        ) || "null"
-    );
+let savedPayment = null;
+
+try{
+
+    savedPayment =
+        JSON.parse(
+            localStorage.getItem(
+                "steadymazePayment"
+            ) || "null"
+        );
+
+}catch(error){
+
+    savedPayment = null;
+
+}
 
 
 /* =====================================================
-   CREATE SKILL CARDS
+   CREATE SKILLS
 ===================================================== */
 
 const groups = [
@@ -2558,93 +2714,125 @@ const skillContainer =
         "skillContainer"
     );
 
-groups.forEach(group => {
 
-    const groupSkills =
-        skills.filter(
-            skill => skill.group === group
-        );
+groups.forEach(
+    function(group){
 
-    const wrapper =
-        document.createElement("div");
+        const groupSkills =
+            skills.filter(
+                function(skill){
 
-    wrapper.className = "group";
+                    return skill.group === group;
 
-    wrapper.innerHTML = `
+                }
+            );
 
-        <div class="group-head">
 
-            <h3>
-                ${group}
-            </h3>
+        const wrapper =
+            document.createElement(
+                "div"
+            );
 
-            <span>
-                ${groupSkills.length} SKILLS
-            </span>
+        wrapper.className =
+            "group";
 
-        </div>
 
-        <div class="skills"></div>
+        wrapper.innerHTML = `
 
-    `;
+            <div class="group-head">
 
-    const grid =
-        wrapper.querySelector(".skills");
+                <h3>
+                    ${group}
+                </h3>
 
-    groupSkills.forEach(skill => {
-
-        const card =
-            document.createElement("article");
-
-        card.className = "skill";
-
-        card.innerHTML = `
-
-            <img
-                src="${skill.image}"
-                alt="${skill.name}"
-                loading="lazy"
-            >
-
-            <div class="skill-body">
-
-                <div class="skill-name">
-                    ${skill.name}
-                </div>
-
-                <div class="skill-level">
-                    ${
-                        skill.group === "HIGH"
-                        ? "LEVEL 1 · LEVEL 2"
-                        : "LEVEL 1 · LEVEL 2 · LEVEL 3"
-                    }
-                </div>
-
-                <div class="skill-teacher">
-                    Teacher assignment
-                </div>
-
-                <button type="button">
-                    VIEW SKILL
-                </button>
+                <span>
+                    ${groupSkills.length} SKILLS
+                </span>
 
             </div>
 
+            <div class="skills"></div>
+
         `;
 
-        card.onclick = () => {
-            openSkill(skill);
-        };
 
-        grid.appendChild(card);
+        const grid =
+            wrapper.querySelector(
+                ".skills"
+            );
 
-    });
 
-    skillContainer.appendChild(
-        wrapper
-    );
+        groupSkills.forEach(
+            function(skill){
 
-});
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+                card.className =
+                    "skill";
+
+
+                card.innerHTML = `
+
+                    <img
+                        src="${skill.image}"
+                        alt="${escapeHtml(skill.name)}"
+                        loading="lazy"
+                    >
+
+                    <div class="skill-body">
+
+                        <div class="skill-name">
+                            ${escapeHtml(skill.name)}
+                        </div>
+
+                        <div class="skill-level">
+                            ${
+                                skill.group === "HIGH"
+                                ? "LEVEL 1 · LEVEL 2"
+                                : "LEVEL 1 · LEVEL 2 · LEVEL 3"
+                            }
+                        </div>
+
+                        <div class="skill-teacher">
+                            Teacher assignment
+                        </div>
+
+                        <button type="button">
+                            VIEW SKILL
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                card.onclick =
+                    function(){
+
+                        openSkill(
+                            skill
+                        );
+
+                    };
+
+
+                grid.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+        skillContainer.appendChild(
+            wrapper
+        );
+
+    }
+);
 
 
 /* =====================================================
@@ -2655,7 +2843,9 @@ let selectedSkill = null;
 
 function openSkill(skill){
 
-    selectedSkill = skill;
+    selectedSkill =
+        skill;
+
 
     const image =
         document.getElementById(
@@ -2668,25 +2858,27 @@ function openSkill(skill){
     image.src =
         skill.image;
 
+
     document.getElementById(
         "modalTitle"
     ).textContent =
         skill.name;
+
 
     document.getElementById(
         "modalText"
     ).innerHTML = `
 
         <strong>
-            ${skill.name}
+            ${escapeHtml(skill.name)}
         </strong>
 
         <br><br>
 
         This is the course introduction.
         The complete lesson content, teacher information,
-        video lessons and projects will be controlled by
-        the database later.
+        video lessons and projects will be controlled
+        by the database.
 
         <br><br>
 
@@ -2695,32 +2887,46 @@ function openSkill(skill){
 
     `;
 
+
     renderCourseLevels();
+
 
     document.getElementById(
         "modal"
-    ).classList.add("show");
+    ).classList.add(
+        "show"
+    );
 
 }
 
 
 /* =====================================================
-   LEVELS
+   COURSE LEVELS
 ===================================================== */
 
 function renderCourseLevels(){
 
-    if(!selectedSkill) return;
+    if(!selectedSkill){
+
+        return;
+
+    }
+
 
     const levels =
-        document.querySelector(".levels");
+        document.querySelector(
+            ".levels"
+        );
+
 
     const maxLevel =
         selectedSkill.group === "HIGH"
         ? 2
         : 3;
 
+
     let html = "";
+
 
     for(
         let level = 1;
@@ -2733,12 +2939,21 @@ function renderCourseLevels(){
                 selectedSkill.group
             ][level];
 
+
         const alreadyBought =
             purchasedLessons.some(
-                item =>
-                    item.name === selectedSkill.name &&
-                    Number(item.level) === Number(level)
+                function(item){
+
+                    return (
+                        item.name ===
+                            selectedSkill.name &&
+                        Number(item.level) ===
+                            Number(level)
+                    );
+
+                }
             );
+
 
         html += `
 
@@ -2764,6 +2979,7 @@ function renderCourseLevels(){
 
     }
 
+
     levels.innerHTML =
         html;
 
@@ -2776,19 +2992,33 @@ function renderCourseLevels(){
 
 function openLevel(level){
 
-    if(!selectedSkill) return;
+    if(!selectedSkill){
+
+        return;
+
+    }
+
 
     const price =
         coursePrices[
             selectedSkill.group
         ][level];
 
+
     const alreadyBought =
         purchasedLessons.some(
-            item =>
-                item.name === selectedSkill.name &&
-                Number(item.level) === Number(level)
+            function(item){
+
+                return (
+                    item.name ===
+                        selectedSkill.name &&
+                    Number(item.level) ===
+                        Number(level)
+                );
+
+            }
         );
+
 
     document.getElementById(
         "modalTitle"
@@ -2796,6 +3026,7 @@ function openLevel(level){
         selectedSkill.name +
         " — LEVEL " +
         level;
+
 
     document.getElementById(
         "modalText"
@@ -2809,7 +3040,7 @@ function openLevel(level){
         ">
 
             <strong>
-                ${selectedSkill.name}
+                ${escapeHtml(selectedSkill.name)}
             </strong>
 
             <br><br>
@@ -2862,14 +3093,23 @@ function openLevel(level){
 
     `;
 
+
     if(alreadyBought){
 
         const index =
             purchasedLessons.findIndex(
-                item =>
-                    item.name === selectedSkill.name &&
-                    Number(item.level) === Number(level)
+                function(item){
+
+                    return (
+                        item.name ===
+                            selectedSkill.name &&
+                        Number(item.level) ===
+                            Number(level)
+                    );
+
+                }
             );
+
 
         document.querySelector(
             ".levels"
@@ -2893,9 +3133,11 @@ function openLevel(level){
 
         `;
 
+
         return;
 
     }
+
 
     document.querySelector(
         ".levels"
@@ -2906,10 +3148,10 @@ function openLevel(level){
             type="button"
             onclick="openCoursePayment(
                 '${escapeJs(selectedSkill.name)}',
-                '${selectedSkill.group}',
+                '${escapeJs(selectedSkill.group)}',
                 ${level},
                 ${price},
-                '${selectedSkill.image}'
+                '${escapeJs(selectedSkill.image)}'
             )"
         >
 
@@ -2935,19 +3177,6 @@ function openLevel(level){
 
 
 /* =====================================================
-   ESCAPE HELPER
-===================================================== */
-
-function escapeJs(value){
-
-    return String(value)
-        .replace(/\\/g,"\\\\")
-        .replace(/'/g,"\\'");
-
-}
-
-
-/* =====================================================
    COURSE PAYMENT
 ===================================================== */
 
@@ -2959,22 +3188,28 @@ function openCoursePayment(
     image
 ){
 
-    selectedPaymentMethod = null;
+    selectedPaymentMethod =
+        null;
+
 
     document.getElementById(
         "modalImage"
     ).style.display =
         "block";
 
+
     document.getElementById(
         "modalImage"
     ).src =
         image;
 
+
     document.getElementById(
         "modalTitle"
     ).textContent =
-        "PAY FOR LEVEL " + level;
+        "PAY FOR LEVEL " +
+        level;
+
 
     document.getElementById(
         "modalText"
@@ -2987,7 +3222,7 @@ function openCoursePayment(
                 <div class="buy-price">
 
                     <span>
-                        ${name} · LEVEL ${level}
+                        ${escapeHtml(name)} · LEVEL ${level}
                     </span>
 
                     <strong>
@@ -3168,9 +3403,10 @@ function openCoursePayment(
 
                 <div class="card-security-note">
 
-                    Card details are not stored in this page.
-                    Secure payment processing will be connected
-                    to the payment provider/backend.
+                    Card details are not stored by SteadyMaze.
+
+                    Secure payment processing must be handled
+                    by the official payment provider.
 
                 </div>
 
@@ -3179,6 +3415,7 @@ function openCoursePayment(
         </div>
 
     `;
+
 
     document.querySelector(
         ".levels"
@@ -3189,10 +3426,10 @@ function openCoursePayment(
             type="button"
             onclick="payForCourse(
                 '${escapeJs(name)}',
-                '${group}',
+                '${escapeJs(group)}',
                 ${level},
                 ${price},
-                '${image}'
+                '${escapeJs(image)}'
             )"
         >
 
@@ -3210,15 +3447,18 @@ function openCoursePayment(
 
     `;
 
+
     document.getElementById(
         "modal"
-    ).classList.add("show");
+    ).classList.add(
+        "show"
+    );
 
 }
 
 
 /* =====================================================
-   SELECT PAYMENT
+   PAYMENT METHOD
 ===================================================== */
 
 function selectPayment(method){
@@ -3226,21 +3466,28 @@ function selectPayment(method){
     selectedPaymentMethod =
         method;
 
+
     document
-        .querySelectorAll(".payment-method")
+        .querySelectorAll(
+            ".payment-method"
+        )
         .forEach(
-            item =>
+            function(item){
+
                 item.classList.remove(
                     "selected"
-                )
+                );
+
+            }
         );
 
-    const id =
-        "payment-" +
-        method.toLowerCase();
 
     const selected =
-        document.getElementById(id);
+        document.getElementById(
+            "payment-" +
+            method.toLowerCase()
+        );
+
 
     if(selected){
 
@@ -3250,14 +3497,17 @@ function selectPayment(method){
 
     }
 
+
     const input =
         document.getElementById(
             "paymentAccount"
         );
 
+
     if(input){
 
-        input.disabled = false;
+        input.disabled =
+            false;
 
         input.placeholder =
             method === "PayPal"
@@ -3266,10 +3516,12 @@ function selectPayment(method){
 
     }
 
+
     const cardFields =
         document.getElementById(
             "cardPaymentFields"
         );
+
 
     if(cardFields){
 
@@ -3305,6 +3557,17 @@ function payForCourse(
     image
 ){
 
+    if(!supabaseStudent){
+
+        alert(
+            "Please login again before purchasing."
+        );
+
+        return;
+
+    }
+
+
     if(!selectedPaymentMethod){
 
         alert(
@@ -3315,10 +3578,12 @@ function payForCourse(
 
     }
 
+
     const accountInput =
         document.getElementById(
             "paymentAccount"
         );
+
 
     const account =
         accountInput
@@ -3426,9 +3691,15 @@ function payForCourse(
 
     const existing =
         purchasedLessons.find(
-            item =>
-                item.name === name &&
-                Number(item.level) === Number(level)
+            function(item){
+
+                return (
+                    item.name === name &&
+                    Number(item.level) ===
+                        Number(level)
+                );
+
+            }
         );
 
 
@@ -3509,15 +3780,15 @@ function payForCourse(
     );
 
 
-    updateStudentDashboard();
-
     renderMyLessons();
+
+    updateStudentDashboard();
 
     closeModal();
 
 
     setTimeout(
-        () => {
+        function(){
 
             scrollToId(
                 "myLessons"
@@ -3529,9 +3800,7 @@ function payForCourse(
 
 
     alert(
-        "Payment form submitted.\n\n" +
-        "The real payment provider/backend must confirm " +
-        "the transaction before the course becomes active."
+        "Payment form submitted. The real payment provider/backend must confirm the transaction before the course becomes active."
     );
 
 }
@@ -3568,16 +3837,18 @@ function renderMyLessons(){
     }
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     purchasedLessons.forEach(
-        (course,index) => {
+        function(course,index){
 
             const card =
                 document.createElement(
                     "article"
                 );
+
 
             card.className =
                 "lesson-card";
@@ -3586,35 +3857,35 @@ function renderMyLessons(){
             card.innerHTML = `
 
                 <img
-                    src="${course.image}"
-                    alt="${course.name}"
+                    src="${escapeHtml(course.image)}"
+                    alt="${escapeHtml(course.name)}"
                 >
 
                 <div class="lesson-body">
 
                     <h3>
-                        ${course.name}
+                        ${escapeHtml(course.name)}
                     </h3>
 
                     <div class="lesson-meta">
 
                         <span class="lesson-tag">
-                            ${course.group}
+                            ${escapeHtml(course.group)}
                         </span>
 
                         <span class="lesson-tag">
-                            LEVEL ${course.level}
+                            LEVEL ${escapeHtml(course.level)}
                         </span>
 
                         <span class="lesson-tag">
-                            $${course.price}
+                            $${escapeHtml(course.price)}
                         </span>
 
                         <span
                             class="lesson-tag"
                             style="color:#00e676;"
                         >
-                            ${course.status}
+                            ${escapeHtml(course.status)}
                         </span>
 
                     </div>
@@ -3662,7 +3933,12 @@ function openPurchasedLesson(index){
     const course =
         purchasedLessons[index];
 
-    if(!course) return;
+
+    if(!course){
+
+        return;
+
+    }
 
 
     document.getElementById(
@@ -3707,7 +3983,7 @@ function openPurchasedLesson(index){
             <br>
 
             <strong>
-                ${course.name}
+                ${escapeHtml(course.name)}
             </strong>
 
             <br><br>
@@ -3716,7 +3992,7 @@ function openPurchasedLesson(index){
                 Level:
             </span>
 
-            Level ${course.level}
+            Level ${escapeHtml(course.level)}
 
             <br><br>
 
@@ -3724,7 +4000,7 @@ function openPurchasedLesson(index){
                 Payment:
             </span>
 
-            ${course.paymentMethod}
+            ${escapeHtml(course.paymentMethod)}
 
             <br><br>
 
@@ -3793,7 +4069,9 @@ function openPurchasedLesson(index){
 
     document.getElementById(
         "modal"
-    ).classList.add("show");
+    ).classList.add(
+        "show"
+    );
 
 }
 
@@ -4010,9 +4288,7 @@ function openPayment(){
 
                 <div class="card-security-note">
 
-                    Card details are not stored in this page.
-                    Secure payment processing will be connected
-                    to the payment provider/backend.
+                    Card details are not stored by SteadyMaze.
 
                 </div>
 
@@ -4048,7 +4324,9 @@ function openPayment(){
 
     document.getElementById(
         "modal"
-    ).classList.add("show");
+    ).classList.add(
+        "show"
+    );
 
 }
 
@@ -4231,10 +4509,6 @@ function savePaymentMethod(){
 }
 
 
-/* =====================================================
-   PAYMENT ACTION
-===================================================== */
-
 function paymentAction(type){
 
     alert(
@@ -4247,7 +4521,6 @@ function paymentAction(type){
 
 /* =====================================================
    PROFILE
-   CURRENT AUTH USER ONLY
 ===================================================== */
 
 function openProfile(){
@@ -4287,16 +4560,16 @@ function openProfile(){
                     class="profile-letter"
                     id="profileModalLetter"
                 >
-                    ${getProfileInitial()}
+                    ${escapeHtml(getProfileInitial())}
                 </div>
 
                 <img
                     class="profile-large"
                     id="profileModalImage"
-                    src="${escapeHtml(studentProfile.photo || "")}"
+                    src="${escapeHtml(studentProfile.profile_photo)}"
                     alt="Profile photo"
                     style="${
-                        studentProfile.photo
+                        studentProfile.profile_photo
                         ? "display:block;"
                         : "display:none;"
                     }"
@@ -4310,15 +4583,18 @@ function openProfile(){
                     >
                         ${
                             escapeHtml(
-                                studentProfile.name ||
+                                studentProfile.full_name ||
                                 "Student"
                             )
                         }
                     </strong>
 
                     <div
-                        class="profile-note"
-                        style="margin-top:5px;"
+                        style="
+                            margin-top:5px;
+                            color:#607581;
+                            font-size:7px;
+                        "
                     >
                         ${
                             escapeHtml(
@@ -4346,7 +4622,7 @@ function openProfile(){
                 <input
                     type="text"
                     id="profileNameInput"
-                    value="${escapeHtml(studentProfile.name || "")}"
+                    value="${escapeHtml(studentProfile.full_name || "")}"
                     placeholder="Enter your name"
                 >
 
@@ -4368,8 +4644,8 @@ function openProfile(){
 
             <div class="profile-note">
 
-                Profile information belongs to the
-                currently authenticated Supabase account.
+                This profile belongs to the currently
+                authenticated Supabase account.
 
             </div>
 
@@ -4403,7 +4679,9 @@ function openProfile(){
 
     document.getElementById(
         "modal"
-    ).classList.add("show");
+    ).classList.add(
+        "show"
+    );
 
 
     const photo =
@@ -4425,41 +4703,7 @@ function openProfile(){
 
 
 /* =====================================================
-   HTML ESCAPE
-===================================================== */
-
-function escapeHtml(value){
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* =====================================================
-   PROFILE INITIAL
-===================================================== */
-
-function getProfileInitial(){
-
-    const name =
-        studentProfile.name ||
-        "Student";
-
-    return name
-        .trim()
-        .charAt(0)
-        .toUpperCase() || "S";
-
-}
-
-
-/* =====================================================
-   PROFILE PHOTO PREVIEW
+   PHOTO PREVIEW
 ===================================================== */
 
 function previewProfilePhoto(event){
@@ -4467,7 +4711,12 @@ function previewProfilePhoto(event){
     const file =
         event.target.files[0];
 
-    if(!file) return;
+
+    if(!file){
+
+        return;
+
+    }
 
 
     const reader =
@@ -4482,23 +4731,24 @@ function previewProfilePhoto(event){
                     "profileModalImage"
                 );
 
-
             const letter =
                 document.getElementById(
                     "profileModalLetter"
                 );
 
 
-            if(!image || !letter) return;
+            if(!image || !letter){
+
+                return;
+
+            }
 
 
             image.src =
                 e.target.result;
 
-
             image.style.display =
                 "block";
-
 
             letter.style.display =
                 "none";
@@ -4506,7 +4756,9 @@ function previewProfilePhoto(event){
         };
 
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(
+        file
+    );
 
 }
 
@@ -4563,7 +4815,7 @@ async function saveProfile(){
 
 
     let photo =
-        studentProfile.photo || "";
+        studentProfile.profile_photo || "";
 
 
     if(
@@ -4574,6 +4826,24 @@ async function saveProfile(){
 
         const file =
             photoInput.files[0];
+
+
+        /*
+           Limit frontend image size.
+        */
+
+        if(
+            file.size >
+            2 * 1024 * 1024
+        ){
+
+            alert(
+                "Please choose an image smaller than 2MB."
+            );
+
+            return;
+
+        }
 
 
         const reader =
@@ -4595,7 +4865,9 @@ async function saveProfile(){
             };
 
 
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(
+            file
+        );
 
 
         return;
@@ -4612,8 +4884,12 @@ async function saveProfile(){
 
 
 /* =====================================================
-   SAVE PROFILE TO SUPABASE
-   profiles.id = auth.users.id
+   SAVE EXISTING PROFILE
+   profiles.id = current auth user.id
+
+   IMPORTANT:
+   UPDATE ONLY.
+   NO INSERT.
 ===================================================== */
 
 async function saveProfileToSupabase(
@@ -4632,54 +4908,24 @@ async function saveProfileToSupabase(
     }
 
 
+    const userId =
+        supabaseStudent.id;
+
+
     try{
 
-        const userId =
-            supabaseStudent.id;
-
-
         /*
-           UPDATE AUTH METADATA
+           DO NOT update Auth metadata here.
+
+           The profile table is the application's
+           profile source and this avoids depending on
+           Auth metadata permissions for profile editing.
         */
 
-        const {
-            data:authData,
-            error:authError
-        } =
-        await supabaseClient
-            .auth
-            .updateUser({
-
-                data:{
-                    full_name:name,
-                    profile_photo:photo || null
-                }
-
-            });
-
-
-        if(authError){
-
-            console.warn(
-                "Auth metadata update:",
-                authError.message
-            );
-
-        }
-
-
-        /*
-           UPDATE EXISTING PROFILE ONLY.
-
-           profiles.id = auth user.id
-
-           NO INSERT.
-           NO NEW PROFILE.
-        */
 
         const {
-            data:profileRows,
-            error:profileError
+            data,
+            error
         } =
         await supabaseClient
             .from("profiles")
@@ -4695,29 +4941,44 @@ async function saveProfileToSupabase(
                 "id",
                 userId
             )
-            .select();
+            .select(`
+                id,
+                full_name,
+                email,
+                role,
+                profile_photo,
+                phone,
+                status
+            `);
 
 
-        if(profileError){
+        if(error){
 
             console.error(
                 "Profile update error:",
-                profileError.message
+                error
             );
+
 
             alert(
                 "Profile could not be updated: " +
-                profileError.message
+                error.message
             );
+
 
             return;
 
         }
 
 
+        /*
+           If zero rows were updated, do not create
+           a new profile automatically.
+        */
+
         if(
-            !profileRows ||
-            !profileRows.length
+            !data ||
+            !data.length
         ){
 
             alert(
@@ -4730,51 +4991,44 @@ async function saveProfileToSupabase(
 
 
         /*
-           UPDATE ONLY CURRENT MEMORY
+           Use the returned database row.
         */
+
+        const updatedProfile =
+            data[0];
+
 
         studentProfile = {
 
-            id:userId,
+            id:
+                updatedProfile.id,
 
-            name:name,
+            full_name:
+                updatedProfile.full_name || "",
 
             email:
-                profileRows[0].email ||
+                updatedProfile.email ||
                 supabaseStudent.email ||
                 "",
 
-            photo:
-                profileRows[0].profile_photo ||
-                "",
-
             role:
-                profileRows[0].role ||
-                "",
+                updatedProfile.role || "",
+
+            profile_photo:
+                updatedProfile.profile_photo || "",
 
             phone:
-                profileRows[0].phone ||
-                "",
+                updatedProfile.phone || "",
 
             status:
-                profileRows[0].status ||
-                ""
+                updatedProfile.status || ""
 
         };
 
 
-        if(
-            authData &&
-            authData.user
-        ){
-
-            supabaseStudent =
-                authData.user;
-
-        }
-
-
         updateProfileAvatar();
+
+        updateStudentDashboard();
 
 
         closeModal();
@@ -4792,70 +5046,16 @@ async function saveProfileToSupabase(
             error
         );
 
+
         alert(
-            "Profile could not be saved. Please try again."
+            "Profile could not be updated: " +
+            error.message
         );
 
     }
 
 }
 
-
-/* =====================================================
-   PROFILE AVATAR
-===================================================== */
-
-function updateProfileAvatar(){
-
-    const letter =
-        document.getElementById(
-            "profileLetter"
-        );
-
-
-    const image =
-        document.getElementById(
-            "topProfileImage"
-        );
-
-
-    if(!letter || !image){
-
-        return;
-
-    }
-
-
-    if(studentProfile.photo){
-
-        image.src =
-            studentProfile.photo;
-
-        image.style.display =
-            "block";
-
-        letter.style.display =
-            "none";
-
-    }else{
-
-        letter.textContent =
-            getProfileInitial();
-
-        letter.style.display =
-            "inline";
-
-        image.style.display =
-            "none";
-
-    }
-
-}
-
-
-/* =====================================================
-   PROFILE ACTION
-===================================================== */
 
 function profileAction(type){
 
@@ -4868,7 +5068,7 @@ function profileAction(type){
 
 
 /* =====================================================
-   UPLOAD
+   PROJECT UPLOAD
 ===================================================== */
 
 function openUpload(){
@@ -4970,7 +5170,9 @@ function openUpload(){
 
     document.getElementById(
         "modal"
-    ).classList.add("show");
+    ).classList.add(
+        "show"
+    );
 
 }
 
@@ -5018,9 +5220,7 @@ function submitProject(){
 
 
     alert(
-        "Frontend upload form is ready.\n\n" +
-        "The real video upload will be sent to the backend/storage " +
-        "when PostgreSQL and the server are connected."
+        "Frontend upload form is ready. The real video upload will use Supabase Storage and project_uploads."
     );
 
 }
@@ -5100,7 +5300,7 @@ function createLeaderboard(
 
             <div
                 class="row"
-                onclick="openStudent('${group}','${number}')"
+                onclick="openStudent('${escapeJs(group)}','${escapeJs(number)}')"
             >
 
                 <div class="rank">
@@ -5164,8 +5364,7 @@ function openStudent(
         " · Student " +
         number +
         "\n\n" +
-        "Student information, points, projects/courses " +
-        "and level will come from PostgreSQL."
+        "Student information, points, projects/courses and level will come from Supabase."
     );
 
 }
@@ -5208,7 +5407,7 @@ function createRewardSlots(
                     </strong>
 
                     <span>
-                        ${group} · Winner information pending
+                        ${escapeHtml(group)} · Winner information pending
                     </span>
 
                 </div>
@@ -5248,31 +5447,55 @@ createRewardSlots(
 
 /* =====================================================
    COMPETITION TIMER
+
+   TIMER IS NOT USED TO IDENTIFY USERS.
 ===================================================== */
 
 let competitionStart =
-    localStorage.getItem(
-        "steadymazeCompetitionStart"
-    );
+    null;
 
 
-if(!competitionStart){
+/*
+   Keep the existing frontend timer behavior.
+   This value does NOT control the student's identity.
+*/
+
+try{
 
     competitionStart =
-        Date.now();
+        Number(
+            localStorage.getItem(
+                "steadymazeCompetitionStart"
+            )
+        );
 
-    localStorage.setItem(
-        "steadymazeCompetitionStart",
-        competitionStart
-    );
+}catch(error){
+
+    competitionStart =
+        0;
 
 }
 
 
-competitionStart =
-    Number(
-        competitionStart
-    );
+if(
+    !competitionStart ||
+    Number.isNaN(competitionStart)
+){
+
+    competitionStart =
+        Date.now();
+
+
+    try{
+
+        localStorage.setItem(
+            "steadymazeCompetitionStart",
+            String(competitionStart)
+        );
+
+    }catch(error){}
+
+}
 
 
 const learningDuration =
@@ -5471,11 +5694,19 @@ function resetSteps(){
         i++
     ){
 
-        document.getElementById(
-            "step" + i
-        ).classList.remove(
-            "active"
-        );
+        const step =
+            document.getElementById(
+                "step" + i
+            );
+
+
+        if(step){
+
+            step.classList.remove(
+                "active"
+            );
+
+        }
 
     }
 
@@ -5484,16 +5715,31 @@ function resetSteps(){
 
 function setActiveStep(number){
 
-    document.getElementById(
-        "step" + number
-    ).classList.add(
-        "active"
-    );
+    const step =
+        document.getElementById(
+            "step" + number
+        );
+
+
+    if(step){
+
+        step.classList.add(
+            "active"
+        );
+
+    }
 
 }
 
 
 function updateTimer(ms){
+
+    if(ms < 0){
+
+        ms = 0;
+
+    }
+
 
     const days =
         Math.floor(
@@ -5609,7 +5855,11 @@ function scrollToId(id){
         );
 
 
-    if(!target) return;
+    if(!target){
+
+        return;
+
+    }
 
 
     target.scrollIntoView({
@@ -5655,7 +5905,7 @@ function closeModal(){
 
 
 /* =====================================================
-   INITIAL
+   INITIALIZE
 ===================================================== */
 
 updateProfileAvatar();
@@ -5667,6 +5917,16 @@ renderMyLessons();
 updateCompetition();
 
 loadSupabaseSession();
+
+
+/* =====================================================
+   TIMER REFRESH
+===================================================== */
+
+setInterval(
+    updateCompetition,
+    1000
+);
 
 </script>
 
