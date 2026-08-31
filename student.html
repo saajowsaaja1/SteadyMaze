@@ -16,10 +16,6 @@
 
 <style>
 
-/* =====================================================
-   RESET
-===================================================== */
-
 *{
     margin:0;
     padding:0;
@@ -27,16 +23,16 @@
 }
 
 :root{
-    --bg:#061017;
-    --card:#0b1820;
-    --card2:#0e2029;
+    --bg:#050b10;
+    --panel:#09151e;
+    --panel2:#0c1a24;
     --border:rgba(255,255,255,.07);
-    --text:#f4f8fa;
+    --text:#edf5f7;
     --muted:#718492;
     --green:#00e676;
     --green2:#00c853;
     --danger:#ff5252;
-    --warning:#ffd740;
+    --yellow:#ffd54f;
 }
 
 html{
@@ -53,10 +49,7 @@ body{
         ),
         var(--bg);
     color:var(--text);
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 button,
@@ -69,77 +62,40 @@ button{
     cursor:pointer;
 }
 
-img{
-    max-width:100%;
+a{
+    color:inherit;
+    text-decoration:none;
 }
 
 /* =====================================================
-   LOADING
+   TOP BAR
 ===================================================== */
 
-#pageLoader{
-    position:fixed;
-    inset:0;
-    z-index:99999;
-    background:#061017;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    gap:15px;
-}
-
-.loader-circle{
-    width:45px;
-    height:45px;
-    border:4px solid rgba(255,255,255,.08);
-    border-top-color:var(--green);
-    border-radius:50%;
-    animation:spin .8s linear infinite;
-}
-
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-.loader-text{
-    color:var(--muted);
-    font-size:10px;
-    font-weight:900;
-    letter-spacing:2px;
-}
-
-/* =====================================================
-   HEADER
-===================================================== */
-
-header{
+.topbar{
     position:sticky;
     top:0;
-    z-index:1000;
+    z-index:100;
     height:70px;
-    padding:0 25px;
+    padding:0 22px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    background:rgba(6,16,23,.92);
-    backdrop-filter:blur(15px);
+    background:rgba(5,11,16,.94);
+    backdrop-filter:blur(18px);
     border-bottom:1px solid var(--border);
 }
 
-.logo{
+.brand{
     font-size:20px;
     font-weight:1000;
-    letter-spacing:-1px;
+    letter-spacing:-.7px;
 }
 
-.logo span{
+.brand span{
     color:var(--green);
 }
 
-.header-right{
+.top-actions{
     display:flex;
     align-items:center;
     gap:12px;
@@ -149,14 +105,13 @@ header{
     width:42px;
     height:42px;
     border-radius:50%;
-    border:1px solid rgba(0,230,118,.25);
-    background:#0b1b23;
+    border:1px solid rgba(0,230,118,.35);
+    background:#0b1821;
     overflow:hidden;
+    padding:0;
     display:flex;
     align-items:center;
     justify-content:center;
-    color:var(--green);
-    font-weight:1000;
 }
 
 .profile-button img{
@@ -166,41 +121,117 @@ header{
     display:none;
 }
 
-#profileLetter{
-    display:inline;
+.profile-letter{
+    color:var(--green);
+    font-weight:1000;
+    font-size:15px;
 }
 
 /* =====================================================
    LAYOUT
 ===================================================== */
 
-.dashboard{
-    width:min(1250px,94%);
-    margin:auto;
-    padding:35px 0 80px;
+.layout{
+    display:flex;
+    min-height:calc(100vh - 70px);
 }
+
+.sidebar{
+    position:sticky;
+    top:70px;
+    width:230px;
+    height:calc(100vh - 70px);
+    padding:22px 15px;
+    border-right:1px solid var(--border);
+    background:#071119;
+}
+
+.nav-title{
+    margin:5px 12px 10px;
+    color:#4e6571;
+    font-size:8px;
+    font-weight:1000;
+    letter-spacing:1.5px;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.nav button{
+    width:100%;
+    padding:12px 13px;
+    border:1px solid transparent;
+    border-radius:10px;
+    background:transparent;
+    color:#8498a3;
+    text-align:left;
+    font-size:10px;
+    font-weight:900;
+}
+
+.nav button:hover{
+    background:rgba(255,255,255,.035);
+    color:white;
+}
+
+.nav button.active{
+    color:var(--green);
+    background:rgba(0,230,118,.07);
+    border-color:rgba(0,230,118,.1);
+}
+
+.logout-btn{
+    margin-top:18px;
+    color:#ff7373!important;
+}
+
+.main{
+    width:100%;
+    max-width:1500px;
+    padding:28px;
+}
+
+/* =====================================================
+   HERO
+===================================================== */
 
 .hero{
-    margin-bottom:25px;
+    display:flex;
+    justify-content:space-between;
+    gap:25px;
+    align-items:flex-end;
+    margin-bottom:24px;
 }
 
-.hero small{
+.eyebrow{
     color:var(--green);
-    font-size:9px;
+    font-size:8px;
     font-weight:1000;
     letter-spacing:2px;
+    margin-bottom:8px;
 }
 
 .hero h1{
-    margin-top:8px;
-    font-size:clamp(27px,5vw,45px);
-    line-height:1;
+    font-size:32px;
+    line-height:1.1;
+    letter-spacing:-1px;
 }
 
 .hero p{
-    margin-top:12px;
+    margin-top:10px;
     color:var(--muted);
-    font-size:12px;
+    font-size:11px;
+    max-width:650px;
+    line-height:1.6;
+}
+
+.user-email{
+    color:#617784;
+    font-size:9px;
+    margin-top:8px;
 }
 
 /* =====================================================
@@ -211,27 +242,26 @@ header{
     display:grid;
     grid-template-columns:
         repeat(4,minmax(0,1fr));
-    gap:14px;
-    margin-bottom:35px;
+    gap:13px;
+    margin-bottom:25px;
 }
 
 .stat{
-    padding:20px;
+    padding:19px;
     border:1px solid var(--border);
-    border-radius:17px;
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.035),
-            rgba(255,255,255,.01)
-        );
+    background:linear-gradient(
+        145deg,
+        rgba(255,255,255,.035),
+        rgba(255,255,255,.012)
+    );
+    border-radius:15px;
 }
 
 .stat-label{
-    color:var(--muted);
+    color:#607581;
     font-size:8px;
     font-weight:1000;
-    letter-spacing:1.5px;
+    letter-spacing:1px;
 }
 
 .stat-value{
@@ -245,114 +275,87 @@ header{
 }
 
 /* =====================================================
-   SECTION
+   CARDS
 ===================================================== */
 
 .section{
-    margin-top:40px;
+    margin-top:28px;
 }
 
 .section-head{
     display:flex;
-    align-items:end;
     justify-content:space-between;
-    gap:15px;
-    margin-bottom:15px;
+    align-items:center;
+    margin-bottom:13px;
 }
 
 .section-head h2{
-    font-size:19px;
+    font-size:16px;
+    letter-spacing:-.3px;
 }
 
 .section-head span{
-    color:var(--muted);
+    color:#607581;
     font-size:8px;
     font-weight:900;
-    letter-spacing:1px;
+}
+
+.panel{
+    padding:20px;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:var(--panel);
 }
 
 /* =====================================================
    COMPETITION
 ===================================================== */
 
-.competition-card{
-    border:1px solid var(--border);
-    background:var(--card);
-    border-radius:20px;
-    padding:22px;
-}
-
-.competition-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+.competition{
+    display:grid;
+    grid-template-columns:1fr 320px;
     gap:15px;
 }
 
 .stage-title{
-    font-size:16px;
+    font-size:20px;
     font-weight:1000;
 }
 
 .stage-text{
-    margin-top:7px;
     color:var(--muted);
     font-size:10px;
+    margin-top:8px;
+    line-height:1.6;
 }
 
 .status-pill{
-    padding:8px 11px;
-    border-radius:999px;
-    background:rgba(0,230,118,.09);
+    display:inline-block;
+    margin-top:14px;
+    padding:7px 10px;
+    border-radius:30px;
+    background:rgba(0,230,118,.08);
     color:var(--green);
-    border:1px solid rgba(0,230,118,.18);
     font-size:8px;
     font-weight:1000;
 }
 
-.timer{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    margin-top:20px;
-}
-
-.timer-box{
-    padding:15px;
-    text-align:center;
-    border-radius:13px;
-    background:#08141c;
-    border:1px solid var(--border);
-}
-
-.timer-box strong{
-    display:block;
-    font-size:23px;
-}
-
-.timer-box span{
-    display:block;
-    margin-top:4px;
-    color:var(--muted);
-    font-size:7px;
-    font-weight:900;
-}
-
 .steps{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:8px;
-    margin-top:18px;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:7px;
+    margin-top:22px;
 }
 
 .step{
     padding:12px;
-    text-align:center;
-    border-radius:10px;
     border:1px solid var(--border);
-    color:var(--muted);
+    border-radius:10px;
+    color:#526671;
     font-size:8px;
-    font-weight:900;
+    font-weight:1000;
+    text-align:center;
 }
 
 .step.active{
@@ -361,61 +364,74 @@ header{
     background:rgba(0,230,118,.06);
 }
 
-.upload-area{
-    margin-top:18px;
-    padding:16px;
-    border-radius:13px;
-    background:#08141c;
+.timer-card{
+    padding:20px;
+    border-radius:15px;
+    background:#071119;
     border:1px solid var(--border);
 }
 
-.upload-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
+.timer-title{
+    color:#627681;
+    font-size:8px;
+    font-weight:1000;
+    letter-spacing:1px;
 }
 
-.upload-status{
-    color:var(--green);
-    font-size:10px;
+.timer{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:6px;
+    margin-top:13px;
+}
+
+.time-box{
+    text-align:center;
+}
+
+.time-number{
+    font-size:23px;
     font-weight:1000;
 }
 
-.upload-text{
-    margin-top:6px;
-    color:var(--muted);
-    font-size:9px;
+.time-label{
+    color:#526671;
+    font-size:6px;
+    font-weight:1000;
 }
+
+/* =====================================================
+   BUTTONS
+===================================================== */
 
 .btn{
     border:0;
     border-radius:10px;
-    padding:11px 15px;
-    font-size:8px;
+    padding:11px 14px;
+    font-size:9px;
     font-weight:1000;
-    letter-spacing:.5px;
 }
 
 .btn.green{
     background:var(--green);
-    color:#001a0c;
+    color:#001b0c;
 }
 
 .btn.dark{
-    background:#14252e;
-    color:#fff;
+    background:#14242e;
+    color:#b5c4ca;
     border:1px solid var(--border);
 }
 
 .btn.danger{
     background:rgba(255,82,82,.1);
-    color:#ff7b7b;
-    border:1px solid rgba(255,82,82,.2);
+    color:#ff7373;
+    border:1px solid rgba(255,82,82,.18);
 }
 
-.btn.disabled{
-    opacity:.45;
+.btn:disabled{
+    opacity:.5;
     cursor:not-allowed;
 }
 
@@ -424,55 +440,56 @@ header{
 ===================================================== */
 
 .group{
-    margin-bottom:30px;
+    margin-top:20px;
 }
 
 .group-head{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin-bottom:12px;
+    margin-bottom:10px;
 }
 
 .group-head h3{
-    font-size:12px;
+    font-size:10px;
     letter-spacing:1px;
 }
 
 .group-head span{
-    color:var(--muted);
+    color:#536974;
     font-size:7px;
-    font-weight:900;
+    font-weight:1000;
 }
 
 .skills{
     display:grid;
     grid-template-columns:
         repeat(3,minmax(0,1fr));
-    gap:13px;
+    gap:12px;
 }
 
 .skill{
     overflow:hidden;
-    border-radius:16px;
     border:1px solid var(--border);
-    background:var(--card);
-    transition:.2s ease;
+    border-radius:15px;
+    background:var(--panel);
+    transition:.2s;
 }
 
 .skill:hover{
-    transform:translateY(-3px);
-    border-color:rgba(0,230,118,.2);
+    transform:translateY(-2px);
+    border-color:rgba(0,230,118,.22);
 }
 
-.skill > img{
+.skill img{
     width:100%;
-    height:150px;
+    height:145px;
     object-fit:cover;
+    display:block;
 }
 
 .skill-body{
-    padding:15px;
+    padding:14px;
 }
 
 .skill-name{
@@ -484,25 +501,18 @@ header{
     margin-top:6px;
     color:var(--green);
     font-size:7px;
-    font-weight:900;
+    font-weight:1000;
 }
 
 .skill-teacher{
-    margin-top:8px;
-    color:var(--muted);
+    margin-top:7px;
+    color:#607581;
     font-size:8px;
 }
 
-.skill button{
+.skill .btn{
+    margin-top:12px;
     width:100%;
-    margin-top:13px;
-    padding:10px;
-    border:1px solid rgba(0,230,118,.2);
-    background:rgba(0,230,118,.06);
-    color:var(--green);
-    border-radius:9px;
-    font-size:8px;
-    font-weight:1000;
 }
 
 /* =====================================================
@@ -512,25 +522,28 @@ header{
 .lesson-grid{
     display:grid;
     grid-template-columns:
-        repeat(3,minmax(0,1fr));
-    gap:14px;
+        repeat(2,minmax(0,1fr));
+    gap:13px;
 }
 
 .lesson-card{
-    overflow:hidden;
-    border-radius:16px;
+    display:flex;
+    gap:15px;
+    padding:13px;
     border:1px solid var(--border);
-    background:var(--card);
+    border-radius:14px;
+    background:var(--panel);
 }
 
 .lesson-card img{
-    width:100%;
-    height:150px;
+    width:125px;
+    height:105px;
     object-fit:cover;
+    border-radius:10px;
 }
 
 .lesson-body{
-    padding:15px;
+    flex:1;
 }
 
 .lesson-body h3{
@@ -541,72 +554,68 @@ header{
     display:flex;
     flex-wrap:wrap;
     gap:5px;
-    margin-top:9px;
+    margin-top:8px;
 }
 
 .lesson-tag{
     padding:5px 7px;
-    border-radius:6px;
-    background:#12232c;
-    color:#8ea0aa;
-    font-size:7px;
-    font-weight:900;
+    border-radius:5px;
+    background:#101f28;
+    color:#91a5ae;
+    font-size:6px;
+    font-weight:1000;
 }
 
 .lesson-description{
-    margin-top:10px;
-    color:var(--muted);
-    font-size:9px;
+    margin-top:9px;
+    color:#617581;
+    font-size:8px;
     line-height:1.5;
 }
 
 .empty-lessons{
     padding:30px;
-    text-align:center;
-    color:var(--muted);
     border:1px dashed var(--border);
-    border-radius:15px;
-    font-size:10px;
+    border-radius:14px;
+    color:#607581;
+    text-align:center;
+    font-size:9px;
 }
 
 /* =====================================================
    LEADERBOARD
 ===================================================== */
 
-.leaderboard{
+.table-wrap{
     overflow:auto;
     border:1px solid var(--border);
-    border-radius:16px;
-    background:var(--card);
+    border-radius:13px;
 }
 
-.row{
+.lb-row{
     min-width:700px;
     display:grid;
     grid-template-columns:
-        80px
-        1.5fr
-        100px
-        150px
-        90px
-        110px;
+        80px 1fr 100px 130px 100px 120px;
+    padding:11px 13px;
+    border-bottom:1px solid rgba(255,255,255,.035);
     align-items:center;
-    border-bottom:1px solid var(--border);
 }
 
-.row:last-child{
+.lb-row:last-child{
     border-bottom:0;
 }
 
-.row > div{
-    padding:11px 13px;
-    font-size:8px;
+.lb-head{
+    color:#536974;
+    font-size:7px;
+    font-weight:1000;
+    letter-spacing:.7px;
 }
 
-.column-title{
-    color:var(--muted);
-    font-size:7px !important;
-    font-weight:1000;
+.lb-cell{
+    color:#a7b7be;
+    font-size:8px;
 }
 
 .rank{
@@ -614,41 +623,31 @@ header{
     font-weight:1000;
 }
 
-.result,
-.level{
-    color:#a9b7be;
-}
-
-.name-space{
-    color:#fff;
-}
-
 /* =====================================================
    REWARDS
 ===================================================== */
 
-.rewards{
+.reward-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:
+        repeat(3,minmax(0,1fr));
     gap:10px;
 }
 
 .reward-slot{
+    padding:15px;
+    border:1px solid var(--border);
+    border-radius:12px;
     display:flex;
     align-items:center;
-    gap:12px;
-    padding:14px;
-    border-radius:13px;
-    border:1px solid var(--border);
-    background:var(--card);
+    gap:10px;
 }
 
 .reward-avatar{
-    width:38px;
-    height:38px;
+    width:35px;
+    height:35px;
     border-radius:50%;
-    background:#12232c;
-    flex:none;
+    background:#12232d;
 }
 
 .reward-info{
@@ -663,14 +662,77 @@ header{
 .reward-info span{
     display:block;
     margin-top:4px;
-    color:var(--muted);
+    color:#5e737d;
     font-size:7px;
 }
 
 .pending{
-    color:var(--warning);
-    font-size:7px;
+    color:#667983;
+    font-size:6px;
     font-weight:1000;
+}
+
+/* =====================================================
+   UPLOAD
+===================================================== */
+
+.upload-box{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.upload-title{
+    font-size:13px;
+    font-weight:1000;
+}
+
+.upload-text{
+    margin-top:7px;
+    color:#607581;
+    font-size:8px;
+    line-height:1.5;
+}
+
+.upload-status{
+    color:var(--green);
+    font-size:9px;
+    font-weight:1000;
+}
+
+.upload-btn.disabled{
+    opacity:.45;
+    pointer-events:none;
+}
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+.profile-summary{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.profile-big{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    object-fit:cover;
+    background:#12232d;
+    border:1px solid rgba(0,230,118,.2);
+}
+
+.profile-summary strong{
+    font-size:13px;
+}
+
+.profile-summary p{
+    margin-top:5px;
+    color:#617581;
+    font-size:8px;
 }
 
 /* =====================================================
@@ -680,13 +742,13 @@ header{
 .modal{
     position:fixed;
     inset:0;
-    z-index:5000;
+    z-index:500;
     display:none;
     align-items:center;
     justify-content:center;
-    padding:20px;
+    padding:18px;
     background:rgba(0,0,0,.75);
-    backdrop-filter:blur(7px);
+    backdrop-filter:blur(8px);
 }
 
 .modal.show{
@@ -697,101 +759,104 @@ header{
     width:min(600px,100%);
     max-height:90vh;
     overflow:auto;
-    border-radius:20px;
+    background:#071119;
     border:1px solid var(--border);
-    background:#07131b;
-    box-shadow:0 25px 80px rgba(0,0,0,.5);
+    border-radius:18px;
+    box-shadow:0 25px 100px rgba(0,0,0,.6);
 }
 
-.modal-head{
+.modal-top{
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    gap:15px;
-    padding:17px 20px;
+    align-items:center;
+    padding:17px 19px;
     border-bottom:1px solid var(--border);
 }
 
-.modal-head h2{
+.modal-title{
     font-size:14px;
+    font-weight:1000;
 }
 
-.modal-close{
-    width:32px;
-    height:32px;
-    border-radius:9px;
+.close{
+    width:30px;
+    height:30px;
     border:1px solid var(--border);
-    background:#10212a;
-    color:#fff;
+    border-radius:8px;
+    background:#101f28;
+    color:#9db0b8;
 }
 
 .modal-content{
-    padding:20px;
+    padding:19px;
 }
 
-#modalImage{
+.modal-image{
     width:100%;
     max-height:220px;
     object-fit:cover;
-    border-radius:13px;
-    margin-bottom:16px;
-    display:none;
+    border-radius:12px;
+    margin-bottom:15px;
 }
 
-#modalText{
-    color:#c6d0d5;
-    font-size:10px;
-    line-height:1.6;
+.modal-text{
+    color:#8ea1aa;
+    font-size:9px;
+    line-height:1.7;
 }
 
 .levels{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:9px;
-    margin-top:17px;
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+    gap:8px;
+    padding:0 19px 19px;
 }
 
 .level-btn{
     padding:12px;
-    border:1px solid rgba(0,230,118,.18);
+    border:1px solid rgba(0,230,118,.16);
+    border-radius:10px;
     background:rgba(0,230,118,.06);
     color:var(--green);
-    border-radius:10px;
     font-size:8px;
     font-weight:1000;
 }
 
+.level-btn:hover{
+    background:rgba(0,230,118,.11);
+}
+
 /* =====================================================
-   FORM
+   FORMS
 ===================================================== */
 
 .form-group,
 .profile-field{
-    margin-bottom:15px;
+    margin-bottom:13px;
 }
 
 .form-group label,
 .profile-field label{
     display:block;
-    margin-bottom:7px;
-    color:var(--muted);
-    font-size:8px;
+    margin-bottom:6px;
+    color:#627681;
+    font-size:7px;
     font-weight:1000;
-    letter-spacing:1px;
+    letter-spacing:.8px;
 }
 
 .form-group input,
 .form-group textarea,
-.profile-field input,
-.payment-input input{
+.profile-field input{
     width:100%;
+    padding:11px 12px;
     border:1px solid var(--border);
-    border-radius:10px;
-    outline:0;
-    background:#091820;
-    color:#fff;
-    padding:12px;
-    font-size:10px;
+    border-radius:9px;
+    outline:none;
+    background:#09151e;
+    color:white;
+    font-size:9px;
 }
 
 .form-group textarea{
@@ -801,179 +866,305 @@ header{
 
 .form-group input:focus,
 .form-group textarea:focus,
-.profile-field input:focus,
-.payment-input input:focus{
-    border-color:rgba(0,230,118,.4);
+.profile-field input:focus{
+    border-color:rgba(0,230,118,.35);
 }
 
-/* =====================================================
-   PROFILE
-===================================================== */
-
-.profile-preview{
+.profile-editor-preview{
     display:flex;
     align-items:center;
     gap:13px;
-    padding:14px;
-    border-radius:13px;
-    background:#09151e;
-    border:1px solid var(--border);
     margin-bottom:18px;
 }
 
-.profile-letter{
-    width:50px;
-    height:50px;
+.profile-preview-image{
+    width:70px;
+    height:70px;
     border-radius:50%;
-    background:#12262d;
-    color:var(--green);
+    object-fit:cover;
+    background:#10212a;
+    border:1px solid rgba(0,230,118,.2);
+}
+
+.profile-preview-letter{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:#10212a;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:20px;
+    color:var(--green);
+    font-size:24px;
     font-weight:1000;
 }
 
-.profile-large{
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    object-fit:cover;
-}
-
 .profile-note{
-    margin-top:7px;
-    color:#607581;
+    margin-top:8px;
+    color:#566c77;
     font-size:7px;
+    line-height:1.5;
 }
 
 /* =====================================================
-   PAYMENT
+   PAYMENT UI
 ===================================================== */
 
 .payment-methods{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:
+        repeat(3,1fr);
     gap:8px;
-    margin-top:13px;
+    margin:12px 0;
 }
 
 .payment-method{
-    padding:13px 8px;
-    text-align:center;
+    padding:12px 8px;
     border:1px solid var(--border);
-    border-radius:11px;
+    border-radius:10px;
+    text-align:center;
     background:#09151e;
-    cursor:pointer;
 }
 
 .payment-method.selected{
-    border-color:rgba(0,230,118,.5);
+    border-color:rgba(0,230,118,.45);
     background:rgba(0,230,118,.06);
 }
 
 .payment-method img{
-    width:30px;
-    height:30px;
-    object-fit:contain;
+    width:25px;
+    height:25px;
     margin:auto;
+    display:block;
 }
 
 .payment-method strong{
     display:block;
-    margin-top:6px;
+    margin-top:7px;
     font-size:8px;
 }
 
 .payment-method span{
     display:block;
     margin-top:4px;
-    color:var(--muted);
+    color:#607581;
     font-size:6px;
 }
 
 .payment-input{
-    margin-top:15px;
+    margin-top:12px;
 }
 
 .payment-input label{
     display:block;
-    margin-bottom:7px;
-    color:var(--muted);
-    font-size:8px;
+    margin-bottom:6px;
+    color:#627681;
+    font-size:7px;
     font-weight:1000;
 }
 
-.security-note{
+.payment-input input{
+    width:100%;
+    padding:11px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:#071119;
+    color:white;
+    outline:none;
+}
+
+.security-box{
     margin-top:12px;
     padding:11px;
-    border-radius:10px;
-    background:rgba(255,215,64,.05);
-    border:1px solid rgba(255,215,64,.12);
-    color:#a89c72;
+    border-radius:9px;
+    background:rgba(255,213,79,.04);
+    border:1px solid rgba(255,213,79,.1);
+    color:#8c8258;
     font-size:7px;
     line-height:1.5;
+}
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading-screen{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#050b10;
+}
+
+.loading-screen.hidden{
+    display:none;
+}
+
+.loading-box{
+    text-align:center;
+}
+
+.loading-logo{
+    font-size:25px;
+    font-weight:1000;
+}
+
+.loading-logo span{
+    color:var(--green);
+}
+
+.loading-text{
+    margin-top:10px;
+    color:#607581;
+    font-size:8px;
+    letter-spacing:1px;
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:1000;
+    max-width:350px;
+    padding:13px 15px;
+    border:1px solid rgba(0,230,118,.18);
+    border-radius:10px;
+    background:#0a1820;
+    color:#c8d6db;
+    font-size:8px;
+    line-height:1.5;
+    box-shadow:0 15px 50px rgba(0,0,0,.4);
+    display:none;
+}
+
+.toast.show{
+    display:block;
+}
+
+.toast.error{
+    border-color:rgba(255,82,82,.25);
 }
 
 /* =====================================================
    RESPONSIVE
 ===================================================== */
 
-@media(max-width:850px){
+@media(max-width:1050px){
 
-    .stats{
-        grid-template-columns:repeat(2,1fr);
+    .competition{
+        grid-template-columns:1fr;
     }
 
     .skills{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
     }
 
-    .lesson-grid{
-        grid-template-columns:repeat(2,1fr);
+    .reward-grid{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
     }
 
 }
 
-@media(max-width:600px){
+@media(max-width:800px){
 
-    header{
-        padding:0 15px;
+    .sidebar{
+        width:75px;
+        padding:15px 8px;
     }
 
-    .dashboard{
-        width:92%;
-        padding-top:25px;
+    .nav-title{
+        display:none;
+    }
+
+    .nav button{
+        text-align:center;
+        font-size:7px;
+        padding:12px 4px;
+    }
+
+    .main{
+        padding:18px;
     }
 
     .stats{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
     }
 
-    .skills,
     .lesson-grid{
         grid-template-columns:1fr;
     }
 
-    .rewards{
+    .hero{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+}
+
+@media(max-width:560px){
+
+    .topbar{
+        padding:0 13px;
+    }
+
+    .main{
+        padding:13px;
+    }
+
+    .hero h1{
+        font-size:25px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+    }
+
+    .stat{
+        padding:13px;
+    }
+
+    .stat-value{
+        font-size:20px;
+    }
+
+    .skills{
         grid-template-columns:1fr;
     }
 
-    .timer{
-        grid-template-columns:repeat(2,1fr);
+    .reward-grid{
+        grid-template-columns:1fr;
     }
 
     .steps{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:1fr 1fr;
+    }
+
+    .upload-box{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .lesson-card{
+        flex-direction:column;
+    }
+
+    .lesson-card img{
+        width:100%;
+        height:160px;
     }
 
     .payment-methods{
         grid-template-columns:1fr;
-    }
-
-    .upload-row{
-        align-items:flex-start;
-        flex-direction:column;
     }
 
 }
@@ -985,31 +1176,39 @@ header{
 <body>
 
 <!-- =====================================================
-     LOADER
+     LOADING
 ===================================================== -->
 
-<div id="pageLoader">
+<div
+    class="loading-screen"
+    id="loadingScreen"
+>
 
-    <div class="loader-circle"></div>
+    <div class="loading-box">
 
-    <div class="loader-text">
-        LOADING STEADYMAZE
+        <div class="loading-logo">
+            Steady<span>Maze</span>
+        </div>
+
+        <div class="loading-text">
+            LOADING STUDENT ACCOUNT...
+        </div>
+
     </div>
 
 </div>
 
-
 <!-- =====================================================
-     HEADER
+     TOPBAR
 ===================================================== -->
 
-<header>
+<header class="topbar">
 
-    <div class="logo">
+    <div class="brand">
         Steady<span>Maze</span>
     </div>
 
-    <div class="header-right">
+    <div class="top-actions">
 
         <button
             class="profile-button"
@@ -1018,7 +1217,10 @@ header{
             title="Profile"
         >
 
-            <span id="profileLetter">
+            <span
+                class="profile-letter"
+                id="profileLetter"
+            >
                 S
             </span>
 
@@ -1033,134 +1235,267 @@ header{
 
 </header>
 
-
 <!-- =====================================================
-     DASHBOARD
+     LAYOUT
 ===================================================== -->
 
-<main class="dashboard">
+<div class="layout">
 
-    <section class="hero">
+    <aside class="sidebar">
 
-        <small>
-            STUDENT DASHBOARD
-        </small>
+        <div class="nav-title">
+            STUDENT MENU
+        </div>
 
-        <h1 id="welcomeText">
-            Learn, build and compete.
-        </h1>
+        <nav class="nav">
 
-        <p>
-            Your account information is loaded directly
-            from your authenticated Supabase account.
-        </p>
-
-    </section>
-
-
-    <!-- =================================================
-         STATS
-    ================================================== -->
-
-    <section class="stats">
-
-        <div class="stat">
-
-            <div class="stat-label">
-                BALANCE
-            </div>
-
-            <div
-                class="stat-value green"
-                id="studentBalance"
+            <button
+                class="active"
+                onclick="scrollToId('dashboard')"
             >
-                0.00
-            </div>
+                DASHBOARD
+            </button>
 
-        </div>
-
-
-        <div
-            class="stat"
-            onclick="openPayment()"
-            style="cursor:pointer;"
-        >
-
-            <div class="stat-label">
-                PAYMENT ACCOUNT
-            </div>
-
-            <div
-                class="stat-value"
-                id="studentPayment"
+            <button
+                onclick="scrollToId('skillsSection')"
             >
-                00
-            </div>
+                SKILLS
+            </button>
 
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-label">
-                COURSES COMPLETED
-            </div>
-
-            <div
-                class="stat-value"
-                id="studentCompleted"
+            <button
+                onclick="scrollToId('myLessons')"
             >
-                0
-            </div>
+                MY LESSONS
+            </button>
 
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-label">
-                COMPETITION SCORE
-            </div>
-
-            <div
-                class="stat-value green"
-                id="studentScore"
+            <button
+                onclick="scrollToId('competition')"
             >
-                0
-            </div>
+                COMPETITION
+            </button>
 
-        </div>
+            <button
+                onclick="scrollToId('leaderboard')"
+            >
+                LEADERBOARD
+            </button>
 
-    </section>
+            <button
+                onclick="scrollToId('rewards')"
+            >
+                REWARDS
+            </button>
 
+            <button
+                onclick="openPayment()"
+            >
+                PAYMENT
+            </button>
 
-    <!-- =================================================
-         COMPETITION
-    ================================================== -->
+            <button
+                onclick="openProfile()"
+            >
+                PROFILE
+            </button>
 
-    <section
-        class="section"
-        id="competition"
-    >
+            <button
+                class="logout-btn"
+                onclick="logoutStudent()"
+            >
+                LOGOUT
+            </button>
 
-        <div class="section-head">
+        </nav>
 
-            <h2>
-                Competition
-            </h2>
+    </aside>
 
-            <span>
-                CURRENT STAGE
-            </span>
+    <main class="main">
 
-        </div>
+        <!-- =================================================
+             DASHBOARD
+        ================================================= -->
 
+        <section id="dashboard">
 
-        <div class="competition-card">
-
-            <div class="competition-top">
+            <div class="hero">
 
                 <div>
+
+                    <div class="eyebrow">
+                        STUDENT DASHBOARD
+                    </div>
+
+                    <h1 id="welcomeText">
+                        Welcome back.
+                    </h1>
+
+                    <p>
+                        Learn digital skills, build projects,
+                        complete courses and compete with other
+                        SteadyMaze students.
+                    </p>
+
+                    <div
+                        class="user-email"
+                        id="studentEmail"
+                    >
+                    </div>
+
+                </div>
+
+                <button
+                    class="btn green"
+                    onclick="openProfile()"
+                >
+                    MY PROFILE
+                </button>
+
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        BALANCE
+                    </div>
+
+                    <div
+                        class="stat-value green"
+                        id="studentBalance"
+                    >
+                        0.00
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        PAYMENT
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="studentPayment"
+                    >
+                        00
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        COURSES COMPLETED
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="studentCompleted"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        COMPETITION SCORE
+                    </div>
+
+                    <div
+                        class="stat-value green"
+                        id="studentScore"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =================================================
+             PROFILE SUMMARY
+        ================================================= -->
+
+        <section class="section">
+
+            <div class="section-head">
+
+                <h2>
+                    My Account
+                </h2>
+
+                <span>
+                    SUPABASE ACCOUNT
+                </span>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="profile-summary">
+
+                    <div
+                        class="profile-preview-letter"
+                        id="summaryProfileLetter"
+                    >
+                        S
+                    </div>
+
+                    <img
+                        class="profile-big"
+                        id="summaryProfileImage"
+                        alt="Profile"
+                        style="display:none;"
+                    >
+
+                    <div>
+
+                        <strong id="summaryName">
+                            Student
+                        </strong>
+
+                        <p id="summaryEmail">
+                            —
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =================================================
+             COMPETITION
+        ================================================= -->
+
+        <section
+            class="section"
+            id="competition"
+        >
+
+            <div class="section-head">
+
+                <h2>
+                    Competition
+                </h2>
+
+                <span>
+                    STUDENT COMPETITION
+                </span>
+
+            </div>
+
+            <div class="competition">
+
+                <div class="panel">
 
                     <div
                         class="stage-title"
@@ -1173,113 +1508,152 @@ header{
                         class="stage-text"
                         id="stageText"
                     >
-                        Students are learning before project submission.
+                        Students are learning before project
+                        submission.
+                    </div>
+
+                    <div
+                        class="status-pill"
+                        id="statusPill"
+                    >
+                        LEARNING
+                    </div>
+
+                    <div class="steps">
+
+                        <div
+                            class="step active"
+                            id="step1"
+                        >
+                            01<br>LEARNING
+                        </div>
+
+                        <div
+                            class="step"
+                            id="step2"
+                        >
+                            02<br>UPLOAD
+                        </div>
+
+                        <div
+                            class="step"
+                            id="step3"
+                        >
+                            03<br>REVIEW
+                        </div>
+
+                        <div
+                            class="step"
+                            id="step4"
+                        >
+                            04<br>WINNERS
+                        </div>
+
                     </div>
 
                 </div>
 
-                <div
-                    class="status-pill"
-                    id="statusPill"
-                >
-                    LEARNING
+                <div class="timer-card">
+
+                    <div class="timer-title">
+                        TIME REMAINING
+                    </div>
+
+                    <div class="timer">
+
+                        <div class="time-box">
+
+                            <div
+                                class="time-number"
+                                id="days"
+                            >
+                                00
+                            </div>
+
+                            <div class="time-label">
+                                DAYS
+                            </div>
+
+                        </div>
+
+                        <div class="time-box">
+
+                            <div
+                                class="time-number"
+                                id="hours"
+                            >
+                                00
+                            </div>
+
+                            <div class="time-label">
+                                HOURS
+                            </div>
+
+                        </div>
+
+                        <div class="time-box">
+
+                            <div
+                                class="time-number"
+                                id="minutes"
+                            >
+                                00
+                            </div>
+
+                            <div class="time-label">
+                                MINUTES
+                            </div>
+
+                        </div>
+
+                        <div class="time-box">
+
+                            <div
+                                class="time-number"
+                                id="seconds"
+                            >
+                                00
+                            </div>
+
+                            <div class="time-label">
+                                SECONDS
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
 
+        </section>
 
-            <div class="timer">
+        <!-- =================================================
+             UPLOAD
+        ================================================= -->
 
-                <div class="timer-box">
+        <section class="section">
 
-                    <strong id="days">
-                        00
-                    </strong>
+            <div class="panel">
 
-                    <span>
-                        DAYS
-                    </span>
+                <div class="upload-box">
 
-                </div>
+                    <div>
 
+                        <div class="upload-title">
+                            Project Submission
+                        </div>
 
-                <div class="timer-box">
+                        <div
+                            class="upload-text"
+                            id="uploadText"
+                        >
+                            Project upload will open when the
+                            submission window begins.
+                        </div>
 
-                    <strong id="hours">
-                        00
-                    </strong>
-
-                    <span>
-                        HOURS
-                    </span>
-
-                </div>
-
-
-                <div class="timer-box">
-
-                    <strong id="minutes">
-                        00
-                    </strong>
-
-                    <span>
-                        MINUTES
-                    </span>
-
-                </div>
-
-
-                <div class="timer-box">
-
-                    <strong id="seconds">
-                        00
-                    </strong>
-
-                    <span>
-                        SECONDS
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="steps">
-
-                <div
-                    class="step"
-                    id="step1"
-                >
-                    01 · LEARN
-                </div>
-
-                <div
-                    class="step"
-                    id="step2"
-                >
-                    02 · UPLOAD
-                </div>
-
-                <div
-                    class="step"
-                    id="step3"
-                >
-                    03 · REVIEW
-                </div>
-
-                <div
-                    class="step"
-                    id="step4"
-                >
-                    04 · WIN
-                </div>
-
-            </div>
-
-
-            <div class="upload-area">
-
-                <div class="upload-row">
+                    </div>
 
                     <div>
 
@@ -1290,203 +1664,304 @@ header{
                             CLOSED
                         </div>
 
-                        <div
-                            class="upload-text"
-                            id="uploadText"
+                        <button
+                            class="btn green upload-btn disabled"
+                            id="uploadBtn"
+                            onclick="openUpload()"
                         >
-                            Project upload will open when
-                            the submission window begins.
-                        </div>
+                            UPLOAD PROJECT
+                        </button>
 
                     </div>
-
-                    <button
-                        class="btn green disabled"
-                        id="uploadBtn"
-                        type="button"
-                        onclick="openUpload()"
-                    >
-                        UPLOAD PROJECT
-                    </button>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
+        <!-- =================================================
+             SKILLS
+        ================================================= -->
 
+        <section
+            class="section"
+            id="skillsSection"
+        >
 
-    <!-- =================================================
-         SKILLS
-    ================================================== -->
+            <div class="section-head">
 
-    <section
-        class="section"
-        id="skillsSection"
-    >
+                <h2>
+                    Skills
+                </h2>
 
-        <div class="section-head">
+                <span>
+                    17 SKILLS
+                </span>
 
-            <h2>
-                Skills
-            </h2>
+            </div>
 
-            <span>
-                17 SKILLS
-            </span>
+            <div id="skillContainer"></div>
 
-        </div>
+        </section>
 
-        <div id="skillContainer"></div>
+        <!-- =================================================
+             MY LESSONS
+        ================================================= -->
 
-    </section>
+        <section
+            class="section"
+            id="myLessons"
+        >
 
+            <div class="section-head">
 
-    <!-- =================================================
-         MY LESSONS
-    ================================================== -->
+                <h2>
+                    My Lessons
+                </h2>
 
-    <section
-        class="section"
-        id="myLessons"
-    >
+                <span>
+                    DATABASE COURSES
+                </span>
 
-        <div class="section-head">
+            </div>
 
-            <h2>
-                My Lessons
-            </h2>
+            <div
+                class="lesson-grid"
+                id="lessonContainer"
+            >
 
-            <span>
-                YOUR COURSES
-            </span>
+                <div class="empty-lessons">
+                    Loading courses...
+                </div>
 
-        </div>
+            </div>
 
-        <div
-            class="lesson-grid"
-            id="lessonContainer"
-        ></div>
+        </section>
 
-    </section>
+        <!-- =================================================
+             LEADERBOARD
+        ================================================= -->
 
+        <section
+            class="section"
+            id="leaderboard"
+        >
 
-    <!-- =================================================
-         LOWER LEADERBOARD
-    ================================================== -->
+            <div class="section-head">
 
-    <section class="section">
+                <h2>
+                    Competition Leaderboard
+                </h2>
 
-        <div class="section-head">
+                <span>
+                    300 STUDENTS
+                </span>
 
-            <h2>
-                Lower Leaderboard
-            </h2>
+            </div>
 
-            <span>
-                300 STUDENTS
-            </span>
+            <div class="panel">
 
-        </div>
+                <div class="table-wrap">
 
-        <div class="leaderboard">
+                    <div class="lb-row lb-head">
 
-            <div id="lowerRows"></div>
+                        <div>
+                            RANK
+                        </div>
 
-        </div>
+                        <div>
+                            STUDENT
+                        </div>
 
-    </section>
+                        <div>
+                            POINTS
+                        </div>
 
+                        <div>
+                            PROJECTS
+                        </div>
 
-    <!-- =================================================
-         MEDIUM LEADERBOARD
-    ================================================== -->
+                        <div>
+                            LEVEL
+                        </div>
 
-    <section class="section">
+                        <div>
+                            STATUS
+                        </div>
 
-        <div class="section-head">
+                    </div>
 
-            <h2>
-                Medium Leaderboard
-            </h2>
+                    <div id="lowerRows"></div>
 
-            <span>
-                300 STUDENTS
-            </span>
+                </div>
 
-        </div>
+            </div>
 
-        <div class="leaderboard">
+        </section>
 
-            <div id="mediumRows"></div>
+        <!-- =================================================
+             REWARDS
+        ================================================= -->
 
-        </div>
+        <section
+            class="section"
+            id="rewards"
+        >
 
-    </section>
+            <div class="section-head">
 
+                <h2>
+                    Competition Rewards
+                </h2>
 
-    <!-- =================================================
-         HIGH LEADERBOARD
-    ================================================== -->
+                <span>
+                    WINNERS
+                </span>
 
-    <section class="section">
+            </div>
 
-        <div class="section-head">
+            <div class="reward-grid">
 
-            <h2>
-                High Leaderboard
-            </h2>
+                <div class="reward-slot">
 
-            <span>
-                300 STUDENTS
-            </span>
+                    <div class="reward-avatar"></div>
 
-        </div>
+                    <div class="reward-info">
 
-        <div class="leaderboard">
+                        <strong>
+                            Winner Position 1
+                        </strong>
 
-            <div id="highRows"></div>
+                        <span>
+                            Winner information pending
+                        </span>
 
-        </div>
+                    </div>
 
-    </section>
+                    <div class="pending">
+                        PENDING
+                    </div>
 
+                </div>
 
-    <!-- =================================================
-         REWARDS
-    ================================================== -->
+                <div class="reward-slot">
 
-    <section class="section">
+                    <div class="reward-avatar"></div>
 
-        <div class="section-head">
+                    <div class="reward-info">
 
-            <h2>
-                Competition Winners
-            </h2>
+                        <strong>
+                            Winner Position 2
+                        </strong>
 
-            <span>
-                6 WINNERS
-            </span>
+                        <span>
+                            Winner information pending
+                        </span>
 
-        </div>
+                    </div>
 
+                    <div class="pending">
+                        PENDING
+                    </div>
 
-        <div class="rewards">
+                </div>
 
-            <div id="lowerRewards"></div>
+                <div class="reward-slot">
 
-            <div id="mediumRewards"></div>
+                    <div class="reward-avatar"></div>
 
-            <div id="highRewards"></div>
+                    <div class="reward-info">
 
-        </div>
+                        <strong>
+                            Winner Position 3
+                        </strong>
 
-    </section>
+                        <span>
+                            Winner information pending
+                        </span>
 
-</main>
+                    </div>
 
+                    <div class="pending">
+                        PENDING
+                    </div>
+
+                </div>
+
+                <div class="reward-slot">
+
+                    <div class="reward-avatar"></div>
+
+                    <div class="reward-info">
+
+                        <strong>
+                            Winner Position 4
+                        </strong>
+
+                        <span>
+                            Winner information pending
+                        </span>
+
+                    </div>
+
+                    <div class="pending">
+                        PENDING
+                    </div>
+
+                </div>
+
+                <div class="reward-slot">
+
+                    <div class="reward-avatar"></div>
+
+                    <div class="reward-info">
+
+                        <strong>
+                            Winner Position 5
+                        </strong>
+
+                        <span>
+                            Winner information pending
+                        </span>
+
+                    </div>
+
+                    <div class="pending">
+                        PENDING
+                    </div>
+
+                </div>
+
+                <div class="reward-slot">
+
+                    <div class="reward-avatar"></div>
+
+                    <div class="reward-info">
+
+                        <strong>
+                            Winner Position 6
+                        </strong>
+
+                        <span>
+                            Winner information pending
+                        </span>
+
+                    </div>
+
+                    <div class="pending">
+                        PENDING
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
 
 <!-- =====================================================
      MODAL
@@ -1499,15 +1974,17 @@ header{
 
     <div class="modal-box">
 
-        <div class="modal-head">
+        <div class="modal-top">
 
-            <h2 id="modalTitle">
+            <div
+                class="modal-title"
+                id="modalTitle"
+            >
                 SteadyMaze
-            </h2>
+            </div>
 
             <button
-                class="modal-close"
-                type="button"
+                class="close"
                 onclick="closeModal()"
             >
                 ×
@@ -1515,24 +1992,35 @@ header{
 
         </div>
 
-
         <div class="modal-content">
 
             <img
+                class="modal-image"
                 id="modalImage"
-                alt="Course"
+                alt=""
+                style="display:none;"
             >
 
-            <div id="modalText"></div>
-
-            <div class="levels"></div>
+            <div
+                class="modal-text"
+                id="modalText"
+            ></div>
 
         </div>
+
+        <div
+            class="levels"
+            id="modalButtons"
+        ></div>
 
     </div>
 
 </div>
 
+<div
+    class="toast"
+    id="toast"
+></div>
 
 <script>
 
@@ -1541,31 +2029,20 @@ header{
 ===================================================== */
 
 const SUPABASE_URL =
-    "YOUR_SUPABASE_PROJECT_URL";
+    "YOUR_SUPABASE_URL";
 
 const SUPABASE_ANON_KEY =
     "YOUR_SUPABASE_ANON_KEY";
 
-
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_ANON_KEY,
-        {
-            auth:{
-                persistSession:true,
-                autoRefreshToken:true,
-                detectSessionInUrl:true
-            }
-        }
+        SUPABASE_ANON_KEY
     );
 
-
 /* =====================================================
-   GLOBAL STATE
+   GLOBAL DATA
 ===================================================== */
-
-let supabaseUser = null;
 
 let supabaseStudent = null;
 
@@ -1596,14 +2073,15 @@ let studentData = {
 
 };
 
-let purchasedLessons = [];
+let selectedSkill = null;
+
+let selectedLevel = null;
 
 let savedPayment = null;
 
+let purchasedLessons = [];
+
 let selectedPaymentMethod = null;
-
-let selectedSkill = null;
-
 
 /* =====================================================
    HELPERS
@@ -1620,17 +2098,49 @@ function escapeHtml(value){
 
 }
 
+function showToast(
+    message,
+    error=false
+){
 
-function escapeJs(value){
+    const toast =
+        document.getElementById(
+            "toast"
+        );
 
-    return String(value ?? "")
-        .replaceAll("\\","\\\\")
-        .replaceAll("'","\\'")
-        .replaceAll("\n","\\n")
-        .replaceAll("\r","\\r");
+    if(!toast){
+        return;
+    }
+
+    toast.textContent =
+        message;
+
+    toast.classList.toggle(
+        "error",
+        error
+    );
+
+    toast.classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        window.__toastTimer
+    );
+
+    window.__toastTimer =
+        setTimeout(
+            function(){
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            3500
+        );
 
 }
-
 
 function showSupabaseError(message){
 
@@ -1639,565 +2149,467 @@ function showSupabaseError(message){
         message
     );
 
+    showToast(
+        message,
+        true
+    );
+
 }
 
-
 /* =====================================================
-   USER-SPECIFIC LOCAL STORAGE
-   UI CACHE ONLY — NOT IDENTITY
+   GET AUTH USER
 ===================================================== */
 
-function getUserStorageKey(name){
+async function getCurrentUser(){
 
-    if(!supabaseUser?.id){
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .auth
+        .getUser();
+
+    if(error){
+
+        console.error(
+            "Auth getUser error:",
+            error
+        );
 
         return null;
 
     }
 
-    return (
-        "steadymaze:" +
-        name +
-        ":" +
-        supabaseUser.id
-    );
+    return data?.user || null;
 
 }
 
+/* =====================================================
+   LOAD PROFILE
+===================================================== */
 
-function loadUserLocalData(){
+async function loadStudentProfile(
+    user
+){
 
-    purchasedLessons = [];
+    const userId =
+        user.id;
 
-    savedPayment = null;
+    const {
+        data:profile,
+        error:profileError
+    } =
+    await supabaseClient
+        .from("profiles")
+        .select(`
+            id,
+            full_name,
+            email,
+            role,
+            profile_photo,
+            phone,
+            status
+        `)
+        .eq(
+            "id",
+            userId
+        )
+        .maybeSingle();
 
+    if(profileError){
 
-    if(!supabaseUser?.id){
+        console.error(
+            "profiles error:",
+            profileError
+        );
+
+        showSupabaseError(
+            profileError.message
+        );
+
+        return false;
+
+    }
+
+    if(!profile){
+
+        /*
+           IMPORTANT:
+           We do not create a profile automatically.
+           The signup system should already have created it.
+        */
+
+        studentProfile = {
+
+            id:userId,
+
+            full_name:
+                user.user_metadata?.full_name ||
+                user.user_metadata?.name ||
+                "",
+
+            email:
+                user.email || "",
+
+            role:"",
+
+            profile_photo:"",
+
+            phone:"",
+
+            status:""
+
+        };
+
+        console.warn(
+            "No profiles row found for:",
+            userId
+        );
+
+        return false;
+
+    }
+
+    studentProfile = {
+
+        id:
+            profile.id || userId,
+
+        full_name:
+            profile.full_name ||
+            user.user_metadata?.full_name ||
+            user.user_metadata?.name ||
+            "",
+
+        email:
+            profile.email ||
+            user.email ||
+            "",
+
+        role:
+            profile.role ||
+            "",
+
+        profile_photo:
+            profile.profile_photo ||
+            user.user_metadata?.profile_photo ||
+            "",
+
+        phone:
+            profile.phone ||
+            "",
+
+        status:
+            profile.status ||
+            ""
+
+    };
+
+    return true;
+
+}
+
+/* =====================================================
+   LOAD STUDENT
+===================================================== */
+
+async function loadStudentData(
+    user
+){
+
+    const userId =
+        user.id;
+
+    const {
+        data:student,
+        error:studentError
+    } =
+    await supabaseClient
+        .from("students")
+        .select(`
+            id,
+            user_id,
+            balance,
+            steadcash,
+            courses_completed,
+            competition_score,
+            current_skill,
+            current_level,
+            created_at,
+            updated_at
+        `)
+        .eq(
+            "user_id",
+            userId
+        )
+        .maybeSingle();
+
+    if(studentError){
+
+        console.error(
+            "students error:",
+            studentError
+        );
+
+        showSupabaseError(
+            studentError.message
+        );
+
+        return false;
+
+    }
+
+    if(!student){
+
+        /*
+           DO NOT CREATE A STUDENT.
+           The database row must already exist.
+        */
+
+        studentData = {
+
+            id:"",
+
+            user_id:userId,
+
+            balance:0,
+
+            steadcash:0,
+
+            courses_completed:0,
+
+            competition_score:0,
+
+            current_skill:"",
+
+            current_level:"",
+
+            created_at:"",
+
+            updated_at:""
+
+        };
+
+        console.warn(
+            "No students row found for:",
+            userId
+        );
+
+        return false;
+
+    }
+
+    studentData = {
+
+        id:
+            student.id || "",
+
+        user_id:
+            student.user_id || userId,
+
+        balance:
+            Number(student.balance || 0),
+
+        steadcash:
+            Number(student.steadcash || 0),
+
+        courses_completed:
+            Number(student.courses_completed || 0),
+
+        competition_score:
+            Number(student.competition_score || 0),
+
+        current_skill:
+            student.current_skill || "",
+
+        current_level:
+            student.current_level || "",
+
+        created_at:
+            student.created_at || "",
+
+        updated_at:
+            student.updated_at || ""
+
+    };
+
+    return true;
+
+}
+
+/* =====================================================
+   LOAD LESSONS
+===================================================== */
+
+async function loadPurchasedLessons(){
+
+    const container =
+        document.getElementById(
+            "lessonContainer"
+        );
+
+    if(!supabaseStudent){
+
+        purchasedLessons = [];
+
+        renderMyLessons();
 
         return;
 
     }
 
+    /*
+       student_lessons must contain student_id
+       pointing to students.id.
+    */
 
-    try{
+    if(!studentData.id){
 
-        const lessonsKey =
-            getUserStorageKey(
-                "purchasedLessons"
-            );
+        purchasedLessons = [];
 
-        const paymentKey =
-            getUserStorageKey(
-                "payment"
-            );
+        renderMyLessons();
 
+        return;
 
-        purchasedLessons =
-            JSON.parse(
-                localStorage.getItem(
-                    lessonsKey
-                ) || "[]"
-            );
+    }
 
-
-        if(
-            !Array.isArray(
-                purchasedLessons
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("student_lessons")
+        .select(`
+            id,
+            student_id,
+            lesson_id,
+            status,
+            progress,
+            purchased_at,
+            lessons (
+                id,
+                title,
+                description,
+                video_url,
+                thumbnail_url,
+                course_id,
+                level
             )
-        ){
+        `)
+        .eq(
+            "student_id",
+            studentData.id
+        )
+        .order(
+            "purchased_at",
+            {
+                ascending:false
+            }
+        );
 
-            purchasedLessons = [];
+    if(error){
 
-        }
-
-
-        savedPayment =
-            JSON.parse(
-                localStorage.getItem(
-                    paymentKey
-                ) || "null"
-            );
-
-
-    }catch(error){
+        /*
+           If your student_lessons table has a
+           different structure, dashboard still works.
+        */
 
         console.error(
-            "Local UI data error:",
-            error
+            "student_lessons error:",
+            error.message
         );
 
         purchasedLessons = [];
 
-        savedPayment = null;
-
-    }
-
-}
-
-
-function saveUserLocalData(){
-
-    if(!supabaseUser?.id){
+        renderMyLessons();
 
         return;
 
     }
 
+    purchasedLessons =
+        Array.isArray(data)
+        ? data
+        : [];
 
-    try{
-
-        const lessonsKey =
-            getUserStorageKey(
-                "purchasedLessons"
-            );
-
-        const paymentKey =
-            getUserStorageKey(
-                "payment"
-            );
-
-
-        localStorage.setItem(
-            lessonsKey,
-            JSON.stringify(
-                purchasedLessons
-            )
-        );
-
-
-        localStorage.setItem(
-            paymentKey,
-            JSON.stringify(
-                savedPayment
-            )
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Local storage save error:",
-            error
-        );
-
-    }
+    renderMyLessons();
 
 }
 
-
 /* =====================================================
-   AUTH SESSION
+   MAIN SESSION LOADER
 ===================================================== */
 
 async function loadSupabaseSession(){
 
     try{
 
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .auth
-            .getUser();
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
         const user =
-            data?.user;
-
+            await getCurrentUser();
 
         if(!user){
 
-            console.warn(
-                "No authenticated Supabase user."
-            );
-
-
             window.location.href =
                 "student-login.html";
-
 
             return;
 
         }
 
+        /*
+           CURRENT AUTH USER IS THE ONLY IDENTITY SOURCE.
+        */
 
-        supabaseUser =
+        supabaseStudent =
             user;
 
+        const profileExists =
+            await loadStudentProfile(
+                user
+            );
 
-        console.log(
-            "Authenticated user:",
-            supabaseUser.id,
-            supabaseUser.email
-        );
-
-
-        await loadStudentAccount();
-
-        loadUserLocalData();
-
-        renderMyLessons();
+        const studentExists =
+            await loadStudentData(
+                user
+            );
 
         updateStudentDashboard();
 
         updateProfileAvatar();
 
+        await loadPurchasedLessons();
 
-        document
-            .getElementById("pageLoader")
-            .style.display =
-            "none";
+        if(!profileExists){
 
-
-    }catch(error){
-
-        console.error(
-            "Session loading error:",
-            error
-        );
-
-
-        showSupabaseError(
-            error.message
-        );
-
-
-        alert(
-            "Your Supabase session could not be loaded. Please login again."
-        );
-
-
-        window.location.href =
-            "student-login.html";
-
-    }
-
-}
-
-
-/* =====================================================
-   AUTH STATE LISTENER
-===================================================== */
-
-supabaseClient
-    .auth
-    .onAuthStateChange(
-        async function(
-            event,
-            session
-        ){
-
-            console.log(
-                "Auth event:",
-                event
-            );
-
-
-            if(
-                event === "SIGNED_OUT"
-            ){
-
-                clearStudentData();
-
-                window.location.href =
-                    "student-login.html";
-
-                return;
-
-            }
-
-
-            if(
-                event === "SIGNED_IN" &&
-                session?.user
-            ){
-
-                /*
-                   The new authenticated account becomes
-                   the ONLY source of identity.
-                */
-
-                supabaseUser =
-                    session.user;
-
-
-                await loadStudentAccount();
-
-                loadUserLocalData();
-
-                renderMyLessons();
-
-                updateStudentDashboard();
-
-                updateProfileAvatar();
-
-            }
-
-        }
-    );
-
-
-/* =====================================================
-   LOAD PROFILE + STUDENT
-===================================================== */
-
-async function loadStudentAccount(){
-
-    if(!supabaseUser){
-
-        return;
-
-    }
-
-
-    const userId =
-        supabaseUser.id;
-
-
-    try{
-
-        /* =============================================
-           PROFILE
-
-           profiles.id = auth.users.id
-        ============================================= */
-
-        const {
-            data:profile,
-            error:profileError
-        } =
-        await supabaseClient
-            .from("profiles")
-            .select(`
-                id,
-                full_name,
-                email,
-                role,
-                profile_photo,
-                phone,
-                status
-            `)
-            .eq(
-                "id",
-                userId
-            )
-            .maybeSingle();
-
-
-        if(profileError){
-
-            console.error(
-                "profiles error:",
-                profileError.message
-            );
-
-            showSupabaseError(
-                profileError.message
+            showToast(
+                "Your Supabase profile row was not found."
             );
 
         }
 
+        if(!studentExists){
 
-        const metadata =
-            supabaseUser.user_metadata ||
-            {};
-
-
-        studentProfile = {
-
-            id:
-                profile?.id ||
-                userId,
-
-            full_name:
-                profile?.full_name ||
-                metadata.full_name ||
-                metadata.name ||
-                "",
-
-            email:
-                profile?.email ||
-                supabaseUser.email ||
-                "",
-
-            role:
-                profile?.role ||
-                "",
-
-            profile_photo:
-                profile?.profile_photo ||
-                metadata.profile_photo ||
-                "",
-
-            phone:
-                profile?.phone ||
-                "",
-
-            status:
-                profile?.status ||
-                ""
-
-        };
-
-
-        /* =============================================
-           STUDENT
-
-           students.user_id = auth.users.id
-
-           IMPORTANT:
-           NO students.full_name
-        ============================================= */
-
-        const {
-            data:student,
-            error:studentError
-        } =
-        await supabaseClient
-            .from("students")
-            .select(`
-                id,
-                user_id,
-                balance,
-                steadcash,
-                courses_completed,
-                competition_score,
-                current_skill,
-                current_level,
-                created_at,
-                updated_at
-            `)
-            .eq(
-                "user_id",
-                userId
-            )
-            .maybeSingle();
-
-
-        if(studentError){
-
-            console.error(
-                "students error:",
-                studentError.message
-            );
-
-            showSupabaseError(
-                studentError.message
+            showToast(
+                "Your student database row was not found."
             );
 
         }
-
-
-        if(student){
-
-            supabaseStudent =
-                student;
-
-
-            studentData = {
-
-                id:
-                    student.id || "",
-
-                user_id:
-                    student.user_id || userId,
-
-                balance:
-                    Number(
-                        student.balance ?? 0
-                    ),
-
-                steadcash:
-                    Number(
-                        student.steadcash ?? 0
-                    ),
-
-                courses_completed:
-                    Number(
-                        student.courses_completed ?? 0
-                    ),
-
-                competition_score:
-                    Number(
-                        student.competition_score ?? 0
-                    ),
-
-                current_skill:
-                    student.current_skill || "",
-
-                current_level:
-                    student.current_level || "",
-
-                created_at:
-                    student.created_at || "",
-
-                updated_at:
-                    student.updated_at || ""
-
-            };
-
-
-        }else{
-
-            /*
-               DO NOT CREATE ANOTHER STUDENT HERE.
-
-               If the account has no students row,
-               show empty values instead of attaching
-               another user's student record.
-            */
-
-            supabaseStudent = null;
-
-
-            studentData = {
-
-                id:"",
-                user_id:userId,
-                balance:0,
-                steadcash:0,
-                courses_completed:0,
-                competition_score:0,
-                current_skill:"",
-                current_level:"",
-                created_at:"",
-                updated_at:""
-
-            };
-
-
-            console.warn(
-                "No students row found for auth user:",
-                userId
-            );
-
-        }
-
 
         console.log(
-            "SteadyMaze profile:",
+            "Current Auth User:",
+            user.id
+        );
+
+        console.log(
+            "Current Profile:",
             studentProfile
         );
 
-
         console.log(
-            "SteadyMaze student:",
+            "Current Student:",
             studentData
         );
-
-
-        updateStudentDashboard();
-
-        updateProfileAvatar();
-
 
     }catch(error){
 
@@ -2206,15 +2618,22 @@ async function loadStudentAccount(){
             error
         );
 
-
         showSupabaseError(
             error.message
         );
 
+    }finally{
+
+        document
+            .getElementById(
+                "loadingScreen"
+            )
+            ?.classList
+            .add("hidden");
+
     }
 
 }
-
 
 /* =====================================================
    DASHBOARD
@@ -2247,6 +2666,20 @@ function updateStudentDashboard(){
             "welcomeText"
         );
 
+    const email =
+        document.getElementById(
+            "studentEmail"
+        );
+
+    const summaryName =
+        document.getElementById(
+            "summaryName"
+        );
+
+    const summaryEmail =
+        document.getElementById(
+            "summaryEmail"
+        );
 
     if(balance){
 
@@ -2257,17 +2690,14 @@ function updateStudentDashboard(){
 
     }
 
-
     if(payment){
 
         payment.textContent =
-            savedPayment &&
-            savedPayment.method
+            savedPayment
             ? "ADDED"
             : "00";
 
     }
-
 
     if(completed){
 
@@ -2278,7 +2708,6 @@ function updateStudentDashboard(){
 
     }
 
-
     if(score){
 
         score.textContent =
@@ -2288,76 +2717,45 @@ function updateStudentDashboard(){
 
     }
 
-
     if(welcome){
 
         const name =
             studentProfile.full_name;
 
-
         welcome.textContent =
             name
             ? "Welcome back, " + name + "."
-            : "Learn digital skills, build projects and compete.";
+            : "Welcome back.";
+
+    }
+
+    if(email){
+
+        email.textContent =
+            studentProfile.email || "";
+
+    }
+
+    if(summaryName){
+
+        summaryName.textContent =
+            studentProfile.full_name ||
+            "Student";
+
+    }
+
+    if(summaryEmail){
+
+        summaryEmail.textContent =
+            studentProfile.email ||
+            "—";
 
     }
 
 }
 
-
 /* =====================================================
-   CLEAR DATA
-===================================================== */
-
-function clearStudentData(){
-
-    supabaseUser = null;
-
-    supabaseStudent = null;
-
-    studentProfile = {
-
-        id:"",
-        full_name:"",
-        email:"",
-        role:"",
-        profile_photo:"",
-        phone:"",
-        status:""
-
-    };
-
-
-    studentData = {
-
-        id:"",
-        user_id:"",
-        balance:0,
-        steadcash:0,
-        courses_completed:0,
-        competition_score:0,
-        current_skill:"",
-        current_level:"",
-        created_at:"",
-        updated_at:""
-
-    };
-
-
-    purchasedLessons = [];
-
-    savedPayment = null;
-
-
-    updateStudentDashboard();
-
-    updateProfileAvatar();
-
-}
-
-
-/* =====================================================
-   PROFILE INITIAL
+   PROFILE AVATAR
 ===================================================== */
 
 function getProfileInitial(){
@@ -2366,7 +2764,6 @@ function getProfileInitial(){
         studentProfile.full_name ||
         "Student";
 
-
     return name
         .trim()
         .charAt(0)
@@ -2374,11 +2771,6 @@ function getProfileInitial(){
         "S";
 
 }
-
-
-/* =====================================================
-   PROFILE AVATAR
-===================================================== */
 
 function updateProfileAvatar(){
 
@@ -2392,42 +2784,108 @@ function updateProfileAvatar(){
             "topProfileImage"
         );
 
+    const summaryLetter =
+        document.getElementById(
+            "summaryProfileLetter"
+        );
 
-    if(!letter || !image){
+    const summaryImage =
+        document.getElementById(
+            "summaryProfileImage"
+        );
 
-        return;
+    const initial =
+        getProfileInitial();
+
+    if(letter){
+
+        letter.textContent =
+            initial;
 
     }
 
+    if(summaryLetter){
+
+        summaryLetter.textContent =
+            initial;
+
+    }
 
     if(
         studentProfile.profile_photo
     ){
 
-        image.src =
-            studentProfile.profile_photo;
+        if(image){
 
-        image.style.display =
-            "block";
+            image.src =
+                studentProfile.profile_photo;
 
-        letter.style.display =
-            "none";
+            image.style.display =
+                "block";
+
+            letter.style.display =
+                "none";
+
+        }
+
+        if(summaryImage){
+
+            summaryImage.src =
+                studentProfile.profile_photo;
+
+            summaryImage.style.display =
+                "block";
+
+            if(summaryLetter){
+
+                summaryLetter.style.display =
+                    "none";
+
+            }
+
+        }
 
     }else{
 
-        letter.textContent =
-            getProfileInitial();
+        if(image){
 
-        letter.style.display =
-            "inline";
+            image.removeAttribute(
+                "src"
+            );
 
-        image.style.display =
-            "none";
+            image.style.display =
+                "none";
+
+            if(letter){
+
+                letter.style.display =
+                    "inline";
+
+            }
+
+        }
+
+        if(summaryImage){
+
+            summaryImage.removeAttribute(
+                "src"
+            );
+
+            summaryImage.style.display =
+                "none";
+
+            if(summaryLetter){
+
+                summaryLetter.style.display =
+                    "flex";
+
+            }
+
+        }
 
     }
 
 }
-
 
 /* =====================================================
    SKILLS
@@ -2539,7 +2997,6 @@ const skills = [
 
 ];
 
-
 const coursePrices = {
 
     LOWER:{
@@ -2561,30 +3018,25 @@ const coursePrices = {
 
 };
 
-
-/* =====================================================
-   CREATE SKILLS
-===================================================== */
-
 function createSkills(){
 
-    const groups = [
-        "LOWER",
-        "MEDIUM",
-        "HIGH"
-    ];
-
-
-    const skillContainer =
+    const container =
         document.getElementById(
             "skillContainer"
         );
 
+    if(!container){
+        return;
+    }
 
-    skillContainer.innerHTML = "";
+    container.innerHTML =
+        "";
 
-
-    groups.forEach(
+    [
+        "LOWER",
+        "MEDIUM",
+        "HIGH"
+    ].forEach(
         function(group){
 
             const groupSkills =
@@ -2596,16 +3048,13 @@ function createSkills(){
                     }
                 );
 
-
             const wrapper =
                 document.createElement(
                     "div"
                 );
 
-
             wrapper.className =
                 "group";
-
 
             wrapper.innerHTML = `
 
@@ -2625,12 +3074,10 @@ function createSkills(){
 
             `;
 
-
             const grid =
                 wrapper.querySelector(
                     ".skills"
                 );
-
 
             groupSkills.forEach(
                 function(skill){
@@ -2640,10 +3087,8 @@ function createSkills(){
                             "article"
                         );
 
-
                     card.className =
                         "skill";
-
 
                     card.innerHTML = `
 
@@ -2672,6 +3117,7 @@ function createSkills(){
                             </div>
 
                             <button
+                                class="btn dark"
                                 type="button"
                             >
                                 VIEW SKILL
@@ -2681,8 +3127,9 @@ function createSkills(){
 
                     `;
 
-
-                    card.onclick =
+                    card
+                        .querySelector("button")
+                        .onclick =
                         function(){
 
                             openSkill(
@@ -2691,7 +3138,6 @@ function createSkills(){
 
                         };
 
-
                     grid.appendChild(
                         card
                     );
@@ -2699,8 +3145,7 @@ function createSkills(){
                 }
             );
 
-
-            skillContainer.appendChild(
+            container.appendChild(
                 wrapper
             );
 
@@ -2709,9 +3154,8 @@ function createSkills(){
 
 }
 
-
 /* =====================================================
-   SKILL DETAIL
+   SKILL MODAL
 ===================================================== */
 
 function openSkill(skill){
@@ -2719,26 +3163,21 @@ function openSkill(skill){
     selectedSkill =
         skill;
 
-
     const image =
         document.getElementById(
             "modalImage"
         );
 
-
-    image.style.display =
-        "block";
-
-
     image.src =
         skill.image;
 
+    image.style.display =
+        "block";
 
     document.getElementById(
         "modalTitle"
     ).textContent =
         skill.name;
-
 
     document.getElementById(
         "modalText"
@@ -2750,18 +3189,17 @@ function openSkill(skill){
 
         <br><br>
 
-        This course is controlled by SteadyMaze
-        course and lesson data.
+        Course information, teacher assignment,
+        lessons and projects will be controlled by
+        the SteadyMaze database.
 
         <br><br>
 
-        Select a level to view the course option.
+        Select a level to continue.
 
     `;
 
-
     renderCourseLevels();
-
 
     document.getElementById(
         "modal"
@@ -2771,38 +3209,28 @@ function openSkill(skill){
 
 }
 
-
-/* =====================================================
-   COURSE LEVELS
-===================================================== */
-
 function renderCourseLevels(){
 
     if(!selectedSkill){
-
         return;
-
     }
 
-
     const levels =
-        document.querySelector(
-            ".levels"
+        document.getElementById(
+            "modalButtons"
         );
-
 
     const maxLevel =
         selectedSkill.group === "HIGH"
         ? 2
         : 3;
 
-
-    let html = "";
-
+    let html =
+        "";
 
     for(
-        let level = 1;
-        level <= maxLevel;
+        let level=1;
+        level<=maxLevel;
         level++
     ){
 
@@ -2810,22 +3238,6 @@ function renderCourseLevels(){
             coursePrices[
                 selectedSkill.group
             ][level];
-
-
-        const alreadyBought =
-            purchasedLessons.some(
-                function(item){
-
-                    return (
-                        item.name ===
-                            selectedSkill.name &&
-                        Number(item.level) ===
-                            Number(level)
-                    );
-
-                }
-            );
-
 
         html += `
 
@@ -2839,11 +3251,7 @@ function renderCourseLevels(){
 
                 <br>
 
-                ${
-                    alreadyBought
-                    ? "PURCHASED"
-                    : "$" + price
-                }
+                $${price}
 
             </button>
 
@@ -2851,46 +3259,24 @@ function renderCourseLevels(){
 
     }
 
-
     levels.innerHTML =
         html;
 
 }
 
-
-/* =====================================================
-   OPEN LEVEL
-===================================================== */
-
 function openLevel(level){
 
     if(!selectedSkill){
-
         return;
-
     }
 
+    selectedLevel =
+        level;
 
     const price =
         coursePrices[
             selectedSkill.group
         ][level];
-
-
-    const alreadyBought =
-        purchasedLessons.some(
-            function(item){
-
-                return (
-                    item.name ===
-                        selectedSkill.name &&
-                    Number(item.level) ===
-                        Number(level)
-                );
-
-            }
-        );
-
 
     document.getElementById(
         "modalTitle"
@@ -2899,17 +3285,11 @@ function openLevel(level){
         " — LEVEL " +
         level;
 
-
     document.getElementById(
         "modalText"
     ).innerHTML = `
 
-        <div style="
-            padding:15px;
-            border-radius:13px;
-            background:#09151e;
-            border:1px solid rgba(255,255,255,.07);
-        ">
+        <div class="panel">
 
             <strong>
                 ${escapeHtml(selectedSkill.name)}
@@ -2923,20 +3303,12 @@ function openLevel(level){
 
             <br><br>
 
-            <span style="color:#718492;">
-                Teacher:
-            </span>
-
-            <br>
-
-            Teacher assignment will be provided
-            by the database.
+            Teacher assignment will be
+            provided by the database.
 
             <br><br>
 
-            <span style="color:#718492;">
-                Course Price:
-            </span>
+            Course price:
 
             <strong style="color:#00e676;">
                 $${price}
@@ -2946,123 +3318,60 @@ function openLevel(level){
 
     `;
 
-
-    if(alreadyBought){
-
-        const index =
-            purchasedLessons.findIndex(
-                function(item){
-
-                    return (
-                        item.name ===
-                            selectedSkill.name &&
-                        Number(item.level) ===
-                            Number(level)
-                    );
-
-                }
-            );
-
-
-        document.querySelector(
-            ".levels"
-        ).innerHTML = `
-
-            <button
-                class="level-btn"
-                type="button"
-                onclick="openPurchasedLesson(${index})"
-            >
-                OPEN LESSON
-            </button>
-
-            <button
-                class="level-btn"
-                type="button"
-                onclick="renderCourseLevels()"
-            >
-                BACK
-            </button>
-
-        `;
-
-
-        return;
-
-    }
-
-
-    document.querySelector(
-        ".levels"
+    document.getElementById(
+        "modalButtons"
     ).innerHTML = `
 
         <button
             class="level-btn"
-            type="button"
-            onclick="openCoursePayment(
-                '${escapeJs(selectedSkill.name)}',
-                '${escapeJs(selectedSkill.group)}',
-                ${level},
-                ${price},
-                '${escapeJs(selectedSkill.image)}'
-            )"
+            onclick="openCoursePayment()"
         >
-
-            BUY LEVEL ${level}
-
-            <br>
-
-            $${price}
-
+            CONTINUE
         </button>
 
         <button
             class="level-btn"
-            type="button"
             onclick="renderCourseLevels()"
         >
-            BACK TO LEVELS
+            BACK
         </button>
 
     `;
 
 }
 
-
 /* =====================================================
-   COURSE PAYMENT
+   PAYMENT
 ===================================================== */
 
-function openCoursePayment(
-    name,
-    group,
-    level,
-    price,
-    image
-){
+function openCoursePayment(){
+
+    if(!selectedSkill || !selectedLevel){
+        return;
+    }
 
     selectedPaymentMethod =
         null;
 
+    const price =
+        coursePrices[
+            selectedSkill.group
+        ][selectedLevel];
 
     document.getElementById(
         "modalImage"
     ).style.display =
         "block";
 
-
     document.getElementById(
         "modalImage"
     ).src =
-        image;
-
+        selectedSkill.image;
 
     document.getElementById(
         "modalTitle"
     ).textContent =
-        "PAY FOR LEVEL " +
-        level;
-
+        "Course Purchase";
 
     document.getElementById(
         "modalText"
@@ -3070,50 +3379,24 @@ function openCoursePayment(
 
         <div>
 
-            <div style="
-                padding:15px;
-                border-radius:13px;
-                background:#09151e;
-                border:1px solid rgba(255,255,255,.07);
-            ">
+            <strong>
+                ${escapeHtml(selectedSkill.name)}
+            </strong>
 
-                <div
-                    style="
-                        color:#718492;
-                        font-size:8px;
-                        font-weight:900;
-                    "
-                >
-                    COURSE
-                </div>
+            <br>
 
-                <strong>
-                    ${escapeHtml(name)}
-                </strong>
+            LEVEL ${selectedLevel}
 
-                <br>
+            <br><br>
 
-                LEVEL ${level}
+            Price:
+            <strong style="color:#00e676;">
+                $${price}
+            </strong>
 
-                <br><br>
+            <br><br>
 
-                <strong style="color:#00e676;">
-                    $${price}
-                </strong>
-
-            </div>
-
-
-            <div style="
-                margin-top:17px;
-                color:#718492;
-                font-size:8px;
-                font-weight:900;
-                letter-spacing:1px;
-            ">
-                SELECT PAYMENT METHOD
-            </div>
-
+            Select your preferred payment provider.
 
             <div class="payment-methods">
 
@@ -3138,7 +3421,6 @@ function openCoursePayment(
 
                 </div>
 
-
                 <div
                     class="payment-method"
                     id="payment-visa"
@@ -3155,11 +3437,10 @@ function openCoursePayment(
                     </strong>
 
                     <span>
-                        Card payment
+                        Card provider
                     </span>
 
                 </div>
-
 
                 <div
                     class="payment-method"
@@ -3177,17 +3458,16 @@ function openCoursePayment(
                     </strong>
 
                     <span>
-                        Card payment
+                        Card provider
                     </span>
 
                 </div>
 
             </div>
 
-
             <div
+                id="paymentAccountArea"
                 class="payment-input"
-                id="paymentAccountField"
             >
 
                 <label>
@@ -3195,21 +3475,20 @@ function openCoursePayment(
                 </label>
 
                 <input
-                    type="text"
                     id="paymentAccount"
-                    placeholder="Select a payment method first"
+                    type="text"
+                    placeholder="Select payment method first"
                     disabled
                 >
 
             </div>
 
-
-            <div class="security-note">
+            <div class="security-box">
 
                 SteadyMaze does not store card numbers,
-                expiry dates or CVC/CVV codes.
-                Card payments must be completed through
-                a secure official payment provider.
+                expiry dates or CVC/CVV. Real card payments
+                must be processed by an approved payment
+                provider.
 
             </div>
 
@@ -3217,54 +3496,32 @@ function openCoursePayment(
 
     `;
 
-
-    document.querySelector(
-        ".levels"
+    document.getElementById(
+        "modalButtons"
     ).innerHTML = `
 
         <button
             class="level-btn"
-            type="button"
-            onclick="payForCourse(
-                '${escapeJs(name)}',
-                '${escapeJs(group)}',
-                ${level},
-                ${price},
-                '${escapeJs(image)}'
-            )"
+            onclick="submitCoursePurchase()"
         >
             CONTINUE
         </button>
 
         <button
             class="level-btn"
-            type="button"
-            onclick="openLevel(${level})"
+            onclick="openLevel(${selectedLevel})"
         >
             BACK
         </button>
 
     `;
 
-
-    document.getElementById(
-        "modal"
-    ).classList.add(
-        "show"
-    );
-
 }
-
-
-/* =====================================================
-   PAYMENT METHOD
-===================================================== */
 
 function selectPayment(method){
 
     selectedPaymentMethod =
         method;
-
 
     document
         .querySelectorAll(
@@ -3280,13 +3537,11 @@ function selectPayment(method){
             }
         );
 
-
     const selected =
         document.getElementById(
             "payment-" +
             method.toLowerCase()
         );
-
 
     if(selected){
 
@@ -3296,477 +3551,109 @@ function selectPayment(method){
 
     }
 
-
     const input =
         document.getElementById(
             "paymentAccount"
         );
-
 
     if(input){
 
         input.disabled =
             false;
 
-
         input.placeholder =
             method === "PayPal"
-            ? "Enter PayPal email"
-            : "Payment provider will process card details securely";
+            ? "Enter PayPal account/email"
+            : "Payment provider selected";
 
     }
 
 }
 
+async function submitCoursePurchase(){
 
-/* =====================================================
-   PAY COURSE
-===================================================== */
+    if(!supabaseStudent){
 
-async function payForCourse(
-    name,
-    group,
-    level,
-    price,
-    image
-){
-
-    if(!supabaseUser){
-
-        alert(
-            "Please login again."
+        showToast(
+            "Please login again.",
+            true
         );
 
         return;
 
     }
 
+    if(!studentData.id){
+
+        showToast(
+            "Student database row was not found.",
+            true
+        );
+
+        return;
+
+    }
 
     if(!selectedPaymentMethod){
 
-        alert(
-            "Please select a payment method."
+        showToast(
+            "Please select a payment method.",
+            true
         );
 
         return;
 
     }
 
-
-    const accountInput =
-        document.getElementById(
-            "paymentAccount"
-        );
-
-
     const account =
-        accountInput
-        ? accountInput.value.trim()
-        : "";
-
+        document
+            .getElementById(
+                "paymentAccount"
+            )
+            ?.value
+            .trim() || "";
 
     if(
         selectedPaymentMethod === "PayPal" &&
         !account
     ){
 
-        alert(
-            "Please enter your PayPal account."
+        showToast(
+            "Please enter your PayPal account.",
+            true
         );
 
         return;
 
     }
-
-
-    const existing =
-        purchasedLessons.find(
-            function(item){
-
-                return (
-                    item.name === name &&
-                    Number(item.level) ===
-                        Number(level)
-                );
-
-            }
-        );
-
-
-    if(existing){
-
-        alert(
-            "This course is already in My Lessons."
-        );
-
-        return;
-
-    }
-
 
     /*
        IMPORTANT:
-
-       This does NOT pretend that payment succeeded.
-
-       It creates a local UI record as PENDING.
-       A real payment provider/backend must confirm
-       the transaction before activating the course.
+       This does not charge money.
+       It creates no fake successful payment.
+       A real provider/backend should confirm
+       the transaction.
     */
-
-    const purchase = {
-
-        user_id:
-            supabaseUser.id,
-
-        name:name,
-
-        group:group,
-
-        level:Number(level),
-
-        price:Number(price),
-
-        image:image,
-
-        paymentMethod:
-            selectedPaymentMethod,
-
-        paymentAccount:
-            selectedPaymentMethod === "PayPal"
-            ? account
-            : "SECURE_PROVIDER_PAYMENT",
-
-        status:
-            "PAYMENT_PENDING",
-
-        purchasedAt:
-            new Date().toISOString()
-
-    };
-
-
-    purchasedLessons.push(
-        purchase
-    );
-
 
     savedPayment = {
 
         method:
             selectedPaymentMethod,
 
-        account:
-            selectedPaymentMethod === "PayPal"
-            ? account
-            : "SECURE_PROVIDER_PAYMENT",
-
         status:
             "PENDING"
 
     };
 
-
-    saveUserLocalData();
-
-    renderMyLessons();
-
     updateStudentDashboard();
 
     closeModal();
 
-
-    setTimeout(
-        function(){
-
-            scrollToId(
-                "myLessons"
-            );
-
-        },
-        150
-    );
-
-
-    alert(
-        "Payment request is pending. The real payment provider/backend must confirm the transaction before the course becomes active."
+    showToast(
+        "Payment request prepared. Real provider confirmation is required before course activation."
     );
 
 }
-
-
-/* =====================================================
-   MY LESSONS
-===================================================== */
-
-function renderMyLessons(){
-
-    const container =
-        document.getElementById(
-            "lessonContainer"
-        );
-
-
-    if(!container){
-
-        return;
-
-    }
-
-
-    if(!purchasedLessons.length){
-
-        container.innerHTML = `
-
-            <div class="empty-lessons">
-
-                No purchased courses yet.
-
-                <br><br>
-
-                Your confirmed courses will appear here.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        "";
-
-
-    purchasedLessons.forEach(
-        function(course,index){
-
-            const card =
-                document.createElement(
-                    "article"
-                );
-
-
-            card.className =
-                "lesson-card";
-
-
-            card.innerHTML = `
-
-                <img
-                    src="${escapeHtml(course.image)}"
-                    alt="${escapeHtml(course.name)}"
-                    loading="lazy"
-                >
-
-                <div class="lesson-body">
-
-                    <h3>
-                        ${escapeHtml(course.name)}
-                    </h3>
-
-                    <div class="lesson-meta">
-
-                        <span class="lesson-tag">
-                            ${escapeHtml(course.group)}
-                        </span>
-
-                        <span class="lesson-tag">
-                            LEVEL ${escapeHtml(course.level)}
-                        </span>
-
-                        <span class="lesson-tag">
-                            $${escapeHtml(course.price)}
-                        </span>
-
-                        <span
-                            class="lesson-tag"
-                            style="
-                                color:
-                                ${
-                                    course.status ===
-                                    "ACTIVE"
-                                    ? "#00e676"
-                                    : "#ffd740"
-                                };
-                            "
-                        >
-                            ${escapeHtml(course.status)}
-                        </span>
-
-                    </div>
-
-                    <p class="lesson-description">
-
-                        Teacher information,
-                        lessons, progress and
-                        course content will be
-                        loaded from the database.
-
-                    </p>
-
-                    <button
-                        class="btn green"
-                        type="button"
-                        onclick="openPurchasedLesson(${index})"
-                    >
-                        OPEN LESSON
-                    </button>
-
-                </div>
-
-            `;
-
-
-            container.appendChild(
-                card
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   OPEN PURCHASED LESSON
-===================================================== */
-
-function openPurchasedLesson(index){
-
-    const course =
-        purchasedLessons[index];
-
-
-    if(!course){
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "modalImage"
-    ).style.display =
-        "block";
-
-
-    document.getElementById(
-        "modalImage"
-    ).src =
-        course.image;
-
-
-    document.getElementById(
-        "modalTitle"
-    ).textContent =
-        course.name +
-        " — Level " +
-        course.level;
-
-
-    document.getElementById(
-        "modalText"
-    ).innerHTML = `
-
-        <div style="
-            padding:16px;
-            border-radius:14px;
-            background:#09151e;
-            border:1px solid rgba(255,255,255,.07);
-        ">
-
-            <div style="
-                color:#00e676;
-                font-size:9px;
-                font-weight:900;
-            ">
-                COURSE
-            </div>
-
-            <br>
-
-            <strong>
-                ${escapeHtml(course.name)}
-            </strong>
-
-            <br><br>
-
-            Level:
-            ${escapeHtml(course.level)}
-
-            <br><br>
-
-            Status:
-            ${escapeHtml(course.status)}
-
-            <br><br>
-
-            Teacher:
-            Teacher assignment will come from
-            the Teacher Dashboard/database.
-
-            <br><br>
-
-            Lessons:
-            Lesson content and video lessons
-            will be loaded from Supabase.
-
-        </div>
-
-    `;
-
-
-    document.querySelector(
-        ".levels"
-    ).innerHTML = `
-
-        <button
-            class="level-btn"
-            type="button"
-            onclick="lessonAction('video')"
-        >
-            START LESSON
-        </button>
-
-        <button
-            class="level-btn"
-            type="button"
-            onclick="lessonAction('teacher')"
-        >
-            TEACHER
-        </button>
-
-        <button
-            class="level-btn"
-            type="button"
-            onclick="lessonAction('progress')"
-        >
-            PROGRESS
-        </button>
-
-    `;
-
-
-    document.getElementById(
-        "modal"
-    ).classList.add(
-        "show"
-    );
-
-}
-
-
-function lessonAction(type){
-
-    alert(
-        type.toUpperCase() +
-        " will load from the Supabase lesson system."
-    );
-
-}
-
 
 /* =====================================================
    PAYMENT ACCOUNT
@@ -3774,32 +3661,18 @@ function lessonAction(type){
 
 function openPayment(){
 
-    if(!supabaseUser){
-
-        alert(
-            "Please login again."
-        );
-
-        return;
-
-    }
-
-
     selectedPaymentMethod =
         null;
-
 
     document.getElementById(
         "modalImage"
     ).style.display =
         "none";
 
-
     document.getElementById(
         "modalTitle"
     ).textContent =
         "Payment Account";
-
 
     document.getElementById(
         "modalText"
@@ -3810,12 +3683,10 @@ function openPayment(){
             <div style="
                 color:#718492;
                 font-size:8px;
-                font-weight:900;
-                letter-spacing:1px;
+                font-weight:1000;
             ">
-                ADD YOUR PAYMENT METHOD
+                PAYMENT PROVIDER
             </div>
-
 
             <div class="payment-methods">
 
@@ -3840,7 +3711,6 @@ function openPayment(){
 
                 </div>
 
-
                 <div
                     class="payment-method"
                     id="payment-visa"
@@ -3857,11 +3727,10 @@ function openPayment(){
                     </strong>
 
                     <span>
-                        Secure provider
+                        Card provider
                     </span>
 
                 </div>
-
 
                 <div
                     class="payment-method"
@@ -3879,13 +3748,12 @@ function openPayment(){
                     </strong>
 
                     <span>
-                        Secure provider
+                        Card provider
                     </span>
 
                 </div>
 
             </div>
-
 
             <div class="payment-input">
 
@@ -3894,21 +3762,18 @@ function openPayment(){
                 </label>
 
                 <input
-                    type="text"
                     id="paymentAccount"
+                    type="text"
                     placeholder="Select a payment method first"
                     disabled
                 >
 
             </div>
 
+            <div class="security-box">
 
-            <div class="security-note">
-
-                Card numbers and CVC/CVV are never
+                Card numbers and security codes are not
                 collected or stored by this dashboard.
-                Use the official payment provider
-                checkout for card payments.
 
             </div>
 
@@ -3916,29 +3781,18 @@ function openPayment(){
 
     `;
 
-
-    document.querySelector(
-        ".levels"
+    document.getElementById(
+        "modalButtons"
     ).innerHTML = `
 
         <button
             class="level-btn"
-            type="button"
             onclick="savePaymentMethod()"
         >
-            ADD PAYMENT
-        </button>
-
-        <button
-            class="level-btn"
-            type="button"
-            onclick="paymentAction('history')"
-        >
-            PAYMENT HISTORY
+            SAVE PAYMENT METHOD
         </button>
 
     `;
-
 
     document.getElementById(
         "modal"
@@ -3948,101 +3802,62 @@ function openPayment(){
 
 }
 
-
-/* =====================================================
-   SAVE PAYMENT METHOD
-===================================================== */
-
 function savePaymentMethod(){
-
-    if(!supabaseUser){
-
-        alert(
-            "Please login again."
-        );
-
-        return;
-
-    }
-
 
     if(!selectedPaymentMethod){
 
-        alert(
-            "Please select a payment method."
+        showToast(
+            "Select a payment method.",
+            true
         );
 
         return;
 
     }
 
-
-    const accountInput =
+    const input =
         document.getElementById(
             "paymentAccount"
         );
 
-
     const account =
-        accountInput
-        ? accountInput.value.trim()
+        input
+        ? input.value.trim()
         : "";
-
 
     if(
         selectedPaymentMethod === "PayPal" &&
         !account
     ){
 
-        alert(
-            "Please enter your PayPal account."
+        showToast(
+            "Please enter your PayPal account.",
+            true
         );
 
         return;
 
     }
 
-
     savedPayment = {
 
         method:
             selectedPaymentMethod,
-
-        account:
-            selectedPaymentMethod === "PayPal"
-            ? account
-            : "SECURE_PROVIDER_PAYMENT",
 
         status:
             "ADDED"
 
     };
 
-
-    saveUserLocalData();
-
     updateStudentDashboard();
 
     closeModal();
 
-
-    alert(
-        selectedPaymentMethod +
-        " payment method added."
+    showToast(
+        "Payment method saved locally for this browser session."
     );
 
 }
-
-
-function paymentAction(type){
-
-    alert(
-        type.toUpperCase() +
-        " will connect to the Supabase transaction system."
-    );
-
-}
-
 
 /* =====================================================
    PROFILE
@@ -4050,159 +3865,137 @@ function paymentAction(type){
 
 function openProfile(){
 
-    if(!supabaseUser){
+    if(!supabaseStudent){
 
-        alert(
-            "No active Supabase session."
+        showToast(
+            "No active Supabase session.",
+            true
         );
 
         return;
 
     }
 
-
     document.getElementById(
         "modalImage"
     ).style.display =
         "none";
-
 
     document.getElementById(
         "modalTitle"
     ).textContent =
         "Student Profile";
 
+    const photo =
+        studentProfile.profile_photo;
 
     document.getElementById(
         "modalText"
     ).innerHTML = `
 
-        <div class="profile-preview">
+        <div class="profile-editor-preview">
 
-            <div
-                class="profile-letter"
-                id="profileModalLetter"
-                style="${
-                    studentProfile.profile_photo
-                    ? "display:none;"
-                    : "display:flex;"
-                }"
-            >
-                ${escapeHtml(getProfileInitial())}
-            </div>
-
-            <img
-                class="profile-large"
-                id="profileModalImage"
-                src="${escapeHtml(studentProfile.profile_photo)}"
-                alt="Profile photo"
-                style="${
-                    studentProfile.profile_photo
-                    ? "display:block;"
-                    : "display:none;"
-                }"
-            >
+            ${
+                photo
+                ? `
+                    <img
+                        class="profile-preview-image"
+                        id="profileModalImage"
+                        src="${escapeHtml(photo)}"
+                        alt="Profile"
+                    >
+                `
+                : `
+                    <div
+                        class="profile-preview-letter"
+                        id="profileModalLetter"
+                    >
+                        ${escapeHtml(getProfileInitial())}
+                    </div>
+                `
+            }
 
             <div>
 
                 <strong>
-                    ${
-                        escapeHtml(
-                            studentProfile.full_name ||
-                            "Student"
-                        )
-                    }
+                    ${escapeHtml(
+                        studentProfile.full_name ||
+                        "Student"
+                    )}
                 </strong>
 
                 <div
-                    style="
-                        margin-top:5px;
-                        color:#607581;
-                        font-size:7px;
-                    "
+                    class="profile-note"
                 >
-                    ${
-                        escapeHtml(
-                            studentProfile.email ||
-                            supabaseUser.email ||
-                            ""
-                        )
-                    }
-                </div>
-
-                <div class="profile-note">
-                    Authenticated account:
-                    ${escapeHtml(supabaseUser.id)}
+                    ${escapeHtml(
+                        studentProfile.email ||
+                        supabaseStudent.email ||
+                        ""
+                    )}
                 </div>
 
             </div>
 
         </div>
 
-
         <div class="profile-field">
 
             <label>
-                CHANGE NAME
+                FULL NAME
             </label>
 
             <input
                 type="text"
                 id="profileNameInput"
-                value="${escapeHtml(studentProfile.full_name || "")}"
-                placeholder="Enter your name"
+                value="${escapeHtml(
+                    studentProfile.full_name || ""
+                )}"
+                placeholder="Enter your full name"
             >
 
         </div>
 
-
         <div class="profile-field">
 
             <label>
-                CHANGE PHOTO
+                PROFILE PHOTO
             </label>
 
             <input
                 type="file"
                 id="profilePhotoInput"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp"
             >
 
         </div>
 
-
         <div class="profile-note">
 
-            This profile belongs only to the currently
+            Your profile belongs to the currently
             authenticated Supabase account.
+
+            <br><br>
+
+            Profile photo will be uploaded to the
+            Supabase Storage bucket:
+            <strong>profile-photos</strong>
 
         </div>
 
     `;
 
-
-    document.querySelector(
-        ".levels"
+    document.getElementById(
+        "modalButtons"
     ).innerHTML = `
 
         <button
             class="level-btn"
-            type="button"
             onclick="saveProfile()"
         >
             SAVE PROFILE
         </button>
 
-        <button
-            class="level-btn"
-            type="button"
-            onclick="signOutStudent()"
-        >
-            LOG OUT
-        </button>
-
     `;
-
 
     document.getElementById(
         "modal"
@@ -4210,106 +4003,91 @@ function openProfile(){
         "show"
     );
 
-
-    const photo =
-        document.getElementById(
-            "profilePhotoInput"
-        );
-
-
-    if(photo){
-
-        photo.addEventListener(
-            "change",
-            previewProfilePhoto
-        );
-
-    }
-
 }
 
-
 /* =====================================================
-   PHOTO PREVIEW
+   UPLOAD PROFILE PHOTO
 ===================================================== */
 
-function previewProfilePhoto(event){
-
-    const file =
-        event.target.files[0];
-
+async function uploadProfilePhoto(
+    file,
+    userId
+){
 
     if(!file){
-
-        return;
-
+        return null;
     }
 
+    if(
+        !file.type.startsWith(
+            "image/"
+        )
+    ){
+
+        throw new Error(
+            "Please choose an image file."
+        );
+
+    }
 
     if(
         file.size >
         2 * 1024 * 1024
     ){
 
-        alert(
-            "Please choose an image smaller than 2MB."
+        throw new Error(
+            "Profile image must be smaller than 2MB."
         );
-
-
-        event.target.value =
-            "";
-
-
-        return;
 
     }
 
+    const extension =
+        file.name
+            .split(".")
+            .pop()
+            .toLowerCase();
 
-    const reader =
-        new FileReader();
+    const filePath =
+        userId +
+        "/avatar-" +
+        Date.now() +
+        "." +
+        extension;
 
-
-    reader.onload =
-        function(e){
-
-            const image =
-                document.getElementById(
-                    "profileModalImage"
-                );
-
-            const letter =
-                document.getElementById(
-                    "profileModalLetter"
-                );
-
-
-            if(!image || !letter){
-
-                return;
-
+    const {
+        error:uploadError
+    } =
+    await supabaseClient
+        .storage
+        .from("profile-photos")
+        .upload(
+            filePath,
+            file,
+            {
+                upsert:true,
+                contentType:file.type
             }
+        );
 
+    if(uploadError){
 
-            image.src =
-                e.target.result;
+        throw uploadError;
 
+    }
 
-            image.style.display =
-                "block";
+    const {
+        data
+    } =
+    supabaseClient
+        .storage
+        .from("profile-photos")
+        .getPublicUrl(
+            filePath
+        );
 
-
-            letter.style.display =
-                "none";
-
-        };
-
-
-    reader.readAsDataURL(
-        file
-    );
+    return data.publicUrl;
 
 }
-
 
 /* =====================================================
    SAVE PROFILE
@@ -4317,141 +4095,73 @@ function previewProfilePhoto(event){
 
 async function saveProfile(){
 
-    if(!supabaseUser){
+    if(!supabaseStudent){
 
-        alert(
-            "No active Supabase session."
+        showToast(
+            "No active Supabase session.",
+            true
         );
 
         return;
 
     }
 
+    const userId =
+        supabaseStudent.id;
 
     const nameInput =
         document.getElementById(
             "profileNameInput"
         );
 
-
     const photoInput =
         document.getElementById(
             "profilePhotoInput"
         );
 
-
-    if(!nameInput){
-
-        return;
-
-    }
-
-
     const name =
-        nameInput.value.trim();
-
+        nameInput
+        ? nameInput.value.trim()
+        : "";
 
     if(!name){
 
-        alert(
-            "Please enter your name."
+        showToast(
+            "Please enter your name.",
+            true
         );
 
         return;
 
     }
-
-
-    let photo =
-        studentProfile.profile_photo || "";
-
-
-    if(
-        photoInput &&
-        photoInput.files &&
-        photoInput.files.length
-    ){
-
-        const file =
-            photoInput.files[0];
-
-
-        if(
-            file.size >
-            2 * 1024 * 1024
-        ){
-
-            alert(
-                "Please choose an image smaller than 2MB."
-            );
-
-            return;
-
-        }
-
-
-        const reader =
-            new FileReader();
-
-
-        reader.onload =
-            async function(e){
-
-                await saveProfileToSupabase(
-                    name,
-                    e.target.result
-                );
-
-            };
-
-
-        reader.readAsDataURL(
-            file
-        );
-
-
-        return;
-
-    }
-
-
-    await saveProfileToSupabase(
-        name,
-        photo
-    );
-
-}
-
-
-/* =====================================================
-   SAVE PROFILE TO SUPABASE
-===================================================== */
-
-async function saveProfileToSupabase(
-    name,
-    photo
-){
-
-    if(!supabaseUser){
-
-        return;
-
-    }
-
-
-    const userId =
-        supabaseUser.id;
-
 
     try{
 
+        let photo =
+            studentProfile.profile_photo ||
+            null;
+
+        if(
+            photoInput &&
+            photoInput.files &&
+            photoInput.files.length
+        ){
+
+            showToast(
+                "Uploading profile photo..."
+            );
+
+            photo =
+                await uploadProfilePhoto(
+                    photoInput.files[0],
+                    userId
+                );
+
+        }
+
         /*
            UPDATE ONLY.
-
-           NO INSERT.
-
-           This guarantees that we never create
-           a profile belonging to another user.
+           profiles.id = auth.users.id
         */
 
         const {
@@ -4465,7 +4175,7 @@ async function saveProfileToSupabase(
                 full_name:name,
 
                 profile_photo:
-                    photo || null
+                    photo
 
             })
             .eq(
@@ -4482,7 +4192,6 @@ async function saveProfileToSupabase(
                 status
             `);
 
-
         if(error){
 
             console.error(
@@ -4490,64 +4199,57 @@ async function saveProfileToSupabase(
                 error
             );
 
-
-            alert(
-                "Profile could not be updated: " +
+            showSupabaseError(
                 error.message
             );
-
 
             return;
 
         }
-
 
         if(
             !data ||
             !data.length
         ){
 
-            alert(
-                "No profile row exists for this authenticated account."
+            showToast(
+                "Profile row was not found for this account.",
+                true
             );
-
 
             return;
 
         }
 
-
-        const updatedProfile =
+        const updated =
             data[0];
-
 
         studentProfile = {
 
             id:
-                updatedProfile.id,
+                updated.id,
 
             full_name:
-                updatedProfile.full_name || "",
+                updated.full_name || "",
 
             email:
-                updatedProfile.email ||
-                supabaseUser.email ||
+                updated.email ||
+                supabaseStudent.email ||
                 "",
 
             role:
-                updatedProfile.role || "",
+                updated.role || "",
 
             profile_photo:
-                updatedProfile.profile_photo || "",
+                updated.profile_photo || "",
 
             phone:
-                updatedProfile.phone || "",
+                updated.phone || "",
 
             status:
-                updatedProfile.status || ""
+                updated.status || ""
 
         };
-
 
         updateProfileAvatar();
 
@@ -4555,11 +4257,9 @@ async function saveProfileToSupabase(
 
         closeModal();
 
-
-        alert(
+        showToast(
             "Profile updated successfully."
         );
-
 
     }catch(error){
 
@@ -4568,64 +4268,281 @@ async function saveProfileToSupabase(
             error
         );
 
-
-        alert(
-            "Profile could not be updated: " +
+        showSupabaseError(
             error.message
         );
 
     }
 
 }
-
 
 /* =====================================================
-   LOGOUT
+   MY LESSONS
 ===================================================== */
 
-async function signOutStudent(){
+function renderMyLessons(){
 
-    try{
-
-        const {
-            error
-        } =
-        await supabaseClient
-            .auth
-            .signOut();
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-        clearStudentData();
-
-
-        window.location.href =
-            "student-login.html";
-
-
-    }catch(error){
-
-        console.error(
-            "Logout error:",
-            error
+    const container =
+        document.getElementById(
+            "lessonContainer"
         );
 
+    if(!container){
+        return;
+    }
 
-        alert(
-            "Logout failed: " +
-            error.message
-        );
+    if(!purchasedLessons.length){
+
+        container.innerHTML = `
+
+            <div class="empty-lessons">
+
+                No purchased lessons yet.
+
+                <br><br>
+
+                When a course purchase is confirmed
+                by the real backend/payment system,
+                it will appear here.
+
+            </div>
+
+        `;
+
+        return;
 
     }
 
+    container.innerHTML =
+        "";
+
+    purchasedLessons.forEach(
+        function(item){
+
+            const lesson =
+                item.lessons;
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+            card.className =
+                "lesson-card";
+
+            const image =
+                lesson?.thumbnail_url ||
+                "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=900&q=80";
+
+            card.innerHTML = `
+
+                <img
+                    src="${escapeHtml(image)}"
+                    alt="${escapeHtml(
+                        lesson?.title ||
+                        "Lesson"
+                    )}"
+                >
+
+                <div class="lesson-body">
+
+                    <h3>
+                        ${escapeHtml(
+                            lesson?.title ||
+                            "Lesson"
+                        )}
+                    </h3>
+
+                    <div class="lesson-meta">
+
+                        <span class="lesson-tag">
+                            LEVEL
+                            ${escapeHtml(
+                                lesson?.level ||
+                                "—"
+                            )}
+                        </span>
+
+                        <span class="lesson-tag">
+                            ${escapeHtml(
+                                item.status ||
+                                "ACTIVE"
+                            )}
+                        </span>
+
+                        <span class="lesson-tag">
+                            ${Number(
+                                item.progress || 0
+                            )}% COMPLETE
+                        </span>
+
+                    </div>
+
+                    <p class="lesson-description">
+
+                        ${escapeHtml(
+                            lesson?.description ||
+                            "Lesson information will appear here."
+                        )}
+
+                    </p>
+
+                    <button
+                        class="btn green"
+                        onclick="openDatabaseLesson('${escapeJs(
+                            item.id
+                        )}')"
+                    >
+                        OPEN LESSON
+                    </button>
+
+                </div>
+
+            `;
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
 }
 
+function escapeJs(value){
+
+    return String(value ?? "")
+        .replaceAll("\\","\\\\")
+        .replaceAll("'","\\'")
+        .replaceAll("\n","\\n")
+        .replaceAll("\r","\\r");
+
+}
+
+function openDatabaseLesson(
+    studentLessonId
+){
+
+    const item =
+        purchasedLessons.find(
+            function(row){
+
+                return row.id ===
+                    studentLessonId;
+
+            }
+        );
+
+    if(!item){
+
+        return;
+
+    }
+
+    const lesson =
+        item.lessons;
+
+    document.getElementById(
+        "modalImage"
+    ).style.display =
+        lesson?.thumbnail_url
+        ? "block"
+        : "none";
+
+    if(lesson?.thumbnail_url){
+
+        document.getElementById(
+            "modalImage"
+        ).src =
+            lesson.thumbnail_url;
+
+    }
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        lesson?.title ||
+        "Lesson";
+
+    document.getElementById(
+        "modalText"
+    ).innerHTML = `
+
+        <strong>
+            ${escapeHtml(
+                lesson?.title ||
+                "Lesson"
+            )}
+        </strong>
+
+        <br><br>
+
+        ${escapeHtml(
+            lesson?.description ||
+            "Lesson description is not available."
+        )}
+
+        <br><br>
+
+        <span style="color:#718492;">
+            Progress:
+        </span>
+
+        ${Number(
+            item.progress || 0
+        )}%
+
+    `;
+
+    document.getElementById(
+        "modalButtons"
+    ).innerHTML = `
+
+        ${
+            lesson?.video_url
+            ? `
+                <button
+                    class="level-btn"
+                    onclick="openLessonVideo('${escapeJs(
+                        lesson.video_url
+                    )}')"
+                >
+                    WATCH LESSON
+                </button>
+            `
+            : `
+                <button
+                    class="level-btn"
+                    disabled
+                >
+                    VIDEO NOT AVAILABLE
+                </button>
+            `
+        }
+
+    `;
+
+    document.getElementById(
+        "modal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+function openLessonVideo(url){
+
+    if(!url){
+        return;
+    }
+
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
+
+}
 
 /* =====================================================
    PROJECT UPLOAD
@@ -4638,44 +4555,30 @@ function openUpload(){
             "uploadBtn"
         );
 
-
     if(
         button.classList.contains(
             "disabled"
         )
     ){
 
-        alert(
-            "Project upload is currently CLOSED."
+        showToast(
+            "Project upload is currently closed.",
+            true
         );
 
         return;
 
     }
-
-
-    if(!supabaseUser){
-
-        alert(
-            "Please login again."
-        );
-
-        return;
-
-    }
-
 
     document.getElementById(
         "modalImage"
     ).style.display =
         "none";
 
-
     document.getElementById(
         "modalTitle"
     ).textContent =
         "Upload Project";
-
 
     document.getElementById(
         "modalText"
@@ -4695,7 +4598,6 @@ function openUpload(){
 
         </div>
 
-
         <div class="form-group">
 
             <label>
@@ -4710,7 +4612,6 @@ function openUpload(){
 
         </div>
 
-
         <div class="form-group">
 
             <label>
@@ -4724,32 +4625,29 @@ function openUpload(){
 
         </div>
 
+        <div class="security-box">
 
-        <div class="security-note">
-
-            Your project will be associated with
-            the currently authenticated Supabase
-            user ID.
+            The final project upload will be connected
+            to Supabase Storage and your project upload
+            table. This frontend does not fake a successful
+            submission.
 
         </div>
 
     `;
 
-
-    document.querySelector(
-        ".levels"
+    document.getElementById(
+        "modalButtons"
     ).innerHTML = `
 
         <button
             class="level-btn"
-            type="button"
             onclick="submitProject()"
         >
             SUBMIT PROJECT
         </button>
 
     `;
-
 
     document.getElementById(
         "modal"
@@ -4759,267 +4657,109 @@ function openUpload(){
 
 }
 
-
-/* =====================================================
-   PROJECT SUBMIT
-===================================================== */
-
-async function submitProject(){
-
-    if(!supabaseUser){
-
-        alert(
-            "Please login again."
-        );
-
-        return;
-
-    }
-
+function submitProject(){
 
     const video =
         document.getElementById(
             "projectVideo"
         );
 
-
     const title =
         document.getElementById(
             "projectTitle"
         );
 
-
-    const description =
-        document.getElementById(
-            "projectDescription"
-        );
-
-
     if(
         !video ||
+        !video.files ||
         !video.files.length
     ){
 
-        alert(
-            "Please choose your project video."
+        showToast(
+            "Please choose your project video.",
+            true
         );
 
         return;
 
     }
-
 
     if(
         !title ||
         !title.value.trim()
     ){
 
-        alert(
-            "Please enter your project title."
+        showToast(
+            "Please enter your project title.",
+            true
         );
 
         return;
 
     }
 
-
-    /*
-       The Storage bucket and project_uploads
-       schema must be configured in Supabase.
-
-       We intentionally do not pretend that the
-       upload succeeded until Storage/backend
-       actually confirms it.
-    */
-
-    alert(
-        "The project is ready to upload using Supabase Storage. Configure the project_uploads table and Storage bucket before activating the real upload."
+    showToast(
+        "Project form is ready. Connect the final upload endpoint/storage policy before accepting real submissions."
     );
 
 }
-
 
 /* =====================================================
    LEADERBOARD
 ===================================================== */
 
-function createLeaderboard(
-    elementId,
-    group
-){
+function createLeaderboard(){
 
     const container =
         document.getElementById(
-            elementId
+            "lowerRows"
         );
-
-
-    let html = `
-
-        <div
-            class="row"
-            style="
-                cursor:default;
-                background:rgba(255,255,255,.025);
-            "
-        >
-
-            <div class="column-title">
-                RANK
-            </div>
-
-            <div class="column-title">
-                STUDENT
-            </div>
-
-            <div class="column-title">
-                POINTS
-            </div>
-
-            <div class="column-title">
-                PROJECT/COURSES
-            </div>
-
-            <div class="column-title">
-                LEVEL
-            </div>
-
-            <div class="column-title">
-                STATUS
-            </div>
-
-        </div>
-
-    `;
-
-
-    for(
-        let i = 1;
-        i <= 300;
-        i++
-    ){
-
-        const number =
-            String(i).padStart(
-                3,
-                "0"
-            );
-
-
-        html += `
-
-            <div
-                class="row"
-                onclick="openStudent(
-                    '${escapeJs(group)}',
-                    '${escapeJs(number)}'
-                )"
-            >
-
-                <div class="rank">
-                    ${number}
-                </div>
-
-                <div class="name-space">
-                    —
-                </div>
-
-                <div class="result">
-                    00
-                </div>
-
-                <div class="result">
-                    00
-                </div>
-
-                <div class="level">
-                    00
-                </div>
-
-                <div class="level">
-                    —
-                </div>
-
-            </div>
-
-        `;
-
-    }
-
-
-    container.innerHTML =
-        html;
-
-}
-
-
-function openStudent(
-    group,
-    number
-){
-
-    alert(
-        group +
-        " · Student " +
-        number +
-        "\n\n" +
-        "Leaderboard information will come from Supabase."
-    );
-
-}
-
-
-/* =====================================================
-   REWARDS
-===================================================== */
-
-function createRewardSlots(
-    elementId,
-    group
-){
-
-    const container =
-        document.getElementById(
-            elementId
-        );
-
 
     if(!container){
-
         return;
-
     }
 
-
-    let html = "";
-
+    let html =
+        "";
 
     for(
-        let i = 1;
-        i <= 6;
+        let i=1;
+        i<=300;
         i++
     ){
 
+        const rank =
+            String(i)
+                .padStart(
+                    3,
+                    "0"
+                );
+
         html += `
 
-            <div class="reward-slot">
+            <div class="lb-row">
 
-                <div class="reward-avatar"></div>
-
-                <div class="reward-info">
-
-                    <strong>
-                        Winner Position ${i}
-                    </strong>
-
-                    <span>
-                        ${escapeHtml(group)}
-                        · Winner information pending
-                    </span>
-
+                <div class="lb-cell rank">
+                    ${rank}
                 </div>
 
-                <div class="pending">
+                <div class="lb-cell">
+                    —
+                </div>
+
+                <div class="lb-cell">
+                    00
+                </div>
+
+                <div class="lb-cell">
+                    00
+                </div>
+
+                <div class="lb-cell">
+                    —
+                </div>
+
+                <div class="lb-cell">
                     PENDING
                 </div>
 
@@ -5029,20 +4769,16 @@ function createRewardSlots(
 
     }
 
-
     container.innerHTML =
         html;
 
 }
 
-
 /* =====================================================
    COMPETITION TIMER
 ===================================================== */
 
-let competitionStart =
-    null;
-
+let competitionStart = 0;
 
 try{
 
@@ -5060,15 +4796,15 @@ try{
 
 }
 
-
 if(
     !competitionStart ||
-    Number.isNaN(competitionStart)
+    Number.isNaN(
+        competitionStart
+    )
 ){
 
     competitionStart =
         Date.now();
-
 
     try{
 
@@ -5081,7 +4817,6 @@ if(
 
 }
 
-
 const learningDuration =
     7 *
     24 *
@@ -5089,68 +4824,56 @@ const learningDuration =
     60 *
     1000;
 
-
 const uploadDuration =
     24 *
     60 *
     60 *
     1000;
 
-
 function updateCompetition(){
 
     const now =
         Date.now();
 
-
     const uploadStart =
         competitionStart +
         learningDuration;
 
-
     const uploadEnd =
         uploadStart +
         uploadDuration;
-
 
     const title =
         document.getElementById(
             "stageTitle"
         );
 
-
     const text =
         document.getElementById(
             "stageText"
         );
-
 
     const pill =
         document.getElementById(
             "statusPill"
         );
 
-
     const uploadStatus =
         document.getElementById(
             "uploadStatus"
         );
-
 
     const uploadText =
         document.getElementById(
             "uploadText"
         );
 
-
     const uploadButton =
         document.getElementById(
             "uploadBtn"
         );
 
-
     resetSteps();
-
 
     if(
         now < uploadStart
@@ -5159,40 +4882,31 @@ function updateCompetition(){
         title.textContent =
             "LEARNING PERIOD";
 
-
         text.textContent =
             "Students are learning before project submission.";
-
 
         pill.textContent =
             "LEARNING";
 
-
         uploadStatus.textContent =
             "CLOSED";
 
-
         uploadText.textContent =
             "Project upload will open when the submission window begins.";
-
 
         uploadButton.classList.add(
             "disabled"
         );
 
-
         setActiveStep(1);
-
 
         updateTimer(
             uploadStart - now
         );
 
-
         return;
 
     }
-
 
     if(
         now >= uploadStart &&
@@ -5202,128 +4916,98 @@ function updateCompetition(){
         title.textContent =
             "PROJECT UPLOAD";
 
-
         text.textContent =
             "The project submission window is currently open.";
-
 
         pill.textContent =
             "UPLOAD OPEN";
 
-
         uploadStatus.textContent =
             "OPEN";
 
-
         uploadText.textContent =
             "Submit your project before the submission window closes.";
-
 
         uploadButton.classList.remove(
             "disabled"
         );
 
-
         setActiveStep(2);
-
 
         updateTimer(
             uploadEnd - now
         );
 
-
         return;
 
     }
 
-
     title.textContent =
         "REVIEW PERIOD";
-
 
     text.textContent =
         "Project submission is closed. Submitted projects move to review.";
 
-
     pill.textContent =
         "REVIEW";
-
 
     uploadStatus.textContent =
         "CLOSED";
 
-
     uploadText.textContent =
         "Submission is closed. Projects are now being reviewed.";
-
 
     uploadButton.classList.add(
         "disabled"
     );
 
-
     setActiveStep(3);
-
 
     updateTimer(0);
 
 }
 
-
 function resetSteps(){
 
     for(
-        let i = 1;
-        i <= 4;
+        let i=1;
+        i<=4;
         i++
     ){
 
-        const step =
-            document.getElementById(
+        document
+            .getElementById(
                 "step" + i
-            );
-
-
-        if(step){
-
-            step.classList.remove(
+            )
+            ?.classList
+            .remove(
                 "active"
             );
 
-        }
-
     }
 
 }
-
 
 function setActiveStep(number){
 
-    const step =
-        document.getElementById(
+    document
+        .getElementById(
             "step" + number
-        );
-
-
-    if(step){
-
-        step.classList.add(
+        )
+        ?.classList
+        .add(
             "active"
         );
 
-    }
-
 }
-
 
 function updateTimer(ms){
 
-    if(ms < 0){
-
-        ms = 0;
-
-    }
-
+    ms =
+        Math.max(
+            0,
+            ms
+        );
 
     const days =
         Math.floor(
@@ -5336,7 +5020,6 @@ function updateTimer(ms){
             )
         );
 
-
     const hours =
         Math.floor(
             (
@@ -5347,15 +5030,13 @@ function updateTimer(ms){
                     60 *
                     24
                 )
-            )
-            /
+            ) /
             (
                 1000 *
                 60 *
                 60
             )
         );
-
 
     const minutes =
         Math.floor(
@@ -5366,14 +5047,12 @@ function updateTimer(ms){
                     60 *
                     60
                 )
-            )
-            /
+            ) /
             (
                 1000 *
                 60
             )
         );
-
 
     const seconds =
         Math.floor(
@@ -5383,49 +5062,47 @@ function updateTimer(ms){
                     1000 *
                     60
                 )
-            )
-            /
+            ) /
             1000
         );
-
 
     document.getElementById(
         "days"
     ).textContent =
-        String(days).padStart(
+        String(days)
+        .padStart(
             2,
             "0"
         );
-
 
     document.getElementById(
         "hours"
     ).textContent =
-        String(hours).padStart(
+        String(hours)
+        .padStart(
             2,
             "0"
         );
-
 
     document.getElementById(
         "minutes"
     ).textContent =
-        String(minutes).padStart(
+        String(minutes)
+        .padStart(
             2,
             "0"
         );
 
-
     document.getElementById(
         "seconds"
     ).textContent =
-        String(seconds).padStart(
+        String(seconds)
+        .padStart(
             2,
             "0"
         );
 
 }
-
 
 /* =====================================================
    NAVIGATION
@@ -5433,60 +5110,126 @@ function updateTimer(ms){
 
 function scrollToId(id){
 
-    const target =
+    const element =
         document.getElementById(
             id
         );
 
-
-    if(!target){
-
+    if(!element){
         return;
-
     }
 
-
-    target.scrollIntoView({
-        behavior:"smooth"
+    element.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
     });
 
 }
-
 
 /* =====================================================
    MODAL
 ===================================================== */
 
-document.getElementById(
-    "modal"
-)
-.addEventListener(
-    "click",
-    function(event){
+document
+    .getElementById(
+        "modal"
+    )
+    .addEventListener(
+        "click",
+        function(event){
 
-        if(
-            event.target === this
-        ){
+            if(
+                event.target ===
+                this
+            ){
 
-            closeModal();
+                closeModal();
+
+            }
 
         }
-
-    }
-);
-
+    );
 
 function closeModal(){
 
-    document.getElementById(
-        "modal"
-    )
-    .classList.remove(
-        "show"
-    );
+    document
+        .getElementById(
+            "modal"
+        )
+        .classList
+        .remove(
+            "show"
+        );
 
 }
 
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logoutStudent(){
+
+    try{
+
+        const {
+            error
+        } =
+        await supabaseClient
+            .auth
+            .signOut();
+
+        if(error){
+
+            showSupabaseError(
+                error.message
+            );
+
+            return;
+
+        }
+
+        window.location.href =
+            "student-login.html";
+
+    }catch(error){
+
+        showSupabaseError(
+            error.message
+        );
+
+    }
+
+}
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+supabaseClient
+    .auth
+    .onAuthStateChange(
+        function(
+            event,
+            session
+        ){
+
+            console.log(
+                "Supabase auth event:",
+                event
+            );
+
+            if(
+                event ===
+                "SIGNED_OUT"
+            ){
+
+                window.location.href =
+                    "student-login.html";
+
+            }
+
+        }
+    );
 
 /* =====================================================
    INITIALIZE
@@ -5494,51 +5237,11 @@ function closeModal(){
 
 createSkills();
 
-createLeaderboard(
-    "lowerRows",
-    "LOWER"
-);
-
-createLeaderboard(
-    "mediumRows",
-    "MEDIUM"
-);
-
-createLeaderboard(
-    "highRows",
-    "HIGH"
-);
-
-createRewardSlots(
-    "lowerRewards",
-    "LOWER"
-);
-
-createRewardSlots(
-    "mediumRewards",
-    "MEDIUM"
-);
-
-createRewardSlots(
-    "highRewards",
-    "HIGH"
-);
-
-
-updateProfileAvatar();
-
-updateStudentDashboard();
-
-renderMyLessons();
+createLeaderboard();
 
 updateCompetition();
 
 loadSupabaseSession();
-
-
-/* =====================================================
-   TIMER REFRESH
-===================================================== */
 
 setInterval(
     updateCompetition,
