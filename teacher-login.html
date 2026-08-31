@@ -7,6 +7,7 @@
 <title>SteadyMaze | Teacher Login</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -17,57 +18,92 @@
 :root{
     --bg:#050914;
     --panel:rgba(10,18,35,.82);
+
     --blue:#2563eb;
     --blue2:#60a5fa;
+
     --red:#ef4444;
     --red2:#f87171;
+
     --gold:#d4af37;
     --gold2:#f4d76b;
+
     --purple:#8b5cf6;
     --purple2:#a78bfa;
+
     --text:#f8fafc;
     --muted:#94a3b8;
+
     --border:rgba(255,255,255,.10);
 }
 
 body{
     min-height:100vh;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     color:var(--text);
+
     padding:25px;
+
     overflow-x:hidden;
 
     background:
-        radial-gradient(circle at 10% 15%,rgba(37,99,235,.22),transparent 28%),
-        radial-gradient(circle at 88% 15%,rgba(139,92,246,.18),transparent 27%),
-        radial-gradient(circle at 50% 100%,rgba(239,68,68,.13),transparent 30%),
-        linear-gradient(135deg,#030712,#091326 50%,#050914);
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(37,99,235,.22),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 88% 15%,
+            rgba(139,92,246,.18),
+            transparent 27%
+        ),
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(239,68,68,.13),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #030712,
+            #091326 50%,
+            #050914
+        );
 }
 
 body::before,
 body::after{
     content:"";
+
     position:fixed;
+
     width:360px;
     height:360px;
+
     border-radius:50%;
+
     filter:blur(100px);
+
     pointer-events:none;
 }
 
 body::before{
     left:-160px;
     bottom:-130px;
+
     background:rgba(37,99,235,.12);
 }
 
 body::after{
     right:-150px;
     top:-120px;
+
     background:rgba(139,92,246,.11);
 }
+
 
 /* =========================
    CONTAINER
@@ -76,9 +112,15 @@ body::after{
 .auth-container{
     width:100%;
     max-width:480px;
+
     position:relative;
     z-index:2;
 }
+
+
+/* =========================
+   LOGO
+========================= */
 
 .logo{
     text-align:center;
@@ -91,15 +133,15 @@ body::after{
     letter-spacing:1px;
 }
 
-.logo h1 span:nth-child(1){
+.logo h1 .blue{
     color:var(--blue2);
 }
 
-.logo h1 span:nth-child(2){
+.logo h1 .gold{
     color:var(--gold2);
 }
 
-.logo h1 span:nth-child(3){
+.logo h1 .purple{
     color:var(--purple2);
 }
 
@@ -109,13 +151,16 @@ body::after{
     margin-top:7px;
 }
 
+
 /* =========================
    CARD
 ========================= */
 
 .auth-card{
     width:100%;
+
     padding:30px;
+
     border-radius:24px;
 
     background:
@@ -134,15 +179,19 @@ body::after{
         0 0 0 1px rgba(37,99,235,.04);
 
     position:relative;
+
     overflow:hidden;
 }
 
 .auth-card::before{
     content:"";
+
     position:absolute;
+
     top:0;
     left:0;
     right:0;
+
     height:2px;
 
     background:
@@ -155,21 +204,31 @@ body::after{
         );
 }
 
+
+/* =========================
+   HEADER
+========================= */
+
 .auth-header{
     text-align:center;
+
     margin-bottom:25px;
 }
 
 .auth-header h2{
     font-size:23px;
+
     margin-bottom:7px;
 }
 
 .auth-header p{
     color:var(--muted);
+
     font-size:12px;
+
     line-height:1.5;
 }
+
 
 /* =========================
    TABS
@@ -177,12 +236,17 @@ body::after{
 
 .tabs{
     display:grid;
+
     grid-template-columns:1fr 1fr;
+
     gap:8px;
+
     padding:5px;
 
     background:rgba(255,255,255,.035);
+
     border:1px solid var(--border);
+
     border-radius:12px;
 
     margin-bottom:24px;
@@ -190,14 +254,19 @@ body::after{
 
 .tab{
     border:0;
+
     padding:11px;
+
     border-radius:8px;
 
     color:var(--muted);
+
     background:transparent;
 
     cursor:pointer;
+
     font-weight:700;
+
     font-size:12px;
 
     transition:.2s;
@@ -217,8 +286,10 @@ body::after{
             rgba(139,92,246,.75)
         );
 
-    box-shadow:0 5px 18px rgba(37,99,235,.20);
+    box-shadow:
+        0 5px 18px rgba(37,99,235,.20);
 }
+
 
 /* =========================
    FORMS
@@ -238,10 +309,13 @@ body::after{
 
 label{
     display:block;
+
     margin-bottom:7px;
 
     color:#dbe5f0;
+
     font-size:12px;
+
     font-weight:650;
 }
 
@@ -251,14 +325,17 @@ label{
 
 input{
     width:100%;
+
     height:48px;
 
     padding:0 14px;
 
     color:white;
+
     background:rgba(255,255,255,.045);
 
     border:1px solid var(--border);
+
     border-radius:11px;
 
     outline:none;
@@ -285,55 +362,73 @@ input:focus{
 
 .eye{
     position:absolute;
+
     right:12px;
+
     top:50%;
+
     transform:translateY(-50%);
 
     border:0;
+
     background:transparent;
 
     color:#91a1b5;
 
     cursor:pointer;
+
     font-size:17px;
 }
 
+
 /* =========================
-   FORGOT
+   FORM ROW
 ========================= */
 
 .form-row{
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
+
     gap:10px;
+
     margin-top:2px;
+
     margin-bottom:18px;
 }
 
 .remember{
     display:flex;
+
     align-items:center;
+
     gap:7px;
 
     color:var(--muted);
+
     font-size:11px;
 }
 
 .remember input{
     width:14px;
     height:14px;
+
     accent-color:var(--blue);
 }
 
 .link{
     border:0;
+
     background:transparent;
 
     color:var(--blue2);
 
     cursor:pointer;
+
     font-size:11px;
+
     font-weight:650;
 }
 
@@ -341,15 +436,18 @@ input:focus{
     color:var(--gold2);
 }
 
+
 /* =========================
-   BUTTON
+   MAIN BUTTON
 ========================= */
 
 .main-btn{
     width:100%;
+
     height:49px;
 
     border:0;
+
     border-radius:11px;
 
     color:white;
@@ -362,6 +460,7 @@ input:focus{
         );
 
     font-size:13px;
+
     font-weight:800;
 
     cursor:pointer;
@@ -381,9 +480,12 @@ input:focus{
 
 .main-btn:disabled{
     opacity:.6;
+
     cursor:not-allowed;
+
     transform:none;
 }
+
 
 /* =========================
    BACK BUTTON
@@ -391,6 +493,7 @@ input:focus{
 
 .back-btn{
     width:100%;
+
     margin-top:10px;
 
     height:43px;
@@ -410,31 +513,39 @@ input:focus{
     background:rgba(255,255,255,.07);
 }
 
+
 /* =========================
    DIVIDER
 ========================= */
 
 .divider{
     display:flex;
+
     align-items:center;
+
     gap:10px;
 
     margin:21px 0;
 
     color:#64748b;
+
     font-size:10px;
 }
 
 .divider::before,
 .divider::after{
     content:"";
+
     flex:1;
+
     height:1px;
+
     background:var(--border);
 }
 
+
 /* =========================
-   SIGNUP INFO
+   INFO
 ========================= */
 
 .signup-info{
@@ -454,6 +565,7 @@ input:focus{
     color:#b9c6d6;
 
     font-size:10px;
+
     line-height:1.6;
 
     margin-bottom:18px;
@@ -463,6 +575,7 @@ input:focus{
     color:var(--gold2);
 }
 
+
 /* =========================
    MESSAGE
 ========================= */
@@ -471,11 +584,13 @@ input:focus{
     display:none;
 
     padding:11px 13px;
+
     margin-bottom:16px;
 
     border-radius:10px;
 
     font-size:11px;
+
     line-height:1.5;
 }
 
@@ -485,24 +600,31 @@ input:focus{
 
 .message.success{
     color:#86efac;
+
     background:rgba(34,197,94,.08);
+
     border:1px solid rgba(34,197,94,.18);
 }
 
 .message.error{
     color:#fca5a5;
+
     background:rgba(239,68,68,.08);
+
     border:1px solid rgba(239,68,68,.18);
 }
 
 .message.info{
     color:#bfdbfe;
+
     background:rgba(37,99,235,.08);
+
     border:1px solid rgba(37,99,235,.18);
 }
 
+
 /* =========================
-   RESET HEADER
+   RESET ICON
 ========================= */
 
 .reset-icon{
@@ -512,6 +634,7 @@ input:focus{
     margin:0 auto 15px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
@@ -528,6 +651,7 @@ input:focus{
 
     border:1px solid rgba(139,92,246,.25);
 }
+
 
 /* =========================
    FOOTER
@@ -547,6 +671,7 @@ input:focus{
     color:var(--gold2);
 }
 
+
 /* =========================
    MOBILE
 ========================= */
@@ -559,6 +684,7 @@ input:focus{
 
     .auth-card{
         padding:23px 18px;
+
         border-radius:20px;
     }
 
@@ -569,20 +695,26 @@ input:focus{
     .auth-header h2{
         font-size:21px;
     }
+
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="auth-container">
 
-    <!-- LOGO -->
+
+    <!-- =========================
+         LOGO
+    ========================== -->
 
     <div class="logo">
 
         <h1>
-            <span>S</span>teady<span>M</span>aze
+            <span class="blue">S</span>teady<span class="gold">M</span><span class="purple">aze</span>
         </h1>
 
         <p>
@@ -591,24 +723,33 @@ input:focus{
 
     </div>
 
-    <!-- CARD -->
+
+    <!-- =========================
+         AUTH CARD
+    ========================== -->
 
     <div class="auth-card">
 
-        <!-- LOGIN / SIGNUP TABS -->
+
+        <!-- TABS -->
 
         <div class="tabs" id="mainTabs">
 
             <button
+                type="button"
                 class="tab active"
+                id="loginTab"
                 onclick="showForm('login')">
 
                 Login
 
             </button>
 
+
             <button
+                type="button"
                 class="tab"
+                id="signupTab"
                 onclick="showForm('signup')">
 
                 Sign Up
@@ -617,12 +758,14 @@ input:focus{
 
         </div>
 
+
         <!-- MESSAGE -->
 
         <div
             id="message"
             class="message">
         </div>
+
 
         <!-- =========================
              LOGIN
@@ -644,6 +787,7 @@ input:focus{
 
             </div>
 
+
             <div class="field">
 
                 <label>
@@ -657,6 +801,7 @@ input:focus{
                     autocomplete="email">
 
             </div>
+
 
             <div class="field">
 
@@ -674,8 +819,8 @@ input:focus{
                         autocomplete="current-password">
 
                     <button
-                        class="eye"
                         type="button"
+                        class="eye"
                         onclick="togglePassword('loginPassword',this)">
 
                         👁
@@ -685,6 +830,7 @@ input:focus{
                 </div>
 
             </div>
+
 
             <div class="form-row">
 
@@ -698,9 +844,10 @@ input:focus{
 
                 </label>
 
+
                 <button
-                    class="link"
                     type="button"
+                    class="link"
                     onclick="showForgot()">
 
                     Forgot Password?
@@ -709,7 +856,9 @@ input:focus{
 
             </div>
 
+
             <button
+                type="button"
                 class="main-btn"
                 id="loginBtn"
                 onclick="loginTeacher()">
@@ -718,9 +867,11 @@ input:focus{
 
             </button>
 
+
             <div class="divider">
                 SECURE TEACHER ACCESS
             </div>
+
 
             <div class="signup-info">
 
@@ -731,6 +882,7 @@ input:focus{
             </div>
 
         </div>
+
 
         <!-- =========================
              SIGN UP
@@ -752,6 +904,7 @@ input:focus{
 
             </div>
 
+
             <div class="field">
 
                 <label>
@@ -765,6 +918,7 @@ input:focus{
                     autocomplete="name">
 
             </div>
+
 
             <div class="field">
 
@@ -780,6 +934,7 @@ input:focus{
 
             </div>
 
+
             <div class="field">
 
                 <label>
@@ -792,6 +947,7 @@ input:focus{
                     placeholder="Example: Web Development">
 
             </div>
+
 
             <div class="field">
 
@@ -809,8 +965,8 @@ input:focus{
                         autocomplete="new-password">
 
                     <button
-                        class="eye"
                         type="button"
+                        class="eye"
                         onclick="togglePassword('signupPassword',this)">
 
                         👁
@@ -820,6 +976,7 @@ input:focus{
                 </div>
 
             </div>
+
 
             <div class="field">
 
@@ -837,8 +994,8 @@ input:focus{
                         autocomplete="new-password">
 
                     <button
-                        class="eye"
                         type="button"
+                        class="eye"
                         onclick="togglePassword('signupConfirmPassword',this)">
 
                         👁
@@ -849,15 +1006,18 @@ input:focus{
 
             </div>
 
+
             <div class="signup-info">
 
-                👨‍🏫 By creating a teacher account, your teacher
-                profile can later be connected to your lessons,
-                payments and competition data.
+                👨‍🏫 Your teacher information will be saved
+                with your Supabase account and can be used
+                by your SteadyMaze teacher dashboard.
 
             </div>
 
+
             <button
+                type="button"
                 class="main-btn"
                 id="signupBtn"
                 onclick="signupTeacher()">
@@ -867,6 +1027,7 @@ input:focus{
             </button>
 
         </div>
+
 
         <!-- =========================
              FORGOT PASSWORD
@@ -880,6 +1041,7 @@ input:focus{
                 🔑
             </div>
 
+
             <div class="auth-header">
 
                 <h2>
@@ -892,6 +1054,7 @@ input:focus{
                 </p>
 
             </div>
+
 
             <div class="field">
 
@@ -907,7 +1070,9 @@ input:focus{
 
             </div>
 
+
             <button
+                type="button"
                 class="main-btn"
                 id="forgotBtn"
                 onclick="sendResetEmail()">
@@ -916,7 +1081,9 @@ input:focus{
 
             </button>
 
+
             <button
+                type="button"
                 class="back-btn"
                 onclick="backToLogin()">
 
@@ -926,8 +1093,9 @@ input:focus{
 
         </div>
 
+
         <!-- =========================
-             GET NEW PASSWORD
+             NEW PASSWORD
         ========================== -->
 
         <div
@@ -937,6 +1105,7 @@ input:focus{
             <div class="reset-icon">
                 🔐
             </div>
+
 
             <div class="auth-header">
 
@@ -950,6 +1119,7 @@ input:focus{
                 </p>
 
             </div>
+
 
             <div class="field">
 
@@ -967,8 +1137,8 @@ input:focus{
                         autocomplete="new-password">
 
                     <button
-                        class="eye"
                         type="button"
+                        class="eye"
                         onclick="togglePassword('newPassword',this)">
 
                         👁
@@ -978,6 +1148,7 @@ input:focus{
                 </div>
 
             </div>
+
 
             <div class="field">
 
@@ -995,8 +1166,8 @@ input:focus{
                         autocomplete="new-password">
 
                     <button
-                        class="eye"
                         type="button"
+                        class="eye"
                         onclick="togglePassword('confirmNewPassword',this)">
 
                         👁
@@ -1007,7 +1178,9 @@ input:focus{
 
             </div>
 
+
             <button
+                type="button"
                 class="main-btn"
                 id="resetBtn"
                 onclick="updatePassword()">
@@ -1020,6 +1193,7 @@ input:focus{
 
     </div>
 
+
     <div class="footer">
 
         SteadyMaze © 2026 •
@@ -1030,44 +1204,39 @@ input:focus{
 </div>
 
 
-<!-- ==========================================
-     SUPABASE
-=========================================== -->
+
+<!-- ==================================================
+     SUPABASE LIBRARY
+================================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <script>
 
-/*
-==================================================
- STEADYMAZE SUPABASE CONFIGURATION
-==================================================
-
-1. Open your Supabase project.
-
-2. Go to:
-   Project Settings → API
-
-3. Copy:
-   Project URL
-
-4. Copy:
-   Publishable key / anon key
-
-5. Put them below.
-
-IMPORTANT:
-NEVER put the Supabase service_role key
-inside this HTML file.
-==================================================
-*/
+/* ==================================================
+   STEADYMAZE SUPABASE
+================================================== */
 
 const SUPABASE_URL =
-    "YOUR_SUPABASE_PROJECT_URL";
+    "https://uxrltzlxdttbjstomhkb.supabase.co";
 
 const SUPABASE_ANON_KEY =
-    "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
+    "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
 
+
+/*
+   IMPORTANT:
+
+   The Supabase library is loaded above.
+
+   We deliberately use window.supabase here
+   so there is no conflict between:
+
+   window.supabase
+   and
+   supabaseClient
+*/
 
 const supabaseClient =
     window.supabase.createClient(
@@ -1076,14 +1245,12 @@ const supabaseClient =
     );
 
 
-/* ==========================================
-   MESSAGE
-========================================== */
 
-function showMessage(
-    text,
-    type = "info"
-){
+/* ==================================================
+   MESSAGE
+================================================== */
+
+function showMessage(text,type="info"){
 
     const box =
         document.getElementById("message");
@@ -1096,10 +1263,6 @@ function showMessage(
 }
 
 
-/* ==========================================
-   CLEAR MESSAGE
-========================================== */
-
 function clearMessage(){
 
     const box =
@@ -1107,21 +1270,21 @@ function clearMessage(){
 
     box.textContent = "";
 
-    box.className =
-        "message";
+    box.className = "message";
 
 }
 
 
-/* ==========================================
+
+/* ==================================================
    FORM NAVIGATION
-========================================== */
+================================================== */
 
 function hideAllForms(){
 
     document
     .querySelectorAll(".form")
-    .forEach(form => {
+    .forEach(function(form){
 
         form.classList.remove("active");
 
@@ -1136,31 +1299,42 @@ function showForm(formName){
 
     hideAllForms();
 
-    document
-    .getElementById(
-        formName + "Form"
-    )
-    .classList.add("active");
+
+    const selectedForm =
+        document.getElementById(
+            formName + "Form"
+        );
 
 
-    const tabs =
-        document.querySelectorAll(".tab");
+    if(selectedForm){
 
-    tabs.forEach(tab => {
-
-        tab.classList.remove("active");
-
-    });
-
-    if(formName === "login"){
-
-        tabs[0].classList.add("active");
+        selectedForm.classList.add("active");
 
     }
 
+
+    const loginTab =
+        document.getElementById("loginTab");
+
+    const signupTab =
+        document.getElementById("signupTab");
+
+
+    loginTab.classList.remove("active");
+
+    signupTab.classList.remove("active");
+
+
+    if(formName === "login"){
+
+        loginTab.classList.add("active");
+
+    }
+
+
     if(formName === "signup"){
 
-        tabs[1].classList.add("active");
+        signupTab.classList.add("active");
 
     }
 
@@ -1180,24 +1354,42 @@ function showForgot(){
 }
 
 
+function showResetForm(){
+
+    document
+    .getElementById("mainTabs")
+    .style.display = "none";
+
+    hideAllForms();
+
+    document
+    .getElementById("resetForm")
+    .classList.add("active");
+
+}
+
+
 function backToLogin(){
+
+    document
+    .getElementById("mainTabs")
+    .style.display = "grid";
 
     showForm("login");
 
 }
 
 
-/* ==========================================
-   PASSWORD SHOW / HIDE
-========================================== */
 
-function togglePassword(
-    inputId,
-    button
-){
+/* ==================================================
+   PASSWORD TOGGLE
+================================================== */
+
+function togglePassword(inputId,button){
 
     const input =
         document.getElementById(inputId);
+
 
     if(input.type === "password"){
 
@@ -1216,16 +1408,19 @@ function togglePassword(
 }
 
 
-/* ==========================================
-   SIGN UP
-========================================== */
+
+/* ==================================================
+   SIGN UP TEACHER
+================================================== */
 
 async function signupTeacher(){
 
     clearMessage();
 
+
     const button =
         document.getElementById("signupBtn");
+
 
     const name =
         document
@@ -1233,11 +1428,13 @@ async function signupTeacher(){
         .value
         .trim();
 
+
     const email =
         document
         .getElementById("signupEmail")
         .value
         .trim();
+
 
     const skill =
         document
@@ -1245,16 +1442,21 @@ async function signupTeacher(){
         .value
         .trim();
 
+
     const password =
         document
         .getElementById("signupPassword")
         .value;
+
 
     const confirmPassword =
         document
         .getElementById("signupConfirmPassword")
         .value;
 
+
+
+    /* VALIDATION */
 
     if(!name){
 
@@ -1324,67 +1526,65 @@ async function signupTeacher(){
 
     try{
 
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.signUp({
+        const result =
+            await supabaseClient.auth.signUp({
 
-            email:email,
+                email:email,
 
-            password:password,
+                password:password,
 
-            options:{
+                options:{
 
-                data:{
+                    data:{
 
-                    full_name:name,
+                        full_name:name,
 
-                    role:"teacher",
+                        role:"teacher",
 
-                    skill:skill
+                        skill:skill
+
+                    }
 
                 }
 
-            }
-
-        });
+            });
 
 
-        if(error)
-            throw error;
+        if(result.error){
+
+            throw result.error;
+
+        }
 
 
         /*
-        ==========================================
-        OPTIONAL PROFILE TABLE
+           Supabase may require email confirmation.
 
-        If your Supabase profiles table exists,
-        the trigger can automatically create it.
-
-        We don't force a database insert here
-        because your current database structure
-        may be different.
-        ==========================================
+           If confirmation is enabled, there may be
+           no active session immediately.
         */
 
+        if(result.data.user){
 
-        showMessage(
-            "Teacher account created successfully. Check your email if email confirmation is enabled.",
-            "success"
-        );
+            showMessage(
+                "Teacher account created successfully. Check your email if confirmation is required.",
+                "success"
+            );
+
+        }
 
 
         document
         .getElementById("signupPassword")
         .value = "";
 
+
         document
         .getElementById("signupConfirmPassword")
         .value = "";
 
 
-        setTimeout(() => {
+        setTimeout(function(){
 
             showForm("login");
 
@@ -1397,11 +1597,14 @@ async function signupTeacher(){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "SIGNUP ERROR:",
+            error
+        );
+
 
         showMessage(
-            error.message ||
-            "Unable to create teacher account.",
+            getFriendlyError(error),
             "error"
         );
 
@@ -1416,16 +1619,19 @@ async function signupTeacher(){
 }
 
 
-/* ==========================================
-   LOGIN
-========================================== */
+
+/* ==================================================
+   LOGIN TEACHER
+================================================== */
 
 async function loginTeacher(){
 
     clearMessage();
 
+
     const button =
         document.getElementById("loginBtn");
+
 
     const email =
         document
@@ -1433,10 +1639,18 @@ async function loginTeacher(){
         .value
         .trim();
 
+
     const password =
         document
         .getElementById("loginPassword")
         .value;
+
+
+    const remember =
+        document
+        .getElementById("rememberMe")
+        .checked;
+
 
 
     if(!email){
@@ -1471,24 +1685,31 @@ async function loginTeacher(){
 
     try{
 
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.signInWithPassword({
+        const result =
+            await supabaseClient.auth.signInWithPassword({
 
-            email:email,
+                email:email,
 
-            password:password
+                password:password
 
-        });
+            });
 
 
-        if(error)
-            throw error;
+        if(result.error){
+
+            throw result.error;
+
+        }
 
 
-        if(!data.session){
+        const user =
+            result.data.user;
+
+        const session =
+            result.data.session;
+
+
+        if(!user || !session){
 
             throw new Error(
                 "Login session was not created."
@@ -1498,31 +1719,61 @@ async function loginTeacher(){
 
 
         /*
-        Save only basic frontend information.
+           Save teacher information locally.
 
-        Authentication itself is handled by Supabase.
+           Supabase remains the real authentication
+           source.
         */
 
-        sessionStorage.setItem(
-            "gurhub_teacher",
-            JSON.stringify({
+        const teacherData = {
 
-                id:data.user.id,
+            id:user.id,
 
-                email:data.user.email,
+            email:user.email,
 
-                name:
-                    data.user.user_metadata
-                    ?.full_name || "",
+            name:
+                user.user_metadata?.full_name || "",
 
-                skill:
-                    data.user.user_metadata
-                    ?.skill || "",
+            skill:
+                user.user_metadata?.skill || "",
 
-                role:"teacher"
+            role:
+                user.user_metadata?.role || "teacher"
 
-            })
-        );
+        };
+
+
+        /*
+           Remember Me:
+
+           If checked -> localStorage
+
+           If unchecked -> sessionStorage
+        */
+
+        if(remember){
+
+            localStorage.setItem(
+                "steadymaze_teacher",
+                JSON.stringify(teacherData)
+            );
+
+            sessionStorage.removeItem(
+                "steadymaze_teacher"
+            );
+
+        }else{
+
+            sessionStorage.setItem(
+                "steadymaze_teacher",
+                JSON.stringify(teacherData)
+            );
+
+            localStorage.removeItem(
+                "steadymaze_teacher"
+            );
+
+        }
 
 
         showMessage(
@@ -1531,7 +1782,7 @@ async function loginTeacher(){
         );
 
 
-        setTimeout(() => {
+        setTimeout(function(){
 
             window.location.href =
                 "teacher.html";
@@ -1541,11 +1792,14 @@ async function loginTeacher(){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "LOGIN ERROR:",
+            error
+        );
+
 
         showMessage(
-            error.message ||
-            "Invalid email or password.",
+            getFriendlyError(error),
             "error"
         );
 
@@ -1560,16 +1814,19 @@ async function loginTeacher(){
 }
 
 
-/* ==========================================
+
+/* ==================================================
    FORGOT PASSWORD
-========================================== */
+================================================== */
 
 async function sendResetEmail(){
 
     clearMessage();
 
+
     const button =
         document.getElementById("forgotBtn");
+
 
     const email =
         document
@@ -1599,49 +1856,55 @@ async function sendResetEmail(){
     try{
 
         /*
-        IMPORTANT:
+           When hosted on GitHub/Vercel this uses
+           the current page automatically.
 
-        This must point back to this page
-        after Supabase sends the reset email.
+           Example:
+
+           https://yourwebsite.com/teacher-login.html
         */
 
         const redirectUrl =
-            window.location.origin +
-            window.location.pathname;
+            window.location.href.split("#")[0];
 
 
-        const {
-            error
-        } =
-        await supabaseClient.auth
-        .resetPasswordForEmail(
+        const result =
+            await supabaseClient.auth.resetPasswordForEmail(
 
-            email,
+                email,
 
-            {
-                redirectTo:redirectUrl
-            }
+                {
 
-        );
+                    redirectTo:redirectUrl
+
+                }
+
+            );
 
 
-        if(error)
-            throw error;
+        if(result.error){
+
+            throw result.error;
+
+        }
 
 
         showMessage(
-            "Password reset email sent. Check your email and open the reset link.",
+            "Password reset email sent. Open the link in your email to create a new password.",
             "success"
         );
 
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "RESET EMAIL ERROR:",
+            error
+        );
+
 
         showMessage(
-            error.message ||
-            "Unable to send password reset email.",
+            getFriendlyError(error),
             "error"
         );
 
@@ -1656,21 +1919,25 @@ async function sendResetEmail(){
 }
 
 
-/* ==========================================
+
+/* ==================================================
    UPDATE PASSWORD
-========================================== */
+================================================== */
 
 async function updatePassword(){
 
     clearMessage();
 
+
     const button =
         document.getElementById("resetBtn");
+
 
     const password =
         document
         .getElementById("newPassword")
         .value;
+
 
     const confirmPassword =
         document
@@ -1710,18 +1977,19 @@ async function updatePassword(){
 
     try{
 
-        const {
-            error
-        } =
-        await supabaseClient.auth.updateUser({
+        const result =
+            await supabaseClient.auth.updateUser({
 
-            password:password
+                password:password
 
-        });
+            });
 
 
-        if(error)
-            throw error;
+        if(result.error){
+
+            throw result.error;
+
+        }
 
 
         showMessage(
@@ -1734,12 +2002,23 @@ async function updatePassword(){
         .getElementById("newPassword")
         .value = "";
 
+
         document
         .getElementById("confirmNewPassword")
         .value = "";
 
 
-        setTimeout(() => {
+        /*
+           Give the user a moment to see success.
+        */
+
+        setTimeout(async function(){
+
+            await supabaseClient.auth.signOut();
+
+            document
+            .getElementById("mainTabs")
+            .style.display = "grid";
 
             showForm("login");
 
@@ -1748,11 +2027,14 @@ async function updatePassword(){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "UPDATE PASSWORD ERROR:",
+            error
+        );
+
 
         showMessage(
-            error.message ||
-            "Unable to update password.",
+            getFriendlyError(error),
             "error"
         );
 
@@ -1767,89 +2049,178 @@ async function updatePassword(){
 }
 
 
-/* ==========================================
-   SUPABASE AUTH STATE
-========================================== */
 
-supabaseClient.auth
-.onAuthStateChange(
-    (event,session) => {
+/* ==================================================
+   AUTH STATE
+================================================== */
+
+supabaseClient.auth.onAuthStateChange(
+
+    function(event,session){
 
         console.log(
-            "Auth event:",
+            "Supabase Auth:",
             event
         );
 
 
         /*
-        When Supabase sends the user back
-        from the password-reset email, show
-        the Get a New Password screen.
+           Supabase sends PASSWORD_RECOVERY when
+           the user opens the reset-password email.
         */
 
         if(event === "PASSWORD_RECOVERY"){
 
-            document
-            .getElementById("mainTabs")
-            .style.display = "none";
+            showResetForm();
 
-            hideAllForms();
-
-            document
-            .getElementById("resetForm")
-            .classList.add("active");
-
-            clearMessage();
+            showMessage(
+                "Create your new teacher password below.",
+                "info"
+            );
 
         }
 
     }
+
 );
 
 
-/* ==========================================
-   CHECK INITIAL SESSION
-========================================== */
+
+/* ==================================================
+   CHECK SESSION
+================================================== */
 
 async function checkSession(){
 
     try{
 
-        const {
-            data
-        } =
-        await supabaseClient.auth.getSession();
+        const result =
+            await supabaseClient.auth.getSession();
+
+
+        if(result.error){
+
+            console.error(
+                result.error
+            );
+
+            return;
+
+        }
+
+
+        const session =
+            result.data.session;
 
 
         /*
-        Do not automatically redirect a user
-        from this login page unless a valid
-        session already exists.
+           We DO NOT automatically redirect here.
+
+           This allows the page to remain a login page
+           even if an old session exists.
         */
 
-        if(data.session){
+        if(session){
 
             console.log(
-                "Teacher session exists."
+                "Existing Supabase session:",
+                session.user.email
             );
 
         }
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "SESSION ERROR:",
+            error
+        );
 
     }
 
 }
 
 
-/* ==========================================
-   ENTER KEY
-========================================== */
 
-document
-.addEventListener(
+/* ==================================================
+   FRIENDLY ERROR
+================================================== */
+
+function getFriendlyError(error){
+
+    if(!error){
+
+        return "Something went wrong.";
+
+    }
+
+
+    const message =
+        error.message || "";
+
+
+    if(
+        message.toLowerCase()
+        .includes("invalid login credentials")
+    ){
+
+        return "Email or password is incorrect.";
+
+    }
+
+
+    if(
+        message.toLowerCase()
+        .includes("email not confirmed")
+    ){
+
+        return "Please confirm your email before logging in.";
+
+    }
+
+
+    if(
+        message.toLowerCase()
+        .includes("user already registered")
+    ){
+
+        return "This email is already registered. Please login instead.";
+
+    }
+
+
+    if(
+        message.toLowerCase()
+        .includes("password should be at least")
+    ){
+
+        return "Password must be at least 6 characters.";
+
+    }
+
+
+    if(
+        message.toLowerCase()
+        .includes("rate limit")
+    ){
+
+        return "Too many requests. Please wait a moment and try again.";
+
+    }
+
+
+    return message ||
+        "Unable to complete this request.";
+
+}
+
+
+
+/* ==================================================
+   ENTER KEY
+================================================== */
+
+document.addEventListener(
     "keydown",
     function(event){
 
@@ -1901,9 +2272,10 @@ document
 );
 
 
-/* ==========================================
+
+/* ==================================================
    START
-========================================== */
+================================================== */
 
 checkSession();
 
