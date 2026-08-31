@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SteadyMaze | Login</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>SteadyMaze | Student Login</title>
 
 <style>
 
@@ -16,22 +22,38 @@
 }
 
 body{
+
     min-height:100vh;
+
     display:flex;
     justify-content:center;
     align-items:center;
+
     padding:20px;
 
     background:
-        radial-gradient(circle at 15% 20%,rgba(255,0,70,.20),transparent 30%),
-        radial-gradient(circle at 85% 15%,rgba(255,145,0,.18),transparent 30%),
-        radial-gradient(circle at 50% 100%,rgba(125,40,255,.20),transparent 35%),
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(255,0,70,.20),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(255,145,0,.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(125,40,255,.20),
+            transparent 35%
+        ),
         #080509;
 
     color:#fff;
 }
 
 .auth-card{
+
     width:100%;
     max-width:440px;
 
@@ -46,7 +68,9 @@ body{
             rgba(13,7,20,.96)
         );
 
-    border:1px solid rgba(255,190,70,.25);
+    border:
+        1px solid
+        rgba(255,190,70,.25);
 
     box-shadow:
         0 30px 90px rgba(0,0,0,.65),
@@ -57,7 +81,9 @@ body{
 }
 
 .auth-card::before{
+
     content:"";
+
     position:absolute;
 
     width:180px;
@@ -67,15 +93,18 @@ body{
     right:-80px;
 
     background:#ff5a00;
+
     opacity:.12;
 
     filter:blur(45px);
 }
 
 .logo{
+
     text-align:center;
 
     font-size:32px;
+
     font-weight:900;
 
     letter-spacing:.5px;
@@ -96,22 +125,47 @@ body{
 }
 
 .subtitle{
+
     text-align:center;
 
     color:#c9c1ca;
 
     font-size:10px;
+
     font-weight:700;
 
     letter-spacing:2px;
 
-    margin-bottom:28px;
+    margin-bottom:12px;
+}
+
+.brand-line{
+
+    width:70px;
+    height:2px;
+
+    margin:
+        0 auto
+        24px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff3030,
+            #d4af37,
+            #a855f7,
+            #ff7a00
+        );
 }
 
 .tabs{
+
     display:grid;
 
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
     gap:6px;
 
@@ -121,12 +175,15 @@ body{
 
     background:#090609;
 
-    border:1px solid rgba(255,255,255,.06);
+    border:
+        1px solid
+        rgba(255,255,255,.06);
 
     border-radius:12px;
 }
 
 .tab{
+
     border:0;
 
     padding:13px;
@@ -138,12 +195,14 @@ body{
     color:#9a919c;
 
     font-size:10px;
+
     font-weight:900;
 
     cursor:pointer;
 }
 
 .tab.active{
+
     background:
         linear-gradient(
             135deg,
@@ -154,7 +213,8 @@ body{
     color:#170b05;
 
     box-shadow:
-        0 6px 20px rgba(255,120,0,.18);
+        0 6px 20px
+        rgba(255,120,0,.18);
 }
 
 .form{
@@ -166,6 +226,7 @@ body{
 }
 
 label{
+
     display:block;
 
     margin-bottom:7px;
@@ -173,16 +234,14 @@ label{
     color:#ddd3dc;
 
     font-size:9px;
+
     font-weight:900;
 
     letter-spacing:1px;
 }
 
-.input-wrap{
-    position:relative;
-}
-
 input{
+
     width:100%;
 
     padding:14px;
@@ -211,14 +270,19 @@ input::placeholder{
 }
 
 input:focus{
+
     border-color:#d4af37;
 
     box-shadow:
-        0 0 0 3px rgba(212,175,55,.07),
-        0 0 20px rgba(255,70,30,.05);
+        0 0 0 3px
+        rgba(212,175,55,.07),
+
+        0 0 20px
+        rgba(255,70,30,.05);
 }
 
 .main-button{
+
     width:100%;
 
     padding:15px;
@@ -240,6 +304,7 @@ input:focus{
     color:#fff;
 
     font-size:10px;
+
     font-weight:900;
 
     letter-spacing:1px;
@@ -250,19 +315,26 @@ input:focus{
 }
 
 .main-button:hover{
-    transform:translateY(-1px);
+
+    transform:
+        translateY(-1px);
 
     box-shadow:
-        0 12px 30px rgba(255,80,20,.20);
+        0 12px 30px
+        rgba(255,80,20,.20);
 }
 
 .main-button:disabled{
+
     opacity:.55;
+
     cursor:not-allowed;
+
     transform:none;
 }
 
 .forgot{
+
     display:block;
 
     margin-top:17px;
@@ -272,6 +344,7 @@ input:focus{
     color:#c084fc;
 
     font-size:9px;
+
     font-weight:900;
 
     text-decoration:none;
@@ -284,6 +357,7 @@ input:focus{
 }
 
 .back{
+
     display:block;
 
     margin-top:26px;
@@ -302,6 +376,7 @@ input:focus{
 }
 
 .message{
+
     display:none;
 
     margin-bottom:15px;
@@ -327,6 +402,7 @@ input:focus{
 }
 
 .message.error{
+
     background:
         rgba(255,45,70,.09);
 
@@ -337,6 +413,7 @@ input:focus{
 }
 
 .info{
+
     margin-top:13px;
 
     color:#847987;
@@ -346,24 +423,6 @@ input:focus{
     font-size:9px;
 
     line-height:1.5;
-}
-
-.brand-line{
-    width:70px;
-    height:2px;
-
-    margin:0 auto 24px;
-
-    border-radius:20px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #ff3030,
-            #d4af37,
-            #a855f7,
-            #ff7a00
-        );
 }
 
 @media(max-width:500px){
@@ -379,6 +438,7 @@ input:focus{
 }
 
 </style>
+
 </head>
 
 <body>
@@ -386,19 +446,26 @@ input:focus{
 <div class="auth-card">
 
     <div class="logo">
-        Steady<span class="gold">M</span><span class="red">a</span><span class="purple">z</span><span class="gold">e</span>
-    </div>
 
-    <div class="brand-line"></div>
+        Steady
+        <span class="gold">M</span>
+        <span class="red">a</span>
+        <span class="purple">z</span>
+        <span class="gold">e</span>
+
+    </div>
 
     <div class="subtitle">
         STUDENT PORTAL
     </div>
 
+    <div class="brand-line"></div>
+
     <div
         id="message"
         class="message"
     ></div>
+
 
     <!-- TABS -->
 
@@ -427,7 +494,10 @@ input:focus{
 
     </div>
 
-    <!-- LOGIN -->
+
+    <!-- =========================
+         LOGIN
+    ========================== -->
 
     <form
         id="loginForm"
@@ -476,7 +546,10 @@ input:focus{
 
     </form>
 
-    <!-- SIGN UP -->
+
+    <!-- =========================
+         SIGN UP
+    ========================== -->
 
     <form
         id="signupForm"
@@ -535,7 +608,10 @@ input:focus{
 
     </form>
 
-    <!-- FORGOT PASSWORD -->
+
+    <!-- =========================
+         FORGOT PASSWORD
+    ========================== -->
 
     <form
         id="forgotForm"
@@ -576,7 +652,10 @@ input:focus{
 
     </form>
 
-    <!-- NEW PASSWORD -->
+
+    <!-- =========================
+         NEW PASSWORD
+    ========================== -->
 
     <form
         id="newPasswordForm"
@@ -620,6 +699,9 @@ input:focus{
 
     </form>
 
+
+    <!-- HOME -->
+
     <a
         href="index.html"
         class="back"
@@ -630,7 +712,9 @@ input:focus{
 </div>
 
 
-<!-- SUPABASE -->
+<!-- =========================================
+     SUPABASE
+========================================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -657,10 +741,15 @@ const supabaseClient =
    MESSAGE
 ========================================= */
 
-function showMessage(text,isError=false){
+function showMessage(
+    text,
+    isError = false
+){
 
     const box =
-        document.getElementById("message");
+        document.getElementById(
+            "message"
+        );
 
     box.textContent = text;
 
@@ -675,27 +764,37 @@ function showMessage(text,isError=false){
 function clearMessage(){
 
     const box =
-        document.getElementById("message");
+        document.getElementById(
+            "message"
+        );
 
     box.textContent = "";
 
     box.style.display = "none";
 
-    box.classList.remove("error");
+    box.classList.remove(
+        "error"
+    );
 }
 
 
 /* =========================================
-   HIDE FORMS
+   HIDE ALL FORMS
 ========================================= */
 
 function hideForms(){
 
     document
         .querySelectorAll(".form")
-        .forEach(form=>{
-            form.classList.remove("active");
-        });
+        .forEach(
+            function(form){
+
+                form.classList.remove(
+                    "active"
+                );
+
+            }
+        );
 }
 
 
@@ -776,7 +875,7 @@ function showForgot(){
 
 
 /* =========================================
-   NEW PASSWORD
+   NEW PASSWORD SCREEN
 ========================================= */
 
 function showNewPassword(){
@@ -790,11 +889,13 @@ function showNewPassword(){
     document
         .getElementById("tabs")
         .style.display = "none";
+
+    clearMessage();
 }
 
 
 /* =========================================
-   CREATE STUDENT ACCOUNT
+   CREATE STUDENT
 ========================================= */
 
 async function createStudent(event){
@@ -851,7 +952,9 @@ async function createStudent(event){
         );
 
     button.disabled = true;
-    button.textContent = "CREATING...";
+
+    button.textContent =
+        "CREATING...";
 
     try{
 
@@ -866,21 +969,29 @@ async function createStudent(event){
             password:password,
 
             options:{
+
                 data:{
+
                     full_name:name,
+
                     role:"student"
+
                 },
 
                 emailRedirectTo:
                     window.location.origin +
                     window.location.pathname
+
             }
 
         });
 
         if(error){
+
             throw error;
+
         }
+
 
         /*
          * Supabase Auth handles
@@ -892,7 +1003,9 @@ async function createStudent(event){
         if(!data.session){
 
             document
-                .getElementById("signupForm")
+                .getElementById(
+                    "signupForm"
+                )
                 .reset();
 
             showMessage(
@@ -902,10 +1015,19 @@ async function createStudent(event){
             return;
         }
 
-        await supabaseClient.auth.signOut();
+
+        /*
+         * If email confirmation
+         * is disabled.
+         */
+
+        await supabaseClient.auth
+            .signOut();
 
         document
-            .getElementById("signupForm")
+            .getElementById(
+                "signupForm"
+            )
             .reset();
 
         showLogin();
@@ -925,14 +1047,17 @@ async function createStudent(event){
     }finally{
 
         button.disabled = false;
-        button.textContent = "CREATE ACCOUNT";
+
+        button.textContent =
+            "CREATE ACCOUNT";
+
     }
 
 }
 
 
 /* =========================================
-   STUDENT LOGIN
+   LOGIN STUDENT
 ========================================= */
 
 async function loginStudent(event){
@@ -959,19 +1084,30 @@ async function loginStudent(event){
         );
 
     button.disabled = true;
-    button.textContent = "LOGGING IN...";
+
+    button.textContent =
+        "LOGGING IN...";
 
     try{
 
         /*
          * IMPORTANT:
          *
-         * Login uses Supabase Auth only.
+         * Login is ONLY handled
+         * by Supabase Auth.
          *
-         * The same email can also
-         * exist as a teacher account.
+         * We DO NOT query:
          *
-         * We do NOT block it here.
+         * students.full_name
+         *
+         * students.status
+         *
+         * or other columns.
+         *
+         * Therefore the previous
+         * "column students.full_name
+         * does not exist" error is
+         * removed.
          */
 
         const {
@@ -988,7 +1124,9 @@ async function loginStudent(event){
             });
 
         if(error){
+
             throw error;
+
         }
 
         if(!data.user){
@@ -996,76 +1134,18 @@ async function loginStudent(event){
             throw new Error(
                 "Account was not found."
             );
+
         }
 
 
         /*
-         * Check student profile.
+         * LOGIN SUCCESS
          *
-         * If your students table
-         * uses user_id, this connects
-         * the Supabase Auth user.
-         */
-
-        const {
-            data:student,
-            error:studentError
-        } =
-        await supabaseClient
-            .from("students")
-            .select(
-                "id,user_id,full_name,email,status"
-            )
-            .eq(
-                "user_id",
-                data.user.id
-            )
-            .maybeSingle();
-
-        if(studentError){
-
-            /*
-             * If RLS/table permission
-             * is wrong, show the real
-             * Supabase error.
-             */
-
-            throw studentError;
-        }
-
-        if(!student){
-
-            await supabaseClient.auth.signOut();
-
-            throw new Error(
-                "Student profile was not found. Please contact the administrator."
-            );
-        }
-
-
-        /*
-         * STATUS CHECK
-         */
-
-        if(
-            student.status &&
-            student.status !== "approved" &&
-            student.status !== "active"
-        ){
-
-            await supabaseClient.auth.signOut();
-
-            showMessage(
-                "Your student account is not active yet.",
-                true
-            );
-
-            return;
-        }
-
-
-        /*
-         * SUCCESS
+         * Go directly to
+         * student.html.
+         *
+         * No localStorage.
+         * No students table query.
          */
 
         window.location.replace(
@@ -1083,7 +1163,10 @@ async function loginStudent(event){
     }finally{
 
         button.disabled = false;
-        button.textContent = "LOGIN";
+
+        button.textContent =
+            "LOGIN";
+
     }
 
 }
@@ -1112,7 +1195,9 @@ async function sendReset(event){
         );
 
     button.disabled = true;
-    button.textContent = "SENDING...";
+
+    button.textContent =
+        "SENDING...";
 
     try{
 
@@ -1121,16 +1206,23 @@ async function sendReset(event){
         } =
         await supabaseClient.auth
             .resetPasswordForEmail(
+
                 email,
+
                 {
+
                     redirectTo:
                         window.location.origin +
                         window.location.pathname
+
                 }
+
             );
 
         if(error){
+
             throw error;
+
         }
 
         showMessage(
@@ -1148,7 +1240,10 @@ async function sendReset(event){
     }finally{
 
         button.disabled = false;
-        button.textContent = "SEND RESET LINK";
+
+        button.textContent =
+            "SEND RESET LINK";
+
     }
 
 }
@@ -1166,12 +1261,16 @@ async function changePassword(event){
 
     const password =
         document
-            .getElementById("newPassword")
+            .getElementById(
+                "newPassword"
+            )
             .value;
 
     const confirm =
         document
-            .getElementById("confirmPassword")
+            .getElementById(
+                "confirmPassword"
+            )
             .value;
 
     if(password.length < 6){
@@ -1200,7 +1299,9 @@ async function changePassword(event){
         );
 
     button.disabled = true;
-    button.textContent = "UPDATING...";
+
+    button.textContent =
+        "UPDATING...";
 
     try{
 
@@ -1209,11 +1310,15 @@ async function changePassword(event){
         } =
         await supabaseClient.auth
             .updateUser({
+
                 password:password
+
             });
 
         if(error){
+
             throw error;
+
         }
 
         showMessage(
@@ -1223,7 +1328,8 @@ async function changePassword(event){
         setTimeout(
             async function(){
 
-                await supabaseClient.auth.signOut();
+                await supabaseClient.auth
+                    .signOut();
 
                 showLogin();
 
@@ -1242,7 +1348,10 @@ async function changePassword(event){
     }finally{
 
         button.disabled = false;
-        button.textContent = "CHANGE PASSWORD";
+
+        button.textContent =
+            "CHANGE PASSWORD";
+
     }
 
 }
@@ -1254,10 +1363,12 @@ async function changePassword(event){
 
 supabaseClient.auth
 .onAuthStateChange(
+
     function(event){
 
         if(
-            event === "PASSWORD_RECOVERY"
+            event ===
+            "PASSWORD_RECOVERY"
         ){
 
             showNewPassword();
@@ -1265,14 +1376,16 @@ supabaseClient.auth
             showMessage(
                 "Create your new SteadyMaze password."
             );
+
         }
 
     }
+
 );
 
 
 /* =========================================
-   CHECK PASSWORD RECOVERY
+   CHECK RECOVERY URL
 ========================================= */
 
 function checkRecovery(){
@@ -1284,17 +1397,25 @@ function checkRecovery(){
         window.location.search;
 
     if(
-        hash.includes("type=recovery") ||
-        search.includes("type=recovery")
+        hash.includes(
+            "type=recovery"
+        ) ||
+        search.includes(
+            "type=recovery"
+        )
     ){
 
         setTimeout(
             function(){
+
                 showNewPassword();
+
             },
             500
         );
+
     }
+
 }
 
 
