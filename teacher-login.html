@@ -724,8 +724,6 @@ input:focus{
 
 <div class="auth-container">
 
-    <!-- LOGO -->
-
     <div class="logo">
 
         <h1>
@@ -740,12 +738,8 @@ input:focus{
     </div>
 
 
-    <!-- CARD -->
-
     <div class="auth-card">
 
-
-        <!-- TABS -->
 
         <div
             class="tabs"
@@ -771,17 +765,13 @@ input:focus{
         </div>
 
 
-        <!-- MESSAGE -->
-
         <div
             id="message"
             class="message"
         ></div>
 
 
-        <!-- =========================
-             LOGIN
-        ========================== -->
+        <!-- LOGIN -->
 
         <div
             id="loginForm"
@@ -898,9 +888,7 @@ input:focus{
 
 
 
-        <!-- =========================
-             SIGN UP
-        ========================== -->
+        <!-- SIGN UP -->
 
         <div
             id="signupForm"
@@ -1046,9 +1034,7 @@ input:focus{
 
 
 
-        <!-- =========================
-             FORGOT PASSWORD
-        ========================== -->
+        <!-- FORGOT PASSWORD -->
 
         <div
             id="forgotForm"
@@ -1112,9 +1098,7 @@ input:focus{
 
 
 
-        <!-- =========================
-             GET NEW PASSWORD
-        ========================== -->
+        <!-- RESET PASSWORD -->
 
         <div
             id="resetForm"
@@ -1222,18 +1206,12 @@ input:focus{
 </div>
 
 
-
-<!-- ==========================================
-     SUPABASE LIBRARY
-========================================== -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
 <script>
 
 /* =====================================================
-   STEADYMAZE SUPABASE CONFIG
+   SUPABASE CONFIG
 ===================================================== */
 
 const SUPABASE_URL =
@@ -1242,26 +1220,25 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
     "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
 
-
-/*
-   IMPORTANT:
-   supabaseClient is created ONLY after
-   window.supabase has loaded.
-*/
-
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_ANON_KEY
+        SUPABASE_ANON_KEY,
+        {
+            auth:{
+                persistSession:true,
+                autoRefreshToken:true,
+                detectSessionInUrl:true
+            }
+        }
     );
 
 
 /* =====================================================
-   TEACHER DASHBOARD
+   DASHBOARD
 ===================================================== */
 
-const TEACHER_DASHBOARD =
-    "teacher.html";
+const TEACHER_DASHBOARD = "teacher.html";
 
 
 /* =====================================================
@@ -1288,8 +1265,7 @@ function clearMessage(){
 
     box.textContent = "";
 
-    box.className =
-        "message";
+    box.className = "message";
 
 }
 
@@ -1515,15 +1491,8 @@ async function signupTeacher(){
 
     try{
 
-        /*
-        The user will return to this exact page
-        after confirming their email.
-        */
-
-        const emailRedirectUrl =
-            new URL(
-                window.location.href
-            ).origin +
+        const redirectUrl =
+            window.location.origin +
             window.location.pathname;
 
 
@@ -1540,7 +1509,7 @@ async function signupTeacher(){
             options:{
 
                 emailRedirectTo:
-                    emailRedirectUrl,
+                    redirectUrl,
 
                 data:{
 
@@ -1565,24 +1534,22 @@ async function signupTeacher(){
 
 
         /*
-        If email confirmation is required,
-        there will normally be no active session yet.
+        Supabase Auth is now the source of truth.
+        No localStorage or sessionStorage is used.
         */
 
-        if(
-            data.user &&
-            !data.session
-        ){
+
+        if(data.user && !data.session){
 
             showMessage(
-                "Account created! Please check your email and confirm your email address. After confirmation, return here and log in.",
+                "Account created! Please check your email and confirm your email address, then return here and login.",
                 "success"
             );
 
         }else{
 
             showMessage(
-                "Teacher account created successfully.",
+                "Teacher account created successfully. You can now login.",
                 "success"
             );
 
@@ -1593,14 +1560,11 @@ async function signupTeacher(){
             .getElementById("signupPassword")
             .value = "";
 
+
         document
             .getElementById("signupConfirmPassword")
             .value = "";
 
-
-        /*
-        Move to login after a short delay.
-        */
 
         setTimeout(() => {
 
@@ -1627,8 +1591,9 @@ async function signupTeacher(){
 
 
         if(
-            message.toLowerCase()
-            .includes("already registered")
+            message
+                .toLowerCase()
+                .includes("already registered")
         ){
 
             message =
@@ -1732,7 +1697,11 @@ async function loginTeacher(){
         }
 
 
-        if(!data.session){
+        if(
+            !data ||
+            !data.session ||
+            !data.user
+        ){
 
             throw new Error(
                 "Login session was not created."
@@ -1746,30 +1715,39 @@ async function loginTeacher(){
 
 
         /*
-        Save teacher information locally.
-        Supabase remains the real authentication source.
+        IMPORTANT:
+
+        We DO NOT use:
+        localStorage
+        sessionStorage
+
+        Supabase itself keeps the authenticated
+        session and teacher.html can read it using:
+
+        supabase.auth.getSession()
         */
 
-        sessionStorage.setItem(
-            "steadymaze_teacher",
-            JSON.stringify({
 
-                id:user.id,
+        /*
+        Verify teacher role when available.
+        */
 
-                email:user.email,
+        const role =
+            user.user_metadata?.role;
 
-                name:
-                    user.user_metadata
-                    ?.full_name || "",
 
-                skill:
-                    user.user_metadata
-                    ?.skill || "",
+        if(
+            role &&
+            role !== "teacher"
+        ){
 
-                role:"teacher"
+            await supabaseClient.auth.signOut();
 
-            })
-        );
+            throw new Error(
+                "This account is not registered as a teacher account."
+            );
+
+        }
 
 
         showMessage(
@@ -1779,16 +1757,16 @@ async function loginTeacher(){
 
 
         /*
-        IMPORTANT:
-        Existing teacher.html dashboard.
+        Small delay only for the success message.
         */
 
         setTimeout(() => {
 
-            window.location.href =
-                TEACHER_DASHBOARD;
+            window.location.replace(
+                TEACHER_DASHBOARD
+            );
 
-        },700);
+        },500);
 
 
     }catch(error){
@@ -1804,13 +1782,26 @@ async function loginTeacher(){
             "Invalid email or password.";
 
 
+        const lower =
+            message.toLowerCase();
+
+
         if(
-            message.toLowerCase()
-            .includes("email not confirmed")
+            lower.includes("email not confirmed")
         ){
 
             message =
                 "Please confirm your email address before logging in.";
+
+        }
+
+
+        if(
+            lower.includes("invalid login credentials")
+        ){
+
+            message =
+                "Incorrect email or password.";
 
         }
 
@@ -1820,13 +1811,13 @@ async function loginTeacher(){
             "error"
         );
 
+
+        button.disabled = false;
+
+        button.textContent =
+            "Login to Teacher Dashboard";
+
     }
-
-
-    button.disabled = false;
-
-    button.textContent =
-        "Login to Teacher Dashboard";
 
 }
 
@@ -1871,14 +1862,8 @@ async function sendResetEmail(){
 
     try{
 
-        /*
-        Password reset link returns to this page.
-        */
-
         const resetRedirectUrl =
-            new URL(
-                window.location.href
-            ).origin +
+            window.location.origin +
             window.location.pathname;
 
 
@@ -1995,7 +1980,6 @@ async function updatePassword(){
     try{
 
         const {
-            data,
             error
         } =
         await supabaseClient.auth
@@ -2028,10 +2012,6 @@ async function updatePassword(){
             .getElementById("confirmNewPassword")
             .value = "";
 
-
-        /*
-        Return to login.
-        */
 
         setTimeout(() => {
 
@@ -2079,9 +2059,7 @@ supabaseClient.auth.onAuthStateChange(
 
 
         /*
-        -------------------------------------------------
         PASSWORD RECOVERY
-        -------------------------------------------------
         */
 
         if(event === "PASSWORD_RECOVERY"){
@@ -2099,7 +2077,64 @@ supabaseClient.auth.onAuthStateChange(
                 .classList.add("active");
 
 
-            clearMessage();
+            showMessage(
+                "Create your new teacher password below.",
+                "info"
+            );
+
+            return;
+
+        }
+
+
+        /*
+        IMPORTANT:
+
+        Do NOT automatically redirect on every
+        SIGNED_IN event here.
+
+        loginTeacher() controls the dashboard redirect.
+
+        This prevents the login page and dashboard
+        from fighting each other and causing the
+        login -> dashboard -> login loop.
+        */
+
+    }
+);
+
+
+/* =====================================================
+   HANDLE AUTH REDIRECT
+===================================================== */
+
+async function handleAuthRedirect(){
+
+    try{
+
+        const hash =
+            window.location.hash || "";
+
+
+        /*
+        PASSWORD RECOVERY LINK
+        */
+
+        if(
+            hash.includes("type=recovery")
+        ){
+
+            document
+                .getElementById("mainTabs")
+                .style.display = "none";
+
+
+            hideAllForms();
+
+
+            document
+                .getElementById("resetForm")
+                .classList.add("active");
 
 
             showMessage(
@@ -2113,177 +2148,25 @@ supabaseClient.auth.onAuthStateChange(
 
 
         /*
-        -------------------------------------------------
-        SIGNED IN
-        -------------------------------------------------
+        EMAIL CONFIRMATION
+
+        Do NOT force an automatic redirect here.
+
+        The user can return to this page and
+        login normally.
+
+        This avoids redirect loops.
         */
 
         if(
-            event === "SIGNED_IN" &&
-            session &&
-            session.user
+            hash.includes("access_token") ||
+            hash.includes("type=signup")
         ){
-
-            /*
-            Do not redirect during password recovery.
-            */
-
-            if(
-                window.location.hash
-                .includes("type=recovery")
-            ){
-
-                return;
-
-            }
-
-
-            const user =
-                session.user;
-
-
-            /*
-            Save teacher session information.
-            */
-
-            sessionStorage.setItem(
-                "steadymaze_teacher",
-                JSON.stringify({
-
-                    id:user.id,
-
-                    email:user.email,
-
-                    name:
-                        user.user_metadata
-                        ?.full_name || "",
-
-                    skill:
-                        user.user_metadata
-                        ?.skill || "",
-
-                    role:"teacher"
-
-                })
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   HANDLE EMAIL CONFIRMATION RETURN
-===================================================== */
-
-async function handleAuthRedirect(){
-
-    try{
-
-        /*
-        Supabase v2 may process the confirmation
-        link and create the session automatically.
-        */
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.getSession();
-
-
-        if(error){
-
-            console.error(
-                "SESSION ERROR:",
-                error
-            );
-
-            return;
-
-        }
-
-
-        if(
-            data.session &&
-            data.session.user
-        ){
-
-            const user =
-                data.session.user;
-
-
-            /*
-            Check whether this is a recovery link.
-            */
-
-            const isRecovery =
-                window.location.hash
-                .includes("type=recovery");
-
-
-            if(isRecovery){
-
-                document
-                    .getElementById("mainTabs")
-                    .style.display = "none";
-
-                hideAllForms();
-
-                document
-                    .getElementById("resetForm")
-                    .classList.add("active");
-
-                return;
-
-            }
-
-
-            /*
-            Email confirmation has succeeded
-            and a valid session exists.
-            */
-
-            sessionStorage.setItem(
-                "steadymaze_teacher",
-                JSON.stringify({
-
-                    id:user.id,
-
-                    email:user.email,
-
-                    name:
-                        user.user_metadata
-                        ?.full_name || "",
-
-                    skill:
-                        user.user_metadata
-                        ?.skill || "",
-
-                    role:"teacher"
-
-                })
-            );
-
-
-            /*
-            IMPORTANT:
-            Send confirmed teacher to dashboard.
-            */
 
             showMessage(
-                "Email confirmed successfully. Opening Teacher Dashboard...",
+                "Your email confirmation was received. You can now login.",
                 "success"
             );
-
-
-            setTimeout(() => {
-
-                window.location.href =
-                    TEACHER_DASHBOARD;
-
-            },900);
 
         }
 
@@ -2329,7 +2212,6 @@ document.addEventListener(
 
         }
 
-
         else if(
             activeForm.id === "signupForm"
         ){
@@ -2338,7 +2220,6 @@ document.addEventListener(
 
         }
 
-
         else if(
             activeForm.id === "forgotForm"
         ){
@@ -2346,7 +2227,6 @@ document.addEventListener(
             sendResetEmail();
 
         }
-
 
         else if(
             activeForm.id === "resetForm"
