@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SteadyMaze | Student Login</title>
 
@@ -18,203 +12,131 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-
     min-height:100vh;
-
     display:flex;
-    justify-content:center;
     align-items:center;
-
+    justify-content:center;
     padding:20px;
+
+    font-family:Arial,Helvetica,sans-serif;
+    color:white;
 
     background:
         radial-gradient(
             circle at 15% 20%,
-            rgba(255,0,70,.20),
+            rgba(255,0,60,.22),
             transparent 30%
         ),
         radial-gradient(
             circle at 85% 15%,
-            rgba(255,145,0,.18),
+            rgba(255,140,0,.20),
             transparent 30%
         ),
         radial-gradient(
             circle at 50% 100%,
-            rgba(125,40,255,.20),
+            rgba(128,0,255,.20),
             transparent 35%
         ),
-        #080509;
-
-    color:#fff;
+        #07030a;
 }
 
 .auth-card{
-
     width:100%;
     max-width:440px;
 
-    padding:38px;
-
-    border-radius:26px;
+    padding:36px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(35,10,20,.96),
-            rgba(13,7,20,.96)
+            rgba(255,255,255,.10),
+            rgba(255,255,255,.035)
         );
 
-    border:
-        1px solid
-        rgba(255,190,70,.25);
+    border:1px solid rgba(255,215,120,.25);
+
+    border-radius:25px;
 
     box-shadow:
-        0 30px 90px rgba(0,0,0,.65),
-        0 0 45px rgba(255,70,30,.08);
+        0 30px 100px rgba(0,0,0,.65),
+        0 0 50px rgba(255,0,60,.08);
 
-    position:relative;
-    overflow:hidden;
-}
-
-.auth-card::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:180px;
-    height:180px;
-
-    top:-100px;
-    right:-80px;
-
-    background:#ff5a00;
-
-    opacity:.12;
-
-    filter:blur(45px);
+    backdrop-filter:blur(22px);
 }
 
 .logo{
-
     text-align:center;
-
-    font-size:32px;
-
+    font-size:34px;
     font-weight:900;
-
-    letter-spacing:.5px;
-
-    margin-bottom:8px;
-}
-
-.logo .gold{
-    color:#d4af37;
-}
-
-.logo .red{
-    color:#ff3b30;
-}
-
-.logo .purple{
-    color:#a855f7;
-}
-
-.subtitle{
-
-    text-align:center;
-
-    color:#c9c1ca;
-
-    font-size:10px;
-
-    font-weight:700;
-
-    letter-spacing:2px;
-
-    margin-bottom:12px;
-}
-
-.brand-line{
-
-    width:70px;
-    height:2px;
-
-    margin:
-        0 auto
-        24px;
-
-    border-radius:20px;
+    letter-spacing:-1px;
+    margin-bottom:7px;
 
     background:
         linear-gradient(
             90deg,
-            #ff3030,
-            #d4af37,
-            #a855f7,
-            #ff7a00
+            #ffd700,
+            #ff8c00,
+            #ff304f,
+            #b65cff
         );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.subtitle{
+    text-align:center;
+    color:#c7bdca;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:2px;
+    margin-bottom:27px;
 }
 
 .tabs{
-
     display:grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
+    grid-template-columns:1fr 1fr;
     gap:6px;
 
     padding:5px;
+    margin-bottom:23px;
 
-    margin-bottom:22px;
-
-    background:#090609;
-
-    border:
-        1px solid
-        rgba(255,255,255,.06);
-
-    border-radius:12px;
+    background:rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:13px;
 }
 
 .tab{
-
     border:0;
-
     padding:13px;
 
     border-radius:9px;
 
     background:transparent;
-
-    color:#9a919c;
+    color:#8f8793;
 
     font-size:10px;
-
     font-weight:900;
 
     cursor:pointer;
 }
 
 .tab.active{
+    color:white;
 
     background:
         linear-gradient(
-            135deg,
-            #d4af37,
-            #ff7a00
+            90deg,
+            #ff1744,
+            #ff8c00
         );
 
-    color:#170b05;
-
     box-shadow:
-        0 6px 20px
-        rgba(255,120,0,.18);
+        0 7px 22px rgba(255,60,0,.20);
 }
 
 .form{
@@ -226,29 +148,29 @@ body{
 }
 
 label{
-
     display:block;
-
     margin-bottom:7px;
 
-    color:#ddd3dc;
+    color:#ddd4df;
 
     font-size:9px;
-
     font-weight:900;
-
     letter-spacing:1px;
 }
 
-input{
+.input-wrap{
+    position:relative;
+}
 
+input{
     width:100%;
 
     padding:14px;
 
     margin-bottom:16px;
 
-    background:#08060a;
+    background:
+        rgba(0,0,0,.42);
 
     border:
         1px solid
@@ -258,113 +180,117 @@ input{
 
     outline:none;
 
-    color:#fff;
+    color:white;
 
     font-size:11px;
-
-    transition:.2s;
-}
-
-input::placeholder{
-    color:#665d68;
 }
 
 input:focus{
-
-    border-color:#d4af37;
+    border-color:#ff9d00;
 
     box-shadow:
         0 0 0 3px
-        rgba(212,175,55,.07),
+        rgba(255,140,0,.08);
+}
 
-        0 0 20px
-        rgba(255,70,30,.05);
+.password-input{
+    padding-right:55px;
+}
+
+.toggle-password{
+    position:absolute;
+
+    right:10px;
+    top:8px;
+
+    height:32px;
+    min-width:42px;
+
+    border:0;
+    border-radius:8px;
+
+    background:
+        rgba(255,255,255,.07);
+
+    color:#ffd166;
+
+    cursor:pointer;
+
+    font-size:15px;
+}
+
+.toggle-password:hover{
+    background:
+        rgba(255,140,0,.14);
 }
 
 .main-button{
-
     width:100%;
 
     padding:15px;
 
-    margin-top:4px;
+    margin-top:3px;
 
     border:0;
-
     border-radius:11px;
 
     background:
         linear-gradient(
-            135deg,
-            #d4af37,
-            #ff7a00,
-            #ff3030
+            90deg,
+            #ff1744,
+            #ff8c00,
+            #ffd000
         );
 
-    color:#fff;
+    color:#170600;
 
     font-size:10px;
-
     font-weight:900;
-
-    letter-spacing:1px;
 
     cursor:pointer;
 
-    transition:.2s;
+    box-shadow:
+        0 10px 30px
+        rgba(255,70,0,.18);
 }
 
 .main-button:hover{
-
-    transform:
-        translateY(-1px);
-
-    box-shadow:
-        0 12px 30px
-        rgba(255,80,20,.20);
+    transform:translateY(-1px);
 }
 
 .main-button:disabled{
-
     opacity:.55;
-
     cursor:not-allowed;
-
     transform:none;
 }
 
 .forgot{
-
     display:block;
 
     margin-top:17px;
 
     text-align:center;
 
-    color:#c084fc;
+    color:#c58cff;
 
     font-size:9px;
-
     font-weight:900;
-
-    text-decoration:none;
 
     cursor:pointer;
 }
 
 .forgot:hover{
-    color:#d4af37;
+    color:#ffd166;
 }
 
 .back{
-
     display:block;
 
-    margin-top:26px;
+    margin-top:25px;
 
     text-align:center;
 
-    color:#857b88;
+    color:#8d8292;
 
     font-size:9px;
 
@@ -372,27 +298,26 @@ input:focus{
 }
 
 .back:hover{
-    color:#d4af37;
+    color:#ffd166;
 }
 
 .message{
-
     display:none;
 
     margin-bottom:15px;
 
-    padding:12px;
+    padding:11px;
 
-    border-radius:9px;
+    border-radius:10px;
 
     background:
-        rgba(212,175,55,.08);
+        rgba(255,166,0,.08);
 
     border:
         1px solid
-        rgba(212,175,55,.15);
+        rgba(255,166,0,.15);
 
-    color:#ffd76a;
+    color:#ffd166;
 
     font-size:9px;
 
@@ -402,21 +327,19 @@ input:focus{
 }
 
 .message.error{
-
     background:
-        rgba(255,45,70,.09);
+        rgba(255,0,60,.09);
 
     border-color:
-        rgba(255,45,70,.18);
+        rgba(255,0,60,.18);
 
-    color:#ff858f;
+    color:#ff7189;
 }
 
 .info{
-
     margin-top:13px;
 
-    color:#847987;
+    color:#827887;
 
     text-align:center;
 
@@ -428,17 +351,15 @@ input:focus{
 @media(max-width:500px){
 
     .auth-card{
-        padding:28px 22px;
+        padding:28px 21px;
     }
 
     .logo{
-        font-size:27px;
+        font-size:29px;
     }
-
 }
 
 </style>
-
 </head>
 
 <body>
@@ -446,28 +367,17 @@ input:focus{
 <div class="auth-card">
 
     <div class="logo">
-
-        Steady
-        <span class="gold">M</span>
-        <span class="red">a</span>
-        <span class="purple">z</span>
-        <span class="gold">e</span>
-
+        SteadyMaze
     </div>
 
     <div class="subtitle">
         STUDENT PORTAL
     </div>
 
-    <div class="brand-line"></div>
-
     <div
         id="message"
         class="message"
     ></div>
-
-
-    <!-- TABS -->
 
     <div
         class="tabs"
@@ -495,9 +405,7 @@ input:focus{
     </div>
 
 
-    <!-- =========================
-         LOGIN
-    ========================== -->
+    <!-- LOGIN -->
 
     <form
         id="loginForm"
@@ -521,13 +429,27 @@ input:focus{
             PASSWORD
         </label>
 
-        <input
-            type="password"
-            id="loginPassword"
-            placeholder="Enter your password"
-            autocomplete="current-password"
-            required
-        >
+        <div class="input-wrap">
+
+            <input
+                type="password"
+                id="loginPassword"
+                class="password-input"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button
+                type="button"
+                class="toggle-password"
+                onclick="togglePassword('loginPassword',this)"
+                aria-label="Show password"
+            >
+                👁
+            </button>
+
+        </div>
 
         <button
             type="submit"
@@ -537,19 +459,17 @@ input:focus{
             LOGIN
         </button>
 
-        <a
+        <span
             class="forgot"
             onclick="showForgot()"
         >
             Forgot Password?
-        </a>
+        </span>
 
     </form>
 
 
-    <!-- =========================
-         SIGN UP
-    ========================== -->
+    <!-- SIGN UP -->
 
     <form
         id="signupForm"
@@ -585,33 +505,44 @@ input:focus{
             PASSWORD
         </label>
 
-        <input
-            type="password"
-            id="signupPassword"
-            placeholder="Create password"
-            minlength="6"
-            autocomplete="new-password"
-            required
-        >
+        <div class="input-wrap">
+
+            <input
+                type="password"
+                id="signupPassword"
+                class="password-input"
+                placeholder="Create password"
+                minlength="6"
+                autocomplete="new-password"
+                required
+            >
+
+            <button
+                type="button"
+                class="toggle-password"
+                onclick="togglePassword('signupPassword',this)"
+            >
+                👁
+            </button>
+
+        </div>
 
         <button
             type="submit"
             id="signupButton"
             class="main-button"
         >
-            CREATE ACCOUNT
+            CREATE STUDENT ACCOUNT
         </button>
 
         <div class="info">
-            Your account is secured by Supabase.
+            Your account is managed securely by Supabase.
         </div>
 
     </form>
 
 
-    <!-- =========================
-         FORGOT PASSWORD
-    ========================== -->
+    <!-- FORGOT PASSWORD -->
 
     <form
         id="forgotForm"
@@ -643,19 +574,17 @@ input:focus{
             Supabase will send the password reset link.
         </div>
 
-        <a
+        <span
             class="forgot"
             onclick="showLogin()"
         >
             ← Back To Login
-        </a>
+        </span>
 
     </form>
 
 
-    <!-- =========================
-         NEW PASSWORD
-    ========================== -->
+    <!-- NEW PASSWORD -->
 
     <form
         id="newPasswordForm"
@@ -667,27 +596,53 @@ input:focus{
             NEW PASSWORD
         </label>
 
-        <input
-            type="password"
-            id="newPassword"
-            placeholder="Create new password"
-            minlength="6"
-            autocomplete="new-password"
-            required
-        >
+        <div class="input-wrap">
+
+            <input
+                type="password"
+                id="newPassword"
+                class="password-input"
+                placeholder="Create new password"
+                minlength="6"
+                autocomplete="new-password"
+                required
+            >
+
+            <button
+                type="button"
+                class="toggle-password"
+                onclick="togglePassword('newPassword',this)"
+            >
+                👁
+            </button>
+
+        </div>
 
         <label>
             CONFIRM PASSWORD
         </label>
 
-        <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Confirm password"
-            minlength="6"
-            autocomplete="new-password"
-            required
-        >
+        <div class="input-wrap">
+
+            <input
+                type="password"
+                id="confirmPassword"
+                class="password-input"
+                placeholder="Confirm password"
+                minlength="6"
+                autocomplete="new-password"
+                required
+            >
+
+            <button
+                type="button"
+                class="toggle-password"
+                onclick="togglePassword('confirmPassword',this)"
+            >
+                👁
+            </button>
+
+        </div>
 
         <button
             type="submit"
@@ -700,8 +655,6 @@ input:focus{
     </form>
 
 
-    <!-- HOME -->
-
     <a
         href="index.html"
         class="back"
@@ -712,16 +665,14 @@ input:focus{
 </div>
 
 
-<!-- =========================================
-     SUPABASE
-========================================= -->
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
 /* =========================================
-   SUPABASE CONNECTION
+   SUPABASE
 ========================================= */
 
 const SUPABASE_URL =
@@ -741,15 +692,10 @@ const supabaseClient =
    MESSAGE
 ========================================= */
 
-function showMessage(
-    text,
-    isError = false
-){
+function showMessage(text,isError=false){
 
     const box =
-        document.getElementById(
-            "message"
-        );
+        document.getElementById("message");
 
     box.textContent = text;
 
@@ -764,43 +710,58 @@ function showMessage(
 function clearMessage(){
 
     const box =
-        document.getElementById(
-            "message"
-        );
+        document.getElementById("message");
 
     box.textContent = "";
 
     box.style.display = "none";
 
-    box.classList.remove(
-        "error"
-    );
+    box.classList.remove("error");
 }
 
 
 /* =========================================
-   HIDE ALL FORMS
+   PASSWORD SHOW / HIDE
+========================================= */
+
+function togglePassword(id,button){
+
+    const input =
+        document.getElementById(id);
+
+    if(!input) return;
+
+    if(input.type === "password"){
+
+        input.type = "text";
+
+        button.textContent = "🙈";
+
+    }else{
+
+        input.type = "password";
+
+        button.textContent = "👁";
+
+    }
+
+}
+
+
+/* =========================================
+   FORM CONTROL
 ========================================= */
 
 function hideForms(){
 
     document
         .querySelectorAll(".form")
-        .forEach(
-            function(form){
+        .forEach(function(form){
 
-                form.classList.remove(
-                    "active"
-                );
+            form.classList.remove("active");
 
-            }
-        );
+        });
 }
-
-
-/* =========================================
-   LOGIN SCREEN
-========================================= */
 
 function showLogin(){
 
@@ -825,11 +786,6 @@ function showLogin(){
     clearMessage();
 }
 
-
-/* =========================================
-   SIGNUP SCREEN
-========================================= */
-
 function showSignup(){
 
     hideForms();
@@ -853,11 +809,6 @@ function showSignup(){
     clearMessage();
 }
 
-
-/* =========================================
-   FORGOT SCREEN
-========================================= */
-
 function showForgot(){
 
     hideForms();
@@ -873,11 +824,6 @@ function showForgot(){
     clearMessage();
 }
 
-
-/* =========================================
-   NEW PASSWORD SCREEN
-========================================= */
-
 function showNewPassword(){
 
     hideForms();
@@ -889,8 +835,6 @@ function showNewPassword(){
     document
         .getElementById("tabs")
         .style.display = "none";
-
-    clearMessage();
 }
 
 
@@ -958,6 +902,12 @@ async function createStudent(event){
 
     try{
 
+        /*
+         * Supabase Auth only.
+         *
+         * No localStorage.
+         */
+
         const {
             data,
             error
@@ -969,65 +919,45 @@ async function createStudent(event){
             password:password,
 
             options:{
-
                 data:{
-
                     full_name:name,
-
                     role:"student"
-
-                },
-
-                emailRedirectTo:
-                    window.location.origin +
-                    window.location.pathname
-
+                }
             }
 
         });
 
         if(error){
-
             throw error;
-
         }
 
-
         /*
-         * Supabase Auth handles
-         * the account.
-         *
-         * No localStorage.
+         * If email confirmation is enabled,
+         * Supabase will handle it.
          */
 
         if(!data.session){
 
             document
-                .getElementById(
-                    "signupForm"
-                )
+                .getElementById("signupForm")
                 .reset();
 
             showMessage(
-                "Account created. Please confirm your email before logging in."
+                "Account created. Please follow the Supabase email confirmation process before logging in."
             );
 
             return;
         }
 
-
         /*
-         * If email confirmation
-         * is disabled.
+         * If confirmation is disabled,
+         * login can continue normally.
          */
 
-        await supabaseClient.auth
-            .signOut();
+        await supabaseClient.auth.signOut();
 
         document
-            .getElementById(
-                "signupForm"
-            )
+            .getElementById("signupForm")
             .reset();
 
         showLogin();
@@ -1049,8 +979,7 @@ async function createStudent(event){
         button.disabled = false;
 
         button.textContent =
-            "CREATE ACCOUNT";
-
+            "CREATE STUDENT ACCOUNT";
     }
 
 }
@@ -1091,23 +1020,7 @@ async function loginStudent(event){
     try{
 
         /*
-         * IMPORTANT:
-         *
-         * Login is ONLY handled
-         * by Supabase Auth.
-         *
-         * We DO NOT query:
-         *
-         * students.full_name
-         *
-         * students.status
-         *
-         * or other columns.
-         *
-         * Therefore the previous
-         * "column students.full_name
-         * does not exist" error is
-         * removed.
+         * Login through Supabase Auth.
          */
 
         const {
@@ -1124,28 +1037,32 @@ async function loginStudent(event){
             });
 
         if(error){
-
             throw error;
-
         }
 
         if(!data.user){
 
             throw new Error(
-                "Account was not found."
+                "Account not found."
             );
-
         }
 
-
         /*
-         * LOGIN SUCCESS
+         * IMPORTANT:
          *
-         * Go directly to
-         * student.html.
+         * We do NOT query
+         * students.full_name.
          *
-         * No localStorage.
-         * No students table query.
+         * This prevents:
+         *
+         * column students.full_name
+         * does not exist
+         *
+         * from breaking the login.
+         *
+         * Supabase Auth has already
+         * successfully authenticated
+         * the student.
          */
 
         window.location.replace(
@@ -1154,9 +1071,38 @@ async function loginStudent(event){
 
     }catch(error){
 
-        showMessage(
+        let message =
             error.message ||
-            "Login failed.",
+            "Login failed.";
+
+        /*
+         * Friendly Supabase errors.
+         */
+
+        if(
+            message
+                .toLowerCase()
+                .includes("invalid login credentials")
+        ){
+
+            message =
+                "Incorrect email or password.";
+
+        }
+
+        if(
+            message
+                .toLowerCase()
+                .includes("email not confirmed")
+        ){
+
+            message =
+                "Please confirm your email before logging in.";
+
+        }
+
+        showMessage(
+            message,
             true
         );
 
@@ -1166,14 +1112,13 @@ async function loginStudent(event){
 
         button.textContent =
             "LOGIN";
-
     }
 
 }
 
 
 /* =========================================
-   PASSWORD RESET
+   FORGOT PASSWORD
 ========================================= */
 
 async function sendReset(event){
@@ -1206,23 +1151,16 @@ async function sendReset(event){
         } =
         await supabaseClient.auth
             .resetPasswordForEmail(
-
                 email,
-
                 {
-
                     redirectTo:
                         window.location.origin +
                         window.location.pathname
-
                 }
-
             );
 
         if(error){
-
             throw error;
-
         }
 
         showMessage(
@@ -1243,7 +1181,6 @@ async function sendReset(event){
 
         button.textContent =
             "SEND RESET LINK";
-
     }
 
 }
@@ -1261,16 +1198,12 @@ async function changePassword(event){
 
     const password =
         document
-            .getElementById(
-                "newPassword"
-            )
+            .getElementById("newPassword")
             .value;
 
     const confirm =
         document
-            .getElementById(
-                "confirmPassword"
-            )
+            .getElementById("confirmPassword")
             .value;
 
     if(password.length < 6){
@@ -1310,15 +1243,11 @@ async function changePassword(event){
         } =
         await supabaseClient.auth
             .updateUser({
-
                 password:password
-
             });
 
         if(error){
-
             throw error;
-
         }
 
         showMessage(
@@ -1351,7 +1280,6 @@ async function changePassword(event){
 
         button.textContent =
             "CHANGE PASSWORD";
-
     }
 
 }
@@ -1362,30 +1290,27 @@ async function changePassword(event){
 ========================================= */
 
 supabaseClient.auth
-.onAuthStateChange(
+    .onAuthStateChange(
+        function(event){
 
-    function(event){
+            if(
+                event ===
+                "PASSWORD_RECOVERY"
+            ){
 
-        if(
-            event ===
-            "PASSWORD_RECOVERY"
-        ){
+                showNewPassword();
 
-            showNewPassword();
-
-            showMessage(
-                "Create your new SteadyMaze password."
-            );
+                showMessage(
+                    "Create your new password."
+                );
+            }
 
         }
-
-    }
-
-);
+    );
 
 
 /* =========================================
-   CHECK RECOVERY URL
+   RECOVERY CHECK
 ========================================= */
 
 function checkRecovery(){
@@ -1397,12 +1322,8 @@ function checkRecovery(){
         window.location.search;
 
     if(
-        hash.includes(
-            "type=recovery"
-        ) ||
-        search.includes(
-            "type=recovery"
-        )
+        hash.includes("type=recovery") ||
+        search.includes("type=recovery")
     ){
 
         setTimeout(
@@ -1413,15 +1334,9 @@ function checkRecovery(){
             },
             500
         );
-
     }
 
 }
-
-
-/* =========================================
-   START
-========================================= */
 
 checkRecovery();
 
