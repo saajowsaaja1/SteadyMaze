@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SteadyMaze | Teacher Login</title>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -21,17 +15,19 @@
 }
 
 :root{
-    --bg:#06111f;
-    --panel:rgba(9,25,44,.88);
+    --bg:#050914;
+    --panel:rgba(10,18,35,.82);
     --blue:#2563eb;
     --blue2:#60a5fa;
+    --red:#ef4444;
+    --red2:#f87171;
     --gold:#d4af37;
-    --gold2:#e8ca67;
-    --text:#f4f7fb;
-    --muted:#8fa1b5;
-    --border:rgba(255,255,255,.09);
-    --danger:#f87171;
-    --success:#4ade80;
+    --gold2:#f4d76b;
+    --purple:#8b5cf6;
+    --purple2:#a78bfa;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --border:rgba(255,255,255,.10);
 }
 
 body{
@@ -39,121 +35,202 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:25px;
-
     color:var(--text);
+    padding:25px;
+    overflow-x:hidden;
 
     background:
-        radial-gradient(
-            circle at 10% 10%,
-            rgba(37,99,235,.20),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 90% 85%,
-            rgba(212,175,55,.13),
-            transparent 28%
-        ),
-        linear-gradient(
-            135deg,
-            #050e1a,
-            #091b30 50%,
-            #06111f
-        );
-
-    overflow-x:hidden;
+        radial-gradient(circle at 10% 15%,rgba(37,99,235,.22),transparent 28%),
+        radial-gradient(circle at 88% 15%,rgba(139,92,246,.18),transparent 27%),
+        radial-gradient(circle at 50% 100%,rgba(239,68,68,.13),transparent 30%),
+        linear-gradient(135deg,#030712,#091326 50%,#050914);
 }
 
 body::before,
 body::after{
     content:"";
     position:fixed;
+    width:360px;
+    height:360px;
     border-radius:50%;
-    pointer-events:none;
     filter:blur(100px);
+    pointer-events:none;
 }
 
 body::before{
-    width:430px;
-    height:430px;
-    left:-180px;
-    top:-170px;
-    background:rgba(37,99,235,.10);
+    left:-160px;
+    bottom:-130px;
+    background:rgba(37,99,235,.12);
 }
 
 body::after{
-    width:420px;
-    height:420px;
-    right:-170px;
-    bottom:-180px;
-    background:rgba(212,175,55,.08);
+    right:-150px;
+    top:-120px;
+    background:rgba(139,92,246,.11);
 }
 
-/* ================= CONTAINER ================= */
+/* =========================
+   CONTAINER
+========================= */
 
 .auth-container{
     width:100%;
-    max-width:470px;
+    max-width:480px;
     position:relative;
     z-index:2;
 }
 
-/* ================= LOGO ================= */
-
-.logo-area{
+.logo{
     text-align:center;
     margin-bottom:22px;
 }
 
-.logo{
+.logo h1{
     font-size:34px;
     font-weight:900;
-    letter-spacing:1.5px;
+    letter-spacing:1px;
 }
 
-.logo span{
-    color:var(--gold);
+.logo h1 span:nth-child(1){
+    color:var(--blue2);
 }
 
-.logo-area p{
+.logo h1 span:nth-child(2){
+    color:var(--gold2);
+}
+
+.logo h1 span:nth-child(3){
+    color:var(--purple2);
+}
+
+.logo p{
     color:var(--muted);
     font-size:12px;
-    margin-top:6px;
+    margin-top:7px;
 }
 
-/* ================= CARD ================= */
+/* =========================
+   CARD
+========================= */
 
 .auth-card{
     width:100%;
     padding:30px;
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.018)
+        );
 
     border:1px solid var(--border);
-    border-radius:22px;
-
-    background:var(--panel);
 
     backdrop-filter:blur(22px);
 
     box-shadow:
-        0 25px 70px rgba(0,0,0,.30);
+        0 30px 80px rgba(0,0,0,.45),
+        0 0 0 1px rgba(37,99,235,.04);
+
+    position:relative;
+    overflow:hidden;
 }
 
-.card-header{
-    margin-bottom:22px;
+.auth-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--red),
+            var(--blue),
+            var(--gold),
+            var(--purple)
+        );
 }
 
-.card-header h1{
-    font-size:24px;
+.auth-header{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.auth-header h2{
+    font-size:23px;
     margin-bottom:7px;
 }
 
-.card-header p{
+.auth-header p{
     color:var(--muted);
     font-size:12px;
-    line-height:1.6;
+    line-height:1.5;
 }
 
-/* ================= FORM ================= */
+/* =========================
+   TABS
+========================= */
+
+.tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    padding:5px;
+
+    background:rgba(255,255,255,.035);
+    border:1px solid var(--border);
+    border-radius:12px;
+
+    margin-bottom:24px;
+}
+
+.tab{
+    border:0;
+    padding:11px;
+    border-radius:8px;
+
+    color:var(--muted);
+    background:transparent;
+
+    cursor:pointer;
+    font-weight:700;
+    font-size:12px;
+
+    transition:.2s;
+}
+
+.tab:hover{
+    color:white;
+}
+
+.tab.active{
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37,99,235,.85),
+            rgba(139,92,246,.75)
+        );
+
+    box-shadow:0 5px 18px rgba(37,99,235,.20);
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.form{
+    display:none;
+}
+
+.form.active{
+    display:block;
+}
 
 .field{
     margin-bottom:16px;
@@ -161,9 +238,11 @@ body::after{
 
 label{
     display:block;
-    color:#c8d4e1;
-    font-size:12px;
     margin-bottom:7px;
+
+    color:#dbe5f0;
+    font-size:12px;
+    font-weight:650;
 }
 
 .input-wrap{
@@ -172,10 +251,11 @@ label{
 
 input{
     width:100%;
-    padding:13px 14px;
+    height:48px;
+
+    padding:0 14px;
 
     color:white;
-
     background:rgba(255,255,255,.045);
 
     border:1px solid var(--border);
@@ -188,53 +268,46 @@ input{
     transition:.2s;
 }
 
+input::placeholder{
+    color:#65758a;
+}
+
 input:focus{
-    border-color:rgba(96,165,250,.55);
+    border-color:rgba(96,165,250,.65);
 
     box-shadow:
         0 0 0 3px rgba(37,99,235,.10);
-}
-
-input::placeholder{
-    color:#64778d;
 }
 
 .password-input{
     padding-right:48px;
 }
 
-.show-password{
+.eye{
     position:absolute;
-    right:8px;
+    right:12px;
     top:50%;
     transform:translateY(-50%);
 
-    width:34px;
-    height:34px;
-
     border:0;
-    border-radius:8px;
-
     background:transparent;
 
-    color:#8fa1b5;
+    color:#91a1b5;
 
     cursor:pointer;
+    font-size:17px;
 }
 
-.show-password:hover{
-    background:rgba(255,255,255,.05);
-    color:white;
-}
+/* =========================
+   FORGOT
+========================= */
 
-/* ================= OPTIONS ================= */
-
-.form-options{
+.form-row{
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
     gap:10px;
-
+    margin-top:2px;
     margin-bottom:18px;
 }
 
@@ -253,57 +326,57 @@ input::placeholder{
     accent-color:var(--blue);
 }
 
-.link-btn{
+.link{
     border:0;
     background:transparent;
 
-    color:#80b7ff;
-
-    font-size:11px;
+    color:var(--blue2);
 
     cursor:pointer;
+    font-size:11px;
+    font-weight:650;
 }
 
-.link-btn:hover{
-    color:white;
-    text-decoration:underline;
+.link:hover{
+    color:var(--gold2);
 }
 
-/* ================= BUTTON ================= */
+/* =========================
+   BUTTON
+========================= */
 
 .main-btn{
     width:100%;
+    height:49px;
 
     border:0;
     border-radius:11px;
-
-    padding:13px 15px;
 
     color:white;
 
     background:
         linear-gradient(
             135deg,
-            #2563eb,
-            #1746a2
+            var(--blue),
+            var(--purple)
         );
 
     font-size:13px;
-    font-weight:750;
+    font-weight:800;
 
     cursor:pointer;
 
-    transition:.2s;
-
     box-shadow:
         0 10px 25px rgba(37,99,235,.18);
+
+    transition:.2s;
 }
 
 .main-btn:hover{
     transform:translateY(-1px);
 
     box-shadow:
-        0 14px 30px rgba(37,99,235,.28);
+        0 14px 30px rgba(139,92,246,.20);
 }
 
 .main-btn:disabled{
@@ -312,147 +385,171 @@ input::placeholder{
     transform:none;
 }
 
-/* ================= MESSAGE ================= */
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-btn{
+    width:100%;
+    margin-top:10px;
+
+    height:43px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+    color:#cbd5e1;
+
+    background:rgba(255,255,255,.035);
+
+    cursor:pointer;
+}
+
+.back-btn:hover{
+    background:rgba(255,255,255,.07);
+}
+
+/* =========================
+   DIVIDER
+========================= */
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin:21px 0;
+
+    color:#64748b;
+    font-size:10px;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--border);
+}
+
+/* =========================
+   SIGNUP INFO
+========================= */
+
+.signup-info{
+    padding:13px;
+
+    border-radius:11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(212,175,55,.06),
+            rgba(139,92,246,.05)
+        );
+
+    border:1px solid rgba(212,175,55,.13);
+
+    color:#b9c6d6;
+
+    font-size:10px;
+    line-height:1.6;
+
+    margin-bottom:18px;
+}
+
+.signup-info strong{
+    color:var(--gold2);
+}
+
+/* =========================
+   MESSAGE
+========================= */
 
 .message{
     display:none;
 
     padding:11px 13px;
+    margin-bottom:16px;
 
     border-radius:10px;
 
     font-size:11px;
-
     line-height:1.5;
-
-    margin-bottom:15px;
 }
 
 .message.show{
     display:block;
 }
 
-.message.error{
-    color:#fecaca;
-
-    background:rgba(220,38,38,.09);
-
-    border:1px solid rgba(248,113,113,.16);
-}
-
 .message.success{
-    color:#bbf7d0;
-
+    color:#86efac;
     background:rgba(34,197,94,.08);
-
-    border:1px solid rgba(74,222,128,.16);
+    border:1px solid rgba(34,197,94,.18);
 }
 
-/* ================= SWITCH ================= */
-
-.switch-area{
-    text-align:center;
-
-    margin-top:20px;
-    padding-top:18px;
-
-    border-top:1px solid var(--border);
-
-    color:var(--muted);
-
-    font-size:11px;
+.message.error{
+    color:#fca5a5;
+    background:rgba(239,68,68,.08);
+    border:1px solid rgba(239,68,68,.18);
 }
 
-.switch-area button{
-    border:0;
-    background:transparent;
-
-    color:#80b7ff;
-
-    font-weight:700;
-
-    cursor:pointer;
+.message.info{
+    color:#bfdbfe;
+    background:rgba(37,99,235,.08);
+    border:1px solid rgba(37,99,235,.18);
 }
 
-.switch-area button:hover{
-    text-decoration:underline;
-}
+/* =========================
+   RESET HEADER
+========================= */
 
-/* ================= BACK ================= */
+.reset-icon{
+    width:58px;
+    height:58px;
 
-.back-home{
-    text-align:center;
-    margin-top:18px;
-}
+    margin:0 auto 15px;
 
-.back-home a{
-    color:#71859c;
-    text-decoration:none;
-    font-size:11px;
-}
-
-.back-home a:hover{
-    color:white;
-}
-
-/* ================= SIGN UP EXTRA ================= */
-
-.signup-only{
-    display:none;
-}
-
-.signup-only.show{
-    display:block;
-}
-
-/* ================= RESET ================= */
-
-.reset-info{
-    padding:13px;
-
-    margin-bottom:18px;
-
-    border-radius:11px;
-
-    color:#c7d6e7;
-
-    background:rgba(37,99,235,.055);
-
-    border:1px solid rgba(96,165,250,.13);
-
-    font-size:11px;
-
-    line-height:1.6;
-}
-
-/* ================= LOADING ================= */
-
-.loading{
-    display:inline-flex;
+    display:flex;
     align-items:center;
     justify-content:center;
-    gap:8px;
+
+    border-radius:17px;
+
+    font-size:25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37,99,235,.18),
+            rgba(139,92,246,.18)
+        );
+
+    border:1px solid rgba(139,92,246,.25);
 }
 
-.spinner{
-    width:15px;
-    height:15px;
+/* =========================
+   FOOTER
+========================= */
 
-    border:2px solid rgba(255,255,255,.30);
-    border-top-color:white;
+.footer{
+    text-align:center;
 
-    border-radius:50%;
+    margin-top:18px;
 
-    animation:spin .7s linear infinite;
+    color:#64748b;
+
+    font-size:10px;
 }
 
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
+.footer span{
+    color:var(--gold2);
 }
 
-/* ================= MOBILE ================= */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:520px){
 
@@ -461,35 +558,32 @@ input::placeholder{
     }
 
     .auth-card{
-        padding:23px 19px;
-        border-radius:18px;
+        padding:23px 18px;
+        border-radius:20px;
     }
 
-    .logo{
+    .logo h1{
         font-size:29px;
     }
 
-    .card-header h1{
+    .auth-header h2{
         font-size:21px;
     }
-
 }
-
 </style>
-
 </head>
 
 <body>
 
 <div class="auth-container">
 
-    <!-- ================= LOGO ================= -->
+    <!-- LOGO -->
 
-    <div class="logo-area">
+    <div class="logo">
 
-        <div class="logo">
-            Steady<span>Maze</span>
-        </div>
+        <h1>
+            <span>S</span>teady<span>M</span>aze
+        </h1>
 
         <p>
             Teacher Learning & Competition Platform
@@ -497,426 +591,358 @@ input::placeholder{
 
     </div>
 
-
-    <!-- ================= AUTH CARD ================= -->
+    <!-- CARD -->
 
     <div class="auth-card">
 
-        <!-- ================= LOGIN ================= -->
+        <!-- LOGIN / SIGNUP TABS -->
 
-        <div id="loginView">
+        <div class="tabs" id="mainTabs">
 
-            <div class="card-header">
+            <button
+                class="tab active"
+                onclick="showForm('login')">
 
-                <h1>
+                Login
+
+            </button>
+
+            <button
+                class="tab"
+                onclick="showForm('signup')">
+
+                Sign Up
+
+            </button>
+
+        </div>
+
+        <!-- MESSAGE -->
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+        <!-- =========================
+             LOGIN
+        ========================== -->
+
+        <div
+            id="loginForm"
+            class="form active">
+
+            <div class="auth-header">
+
+                <h2>
                     Teacher Login
-                </h1>
+                </h2>
 
                 <p>
-                    Login to access your SteadyMaze teacher dashboard.
+                    Sign in to access your SteadyMaze teacher dashboard.
                 </p>
 
             </div>
 
+            <div class="field">
 
-            <div
-                id="loginMessage"
-                class="message">
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    id="loginEmail"
+                    type="email"
+                    placeholder="teacher@example.com"
+                    autocomplete="email">
+
             </div>
 
+            <div class="field">
 
-            <form
-                id="loginForm"
-                onsubmit="loginTeacher(event)">
+                <label>
+                    Password
+                </label>
 
-                <div class="field">
-
-                    <label for="loginEmail">
-                        Email Address
-                    </label>
+                <div class="input-wrap">
 
                     <input
-                        id="loginEmail"
-                        type="email"
-                        placeholder="teacher@example.com"
-                        autocomplete="email"
-                        required>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="loginPassword">
-                        Password
-                    </label>
-
-                    <div class="input-wrap">
-
-                        <input
-                            id="loginPassword"
-                            class="password-input"
-                            type="password"
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
-                            required>
-
-                        <button
-                            type="button"
-                            class="show-password"
-                            onclick="togglePassword('loginPassword',this)"
-                            aria-label="Show password">
-
-                            👁
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-options">
-
-                    <label class="remember">
-
-                        <input
-                            type="checkbox"
-                            id="rememberMe">
-
-                        Remember me
-
-                    </label>
-
+                        id="loginPassword"
+                        class="password-input"
+                        type="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password">
 
                     <button
+                        class="eye"
                         type="button"
-                        class="link-btn"
-                        onclick="showForgotPassword()">
+                        onclick="togglePassword('loginPassword',this)">
 
-                        Forgot Password?
+                        👁
 
                     </button>
 
                 </div>
 
+            </div>
+
+            <div class="form-row">
+
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        id="rememberMe">
+
+                    Remember me
+
+                </label>
 
                 <button
-                    id="loginBtn"
-                    type="submit"
-                    class="main-btn">
-
-                    Login
-
-                </button>
-
-            </form>
-
-
-            <div class="switch-area">
-
-                Don't have a teacher account?
-
-                <button
+                    class="link"
                     type="button"
-                    onclick="showSignup()">
+                    onclick="showForgot()">
 
-                    Sign Up
+                    Forgot Password?
 
                 </button>
 
             </div>
 
+            <button
+                class="main-btn"
+                id="loginBtn"
+                onclick="loginTeacher()">
+
+                Login to Teacher Dashboard
+
+            </button>
+
+            <div class="divider">
+                SECURE TEACHER ACCESS
+            </div>
+
+            <div class="signup-info">
+
+                🔐 Your account is protected by
+                <strong>Supabase Authentication</strong>.
+                Never share your password with anyone.
+
+            </div>
+
         </div>
 
+        <!-- =========================
+             SIGN UP
+        ========================== -->
 
-        <!-- ================= SIGN UP ================= -->
+        <div
+            id="signupForm"
+            class="form">
 
-        <div id="signupView" style="display:none;">
+            <div class="auth-header">
 
-            <div class="card-header">
-
-                <h1>
+                <h2>
                     Create Teacher Account
-                </h1>
+                </h2>
 
                 <p>
-                    Create your SteadyMaze teacher account.
+                    Join SteadyMaze as a teacher and manage your lessons.
                 </p>
 
             </div>
 
+            <div class="field">
 
-            <div
-                id="signupMessage"
-                class="message">
-            </div>
+                <label>
+                    Full Name
+                </label>
 
-
-            <form
-                id="signupForm"
-                onsubmit="signupTeacher(event)">
-
-                <div class="field">
-
-                    <label for="signupName">
-                        Full Name
-                    </label>
-
-                    <input
-                        id="signupName"
-                        type="text"
-                        placeholder="Your full name"
-                        autocomplete="name"
-                        required>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="signupEmail">
-                        Email Address
-                    </label>
-
-                    <input
-                        id="signupEmail"
-                        type="email"
-                        placeholder="teacher@example.com"
-                        autocomplete="email"
-                        required>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="signupSkill">
-                        Main Skill
-                    </label>
-
-                    <input
-                        id="signupSkill"
-                        type="text"
-                        placeholder="Example: Web Development"
-                        required>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="signupGroup">
-                        Competition Group
-                    </label>
-
-                    <select
-                        id="signupGroup"
-                        required>
-
-                        <option value="">
-                            Select competition group
-                        </option>
-
-                        <option value="Lower">
-                            Lower
-                        </option>
-
-                        <option value="Medium">
-                            Medium
-                        </option>
-
-                        <option value="High">
-                            High
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="signupPassword">
-                        Password
-                    </label>
-
-                    <div class="input-wrap">
-
-                        <input
-                            id="signupPassword"
-                            class="password-input"
-                            type="password"
-                            placeholder="Create a password"
-                            autocomplete="new-password"
-                            minlength="6"
-                            required>
-
-                        <button
-                            type="button"
-                            class="show-password"
-                            onclick="togglePassword('signupPassword',this)">
-
-                            👁
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="signupConfirm">
-                        Confirm Password
-                    </label>
-
-                    <div class="input-wrap">
-
-                        <input
-                            id="signupConfirm"
-                            class="password-input"
-                            type="password"
-                            placeholder="Repeat your password"
-                            autocomplete="new-password"
-                            minlength="6"
-                            required>
-
-                        <button
-                            type="button"
-                            class="show-password"
-                            onclick="togglePassword('signupConfirm',this)">
-
-                            👁
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    id="signupBtn"
-                    type="submit"
-                    class="main-btn">
-
-                    Create Teacher Account
-
-                </button>
-
-            </form>
-
-
-            <div class="switch-area">
-
-                Already have an account?
-
-                <button
-                    type="button"
-                    onclick="showLogin()">
-
-                    Login
-
-                </button>
+                <input
+                    id="signupName"
+                    type="text"
+                    placeholder="Your full name"
+                    autocomplete="name">
 
             </div>
+
+            <div class="field">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    id="signupEmail"
+                    type="email"
+                    placeholder="teacher@example.com"
+                    autocomplete="email">
+
+            </div>
+
+            <div class="field">
+
+                <label>
+                    Main Skill
+                </label>
+
+                <input
+                    id="signupSkill"
+                    type="text"
+                    placeholder="Example: Web Development">
+
+            </div>
+
+            <div class="field">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="input-wrap">
+
+                    <input
+                        id="signupPassword"
+                        class="password-input"
+                        type="password"
+                        placeholder="Create a strong password"
+                        autocomplete="new-password">
+
+                    <button
+                        class="eye"
+                        type="button"
+                        onclick="togglePassword('signupPassword',this)">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="field">
+
+                <label>
+                    Confirm Password
+                </label>
+
+                <div class="input-wrap">
+
+                    <input
+                        id="signupConfirmPassword"
+                        class="password-input"
+                        type="password"
+                        placeholder="Confirm your password"
+                        autocomplete="new-password">
+
+                    <button
+                        class="eye"
+                        type="button"
+                        onclick="togglePassword('signupConfirmPassword',this)">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="signup-info">
+
+                👨‍🏫 By creating a teacher account, your teacher
+                profile can later be connected to your lessons,
+                payments and competition data.
+
+            </div>
+
+            <button
+                class="main-btn"
+                id="signupBtn"
+                onclick="signupTeacher()">
+
+                Create Teacher Account
+
+            </button>
 
         </div>
 
+        <!-- =========================
+             FORGOT PASSWORD
+        ========================== -->
 
-        <!-- ================= FORGOT PASSWORD ================= -->
+        <div
+            id="forgotForm"
+            class="form">
 
-        <div id="forgotView" style="display:none;">
+            <div class="reset-icon">
+                🔑
+            </div>
 
-            <div class="card-header">
+            <div class="auth-header">
 
-                <h1>
+                <h2>
                     Forgot Password?
-                </h1>
+                </h2>
 
                 <p>
-                    Enter your teacher email and we will send you
+                    Enter your teacher email and we will send
                     a password reset link.
                 </p>
 
             </div>
 
+            <div class="field">
 
-            <div class="reset-info">
+                <label>
+                    Teacher Email
+                </label>
 
-                🔐 A password reset email will be sent through
-                Supabase Auth. Open the email and choose
-                <strong>Get a New Password</strong>.
-
-            </div>
-
-
-            <div
-                id="forgotMessage"
-                class="message">
-            </div>
-
-
-            <form
-                id="forgotForm"
-                onsubmit="sendResetEmail(event)">
-
-                <div class="field">
-
-                    <label for="forgotEmail">
-                        Teacher Email
-                    </label>
-
-                    <input
-                        id="forgotEmail"
-                        type="email"
-                        placeholder="teacher@example.com"
-                        autocomplete="email"
-                        required>
-
-                </div>
-
-
-                <button
-                    id="forgotBtn"
-                    type="submit"
-                    class="main-btn">
-
-                    Send Reset Link
-
-                </button>
-
-            </form>
-
-
-            <div class="switch-area">
-
-                Remember your password?
-
-                <button
-                    type="button"
-                    onclick="showLogin()">
-
-                    Back to Login
-
-                </button>
+                <input
+                    id="forgotEmail"
+                    type="email"
+                    placeholder="teacher@example.com"
+                    autocomplete="email">
 
             </div>
+
+            <button
+                class="main-btn"
+                id="forgotBtn"
+                onclick="sendResetEmail()">
+
+                Send Password Reset
+
+            </button>
+
+            <button
+                class="back-btn"
+                onclick="backToLogin()">
+
+                ← Back to Login
+
+            </button>
 
         </div>
 
+        <!-- =========================
+             GET NEW PASSWORD
+        ========================== -->
 
-        <!-- ================= NEW PASSWORD ================= -->
+        <div
+            id="resetForm"
+            class="form">
 
-        <div id="newPasswordView" style="display:none;">
+            <div class="reset-icon">
+                🔐
+            </div>
 
-            <div class="card-header">
+            <div class="auth-header">
 
-                <h1>
+                <h2>
                     Get a New Password
-                </h1>
+                </h2>
 
                 <p>
                     Create a new password for your SteadyMaze
@@ -925,297 +951,245 @@ input::placeholder{
 
             </div>
 
+            <div class="field">
 
-            <div
-                id="newPasswordMessage"
-                class="message">
+                <label>
+                    New Password
+                </label>
+
+                <div class="input-wrap">
+
+                    <input
+                        id="newPassword"
+                        class="password-input"
+                        type="password"
+                        placeholder="Enter new password"
+                        autocomplete="new-password">
+
+                    <button
+                        class="eye"
+                        type="button"
+                        onclick="togglePassword('newPassword',this)">
+
+                        👁
+
+                    </button>
+
+                </div>
+
             </div>
 
+            <div class="field">
 
-            <form
-                id="newPasswordForm"
-                onsubmit="updateNewPassword(event)">
+                <label>
+                    Confirm New Password
+                </label>
 
-                <div class="field">
+                <div class="input-wrap">
 
-                    <label for="newPassword">
-                        New Password
-                    </label>
+                    <input
+                        id="confirmNewPassword"
+                        class="password-input"
+                        type="password"
+                        placeholder="Confirm new password"
+                        autocomplete="new-password">
 
-                    <div class="input-wrap">
+                    <button
+                        class="eye"
+                        type="button"
+                        onclick="togglePassword('confirmNewPassword',this)">
 
-                        <input
-                            id="newPassword"
-                            class="password-input"
-                            type="password"
-                            placeholder="Enter new password"
-                            minlength="6"
-                            autocomplete="new-password"
-                            required>
+                        👁
 
-                        <button
-                            type="button"
-                            class="show-password"
-                            onclick="togglePassword('newPassword',this)">
-
-                            👁
-
-                        </button>
-
-                    </div>
+                    </button>
 
                 </div>
 
+            </div>
 
-                <div class="field">
+            <button
+                class="main-btn"
+                id="resetBtn"
+                onclick="updatePassword()">
 
-                    <label for="newPasswordConfirm">
-                        Confirm New Password
-                    </label>
+                Get a New Password
 
-                    <div class="input-wrap">
-
-                        <input
-                            id="newPasswordConfirm"
-                            class="password-input"
-                            type="password"
-                            placeholder="Repeat new password"
-                            minlength="6"
-                            autocomplete="new-password"
-                            required>
-
-                        <button
-                            type="button"
-                            class="show-password"
-                            onclick="togglePassword('newPasswordConfirm',this)">
-
-                            👁
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    id="newPasswordBtn"
-                    type="submit"
-                    class="main-btn">
-
-                    Get a New Password
-
-                </button>
-
-            </form>
+            </button>
 
         </div>
 
     </div>
 
+    <div class="footer">
 
-    <!-- ================= BACK HOME ================= -->
-
-    <div class="back-home">
-
-        <a href="index.html">
-            ← Back to SteadyMaze
-        </a>
+        SteadyMaze © 2026 •
+        <span>Teacher Portal</span>
 
     </div>
 
 </div>
 
 
-<!-- =====================================================
+<!-- ==========================================
      SUPABASE
-===================================================== -->
+=========================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
 <script>
 
-/* =====================================================
-   SUPABASE CONFIGURATION
-=====================================================
+/*
+==================================================
+ STEADYMAZE SUPABASE CONFIGURATION
+==================================================
 
-   IMPORTANT:
+1. Open your Supabase project.
 
-   Replace these two values with your own
-   Supabase Project URL and Publishable/anon key.
+2. Go to:
+   Project Settings → API
 
-   NEVER put the service_role key here.
-===================================================== */
+3. Copy:
+   Project URL
+
+4. Copy:
+   Publishable key / anon key
+
+5. Put them below.
+
+IMPORTANT:
+NEVER put the Supabase service_role key
+inside this HTML file.
+==================================================
+*/
 
 const SUPABASE_URL =
     "YOUR_SUPABASE_PROJECT_URL";
 
-const SUPABASE_KEY =
+const SUPABASE_ANON_KEY =
     "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
 
 
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_KEY
+        SUPABASE_ANON_KEY
     );
 
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const loginView =
-    document.getElementById("loginView");
-
-const signupView =
-    document.getElementById("signupView");
-
-const forgotView =
-    document.getElementById("forgotView");
-
-const newPasswordView =
-    document.getElementById("newPasswordView");
-
-
-/* =====================================================
-   VIEW CONTROL
-===================================================== */
-
-function hideAllViews(){
-
-    loginView.style.display = "none";
-    signupView.style.display = "none";
-    forgotView.style.display = "none";
-    newPasswordView.style.display = "none";
-
-}
-
-
-function showLogin(){
-
-    hideAllViews();
-
-    loginView.style.display = "block";
-
-    clearMessages();
-
-}
-
-
-function showSignup(){
-
-    hideAllViews();
-
-    signupView.style.display = "block";
-
-    clearMessages();
-
-}
-
-
-function showForgotPassword(){
-
-    hideAllViews();
-
-    forgotView.style.display = "block";
-
-    clearMessages();
-
-}
-
-
-function showNewPassword(){
-
-    hideAllViews();
-
-    newPasswordView.style.display = "block";
-
-    clearMessages();
-
-}
-
-
-/* =====================================================
-   MESSAGES
-===================================================== */
+/* ==========================================
+   MESSAGE
+========================================== */
 
 function showMessage(
-    elementId,
-    message,
-    type
+    text,
+    type = "info"
 ){
 
-    const element =
-        document.getElementById(elementId);
+    const box =
+        document.getElementById("message");
 
-    element.textContent =
-        message;
+    box.textContent = text;
 
-    element.className =
+    box.className =
         "message show " + type;
 
 }
 
 
-function clearMessages(){
+/* ==========================================
+   CLEAR MESSAGE
+========================================== */
+
+function clearMessage(){
+
+    const box =
+        document.getElementById("message");
+
+    box.textContent = "";
+
+    box.className =
+        "message";
+
+}
+
+
+/* ==========================================
+   FORM NAVIGATION
+========================================== */
+
+function hideAllForms(){
 
     document
-    .querySelectorAll(".message")
-    .forEach(element => {
+    .querySelectorAll(".form")
+    .forEach(form => {
 
-        element.textContent = "";
-
-        element.className =
-            "message";
+        form.classList.remove("active");
 
     });
 
 }
 
 
-/* =====================================================
-   BUTTON LOADING
-===================================================== */
+function showForm(formName){
 
-function setLoading(
-    button,
-    loading,
-    text
-){
+    clearMessage();
 
-    if(loading){
+    hideAllForms();
 
-        button.disabled = true;
+    document
+    .getElementById(
+        formName + "Form"
+    )
+    .classList.add("active");
 
-        button.innerHTML = `
 
-            <span class="loading">
+    const tabs =
+        document.querySelectorAll(".tab");
 
-                <span class="spinner"></span>
+    tabs.forEach(tab => {
 
-                ${text}
+        tab.classList.remove("active");
 
-            </span>
+    });
 
-        `;
+    if(formName === "login"){
 
-    }else{
+        tabs[0].classList.add("active");
 
-        button.disabled = false;
+    }
 
-        button.textContent =
-            text;
+    if(formName === "signup"){
+
+        tabs[1].classList.add("active");
 
     }
 
 }
 
 
-/* =====================================================
+function showForgot(){
+
+    clearMessage();
+
+    hideAllForms();
+
+    document
+    .getElementById("forgotForm")
+    .classList.add("active");
+
+}
+
+
+function backToLogin(){
+
+    showForm("login");
+
+}
+
+
+/* ==========================================
    PASSWORD SHOW / HIDE
-===================================================== */
+========================================== */
 
 function togglePassword(
     inputId,
@@ -1242,155 +1216,16 @@ function togglePassword(
 }
 
 
-/* =====================================================
-   LOGIN
-===================================================== */
+/* ==========================================
+   SIGN UP
+========================================== */
 
-async function loginTeacher(event){
+async function signupTeacher(){
 
-    event.preventDefault();
-
-    clearMessages();
-
-    const email =
-        document
-        .getElementById("loginEmail")
-        .value
-        .trim();
-
-    const password =
-        document
-        .getElementById("loginPassword")
-        .value;
+    clearMessage();
 
     const button =
-        document.getElementById("loginBtn");
-
-
-    if(!email || !password){
-
-        showMessage(
-            "loginMessage",
-            "Please enter your email and password.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    setLoading(
-        button,
-        true,
-        "Logging in..."
-    );
-
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.signInWithPassword({
-
-            email:email,
-
-            password:password
-
-        });
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-        if(!data.session){
-
-            throw new Error(
-                "Login session could not be created."
-            );
-
-        }
-
-
-        /*
-            Save only basic temporary login info.
-
-            The real authentication session
-            belongs to Supabase Auth.
-        */
-
-        sessionStorage.setItem(
-            "gurhub_teacher",
-            JSON.stringify({
-
-                name:
-                    data.user.user_metadata?.full_name || "",
-
-                email:
-                    data.user.email || "",
-
-                skill:
-                    data.user.user_metadata?.skill || "",
-
-                group:
-                    data.user.user_metadata?.competition_group || ""
-
-            })
-        );
-
-
-        showMessage(
-            "loginMessage",
-            "Login successful. Opening your teacher dashboard...",
-            "success"
-        );
-
-
-        setTimeout(() => {
-
-            window.location.href =
-                "teacher.html";
-
-        },700);
-
-
-    }catch(error){
-
-        console.error(error);
-
-        showMessage(
-            "loginMessage",
-            getAuthErrorMessage(error),
-            "error"
-        );
-
-        setLoading(
-            button,
-            false,
-            "Login"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   SIGN UP
-===================================================== */
-
-async function signupTeacher(event){
-
-    event.preventDefault();
-
-    clearMessages();
-
+        document.getElementById("signupBtn");
 
     const name =
         document
@@ -1410,11 +1245,6 @@ async function signupTeacher(event){
         .value
         .trim();
 
-    const group =
-        document
-        .getElementById("signupGroup")
-        .value;
-
     const password =
         document
         .getElementById("signupPassword")
@@ -1422,18 +1252,38 @@ async function signupTeacher(event){
 
     const confirmPassword =
         document
-        .getElementById("signupConfirm")
+        .getElementById("signupConfirmPassword")
         .value;
 
-    const button =
-        document.getElementById("signupBtn");
 
-
-    if(password !== confirmPassword){
+    if(!name){
 
         showMessage(
-            "signupMessage",
-            "Passwords do not match.",
+            "Please enter your full name.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!email){
+
+        showMessage(
+            "Please enter your email address.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!skill){
+
+        showMessage(
+            "Please enter your main skill.",
             "error"
         );
 
@@ -1445,7 +1295,6 @@ async function signupTeacher(event){
     if(password.length < 6){
 
         showMessage(
-            "signupMessage",
             "Password must contain at least 6 characters.",
             "error"
         );
@@ -1455,11 +1304,22 @@ async function signupTeacher(event){
     }
 
 
-    setLoading(
-        button,
-        true,
-        "Creating account..."
-    );
+    if(password !== confirmPassword){
+
+        showMessage(
+            "Passwords do not match.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Creating Account...";
 
 
     try{
@@ -1480,84 +1340,59 @@ async function signupTeacher(event){
 
                     full_name:name,
 
-                    skill:skill,
+                    role:"teacher",
 
-                    competition_group:group,
+                    skill:skill
 
-                    role:"teacher"
-
-                },
-
-                emailRedirectTo:
-                    window.location.origin +
-                    "/teacher-login.html"
+                }
 
             }
 
         });
 
 
-        if(error){
-
+        if(error)
             throw error;
-
-        }
 
 
         /*
-            Supabase may require email confirmation.
+        ==========================================
+        OPTIONAL PROFILE TABLE
 
-            In that case there is no active session yet.
+        If your Supabase profiles table exists,
+        the trigger can automatically create it.
+
+        We don't force a database insert here
+        because your current database structure
+        may be different.
+        ==========================================
         */
 
-        if(data.session){
 
-            sessionStorage.setItem(
-                "gurhub_teacher",
-                JSON.stringify({
-
-                    name:name,
-
-                    email:email,
-
-                    skill:skill,
-
-                    group:group
-
-                })
-            );
+        showMessage(
+            "Teacher account created successfully. Check your email if email confirmation is enabled.",
+            "success"
+        );
 
 
-            showMessage(
-                "signupMessage",
-                "Teacher account created successfully. Opening dashboard...",
-                "success"
-            );
+        document
+        .getElementById("signupPassword")
+        .value = "";
+
+        document
+        .getElementById("signupConfirmPassword")
+        .value = "";
 
 
-            setTimeout(() => {
+        setTimeout(() => {
 
-                window.location.href =
-                    "teacher.html";
+            showForm("login");
 
-            },900);
+            document
+            .getElementById("loginEmail")
+            .value = email;
 
-        }else{
-
-            showMessage(
-                "signupMessage",
-                "Account created. Please check your email and confirm your account, then login.",
-                "success"
-            );
-
-
-            setLoading(
-                button,
-                false,
-                "Create Teacher Account"
-            );
-
-        }
+        },1800);
 
 
     }catch(error){
@@ -1565,33 +1400,176 @@ async function signupTeacher(event){
         console.error(error);
 
         showMessage(
-            "signupMessage",
-            getAuthErrorMessage(error),
+            error.message ||
+            "Unable to create teacher account.",
             "error"
-        );
-
-
-        setLoading(
-            button,
-            false,
-            "Create Teacher Account"
         );
 
     }
 
+
+    button.disabled = false;
+
+    button.textContent =
+        "Create Teacher Account";
+
 }
 
 
-/* =====================================================
+/* ==========================================
+   LOGIN
+========================================== */
+
+async function loginTeacher(){
+
+    clearMessage();
+
+    const button =
+        document.getElementById("loginBtn");
+
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
+
+
+    if(!email){
+
+        showMessage(
+            "Please enter your email.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!password){
+
+        showMessage(
+            "Please enter your password.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Signing In...";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email:email,
+
+            password:password
+
+        });
+
+
+        if(error)
+            throw error;
+
+
+        if(!data.session){
+
+            throw new Error(
+                "Login session was not created."
+            );
+
+        }
+
+
+        /*
+        Save only basic frontend information.
+
+        Authentication itself is handled by Supabase.
+        */
+
+        sessionStorage.setItem(
+            "gurhub_teacher",
+            JSON.stringify({
+
+                id:data.user.id,
+
+                email:data.user.email,
+
+                name:
+                    data.user.user_metadata
+                    ?.full_name || "",
+
+                skill:
+                    data.user.user_metadata
+                    ?.skill || "",
+
+                role:"teacher"
+
+            })
+        );
+
+
+        showMessage(
+            "Login successful. Opening Teacher Dashboard...",
+            "success"
+        );
+
+
+        setTimeout(() => {
+
+            window.location.href =
+                "teacher.html";
+
+        },700);
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            error.message ||
+            "Invalid email or password.",
+            "error"
+        );
+
+    }
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Login to Teacher Dashboard";
+
+}
+
+
+/* ==========================================
    FORGOT PASSWORD
-===================================================== */
+========================================== */
 
-async function sendResetEmail(event){
+async function sendResetEmail(){
 
-    event.preventDefault();
+    clearMessage();
 
-    clearMessages();
-
+    const button =
+        document.getElementById("forgotBtn");
 
     const email =
         document
@@ -1599,14 +1577,10 @@ async function sendResetEmail(event){
         .value
         .trim();
 
-    const button =
-        document.getElementById("forgotBtn");
-
 
     if(!email){
 
         showMessage(
-            "forgotMessage",
             "Please enter your teacher email.",
             "error"
         );
@@ -1616,48 +1590,48 @@ async function sendResetEmail(event){
     }
 
 
-    setLoading(
-        button,
-        true,
-        "Sending..."
-    );
+    button.disabled = true;
+
+    button.textContent =
+        "Sending...";
 
 
     try{
 
+        /*
+        IMPORTANT:
+
+        This must point back to this page
+        after Supabase sends the reset email.
+        */
+
+        const redirectUrl =
+            window.location.origin +
+            window.location.pathname;
+
+
         const {
             error
         } =
-        await supabaseClient.auth.resetPasswordForEmail(
+        await supabaseClient.auth
+        .resetPasswordForEmail(
+
             email,
+
             {
-
-                redirectTo:
-                    window.location.origin +
-                    "/teacher-login.html"
-
+                redirectTo:redirectUrl
             }
+
         );
 
 
-        if(error){
-
+        if(error)
             throw error;
-
-        }
 
 
         showMessage(
-            "forgotMessage",
-            "Reset link sent. Check your email and choose Get a New Password.",
+            "Password reset email sent. Check your email and open the reset link.",
             "success"
-        );
-
-
-        setLoading(
-            button,
-            false,
-            "Send Reset Link"
         );
 
 
@@ -1666,33 +1640,32 @@ async function sendResetEmail(event){
         console.error(error);
 
         showMessage(
-            "forgotMessage",
-            getAuthErrorMessage(error),
+            error.message ||
+            "Unable to send password reset email.",
             "error"
-        );
-
-
-        setLoading(
-            button,
-            false,
-            "Send Reset Link"
         );
 
     }
 
+
+    button.disabled = false;
+
+    button.textContent =
+        "Send Password Reset";
+
 }
 
 
-/* =====================================================
-   NEW PASSWORD
-===================================================== */
+/* ==========================================
+   UPDATE PASSWORD
+========================================== */
 
-async function updateNewPassword(event){
+async function updatePassword(){
 
-    event.preventDefault();
+    clearMessage();
 
-    clearMessages();
-
+    const button =
+        document.getElementById("resetBtn");
 
     const password =
         document
@@ -1701,33 +1674,14 @@ async function updateNewPassword(event){
 
     const confirmPassword =
         document
-        .getElementById("newPasswordConfirm")
+        .getElementById("confirmNewPassword")
         .value;
-
-    const button =
-        document.getElementById(
-            "newPasswordBtn"
-        );
-
-
-    if(password !== confirmPassword){
-
-        showMessage(
-            "newPasswordMessage",
-            "Passwords do not match.",
-            "error"
-        );
-
-        return;
-
-    }
 
 
     if(password.length < 6){
 
         showMessage(
-            "newPasswordMessage",
-            "Password must contain at least 6 characters.",
+            "New password must contain at least 6 characters.",
             "error"
         );
 
@@ -1736,11 +1690,22 @@ async function updateNewPassword(event){
     }
 
 
-    setLoading(
-        button,
-        true,
-        "Updating..."
-    );
+    if(password !== confirmPassword){
+
+        showMessage(
+            "New passwords do not match.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Updating Password...";
 
 
     try{
@@ -1755,35 +1720,28 @@ async function updateNewPassword(event){
         });
 
 
-        if(error){
-
+        if(error)
             throw error;
-
-        }
 
 
         showMessage(
-            "newPasswordMessage",
-            "Your password has been updated successfully. You can now login.",
+            "Your password has been changed successfully.",
             "success"
         );
 
 
         document
-        .getElementById("newPasswordForm")
-        .reset();
+        .getElementById("newPassword")
+        .value = "";
 
-
-        setLoading(
-            button,
-            false,
-            "Get a New Password"
-        );
+        document
+        .getElementById("confirmNewPassword")
+        .value = "";
 
 
         setTimeout(() => {
 
-            showLogin();
+            showForm("login");
 
         },1500);
 
@@ -1793,98 +1751,55 @@ async function updateNewPassword(event){
         console.error(error);
 
         showMessage(
-            "newPasswordMessage",
-            getAuthErrorMessage(error),
+            error.message ||
+            "Unable to update password.",
             "error"
         );
 
+    }
 
-        setLoading(
-            button,
-            false,
-            "Get a New Password"
+
+    button.disabled = false;
+
+    button.textContent =
+        "Get a New Password";
+
+}
+
+
+/* ==========================================
+   SUPABASE AUTH STATE
+========================================== */
+
+supabaseClient.auth
+.onAuthStateChange(
+    (event,session) => {
+
+        console.log(
+            "Auth event:",
+            event
         );
 
-    }
-
-}
-
-
-/* =====================================================
-   SUPABASE AUTH ERROR MESSAGE
-===================================================== */
-
-function getAuthErrorMessage(error){
-
-    const message =
-        error?.message || "";
-
-
-    if(
-        message
-        .toLowerCase()
-        .includes("invalid login credentials")
-    ){
-
-        return "Email or password is incorrect.";
-
-    }
-
-
-    if(
-        message
-        .toLowerCase()
-        .includes("email not confirmed")
-    ){
-
-        return "Please confirm your email before logging in.";
-
-    }
-
-
-    if(
-        message
-        .toLowerCase()
-        .includes("user already registered")
-    ){
-
-        return "This email already has an account. Please login.";
-
-    }
-
-
-    if(
-        message
-        .toLowerCase()
-        .includes("password should be at least")
-    ){
-
-        return "Password is too short.";
-
-    }
-
-
-    return message ||
-        "Something went wrong. Please try again.";
-
-}
-
-
-/* =====================================================
-   HANDLE SUPABASE AUTH EVENTS
-===================================================== */
-
-supabaseClient.auth.onAuthStateChange(
-    async (event,session) => {
 
         /*
-            PASSWORD_RECOVERY happens when the user
-            opens the password-reset link.
+        When Supabase sends the user back
+        from the password-reset email, show
+        the Get a New Password screen.
         */
 
         if(event === "PASSWORD_RECOVERY"){
 
-            showNewPassword();
+            document
+            .getElementById("mainTabs")
+            .style.display = "none";
+
+            hideAllForms();
+
+            document
+            .getElementById("resetForm")
+            .classList.add("active");
+
+            clearMessage();
 
         }
 
@@ -1892,46 +1807,11 @@ supabaseClient.auth.onAuthStateChange(
 );
 
 
-/* =====================================================
-   CHECK URL FOR RECOVERY SESSION
-===================================================== */
+/* ==========================================
+   CHECK INITIAL SESSION
+========================================== */
 
-async function checkRecoverySession(){
-
-    const hash =
-        window.location.hash;
-
-    const search =
-        window.location.search;
-
-
-    if(
-        hash.includes("access_token") ||
-        hash.includes("type=recovery") ||
-        search.includes("type=recovery")
-    ){
-
-        /*
-            Give Supabase time to process
-            the recovery session.
-        */
-
-        setTimeout(() => {
-
-            showNewPassword();
-
-        },300);
-
-    }
-
-}
-
-
-/* =====================================================
-   CHECK EXISTING SESSION
-===================================================== */
-
-async function checkExistingSession(){
+async function checkSession(){
 
     try{
 
@@ -1941,54 +1821,91 @@ async function checkExistingSession(){
         await supabaseClient.auth.getSession();
 
 
-        if(data?.session){
+        /*
+        Do not automatically redirect a user
+        from this login page unless a valid
+        session already exists.
+        */
 
-            /*
-                If already logged in,
-                go directly to teacher dashboard.
-            */
+        if(data.session){
 
-            const type =
-                new URLSearchParams(
-                    window.location.search
-                ).get("type");
-
-
-            const hash =
-                window.location.hash;
-
-
-            if(
-                type !== "recovery" &&
-                !hash.includes("type=recovery")
-            ){
-
-                window.location.href =
-                    "teacher.html";
-
-            }
+            console.log(
+                "Teacher session exists."
+            );
 
         }
 
     }catch(error){
 
-        console.error(
-            "Session check error:",
-            error
-        );
+        console.error(error);
 
     }
 
 }
 
 
-/* =====================================================
+/* ==========================================
+   ENTER KEY
+========================================== */
+
+document
+.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key !== "Enter")
+            return;
+
+
+        const activeForm =
+            document.querySelector(
+                ".form.active"
+            );
+
+
+        if(!activeForm)
+            return;
+
+
+        if(activeForm.id === "loginForm"){
+
+            loginTeacher();
+
+        }
+
+        else if(
+            activeForm.id === "signupForm"
+        ){
+
+            signupTeacher();
+
+        }
+
+        else if(
+            activeForm.id === "forgotForm"
+        ){
+
+            sendResetEmail();
+
+        }
+
+        else if(
+            activeForm.id === "resetForm"
+        ){
+
+            updatePassword();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
    START
-===================================================== */
+========================================== */
 
-checkRecoverySession();
-
-checkExistingSession();
+checkSession();
 
 </script>
 
