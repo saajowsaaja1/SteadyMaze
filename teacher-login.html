@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Teacher Dashboard | GURHUB</title>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>SteadyMaze | Teacher Login</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -16,7 +22,7 @@
 
 :root{
     --bg:#06111f;
-    --panel:rgba(9,25,44,.78);
+    --panel:rgba(9,25,44,.88);
     --blue:#2563eb;
     --blue2:#60a5fa;
     --gold:#d4af37;
@@ -24,15 +30,37 @@
     --text:#f4f7fb;
     --muted:#8fa1b5;
     --border:rgba(255,255,255,.09);
+    --danger:#f87171;
+    --success:#4ade80;
 }
 
 body{
     min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+
     color:var(--text);
+
     background:
-        radial-gradient(circle at 10% 10%,rgba(37,99,235,.20),transparent 28%),
-        radial-gradient(circle at 90% 80%,rgba(212,175,55,.12),transparent 25%),
-        linear-gradient(135deg,#050e1a,#091b30 50%,#06111f);
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(37,99,235,.20),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(212,175,55,.13),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #050e1a,
+            #091b30 50%,
+            #06111f
+        );
+
     overflow-x:hidden;
 }
 
@@ -46,375 +74,89 @@ body::after{
 }
 
 body::before{
-    width:500px;
-    height:500px;
+    width:430px;
+    height:430px;
     left:-180px;
-    top:-180px;
+    top:-170px;
     background:rgba(37,99,235,.10);
 }
 
 body::after{
-    width:450px;
-    height:450px;
-    right:-150px;
+    width:420px;
+    height:420px;
+    right:-170px;
     bottom:-180px;
     background:rgba(212,175,55,.08);
 }
 
-button,input,select,textarea{
-    font:inherit;
+/* ================= CONTAINER ================= */
+
+.auth-container{
+    width:100%;
+    max-width:470px;
+    position:relative;
+    z-index:2;
 }
 
-/* ================= SIDEBAR ================= */
+/* ================= LOGO ================= */
 
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    width:255px;
-    padding:25px 17px;
-    background:rgba(5,17,31,.88);
-    border-right:1px solid var(--border);
-    backdrop-filter:blur(20px);
-    z-index:100;
+.logo-area{
+    text-align:center;
+    margin-bottom:22px;
 }
 
 .logo{
-    padding:8px 14px 30px;
-    font-size:27px;
-    font-weight:800;
-    letter-spacing:1px;
+    font-size:34px;
+    font-weight:900;
+    letter-spacing:1.5px;
 }
 
 .logo span{
     color:var(--gold);
 }
 
-.teacher-mini{
-    padding:14px;
-    border:1px solid var(--border);
-    border-radius:16px;
-    background:rgba(255,255,255,.035);
-    margin-bottom:20px;
-}
-
-.mini-row{
-    display:flex;
-    align-items:center;
-    gap:11px;
-}
-
-.avatar{
-    width:43px;
-    height:43px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid rgba(212,175,55,.65);
-    background:#10243b;
-}
-
-.teacher-mini strong{
-    display:block;
-    font-size:13px;
-}
-
-.teacher-mini span{
+.logo-area p{
     color:var(--muted);
-    font-size:11px;
-}
-
-.nav{
-    display:flex;
-    flex-direction:column;
-    gap:5px;
-}
-
-.nav button{
-    width:100%;
-    border:0;
-    background:transparent;
-    color:#9cafc3;
-    text-align:left;
-    padding:12px 13px;
-    border-radius:11px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.nav button:hover,
-.nav button.active{
-    color:#fff;
-    background:linear-gradient(
-        90deg,
-        rgba(37,99,235,.25),
-        rgba(37,99,235,.07)
-    );
-}
-
-.nav button.active{
-    border-left:3px solid var(--gold);
-}
-
-.logout{
-    position:absolute;
-    left:17px;
-    right:17px;
-    bottom:20px;
-}
-
-.logout button{
-    width:100%;
-    border:1px solid rgba(255,255,255,.08);
-    background:rgba(255,255,255,.04);
-    color:#b9c5d2;
-    padding:11px;
-    border-radius:11px;
-    cursor:pointer;
-}
-
-/* ================= MAIN ================= */
-
-.main{
-    margin-left:255px;
-    padding:25px;
-    position:relative;
-    z-index:1;
-}
-
-.topbar{
-    min-height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:24px;
-}
-
-.top-title h1{
-    font-size:25px;
-}
-
-.top-title p{
-    color:var(--muted);
-    font-size:13px;
-    margin-top:5px;
-}
-
-.status{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:9px 13px;
-    border-radius:30px;
-    background:rgba(34,197,94,.07);
-    border:1px solid rgba(34,197,94,.16);
-    color:#8be3a7;
     font-size:12px;
+    margin-top:6px;
 }
 
-.status-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:#4ade80;
-}
+/* ================= CARD ================= */
 
-/* ================= SECTIONS ================= */
+.auth-card{
+    width:100%;
+    padding:30px;
 
-.section{
-    display:none;
-}
+    border:1px solid var(--border);
+    border-radius:22px;
 
-.section.active{
-    display:block;
-}
-
-/* ================= CARDS ================= */
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.card{
     background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:19px;
-    backdrop-filter:blur(18px);
-    box-shadow:0 15px 40px rgba(0,0,0,.15);
+
+    backdrop-filter:blur(22px);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.30);
 }
 
-.stat-label{
-    color:var(--muted);
-    font-size:12px;
+.card-header{
+    margin-bottom:22px;
 }
 
-.stat-value{
-    font-size:27px;
-    font-weight:750;
-    margin-top:9px;
-}
-
-.stat-note{
-    color:#71849a;
-    font-size:11px;
-    margin-top:5px;
-}
-
-.gold{
-    color:var(--gold2);
-}
-
-.blue{
-    color:var(--blue2);
-}
-
-.content-grid{
-    display:grid;
-    grid-template-columns:1.4fr .8fr;
-    gap:18px;
-}
-
-.card h2{
-    font-size:18px;
+.card-header h1{
+    font-size:24px;
     margin-bottom:7px;
 }
 
-.card-subtitle{
+.card-header p{
     color:var(--muted);
     font-size:12px;
-    margin-bottom:20px;
+    line-height:1.6;
 }
 
-/* ================= BUTTONS ================= */
-
-.btn{
-    border:0;
-    border-radius:10px;
-    padding:11px 15px;
-    cursor:pointer;
-    color:white;
-    font-weight:650;
-    font-size:12px;
-}
-
-.btn-blue{
-    background:linear-gradient(135deg,#2563eb,#1746a2);
-}
-
-.btn-gold{
-    background:linear-gradient(135deg,#d4af37,#9d7b18);
-    color:#071321;
-}
-
-.btn-dark{
-    background:rgba(255,255,255,.06);
-    border:1px solid var(--border);
-}
-
-.btn-danger{
-    background:rgba(220,38,38,.12);
-    border:1px solid rgba(220,38,38,.18);
-    color:#ff9b9b;
-}
-
-/* ================= LESSONS ================= */
-
-.lesson-list{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
-
-.lesson{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    padding:13px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    background:rgba(255,255,255,.025);
-}
-
-.lesson-info{
-    min-width:0;
-}
-
-.lesson-info strong{
-    display:block;
-    font-size:13px;
-}
-
-.lesson-info span{
-    color:var(--muted);
-    font-size:11px;
-}
-
-.level-badge{
-    padding:5px 8px;
-    border-radius:7px;
-    font-size:10px;
-    color:#dbeafe;
-    background:rgba(37,99,235,.14);
-    border:1px solid rgba(37,99,235,.18);
-}
-
-/* ================= PROFILE ================= */
-
-.profile-box{
-    display:grid;
-    grid-template-columns:180px 1fr;
-    gap:25px;
-}
-
-.profile-photo-area{
-    display:flex;
-    align-items:center;
-    flex-direction:column;
-    gap:12px;
-}
-
-.profile-photo{
-    width:135px;
-    height:135px;
-    border-radius:50%;
-    object-fit:cover;
-    border:3px solid var(--gold);
-    background:#10243b;
-}
-
-.upload-label{
-    cursor:pointer;
-    padding:9px 12px;
-    border-radius:9px;
-    background:rgba(37,99,235,.13);
-    border:1px solid rgba(37,99,235,.2);
-    color:#9fc5ff;
-    font-size:11px;
-}
-
-input[type="file"]{
-    display:none;
-}
-
-/* ================= FORMS ================= */
-
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
+/* ================= FORM ================= */
 
 .field{
-    margin-bottom:14px;
-}
-
-.field.full{
-    grid-column:1/-1;
+    margin-bottom:16px;
 }
 
 label{
@@ -424,921 +166,462 @@ label{
     margin-bottom:7px;
 }
 
-input,
-select,
-textarea{
+.input-wrap{
+    position:relative;
+}
+
+input{
     width:100%;
-    padding:12px 13px;
-    border:1px solid var(--border);
-    border-radius:10px;
-    outline:none;
+    padding:13px 14px;
+
     color:white;
+
     background:rgba(255,255,255,.045);
-}
 
-select option{
-    background:#0b1c31;
-}
-
-textarea{
-    resize:vertical;
-    min-height:100px;
-}
-
-/* ================= UPLOAD ================= */
-
-.upload-box{
-    border:1px dashed rgba(96,165,250,.35);
-    background:rgba(37,99,235,.045);
-    padding:25px;
-    text-align:center;
-    border-radius:14px;
-    margin-bottom:18px;
-}
-
-.upload-box .icon{
-    font-size:28px;
-    margin-bottom:8px;
-}
-
-.upload-box h3{
-    font-size:14px;
-    margin-bottom:5px;
-}
-
-.upload-box p{
-    color:var(--muted);
-    font-size:11px;
-    margin-bottom:14px;
-}
-
-.file-name{
-    color:#a8caff;
-    font-size:11px;
-    margin-top:9px;
-}
-
-/* ================= WARNING ================= */
-
-.warning{
-    padding:14px;
-    border-radius:12px;
-    background:rgba(212,175,55,.055);
-    border:1px solid rgba(212,175,55,.16);
-    color:#d9c88c;
-    font-size:11px;
-    line-height:1.6;
-    margin-bottom:18px;
-}
-
-/* ================= LEVEL ================= */
-
-.level-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-}
-
-.level-card{
-    padding:18px;
     border:1px solid var(--border);
-    border-radius:14px;
-    background:rgba(255,255,255,.025);
+    border-radius:11px;
+
+    outline:none;
+
+    font-size:13px;
+
+    transition:.2s;
 }
 
-.level-card h3{
-    font-size:14px;
-    margin-bottom:7px;
+input:focus{
+    border-color:rgba(96,165,250,.55);
+
+    box-shadow:
+        0 0 0 3px rgba(37,99,235,.10);
 }
 
-.level-card p{
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.5;
+input::placeholder{
+    color:#64778d;
 }
 
-/* ================= PAYMENT ================= */
-
-.payment-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:13px;
+.password-input{
+    padding-right:48px;
 }
 
-.payment-method{
-    min-height:130px;
-    border:1px solid var(--border);
-    border-radius:15px;
-    padding:17px;
+.show-password{
+    position:absolute;
+    right:8px;
+    top:50%;
+    transform:translateY(-50%);
+
+    width:34px;
+    height:34px;
+
+    border:0;
+    border-radius:8px;
+
+    background:transparent;
+
+    color:#8fa1b5;
+
     cursor:pointer;
-    background:rgba(255,255,255,.025);
 }
 
-.payment-method.selected{
-    border-color:rgba(37,99,235,.55);
-    background:rgba(37,99,235,.08);
+.show-password:hover{
+    background:rgba(255,255,255,.05);
+    color:white;
 }
 
-.payment-icon{
-    font-size:25px;
+/* ================= OPTIONS ================= */
+
+.form-options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+
+    margin-bottom:18px;
+}
+
+.remember{
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    color:var(--muted);
+    font-size:11px;
+}
+
+.remember input{
+    width:14px;
+    height:14px;
+    accent-color:var(--blue);
+}
+
+.link-btn{
+    border:0;
+    background:transparent;
+
+    color:#80b7ff;
+
+    font-size:11px;
+
+    cursor:pointer;
+}
+
+.link-btn:hover{
+    color:white;
+    text-decoration:underline;
+}
+
+/* ================= BUTTON ================= */
+
+.main-btn{
+    width:100%;
+
+    border:0;
+    border-radius:11px;
+
+    padding:13px 15px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #1746a2
+        );
+
+    font-size:13px;
+    font-weight:750;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    box-shadow:
+        0 10px 25px rgba(37,99,235,.18);
+}
+
+.main-btn:hover{
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 14px 30px rgba(37,99,235,.28);
+}
+
+.main-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/* ================= MESSAGE ================= */
+
+.message{
+    display:none;
+
+    padding:11px 13px;
+
+    border-radius:10px;
+
+    font-size:11px;
+
+    line-height:1.5;
+
     margin-bottom:15px;
 }
 
-.payment-method strong{
+.message.show{
     display:block;
-    font-size:13px;
 }
 
-.payment-method span{
-    display:block;
+.message.error{
+    color:#fecaca;
+
+    background:rgba(220,38,38,.09);
+
+    border:1px solid rgba(248,113,113,.16);
+}
+
+.message.success{
+    color:#bbf7d0;
+
+    background:rgba(34,197,94,.08);
+
+    border:1px solid rgba(74,222,128,.16);
+}
+
+/* ================= SWITCH ================= */
+
+.switch-area{
+    text-align:center;
+
+    margin-top:20px;
+    padding-top:18px;
+
+    border-top:1px solid var(--border);
+
     color:var(--muted);
-    font-size:10px;
-    margin-top:5px;
+
+    font-size:11px;
 }
 
-.split-box{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
+.switch-area button{
+    border:0;
+    background:transparent;
+
+    color:#80b7ff;
+
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.switch-area button:hover{
+    text-decoration:underline;
+}
+
+/* ================= BACK ================= */
+
+.back-home{
+    text-align:center;
     margin-top:18px;
 }
 
-.split{
-    padding:17px;
-    border-radius:13px;
-    background:rgba(255,255,255,.035);
-    border:1px solid var(--border);
-}
-
-.split strong{
-    display:block;
-    font-size:23px;
-}
-
-.split span{
-    color:var(--muted);
-    font-size:11px;
-}
-
-/* =====================================================
-   COMPETITION
-===================================================== */
-
-.competition-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.competition-status{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:9px 13px;
-    border-radius:30px;
-    background:rgba(234,179,8,.08);
-    border:1px solid rgba(234,179,8,.18);
-    color:#e8ca67;
-    font-size:11px;
-    white-space:nowrap;
-}
-
-.competition-status.live{
-    color:#86efac;
-    background:rgba(34,197,94,.08);
-    border-color:rgba(34,197,94,.18);
-}
-
-.competition-status.finished{
-    color:#fca5a5;
-    background:rgba(220,38,38,.08);
-    border-color:rgba(220,38,38,.18);
-}
-
-.competition-status-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:currentColor;
-}
-
-.competition-info-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin:20px 0;
-}
-
-.competition-info{
-    padding:15px;
-    border:1px solid var(--border);
-    border-radius:13px;
-    background:rgba(255,255,255,.025);
-}
-
-.competition-info span{
-    display:block;
-    color:var(--muted);
-    font-size:10px;
-    margin-bottom:6px;
-}
-
-.competition-info strong{
-    font-size:20px;
-}
-
-.competition-groups{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-bottom:18px;
-}
-
-.competition-group-btn{
-    padding:14px;
-    border-radius:12px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.035);
-    color:#aebdce;
-    cursor:pointer;
-    font-weight:700;
-}
-
-.competition-group-btn.active{
-    color:white;
-    background:rgba(37,99,235,.16);
-    border-color:rgba(37,99,235,.45);
-}
-
-.competition-group-btn small{
-    display:block;
-    margin-top:4px;
-    color:var(--muted);
-    font-size:10px;
-    font-weight:400;
-}
-
-.competition-toolbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    margin-bottom:15px;
-    flex-wrap:wrap;
-}
-
-.competition-toolbar h3{
-    font-size:16px;
-}
-
-.competition-search{
-    width:260px;
-}
-
-.competition-table-wrap{
-    overflow:auto;
-    max-height:650px;
-    border:1px solid var(--border);
-    border-radius:13px;
-}
-
-.competition-table{
-    min-width:900px;
-}
-
-.competition-table thead{
-    position:sticky;
-    top:0;
-    z-index:2;
-    background:#0b2037;
-}
-
-.competition-table th{
-    padding:13px 12px;
-    text-align:left;
+.back-home a{
     color:#71859c;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.5px;
-    border-bottom:1px solid var(--border);
+    text-decoration:none;
+    font-size:11px;
 }
 
-.competition-table td{
-    padding:12px;
-    font-size:12px;
-    border-bottom:1px solid rgba(255,255,255,.045);
+.back-home a:hover{
+    color:white;
 }
 
-.competition-table tbody tr:hover{
-    background:rgba(255,255,255,.025);
+/* ================= SIGN UP EXTRA ================= */
+
+.signup-only{
+    display:none;
 }
 
-.rank-number{
-    color:var(--gold2);
-    font-weight:800;
+.signup-only.show{
+    display:block;
 }
 
-.empty-student{
-    color:#6f8196;
+/* ================= RESET ================= */
+
+.reset-info{
+    padding:13px;
+
+    margin-bottom:18px;
+
+    border-radius:11px;
+
+    color:#c7d6e7;
+
+    background:rgba(37,99,235,.055);
+
+    border:1px solid rgba(96,165,250,.13);
+
+    font-size:11px;
+
+    line-height:1.6;
 }
 
-.points-number{
-    font-weight:800;
-    color:#a9d0ff;
-}
+/* ================= LOADING ================= */
 
-.reward-pending{
-    display:inline-block;
-    padding:5px 8px;
-    border-radius:7px;
-    color:#e8ca67;
-    background:rgba(212,175,55,.08);
-    border:1px solid rgba(212,175,55,.15);
-    font-size:10px;
-}
-
-.student-status{
+.loading{
     display:inline-flex;
     align-items:center;
-    gap:6px;
-    font-size:10px;
-    font-weight:700;
-}
-
-.student-status-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-}
-
-.status-waiting{
-    color:#8fa1b5;
-}
-
-.status-waiting .student-status-dot{
-    background:#718096;
-}
-
-.status-active{
-    color:#86efac;
-}
-
-.status-active .student-status-dot{
-    background:#4ade80;
-}
-
-.status-eliminated{
-    color:#fca5a5;
-}
-
-.status-eliminated .student-status-dot{
-    background:#ef4444;
-}
-
-/* ================= AI ================= */
-
-.ai-box{
-    display:flex;
-    flex-direction:column;
-    height:540px;
-}
-
-.chat-messages{
-    flex:1;
-    overflow-y:auto;
-    padding:10px 2px;
-}
-
-.message{
-    max-width:80%;
-    padding:11px 13px;
-    border-radius:12px;
-    margin-bottom:10px;
-    font-size:12px;
-    line-height:1.5;
-}
-
-.message.ai{
-    background:rgba(255,255,255,.05);
-    border:1px solid var(--border);
-}
-
-.message.user{
-    margin-left:auto;
-    background:rgba(37,99,235,.18);
-}
-
-.chat-form{
-    display:flex;
-    gap:8px;
-    margin-top:10px;
-}
-
-/* ================= MODAL ================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.68);
-    display:none;
-    align-items:center;
     justify-content:center;
-    padding:20px;
-    z-index:500;
+    gap:8px;
 }
 
-.modal.show{
-    display:flex;
+.spinner{
+    width:15px;
+    height:15px;
+
+    border:2px solid rgba(255,255,255,.30);
+    border-top-color:white;
+
+    border-radius:50%;
+
+    animation:spin .7s linear infinite;
 }
 
-.modal-box{
-    width:100%;
-    max-width:650px;
-    max-height:90vh;
-    overflow-y:auto;
-    background:#091a2d;
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:25px;
-}
-
-.modal-header{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:20px;
-}
-
-.close{
-    border:0;
-    background:rgba(255,255,255,.06);
-    color:#a9b7c7;
-    width:32px;
-    height:32px;
-    border-radius:8px;
-    cursor:pointer;
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 /* ================= MOBILE ================= */
 
-.mobile-menu{
-    display:none;
-}
+@media(max-width:520px){
 
-@media(max-width:1050px){
-
-    .grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .content-grid{
-        grid-template-columns:1fr;
-    }
-
-    .competition-info-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-
-@media(max-width:760px){
-
-    .sidebar{
-        transform:translateX(-100%);
-        transition:.25s;
-    }
-
-    .sidebar.open{
-        transform:translateX(0);
-    }
-
-    .main{
-        margin-left:0;
+    body{
         padding:15px;
     }
 
-    .mobile-menu{
-        display:block;
-        border:1px solid var(--border);
-        background:rgba(255,255,255,.05);
-        color:white;
-        border-radius:9px;
-        padding:9px 11px;
-        cursor:pointer;
+    .auth-card{
+        padding:23px 19px;
+        border-radius:18px;
     }
 
-    .grid{
-        grid-template-columns:1fr 1fr;
+    .logo{
+        font-size:29px;
     }
 
-    .profile-box,
-    .form-grid{
-        grid-template-columns:1fr;
+    .card-header h1{
+        font-size:21px;
     }
 
-    .level-grid,
-    .competition-groups{
-        grid-template-columns:1fr;
-    }
-
-    .competition-info-grid{
-        grid-template-columns:1fr 1fr;
-    }
 }
 
-@media(max-width:500px){
-
-    .grid,
-    .competition-info-grid{
-        grid-template-columns:1fr;
-    }
-
-    .competition-search{
-        width:100%;
-    }
-
-    .top-title h1{
-        font-size:20px;
-    }
-
-    .status{
-        display:none;
-    }
-}
 </style>
+
 </head>
 
 <body>
 
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
+<div class="auth-container">
 
-<aside class="sidebar" id="sidebar">
+    <!-- ================= LOGO ================= -->
 
-    <div class="logo">
-        GUR<span>HUB</span>
-    </div>
+    <div class="logo-area">
 
-    <div class="teacher-mini">
-
-        <div class="mini-row">
-
-            <img
-                src=""
-                id="sideAvatar"
-                class="avatar"
-                alt="Teacher profile">
-
-            <div>
-                <strong id="sideName">Teacher</strong>
-                <span id="sideSkill">Teacher Account</span>
-            </div>
-
+        <div class="logo">
+            Steady<span>Maze</span>
         </div>
 
-    </div>
-
-    <nav class="nav">
-
-        <button
-            class="active"
-            onclick="showSection('dashboard',this)">
-            🏠 Dashboard
-        </button>
-
-        <button
-            onclick="showSection('profile',this)">
-            👤 My Profile
-        </button>
-
-        <button
-            onclick="showSection('lessons',this)">
-            🎥 My Lessons
-        </button>
-
-        <button
-            onclick="showSection('upload',this)">
-            ⬆️ Add Lesson
-        </button>
-
-        <button
-            onclick="showSection('payments',this)">
-            💳 Payments
-        </button>
-
-        <button
-            onclick="showSection('competition',this)">
-            🏆 Competition
-        </button>
-
-        <button
-            onclick="showSection('ai',this)">
-            🤖 AI Assistant
-        </button>
-
-    </nav>
-
-    <div class="logout">
-        <button onclick="logoutTeacher()">
-            ← Back to Teacher Login
-        </button>
-    </div>
-
-</aside>
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main class="main">
-
-    <div class="topbar">
-
-        <button
-            class="mobile-menu"
-            onclick="toggleSidebar()">
-            ☰
-        </button>
-
-        <div class="top-title">
-
-            <h1 id="pageTitle">
-                Teacher Dashboard
-            </h1>
-
-            <p>
-                Manage your GURHUB teaching workspace.
-            </p>
-
-        </div>
-
-        <div class="status">
-
-            <span class="status-dot"></span>
-
-            Teacher workspace
-
-        </div>
-
-    </div>
-
-<!-- =====================================================
-     DASHBOARD
-===================================================== -->
-
-<section id="dashboard" class="section active">
-
-    <div class="grid">
-
-        <div class="card">
-            <div class="stat-label">My Lessons</div>
-
-            <div
-                class="stat-value blue"
-                id="lessonCount">
-                0
-            </div>
-
-            <div class="stat-note">
-                Uploaded lessons
-            </div>
-        </div>
-
-        <div class="card">
-
-            <div class="stat-label">
-                Active Levels
-            </div>
-
-            <div class="stat-value gold">
-                3
-            </div>
-
-            <div class="stat-note">
-                Beginner • Level 2 • Level 3
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <div class="stat-label">
-                Competition Group
-            </div>
-
-            <div
-                class="stat-value"
-                id="teacherGroup">
-                —
-            </div>
-
-            <div class="stat-note">
-                Assigned group
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <div class="stat-label">
-                Teacher Share
-            </div>
-
-            <div class="stat-value gold">
-                70%
-            </div>
-
-            <div class="stat-note">
-                Payment split
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="content-grid">
-
-        <div class="card">
-
-            <h2>My Recent Lessons</h2>
-
-            <p class="card-subtitle">
-                Lessons you have added to GURHUB.
-            </p>
-
-            <div
-                class="lesson-list"
-                id="dashboardLessons">
-
-                <div class="empty">
-                    No lessons added yet.
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <h2>Teaching Levels</h2>
-
-            <p class="card-subtitle">
-                You can publish lessons under each level.
-            </p>
-
-            <div class="level-grid">
-
-                <div class="level-card">
-                    <h3>Level 1</h3>
-                    <p>
-                        Beginner lessons and fundamentals.
-                    </p>
-                </div>
-
-                <div class="level-card">
-                    <h3>Level 2</h3>
-                    <p>
-                        Intermediate lessons and practical skills.
-                    </p>
-                </div>
-
-                <div class="level-card">
-                    <h3>Level 3</h3>
-                    <p>
-                        Advanced lessons and projects.
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- =====================================================
-     PROFILE
-===================================================== -->
-
-<section id="profile" class="section">
-
-    <div class="card">
-
-        <h2>Teacher Profile</h2>
-
-        <p class="card-subtitle">
-            Your profile information will be available to students.
+        <p>
+            Teacher Learning & Competition Platform
         </p>
 
-        <div class="profile-box">
+    </div>
 
-            <div class="profile-photo-area">
 
-                <img
-                    id="profileImage"
-                    class="profile-photo"
-                    src=""
-                    alt="Teacher profile">
+    <!-- ================= AUTH CARD ================= -->
 
-                <label
-                    class="upload-label"
-                    for="profileUpload">
+    <div class="auth-card">
 
-                    Upload Profile Photo
+        <!-- ================= LOGIN ================= -->
 
-                </label>
+        <div id="loginView">
 
-                <input
-                    type="file"
-                    id="profileUpload"
-                    accept="image/*">
+            <div class="card-header">
+
+                <h1>
+                    Teacher Login
+                </h1>
+
+                <p>
+                    Login to access your SteadyMaze teacher dashboard.
+                </p>
 
             </div>
 
-            <div>
 
-                <div class="form-grid">
+            <div
+                id="loginMessage"
+                class="message">
+            </div>
 
-                    <div class="field">
 
-                        <label>Full Name</label>
+            <form
+                id="loginForm"
+                onsubmit="loginTeacher(event)">
+
+                <div class="field">
+
+                    <label for="loginEmail">
+                        Email Address
+                    </label>
+
+                    <input
+                        id="loginEmail"
+                        type="email"
+                        placeholder="teacher@example.com"
+                        autocomplete="email"
+                        required>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="loginPassword">
+                        Password
+                    </label>
+
+                    <div class="input-wrap">
 
                         <input
-                            id="profileName"
-                            type="text"
-                            placeholder="Teacher full name">
+                            id="loginPassword"
+                            class="password-input"
+                            type="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
 
-                    </div>
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword('loginPassword',this)"
+                            aria-label="Show password">
 
-                    <div class="field">
+                            👁
 
-                        <label>Email</label>
-
-                        <input
-                            id="profileEmail"
-                            type="email"
-                            placeholder="Teacher email">
-
-                    </div>
-
-                    <div class="field">
-
-                        <label>Main Skill</label>
-
-                        <input
-                            id="profileSkill"
-                            type="text"
-                            placeholder="Your main skill">
-
-                    </div>
-
-                    <div class="field">
-
-                        <label>Competition Group</label>
-
-                        <select id="profileGroup">
-
-                            <option value="">
-                                Select group
-                            </option>
-
-                            <option value="Lower">
-                                Lower
-                            </option>
-
-                            <option value="Medium">
-                                Medium
-                            </option>
-
-                            <option value="High">
-                                High
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <div class="field full">
-
-                        <label>
-                            Teacher Introduction
-                        </label>
-
-                        <textarea
-                            id="profileIntro"
-                            placeholder="Tell students about yourself..."></textarea>
+                        </button>
 
                     </div>
 
                 </div>
 
-                <button
-                    class="btn btn-blue"
-                    onclick="saveProfile()">
 
-                    Save Profile
+                <div class="form-options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe">
+
+                        Remember me
+
+                    </label>
+
+
+                    <button
+                        type="button"
+                        class="link-btn"
+                        onclick="showForgotPassword()">
+
+                        Forgot Password?
+
+                    </button>
+
+                </div>
+
+
+                <button
+                    id="loginBtn"
+                    type="submit"
+                    class="main-btn">
+
+                    Login
+
+                </button>
+
+            </form>
+
+
+            <div class="switch-area">
+
+                Don't have a teacher account?
+
+                <button
+                    type="button"
+                    onclick="showSignup()">
+
+                    Sign Up
 
                 </button>
 
@@ -1346,2038 +629,1366 @@ textarea{
 
         </div>
 
-    </div>
 
-</section>
+        <!-- ================= SIGN UP ================= -->
 
-<!-- =====================================================
-     LESSONS
-===================================================== -->
+        <div id="signupView" style="display:none;">
 
-<section id="lessons" class="section">
+            <div class="card-header">
 
-    <div class="card">
+                <h1>
+                    Create Teacher Account
+                </h1>
 
-        <div style="
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:10px;
-            margin-bottom:20px;
-        ">
-
-            <div>
-
-                <h2>My Lessons</h2>
-
-                <p
-                    class="card-subtitle"
-                    style="margin-bottom:0;">
-
-                    Manage your uploaded course lessons.
-
+                <p>
+                    Create your SteadyMaze teacher account.
                 </p>
 
             </div>
 
-            <button
-                class="btn btn-blue"
-                onclick="showSectionById('upload')">
-
-                + Add Lesson
-
-            </button>
-
-        </div>
-
-        <div
-            id="allLessons"
-            class="lesson-list">
-
-            <div class="empty">
-                No lessons added yet.
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- =====================================================
-     UPLOAD
-===================================================== -->
-
-<section id="upload" class="section">
-
-    <div class="card">
-
-        <h2>Add New Lesson</h2>
-
-        <p class="card-subtitle">
-            Create a lesson for Level 1, Level 2 or Level 3.
-        </p>
-
-        <div class="warning">
-
-            ⚠️ <strong>Video quality requirement:</strong>
-            Upload clear educational videos. Recommended quality
-            is <strong>1080p</strong> and up to <strong>2K or higher</strong>
-            when supported.
-
-        </div>
-
-        <div class="upload-box">
-
-            <div class="icon">🎥</div>
-
-            <h3>Select Lesson Video</h3>
-
-            <p>
-                Upload your actual lesson video from your device.
-            </p>
-
-            <label
-                for="lessonVideo"
-                class="btn btn-blue">
-
-                Choose Video
-
-            </label>
-
-            <input
-                type="file"
-                id="lessonVideo"
-                accept="video/*">
 
             <div
-                id="videoFileName"
-                class="file-name">
+                id="signupMessage"
+                class="message">
             </div>
 
-        </div>
 
-        <div class="form-grid">
+            <form
+                id="signupForm"
+                onsubmit="signupTeacher(event)">
 
-            <div class="field">
+                <div class="field">
 
-                <label>Lesson Title</label>
+                    <label for="signupName">
+                        Full Name
+                    </label>
 
-                <input
-                    id="lessonTitle"
-                    type="text"
-                    placeholder="Lesson title">
+                    <input
+                        id="signupName"
+                        type="text"
+                        placeholder="Your full name"
+                        autocomplete="name"
+                        required>
 
-            </div>
+                </div>
 
-            <div class="field">
 
-                <label>Skill</label>
+                <div class="field">
 
-                <input
-                    id="lessonSkill"
-                    type="text"
-                    placeholder="Skill">
+                    <label for="signupEmail">
+                        Email Address
+                    </label>
 
-            </div>
+                    <input
+                        id="signupEmail"
+                        type="email"
+                        placeholder="teacher@example.com"
+                        autocomplete="email"
+                        required>
 
-            <div class="field">
+                </div>
 
-                <label>Level</label>
 
-                <select id="lessonLevel">
+                <div class="field">
 
-                    <option value="">
-                        Select level
-                    </option>
+                    <label for="signupSkill">
+                        Main Skill
+                    </label>
 
-                    <option value="Level 1">
-                        Level 1 — Beginner
-                    </option>
+                    <input
+                        id="signupSkill"
+                        type="text"
+                        placeholder="Example: Web Development"
+                        required>
 
-                    <option value="Level 2">
-                        Level 2 — Intermediate
-                    </option>
+                </div>
 
-                    <option value="Level 3">
-                        Level 3 — Advanced
-                    </option>
 
-                </select>
+                <div class="field">
 
-            </div>
+                    <label for="signupGroup">
+                        Competition Group
+                    </label>
 
-            <div class="field">
+                    <select
+                        id="signupGroup"
+                        required>
 
-                <label>Lesson Number</label>
+                        <option value="">
+                            Select competition group
+                        </option>
 
-                <input
-                    id="lessonNumber"
-                    type="number"
-                    min="1"
-                    placeholder="1">
+                        <option value="Lower">
+                            Lower
+                        </option>
 
-            </div>
+                        <option value="Medium">
+                            Medium
+                        </option>
 
-            <div class="field full">
+                        <option value="High">
+                            High
+                        </option>
 
-                <label>
-                    What does this video teach?
-                </label>
+                    </select>
 
-                <textarea
-                    id="lessonDescription"
-                    placeholder="Explain what students will learn..."></textarea>
+                </div>
 
-            </div>
 
-            <div class="field full">
+                <div class="field">
 
-                <label>
-                    Lesson Introduction
-                </label>
+                    <label for="signupPassword">
+                        Password
+                    </label>
 
-                <textarea
-                    id="lessonIntro"
-                    placeholder="Lesson introduction..."></textarea>
+                    <div class="input-wrap">
 
-            </div>
+                        <input
+                            id="signupPassword"
+                            class="password-input"
+                            type="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required>
 
-        </div>
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword('signupPassword',this)">
 
-        <button
-            class="btn btn-blue"
-            onclick="saveLesson()">
+                            👁
 
-            Save Lesson
+                        </button>
 
-        </button>
+                    </div>
 
-    </div>
+                </div>
 
-</section>
 
-<!-- =====================================================
-     PAYMENTS
-===================================================== -->
+                <div class="field">
 
-<section id="payments" class="section">
+                    <label for="signupConfirm">
+                        Confirm Password
+                    </label>
 
-    <div class="card">
+                    <div class="input-wrap">
 
-        <h2>Payment Settings</h2>
+                        <input
+                            id="signupConfirm"
+                            class="password-input"
+                            type="password"
+                            placeholder="Repeat your password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required>
 
-        <p class="card-subtitle">
-            Payment provider settings for future backend connection.
-        </p>
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword('signupConfirm',this)">
 
-        <div class="payment-grid">
+                            👁
 
-            <div
-                class="payment-method"
-                onclick="selectPayment(this,'Visa')">
+                        </button>
 
-                <div class="payment-icon">💳</div>
+                    </div>
 
-                <strong>Visa</strong>
+                </div>
 
-                <span>Card payment provider</span>
 
-            </div>
+                <button
+                    id="signupBtn"
+                    type="submit"
+                    class="main-btn">
 
-            <div
-                class="payment-method"
-                onclick="selectPayment(this,'Mastercard')">
+                    Create Teacher Account
 
-                <div class="payment-icon">💳</div>
+                </button>
 
-                <strong>Mastercard</strong>
+            </form>
 
-                <span>Card payment provider</span>
 
-            </div>
+            <div class="switch-area">
 
-            <div
-                class="payment-method"
-                onclick="selectPayment(this,'PayPal')">
+                Already have an account?
 
-                <div class="payment-icon">🅿️</div>
+                <button
+                    type="button"
+                    onclick="showLogin()">
 
-                <strong>PayPal</strong>
+                    Login
 
-                <span>PayPal account connection</span>
-
-            </div>
-
-            <div
-                class="payment-method"
-                onclick="selectPayment(this,'Bank')">
-
-                <div class="payment-icon">🏦</div>
-
-                <strong>Bank Account</strong>
-
-                <span>KCB or supported bank</span>
-
-            </div>
-
-        </div>
-
-        <div class="form-grid" style="margin-top:20px;">
-
-            <div class="field">
-
-                <label>Bank Name</label>
-
-                <input
-                    id="bankName"
-                    type="text"
-                    placeholder="Example: KCB Bank">
-
-            </div>
-
-            <div class="field">
-
-                <label>Account Holder Name</label>
-
-                <input
-                    id="accountHolder"
-                    type="text"
-                    placeholder="Account holder">
-
-            </div>
-
-            <div class="field">
-
-                <label>Payment Email</label>
-
-                <input
-                    id="paymentEmail"
-                    type="email"
-                    placeholder="Payment account email">
-
-            </div>
-
-            <div class="field">
-
-                <label>Account Reference</label>
-
-                <input
-                    id="accountReference"
-                    type="text"
-                    placeholder="Backend reference">
+                </button>
 
             </div>
 
         </div>
 
-        <div class="split-box">
 
-            <div class="split">
+        <!-- ================= FORGOT PASSWORD ================= -->
 
-                <strong class="gold">70%</strong>
+        <div id="forgotView" style="display:none;">
 
-                <span>Teacher share</span>
+            <div class="card-header">
 
-            </div>
+                <h1>
+                    Forgot Password?
+                </h1>
 
-            <div class="split">
-
-                <strong class="blue">30%</strong>
-
-                <span>GURHUB platform share</span>
-
-            </div>
-
-        </div>
-
-        <button
-            class="btn btn-blue"
-            style="margin-top:18px;"
-            onclick="savePaymentSettings()">
-
-            Save Payment Settings
-
-        </button>
-
-    </div>
-
-</section>
-
-<!-- =====================================================
-     COMPETITION — NEW VERSION
-===================================================== -->
-
-<section id="competition" class="section">
-
-    <div class="card">
-
-        <div class="competition-head">
-
-            <div>
-
-                <h2>
-                    🏆 Competition Liveboard
-                </h2>
-
-                <p class="card-subtitle">
-                    Monitor Lower, Medium and High competition groups
-                    in real time.
+                <p>
+                    Enter your teacher email and we will send you
+                    a password reset link.
                 </p>
 
             </div>
 
+
+            <div class="reset-info">
+
+                🔐 A password reset email will be sent through
+                Supabase Auth. Open the email and choose
+                <strong>Get a New Password</strong>.
+
+            </div>
+
+
             <div
-                id="competitionStatus"
-                class="competition-status">
+                id="forgotMessage"
+                class="message">
+            </div>
 
-                <span class="competition-status-dot"></span>
 
-                <span id="competitionStatusText">
-                    Competition Not Started
-                </span>
+            <form
+                id="forgotForm"
+                onsubmit="sendResetEmail(event)">
+
+                <div class="field">
+
+                    <label for="forgotEmail">
+                        Teacher Email
+                    </label>
+
+                    <input
+                        id="forgotEmail"
+                        type="email"
+                        placeholder="teacher@example.com"
+                        autocomplete="email"
+                        required>
+
+                </div>
+
+
+                <button
+                    id="forgotBtn"
+                    type="submit"
+                    class="main-btn">
+
+                    Send Reset Link
+
+                </button>
+
+            </form>
+
+
+            <div class="switch-area">
+
+                Remember your password?
+
+                <button
+                    type="button"
+                    onclick="showLogin()">
+
+                    Back to Login
+
+                </button>
 
             </div>
 
         </div>
 
-        <!-- TIMER -->
 
-        <div class="competition-info-grid">
+        <!-- ================= NEW PASSWORD ================= -->
 
-            <div class="competition-info">
+        <div id="newPasswordView" style="display:none;">
 
-                <span>
-                    Competition Time
-                </span>
+            <div class="card-header">
 
-                <strong id="competitionTimer">
-                    7 Days
-                </strong>
+                <h1>
+                    Get a New Password
+                </h1>
 
-            </div>
-
-            <div class="competition-info">
-
-                <span>
-                    Current Group
-                </span>
-
-                <strong id="currentGroupName">
-                    Lower
-                </strong>
+                <p>
+                    Create a new password for your SteadyMaze
+                    teacher account.
+                </p>
 
             </div>
 
-            <div class="competition-info">
 
-                <span>
-                    Total Positions
-                </span>
-
-                <strong>
-                    300
-                </strong>
-
+            <div
+                id="newPasswordMessage"
+                class="message">
             </div>
 
-            <div class="competition-info">
 
-                <span>
-                    Highest Points
-                </span>
+            <form
+                id="newPasswordForm"
+                onsubmit="updateNewPassword(event)">
 
-                <strong
-                    id="competitionHighestPoints">
-                    0
-                </strong>
+                <div class="field">
 
-            </div>
+                    <label for="newPassword">
+                        New Password
+                    </label>
 
-        </div>
+                    <div class="input-wrap">
 
-        <!-- THREE GROUPS -->
+                        <input
+                            id="newPassword"
+                            class="password-input"
+                            type="password"
+                            placeholder="Enter new password"
+                            minlength="6"
+                            autocomplete="new-password"
+                            required>
 
-        <div class="competition-groups">
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword('newPassword',this)">
 
-            <button
-                class="competition-group-btn active"
-                data-group="lower"
-                onclick="switchCompetitionGroup('lower',this)">
+                            👁
 
-                LOWER
+                        </button>
 
-                <small>
-                    Rank 1–300
-                </small>
+                    </div>
 
-            </button>
+                </div>
 
-            <button
-                class="competition-group-btn"
-                data-group="medium"
-                onclick="switchCompetitionGroup('medium',this)">
 
-                MEDIUM
+                <div class="field">
 
-                <small>
-                    Rank 1–300
-                </small>
+                    <label for="newPasswordConfirm">
+                        Confirm New Password
+                    </label>
 
-            </button>
+                    <div class="input-wrap">
 
-            <button
-                class="competition-group-btn"
-                data-group="high"
-                onclick="switchCompetitionGroup('high',this)">
+                        <input
+                            id="newPasswordConfirm"
+                            class="password-input"
+                            type="password"
+                            placeholder="Repeat new password"
+                            minlength="6"
+                            autocomplete="new-password"
+                            required>
 
-                HIGH
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword('newPasswordConfirm',this)">
 
-                <small>
-                    Rank 1–300
-                </small>
+                            👁
 
-            </button>
+                        </button>
 
-        </div>
+                    </div>
 
-        <!-- TABLE HEADER -->
+                </div>
 
-        <div class="competition-toolbar">
 
-            <div>
+                <button
+                    id="newPasswordBtn"
+                    type="submit"
+                    class="main-btn">
 
-                <h3 id="competitionTableTitle">
-                    Lower — Liveboard
-                </h3>
+                    Get a New Password
 
-            </div>
+                </button>
 
-            <input
-                id="competitionSearch"
-                class="competition-search"
-                type="search"
-                placeholder="Search student...">
-
-        </div>
-
-        <!-- TABLE -->
-
-        <div class="competition-table-wrap">
-
-            <table class="competition-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Rank
-                        </th>
-
-                        <th>
-                            Student
-                        </th>
-
-                        <th>
-                            Student ID
-                        </th>
-
-                        <th>
-                            Points
-                        </th>
-
-                        <th>
-                            Round
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                        <th>
-                            Reward
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="competitionTableBody">
-                </tbody>
-
-            </table>
-
-        </div>
-
-        <div class="warning" style="margin-top:18px;margin-bottom:0;">
-
-            🏆 <strong>Competition structure:</strong>
-            Lower = 300 positions,
-            Medium = 300 positions,
-            High = 300 positions.
-
-            Student names, IDs, points, rounds and statuses are
-            intentionally empty until real competition data is
-            received from the backend.
-
-            Rewards remain <strong>Pending</strong> until the
-            official competition result is confirmed.
+            </form>
 
         </div>
 
     </div>
 
-</section>
 
-<!-- =====================================================
-     AI
-===================================================== -->
+    <!-- ================= BACK HOME ================= -->
 
-<section id="ai" class="section">
+    <div class="back-home">
 
-    <div class="card ai-box">
-
-        <h2>AI Teacher Assistant</h2>
-
-        <p class="card-subtitle">
-            The chat interface is ready for the GURHUB AI backend/API.
-        </p>
-
-        <div
-            class="chat-messages"
-            id="chatMessages">
-
-            <div class="message ai">
-
-                Hello. I am the GURHUB teacher assistant.
-
-            </div>
-
-        </div>
-
-        <form
-            class="chat-form"
-            onsubmit="sendAIMessage(event)">
-
-            <input
-                id="aiInput"
-                type="text"
-                placeholder="Write a message..."
-                required>
-
-            <button
-                type="submit"
-                class="btn btn-blue">
-
-                Send
-
-            </button>
-
-        </form>
-
-    </div>
-
-</section>
-
-</main>
-
-<!-- =====================================================
-     MODAL
-===================================================== -->
-
-<div
-    class="modal"
-    id="lessonModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2>
-                Lesson Details
-            </h2>
-
-            <button
-                class="close"
-                onclick="closeLessonModal()">
-
-                ×
-
-            </button>
-
-        </div>
-
-        <div id="lessonModalContent"></div>
+        <a href="index.html">
+            ← Back to SteadyMaze
+        </a>
 
     </div>
 
 </div>
 
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 <script>
 
 /* =====================================================
-   TEACHER DATA
+   SUPABASE CONFIGURATION
+=====================================================
+
+   IMPORTANT:
+
+   Replace these two values with your own
+   Supabase Project URL and Publishable/anon key.
+
+   NEVER put the service_role key here.
 ===================================================== */
 
-const STORAGE_KEY = "gurhub_teacher_data";
+const SUPABASE_URL =
+    "YOUR_SUPABASE_PROJECT_URL";
 
-let teacherData = {
+const SUPABASE_KEY =
+    "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
 
-    name:"",
-    email:"",
-    skill:"",
-    group:"",
-    intro:"",
-    profileImage:"",
-    lessons:[],
 
-    payment:{
-        method:"",
-        bankName:"",
-        accountHolder:"",
-        paymentEmail:"",
-        accountReference:""
-    }
-
-};
-
-/* =====================================================
-   LOAD
-===================================================== */
-
-function loadTeacher(){
-
-    const loginTeacher =
-        sessionStorage.getItem("gurhub_teacher");
-
-    const savedTeacher =
-        localStorage.getItem(STORAGE_KEY);
-
-    if(savedTeacher){
-
-        try{
-
-            teacherData =
-                JSON.parse(savedTeacher);
-
-        }catch(error){
-
-            console.error(error);
-
-        }
-
-    }
-
-    if(loginTeacher){
-
-        try{
-
-            const loginData =
-                JSON.parse(loginTeacher);
-
-            if(loginData.name)
-                teacherData.name = loginData.name;
-
-            if(loginData.email)
-                teacherData.email = loginData.email;
-
-            if(loginData.skill)
-                teacherData.skill = loginData.skill;
-
-        }catch(error){
-
-            console.error(error);
-
-        }
-
-    }
-
-    saveLocal();
-
-    updateInterface();
-
-}
-
-/* =====================================================
-   SAVE
-===================================================== */
-
-function saveLocal(){
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(teacherData)
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
     );
 
-}
 
 /* =====================================================
-   UI
+   ELEMENTS
 ===================================================== */
 
-function updateInterface(){
+const loginView =
+    document.getElementById("loginView");
 
-    const name =
-        teacherData.name || "Teacher";
+const signupView =
+    document.getElementById("signupView");
 
-    const skill =
-        teacherData.skill || "Teacher Account";
+const forgotView =
+    document.getElementById("forgotView");
 
-    document.getElementById("sideName").textContent =
-        name;
+const newPasswordView =
+    document.getElementById("newPasswordView");
 
-    document.getElementById("sideSkill").textContent =
-        skill;
-
-    document.getElementById("profileName").value =
-        teacherData.name || "";
-
-    document.getElementById("profileEmail").value =
-        teacherData.email || "";
-
-    document.getElementById("profileSkill").value =
-        teacherData.skill || "";
-
-    document.getElementById("profileGroup").value =
-        teacherData.group || "";
-
-    document.getElementById("profileIntro").value =
-        teacherData.intro || "";
-
-    if(teacherData.profileImage){
-
-        document.getElementById("profileImage").src =
-            teacherData.profileImage;
-
-        document.getElementById("sideAvatar").src =
-            teacherData.profileImage;
-
-    }else{
-
-        const avatar =
-            createAvatar(name);
-
-        document.getElementById("profileImage").src =
-            avatar;
-
-        document.getElementById("sideAvatar").src =
-            avatar;
-
-    }
-
-    document.getElementById("teacherGroup").textContent =
-        teacherData.group || "—";
-
-    renderLessons();
-
-}
 
 /* =====================================================
-   AVATAR
+   VIEW CONTROL
 ===================================================== */
 
-function createAvatar(name){
+function hideAllViews(){
 
-    const first =
-        (name || "T").charAt(0).toUpperCase();
-
-    const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg"
-         width="200"
-         height="200">
-
-        <rect width="200"
-              height="200"
-              fill="#10243b"/>
-
-        <text x="100"
-              y="125"
-              text-anchor="middle"
-              font-size="90"
-              font-family="Arial"
-              fill="#d4af37">
-
-            ${first}
-
-        </text>
-
-    </svg>`;
-
-    return "data:image/svg+xml;charset=UTF-8," +
-        encodeURIComponent(svg);
+    loginView.style.display = "none";
+    signupView.style.display = "none";
+    forgotView.style.display = "none";
+    newPasswordView.style.display = "none";
 
 }
+
+
+function showLogin(){
+
+    hideAllViews();
+
+    loginView.style.display = "block";
+
+    clearMessages();
+
+}
+
+
+function showSignup(){
+
+    hideAllViews();
+
+    signupView.style.display = "block";
+
+    clearMessages();
+
+}
+
+
+function showForgotPassword(){
+
+    hideAllViews();
+
+    forgotView.style.display = "block";
+
+    clearMessages();
+
+}
+
+
+function showNewPassword(){
+
+    hideAllViews();
+
+    newPasswordView.style.display = "block";
+
+    clearMessages();
+
+}
+
 
 /* =====================================================
-   NAVIGATION
+   MESSAGES
 ===================================================== */
 
-function showSection(sectionId,button){
-
-    document
-    .querySelectorAll(".section")
-    .forEach(section => {
-
-        section.classList.remove("active");
-
-    });
-
-    document
-    .getElementById(sectionId)
-    .classList.add("active");
-
-    document
-    .querySelectorAll(".nav button")
-    .forEach(btn => {
-
-        btn.classList.remove("active");
-
-    });
-
-    if(button)
-        button.classList.add("active");
-
-    const titles = {
-
-        dashboard:"Teacher Dashboard",
-        profile:"My Profile",
-        lessons:"My Lessons",
-        upload:"Add Lesson",
-        payments:"Payment Settings",
-        competition:"Competition",
-        ai:"AI Assistant"
-
-    };
-
-    document.getElementById("pageTitle").textContent =
-        titles[sectionId];
-
-    if(sectionId === "competition"){
-
-        renderCompetition();
-
-    }
-
-    document
-    .getElementById("sidebar")
-    .classList.remove("open");
-
-}
-
-function showSectionById(sectionId){
-
-    const button =
-        [...document.querySelectorAll(".nav button")]
-        .find(btn =>
-            btn.getAttribute("onclick") &&
-            btn.getAttribute("onclick")
-            .includes("'" + sectionId + "'")
-        );
-
-    showSection(sectionId,button);
-
-}
-
-function toggleSidebar(){
-
-    document
-    .getElementById("sidebar")
-    .classList.toggle("open");
-
-}
-
-/* =====================================================
-   PROFILE PHOTO
-===================================================== */
-
-document
-.getElementById("profileUpload")
-.addEventListener("change",function(){
-
-    const file = this.files[0];
-
-    if(!file)
-        return;
-
-    if(!file.type.startsWith("image/")){
-
-        alert("Please select an image.");
-
-        return;
-
-    }
-
-    const reader =
-        new FileReader();
-
-    reader.onload =
-        function(event){
-
-            teacherData.profileImage =
-                event.target.result;
-
-            saveLocal();
-
-            updateInterface();
-
-        };
-
-    reader.readAsDataURL(file);
-
-});
-
-/* =====================================================
-   PROFILE SAVE
-===================================================== */
-
-function saveProfile(){
-
-    teacherData.name =
-        document.getElementById("profileName").value.trim();
-
-    teacherData.email =
-        document.getElementById("profileEmail").value.trim();
-
-    teacherData.skill =
-        document.getElementById("profileSkill").value.trim();
-
-    teacherData.group =
-        document.getElementById("profileGroup").value;
-
-    teacherData.intro =
-        document.getElementById("profileIntro").value.trim();
-
-    saveLocal();
-
-    updateInterface();
-
-    alert("Teacher profile saved.");
-
-}
-
-/* =====================================================
-   VIDEO
-===================================================== */
-
-document
-.getElementById("lessonVideo")
-.addEventListener("change",function(){
-
-    const file = this.files[0];
-
-    const output =
-        document.getElementById("videoFileName");
-
-    if(!file){
-
-        output.textContent = "";
-
-        return;
-
-    }
-
-    if(!file.type.startsWith("video/")){
-
-        output.textContent =
-            "Please select a video.";
-
-        this.value = "";
-
-        return;
-
-    }
-
-    output.textContent =
-        file.name;
-
-});
-
-/* =====================================================
-   LESSON SAVE
-===================================================== */
-
-function saveLesson(){
-
-    const video =
-        document.getElementById("lessonVideo").files[0];
-
-    const title =
-        document.getElementById("lessonTitle").value.trim();
-
-    const skill =
-        document.getElementById("lessonSkill").value.trim();
-
-    const level =
-        document.getElementById("lessonLevel").value;
-
-    const number =
-        document.getElementById("lessonNumber").value;
-
-    const description =
-        document.getElementById("lessonDescription").value.trim();
-
-    const intro =
-        document.getElementById("lessonIntro").value.trim();
-
-    if(!video){
-
-        alert("Please select the lesson video.");
-
-        return;
-
-    }
-
-    if(!title || !skill || !level || !description){
-
-        alert(
-            "Please complete the required lesson information."
-        );
-
-        return;
-
-    }
-
-    const lesson = {
-
-        id:
-            crypto.randomUUID
-            ? crypto.randomUUID()
-            : Date.now().toString(),
-
-        title,
-        skill,
-        level,
-        lessonNumber:number,
-        description,
-        intro,
-        videoName:video.name,
-
-        createdAt:
-            new Date().toISOString()
-
-    };
-
-    teacherData.lessons.unshift(lesson);
-
-    saveLocal();
-
-    renderLessons();
-
-    document.getElementById("lessonTitle").value = "";
-    document.getElementById("lessonSkill").value = "";
-    document.getElementById("lessonLevel").value = "";
-    document.getElementById("lessonNumber").value = "";
-    document.getElementById("lessonDescription").value = "";
-    document.getElementById("lessonIntro").value = "";
-    document.getElementById("lessonVideo").value = "";
-    document.getElementById("videoFileName").textContent = "";
-
-    alert(
-        "Lesson information saved."
-    );
-
-}
-
-/* =====================================================
-   LESSON RENDER
-===================================================== */
-
-function renderLessons(){
-
-    const all =
-        document.getElementById("allLessons");
-
-    const dashboard =
-        document.getElementById("dashboardLessons");
-
-    if(!teacherData.lessons.length){
-
-        const empty =
-            `<div class="empty">
-                No lessons added yet.
-            </div>`;
-
-        all.innerHTML = empty;
-        dashboard.innerHTML = empty;
-
-        updateDashboardCount();
-
-        return;
-
-    }
-
-    all.innerHTML =
-        teacherData.lessons
-        .map((lesson,index) => `
-
-            <div class="lesson">
-
-                <div class="lesson-info">
-
-                    <strong>
-                        ${escapeHTML(lesson.title)}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(lesson.skill)}
-                        •
-                        ${escapeHTML(lesson.videoName)}
-                    </span>
-
-                </div>
-
-                <div style="
-                    display:flex;
-                    align-items:center;
-                    gap:7px;
-                ">
-
-                    <span class="level-badge">
-                        ${escapeHTML(lesson.level)}
-                    </span>
-
-                    <button
-                        class="btn btn-dark"
-                        onclick="viewLesson(${index})">
-
-                        View
-
-                    </button>
-
-                    <button
-                        class="btn btn-danger"
-                        onclick="deleteLesson(${index})">
-
-                        Delete
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        `)
-        .join("");
-
-    dashboard.innerHTML =
-        teacherData.lessons
-        .slice(0,4)
-        .map(lesson => `
-
-            <div class="lesson">
-
-                <div class="lesson-info">
-
-                    <strong>
-                        ${escapeHTML(lesson.title)}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(lesson.skill)}
-                    </span>
-
-                </div>
-
-                <span class="level-badge">
-                    ${escapeHTML(lesson.level)}
-                </span>
-
-            </div>
-
-        `)
-        .join("");
-
-    updateDashboardCount();
-
-}
-
-/* =====================================================
-   LESSON MODAL
-===================================================== */
-
-function viewLesson(index){
-
-    const lesson =
-        teacherData.lessons[index];
-
-    document.getElementById(
-        "lessonModalContent"
-    ).innerHTML = `
-
-        <div class="field">
-
-            <label>Lesson Title</label>
-
-            <input
-                value="${escapeHTML(lesson.title)}"
-                readonly>
-
-        </div>
-
-        <div class="field">
-
-            <label>Skill</label>
-
-            <input
-                value="${escapeHTML(lesson.skill)}"
-                readonly>
-
-        </div>
-
-        <div class="field">
-
-            <label>Level</label>
-
-            <input
-                value="${escapeHTML(lesson.level)}"
-                readonly>
-
-        </div>
-
-        <div class="field">
-
-            <label>Video File</label>
-
-            <input
-                value="${escapeHTML(lesson.videoName)}"
-                readonly>
-
-        </div>
-
-        <div class="field">
-
-            <label>Description</label>
-
-            <textarea readonly>${escapeHTML(lesson.description)}</textarea>
-
-        </div>
-
-        <div class="field">
-
-            <label>Introduction</label>
-
-            <textarea readonly>${escapeHTML(lesson.intro || "")}</textarea>
-
-        </div>
-
-    `;
-
-    document
-    .getElementById("lessonModal")
-    .classList.add("show");
-
-}
-
-function closeLessonModal(){
-
-    document
-    .getElementById("lessonModal")
-    .classList.remove("show");
-
-}
-
-function deleteLesson(index){
-
-    if(!confirm("Delete this lesson?"))
-        return;
-
-    teacherData.lessons.splice(index,1);
-
-    saveLocal();
-
-    renderLessons();
-
-}
-
-function updateDashboardCount(){
-
-    document.getElementById("lessonCount").textContent =
-        teacherData.lessons.length;
-
-}
-
-/* =====================================================
-   PAYMENT
-===================================================== */
-
-function selectPayment(element,method){
-
-    document
-    .querySelectorAll(".payment-method")
-    .forEach(card => {
-
-        card.classList.remove("selected");
-
-    });
-
-    element.classList.add("selected");
-
-    teacherData.payment.method =
-        method;
-
-}
-
-function savePaymentSettings(){
-
-    teacherData.payment.bankName =
-        document.getElementById("bankName").value.trim();
-
-    teacherData.payment.accountHolder =
-        document.getElementById("accountHolder").value.trim();
-
-    teacherData.payment.paymentEmail =
-        document.getElementById("paymentEmail").value.trim();
-
-    teacherData.payment.accountReference =
-        document.getElementById("accountReference").value.trim();
-
-    saveLocal();
-
-    alert(
-        "Payment settings saved."
-    );
-
-}
-
-/* =====================================================
-   =====================================================
-   GURHUB COMPETITION
-   =====================================================
-===================================================== */
-
-/*
-    IMPORTANT:
-
-    These are ONLY 300 empty positions.
-
-    NO fake students.
-    NO fake names.
-    NO fake points.
-
-    PostgreSQL/API can later replace these
-    positions with real student records.
-*/
-
-const competitionData = {
-
-    status:"waiting",
-
-    startTime:null,
-
-    endTime:null,
-
-    groups:{
-
-        lower:{
-            name:"Lower",
-            capacity:300,
-            students:[]
-        },
-
-        medium:{
-            name:"Medium",
-            capacity:300,
-            students:[]
-        },
-
-        high:{
-            name:"High",
-            capacity:300,
-            students:[]
-        }
-
-    }
-
-};
-
-/* =====================================================
-   CREATE RANK 1–300
-===================================================== */
-
-function createCompetitionPositions(){
-
-    ["lower","medium","high"]
-    .forEach(groupName => {
-
-        const positions = [];
-
-        for(let rank = 1; rank <= 300; rank++){
-
-            positions.push({
-
-                rank:rank,
-
-                id:null,
-
-                name:null,
-
-                points:null,
-
-                round:null,
-
-                status:"waiting",
-
-                reward:"Pending"
-
-            });
-
-        }
-
-        competitionData
-        .groups[groupName]
-        .students = positions;
-
-    });
-
-}
-
-/*
-    Create once.
-
-    Later this exact array can be replaced
-    by PostgreSQL/API response.
-*/
-
-createCompetitionPositions();
-
-/* =====================================================
-   CURRENT GROUP
-===================================================== */
-
-let currentCompetitionGroup =
-    "lower";
-
-/* =====================================================
-   SWITCH LOWER / MEDIUM / HIGH
-===================================================== */
-
-function switchCompetitionGroup(
-    group,
-    button
+function showMessage(
+    elementId,
+    message,
+    type
 ){
 
-    currentCompetitionGroup =
-        group;
+    const element =
+        document.getElementById(elementId);
 
-    document
-    .querySelectorAll(
-        ".competition-group-btn"
-    )
-    .forEach(btn => {
+    element.textContent =
+        message;
 
-        btn.classList.remove("active");
-
-    });
-
-    button.classList.add("active");
-
-    renderCompetition();
+    element.className =
+        "message show " + type;
 
 }
 
+
+function clearMessages(){
+
+    document
+    .querySelectorAll(".message")
+    .forEach(element => {
+
+        element.textContent = "";
+
+        element.className =
+            "message";
+
+    });
+
+}
+
+
 /* =====================================================
-   RENDER COMPETITION
+   BUTTON LOADING
 ===================================================== */
 
-function renderCompetition(){
+function setLoading(
+    button,
+    loading,
+    text
+){
 
-    const group =
-        competitionData
-        .groups[currentCompetitionGroup];
+    if(loading){
 
-    document.getElementById(
-        "currentGroupName"
-    ).textContent =
-        group.name;
+        button.disabled = true;
 
-    document.getElementById(
-        "competitionTableTitle"
-    ).textContent =
-        group.name +
-        " — Liveboard";
+        button.innerHTML = `
 
-    const search =
-        document.getElementById(
-            "competitionSearch"
-        ).value
-        .trim()
-        .toLowerCase();
+            <span class="loading">
 
-    const tbody =
-        document.getElementById(
-            "competitionTableBody"
-        );
+                <span class="spinner"></span>
 
-    tbody.innerHTML = "";
+                ${text}
 
-    group.students.forEach(student => {
-
-        const name =
-            student.name || "";
-
-        const studentId =
-            student.id || "";
-
-        if(
-            search &&
-            !name.toLowerCase().includes(search) &&
-            !studentId.toLowerCase().includes(search)
-        ){
-
-            return;
-
-        }
-
-        const row =
-            document.createElement("tr");
-
-        row.innerHTML = `
-
-            <td>
-
-                <span class="rank-number">
-
-                    ${student.rank}
-
-                </span>
-
-            </td>
-
-            <td>
-
-                ${
-                    student.name
-                    ? escapeHTML(student.name)
-                    : `<span class="empty-student">
-                        Waiting for student
-                       </span>`
-                }
-
-            </td>
-
-            <td>
-
-                ${
-                    student.id
-                    ? escapeHTML(student.id)
-                    : "—"
-                }
-
-            </td>
-
-            <td>
-
-                ${
-                    student.points !== null
-                    ? `<span class="points-number">
-                        ${student.points}
-                       </span>`
-                    : "—"
-                }
-
-            </td>
-
-            <td>
-
-                ${
-                    student.round !== null
-                    ? student.round
-                    : "—"
-                }
-
-            </td>
-
-            <td>
-
-                ${getStudentStatusHTML(student)}
-
-            </td>
-
-            <td>
-
-                <span class="reward-pending">
-
-                    ${escapeHTML(student.reward)}
-
-                </span>
-
-            </td>
+            </span>
 
         `;
 
-        tbody.appendChild(row);
+    }else{
 
-    });
+        button.disabled = false;
 
-    updateCompetitionSummary(group);
+        button.textContent =
+            text;
+
+    }
 
 }
 
+
 /* =====================================================
-   STATUS HTML
+   PASSWORD SHOW / HIDE
 ===================================================== */
 
-function getStudentStatusHTML(student){
+function togglePassword(
+    inputId,
+    button
+){
 
-    let label =
-        "Waiting";
+    const input =
+        document.getElementById(inputId);
 
-    let className =
-        "status-waiting";
+    if(input.type === "password"){
 
-    if(
-        competitionData.status === "live" &&
-        student.status === "active"
-    ){
+        input.type = "text";
 
-        label =
-            "Active";
+        button.textContent = "🙈";
 
-        className =
-            "status-active";
+    }else{
 
-    }
+        input.type = "password";
 
-    if(
-        student.status === "eliminated"
-    ){
-
-        label =
-            "Eliminated";
-
-        className =
-            "status-eliminated";
+        button.textContent = "👁";
 
     }
-
-    return `
-
-        <span class="student-status ${className}">
-
-            <span class="student-status-dot"></span>
-
-            ${label}
-
-        </span>
-
-    `;
 
 }
 
-/* =====================================================
-   COMPETITION SUMMARY
-===================================================== */
-
-function updateCompetitionSummary(group){
-
-    const realStudents =
-        group.students.filter(
-            student =>
-                student.name !== null
-        );
-
-    const highestPoints =
-        realStudents.length
-        ? Math.max(
-            ...realStudents.map(
-                student =>
-                    Number(student.points) || 0
-            )
-        )
-        : 0;
-
-    document.getElementById(
-        "competitionHighestPoints"
-    ).textContent =
-        highestPoints;
-
-}
 
 /* =====================================================
-   SEARCH
+   LOGIN
 ===================================================== */
 
-document
-.getElementById("competitionSearch")
-.addEventListener(
-    "input",
-    renderCompetition
-);
-
-/* =====================================================
-   COMPETITION STATUS
-===================================================== */
-
-function updateCompetitionStatus(){
-
-    const status =
-        competitionData.status;
-
-    const badge =
-        document.getElementById(
-            "competitionStatus"
-        );
-
-    const text =
-        document.getElementById(
-            "competitionStatusText"
-        );
-
-    const timer =
-        document.getElementById(
-            "competitionTimer"
-        );
-
-    badge.className =
-        "competition-status";
-
-    if(status === "waiting"){
-
-        text.textContent =
-            "Competition Not Started";
-
-        timer.textContent =
-            "Waiting";
-
-    }
-
-    else if(status === "live"){
-
-        badge.classList.add("live");
-
-        text.textContent =
-            "Competition Live";
-
-        updateCompetitionTimer();
-
-    }
-
-    else if(status === "finished"){
-
-        badge.classList.add("finished");
-
-        text.textContent =
-            "Competition Finished";
-
-        timer.textContent =
-            "Finished";
-
-    }
-
-    renderCompetition();
-
-}
-
-/* =====================================================
-   7 DAY TIMER
-===================================================== */
-
-function updateCompetitionTimer(){
-
-    if(!competitionData.endTime){
-
-        document.getElementById(
-            "competitionTimer"
-        ).textContent =
-            "7 Days";
-
-        return;
-
-    }
-
-    const now =
-        Date.now();
-
-    const end =
-        new Date(
-            competitionData.endTime
-        ).getTime();
-
-    const remaining =
-        end - now;
-
-    if(remaining <= 0){
-
-        competitionData.status =
-            "finished";
-
-        updateCompetitionStatus();
-
-        return;
-
-    }
-
-    const days =
-        Math.floor(
-            remaining /
-            (1000 * 60 * 60 * 24)
-        );
-
-    const hours =
-        Math.floor(
-            (remaining %
-            (1000 * 60 * 60 * 24)) /
-            (1000 * 60 * 60)
-        );
-
-    const minutes =
-        Math.floor(
-            (remaining %
-            (1000 * 60 * 60)) /
-            (1000 * 60)
-        );
-
-    const seconds =
-        Math.floor(
-            (remaining %
-            (1000 * 60)) /
-            1000
-        );
-
-    document.getElementById(
-        "competitionTimer"
-    ).textContent =
-
-        `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-}
-
-/* =====================================================
-   UPDATE TIMER EVERY SECOND
-===================================================== */
-
-setInterval(
-    updateCompetitionTimer,
-    1000
-);
-
-/* =====================================================
-   BACKEND CONNECTION READY
-=====================================================
-
-   Later PostgreSQL/API can return:
-
-   {
-       status: "live",
-       startTime: "...",
-       endTime: "...",
-
-       groups: {
-
-           lower: [...],
-
-           medium: [...],
-
-           high: [...]
-
-       }
-   }
-
-   Each student:
-
-   {
-       rank: 1,
-       id: "student_uuid",
-       name: "real student",
-       points: 85,
-       round: 1,
-       status: "active",
-       reward: "Pending"
-   }
-
-   The frontend table does NOT need
-   to be redesigned when PostgreSQL
-   is connected.
-
-===================================================== */
-
-/* =====================================================
-   AI
-===================================================== */
-
-async function sendAIMessage(event){
+async function loginTeacher(event){
 
     event.preventDefault();
 
-    const input =
-        document.getElementById("aiInput");
+    clearMessages();
 
-    const messages =
-        document.getElementById("chatMessages");
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim();
 
-    const text =
-        input.value.trim();
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
 
-    if(!text)
+    const button =
+        document.getElementById("loginBtn");
+
+
+    if(!email || !password){
+
+        showMessage(
+            "loginMessage",
+            "Please enter your email and password.",
+            "error"
+        );
+
         return;
 
-    const userMessage =
-        document.createElement("div");
+    }
 
-    userMessage.className =
-        "message user";
 
-    userMessage.textContent =
-        text;
-
-    messages.appendChild(userMessage);
-
-    input.value = "";
-
-    const aiMessage =
-        document.createElement("div");
-
-    aiMessage.className =
-        "message ai";
-
-    aiMessage.textContent =
-        "AI backend is ready to be connected.";
-
-    messages.appendChild(aiMessage);
-
-    messages.scrollTop =
-        messages.scrollHeight;
-
-}
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-function logoutTeacher(){
-
-    sessionStorage.removeItem(
-        "gurhub_teacher"
+    setLoading(
+        button,
+        true,
+        "Logging in..."
     );
 
-    window.location.href =
-        "teacher-login.html";
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email:email,
+
+            password:password
+
+        });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        if(!data.session){
+
+            throw new Error(
+                "Login session could not be created."
+            );
+
+        }
+
+
+        /*
+            Save only basic temporary login info.
+
+            The real authentication session
+            belongs to Supabase Auth.
+        */
+
+        sessionStorage.setItem(
+            "gurhub_teacher",
+            JSON.stringify({
+
+                name:
+                    data.user.user_metadata?.full_name || "",
+
+                email:
+                    data.user.email || "",
+
+                skill:
+                    data.user.user_metadata?.skill || "",
+
+                group:
+                    data.user.user_metadata?.competition_group || ""
+
+            })
+        );
+
+
+        showMessage(
+            "loginMessage",
+            "Login successful. Opening your teacher dashboard...",
+            "success"
+        );
+
+
+        setTimeout(() => {
+
+            window.location.href =
+                "teacher.html";
+
+        },700);
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            "loginMessage",
+            getAuthErrorMessage(error),
+            "error"
+        );
+
+        setLoading(
+            button,
+            false,
+            "Login"
+        );
+
+    }
 
 }
+
 
 /* =====================================================
-   ESCAPE HTML
+   SIGN UP
 ===================================================== */
 
-function escapeHTML(value){
+async function signupTeacher(event){
 
-    return String(value || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    event.preventDefault();
+
+    clearMessages();
+
+
+    const name =
+        document
+        .getElementById("signupName")
+        .value
+        .trim();
+
+    const email =
+        document
+        .getElementById("signupEmail")
+        .value
+        .trim();
+
+    const skill =
+        document
+        .getElementById("signupSkill")
+        .value
+        .trim();
+
+    const group =
+        document
+        .getElementById("signupGroup")
+        .value;
+
+    const password =
+        document
+        .getElementById("signupPassword")
+        .value;
+
+    const confirmPassword =
+        document
+        .getElementById("signupConfirm")
+        .value;
+
+    const button =
+        document.getElementById("signupBtn");
+
+
+    if(password !== confirmPassword){
+
+        showMessage(
+            "signupMessage",
+            "Passwords do not match.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        showMessage(
+            "signupMessage",
+            "Password must contain at least 6 characters.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    setLoading(
+        button,
+        true,
+        "Creating account..."
+    );
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.signUp({
+
+            email:email,
+
+            password:password,
+
+            options:{
+
+                data:{
+
+                    full_name:name,
+
+                    skill:skill,
+
+                    competition_group:group,
+
+                    role:"teacher"
+
+                },
+
+                emailRedirectTo:
+                    window.location.origin +
+                    "/teacher-login.html"
+
+            }
+
+        });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        /*
+            Supabase may require email confirmation.
+
+            In that case there is no active session yet.
+        */
+
+        if(data.session){
+
+            sessionStorage.setItem(
+                "gurhub_teacher",
+                JSON.stringify({
+
+                    name:name,
+
+                    email:email,
+
+                    skill:skill,
+
+                    group:group
+
+                })
+            );
+
+
+            showMessage(
+                "signupMessage",
+                "Teacher account created successfully. Opening dashboard...",
+                "success"
+            );
+
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "teacher.html";
+
+            },900);
+
+        }else{
+
+            showMessage(
+                "signupMessage",
+                "Account created. Please check your email and confirm your account, then login.",
+                "success"
+            );
+
+
+            setLoading(
+                button,
+                false,
+                "Create Teacher Account"
+            );
+
+        }
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            "signupMessage",
+            getAuthErrorMessage(error),
+            "error"
+        );
+
+
+        setLoading(
+            button,
+            false,
+            "Create Teacher Account"
+        );
+
+    }
 
 }
+
+
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
+
+async function sendResetEmail(event){
+
+    event.preventDefault();
+
+    clearMessages();
+
+
+    const email =
+        document
+        .getElementById("forgotEmail")
+        .value
+        .trim();
+
+    const button =
+        document.getElementById("forgotBtn");
+
+
+    if(!email){
+
+        showMessage(
+            "forgotMessage",
+            "Please enter your teacher email.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    setLoading(
+        button,
+        true,
+        "Sending..."
+    );
+
+
+    try{
+
+        const {
+            error
+        } =
+        await supabaseClient.auth.resetPasswordForEmail(
+            email,
+            {
+
+                redirectTo:
+                    window.location.origin +
+                    "/teacher-login.html"
+
+            }
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        showMessage(
+            "forgotMessage",
+            "Reset link sent. Check your email and choose Get a New Password.",
+            "success"
+        );
+
+
+        setLoading(
+            button,
+            false,
+            "Send Reset Link"
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            "forgotMessage",
+            getAuthErrorMessage(error),
+            "error"
+        );
+
+
+        setLoading(
+            button,
+            false,
+            "Send Reset Link"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   NEW PASSWORD
+===================================================== */
+
+async function updateNewPassword(event){
+
+    event.preventDefault();
+
+    clearMessages();
+
+
+    const password =
+        document
+        .getElementById("newPassword")
+        .value;
+
+    const confirmPassword =
+        document
+        .getElementById("newPasswordConfirm")
+        .value;
+
+    const button =
+        document.getElementById(
+            "newPasswordBtn"
+        );
+
+
+    if(password !== confirmPassword){
+
+        showMessage(
+            "newPasswordMessage",
+            "Passwords do not match.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        showMessage(
+            "newPasswordMessage",
+            "Password must contain at least 6 characters.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    setLoading(
+        button,
+        true,
+        "Updating..."
+    );
+
+
+    try{
+
+        const {
+            error
+        } =
+        await supabaseClient.auth.updateUser({
+
+            password:password
+
+        });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        showMessage(
+            "newPasswordMessage",
+            "Your password has been updated successfully. You can now login.",
+            "success"
+        );
+
+
+        document
+        .getElementById("newPasswordForm")
+        .reset();
+
+
+        setLoading(
+            button,
+            false,
+            "Get a New Password"
+        );
+
+
+        setTimeout(() => {
+
+            showLogin();
+
+        },1500);
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            "newPasswordMessage",
+            getAuthErrorMessage(error),
+            "error"
+        );
+
+
+        setLoading(
+            button,
+            false,
+            "Get a New Password"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SUPABASE AUTH ERROR MESSAGE
+===================================================== */
+
+function getAuthErrorMessage(error){
+
+    const message =
+        error?.message || "";
+
+
+    if(
+        message
+        .toLowerCase()
+        .includes("invalid login credentials")
+    ){
+
+        return "Email or password is incorrect.";
+
+    }
+
+
+    if(
+        message
+        .toLowerCase()
+        .includes("email not confirmed")
+    ){
+
+        return "Please confirm your email before logging in.";
+
+    }
+
+
+    if(
+        message
+        .toLowerCase()
+        .includes("user already registered")
+    ){
+
+        return "This email already has an account. Please login.";
+
+    }
+
+
+    if(
+        message
+        .toLowerCase()
+        .includes("password should be at least")
+    ){
+
+        return "Password is too short.";
+
+    }
+
+
+    return message ||
+        "Something went wrong. Please try again.";
+
+}
+
+
+/* =====================================================
+   HANDLE SUPABASE AUTH EVENTS
+===================================================== */
+
+supabaseClient.auth.onAuthStateChange(
+    async (event,session) => {
+
+        /*
+            PASSWORD_RECOVERY happens when the user
+            opens the password-reset link.
+        */
+
+        if(event === "PASSWORD_RECOVERY"){
+
+            showNewPassword();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CHECK URL FOR RECOVERY SESSION
+===================================================== */
+
+async function checkRecoverySession(){
+
+    const hash =
+        window.location.hash;
+
+    const search =
+        window.location.search;
+
+
+    if(
+        hash.includes("access_token") ||
+        hash.includes("type=recovery") ||
+        search.includes("type=recovery")
+    ){
+
+        /*
+            Give Supabase time to process
+            the recovery session.
+        */
+
+        setTimeout(() => {
+
+            showNewPassword();
+
+        },300);
+
+    }
+
+}
+
+
+/* =====================================================
+   CHECK EXISTING SESSION
+===================================================== */
+
+async function checkExistingSession(){
+
+    try{
+
+        const {
+            data
+        } =
+        await supabaseClient.auth.getSession();
+
+
+        if(data?.session){
+
+            /*
+                If already logged in,
+                go directly to teacher dashboard.
+            */
+
+            const type =
+                new URLSearchParams(
+                    window.location.search
+                ).get("type");
+
+
+            const hash =
+                window.location.hash;
+
+
+            if(
+                type !== "recovery" &&
+                !hash.includes("type=recovery")
+            ){
+
+                window.location.href =
+                    "teacher.html";
+
+            }
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Session check error:",
+            error
+        );
+
+    }
+
+}
+
 
 /* =====================================================
    START
 ===================================================== */
 
-loadTeacher();
+checkRecoverySession();
 
-updateCompetitionStatus();
+checkExistingSession();
 
 </script>
 
