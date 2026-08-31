@@ -1850,7 +1850,7 @@ const SUPABASE_URL =
     "https://uxrltzlxdttbjstomhkb.supabase.co";
 
 const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4cmx0emx4ZHR0bWJzdG9ta2Iiwicm9sZSI6InN1cGFiYXNlIiwiaWF0IjoxNzg1NTE5MDIyLCJleHAiOjIxMDEwOTUwMjJ9.7yyvaq8lFZ5y67Pk0Bqjva2sKDEbjI2x2Qz7AmAykCs";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4cmx0emx4ZHR0bWJzdG9ta2IiwiaWF0IjoxNzg1NTE5MDIyLCJleHAiOjIxMDEwOTUwMjJ9.7yyvaq8lFZ5y67Pk0Bqjva2sKDEbjI2x2Qz7AmAykCs";
 
 const supabaseClient =
     window.supabase.createClient(
@@ -1858,19 +1858,41 @@ const supabaseClient =
         SUPABASE_ANON_KEY
     );
 
+
 /* =====================================================
-   SUPABASE STUDENT
-   FIX:
-   NO GLOBAL LOCALSTORAGE PROFILE.
-   PROFILE BELONGS TO CURRENT SUPABASE USER.
+   CURRENT SUPABASE STUDENT
+   AUTH USER → PROFILES → STUDENTS
 ===================================================== */
 
 let supabaseStudent = null;
 
 let studentProfile = {
+    id:"",
     name:"",
-    photo:""
+    email:"",
+    photo:"",
+    role:"",
+    phone:"",
+    status:""
 };
+
+let studentData = {
+    id:"",
+    user_id:"",
+    balance:0,
+    steadcash:0,
+    courses_completed:0,
+    competition_score:0,
+    current_skill:"",
+    current_level:"",
+    created_at:"",
+    updated_at:""
+};
+
+
+/* =====================================================
+   LOAD CURRENT SUPABASE SESSION
+===================================================== */
 
 async function loadSupabaseSession(){
 
@@ -1901,27 +1923,16 @@ async function loadSupabaseSession(){
             data.session.user
         ){
 
-            supabaseStudent =
-                data.session.user;
-
-            console.log(
-                "SteadyMaze student connected:",
-                supabaseStudent.id
-            );
-
-            await loadCurrentStudentProfile(
-                supabaseStudent
+            await loadCurrentStudent(
+                data.session.user
             );
 
         }else{
 
-            supabaseStudent =
-                null;
+            clearStudentData();
 
-            clearStudentProfile();
-
-            console.log(
-                "Supabase connected. No active student session."
+            console.warn(
+                "No active Supabase session."
             );
 
         }
@@ -1937,218 +1948,437 @@ async function loadSupabaseSession(){
 
 }
 
+
 /* =====================================================
-   LOAD CURRENT USER PROFILE
+   LOAD CURRENT STUDENT
+   AUTH USER → PROFILES → STUDENTS
 ===================================================== */
 
-async function loadCurrentStudentProfile(user){
+async function loadCurrentStudent(user){
 
     if(!user){
 
-        clearStudentProfile();
+        clearStudentData();
 
         return;
 
     }
 
-    /*
-       IMPORTANT:
-       We NEVER read:
-       steadymazeStudentProfile
-
-       from localStorage.
-
-       The current Supabase auth user is the owner
-       of this profile.
-    */
-
-    const metadata =
-        user.user_metadata ||
-        {};
-
-    let profileFromDatabase = null;
-
-    /*
-       First try profiles.id = auth user id.
-    */
-
     try{
 
+        /*
+           THE ONLY ACCOUNT ID USED HERE IS:
+
+           Supabase Auth user.id
+
+           No localStorage.
+           No students.full_name.
+           No old profile.
+        */
+
+        supabaseStudent =
+            user;
+
+        const userId =
+            user.id;
+
+
+        console.log(
+            "CURRENT AUTH USER ID:",
+            userId
+        );
+
+
+        /* =================================================
+           STEP 1
+           profiles.id = auth.users.id
+        ================================================= */
+
         const {
-            data,
-            error
+            data:profile,
+            error:profileError
         } =
         await supabaseClient
             .from("profiles")
-            .select("*")
-            .eq("id",user.id)
+            .select(`
+                id,
+                full_name,
+                email,
+                role,
+                profile_photo,
+                phone,
+                status
+            `)
+            .eq(
+                "id",
+                userId
+            )
             .maybeSingle();
 
-        if(
-            !error &&
-            data
-        ){
 
-            profileFromDatabase =
-                data;
+        if(profileError){
 
-        }
-
-    }catch(error){
-
-        console.warn(
-            "profiles id lookup:",
-            error
-        );
-
-    }
-
-    /*
-       If profiles.id did not find the student,
-       try profiles.user_id = auth user id.
-    */
-
-    if(!profileFromDatabase){
-
-        try{
-
-            const {
-                data,
-                error
-            } =
-            await supabaseClient
-                .from("profiles")
-                .select("*")
-                .eq("user_id",user.id)
-                .maybeSingle();
-
-            if(
-                !error &&
-                data
-            ){
-
-                profileFromDatabase =
-                    data;
-
-            }
-
-        }catch(error){
-
-            console.warn(
-                "profiles user_id lookup:",
-                error
+            console.error(
+                "profiles error:",
+                profileError.message
             );
 
         }
 
+
+        /*
+           IMPORTANT:
+
+           We DO NOT create a profile here.
+
+           Existing profile is loaded only by:
+           profiles.id = current auth user.id
+        */
+
+        const metadata =
+            user.user_metadata || {};
+
+
+        studentProfile = {
+
+            id:
+                profile?.id ||
+                userId,
+
+            name:
+                profile?.full_name ||
+                metadata.full_name ||
+                metadata.name ||
+                "",
+
+            email:
+                profile?.email ||
+                user.email ||
+                "",
+
+            photo:
+                profile?.profile_photo ||
+                metadata.profile_photo ||
+                "",
+
+            role:
+                profile?.role ||
+                "",
+
+            phone:
+                profile?.phone ||
+                "",
+
+            status:
+                profile?.status ||
+                ""
+
+        };
+
+
+        console.log(
+            "CURRENT PROFILE:",
+            studentProfile
+        );
+
+
+        /* =================================================
+           STEP 2
+           students.user_id = auth.users.id
+        ================================================= */
+
+        const {
+            data:student,
+            error:studentError
+        } =
+        await supabaseClient
+            .from("students")
+            .select(`
+                id,
+                user_id,
+                balance,
+                steadcash,
+                courses_completed,
+                competition_score,
+                current_skill,
+                current_level,
+                created_at,
+                updated_at
+            `)
+            .eq(
+                "user_id",
+                userId
+            )
+            .maybeSingle();
+
+
+        if(studentError){
+
+            console.error(
+                "students error:",
+                studentError.message
+            );
+
+        }
+
+
+        if(student){
+
+            studentData = {
+
+                id:
+                    student.id || "",
+
+                user_id:
+                    student.user_id || userId,
+
+                balance:
+                    Number(
+                        student.balance || 0
+                    ),
+
+                steadcash:
+                    Number(
+                        student.steadcash || 0
+                    ),
+
+                courses_completed:
+                    Number(
+                        student.courses_completed || 0
+                    ),
+
+                competition_score:
+                    Number(
+                        student.competition_score || 0
+                    ),
+
+                current_skill:
+                    student.current_skill || "",
+
+                current_level:
+                    student.current_level || "",
+
+                created_at:
+                    student.created_at || "",
+
+                updated_at:
+                    student.updated_at || ""
+
+            };
+
+        }else{
+
+            /*
+               DO NOT CREATE A NEW STUDENT.
+
+               If this user has no students row,
+               the dashboard remains connected to
+               this Auth user only.
+            */
+
+            studentData = {
+
+                id:"",
+                user_id:userId,
+                balance:0,
+                steadcash:0,
+                courses_completed:0,
+                competition_score:0,
+                current_skill:"",
+                current_level:"",
+                created_at:"",
+                updated_at:""
+
+            };
+
+            console.warn(
+                "No students row found for:",
+                userId
+            );
+
+        }
+
+
+        console.log(
+            "CURRENT STUDENT:",
+            studentData
+        );
+
+
+        /* =================================================
+           UPDATE DASHBOARD
+        ================================================= */
+
+        updateStudentDashboard();
+
+        updateProfileAvatar();
+
+    }catch(error){
+
+        console.error(
+            "Current student loading error:",
+            error
+        );
+
     }
 
-    /*
-       Database profile has priority.
-       Auth metadata is fallback.
-    */
-
-    const databaseName =
-        profileFromDatabase &&
-        (
-            profileFromDatabase.full_name ||
-            profileFromDatabase.name ||
-            profileFromDatabase.username
-        );
-
-    const databasePhoto =
-        profileFromDatabase &&
-        (
-            profileFromDatabase.avatar_url ||
-            profileFromDatabase.photo ||
-            profileFromDatabase.profile_photo
-        );
-
-    const metadataName =
-        metadata.full_name ||
-        metadata.name ||
-        metadata.username ||
-        "";
-
-    const metadataPhoto =
-        metadata.avatar_url ||
-        metadata.photo ||
-        metadata.picture ||
-        "";
-
-    studentProfile = {
-
-        name:
-            databaseName ||
-            metadataName ||
-            "",
-
-        photo:
-            databasePhoto ||
-            metadataPhoto ||
-            ""
-
-    };
-
-    updateProfileAvatar();
-
 }
 
+
 /* =====================================================
-   CLEAR CURRENT PROFILE
+   UPDATE STUDENT DASHBOARD
 ===================================================== */
 
-function clearStudentProfile(){
+function updateStudentDashboard(){
+
+    const balance =
+        document.getElementById(
+            "studentBalance"
+        );
+
+    const payment =
+        document.getElementById(
+            "studentPayment"
+        );
+
+    const completed =
+        document.getElementById(
+            "studentCompleted"
+        );
+
+    const score =
+        document.getElementById(
+            "studentScore"
+        );
+
+
+    if(balance){
+
+        balance.textContent =
+            Number(
+                studentData.balance || 0
+            ).toFixed(2);
+
+    }
+
+
+    if(payment){
+
+        payment.textContent =
+            savedPayment &&
+            savedPayment.status === "ADDED"
+            ? "01"
+            : "00";
+
+    }
+
+
+    if(completed){
+
+        completed.textContent =
+            String(
+                studentData.courses_completed || 0
+            );
+
+    }
+
+
+    if(score){
+
+        score.textContent =
+            String(
+                studentData.competition_score || 0
+            );
+
+    }
+
+}
+
+
+/* =====================================================
+   CLEAR CURRENT STUDENT
+===================================================== */
+
+function clearStudentData(){
+
+    supabaseStudent = null;
 
     studentProfile = {
+
+        id:"",
         name:"",
-        photo:""
+        email:"",
+        photo:"",
+        role:"",
+        phone:"",
+        status:""
+
     };
+
+    studentData = {
+
+        id:"",
+        user_id:"",
+        balance:0,
+        steadcash:0,
+        courses_completed:0,
+        competition_score:0,
+        current_skill:"",
+        current_level:"",
+        created_at:"",
+        updated_at:""
+
+    };
+
+    updateStudentDashboard();
 
     updateProfileAvatar();
 
 }
 
+
 /* =====================================================
-   AUTH LISTENER
+   AUTH STATE LISTENER
 ===================================================== */
 
 supabaseClient
     .auth
     .onAuthStateChange(
-        async function(
+        function(
             event,
             session
         ){
+
+            console.log(
+                "Supabase auth event:",
+                event
+            );
 
             if(
                 session &&
                 session.user
             ){
 
-                supabaseStudent =
-                    session.user;
+                setTimeout(
+                    function(){
 
-                /*
-                   Every login/session change reloads
-                   the profile for THAT user only.
-                */
+                        loadCurrentStudent(
+                            session.user
+                        );
 
-                await loadCurrentStudentProfile(
-                    session.user
+                    },
+                    0
                 );
 
             }else{
 
-                supabaseStudent =
-                    null;
-
-                clearStudentProfile();
+                clearStudentData();
 
             }
 
         }
     );
+
 
 /* =====================================================
    17 SKILLS
@@ -2260,6 +2490,7 @@ const skills = [
 
 ];
 
+
 /* =====================================================
    COURSE PRICES
 ===================================================== */
@@ -2285,6 +2516,7 @@ const coursePrices = {
 
 };
 
+
 /* =====================================================
    PURCHASED LESSONS
 ===================================================== */
@@ -2295,6 +2527,7 @@ let purchasedLessons =
             "steadymazePurchasedLessons"
         ) || "[]"
     );
+
 
 /* =====================================================
    PAYMENT DATA
@@ -2309,6 +2542,7 @@ let savedPayment =
         ) || "null"
     );
 
+
 /* =====================================================
    CREATE SKILL CARDS
 ===================================================== */
@@ -2320,7 +2554,9 @@ const groups = [
 ];
 
 const skillContainer =
-    document.getElementById("skillContainer");
+    document.getElementById(
+        "skillContainer"
+    );
 
 groups.forEach(group => {
 
@@ -2400,21 +2636,16 @@ groups.forEach(group => {
             openSkill(skill);
         };
 
-        if(
-            !wrapper.parentNode
-        ){
-
-            skillContainer.appendChild(
-                wrapper
-            );
-
-        }
-
         grid.appendChild(card);
 
     });
 
+    skillContainer.appendChild(
+        wrapper
+    );
+
 });
+
 
 /* =====================================================
    SKILL DETAIL
@@ -2427,7 +2658,9 @@ function openSkill(skill){
     selectedSkill = skill;
 
     const image =
-        document.getElementById("modalImage");
+        document.getElementById(
+            "modalImage"
+        );
 
     image.style.display =
         "block";
@@ -2467,7 +2700,9 @@ function openSkill(skill){
     document.getElementById(
         "modal"
     ).classList.add("show");
+
 }
+
 
 /* =====================================================
    LEVELS
@@ -2526,11 +2761,14 @@ function renderCourseLevels(){
             </button>
 
         `;
+
     }
 
     levels.innerHTML =
         html;
+
 }
+
 
 /* =====================================================
    OPEN LEVEL
@@ -2656,6 +2894,7 @@ function openLevel(level){
         `;
 
         return;
+
     }
 
     document.querySelector(
@@ -2691,7 +2930,9 @@ function openLevel(level){
         </button>
 
     `;
+
 }
+
 
 /* =====================================================
    ESCAPE HELPER
@@ -2702,7 +2943,9 @@ function escapeJs(value){
     return String(value)
         .replace(/\\/g,"\\\\")
         .replace(/'/g,"\\'");
+
 }
+
 
 /* =====================================================
    COURSE PAYMENT
@@ -2970,7 +3213,9 @@ function openCoursePayment(
     document.getElementById(
         "modal"
     ).classList.add("show");
+
 }
+
 
 /* =====================================================
    SELECT PAYMENT
@@ -2998,9 +3243,11 @@ function selectPayment(method){
         document.getElementById(id);
 
     if(selected){
+
         selected.classList.add(
             "selected"
         );
+
     }
 
     const input =
@@ -3045,6 +3292,7 @@ function selectPayment(method){
 
 }
 
+
 /* =====================================================
    PAY COURSE
 ===================================================== */
@@ -3064,6 +3312,7 @@ function payForCourse(
         );
 
         return;
+
     }
 
     const accountInput =
@@ -3076,6 +3325,7 @@ function payForCourse(
         ? accountInput.value.trim()
         : "";
 
+
     if(
         selectedPaymentMethod === "PayPal" &&
         !account
@@ -3086,7 +3336,9 @@ function payForCourse(
         );
 
         return;
+
     }
+
 
     if(
         selectedPaymentMethod === "Visa" ||
@@ -3113,6 +3365,7 @@ function payForCourse(
                 "cardCvc"
             );
 
+
         if(
             !cardName ||
             !cardName.value.trim()
@@ -3123,7 +3376,9 @@ function payForCourse(
             );
 
             return;
+
         }
+
 
         if(
             !cardNumber ||
@@ -3135,7 +3390,9 @@ function payForCourse(
             );
 
             return;
+
         }
+
 
         if(
             !cardExpiry ||
@@ -3147,7 +3404,9 @@ function payForCourse(
             );
 
             return;
+
         }
+
 
         if(
             !cardCvc ||
@@ -3159,9 +3418,11 @@ function payForCourse(
             );
 
             return;
+
         }
 
     }
+
 
     const existing =
         purchasedLessons.find(
@@ -3170,6 +3431,7 @@ function payForCourse(
                 Number(item.level) === Number(level)
         );
 
+
     if(existing){
 
         alert(
@@ -3177,7 +3439,9 @@ function payForCourse(
         );
 
         return;
+
     }
+
 
     const purchase = {
 
@@ -3207,9 +3471,11 @@ function payForCourse(
 
     };
 
+
     purchasedLessons.push(
         purchase
     );
+
 
     localStorage.setItem(
         "steadymazePurchasedLessons",
@@ -3217,6 +3483,7 @@ function payForCourse(
             purchasedLessons
         )
     );
+
 
     savedPayment = {
 
@@ -3233,6 +3500,7 @@ function payForCourse(
 
     };
 
+
     localStorage.setItem(
         "steadymazePayment",
         JSON.stringify(
@@ -3240,9 +3508,13 @@ function payForCourse(
         )
     );
 
+
+    updateStudentDashboard();
+
     renderMyLessons();
 
     closeModal();
+
 
     setTimeout(
         () => {
@@ -3255,6 +3527,7 @@ function payForCourse(
         150
     );
 
+
     alert(
         "Payment form submitted.\n\n" +
         "The real payment provider/backend must confirm " +
@@ -3262,6 +3535,7 @@ function payForCourse(
     );
 
 }
+
 
 /* =====================================================
    MY LESSONS
@@ -3273,6 +3547,7 @@ function renderMyLessons(){
         document.getElementById(
             "lessonContainer"
         );
+
 
     if(!purchasedLessons.length){
 
@@ -3289,9 +3564,12 @@ function renderMyLessons(){
         `;
 
         return;
+
     }
 
+
     container.innerHTML = "";
+
 
     purchasedLessons.forEach(
         (course,index) => {
@@ -3303,6 +3581,7 @@ function renderMyLessons(){
 
             card.className =
                 "lesson-card";
+
 
             card.innerHTML = `
 
@@ -3363,6 +3642,7 @@ function renderMyLessons(){
 
             `;
 
+
             container.appendChild(
                 card
             );
@@ -3371,6 +3651,7 @@ function renderMyLessons(){
     );
 
 }
+
 
 /* =====================================================
    OPEN PURCHASED LESSON
@@ -3383,15 +3664,18 @@ function openPurchasedLesson(index){
 
     if(!course) return;
 
+
     document.getElementById(
         "modalImage"
     ).style.display =
         "block";
 
+
     document.getElementById(
         "modalImage"
     ).src =
         course.image;
+
 
     document.getElementById(
         "modalTitle"
@@ -3399,6 +3683,7 @@ function openPurchasedLesson(index){
         course.name +
         " — Level " +
         course.level;
+
 
     document.getElementById(
         "modalText"
@@ -3474,6 +3759,7 @@ function openPurchasedLesson(index){
 
     `;
 
+
     document.querySelector(
         ".levels"
     ).innerHTML = `
@@ -3504,11 +3790,13 @@ function openPurchasedLesson(index){
 
     `;
 
+
     document.getElementById(
         "modal"
     ).classList.add("show");
 
 }
+
 
 function lessonAction(type){
 
@@ -3519,6 +3807,7 @@ function lessonAction(type){
 
 }
 
+
 /* =====================================================
    PAYMENT ACCOUNT
 ===================================================== */
@@ -3528,15 +3817,18 @@ function openPayment(){
     selectedPaymentMethod =
         null;
 
+
     document.getElementById(
         "modalImage"
     ).style.display =
         "none";
 
+
     document.getElementById(
         "modalTitle"
     ).textContent =
         "Payment Account";
+
 
     document.getElementById(
         "modalText"
@@ -3730,6 +4022,7 @@ function openPayment(){
 
     `;
 
+
     document.querySelector(
         ".levels"
     ).innerHTML = `
@@ -3752,11 +4045,13 @@ function openPayment(){
 
     `;
 
+
     document.getElementById(
         "modal"
     ).classList.add("show");
 
 }
+
 
 /* =====================================================
    SAVE PAYMENT
@@ -3771,17 +4066,21 @@ function savePaymentMethod(){
         );
 
         return;
+
     }
+
 
     const accountInput =
         document.getElementById(
             "paymentAccount"
         );
 
+
     const account =
         accountInput
         ? accountInput.value.trim()
         : "";
+
 
     if(
         selectedPaymentMethod === "PayPal" &&
@@ -3793,7 +4092,9 @@ function savePaymentMethod(){
         );
 
         return;
+
     }
+
 
     if(
         selectedPaymentMethod === "Visa" ||
@@ -3820,6 +4121,7 @@ function savePaymentMethod(){
                 "cardCvc"
             );
 
+
         if(
             !cardName ||
             !cardName.value.trim()
@@ -3830,7 +4132,9 @@ function savePaymentMethod(){
             );
 
             return;
+
         }
+
 
         if(
             !cardNumber ||
@@ -3842,7 +4146,9 @@ function savePaymentMethod(){
             );
 
             return;
+
         }
+
 
         if(
             !cardExpiry ||
@@ -3854,7 +4160,9 @@ function savePaymentMethod(){
             );
 
             return;
+
         }
+
 
         if(
             !cardCvc ||
@@ -3866,7 +4174,9 @@ function savePaymentMethod(){
             );
 
             return;
+
         }
+
 
         savedPayment = {
 
@@ -3898,6 +4208,7 @@ function savePaymentMethod(){
 
     }
 
+
     localStorage.setItem(
         "steadymazePayment",
         JSON.stringify(
@@ -3905,14 +4216,20 @@ function savePaymentMethod(){
         )
     );
 
+
+    updateStudentDashboard();
+
+
     alert(
         selectedPaymentMethod +
         " payment method added successfully."
     );
 
+
     closeModal();
 
 }
+
 
 /* =====================================================
    PAYMENT ACTION
@@ -3927,18 +4244,13 @@ function paymentAction(type){
 
 }
 
+
 /* =====================================================
    PROFILE
-   FIXED:
-   NO LOCALSTORAGE PROFILE.
+   CURRENT AUTH USER ONLY
 ===================================================== */
 
 function openProfile(){
-
-    /*
-       Profile always belongs to the CURRENT
-       Supabase authenticated account.
-    */
 
     if(!supabaseStudent){
 
@@ -3950,15 +4262,18 @@ function openProfile(){
 
     }
 
+
     document.getElementById(
         "modalImage"
     ).style.display =
         "none";
 
+
     document.getElementById(
         "modalTitle"
     ).textContent =
         "Student Profile";
+
 
     document.getElementById(
         "modalText"
@@ -3978,7 +4293,7 @@ function openProfile(){
                 <img
                     class="profile-large"
                     id="profileModalImage"
-                    src="${studentProfile.photo || ""}"
+                    src="${escapeHtml(studentProfile.photo || "")}"
                     alt="Profile photo"
                     style="${
                         studentProfile.photo
@@ -3994,10 +4309,25 @@ function openProfile(){
                         style="font-size:11px;"
                     >
                         ${
-                            studentProfile.name ||
-                            "Student"
+                            escapeHtml(
+                                studentProfile.name ||
+                                "Student"
+                            )
                         }
                     </strong>
+
+                    <div
+                        class="profile-note"
+                        style="margin-top:5px;"
+                    >
+                        ${
+                            escapeHtml(
+                                studentProfile.email ||
+                                supabaseStudent.email ||
+                                ""
+                            )
+                        }
+                    </div>
 
                     <div class="profile-note">
                         Update your profile information.
@@ -4038,14 +4368,15 @@ function openProfile(){
 
             <div class="profile-note">
 
-                Profile information is connected to the
-                current Supabase student account.
+                Profile information belongs to the
+                currently authenticated Supabase account.
 
             </div>
 
         </div>
 
     `;
+
 
     document.querySelector(
         ".levels"
@@ -4069,14 +4400,17 @@ function openProfile(){
 
     `;
 
+
     document.getElementById(
         "modal"
     ).classList.add("show");
+
 
     const photo =
         document.getElementById(
             "profilePhotoInput"
         );
+
 
     if(photo){
 
@@ -4088,6 +4422,7 @@ function openProfile(){
     }
 
 }
+
 
 /* =====================================================
    HTML ESCAPE
@@ -4103,6 +4438,7 @@ function escapeHtml(value){
         .replace(/'/g,"&#039;");
 
 }
+
 
 /* =====================================================
    PROFILE INITIAL
@@ -4121,6 +4457,7 @@ function getProfileInitial(){
 
 }
 
+
 /* =====================================================
    PROFILE PHOTO PREVIEW
 ===================================================== */
@@ -4132,8 +4469,10 @@ function previewProfilePhoto(event){
 
     if(!file) return;
 
+
     const reader =
         new FileReader();
+
 
     reader.onload =
         function(e){
@@ -4143,32 +4482,37 @@ function previewProfilePhoto(event){
                     "profileModalImage"
                 );
 
+
             const letter =
                 document.getElementById(
                     "profileModalLetter"
                 );
 
+
             if(!image || !letter) return;
+
 
             image.src =
                 e.target.result;
 
+
             image.style.display =
                 "block";
+
 
             letter.style.display =
                 "none";
 
         };
 
+
     reader.readAsDataURL(file);
 
 }
 
+
 /* =====================================================
    SAVE PROFILE
-   FIX:
-   SAVE TO SUPABASE, NOT LOCALSTORAGE.
 ===================================================== */
 
 async function saveProfile(){
@@ -4183,15 +4527,18 @@ async function saveProfile(){
 
     }
 
+
     const nameInput =
         document.getElementById(
             "profileNameInput"
         );
 
+
     const photoInput =
         document.getElementById(
             "profilePhotoInput"
         );
+
 
     if(!nameInput){
 
@@ -4199,8 +4546,10 @@ async function saveProfile(){
 
     }
 
+
     const name =
         nameInput.value.trim();
+
 
     if(!name){
 
@@ -4212,17 +4561,10 @@ async function saveProfile(){
 
     }
 
+
     let photo =
         studentProfile.photo || "";
 
-    /*
-       Keep the current photo unless a new file
-       is selected.
-
-       The image preview remains frontend-side.
-       The important profile identity/name is saved
-       to the current Supabase account.
-    */
 
     if(
         photoInput &&
@@ -4233,14 +4575,17 @@ async function saveProfile(){
         const file =
             photoInput.files[0];
 
+
         const reader =
             new FileReader();
+
 
         reader.onload =
             async function(e){
 
                 photo =
                     e.target.result;
+
 
                 await saveProfileToSupabase(
                     name,
@@ -4249,11 +4594,14 @@ async function saveProfile(){
 
             };
 
+
         reader.readAsDataURL(file);
+
 
         return;
 
     }
+
 
     await saveProfileToSupabase(
         name,
@@ -4262,8 +4610,10 @@ async function saveProfile(){
 
 }
 
+
 /* =====================================================
    SAVE PROFILE TO SUPABASE
+   profiles.id = auth.users.id
 ===================================================== */
 
 async function saveProfileToSupabase(
@@ -4281,17 +4631,20 @@ async function saveProfileToSupabase(
 
     }
 
+
     try{
 
+        const userId =
+            supabaseStudent.id;
+
+
         /*
-           Update Supabase Auth metadata first.
-           This is tied directly to the current
-           authenticated user's ID.
+           UPDATE AUTH METADATA
         */
 
         const {
-            data:userData,
-            error:userError
+            data:authData,
+            error:authError
         } =
         await supabaseClient
             .auth
@@ -4299,149 +4652,138 @@ async function saveProfileToSupabase(
 
                 data:{
                     full_name:name,
-                    name:name,
-                    avatar_url:photo || null
+                    profile_photo:photo || null
                 }
 
             });
 
-        if(userError){
 
-            console.error(
-                "Supabase auth profile update:",
-                userError
-            );
-
-        }
-
-        /*
-           Also try to update the profiles table.
-           We support both common structures:
-           profiles.id = auth user id
-           profiles.user_id = auth user id
-        */
-
-        let profileUpdated = false;
-
-        try{
-
-            const {
-                data,
-                error
-            } =
-            await supabaseClient
-                .from("profiles")
-                .update({
-
-                    full_name:name,
-                    name:name,
-                    avatar_url:photo || null
-
-                })
-                .eq(
-                    "id",
-                    supabaseStudent.id
-                )
-                .select();
-
-            if(
-                !error &&
-                data &&
-                data.length
-            ){
-
-                profileUpdated = true;
-
-            }
-
-        }catch(error){
+        if(authError){
 
             console.warn(
-                "profiles id update:",
-                error
+                "Auth metadata update:",
+                authError.message
             );
 
         }
 
-        if(!profileUpdated){
 
-            try{
+        /*
+           UPDATE EXISTING PROFILE ONLY.
 
-                const {
-                    data,
-                    error
-                } =
-                await supabaseClient
-                    .from("profiles")
-                    .update({
+           profiles.id = auth user.id
 
-                        full_name:name,
-                        name:name,
-                        avatar_url:photo || null
+           NO INSERT.
+           NO NEW PROFILE.
+        */
 
-                    })
-                    .eq(
-                        "user_id",
-                        supabaseStudent.id
-                    )
-                    .select();
+        const {
+            data:profileRows,
+            error:profileError
+        } =
+        await supabaseClient
+            .from("profiles")
+            .update({
 
-                if(
-                    !error &&
-                    data &&
-                    data.length
-                ){
+                full_name:name,
 
-                    profileUpdated = true;
+                profile_photo:
+                    photo || null
 
-                }
+            })
+            .eq(
+                "id",
+                userId
+            )
+            .select();
 
-            }catch(error){
 
-                console.warn(
-                    "profiles user_id update:",
-                    error
-                );
+        if(profileError){
 
-            }
+            console.error(
+                "Profile update error:",
+                profileError.message
+            );
+
+            alert(
+                "Profile could not be updated: " +
+                profileError.message
+            );
+
+            return;
 
         }
 
+
+        if(
+            !profileRows ||
+            !profileRows.length
+        ){
+
+            alert(
+                "Your existing profile was not found for this Supabase account."
+            );
+
+            return;
+
+        }
+
+
         /*
-           Update only the in-memory profile.
-           NO profile localStorage is used.
+           UPDATE ONLY CURRENT MEMORY
         */
 
         studentProfile = {
 
+            id:userId,
+
             name:name,
 
-            photo:photo || ""
+            email:
+                profileRows[0].email ||
+                supabaseStudent.email ||
+                "",
+
+            photo:
+                profileRows[0].profile_photo ||
+                "",
+
+            role:
+                profileRows[0].role ||
+                "",
+
+            phone:
+                profileRows[0].phone ||
+                "",
+
+            status:
+                profileRows[0].status ||
+                ""
 
         };
 
-        /*
-           Update the local auth user reference
-           using the returned user when available.
-        */
 
         if(
-            userData &&
-            userData.user
+            authData &&
+            authData.user
         ){
 
             supabaseStudent =
-                userData.user;
+                authData.user;
 
         }
 
+
         updateProfileAvatar();
 
+
         closeModal();
+
 
         alert(
             "Profile updated successfully."
         );
+
 
     }catch(error){
 
@@ -4458,6 +4800,7 @@ async function saveProfileToSupabase(
 
 }
 
+
 /* =====================================================
    PROFILE AVATAR
 ===================================================== */
@@ -4469,16 +4812,19 @@ function updateProfileAvatar(){
             "profileLetter"
         );
 
+
     const image =
         document.getElementById(
             "topProfileImage"
         );
+
 
     if(!letter || !image){
 
         return;
 
     }
+
 
     if(studentProfile.photo){
 
@@ -4506,6 +4852,7 @@ function updateProfileAvatar(){
 
 }
 
+
 /* =====================================================
    PROFILE ACTION
 ===================================================== */
@@ -4519,6 +4866,7 @@ function profileAction(type){
 
 }
 
+
 /* =====================================================
    UPLOAD
 ===================================================== */
@@ -4529,6 +4877,7 @@ function openUpload(){
         document.getElementById(
             "uploadBtn"
         );
+
 
     if(
         button.classList.contains(
@@ -4541,17 +4890,21 @@ function openUpload(){
         );
 
         return;
+
     }
+
 
     document.getElementById(
         "modalImage"
     ).style.display =
         "none";
 
+
     document.getElementById(
         "modalTitle"
     ).textContent =
         "Upload Project";
+
 
     document.getElementById(
         "modalText"
@@ -4600,6 +4953,7 @@ function openUpload(){
 
     `;
 
+
     document.querySelector(
         ".levels"
     ).innerHTML = `
@@ -4613,11 +4967,13 @@ function openUpload(){
 
     `;
 
+
     document.getElementById(
         "modal"
     ).classList.add("show");
 
 }
+
 
 function submitProject(){
 
@@ -4626,28 +4982,40 @@ function submitProject(){
             "projectVideo"
         );
 
+
     const title =
         document.getElementById(
             "projectTitle"
         );
 
-    if(!video.files.length){
+
+    if(
+        !video ||
+        !video.files.length
+    ){
 
         alert(
             "Please choose your project video."
         );
 
         return;
+
     }
 
-    if(!title.value.trim()){
+
+    if(
+        !title ||
+        !title.value.trim()
+    ){
 
         alert(
             "Please enter your project title."
         );
 
         return;
+
     }
+
 
     alert(
         "Frontend upload form is ready.\n\n" +
@@ -4656,6 +5024,7 @@ function submitProject(){
     );
 
 }
+
 
 /* =====================================================
    LEADERBOARD
@@ -4671,7 +5040,9 @@ function createLeaderboard(
             elementId
         );
 
+
     let html = "";
+
 
     html += `
 
@@ -4711,6 +5082,7 @@ function createLeaderboard(
 
     `;
 
+
     for(
         let i = 1;
         i <= 300;
@@ -4722,6 +5094,7 @@ function createLeaderboard(
                 3,
                 "0"
             );
+
 
         html += `
 
@@ -4758,10 +5131,12 @@ function createLeaderboard(
 
     }
 
+
     container.innerHTML =
         html;
 
 }
+
 
 createLeaderboard(
     "lowerRows",
@@ -4777,6 +5152,7 @@ createLeaderboard(
     "highRows",
     "HIGH"
 );
+
 
 function openStudent(
     group,
@@ -4794,6 +5170,7 @@ function openStudent(
 
 }
 
+
 /* =====================================================
    REWARDS
 ===================================================== */
@@ -4808,7 +5185,9 @@ function createRewardSlots(
             elementId
         );
 
+
     let html = "";
+
 
     for(
         let i = 1;
@@ -4844,10 +5223,12 @@ function createRewardSlots(
 
     }
 
+
     container.innerHTML =
         html;
 
 }
+
 
 createRewardSlots(
     "lowerRewards",
@@ -4864,6 +5245,7 @@ createRewardSlots(
     "HIGH"
 );
 
+
 /* =====================================================
    COMPETITION TIMER
 ===================================================== */
@@ -4872,6 +5254,7 @@ let competitionStart =
     localStorage.getItem(
         "steadymazeCompetitionStart"
     );
+
 
 if(!competitionStart){
 
@@ -4885,10 +5268,12 @@ if(!competitionStart){
 
 }
 
+
 competitionStart =
     Number(
         competitionStart
     );
+
 
 const learningDuration =
     7 *
@@ -4897,56 +5282,68 @@ const learningDuration =
     60 *
     1000;
 
+
 const uploadDuration =
     24 *
     60 *
     60 *
     1000;
 
+
 function updateCompetition(){
 
     const now =
         Date.now();
 
+
     const uploadStart =
         competitionStart +
         learningDuration;
 
+
     const uploadEnd =
         uploadStart +
         uploadDuration;
+
 
     const title =
         document.getElementById(
             "stageTitle"
         );
 
+
     const text =
         document.getElementById(
             "stageText"
         );
+
 
     const pill =
         document.getElementById(
             "statusPill"
         );
 
+
     const uploadStatus =
         document.getElementById(
             "uploadStatus"
         );
+
 
     const uploadText =
         document.getElementById(
             "uploadText"
         );
 
+
     const uploadButton =
         document.getElementById(
             "uploadBtn"
         );
 
+
     resetSteps();
+
 
     if(
         now < uploadStart
@@ -4955,31 +5352,40 @@ function updateCompetition(){
         title.textContent =
             "LEARNING PERIOD";
 
+
         text.textContent =
             "Students are learning before project submission.";
+
 
         pill.textContent =
             "LEARNING";
 
+
         uploadStatus.textContent =
             "CLOSED";
 
+
         uploadText.textContent =
             "Project upload will open when the submission window begins.";
+
 
         uploadButton.classList.add(
             "disabled"
         );
 
+
         setActiveStep(1);
+
 
         updateTimer(
             uploadStart - now
         );
 
+
         return;
 
     }
+
 
     if(
         now >= uploadStart &&
@@ -4989,56 +5395,73 @@ function updateCompetition(){
         title.textContent =
             "PROJECT UPLOAD";
 
+
         text.textContent =
             "The project submission window is currently open.";
+
 
         pill.textContent =
             "UPLOAD OPEN";
 
+
         uploadStatus.textContent =
             "OPEN";
 
+
         uploadText.textContent =
             "Submit your project before the submission window closes.";
+
 
         uploadButton.classList.remove(
             "disabled"
         );
 
+
         setActiveStep(2);
+
 
         updateTimer(
             uploadEnd - now
         );
 
+
         return;
 
     }
 
+
     title.textContent =
         "REVIEW PERIOD";
+
 
     text.textContent =
         "Project submission is closed. Submitted projects move to review.";
 
+
     pill.textContent =
         "REVIEW";
+
 
     uploadStatus.textContent =
         "CLOSED";
 
+
     uploadText.textContent =
         "Submission is closed. Projects are now being reviewed.";
+
 
     uploadButton.classList.add(
         "disabled"
     );
 
+
     setActiveStep(3);
+
 
     updateTimer(0);
 
 }
+
 
 function resetSteps(){
 
@@ -5058,6 +5481,7 @@ function resetSteps(){
 
 }
 
+
 function setActiveStep(number){
 
     document.getElementById(
@@ -5067,6 +5491,7 @@ function setActiveStep(number){
     );
 
 }
+
 
 function updateTimer(ms){
 
@@ -5080,6 +5505,7 @@ function updateTimer(ms){
                 24
             )
         );
+
 
     const hours =
         Math.floor(
@@ -5100,6 +5526,7 @@ function updateTimer(ms){
             )
         );
 
+
     const minutes =
         Math.floor(
             (
@@ -5117,6 +5544,7 @@ function updateTimer(ms){
             )
         );
 
+
     const seconds =
         Math.floor(
             (
@@ -5130,6 +5558,7 @@ function updateTimer(ms){
             1000
         );
 
+
     document.getElementById(
         "days"
     ).textContent =
@@ -5137,6 +5566,7 @@ function updateTimer(ms){
             2,
             "0"
         );
+
 
     document.getElementById(
         "hours"
@@ -5146,6 +5576,7 @@ function updateTimer(ms){
             "0"
         );
 
+
     document.getElementById(
         "minutes"
     ).textContent =
@@ -5153,6 +5584,7 @@ function updateTimer(ms){
             2,
             "0"
         );
+
 
     document.getElementById(
         "seconds"
@@ -5163,6 +5595,7 @@ function updateTimer(ms){
         );
 
 }
+
 
 /* =====================================================
    NAVIGATION
@@ -5175,13 +5608,16 @@ function scrollToId(id){
             id
         );
 
+
     if(!target) return;
+
 
     target.scrollIntoView({
         behavior:"smooth"
     });
 
 }
+
 
 /* =====================================================
    MODAL
@@ -5205,6 +5641,7 @@ document.getElementById(
     }
 );
 
+
 function closeModal(){
 
     document.getElementById(
@@ -5216,11 +5653,14 @@ function closeModal(){
 
 }
 
+
 /* =====================================================
    INITIAL
 ===================================================== */
 
 updateProfileAvatar();
+
+updateStudentDashboard();
 
 renderMyLessons();
 
