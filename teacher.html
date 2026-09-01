@@ -54,249 +54,1212 @@ input,select,textarea{width:100%;padding:12px 13px;border:1px solid var(--border
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;padding:20px;z-index:500}.modal.show{display:flex}.modal-box{width:100%;max-width:650px;max-height:90vh;overflow-y:auto;background:#091a2d;border:1px solid var(--border);border-radius:20px;padding:25px}.modal-header{display:flex;justify-content:space-between;margin-bottom:20px}.close{border:0;background:rgba(255,255,255,.06);color:#a9b7c7;width:32px;height:32px;border-radius:8px;cursor:pointer}
 .mobile-menu{display:none}
 .empty{color:#71849a;font-size:12px;padding:10px}
+.loading{color:#8fa1b5;font-size:12px;padding:10px}
+.toast{position:fixed;right:20px;bottom:20px;z-index:1000;min-width:250px;max-width:380px;padding:13px 16px;border-radius:12px;background:#0b2037;border:1px solid var(--border);box-shadow:0 15px 40px rgba(0,0,0,.35);font-size:12px;display:none}
+.toast.show{display:block}.toast.success{border-color:rgba(34,197,94,.3);color:#9af0b2}.toast.error{border-color:rgba(239,68,68,.3);color:#ffaaaa}
 @media(max-width:1050px){.grid{grid-template-columns:repeat(2,1fr)}.content-grid{grid-template-columns:1fr}.competition-info-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:translateX(0)}.main{margin-left:0;padding:15px}.mobile-menu{display:block;border:1px solid var(--border);background:rgba(255,255,255,.05);color:white;border-radius:9px;padding:9px 11px;cursor:pointer}.grid{grid-template-columns:1fr 1fr}.profile-box,.form-grid{grid-template-columns:1fr}.level-grid,.competition-groups{grid-template-columns:1fr}.competition-info-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:500px){.grid,.competition-info-grid{grid-template-columns:1fr}.competition-search{width:100%}.top-title h1{font-size:20px}.status{display:none}}
+@media(max-width:500px){.grid,.competition-info-grid{grid-template-columns:1fr}.competition-search{width:100%}.top-title h1{font-size:20px}.status{display:none}.payment-grid{grid-template-columns:1fr}.split-box{grid-template-columns:1fr}}
 </style>
 </head>
 
 <body>
 
 <aside class="sidebar" id="sidebar">
+
 <div class="logo">GUR<span>HUB</span></div>
 
 <div class="teacher-mini">
 <div class="mini-row">
-<img src="" id="sideAvatar" class="avatar" alt="Teacher profile">
-<div><strong id="sideName">Teacher</strong><span id="sideSkill">Teacher Account</span></div>
+
+<img
+src=""
+id="sideAvatar"
+class="avatar"
+alt="Teacher profile"
+>
+
+<div>
+<strong id="sideName">Teacher</strong>
+<span id="sideSkill">Teacher Account</span>
+</div>
+
 </div>
 </div>
 
 <nav class="nav">
-<button class="active" onclick="showSection('dashboard',this)">🏠 Dashboard</button>
-<button onclick="showSection('profile',this)">👤 My Profile</button>
-<button onclick="showSection('lessons',this)">🎥 My Lessons</button>
-<button onclick="showSection('upload',this)">⬆️ Add Lesson</button>
-<button onclick="showSection('payments',this)">💳 Payments</button>
-<button onclick="showSection('competition',this)">🏆 Competition</button>
-<button onclick="showSection('ai',this)">🤖 AI Assistant</button>
+
+<button
+class="active"
+onclick="showSection('dashboard',this)"
+>
+🏠 Dashboard
+</button>
+
+<button
+onclick="showSection('profile',this)"
+>
+👤 My Profile
+</button>
+
+<button
+onclick="showSection('lessons',this)"
+>
+🎥 My Lessons
+</button>
+
+<button
+onclick="showSection('upload',this)"
+>
+⬆️ Add Lesson
+</button>
+
+<button
+onclick="showSection('payments',this)"
+>
+💳 Payments
+</button>
+
+<button
+onclick="showSection('competition',this)"
+>
+🏆 Competition
+</button>
+
+<button
+onclick="showSection('ai',this)"
+>
+🤖 AI Assistant
+</button>
+
 </nav>
 
 <div class="logout">
-<button onclick="logoutTeacher()">← Back to Teacher Login</button>
+<button onclick="logoutTeacher()">
+← Back to Teacher Login
+</button>
 </div>
+
 </aside>
+
 
 <main class="main">
 
 <div class="topbar">
-<button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+
+<button
+class="mobile-menu"
+onclick="toggleSidebar()"
+>
+☰
+</button>
+
 <div class="top-title">
-<h1 id="pageTitle">Teacher Dashboard</h1>
-<p>Manage your GURHUB teaching workspace.</p>
-</div>
-<div class="status"><span class="status-dot"></span>Teacher workspace</div>
+
+<h1 id="pageTitle">
+Teacher Dashboard
+</h1>
+
+<p>
+Manage your GURHUB teaching workspace.
+</p>
+
 </div>
 
-<section id="dashboard" class="section active">
+<div class="status">
+<span class="status-dot"></span>
+Teacher workspace
+</div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<section
+id="dashboard"
+class="section active"
+>
 
 <div class="grid">
-<div class="card"><div class="stat-label">My Lessons</div><div class="stat-value blue" id="lessonCount">0</div><div class="stat-note">Uploaded lessons</div></div>
-<div class="card"><div class="stat-label">Active Levels</div><div class="stat-value gold">3</div><div class="stat-note">Beginner • Level 2 • Level 3</div></div>
-<div class="card"><div class="stat-label">Competition Group</div><div class="stat-value" id="teacherGroup">—</div><div class="stat-note">Assigned group</div></div>
-<div class="card"><div class="stat-label">Teacher Share</div><div class="stat-value gold">70%</div><div class="stat-note">Payment split</div></div>
+
+<div class="card">
+<div class="stat-label">
+My Lessons
 </div>
+
+<div
+class="stat-value blue"
+id="lessonCount"
+>
+0
+</div>
+
+<div class="stat-note">
+Uploaded lessons
+</div>
+</div>
+
+
+<div class="card">
+<div class="stat-label">
+Active Levels
+</div>
+
+<div class="stat-value gold">
+3
+</div>
+
+<div class="stat-note">
+Beginner • Level 2 • Level 3
+</div>
+</div>
+
+
+<div class="card">
+<div class="stat-label">
+Competition Group
+</div>
+
+<div
+class="stat-value"
+id="teacherGroup"
+>
+—
+</div>
+
+<div class="stat-note">
+Assigned group
+</div>
+</div>
+
+
+<div class="card">
+<div class="stat-label">
+Teacher Share
+</div>
+
+<div class="stat-value gold">
+70%
+</div>
+
+<div class="stat-note">
+Payment split
+</div>
+</div>
+
+</div>
+
 
 <div class="content-grid">
-<div class="card">
-<h2>My Recent Lessons</h2>
-<p class="card-subtitle">Lessons you have added to GURHUB.</p>
-<div class="lesson-list" id="dashboardLessons"><div class="empty">No lessons added yet.</div></div>
-</div>
 
 <div class="card">
-<h2>Teaching Levels</h2>
-<p class="card-subtitle">You can publish lessons under each level.</p>
+
+<h2>
+My Recent Lessons
+</h2>
+
+<p class="card-subtitle">
+Lessons you have added to GURHUB.
+</p>
+
+<div
+class="lesson-list"
+id="dashboardLessons"
+>
+<div class="loading">
+Loading lessons...
+</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+Teaching Levels
+</h2>
+
+<p class="card-subtitle">
+You can publish lessons under each level.
+</p>
+
 <div class="level-grid">
-<div class="level-card"><h3>Level 1</h3><p>Beginner lessons and fundamentals.</p></div>
-<div class="level-card"><h3>Level 2</h3><p>Intermediate lessons and practical skills.</p></div>
-<div class="level-card"><h3>Level 3</h3><p>Advanced lessons and projects.</p></div>
+
+<div class="level-card">
+<h3>Level 1</h3>
+<p>
+Beginner lessons and fundamentals.
+</p>
 </div>
+
+<div class="level-card">
+<h3>Level 2</h3>
+<p>
+Intermediate lessons and practical skills.
+</p>
 </div>
+
+<div class="level-card">
+<h3>Level 3</h3>
+<p>
+Advanced lessons and projects.
+</p>
 </div>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<section id="profile" class="section">
+
+<!-- PROFILE -->
+
+<section
+id="profile"
+class="section"
+>
+
 <div class="card">
-<h2>Teacher Profile</h2>
-<p class="card-subtitle">Your profile information will be available to students.</p>
+
+<h2>
+Teacher Profile
+</h2>
+
+<p class="card-subtitle">
+Your profile information will be available to students.
+</p>
+
 
 <div class="profile-box">
+
 <div class="profile-photo-area">
-<img id="profileImage" class="profile-photo" src="" alt="Teacher profile">
-<label class="upload-label" for="profileUpload">Upload Profile Photo</label>
-<input type="file" id="profileUpload" accept="image/*">
+
+<img
+id="profileImage"
+class="profile-photo"
+src=""
+alt="Teacher profile"
+>
+
+<label
+class="upload-label"
+for="profileUpload"
+>
+Upload Profile Photo
+</label>
+
+<input
+type="file"
+id="profileUpload"
+accept="image/*"
+>
+
 </div>
+
 
 <div>
+
 <div class="form-grid">
-<div class="field"><label>Full Name</label><input id="profileName" type="text" placeholder="Teacher full name"></div>
-<div class="field"><label>Email</label><input id="profileEmail" type="email" placeholder="Teacher email"></div>
-<div class="field"><label>Main Skill</label><input id="profileSkill" type="text" placeholder="Your main skill"></div>
-<div class="field"><label>Competition Group</label>
-<select id="profileGroup"><option value="">Select group</option><option value="Lower">Lower</option><option value="Medium">Medium</option><option value="High">High</option></select>
+
+<div class="field">
+
+<label>
+Full Name
+</label>
+
+<input
+id="profileName"
+type="text"
+placeholder="Teacher full name"
+>
+
 </div>
-<div class="field full"><label>Teacher Introduction</label><textarea id="profileIntro" placeholder="Tell students about yourself..."></textarea></div>
+
+
+<div class="field">
+
+<label>
+Email
+</label>
+
+<input
+id="profileEmail"
+type="email"
+placeholder="Teacher email"
+>
+
 </div>
-<button class="btn btn-blue" onclick="saveProfile()">Save Profile</button>
+
+
+<div class="field">
+
+<label>
+Main Skill
+</label>
+
+<input
+id="profileSkill"
+type="text"
+placeholder="Your main skill"
+>
+
 </div>
+
+
+<div class="field">
+
+<label>
+Competition Group
+</label>
+
+<select id="profileGroup">
+
+<option value="">
+Select group
+</option>
+
+<option value="Lower">
+Lower
+</option>
+
+<option value="Medium">
+Medium
+</option>
+
+<option value="High">
+High
+</option>
+
+</select>
+
 </div>
+
+
+<div class="field full">
+
+<label>
+Teacher Introduction
+</label>
+
+<textarea
+id="profileIntro"
+placeholder="Tell students about yourself..."
+></textarea>
+
 </div>
+
+</div>
+
+
+<button
+class="btn btn-blue"
+id="saveProfileBtn"
+onclick="saveProfile()"
+>
+Save Profile
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<section id="lessons" class="section">
+
+<!-- LESSONS -->
+
+<section
+id="lessons"
+class="section"
+>
+
 <div class="card">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px">
-<div><h2>My Lessons</h2><p class="card-subtitle" style="margin-bottom:0">Manage your uploaded course lessons.</p></div>
-<button class="btn btn-blue" onclick="showSectionById('upload')">+ Add Lesson</button>
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-bottom:20px
+">
+
+<div>
+
+<h2>
+My Lessons
+</h2>
+
+<p
+class="card-subtitle"
+style="margin-bottom:0"
+>
+Manage your uploaded course lessons.
+</p>
+
 </div>
-<div id="allLessons" class="lesson-list"><div class="empty">No lessons added yet.</div></div>
+
+<button
+class="btn btn-blue"
+onclick="showSectionById('upload')"
+>
++ Add Lesson
+</button>
+
 </div>
+
+
+<div
+id="allLessons"
+class="lesson-list"
+>
+<div class="loading">
+Loading lessons...
+</div>
+</div>
+
+</div>
+
 </section>
 
-<section id="upload" class="section">
-<div class="card">
-<h2>Add New Lesson</h2>
-<p class="card-subtitle">Create a lesson for Level 1, Level 2 or Level 3.</p>
 
-<div class="warning">⚠️ <strong>Video quality requirement:</strong> Upload clear educational videos. Recommended quality is <strong>1080p</strong> and up to <strong>2K or higher</strong> when supported.</div>
+<!-- ADD LESSON -->
+
+<section
+id="upload"
+class="section"
+>
+
+<div class="card">
+
+<h2>
+Add New Lesson
+</h2>
+
+<p class="card-subtitle">
+Create a lesson for Level 1, Level 2 or Level 3.
+</p>
+
+
+<div class="warning">
+
+⚠️
+<strong>Video quality requirement:</strong>
+
+Upload clear educational videos.
+Recommended quality is
+<strong>1080p</strong>
+and up to
+<strong>2K or higher</strong>
+when supported.
+
+</div>
+
 
 <div class="upload-box">
-<div class="icon">🎥</div>
-<h3>Select Lesson Video</h3>
-<p>Upload your actual lesson video from your device.</p>
-<label for="lessonVideo" class="btn btn-blue">Choose Video</label>
-<input type="file" id="lessonVideo" accept="video/*">
-<div id="videoFileName" class="file-name"></div>
+
+<div class="icon">
+🎥
 </div>
+
+<h3>
+Select Lesson Video
+</h3>
+
+<p>
+Upload your actual lesson video from your device.
+</p>
+
+<label
+for="lessonVideo"
+class="btn btn-blue"
+>
+Choose Video
+</label>
+
+<input
+type="file"
+id="lessonVideo"
+accept="video/*"
+>
+
+<div
+id="videoFileName"
+class="file-name"
+></div>
+
+</div>
+
 
 <div class="form-grid">
-<div class="field"><label>Lesson Title</label><input id="lessonTitle" type="text" placeholder="Lesson title"></div>
-<div class="field"><label>Skill</label><input id="lessonSkill" type="text" placeholder="Skill"></div>
-<div class="field"><label>Level</label>
-<select id="lessonLevel"><option value="">Select level</option><option value="Level 1">Level 1 — Beginner</option><option value="Level 2">Level 2 — Intermediate</option><option value="Level 3">Level 3 — Advanced</option></select>
-</div>
-<div class="field"><label>Lesson Number</label><input id="lessonNumber" type="number" min="1" placeholder="1"></div>
-<div class="field full"><label>What does this video teach?</label><textarea id="lessonDescription" placeholder="Explain what students will learn..."></textarea></div>
-<div class="field full"><label>Lesson Introduction</label><textarea id="lessonIntro" placeholder="Lesson introduction..."></textarea></div>
+
+<div class="field">
+
+<label>
+Lesson Title
+</label>
+
+<input
+id="lessonTitle"
+type="text"
+placeholder="Lesson title"
+>
+
 </div>
 
-<button class="btn btn-blue" onclick="saveLesson()">Save Lesson</button>
+
+<div class="field">
+
+<label>
+Skill
+</label>
+
+<input
+id="lessonSkill"
+type="text"
+placeholder="Skill"
+>
+
 </div>
+
+
+<div class="field">
+
+<label>
+Level
+</label>
+
+<select id="lessonLevel">
+
+<option value="">
+Select level
+</option>
+
+<option value="Level 1">
+Level 1 — Beginner
+</option>
+
+<option value="Level 2">
+Level 2 — Intermediate
+</option>
+
+<option value="Level 3">
+Level 3 — Advanced
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Lesson Number
+</label>
+
+<input
+id="lessonNumber"
+type="number"
+min="1"
+placeholder="1"
+>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+What does this video teach?
+</label>
+
+<textarea
+id="lessonDescription"
+placeholder="Explain what students will learn..."
+></textarea>
+
+</div>
+
+
+<div class="field full">
+
+<label>
+Lesson Introduction
+</label>
+
+<textarea
+id="lessonIntro"
+placeholder="Lesson introduction..."
+></textarea>
+
+</div>
+
+</div>
+
+
+<button
+class="btn btn-blue"
+id="saveLessonBtn"
+onclick="saveLesson()"
+>
+Save Lesson
+</button>
+
+</div>
+
 </section>
 
-<section id="payments" class="section">
+
+<!-- PAYMENTS -->
+
+<section
+id="payments"
+class="section"
+>
+
 <div class="card">
-<h2>Payment Settings</h2>
-<p class="card-subtitle">Payment provider settings for your teacher account.</p>
+
+<h2>
+Payment Settings
+</h2>
+
+<p class="card-subtitle">
+Payment provider settings for your teacher account.
+</p>
+
 
 <div class="payment-grid">
-<div class="payment-method" onclick="selectPayment(this,'Visa')"><div class="payment-icon">💳</div><strong>Visa</strong><span>Card payment provider</span></div>
-<div class="payment-method" onclick="selectPayment(this,'Mastercard')"><div class="payment-icon">💳</div><strong>Mastercard</strong><span>Card payment provider</span></div>
-<div class="payment-method" onclick="selectPayment(this,'PayPal')"><div class="payment-icon">🅿️</div><strong>PayPal</strong><span>PayPal account connection</span></div>
-<div class="payment-method" onclick="selectPayment(this,'Bank')"><div class="payment-icon">🏦</div><strong>Bank Account</strong><span>KCB or supported bank</span></div>
+
+<div
+class="payment-method"
+onclick="selectPayment(this,'Visa')"
+>
+
+<div class="payment-icon">
+💳
 </div>
 
-<div class="form-grid" style="margin-top:20px">
-<div class="field"><label>Bank Name</label><input id="bankName" type="text" placeholder="Example: KCB Bank"></div>
-<div class="field"><label>Account Holder Name</label><input id="accountHolder" type="text" placeholder="Account holder"></div>
-<div class="field"><label>Payment Email</label><input id="paymentEmail" type="email" placeholder="Payment account email"></div>
-<div class="field"><label>Account Reference</label><input id="accountReference" type="text" placeholder="Backend reference"></div>
+<strong>
+Visa
+</strong>
+
+<span>
+Card payment provider
+</span>
+
 </div>
+
+
+<div
+class="payment-method"
+onclick="selectPayment(this,'Mastercard')"
+>
+
+<div class="payment-icon">
+💳
+</div>
+
+<strong>
+Mastercard
+</strong>
+
+<span>
+Card payment provider
+</span>
+
+</div>
+
+
+<div
+class="payment-method"
+onclick="selectPayment(this,'PayPal')"
+>
+
+<div class="payment-icon">
+🅿️
+</div>
+
+<strong>
+PayPal
+</strong>
+
+<span>
+PayPal account connection
+</span>
+
+</div>
+
+
+<div
+class="payment-method"
+onclick="selectPayment(this,'Bank')"
+>
+
+<div class="payment-icon">
+🏦
+</div>
+
+<strong>
+Bank Account
+</strong>
+
+<span>
+KCB or supported bank
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="form-grid"
+style="margin-top:20px"
+>
+
+<div class="field">
+
+<label>
+Bank Name
+</label>
+
+<input
+id="bankName"
+type="text"
+placeholder="Example: KCB Bank"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Account Holder Name
+</label>
+
+<input
+id="accountHolder"
+type="text"
+placeholder="Account holder"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Payment Email
+</label>
+
+<input
+id="paymentEmail"
+type="email"
+placeholder="Payment account email"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Account Reference
+</label>
+
+<input
+id="accountReference"
+type="text"
+placeholder="Backend reference"
+>
+
+</div>
+
+</div>
+
 
 <div class="split-box">
-<div class="split"><strong class="gold">70%</strong><span>Teacher share</span></div>
-<div class="split"><strong class="blue">30%</strong><span>GURHUB platform share</span></div>
+
+<div class="split">
+
+<strong class="gold">
+70%
+</strong>
+
+<span>
+Teacher share
+</span>
+
 </div>
 
-<button class="btn btn-blue" style="margin-top:18px" onclick="savePaymentSettings()">Save Payment Settings</button>
+
+<div class="split">
+
+<strong class="blue">
+30%
+</strong>
+
+<span>
+GURHUB platform share
+</span>
+
 </div>
+
+</div>
+
+
+<button
+class="btn btn-blue"
+style="margin-top:18px"
+onclick="savePaymentSettings()"
+>
+Save Payment Settings
+</button>
+
+</div>
+
 </section>
 
-<section id="competition" class="section">
+
+<!-- COMPETITION -->
+
+<section
+id="competition"
+class="section"
+>
+
 <div class="card">
+
 <div class="competition-head">
+
 <div>
-<h2>🏆 Competition Liveboard</h2>
-<p class="card-subtitle">Monitor Lower, Medium and High competition groups in real time.</p>
+
+<h2>
+🏆 Competition Liveboard
+</h2>
+
+<p class="card-subtitle">
+Monitor Lower, Medium and High competition groups in real time.
+</p>
+
 </div>
-<div id="competitionStatus" class="competition-status">
+
+
+<div
+id="competitionStatus"
+class="competition-status"
+>
+
 <span class="competition-status-dot"></span>
-<span id="competitionStatusText">Competition Not Started</span>
+
+<span id="competitionStatusText">
+Competition Not Started
+</span>
+
 </div>
+
 </div>
+
 
 <div class="competition-info-grid">
-<div class="competition-info"><span>Competition Time</span><strong id="competitionTimer">Waiting</strong></div>
-<div class="competition-info"><span>Current Group</span><strong id="currentGroupName">Lower</strong></div>
-<div class="competition-info"><span>Total Positions</span><strong>300</strong></div>
-<div class="competition-info"><span>Highest Points</span><strong id="competitionHighestPoints">0</strong></div>
+
+<div class="competition-info">
+
+<span>
+Competition Time
+</span>
+
+<strong id="competitionTimer">
+Waiting
+</strong>
+
 </div>
+
+
+<div class="competition-info">
+
+<span>
+Current Group
+</span>
+
+<strong id="currentGroupName">
+Lower
+</strong>
+
+</div>
+
+
+<div class="competition-info">
+
+<span>
+Total Positions
+</span>
+
+<strong>
+300
+</strong>
+
+</div>
+
+
+<div class="competition-info">
+
+<span>
+Highest Points
+</span>
+
+<strong id="competitionHighestPoints">
+0
+</strong>
+
+</div>
+
+</div>
+
 
 <div class="competition-groups">
-<button class="competition-group-btn active" data-group="lower" onclick="switchCompetitionGroup('lower',this)">LOWER<small>Rank 1–300</small></button>
-<button class="competition-group-btn" data-group="medium" onclick="switchCompetitionGroup('medium',this)">MEDIUM<small>Rank 1–300</small></button>
-<button class="competition-group-btn" data-group="high" onclick="switchCompetitionGroup('high',this)">HIGH<small>Rank 1–300</small></button>
+
+<button
+class="competition-group-btn active"
+data-group="lower"
+onclick="switchCompetitionGroup('lower',this)"
+>
+LOWER
+<small>
+Rank 1–300
+</small>
+</button>
+
+
+<button
+class="competition-group-btn"
+data-group="medium"
+onclick="switchCompetitionGroup('medium',this)"
+>
+MEDIUM
+<small>
+Rank 1–300
+</small>
+</button>
+
+
+<button
+class="competition-group-btn"
+data-group="high"
+onclick="switchCompetitionGroup('high',this)"
+>
+HIGH
+<small>
+Rank 1–300
+</small>
+</button>
+
 </div>
+
 
 <div class="competition-toolbar">
-<h3 id="competitionTableTitle">Lower — Liveboard</h3>
-<input id="competitionSearch" class="competition-search" type="search" placeholder="Search student...">
+
+<h3 id="competitionTableTitle">
+Lower — Liveboard
+</h3>
+
+<input
+id="competitionSearch"
+class="competition-search"
+type="search"
+placeholder="Search student..."
+>
+
 </div>
+
 
 <div class="competition-table-wrap">
+
 <table class="competition-table">
-<thead><tr><th>Rank</th><th>Student</th><th>Student ID</th><th>Points</th><th>Round</th><th>Status</th><th>Reward</th></tr></thead>
-<tbody id="competitionTableBody"></tbody>
+
+<thead>
+
+<tr>
+
+<th>
+Rank
+</th>
+
+<th>
+Student
+</th>
+
+<th>
+Student ID
+</th>
+
+<th>
+Points
+</th>
+
+<th>
+Round
+</th>
+
+<th>
+Status
+</th>
+
+<th>
+Reward
+</th>
+
+</tr>
+
+</thead>
+
+<tbody
+id="competitionTableBody"
+>
+</tbody>
+
 </table>
+
 </div>
 
-<div class="warning" style="margin-top:18px;margin-bottom:0">
-🏆 <strong>Competition structure:</strong> Lower = 300 positions, Medium = 300 positions, High = 300 positions. Student data is loaded from Supabase.
+
+<div
+class="warning"
+style="margin-top:18px;margin-bottom:0"
+>
+
+🏆
+<strong>
+Competition structure:
+</strong>
+
+Lower = 300 positions,
+Medium = 300 positions,
+High = 300 positions.
+
+Student data is loaded from Supabase.
+
 </div>
+
 </div>
+
 </section>
 
-<section id="ai" class="section">
+
+<!-- AI -->
+
+<section
+id="ai"
+class="section"
+>
+
 <div class="card ai-box">
-<h2>AI Teacher Assistant</h2>
-<p class="card-subtitle">The chat interface is ready for the GURHUB AI backend/API.</p>
-<div class="chat-messages" id="chatMessages">
-<div class="message ai">Hello. I am the GURHUB teacher assistant.</div>
+
+<h2>
+AI Teacher Assistant
+</h2>
+
+<p class="card-subtitle">
+The chat interface is ready for the GURHUB AI backend/API.
+</p>
+
+
+<div
+class="chat-messages"
+id="chatMessages"
+>
+
+<div class="message ai">
+Hello. I am the GURHUB teacher assistant.
 </div>
-<form class="chat-form" onsubmit="sendAIMessage(event)">
-<input id="aiInput" type="text" placeholder="Write a message..." required>
-<button type="submit" class="btn btn-blue">Send</button>
+
+</div>
+
+
+<form
+class="chat-form"
+onsubmit="sendAIMessage(event)"
+>
+
+<input
+id="aiInput"
+type="text"
+placeholder="Write a message..."
+required
+>
+
+<button
+type="submit"
+class="btn btn-blue"
+>
+Send
+</button>
+
 </form>
+
 </div>
+
 </section>
 
 </main>
 
-<div class="modal" id="lessonModal">
+
+<!-- LESSON MODAL -->
+
+<div
+class="modal"
+id="lessonModal"
+>
+
 <div class="modal-box">
-<div class="modal-header"><h2>Lesson Details</h2><button class="close" onclick="closeLessonModal()">×</button></div>
-<div id="lessonModalContent"></div>
+
+<div class="modal-header">
+
+<h2>
+Lesson Details
+</h2>
+
+<button
+class="close"
+onclick="closeLessonModal()"
+>
+×
+</button>
+
 </div>
+
+
+<div
+id="lessonModalContent"
+></div>
+
 </div>
+
+</div>
+
+
+<div
+id="toast"
+class="toast"
+></div>
+
 
 <script>
 
 /* =====================================================
-   SUPABASE CONNECTION
+   SUPABASE
 ===================================================== */
 
-const SUPABASE_URL = "https://uxrltzlxdttbjstomhkb.supabase.co";
+const SUPABASE_URL =
+"https://uxrltzlxdttbjstomhkb.supabase.co";
 
 const SUPABASE_KEY =
 "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
@@ -309,65 +1272,363 @@ window.supabase.createClient(
 
 
 /* =====================================================
-   TEACHER DATA
+   DATA
 ===================================================== */
 
-const STORAGE_KEY = "gurhub_teacher_data";
-
-let teacherData = {
-    id:null,
-    name:"",
-    email:"",
-    skill:"",
-    group:"",
-    intro:"",
-    profileImage:"",
-    lessons:[],
-    payment:{
-        method:"",
-        bankName:"",
-        accountHolder:"",
-        paymentEmail:"",
-        accountReference:""
-    }
-};
+const STORAGE_KEY =
+"gurhub_teacher_data";
 
 let currentTeacherId = null;
 
+let currentUser = null;
+
+let isLoadingTeacher = false;
+
+let teacherData = {
+
+    id:null,
+
+    name:"",
+
+    email:"",
+
+    skill:"",
+
+    group:"",
+
+    intro:"",
+
+    profileImage:"",
+
+    lessons:[],
+
+    payment:{
+
+        method:"",
+
+        bankName:"",
+
+        accountHolder:"",
+
+        paymentEmail:"",
+
+        accountReference:""
+
+    }
+
+};
+
 
 /* =====================================================
-   AUTH — USE TEACHER LOGIN SESSION
+   TOAST
+===================================================== */
+
+function showToast(
+    message,
+    type="success"
+){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    toast.textContent =
+        message;
+
+    toast.className =
+        "toast show " +
+        type;
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+    window.toastTimer =
+        setTimeout(
+            ()=>{
+                toast.className =
+                    "toast";
+            },
+            3500
+        );
+
+}
+
+
+/* =====================================================
+   AUTH
 ===================================================== */
 
 async function getLoggedTeacher(){
 
-    const {
-        data:{
-            user
-        },
-        error
-    } = await supabaseClient.auth.getUser();
+    try{
 
-    if(error || !user){
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .auth
+            .getUser();
+
+
+        if(error){
+
+            console.error(
+                "Auth error:",
+                error
+            );
+
+            window.location.href =
+                "teacher-login.html";
+
+            return null;
+
+        }
+
+
+        const user =
+            data?.user;
+
+
+        if(!user){
+
+            window.location.href =
+                "teacher-login.html";
+
+            return null;
+
+        }
+
+
+        currentUser =
+            user;
+
+        currentTeacherId =
+            user.id;
+
+
+        return user;
+
+    }catch(error){
+
+        console.error(
+            error
+        );
 
         window.location.href =
             "teacher-login.html";
 
         return null;
+
     }
 
-    currentTeacherId =
-        user.id;
-
-    return user;
 }
 
 
 /* =====================================================
-   LOAD TEACHER FROM SUPABASE
+   LOAD TEACHER
 ===================================================== */
 
 async function loadTeacherFromSupabase(){
+
+    if(isLoadingTeacher)
+        return;
+
+    isLoadingTeacher = true;
+
+
+    try{
+
+        const user =
+            await getLoggedTeacher();
+
+
+        if(!user)
+            return;
+
+
+        teacherData.id =
+            user.id;
+
+        teacherData.email =
+            user.email || "";
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .from("teachers")
+            .select("*")
+            .eq(
+                "user_id",
+                user.id
+            )
+            .maybeSingle();
+
+
+        if(error){
+
+            console.error(
+                "Teacher load error:",
+                error
+            );
+
+            /*
+             * Do not destroy the auth user's
+             * information when the teachers
+             * table has no row yet.
+             */
+
+        }
+
+
+        if(data){
+
+            teacherData.id =
+                data.user_id ||
+                user.id;
+
+            teacherData.name =
+                data.full_name ||
+                user.user_metadata?.full_name ||
+                "";
+
+            teacherData.email =
+                data.email ||
+                user.email ||
+                "";
+
+            teacherData.skill =
+                data.skill ||
+                "";
+
+            teacherData.group =
+                data.group ||
+                data.competition_group ||
+                "";
+
+            teacherData.intro =
+                data.intro ||
+                "";
+
+            teacherData.profileImage =
+                data.profile_image ||
+                "";
+
+        }else{
+
+            teacherData.name =
+                user.user_metadata?.full_name ||
+                "";
+
+            teacherData.email =
+                user.email ||
+                "";
+
+        }
+
+
+        /*
+         * Login-page compatibility.
+         */
+
+        const loginTeacher =
+            sessionStorage.getItem(
+                "gurhub_teacher"
+            );
+
+
+        if(loginTeacher){
+
+            try{
+
+                const loginData =
+                    JSON.parse(
+                        loginTeacher
+                    );
+
+
+                if(
+                    !teacherData.name &&
+                    loginData.name
+                ){
+
+                    teacherData.name =
+                        loginData.name;
+
+                }
+
+
+                if(
+                    !teacherData.email &&
+                    loginData.email
+                ){
+
+                    teacherData.email =
+                        loginData.email;
+
+                }
+
+
+                if(
+                    !teacherData.skill &&
+                    loginData.skill
+                ){
+
+                    teacherData.skill =
+                        loginData.skill;
+
+                }
+
+
+                if(
+                    !teacherData.group &&
+                    loginData.group
+                ){
+
+                    teacherData.group =
+                        loginData.group;
+
+                }
+
+            }catch(error){
+
+                console.warn(
+                    "Login session data invalid:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        await loadLessonsFromSupabase();
+
+        await loadPaymentFromSupabase();
+
+        updateInterface();
+
+
+    }finally{
+
+        isLoadingTeacher =
+            false;
+
+    }
+
+}
+
+
+/* =====================================================
+   PROFILE SAVE
+===================================================== */
+
+async function saveProfile(){
 
     const user =
         await getLoggedTeacher();
@@ -376,210 +1637,41 @@ async function loadTeacherFromSupabase(){
         return;
 
 
-    /*
-       Existing teachers table:
-       user_id
-       full_name
-       email
-       status
-    */
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("teachers")
-        .select("*")
-        .eq("user_id",user.id)
-        .maybeSingle();
-
-
-    if(error){
-
-        console.error(
-            "Teacher load error:",
-            error
-        );
-
-    }
-
-
-    if(data){
-
-        teacherData.id =
-            data.user_id || user.id;
-
-        teacherData.name =
-            data.full_name || user.user_metadata?.full_name || "";
-
-        teacherData.email =
-            data.email || user.email || "";
-
-        if(data.skill !== undefined)
-            teacherData.skill = data.skill || "";
-
-        if(data.group !== undefined)
-            teacherData.group = data.group || "";
-
-        if(data.intro !== undefined)
-            teacherData.intro = data.intro || "";
-
-        if(data.profile_image !== undefined)
-            teacherData.profileImage =
-                data.profile_image || "";
-
-    }else{
-
-        teacherData.id =
-            user.id;
-
-        teacherData.name =
-            user.user_metadata?.full_name || "";
-
-        teacherData.email =
-            user.email || "";
-
-    }
-
-
-    /*
-       Keep login page/session compatibility.
-    */
-
-    const loginTeacher =
-        sessionStorage.getItem(
-            "gurhub_teacher"
-        );
-
-    if(loginTeacher){
-
-        try{
-
-            const loginData =
-                JSON.parse(loginTeacher);
-
-            if(!teacherData.name && loginData.name)
-                teacherData.name =
-                    loginData.name;
-
-            if(!teacherData.email && loginData.email)
-                teacherData.email =
-                    loginData.email;
-
-            if(!teacherData.skill && loginData.skill)
-                teacherData.skill =
-                    loginData.skill;
-
-        }catch(error){
-
-            console.error(error);
-
-        }
-
-    }
-
-
-    await loadLessonsFromSupabase();
-
-    await loadPaymentFromSupabase();
-
-    updateInterface();
-
-}
-
-
-/* =====================================================
-   SAVE TEACHER PROFILE TO SUPABASE
-===================================================== */
-
-async function saveProfile(){
-
-    teacherData.name =
+    const name =
         document
         .getElementById("profileName")
         .value
         .trim();
 
-    teacherData.email =
+    const email =
         document
         .getElementById("profileEmail")
         .value
         .trim();
 
-    teacherData.skill =
+    const skill =
         document
         .getElementById("profileSkill")
         .value
         .trim();
 
-    teacherData.group =
+    const group =
         document
         .getElementById("profileGroup")
         .value;
 
-    teacherData.intro =
+    const intro =
         document
         .getElementById("profileIntro")
         .value
         .trim();
 
 
-    const user =
-        await getLoggedTeacher();
+    if(!name){
 
-    if(!user)
-        return;
-
-
-    const updateData = {
-
-        user_id:user.id,
-
-        full_name:
-            teacherData.name,
-
-        email:
-            teacherData.email
-
-    };
-
-
-    /*
-       Add optional fields only when
-       the table supports them.
-    */
-
-    updateData.skill =
-        teacherData.skill;
-
-    updateData.group =
-        teacherData.group;
-
-    updateData.intro =
-        teacherData.intro;
-
-    updateData.profile_image =
-        teacherData.profileImage || null;
-
-
-    const {
-        error
-    } = await supabaseClient
-        .from("teachers")
-        .upsert(
-            updateData,
-            {
-                onConflict:"user_id"
-            }
-        );
-
-
-    if(error){
-
-        console.error(error);
-
-        alert(
-            "Supabase could not save the teacher profile."
+        showToast(
+            "Please enter the teacher name.",
+            "error"
         );
 
         return;
@@ -587,17 +1679,117 @@ async function saveProfile(){
     }
 
 
-    updateInterface();
+    const button =
+        document.getElementById(
+            "saveProfileBtn"
+        );
 
-    alert(
-        "Teacher profile saved to Supabase."
-    );
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Saving...";
+
+
+    try{
+
+        const updateData = {
+
+            user_id:
+                user.id,
+
+            full_name:
+                name,
+
+            email:
+                email || user.email || "",
+
+            skill:
+                skill,
+
+            group:
+                group,
+
+            intro:
+                intro,
+
+            profile_image:
+                teacherData.profileImage || null
+
+        };
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+            .from("teachers")
+            .upsert(
+                updateData,
+                {
+                    onConflict:
+                        "user_id"
+                }
+            );
+
+
+        if(error){
+
+            console.error(
+                "Profile save error:",
+                error
+            );
+
+            showToast(
+                "Teacher profile could not be saved: " +
+                error.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        teacherData.name =
+            name;
+
+        teacherData.email =
+            email || user.email || "";
+
+        teacherData.skill =
+            skill;
+
+        teacherData.group =
+            group;
+
+        teacherData.intro =
+            intro;
+
+
+        updateInterface();
+
+
+        showToast(
+            "Teacher profile saved successfully."
+        );
+
+
+    }finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Save Profile";
+
+    }
 
 }
 
 
 /* =====================================================
-   LOAD LESSONS
+   LESSON LOAD
 ===================================================== */
 
 async function loadLessonsFromSupabase(){
@@ -609,7 +1801,8 @@ async function loadLessonsFromSupabase(){
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+        await supabaseClient
         .from("lessons")
         .select("*")
         .eq(
@@ -631,7 +1824,8 @@ async function loadLessonsFromSupabase(){
             error
         );
 
-        teacherData.lessons = [];
+        teacherData.lessons =
+            [];
 
         renderLessons();
 
@@ -641,7 +1835,8 @@ async function loadLessonsFromSupabase(){
 
 
     teacherData.lessons =
-        (data || []).map(
+        (data || [])
+        .map(
             lesson => ({
 
                 id:
@@ -657,7 +1852,8 @@ async function loadLessonsFromSupabase(){
                     lesson.level || "",
 
                 lessonNumber:
-                    lesson.lesson_number || "",
+                    lesson.lesson_number ??
+                    "",
 
                 description:
                     lesson.description || "",
@@ -672,7 +1868,7 @@ async function loadLessonsFromSupabase(){
                     lesson.video_url || "",
 
                 createdAt:
-                    lesson.created_at
+                    lesson.created_at || ""
 
             })
         );
@@ -684,10 +1880,17 @@ async function loadLessonsFromSupabase(){
 
 
 /* =====================================================
-   SAVE LESSON TO SUPABASE
+   SAVE LESSON
 ===================================================== */
 
 async function saveLesson(){
+
+    const user =
+        await getLoggedTeacher();
+
+    if(!user)
+        return;
+
 
     const video =
         document
@@ -731,8 +1934,21 @@ async function saveLesson(){
 
     if(!video){
 
-        alert(
-            "Please select the lesson video."
+        showToast(
+            "Please select the lesson video.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!video.type.startsWith("video/")){
+
+        showToast(
+            "Please select a valid video file.",
+            "error"
         );
 
         return;
@@ -747,8 +1963,9 @@ async function saveLesson(){
         !description
     ){
 
-        alert(
-            "Please complete the required lesson information."
+        showToast(
+            "Please complete the required lesson information.",
+            "error"
         );
 
         return;
@@ -756,226 +1973,280 @@ async function saveLesson(){
     }
 
 
-    const user =
-        await getLoggedTeacher();
+    const button =
+        document.getElementById(
+            "saveLessonBtn"
+        );
 
-    if(!user)
-        return;
+    button.disabled =
+        true;
 
-
-    /*
-       Upload actual video to Supabase Storage.
-
-       Bucket name:
-       lesson-videos
-    */
-
-    const extension =
-        video.name
-        .split(".")
-        .pop();
-
-    const filePath =
-        user.id +
-        "/" +
-        crypto.randomUUID() +
-        "." +
-        extension;
+    button.textContent =
+        "Uploading...";
 
 
-    const {
-        error:uploadError
-    } = await supabaseClient
-        .storage
-        .from("lesson-videos")
-        .upload(
-            filePath,
-            video,
-            {
-                upsert:false,
-                contentType:video.type
-            }
+    let uploadedPath = null;
+
+
+    try{
+
+        const extension =
+            getSafeExtension(
+                video.name
+            );
+
+
+        const filePath =
+            user.id +
+            "/" +
+            crypto.randomUUID() +
+            "." +
+            extension;
+
+
+        uploadedPath =
+            filePath;
+
+
+        /*
+         * lesson-videos bucket
+         */
+
+        const {
+            error:uploadError
+        } =
+            await supabaseClient
+            .storage
+            .from("lesson-videos")
+            .upload(
+                filePath,
+                video,
+                {
+                    upsert:false,
+                    contentType:
+                        video.type ||
+                        "video/mp4"
+                }
+            );
+
+
+        if(uploadError){
+
+            console.error(
+                "Video upload error:",
+                uploadError
+            );
+
+            showToast(
+                "Video upload failed: " +
+                uploadError.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * Get public URL.
+         */
+
+        const {
+            data:publicData
+        } =
+            supabaseClient
+            .storage
+            .from("lesson-videos")
+            .getPublicUrl(
+                filePath
+            );
+
+
+        const videoUrl =
+            publicData?.publicUrl ||
+            "";
+
+
+        if(!videoUrl){
+
+            showToast(
+                "Could not create lesson video URL.",
+                "error"
+            );
+
+            await removeStorageFile(
+                "lesson-videos",
+                filePath
+            );
+
+            return;
+
+        }
+
+
+        button.textContent =
+            "Saving...";
+
+
+        const lessonData = {
+
+            teacher_id:
+                user.id,
+
+            title:
+                title,
+
+            skill:
+                skill,
+
+            level:
+                level,
+
+            lesson_number:
+                number
+                ? Number(number)
+                : null,
+
+            description:
+                description,
+
+            intro:
+                intro,
+
+            video_name:
+                video.name,
+
+            video_url:
+                videoUrl
+
+        };
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .from("lessons")
+            .insert(
+                lessonData
+            )
+            .select()
+            .single();
+
+
+        if(error){
+
+            console.error(
+                "Lesson database error:",
+                error
+            );
+
+
+            await removeStorageFile(
+                "lesson-videos",
+                filePath
+            );
+
+
+            showToast(
+                "Lesson could not be saved: " +
+                error.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        teacherData.lessons.unshift({
+
+            id:
+                data.id,
+
+            title:
+                title,
+
+            skill:
+                skill,
+
+            level:
+                level,
+
+            lessonNumber:
+                number,
+
+            description:
+                description,
+
+            intro:
+                intro,
+
+            videoName:
+                video.name,
+
+            videoUrl:
+                videoUrl,
+
+            createdAt:
+                data.created_at
+
+        });
+
+
+        renderLessons();
+
+        clearLessonForm();
+
+
+        showToast(
+            "Lesson saved successfully."
         );
 
 
-    if(uploadError){
+    }catch(error){
 
         console.error(
-            "Video upload error:",
-            uploadError
-        );
-
-        alert(
-            "Video upload failed. Check the Supabase lesson-videos storage bucket."
-        );
-
-        return;
-
-    }
-
-
-    const {
-        data:publicData
-    } =
-        supabaseClient
-        .storage
-        .from("lesson-videos")
-        .getPublicUrl(
-            filePath
-        );
-
-
-    const videoUrl =
-        publicData.publicUrl;
-
-
-    const lessonData = {
-
-        teacher_id:
-            user.id,
-
-        title:
-            title,
-
-        skill:
-            skill,
-
-        level:
-            level,
-
-        lesson_number:
-            number
-            ? Number(number)
-            : null,
-
-        description:
-            description,
-
-        intro:
-            intro,
-
-        video_name:
-            video.name,
-
-        video_url:
-            videoUrl
-
-    };
-
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("lessons")
-        .insert(
-            lessonData
-        )
-        .select()
-        .single();
-
-
-    if(error){
-
-        console.error(
-            "Lesson database error:",
             error
         );
 
-        /*
-           Remove uploaded video if DB
-           insertion fails.
-        */
+        if(uploadedPath){
 
-        await supabaseClient
-            .storage
-            .from("lesson-videos")
-            .remove([
-                filePath
-            ]);
+            await removeStorageFile(
+                "lesson-videos",
+                uploadedPath
+            );
 
-        alert(
-            "Lesson could not be saved to Supabase."
+        }
+
+
+        showToast(
+            "An unexpected error occurred while saving the lesson.",
+            "error"
         );
 
-        return;
+    }finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Save Lesson";
 
     }
-
-
-    teacherData.lessons.unshift({
-
-        id:data.id,
-
-        title,
-        skill,
-        level,
-
-        lessonNumber:
-            number,
-
-        description,
-        intro,
-
-        videoName:
-            video.name,
-
-        videoUrl,
-
-        createdAt:
-            data.created_at
-
-    });
-
-
-    renderLessons();
-
-
-    document.getElementById(
-        "lessonTitle"
-    ).value = "";
-
-    document.getElementById(
-        "lessonSkill"
-    ).value = "";
-
-    document.getElementById(
-        "lessonLevel"
-    ).value = "";
-
-    document.getElementById(
-        "lessonNumber"
-    ).value = "";
-
-    document.getElementById(
-        "lessonDescription"
-    ).value = "";
-
-    document.getElementById(
-        "lessonIntro"
-    ).value = "";
-
-    document.getElementById(
-        "lessonVideo"
-    ).value = "";
-
-    document.getElementById(
-        "videoFileName"
-    ).textContent = "";
-
-
-    alert(
-        "Lesson saved successfully to Supabase."
-    );
 
 }
 
 
 /* =====================================================
-   DELETE LESSON FROM SUPABASE
+   DELETE LESSON
 ===================================================== */
 
-async function deleteLesson(index){
+async function deleteLesson(
+    index
+){
 
     const lesson =
         teacherData.lessons[index];
@@ -984,15 +2255,22 @@ async function deleteLesson(index){
         return;
 
 
-    if(!confirm(
-        "Delete this lesson?"
-    ))
+    if(
+        !confirm(
+            "Delete this lesson?"
+        )
+    )
+        return;
+
+
+    if(!currentTeacherId)
         return;
 
 
     const {
         error
-    } = await supabaseClient
+    } =
+        await supabaseClient
         .from("lessons")
         .delete()
         .eq(
@@ -1007,13 +2285,45 @@ async function deleteLesson(index){
 
     if(error){
 
-        console.error(error);
+        console.error(
+            "Delete lesson error:",
+            error
+        );
 
-        alert(
-            "Lesson could not be deleted."
+        showToast(
+            "Lesson could not be deleted: " +
+            error.message,
+            "error"
         );
 
         return;
+
+    }
+
+
+    /*
+     * Try to remove the video too.
+     * Database deletion is already complete,
+     * so a storage cleanup failure should not
+     * make the user think the lesson remains.
+     */
+
+    if(lesson.videoUrl){
+
+        const path =
+            extractStoragePath(
+                lesson.videoUrl,
+                "lesson-videos"
+            );
+
+        if(path){
+
+            await removeStorageFile(
+                "lesson-videos",
+                path
+            );
+
+        }
 
     }
 
@@ -1025,6 +2335,11 @@ async function deleteLesson(index){
 
 
     renderLessons();
+
+
+    showToast(
+        "Lesson deleted successfully."
+    );
 
 }
 
@@ -1042,8 +2357,11 @@ async function loadPaymentFromSupabase(){
     const {
         data,
         error
-    } = await supabaseClient
-        .from("teacher_payment_settings")
+    } =
+        await supabaseClient
+        .from(
+            "teacher_payment_settings"
+        )
         .select("*")
         .eq(
             "teacher_id",
@@ -1054,8 +2372,13 @@ async function loadPaymentFromSupabase(){
 
     if(error){
 
-        console.log(
-            "Payment settings not loaded:",
+        /*
+         * If this table has not been created yet,
+         * dashboard should continue working.
+         */
+
+        console.warn(
+            "Payment settings unavailable:",
             error.message
         );
 
@@ -1099,6 +2422,13 @@ async function loadPaymentFromSupabase(){
 
 async function savePaymentSettings(){
 
+    const user =
+        await getLoggedTeacher();
+
+    if(!user)
+        return;
+
+
     teacherData.payment.bankName =
         document
         .getElementById("bankName")
@@ -1124,16 +2454,10 @@ async function savePaymentSettings(){
         .trim();
 
 
-    const user =
-        await getLoggedTeacher();
-
-    if(!user)
-        return;
-
-
     const {
         error
-    } = await supabaseClient
+    } =
+        await supabaseClient
         .from(
             "teacher_payment_settings"
         )
@@ -1168,10 +2492,15 @@ async function savePaymentSettings(){
 
     if(error){
 
-        console.error(error);
+        console.error(
+            "Payment save error:",
+            error
+        );
 
-        alert(
-            "Payment settings could not be saved."
+        showToast(
+            "Payment settings could not be saved: " +
+            error.message,
+            "error"
         );
 
         return;
@@ -1179,8 +2508,8 @@ async function savePaymentSettings(){
     }
 
 
-    alert(
-        "Payment settings saved to Supabase."
+    showToast(
+        "Payment settings saved successfully."
     );
 
 }
@@ -1205,9 +2534,13 @@ document
 
         if(!file.type.startsWith("image/")){
 
-            alert(
-                "Please select an image."
+            showToast(
+                "Please select an image.",
+                "error"
             );
+
+            this.value =
+                "";
 
             return;
 
@@ -1222,9 +2555,9 @@ document
 
 
         const extension =
-            file.name
-            .split(".")
-            .pop();
+            getSafeExtension(
+                file.name
+            );
 
 
         const filePath =
@@ -1244,17 +2577,23 @@ document
                 file,
                 {
                     upsert:true,
-                    contentType:file.type
+                    contentType:
+                        file.type
                 }
             );
 
 
         if(error){
 
-            console.error(error);
+            console.error(
+                "Profile image upload error:",
+                error
+            );
 
-            alert(
-                "Profile image upload failed."
+            showToast(
+                "Profile image upload failed: " +
+                error.message,
+                "error"
             );
 
             return;
@@ -1273,10 +2612,20 @@ document
             );
 
 
-        teacherData.profileImage =
-            data.publicUrl +
-            "?t=" +
-            Date.now();
+        if(!data?.publicUrl){
+
+            showToast(
+                "Profile image URL could not be created.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const imageUrl =
+            data.publicUrl;
 
 
         const {
@@ -1287,7 +2636,7 @@ document
             .update({
 
                 profile_image:
-                    teacherData.profileImage
+                    imageUrl
 
             })
             .eq(
@@ -1298,10 +2647,15 @@ document
 
         if(updateError){
 
-            console.error(updateError);
+            console.error(
+                "Profile image database error:",
+                updateError
+            );
 
-            alert(
-                "Profile image URL could not be saved."
+            showToast(
+                "Profile image URL could not be saved: " +
+                updateError.message,
+                "error"
             );
 
             return;
@@ -1309,10 +2663,17 @@ document
         }
 
 
+        teacherData.profileImage =
+            imageUrl +
+            "?t=" +
+            Date.now();
+
+
         updateInterface();
 
-        alert(
-            "Profile photo saved to Supabase."
+
+        showToast(
+            "Profile photo saved successfully."
         );
 
     }
@@ -1339,6 +2700,7 @@ function updateInterface(){
     ).textContent =
         name;
 
+
     document.getElementById(
         "sideSkill"
     ).textContent =
@@ -1350,20 +2712,24 @@ function updateInterface(){
     ).value =
         teacherData.name || "";
 
+
     document.getElementById(
         "profileEmail"
     ).value =
         teacherData.email || "";
+
 
     document.getElementById(
         "profileSkill"
     ).value =
         teacherData.skill || "";
 
+
     document.getElementById(
         "profileGroup"
     ).value =
         teacherData.group || "";
+
 
     document.getElementById(
         "profileIntro"
@@ -1378,6 +2744,7 @@ function updateInterface(){
         ).src =
             teacherData.profileImage;
 
+
         document.getElementById(
             "sideAvatar"
         ).src =
@@ -1388,10 +2755,12 @@ function updateInterface(){
         const avatar =
             createAvatar(name);
 
+
         document.getElementById(
             "profileImage"
         ).src =
             avatar;
+
 
         document.getElementById(
             "sideAvatar"
@@ -1404,7 +2773,8 @@ function updateInterface(){
     document.getElementById(
         "teacherGroup"
     ).textContent =
-        teacherData.group || "—";
+        teacherData.group ||
+        "—";
 
 
     updatePaymentInterface();
@@ -1429,15 +2799,18 @@ function updatePaymentInterface(){
     ).value =
         teacherData.payment.bankName || "";
 
+
     document.getElementById(
         "accountHolder"
     ).value =
         teacherData.payment.accountHolder || "";
 
+
     document.getElementById(
         "paymentEmail"
     ).value =
         teacherData.payment.paymentEmail || "";
+
 
     document.getElementById(
         "accountReference"
@@ -1449,16 +2822,24 @@ function updatePaymentInterface(){
     .querySelectorAll(
         ".payment-method"
     )
-    .forEach(card => {
+    .forEach(
+        card => {
 
-        card.classList.toggle(
-            "selected",
-            card.querySelector("strong")
-            ?.textContent ===
-            teacherData.payment.method
-        );
+            const method =
+                card.querySelector(
+                    "strong"
+                )?.textContent
+                ?.trim();
 
-    });
+
+            card.classList.toggle(
+                "selected",
+                method ===
+                teacherData.payment.method
+            );
+
+        }
+    );
 
 }
 
@@ -1474,19 +2855,31 @@ function createAvatar(name){
         .charAt(0)
         .toUpperCase();
 
+
     const svg = `
     <svg xmlns="http://www.w3.org/2000/svg"
          width="200"
          height="200">
-        <rect width="200" height="200" fill="#10243b"/>
-        <text x="100" y="125"
-              text-anchor="middle"
-              font-size="90"
-              font-family="Arial"
-              fill="#d4af37">
-            ${first}
+
+        <rect
+            width="200"
+            height="200"
+            fill="#10243b"
+        />
+
+        <text
+            x="100"
+            y="125"
+            text-anchor="middle"
+            font-size="90"
+            font-family="Arial"
+            fill="#d4af37"
+        >
+            ${escapeXML(first)}
         </text>
+
     </svg>`;
+
 
     return "data:image/svg+xml;charset=UTF-8," +
         encodeURIComponent(svg);
@@ -1505,36 +2898,67 @@ function showSection(
 
     document
     .querySelectorAll(".section")
-    .forEach(section =>
-        section.classList.remove("active")
+    .forEach(
+        section =>
+            section.classList.remove(
+                "active"
+            )
     );
 
 
-    document
-    .getElementById(sectionId)
-    .classList.add("active");
+    const section =
+        document.getElementById(
+            sectionId
+        );
+
+
+    if(!section)
+        return;
+
+
+    section.classList.add(
+        "active"
+    );
 
 
     document
     .querySelectorAll(".nav button")
-    .forEach(btn =>
-        btn.classList.remove("active")
+    .forEach(
+        btn =>
+            btn.classList.remove(
+                "active"
+            )
     );
 
 
     if(button)
-        button.classList.add("active");
+        button.classList.add(
+            "active"
+        );
 
 
     const titles = {
 
-        dashboard:"Teacher Dashboard",
-        profile:"My Profile",
-        lessons:"My Lessons",
-        upload:"Add Lesson",
-        payments:"Payment Settings",
-        competition:"Competition",
-        ai:"AI Assistant"
+        dashboard:
+            "Teacher Dashboard",
+
+        profile:
+            "My Profile",
+
+        lessons:
+            "My Lessons",
+
+        upload:
+            "Add Lesson",
+
+        payments:
+            "Payment Settings",
+
+        competition:
+            "Competition",
+
+        ai:
+            "AI Assistant"
 
     };
 
@@ -1542,16 +2966,27 @@ function showSection(
     document.getElementById(
         "pageTitle"
     ).textContent =
-        titles[sectionId];
+        titles[sectionId] ||
+        "Teacher Dashboard";
 
 
-    if(sectionId === "competition")
+    if(
+        sectionId ===
+        "competition"
+    ){
+
         loadCompetitionFromSupabase();
+
+    }
 
 
     document
-    .getElementById("sidebar")
-    .classList.remove("open");
+    .getElementById(
+        "sidebar"
+    )
+    .classList.remove(
+        "open"
+    );
 
 }
 
@@ -1563,16 +2998,21 @@ function showSectionById(
     const button =
         [
             ...document
-            .querySelectorAll(".nav button")
-        ]
-        .find(btn =>
-            btn
-            .getAttribute("onclick")
-            ?.includes(
-                "'" +
-                sectionId +
-                "'"
+            .querySelectorAll(
+                ".nav button"
             )
+        ]
+        .find(
+            btn =>
+                btn
+                .getAttribute(
+                    "onclick"
+                )
+                ?.includes(
+                    "'" +
+                    sectionId +
+                    "'"
+                )
         );
 
 
@@ -1587,14 +3027,18 @@ function showSectionById(
 function toggleSidebar(){
 
     document
-    .getElementById("sidebar")
-    .classList.toggle("open");
+    .getElementById(
+        "sidebar"
+    )
+    .classList.toggle(
+        "open"
+    );
 
 }
 
 
 /* =====================================================
-   VIDEO NAME
+   VIDEO INPUT
 ===================================================== */
 
 document
@@ -1614,19 +3058,25 @@ document
 
         if(!file){
 
-            output.textContent = "";
+            output.textContent =
+                "";
 
             return;
 
         }
 
 
-        if(!file.type.startsWith("video/")){
+        if(
+            !file.type.startsWith(
+                "video/"
+            )
+        ){
 
             output.textContent =
                 "Please select a video.";
 
-            this.value = "";
+            this.value =
+                "";
 
             return;
 
@@ -1638,6 +3088,62 @@ document
 
     }
 );
+
+
+/* =====================================================
+   CLEAR LESSON FORM
+===================================================== */
+
+function clearLessonForm(){
+
+    document.getElementById(
+        "lessonTitle"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "lessonSkill"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "lessonLevel"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "lessonNumber"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "lessonDescription"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "lessonIntro"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "lessonVideo"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "videoFileName"
+    ).textContent =
+        "";
+
+}
 
 
 /* =====================================================
@@ -1664,11 +3170,14 @@ function renderLessons(){
                 No lessons added yet.
             </div>`;
 
+
         all.innerHTML =
             empty;
 
+
         dashboard.innerHTML =
             empty;
+
 
         updateDashboardCount();
 
@@ -1708,6 +3217,7 @@ function renderLessons(){
                     display:flex;
                     align-items:center;
                     gap:7px;
+                    flex-wrap:wrap;
                 ">
 
                     <span class="level-badge">
@@ -1718,13 +3228,15 @@ function renderLessons(){
 
                     <button
                         class="btn btn-dark"
-                        onclick="viewLesson(${index})">
+                        onclick="viewLesson(${index})"
+                    >
                         View
                     </button>
 
                     <button
                         class="btn btn-danger"
-                        onclick="deleteLesson(${index})">
+                        onclick="deleteLesson(${index})"
+                    >
                         Delete
                     </button>
 
@@ -1798,78 +3310,144 @@ function viewLesson(index){
     const lesson =
         teacherData.lessons[index];
 
+    if(!lesson)
+        return;
+
+
+    const videoButton =
+        lesson.videoUrl
+        ?
+        `
+        <a
+            href="${escapeHTML(
+                lesson.videoUrl
+            )}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-blue"
+            style="
+                display:inline-block;
+                text-decoration:none;
+            "
+        >
+            Open Lesson Video
+        </a>
+        `
+        :
+        "";
+
+
     document.getElementById(
         "lessonModalContent"
     ).innerHTML = `
 
         <div class="field">
-            <label>Lesson Title</label>
+
+            <label>
+                Lesson Title
+            </label>
+
             <input
                 value="${escapeHTML(
                     lesson.title
                 )}"
-                readonly>
+                readonly
+            >
+
         </div>
 
+
         <div class="field">
-            <label>Skill</label>
+
+            <label>
+                Skill
+            </label>
+
             <input
                 value="${escapeHTML(
                     lesson.skill
                 )}"
-                readonly>
+                readonly
+            >
+
         </div>
 
+
         <div class="field">
-            <label>Level</label>
+
+            <label>
+                Level
+            </label>
+
             <input
                 value="${escapeHTML(
                     lesson.level
                 )}"
-                readonly>
+                readonly
+            >
+
         </div>
 
+
         <div class="field">
-            <label>Video File</label>
+
+            <label>
+                Lesson Number
+            </label>
+
+            <input
+                value="${escapeHTML(
+                    lesson.lessonNumber
+                )}"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Video File
+            </label>
+
             <input
                 value="${escapeHTML(
                     lesson.videoName
                 )}"
-                readonly>
+                readonly
+            >
+
         </div>
 
+
         <div class="field">
-            <label>Description</label>
+
+            <label>
+                Description
+            </label>
+
             <textarea readonly>${escapeHTML(
                 lesson.description
             )}</textarea>
+
         </div>
 
+
         <div class="field">
-            <label>Introduction</label>
+
+            <label>
+                Introduction
+            </label>
+
             <textarea readonly>${escapeHTML(
                 lesson.intro || ""
             )}</textarea>
+
         </div>
 
-        ${
-            lesson.videoUrl
-            ? `
-            <a
-                href="${escapeHTML(
-                    lesson.videoUrl
-                )}"
-                target="_blank"
-                class="btn btn-blue"
-                style="
-                    display:inline-block;
-                    text-decoration:none;
-                ">
-                Open Lesson Video
-            </a>
-            `
-            : ""
-        }
+
+        ${videoButton}
 
     `;
 
@@ -1878,7 +3456,9 @@ function viewLesson(index){
     .getElementById(
         "lessonModal"
     )
-    .classList.add("show");
+    .classList.add(
+        "show"
+    );
 
 }
 
@@ -1889,9 +3469,32 @@ function closeLessonModal(){
     .getElementById(
         "lessonModal"
     )
-    .classList.remove("show");
+    .classList.remove(
+        "show"
+    );
 
 }
+
+
+document
+.getElementById(
+    "lessonModal"
+)
+.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target ===
+            this
+        ){
+
+            closeLessonModal();
+
+        }
+
+    }
+);
 
 
 /* =====================================================
@@ -1907,10 +3510,11 @@ function selectPayment(
     .querySelectorAll(
         ".payment-method"
     )
-    .forEach(card =>
-        card.classList.remove(
-            "selected"
-        )
+    .forEach(
+        card =>
+            card.classList.remove(
+                "selected"
+            )
     );
 
 
@@ -1931,30 +3535,51 @@ function selectPayment(
 
 const competitionData = {
 
-    status:"waiting",
+    status:
+        "waiting",
 
-    startTime:null,
+    startTime:
+        null,
 
-    endTime:null,
+    endTime:
+        null,
 
     groups:{
 
         lower:{
-            name:"Lower",
-            capacity:300,
+
+            name:
+                "Lower",
+
+            capacity:
+                300,
+
             students:[]
+
         },
 
         medium:{
-            name:"Medium",
-            capacity:300,
+
+            name:
+                "Medium",
+
+            capacity:
+                300,
+
             students:[]
+
         },
 
         high:{
-            name:"High",
-            capacity:300,
+
+            name:
+                "High",
+
+            capacity:
+                300,
+
             students:[]
+
         }
 
     }
@@ -1976,7 +3601,9 @@ function createCompetitionPositions(){
     .forEach(
         groupName => {
 
-            const positions = [];
+            const positions =
+                [];
+
 
             for(
                 let rank = 1;
@@ -1986,19 +3613,26 @@ function createCompetitionPositions(){
 
                 positions.push({
 
-                    rank,
+                    rank:
+                        rank,
 
-                    id:null,
+                    id:
+                        null,
 
-                    name:null,
+                    name:
+                        null,
 
-                    points:null,
+                    points:
+                        null,
 
-                    round:null,
+                    round:
+                        null,
 
-                    status:"waiting",
+                    status:
+                        "waiting",
 
-                    reward:"Pending"
+                    reward:
+                        "Pending"
 
                 });
 
@@ -2006,7 +3640,9 @@ function createCompetitionPositions(){
 
 
             competitionData
-            .groups[groupName]
+            .groups[
+                groupName
+            ]
             .students =
                 positions;
 
@@ -2020,7 +3656,7 @@ createCompetitionPositions();
 
 
 /* =====================================================
-   LOAD REAL COMPETITION DATA FROM SUPABASE
+   COMPETITION LOAD
 ===================================================== */
 
 async function loadCompetitionFromSupabase(){
@@ -2028,7 +3664,8 @@ async function loadCompetitionFromSupabase(){
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+        await supabaseClient
         .from(
             "competition_leaderboard"
         )
@@ -2048,6 +3685,12 @@ async function loadCompetitionFromSupabase(){
             error
         );
 
+        /*
+         * Keep the 300-position display
+         * even if the table is temporarily
+         * unavailable.
+         */
+
         renderCompetition();
 
         return;
@@ -2062,12 +3705,18 @@ async function loadCompetitionFromSupabase(){
     .forEach(
         student => {
 
+            const groupValue =
+                student.group ??
+                student.competition_group ??
+                student.competitionGroup ??
+                "";
+
+
             const group =
                 String(
-                    student.group ||
-                    student.competition_group ||
-                    ""
+                    groupValue
                 )
+                .trim()
                 .toLowerCase();
 
 
@@ -2085,6 +3734,9 @@ async function loadCompetitionFromSupabase(){
 
 
             if(
+                !Number.isInteger(
+                    rank
+                ) ||
                 rank < 1 ||
                 rank > 300
             )
@@ -2093,29 +3745,32 @@ async function loadCompetitionFromSupabase(){
 
             competitionData
             .groups[group]
-            .students[rank - 1] = {
+            .students[
+                rank - 1
+            ] = {
 
-                rank,
+                rank:
+                    rank,
 
                 id:
-                    student.student_id ||
-                    student.id ||
+                    student.student_id ??
+                    student.studentId ??
+                    student.id ??
                     null,
 
                 name:
-                    student.student_name ||
-                    student.name ||
+                    student.student_name ??
+                    student.studentName ??
+                    student.name ??
                     null,
 
                 points:
-                    student.points !== undefined
-                    ? student.points
-                    : null,
+                    student.points ??
+                    null,
 
                 round:
-                    student.round !== undefined
-                    ? student.round
-                    : null,
+                    student.round ??
+                    null,
 
                 status:
                     student.status ||
@@ -2131,7 +3786,65 @@ async function loadCompetitionFromSupabase(){
     );
 
 
+    /*
+     * Competition timing can be supplied
+     * by a competition table when those
+     * columns exist in the leaderboard.
+     */
+
+    if(data && data.length){
+
+        const first =
+            data[0];
+
+
+        if(first.status){
+
+            const status =
+                String(
+                    first.status
+                )
+                .toLowerCase();
+
+
+            if(
+                [
+                    "waiting",
+                    "live",
+                    "finished"
+                ]
+                .includes(status)
+            ){
+
+                competitionData.status =
+                    status;
+
+            }
+
+        }
+
+
+        if(first.start_time){
+
+            competitionData.startTime =
+                first.start_time;
+
+        }
+
+
+        if(first.end_time){
+
+            competitionData.endTime =
+                first.end_time;
+
+        }
+
+    }
+
+
     renderCompetition();
+
+    updateCompetitionStatus();
 
 }
 
@@ -2145,6 +3858,12 @@ function switchCompetitionGroup(
     button
 ){
 
+    if(
+        !competitionData.groups[group]
+    )
+        return;
+
+
     currentCompetitionGroup =
         group;
 
@@ -2153,16 +3872,21 @@ function switchCompetitionGroup(
     .querySelectorAll(
         ".competition-group-btn"
     )
-    .forEach(btn =>
-        btn.classList.remove(
+    .forEach(
+        btn =>
+            btn.classList.remove(
+                "active"
+            )
+    );
+
+
+    if(button){
+
+        button.classList.add(
             "active"
-        )
-    );
+        );
 
-
-    button.classList.add(
-        "active"
-    );
+    }
 
 
     renderCompetition();
@@ -2181,6 +3905,10 @@ function renderCompetition(){
         .groups[
             currentCompetitionGroup
         ];
+
+
+    if(!group)
+        return;
 
 
     document.getElementById(
@@ -2212,17 +3940,28 @@ function renderCompetition(){
         );
 
 
-    tbody.innerHTML = "";
+    tbody.innerHTML =
+        "";
 
 
     group.students.forEach(
         student => {
 
             const name =
-                student.name || "";
+                student.name
+                ? String(
+                    student.name
+                )
+                : "";
+
 
             const studentId =
-                student.id || "";
+                student.id !== null &&
+                student.id !== undefined
+                ? String(
+                    student.id
+                )
+                : "";
 
 
             if(
@@ -2233,8 +3972,11 @@ function renderCompetition(){
                 !studentId
                 .toLowerCase()
                 .includes(search)
-            )
+            ){
+
                 return;
+
+            }
 
 
             const row =
@@ -2254,40 +3996,55 @@ function renderCompetition(){
                 <td>
                     ${
                         student.name
-                        ? escapeHTML(
+                        ?
+                        escapeHTML(
                             student.name
                         )
-                        : `<span class="empty-student">
+                        :
+                        `<span class="empty-student">
                             Waiting for student
-                           </span>`
+                        </span>`
                     }
                 </td>
 
                 <td>
                     ${
-                        student.id
-                        ? escapeHTML(
+                        student.id !== null &&
+                        student.id !== undefined
+                        ?
+                        escapeHTML(
                             student.id
                         )
-                        : "—"
+                        :
+                        "—"
                     }
                 </td>
 
                 <td>
                     ${
-                        student.points !== null
-                        ? `<span class="points-number">
-                            ${student.points}
-                           </span>`
-                        : "—"
+                        student.points !== null &&
+                        student.points !== undefined
+                        ?
+                        `<span class="points-number">
+                            ${escapeHTML(
+                                student.points
+                            )}
+                        </span>`
+                        :
+                        "—"
                     }
                 </td>
 
                 <td>
                     ${
-                        student.round !== null
-                        ? student.round
-                        : "—"
+                        student.round !== null &&
+                        student.round !== undefined
+                        ?
+                        escapeHTML(
+                            student.round
+                        )
+                        :
+                        "—"
                     }
                 </td>
 
@@ -2300,7 +4057,8 @@ function renderCompetition(){
                 <td>
                     <span class="reward-pending">
                         ${escapeHTML(
-                            student.reward
+                            student.reward ||
+                            "Pending"
                         )}
                     </span>
                 </td>
@@ -2323,6 +4081,10 @@ function renderCompetition(){
 }
 
 
+/* =====================================================
+   STUDENT STATUS
+===================================================== */
+
 function getStudentStatusHTML(
     student
 ){
@@ -2334,9 +4096,17 @@ function getStudentStatusHTML(
         "status-waiting";
 
 
+    const status =
+        String(
+            student.status ||
+            "waiting"
+        )
+        .toLowerCase();
+
+
     if(
-        competitionData.status === "live" &&
-        student.status === "active"
+        status ===
+        "active"
     ){
 
         label =
@@ -2349,7 +4119,7 @@ function getStudentStatusHTML(
 
 
     if(
-        student.status ===
+        status ===
         "eliminated"
     ){
 
@@ -2362,11 +4132,29 @@ function getStudentStatusHTML(
     }
 
 
+    if(
+        status ===
+        "finished"
+    ){
+
+        label =
+            "Finished";
+
+        className =
+            "status-active";
+
+    }
+
+
     return `
 
-        <span class="student-status ${className}">
+        <span
+            class="student-status ${className}"
+        >
 
-            <span class="student-status-dot"></span>
+            <span
+                class="student-status-dot"
+            ></span>
 
             ${label}
 
@@ -2377,6 +4165,10 @@ function getStudentStatusHTML(
 }
 
 
+/* =====================================================
+   COMPETITION SUMMARY
+===================================================== */
+
 function updateCompetitionSummary(
     group
 ){
@@ -2384,13 +4176,15 @@ function updateCompetitionSummary(
     const realStudents =
         group.students.filter(
             student =>
-                student.name !== null
+                student.name !== null &&
+                student.name !== ""
         );
 
 
     const highestPoints =
         realStudents.length
-        ? Math.max(
+        ?
+        Math.max(
             ...realStudents.map(
                 student =>
                     Number(
@@ -2398,7 +4192,8 @@ function updateCompetitionSummary(
                     ) || 0
             )
         )
-        : 0;
+        :
+        0;
 
 
     document.getElementById(
@@ -2428,15 +4223,18 @@ function updateCompetitionStatus(){
     const status =
         competitionData.status;
 
+
     const badge =
         document.getElementById(
             "competitionStatus"
         );
 
+
     const text =
         document.getElementById(
             "competitionStatusText"
         );
+
 
     const timer =
         document.getElementById(
@@ -2448,7 +4246,10 @@ function updateCompetitionStatus(){
         "competition-status";
 
 
-    if(status === "waiting"){
+    if(
+        status ===
+        "waiting"
+    ){
 
         text.textContent =
             "Competition Not Started";
@@ -2459,7 +4260,10 @@ function updateCompetitionStatus(){
     }
 
 
-    else if(status === "live"){
+    else if(
+        status ===
+        "live"
+    ){
 
         badge.classList.add(
             "live"
@@ -2473,7 +4277,10 @@ function updateCompetitionStatus(){
     }
 
 
-    else if(status === "finished"){
+    else if(
+        status ===
+        "finished"
+    ){
 
         badge.classList.add(
             "finished"
@@ -2495,12 +4302,45 @@ function updateCompetitionStatus(){
 
 function updateCompetitionTimer(){
 
-    if(!competitionData.endTime){
+    if(
+        competitionData.status !==
+        "live"
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        !competitionData.endTime
+    ){
 
         document.getElementById(
             "competitionTimer"
         ).textContent =
-            "7 Days";
+            "Live";
+
+        return;
+
+    }
+
+
+    const end =
+        new Date(
+            competitionData.endTime
+        )
+        .getTime();
+
+
+    if(
+        Number.isNaN(end)
+    ){
+
+        document.getElementById(
+            "competitionTimer"
+        ).textContent =
+            "Live";
 
         return;
 
@@ -2508,17 +4348,17 @@ function updateCompetitionTimer(){
 
 
     const remaining =
-        new Date(
-            competitionData.endTime
-        ).getTime()
-        -
+        end -
         Date.now();
 
 
-    if(remaining <= 0){
+    if(
+        remaining <= 0
+    ){
 
         competitionData.status =
             "finished";
+
 
         updateCompetitionStatus();
 
@@ -2533,21 +4373,33 @@ function updateCompetitionTimer(){
             86400000
         );
 
+
     const hours =
         Math.floor(
-            remaining % 86400000 /
+            (
+                remaining %
+                86400000
+            ) /
             3600000
         );
 
+
     const minutes =
         Math.floor(
-            remaining % 3600000 /
+            (
+                remaining %
+                3600000
+            ) /
             60000
         );
 
+
     const seconds =
         Math.floor(
-            remaining % 60000 /
+            (
+                remaining %
+                60000
+            ) /
             1000
         );
 
@@ -2583,10 +4435,12 @@ async function sendAIMessage(
             "aiInput"
         );
 
+
     const messages =
         document.getElementById(
             "chatMessages"
         );
+
 
     const text =
         input.value.trim();
@@ -2601,18 +4455,22 @@ async function sendAIMessage(
             "div"
         );
 
+
     userMessage.className =
         "message user";
 
+
     userMessage.textContent =
         text;
+
 
     messages.appendChild(
         userMessage
     );
 
 
-    input.value = "";
+    input.value =
+        "";
 
 
     const aiMessage =
@@ -2620,11 +4478,14 @@ async function sendAIMessage(
             "div"
         );
 
+
     aiMessage.className =
         "message ai";
 
+
     aiMessage.textContent =
         "AI backend is ready to be connected.";
+
 
     messages.appendChild(
         aiMessage
@@ -2643,17 +4504,31 @@ async function sendAIMessage(
 
 async function logoutTeacher(){
 
-    await supabaseClient
+    try{
+
+        await supabaseClient
         .auth
         .signOut();
+
+    }catch(error){
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+    }
+
 
     sessionStorage.removeItem(
         "gurhub_teacher"
     );
 
+
     localStorage.removeItem(
         STORAGE_KEY
     );
+
 
     window.location.href =
         "teacher-login.html";
@@ -2665,10 +4540,13 @@ async function logoutTeacher(){
    ESCAPE HTML
 ===================================================== */
 
-function escapeHTML(value){
+function escapeHTML(
+    value
+){
 
     return String(
-        value || ""
+        value ??
+        ""
     )
     .replace(
         /&/g,
@@ -2694,70 +4572,302 @@ function escapeHTML(value){
 }
 
 
+function escapeXML(
+    value
+){
+
+    return String(
+        value ??
+        ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&apos;"
+    );
+
+}
+
+
 /* =====================================================
-   REAL-TIME SUPABASE
+   FILE HELPERS
+===================================================== */
+
+function getSafeExtension(
+    fileName
+){
+
+    const clean =
+        String(
+            fileName ||
+            ""
+        )
+        .split("?")[0]
+        .split("#")[0];
+
+
+    const parts =
+        clean
+        .split(".");
+
+
+    if(
+        parts.length < 2
+    ){
+
+        return "bin";
+
+    }
+
+
+    const extension =
+        parts
+        .pop()
+        .toLowerCase()
+        .replace(
+            /[^a-z0-9]/g,
+            ""
+        );
+
+
+    return extension ||
+        "bin";
+
+}
+
+
+async function removeStorageFile(
+    bucket,
+    path
+){
+
+    if(!path)
+        return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+        .storage
+        .from(bucket)
+        .remove([
+            path
+        ]);
+
+
+    if(error){
+
+        console.warn(
+            "Storage cleanup error:",
+            error
+        );
+
+    }
+
+}
+
+
+function extractStoragePath(
+    publicUrl,
+    bucket
+){
+
+    try{
+
+        const url =
+            new URL(
+                publicUrl
+            );
+
+
+        const marker =
+            "/storage/v1/object/public/" +
+            bucket +
+            "/";
+
+
+        const index =
+            url.pathname.indexOf(
+                marker
+            );
+
+
+        if(
+            index === -1
+        ){
+
+            return null;
+
+        }
+
+
+        return decodeURIComponent(
+            url.pathname
+            .substring(
+                index +
+                marker.length
+            )
+        );
+
+    }catch(error){
+
+        return null;
+
+    }
+
+}
+
+
+/* =====================================================
+   REAL-TIME
+===================================================== */
+
+let realtimeChannel = null;
+
+
+function setupRealtime(){
+
+    if(realtimeChannel)
+        return;
+
+
+    realtimeChannel =
+        supabaseClient
+        .channel(
+            "gurhub-teacher-dashboard"
+        );
+
+
+    realtimeChannel
+    .on(
+        "postgres_changes",
+        {
+            event:"*",
+            schema:"public",
+            table:"teachers"
+        },
+        async payload => {
+
+            const changedUserId =
+                payload.new?.user_id ||
+                payload.old?.user_id ||
+                null;
+
+
+            if(
+                changedUserId ===
+                currentTeacherId
+            ){
+
+                await loadTeacherFromSupabase();
+
+            }
+
+        }
+    )
+    .on(
+        "postgres_changes",
+        {
+            event:"*",
+            schema:"public",
+            table:"lessons"
+        },
+        async payload => {
+
+            const teacherId =
+                payload.new?.teacher_id ||
+                payload.old?.teacher_id ||
+                null;
+
+
+            if(
+                teacherId ===
+                currentTeacherId
+            ){
+
+                await loadLessonsFromSupabase();
+
+            }
+
+        }
+    )
+    .on(
+        "postgres_changes",
+        {
+            event:"*",
+            schema:"public",
+            table:"competition_leaderboard"
+        },
+        async () => {
+
+            await loadCompetitionFromSupabase();
+
+        }
+    )
+    .subscribe(
+        status => {
+
+            console.log(
+                "GURHUB realtime:",
+                status
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   AUTH STATE
 ===================================================== */
 
 supabaseClient
-.channel(
-    "gurhub-teacher-dashboard"
-)
-.on(
-    "postgres_changes",
-    {
-        event:"*",
-        schema:"public",
-        table:"teachers"
-    },
-    async payload => {
+.auth
+.onAuthStateChange(
+    (event, session) => {
 
         if(
-            payload.new?.user_id ===
-            currentTeacherId
+            event ===
+            "SIGNED_OUT"
         ){
 
-            await loadTeacherFromSupabase();
+            window.location.href =
+                "teacher-login.html";
+
+            return;
+
+        }
+
+
+        if(
+            session?.user &&
+            !currentTeacherId
+        ){
+
+            currentTeacherId =
+                session.user.id;
 
         }
 
     }
-)
-.on(
-    "postgres_changes",
-    {
-        event:"*",
-        schema:"public",
-        table:"lessons"
-    },
-    async payload => {
-
-        if(
-            payload.new?.teacher_id ===
-            currentTeacherId ||
-            payload.old?.teacher_id ===
-            currentTeacherId
-        ){
-
-            await loadLessonsFromSupabase();
-
-        }
-
-    }
-)
-.on(
-    "postgres_changes",
-    {
-        event:"*",
-        schema:"public",
-        table:"competition_leaderboard"
-    },
-    async () => {
-
-        await loadCompetitionFromSupabase();
-
-    }
-)
-.subscribe();
+);
 
 
 /* =====================================================
@@ -2766,14 +4876,26 @@ supabaseClient
 
 (async function(){
 
+    const user =
+        await getLoggedTeacher();
+
+
+    if(!user)
+        return;
+
+
+    setupRealtime();
+
+
     await loadTeacherFromSupabase();
 
-    updateCompetitionStatus();
 
     await loadCompetitionFromSupabase();
 
-})();
 
+    updateCompetitionStatus();
+
+})();
 </script>
 
 </body>
