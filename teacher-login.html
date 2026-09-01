@@ -284,6 +284,138 @@ body::after{
 
 
 /* =========================
+   AUTH METHODS
+========================= */
+
+.auth-methods{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:8px;
+
+    margin-bottom:20px;
+}
+
+.method-btn{
+    min-height:43px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+    background:rgba(255,255,255,.035);
+
+    color:#dbe5f0;
+
+    cursor:pointer;
+
+    font-size:11px;
+
+    font-weight:750;
+
+    transition:.2s;
+}
+
+.method-btn:hover{
+    background:rgba(255,255,255,.075);
+
+    border-color:rgba(96,165,250,.35);
+
+    transform:translateY(-1px);
+}
+
+.method-btn.active{
+    color:white;
+
+    border-color:rgba(96,165,250,.45);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37,99,235,.25),
+            rgba(139,92,246,.20)
+        );
+}
+
+
+/* =========================
+   OAUTH
+========================= */
+
+.oauth-title{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin:18px 0 12px;
+
+    color:#64748b;
+
+    font-size:9px;
+
+    font-weight:800;
+
+    letter-spacing:.5px;
+}
+
+.oauth-title::before,
+.oauth-title::after{
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:var(--border);
+}
+
+.oauth-grid{
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:8px;
+}
+
+.oauth-btn{
+    height:43px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+    background:rgba(255,255,255,.035);
+
+    color:#f8fafc;
+
+    cursor:pointer;
+
+    font-size:11px;
+
+    font-weight:750;
+
+    transition:.2s;
+}
+
+.oauth-btn:hover{
+    background:rgba(255,255,255,.075);
+
+    transform:translateY(-1px);
+}
+
+.oauth-btn:disabled{
+    opacity:.6;
+
+    cursor:not-allowed;
+
+    transform:none;
+}
+
+
+/* =========================
    FORMS
 ========================= */
 
@@ -398,6 +530,35 @@ input:focus{
 
 
 /* =========================
+   OTP
+========================= */
+
+.otp-input{
+    text-align:center;
+
+    letter-spacing:9px;
+
+    font-size:22px;
+
+    font-weight:800;
+
+    padding-left:20px;
+}
+
+.otp-help{
+    color:#64748b;
+
+    font-size:10px;
+
+    line-height:1.5;
+
+    margin-top:7px;
+
+    text-align:center;
+}
+
+
+/* =========================
    FORM ROW
 ========================= */
 
@@ -506,7 +667,7 @@ input:focus{
 
 
 /* =========================
-   BACK BUTTON
+   SECOND BUTTON
 ========================= */
 
 .back-btn{
@@ -741,6 +902,8 @@ input:focus{
     <div class="auth-card">
 
 
+        <!-- MAIN TABS -->
+
         <div
             class="tabs"
             id="mainTabs"
@@ -765,13 +928,17 @@ input:focus{
         </div>
 
 
+        <!-- MESSAGE -->
+
         <div
             id="message"
             class="message"
         ></div>
 
 
-        <!-- LOGIN -->
+        <!-- =================================================
+             LOGIN
+        ================================================== -->
 
         <div
             id="loginForm"
@@ -791,44 +958,194 @@ input:focus{
             </div>
 
 
-            <div class="field">
+            <!-- LOGIN METHODS -->
 
-                <label>
-                    Email Address
-                </label>
+            <div class="auth-methods">
 
-                <input
-                    id="loginEmail"
-                    type="email"
-                    placeholder="teacher@example.com"
-                    autocomplete="email"
+                <button
+                    class="method-btn active"
+                    type="button"
+                    id="emailMethodBtn"
+                    onclick="switchLoginMethod('email')"
                 >
+                    ✉ Email
+                </button>
+
+                <button
+                    class="method-btn"
+                    type="button"
+                    id="phoneMethodBtn"
+                    onclick="switchLoginMethod('phone')"
+                >
+                    📱 Phone
+                </button>
 
             </div>
 
 
-            <div class="field">
+            <!-- EMAIL LOGIN -->
 
-                <label>
-                    Password
-                </label>
+            <div id="emailLoginBox">
 
-                <div class="input-wrap">
+                <div class="field">
+
+                    <label>
+                        Email Address
+                    </label>
 
                     <input
-                        id="loginPassword"
-                        class="password-input"
-                        type="password"
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
+                        id="loginEmail"
+                        type="email"
+                        placeholder="teacher@example.com"
+                        autocomplete="email"
                     >
 
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <input
+                            id="loginPassword"
+                            class="password-input"
+                            type="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                        >
+
+                        <button
+                            class="eye"
+                            type="button"
+                            onclick="togglePassword('loginPassword',this)"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                        >
+
+                        Remember me
+
+                    </label>
+
+
                     <button
-                        class="eye"
+                        class="link"
                         type="button"
-                        onclick="togglePassword('loginPassword',this)"
+                        onclick="showForgot()"
                     >
-                        👁
+                        Forgot Password?
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="main-btn"
+                    id="loginBtn"
+                    type="button"
+                    onclick="loginTeacher()"
+                >
+                    Login to Teacher Dashboard
+                </button>
+
+
+                <button
+                    class="back-btn"
+                    type="button"
+                    onclick="sendEmailOTP()"
+                >
+                    Login with 6-Digit Email Code
+                </button>
+
+            </div>
+
+
+            <!-- PHONE LOGIN -->
+
+            <div
+                id="phoneLoginBox"
+                style="display:none;"
+            >
+
+                <div class="field">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                        id="loginPhone"
+                        type="tel"
+                        placeholder="+254712345678"
+                        autocomplete="tel"
+                    >
+
+                </div>
+
+
+                <button
+                    class="main-btn"
+                    id="phoneSendBtn"
+                    type="button"
+                    onclick="sendPhoneOTP()"
+                >
+                    Send 6-Digit SMS Code
+                </button>
+
+
+                <div
+                    id="phoneVerifyBox"
+                    style="display:none;margin-top:16px;"
+                >
+
+                    <div class="field">
+
+                        <label>
+                            6-Digit Verification Code
+                        </label>
+
+                        <input
+                            id="phoneOTP"
+                            class="otp-input"
+                            type="text"
+                            inputmode="numeric"
+                            maxlength="6"
+                            placeholder="000000"
+                            autocomplete="one-time-code"
+                        >
+
+                        <div class="otp-help">
+                            Enter the 6-digit code sent to your phone.
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="main-btn"
+                        id="phoneVerifyBtn"
+                        type="button"
+                        onclick="verifyPhoneOTP()"
+                    >
+                        Verify & Open Teacher Dashboard
                     </button>
 
                 </div>
@@ -836,39 +1153,43 @@ input:focus{
             </div>
 
 
-            <div class="form-row">
+            <!-- OAUTH -->
 
-                <label class="remember">
-
-                    <input
-                        type="checkbox"
-                        id="rememberMe"
-                    >
-
-                    Remember me
-
-                </label>
-
-
-                <button
-                    class="link"
-                    type="button"
-                    onclick="showForgot()"
-                >
-                    Forgot Password?
-                </button>
-
+            <div class="oauth-title">
+                CONTINUE WITH
             </div>
 
 
-            <button
-                class="main-btn"
-                id="loginBtn"
-                type="button"
-                onclick="loginTeacher()"
-            >
-                Login to Teacher Dashboard
-            </button>
+            <div class="oauth-grid">
+
+                <button
+                    class="oauth-btn"
+                    id="googleBtn"
+                    type="button"
+                    onclick="loginWithProvider('google')"
+                >
+                    G Google
+                </button>
+
+                <button
+                    class="oauth-btn"
+                    id="facebookBtn"
+                    type="button"
+                    onclick="loginWithProvider('facebook')"
+                >
+                    f Facebook
+                </button>
+
+                <button
+                    class="oauth-btn"
+                    id="appleBtn"
+                    type="button"
+                    onclick="loginWithProvider('apple')"
+                >
+                     Apple
+                </button>
+
+            </div>
 
 
             <div class="divider">
@@ -878,9 +1199,9 @@ input:focus{
 
             <div class="signup-info">
 
-                🔐 Your account is protected by
-                <strong>Supabase Authentication</strong>.
-                Never share your password with anyone.
+                🔐 Authentication is handled by
+                <strong>Supabase Auth</strong>.
+                Email and phone verification use a 6-digit code.
 
             </div>
 
@@ -888,7 +1209,9 @@ input:focus{
 
 
 
-        <!-- SIGN UP -->
+        <!-- =================================================
+             SIGN UP
+        ================================================== -->
 
         <div
             id="signupForm"
@@ -902,7 +1225,7 @@ input:focus{
                 </h2>
 
                 <p>
-                    Join SteadyMaze as a teacher and manage your lessons.
+                    Create your SteadyMaze teacher account.
                 </p>
 
             </div>
@@ -927,22 +1250,6 @@ input:focus{
             <div class="field">
 
                 <label>
-                    Email Address
-                </label>
-
-                <input
-                    id="signupEmail"
-                    type="email"
-                    placeholder="teacher@example.com"
-                    autocomplete="email"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
                     Main Skill
                 </label>
 
@@ -955,28 +1262,183 @@ input:focus{
             </div>
 
 
-            <div class="field">
+            <div class="auth-methods">
 
-                <label>
-                    Password
-                </label>
+                <button
+                    class="method-btn active"
+                    type="button"
+                    id="signupEmailMethod"
+                    onclick="switchSignupMethod('email')"
+                >
+                    ✉ Email
+                </button>
 
-                <div class="input-wrap">
+                <button
+                    class="method-btn"
+                    type="button"
+                    id="signupPhoneMethod"
+                    onclick="switchSignupMethod('phone')"
+                >
+                    📱 Phone
+                </button>
+
+            </div>
+
+
+            <!-- EMAIL SIGNUP -->
+
+            <div id="emailSignupBox">
+
+                <div class="field">
+
+                    <label>
+                        Email Address
+                    </label>
 
                     <input
-                        id="signupPassword"
-                        class="password-input"
-                        type="password"
-                        placeholder="Create a strong password"
-                        autocomplete="new-password"
+                        id="signupEmail"
+                        type="email"
+                        placeholder="teacher@example.com"
+                        autocomplete="email"
                     >
 
-                    <button
-                        class="eye"
-                        type="button"
-                        onclick="togglePassword('signupPassword',this)"
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <input
+                            id="signupPassword"
+                            class="password-input"
+                            type="password"
+                            placeholder="Create a strong password"
+                            autocomplete="new-password"
+                        >
+
+                        <button
+                            class="eye"
+                            type="button"
+                            onclick="togglePassword('signupPassword',this)"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Confirm Password
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <input
+                            id="signupConfirmPassword"
+                            class="password-input"
+                            type="password"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                        >
+
+                        <button
+                            class="eye"
+                            type="button"
+                            onclick="togglePassword('signupConfirmPassword',this)"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="main-btn"
+                    id="signupBtn"
+                    type="button"
+                    onclick="signupEmailTeacher()"
+                >
+                    Create Teacher Account
+                </button>
+
+            </div>
+
+
+            <!-- PHONE SIGNUP -->
+
+            <div
+                id="phoneSignupBox"
+                style="display:none;"
+            >
+
+                <div class="field">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                        id="signupPhone"
+                        type="tel"
+                        placeholder="+254712345678"
+                        autocomplete="tel"
                     >
-                        👁
+
+                </div>
+
+
+                <button
+                    class="main-btn"
+                    id="signupPhoneBtn"
+                    type="button"
+                    onclick="signupPhoneTeacher()"
+                >
+                    Send 6-Digit SMS Code
+                </button>
+
+
+                <div
+                    id="signupPhoneVerifyBox"
+                    style="display:none;margin-top:16px;"
+                >
+
+                    <div class="field">
+
+                        <label>
+                            6-Digit Verification Code
+                        </label>
+
+                        <input
+                            id="signupPhoneOTP"
+                            class="otp-input"
+                            type="text"
+                            inputmode="numeric"
+                            maxlength="6"
+                            placeholder="000000"
+                            autocomplete="one-time-code"
+                        >
+
+                    </div>
+
+
+                    <button
+                        class="main-btn"
+                        id="signupPhoneVerifyBtn"
+                        type="button"
+                        onclick="verifySignupPhoneOTP()"
+                    >
+                        Verify & Create Teacher Account
                     </button>
 
                 </div>
@@ -984,57 +1446,139 @@ input:focus{
             </div>
 
 
-            <div class="field">
+            <div class="oauth-title">
+                OR CONTINUE WITH
+            </div>
 
-                <label>
-                    Confirm Password
-                </label>
 
-                <div class="input-wrap">
+            <div class="oauth-grid">
 
-                    <input
-                        id="signupConfirmPassword"
-                        class="password-input"
-                        type="password"
-                        placeholder="Confirm your password"
-                        autocomplete="new-password"
-                    >
+                <button
+                    class="oauth-btn"
+                    type="button"
+                    onclick="signupWithProvider('google')"
+                >
+                    G Google
+                </button>
 
-                    <button
-                        class="eye"
-                        type="button"
-                        onclick="togglePassword('signupConfirmPassword',this)"
-                    >
-                        👁
-                    </button>
+                <button
+                    class="oauth-btn"
+                    type="button"
+                    onclick="signupWithProvider('facebook')"
+                >
+                    f Facebook
+                </button>
 
-                </div>
+                <button
+                    class="oauth-btn"
+                    type="button"
+                    onclick="signupWithProvider('apple')"
+                >
+                     Apple
+                </button>
 
             </div>
 
 
-            <div class="signup-info">
+            <div class="signup-info" style="margin-top:18px;">
 
-                👨‍🏫 Your teacher account will be connected
-                to your SteadyMaze teacher profile.
+                👨‍🏫 Your account uses
+                <strong>Supabase Authentication</strong>.
+                Email and phone signup can be verified using
+                a 6-digit code.
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             EMAIL OTP
+        ================================================== -->
+
+        <div
+            id="emailOTPForm"
+            class="form"
+        >
+
+            <div class="reset-icon">
+                ✉️
+            </div>
+
+
+            <div class="auth-header">
+
+                <h2>
+                    Verify Email
+                </h2>
+
+                <p>
+                    Enter the 6-digit code sent to your email.
+                </p>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    id="otpEmailDisplay"
+                    type="email"
+                    readonly
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    6-Digit Code
+                </label>
+
+                <input
+                    id="emailOTP"
+                    class="otp-input"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="6"
+                    placeholder="000000"
+                    autocomplete="one-time-code"
+                >
 
             </div>
 
 
             <button
                 class="main-btn"
-                id="signupBtn"
+                id="emailVerifyBtn"
                 type="button"
-                onclick="signupTeacher()"
+                onclick="verifyEmailOTP()"
             >
-                Create Teacher Account
+                Verify & Open Teacher Dashboard
+            </button>
+
+
+            <button
+                class="back-btn"
+                type="button"
+                onclick="backToLogin()"
+            >
+                ← Back to Login
             </button>
 
         </div>
 
 
 
-        <!-- FORGOT PASSWORD -->
+        <!-- =================================================
+             FORGOT PASSWORD
+        ================================================== -->
 
         <div
             id="forgotForm"
@@ -1098,7 +1642,9 @@ input:focus{
 
 
 
-        <!-- RESET PASSWORD -->
+        <!-- =================================================
+             RESET PASSWORD
+        ================================================== -->
 
         <div
             id="resetForm"
@@ -1206,6 +1752,7 @@ input:focus{
 </div>
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -1219,6 +1766,7 @@ const SUPABASE_URL =
 
 const SUPABASE_ANON_KEY =
     "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -1238,14 +1786,38 @@ const supabaseClient =
    DASHBOARD
 ===================================================== */
 
-const TEACHER_DASHBOARD = "teacher.html";
+const TEACHER_DASHBOARD =
+    "teacher.html";
+
+
+/* =====================================================
+   TEMPORARY AUTH DATA
+   These are NOT localStorage/sessionStorage.
+===================================================== */
+
+let currentEmailOTPAddress = "";
+
+let currentPhoneNumber = "";
+
+let currentSignupPhone = "";
+
+let currentSignupName = "";
+
+let currentSignupSkill = "";
+
+let currentSignupMethod = "email";
+
+let currentLoginMethod = "email";
 
 
 /* =====================================================
    MESSAGE
 ===================================================== */
 
-function showMessage(text,type="info"){
+function showMessage(
+    text,
+    type="info"
+){
 
     const box =
         document.getElementById("message");
@@ -1265,7 +1837,8 @@ function clearMessage(){
 
     box.textContent = "";
 
-    box.className = "message";
+    box.className =
+        "message";
 
 }
 
@@ -1352,10 +1925,13 @@ function backToLogin(){
 
 
 /* =====================================================
-   PASSWORD SHOW / HIDE
+   PASSWORD
 ===================================================== */
 
-function togglePassword(inputId,button){
+function togglePassword(
+    inputId,
+    button
+){
 
     const input =
         document.getElementById(inputId);
@@ -1378,48 +1954,202 @@ function togglePassword(inputId,button){
 
 
 /* =====================================================
-   SIGN UP
+   LOGIN METHOD
 ===================================================== */
 
-async function signupTeacher(){
+function switchLoginMethod(method){
+
+    clearMessage();
+
+    currentLoginMethod =
+        method;
+
+
+    const emailBox =
+        document.getElementById(
+            "emailLoginBox"
+        );
+
+    const phoneBox =
+        document.getElementById(
+            "phoneLoginBox"
+        );
+
+
+    const emailBtn =
+        document.getElementById(
+            "emailMethodBtn"
+        );
+
+    const phoneBtn =
+        document.getElementById(
+            "phoneMethodBtn"
+        );
+
+
+    if(method === "email"){
+
+        emailBox.style.display =
+            "block";
+
+        phoneBox.style.display =
+            "none";
+
+        emailBtn.classList.add(
+            "active"
+        );
+
+        phoneBtn.classList.remove(
+            "active"
+        );
+
+    }else{
+
+        emailBox.style.display =
+            "none";
+
+        phoneBox.style.display =
+            "block";
+
+        emailBtn.classList.remove(
+            "active"
+        );
+
+        phoneBtn.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SIGNUP METHOD
+===================================================== */
+
+function switchSignupMethod(method){
+
+    clearMessage();
+
+    currentSignupMethod =
+        method;
+
+
+    const emailBox =
+        document.getElementById(
+            "emailSignupBox"
+        );
+
+    const phoneBox =
+        document.getElementById(
+            "phoneSignupBox"
+        );
+
+
+    const emailBtn =
+        document.getElementById(
+            "signupEmailMethod"
+        );
+
+    const phoneBtn =
+        document.getElementById(
+            "signupPhoneMethod"
+        );
+
+
+    if(method === "email"){
+
+        emailBox.style.display =
+            "block";
+
+        phoneBox.style.display =
+            "none";
+
+        emailBtn.classList.add(
+            "active"
+        );
+
+        phoneBtn.classList.remove(
+            "active"
+        );
+
+    }else{
+
+        emailBox.style.display =
+            "none";
+
+        phoneBox.style.display =
+            "block";
+
+        emailBtn.classList.remove(
+            "active"
+        );
+
+        phoneBtn.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   EMAIL PASSWORD SIGNUP
+===================================================== */
+
+async function signupEmailTeacher(){
 
     clearMessage();
 
     const button =
-        document.getElementById("signupBtn");
+        document.getElementById(
+            "signupBtn"
+        );
 
 
     const name =
         document
-            .getElementById("signupName")
+            .getElementById(
+                "signupName"
+            )
+            .value
+            .trim();
+
+
+    const skill =
+        document
+            .getElementById(
+                "signupSkill"
+            )
             .value
             .trim();
 
 
     const email =
         document
-            .getElementById("signupEmail")
+            .getElementById(
+                "signupEmail"
+            )
             .value
             .trim()
             .toLowerCase();
 
 
-    const skill =
-        document
-            .getElementById("signupSkill")
-            .value
-            .trim();
-
-
     const password =
         document
-            .getElementById("signupPassword")
+            .getElementById(
+                "signupPassword"
+            )
             .value;
 
 
     const confirmPassword =
         document
-            .getElementById("signupConfirmPassword")
+            .getElementById(
+                "signupConfirmPassword"
+            )
             .value;
 
 
@@ -1435,10 +2165,10 @@ async function signupTeacher(){
     }
 
 
-    if(!email){
+    if(!skill){
 
         showMessage(
-            "Please enter your email address.",
+            "Please enter your main skill.",
             "error"
         );
 
@@ -1447,10 +2177,10 @@ async function signupTeacher(){
     }
 
 
-    if(!skill){
+    if(!email){
 
         showMessage(
-            "Please enter your main skill.",
+            "Please enter your email address.",
             "error"
         );
 
@@ -1515,9 +2245,9 @@ async function signupTeacher(){
 
                     full_name:name,
 
-                    role:"teacher",
+                    skill:skill,
 
-                    skill:skill
+                    account_type:"teacher"
 
                 }
 
@@ -1533,77 +2263,46 @@ async function signupTeacher(){
         }
 
 
-        /*
-        Supabase Auth is now the source of truth.
-        No localStorage or sessionStorage is used.
-        */
-
-
-        if(data.user && !data.session){
+        if(
+            data &&
+            data.user &&
+            !data.session
+        ){
 
             showMessage(
-                "Account created! Please check your email and confirm your email address, then return here and login.",
+                "Teacher account created. Check your email for the 6-digit verification code.",
                 "success"
             );
 
         }else{
 
             showMessage(
-                "Teacher account created successfully. You can now login.",
+                "Teacher account created successfully.",
                 "success"
             );
 
+
+            setTimeout(() => {
+
+                window.location.replace(
+                    TEACHER_DASHBOARD
+                );
+
+            },700);
+
         }
-
-
-        document
-            .getElementById("signupPassword")
-            .value = "";
-
-
-        document
-            .getElementById("signupConfirmPassword")
-            .value = "";
-
-
-        setTimeout(() => {
-
-            showForm("login");
-
-            document
-                .getElementById("loginEmail")
-                .value = email;
-
-        },2200);
 
 
     }catch(error){
 
         console.error(
-            "SIGN UP ERROR:",
+            "EMAIL SIGNUP ERROR:",
             error
         );
 
 
-        let message =
-            error?.message ||
-            "Unable to create teacher account.";
-
-
-        if(
-            message
-                .toLowerCase()
-                .includes("already registered")
-        ){
-
-            message =
-                "This email is already registered. Please login instead.";
-
-        }
-
-
         showMessage(
-            message,
+            getFriendlyError(error),
             "error"
         );
 
@@ -1619,7 +2318,263 @@ async function signupTeacher(){
 
 
 /* =====================================================
-   LOGIN
+   EMAIL OTP LOGIN
+===================================================== */
+
+async function sendEmailOTP(){
+
+    clearMessage();
+
+    const email =
+        document
+            .getElementById(
+                "loginEmail"
+            )
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    if(!email){
+
+        showMessage(
+            "Please enter your email address.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.querySelector(
+            "#emailLoginBox .back-btn"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Sending 6-Digit Code...";
+
+
+    try{
+
+        const {
+            error
+        } =
+        await supabaseClient.auth
+            .signInWithOtp({
+
+                email:email,
+
+                options:{
+
+                    shouldCreateUser:true,
+
+                    data:{
+
+                        account_type:"teacher"
+
+                    }
+
+                }
+
+            });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        currentEmailOTPAddress =
+            email;
+
+
+        document
+            .getElementById(
+                "otpEmailDisplay"
+            )
+            .value = email;
+
+
+        hideAllForms();
+
+        document
+            .getElementById(
+                "emailOTPForm"
+            )
+            .classList.add(
+                "active"
+            );
+
+
+        showMessage(
+            "A 6-digit verification code has been sent to your email.",
+            "success"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "EMAIL OTP ERROR:",
+            error
+        );
+
+
+        showMessage(
+            getFriendlyError(error),
+            "error"
+        );
+
+    }
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Login with 6-Digit Email Code";
+
+}
+
+
+/* =====================================================
+   VERIFY EMAIL OTP
+===================================================== */
+
+async function verifyEmailOTP(){
+
+    clearMessage();
+
+    const button =
+        document.getElementById(
+            "emailVerifyBtn"
+        );
+
+
+    const token =
+        document
+            .getElementById(
+                "emailOTP"
+            )
+            .value
+            .trim();
+
+
+    if(!/^\d{6}$/.test(token)){
+
+        showMessage(
+            "Please enter the 6-digit code.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!currentEmailOTPAddress){
+
+        showMessage(
+            "Email verification session is missing. Please request a new code.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Verifying...";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth
+            .verifyOtp({
+
+                email:
+                    currentEmailOTPAddress,
+
+                token:token,
+
+                type:"email"
+
+            });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        if(
+            !data ||
+            !data.session
+        ){
+
+            throw new Error(
+                "Verification succeeded but no login session was created."
+            );
+
+        }
+
+
+        showMessage(
+            "Email verified successfully. Opening Teacher Dashboard...",
+            "success"
+        );
+
+
+        setTimeout(() => {
+
+            window.location.replace(
+                TEACHER_DASHBOARD
+            );
+
+        },600);
+
+
+    }catch(error){
+
+        console.error(
+            "EMAIL VERIFY ERROR:",
+            error
+        );
+
+
+        showMessage(
+            getFriendlyError(error),
+            "error"
+        );
+
+    }
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Verify & Open Teacher Dashboard";
+
+}
+
+
+/* =====================================================
+   NORMAL EMAIL PASSWORD LOGIN
 ===================================================== */
 
 async function loginTeacher(){
@@ -1627,12 +2582,16 @@ async function loginTeacher(){
     clearMessage();
 
     const button =
-        document.getElementById("loginBtn");
+        document.getElementById(
+            "loginBtn"
+        );
 
 
     const email =
         document
-            .getElementById("loginEmail")
+            .getElementById(
+                "loginEmail"
+            )
             .value
             .trim()
             .toLowerCase();
@@ -1640,7 +2599,9 @@ async function loginTeacher(){
 
     const password =
         document
-            .getElementById("loginPassword")
+            .getElementById(
+                "loginPassword"
+            )
             .value;
 
 
@@ -1710,55 +2671,11 @@ async function loginTeacher(){
         }
 
 
-        const user =
-            data.user;
-
-
-        /*
-        IMPORTANT:
-
-        We DO NOT use:
-        localStorage
-        sessionStorage
-
-        Supabase itself keeps the authenticated
-        session and teacher.html can read it using:
-
-        supabase.auth.getSession()
-        */
-
-
-        /*
-        Verify teacher role when available.
-        */
-
-        const role =
-            user.user_metadata?.role;
-
-
-        if(
-            role &&
-            role !== "teacher"
-        ){
-
-            await supabaseClient.auth.signOut();
-
-            throw new Error(
-                "This account is not registered as a teacher account."
-            );
-
-        }
-
-
         showMessage(
             "Login successful. Opening Teacher Dashboard...",
             "success"
         );
 
-
-        /*
-        Small delay only for the success message.
-        */
 
         setTimeout(() => {
 
@@ -1766,7 +2683,7 @@ async function loginTeacher(){
                 TEACHER_DASHBOARD
             );
 
-        },500);
+        },600);
 
 
     }catch(error){
@@ -1777,45 +2694,761 @@ async function loginTeacher(){
         );
 
 
-        let message =
-            error?.message ||
-            "Invalid email or password.";
+        showMessage(
+            getFriendlyError(error),
+            "error"
+        );
+
+    }
 
 
-        const lower =
-            message.toLowerCase();
+    button.disabled = false;
+
+    button.textContent =
+        "Login to Teacher Dashboard";
+
+}
 
 
-        if(
-            lower.includes("email not confirmed")
-        ){
+/* =====================================================
+   PHONE OTP LOGIN
+===================================================== */
 
-            message =
-                "Please confirm your email address before logging in.";
+async function sendPhoneOTP(){
+
+    clearMessage();
+
+    const button =
+        document.getElementById(
+            "phoneSendBtn"
+        );
+
+
+    const phone =
+        document
+            .getElementById(
+                "loginPhone"
+            )
+            .value
+            .trim();
+
+
+    if(!phone){
+
+        showMessage(
+            "Please enter your phone number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Sending 6-Digit SMS...";
+
+
+    try{
+
+        const {
+            error
+        } =
+        await supabaseClient.auth
+            .signInWithOtp({
+
+                phone:phone
+
+            });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        currentPhoneNumber =
+            phone;
+
+
+        document
+            .getElementById(
+                "phoneVerifyBox"
+            )
+            .style.display =
+            "block";
+
+
+        showMessage(
+            "A 6-digit verification code was sent by SMS.",
+            "success"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "PHONE OTP ERROR:",
+            error
+        );
+
+
+        showMessage(
+            getFriendlyError(error),
+            "error"
+        );
+
+    }
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Send 6-Digit SMS Code";
+
+}
+
+
+/* =====================================================
+   VERIFY PHONE OTP
+===================================================== */
+
+async function verifyPhoneOTP(){
+
+    clearMessage();
+
+    const button =
+        document.getElementById(
+            "phoneVerifyBtn"
+        );
+
+
+    const token =
+        document
+            .getElementById(
+                "phoneOTP"
+            )
+            .value
+            .trim();
+
+
+    if(!/^\d{6}$/.test(token)){
+
+        showMessage(
+            "Please enter the 6-digit SMS code.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!currentPhoneNumber){
+
+        showMessage(
+            "Phone verification session is missing.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Verifying...";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth
+            .verifyOtp({
+
+                phone:
+                    currentPhoneNumber,
+
+                token:token,
+
+                type:"sms"
+
+            });
+
+
+        if(error){
+
+            throw error;
 
         }
 
 
         if(
-            lower.includes("invalid login credentials")
+            !data ||
+            !data.session
         ){
 
-            message =
-                "Incorrect email or password.";
+            throw new Error(
+                "Phone verification succeeded but no session was created."
+            );
 
         }
 
 
         showMessage(
-            message,
+            "Phone verified successfully. Opening Teacher Dashboard...",
+            "success"
+        );
+
+
+        setTimeout(() => {
+
+            window.location.replace(
+                TEACHER_DASHBOARD
+            );
+
+        },600);
+
+
+    }catch(error){
+
+        console.error(
+            "PHONE VERIFY ERROR:",
+            error
+        );
+
+
+        showMessage(
+            getFriendlyError(error),
+            "error"
+        );
+
+    }
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Verify & Open Teacher Dashboard";
+
+}
+
+
+/* =====================================================
+   PHONE TEACHER SIGNUP
+===================================================== */
+
+async function signupPhoneTeacher(){
+
+    clearMessage();
+
+    const button =
+        document.getElementById(
+            "signupPhoneBtn"
+        );
+
+
+    const name =
+        document
+            .getElementById(
+                "signupName"
+            )
+            .value
+            .trim();
+
+
+    const skill =
+        document
+            .getElementById(
+                "signupSkill"
+            )
+            .value
+            .trim();
+
+
+    const phone =
+        document
+            .getElementById(
+                "signupPhone"
+            )
+            .value
+            .trim();
+
+
+    if(!name){
+
+        showMessage(
+            "Please enter your full name.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!skill){
+
+        showMessage(
+            "Please enter your main skill.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!phone){
+
+        showMessage(
+            "Please enter your phone number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Sending 6-Digit SMS...";
+
+
+    try{
+
+        const {
+            error
+        } =
+        await supabaseClient.auth
+            .signInWithOtp({
+
+                phone:phone,
+
+                options:{
+
+                    shouldCreateUser:true,
+
+                    data:{
+
+                        full_name:name,
+
+                        skill:skill,
+
+                        account_type:"teacher"
+
+                    }
+
+                }
+
+            });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        currentSignupPhone =
+            phone;
+
+        currentSignupName =
+            name;
+
+        currentSignupSkill =
+            skill;
+
+
+        document
+            .getElementById(
+                "signupPhoneVerifyBox"
+            )
+            .style.display =
+            "block";
+
+
+        showMessage(
+            "A 6-digit verification code was sent to your phone.",
+            "success"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "PHONE SIGNUP ERROR:",
+            error
+        );
+
+
+        showMessage(
+            getFriendlyError(error),
+            "error"
+        );
+
+    }
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Send 6-Digit SMS Code";
+
+}
+
+
+/* =====================================================
+   VERIFY PHONE SIGNUP
+===================================================== */
+
+async function verifySignupPhoneOTP(){
+
+    clearMessage();
+
+    const button =
+        document.getElementById(
+            "signupPhoneVerifyBtn"
+        );
+
+
+    const token =
+        document
+            .getElementById(
+                "signupPhoneOTP"
+            )
+            .value
+            .trim();
+
+
+    if(!/^\d{6}$/.test(token)){
+
+        showMessage(
+            "Please enter the 6-digit SMS code.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!currentSignupPhone){
+
+        showMessage(
+            "Phone signup session is missing.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Creating Teacher Account...";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth
+            .verifyOtp({
+
+                phone:
+                    currentSignupPhone,
+
+                token:token,
+
+                type:"sms"
+
+            });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        if(
+            !data ||
+            !data.session
+        ){
+
+            throw new Error(
+                "Verification succeeded but no session was created."
+            );
+
+        }
+
+
+        showMessage(
+            "Teacher account created successfully. Opening Teacher Dashboard...",
+            "success"
+        );
+
+
+        setTimeout(() => {
+
+            window.location.replace(
+                TEACHER_DASHBOARD
+            );
+
+        },600);
+
+
+    }catch(error){
+
+        console.error(
+            "PHONE SIGNUP VERIFY ERROR:",
+            error
+        );
+
+
+        showMessage(
+            getFriendlyError(error),
+            "error"
+        );
+
+    }
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Verify & Create Teacher Account";
+
+}
+
+
+/* =====================================================
+   GOOGLE / FACEBOOK / APPLE
+===================================================== */
+
+async function loginWithProvider(
+    provider
+){
+
+    clearMessage();
+
+    const button =
+        document.getElementById(
+            provider + "Btn"
+        );
+
+
+    if(button){
+
+        button.disabled = true;
+
+        button.textContent =
+            "Connecting...";
+
+    }
+
+
+    try{
+
+        const redirectUrl =
+            window.location.origin +
+            window.location.pathname;
+
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth
+            .signInWithOAuth({
+
+                provider:provider,
+
+                options:{
+
+                    redirectTo:
+                        redirectUrl,
+
+                    queryParams:
+                        provider === "google"
+                        ?
+                        {
+                            access_type:"offline",
+                            prompt:"select_account"
+                        }
+                        :
+                        undefined
+
+                }
+
+            });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            provider +
+            " LOGIN ERROR:",
+            error
+        );
+
+
+        showMessage(
+            getFriendlyError(error),
             "error"
         );
 
 
-        button.disabled = false;
+        if(button){
 
-        button.textContent =
-            "Login to Teacher Dashboard";
+            button.disabled = false;
+
+            button.textContent =
+                provider === "google"
+                ? "G Google"
+                : provider === "facebook"
+                ? "f Facebook"
+                : " Apple";
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   PROVIDER SIGNUP
+===================================================== */
+
+async function signupWithProvider(
+    provider
+){
+
+    clearMessage();
+
+    const name =
+        document
+            .getElementById(
+                "signupName"
+            )
+            .value
+            .trim();
+
+
+    const skill =
+        document
+            .getElementById(
+                "signupSkill"
+            )
+            .value
+            .trim();
+
+
+    if(!name){
+
+        showMessage(
+            "Please enter your full name before continuing.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!skill){
+
+        showMessage(
+            "Please enter your main skill before continuing.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const redirectUrl =
+            window.location.origin +
+            window.location.pathname;
+
+
+        const {
+            error
+        } =
+        await supabaseClient.auth
+            .signInWithOAuth({
+
+                provider:provider,
+
+                options:{
+
+                    redirectTo:
+                        redirectUrl,
+
+                    data:{
+
+                        full_name:name,
+
+                        skill:skill,
+
+                        account_type:"teacher"
+
+                    }
+
+                }
+
+            });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            provider +
+            " SIGNUP ERROR:",
+            error
+        );
+
+
+        showMessage(
+            getFriendlyError(error),
+            "error"
+        );
 
     }
 
@@ -1831,12 +3464,16 @@ async function sendResetEmail(){
     clearMessage();
 
     const button =
-        document.getElementById("forgotBtn");
+        document.getElementById(
+            "forgotBtn"
+        );
 
 
     const email =
         document
-            .getElementById("forgotEmail")
+            .getElementById(
+                "forgotEmail"
+            )
             .value
             .trim()
             .toLowerCase();
@@ -1862,7 +3499,7 @@ async function sendResetEmail(){
 
     try{
 
-        const resetRedirectUrl =
+        const redirectUrl =
             window.location.origin +
             window.location.pathname;
 
@@ -1878,7 +3515,7 @@ async function sendResetEmail(){
                 {
 
                     redirectTo:
-                        resetRedirectUrl
+                        redirectUrl
 
                 }
 
@@ -1893,7 +3530,7 @@ async function sendResetEmail(){
 
 
         showMessage(
-            "Password reset email sent. Check your email and open the reset link.",
+            "Password reset email sent. Check your email.",
             "success"
         );
 
@@ -1901,14 +3538,13 @@ async function sendResetEmail(){
     }catch(error){
 
         console.error(
-            "RESET EMAIL ERROR:",
+            "RESET ERROR:",
             error
         );
 
 
         showMessage(
-            error?.message ||
-            "Unable to send password reset email.",
+            getFriendlyError(error),
             "error"
         );
 
@@ -1932,18 +3568,24 @@ async function updatePassword(){
     clearMessage();
 
     const button =
-        document.getElementById("resetBtn");
+        document.getElementById(
+            "resetBtn"
+        );
 
 
     const password =
         document
-            .getElementById("newPassword")
+            .getElementById(
+                "newPassword"
+            )
             .value;
 
 
     const confirmPassword =
         document
-            .getElementById("confirmNewPassword")
+            .getElementById(
+                "confirmNewPassword"
+            )
             .value;
 
 
@@ -2004,12 +3646,16 @@ async function updatePassword(){
 
 
         document
-            .getElementById("newPassword")
+            .getElementById(
+                "newPassword"
+            )
             .value = "";
 
 
         document
-            .getElementById("confirmNewPassword")
+            .getElementById(
+                "confirmNewPassword"
+            )
             .value = "";
 
 
@@ -2017,7 +3663,7 @@ async function updatePassword(){
 
             showForm("login");
 
-        },1600);
+        },1200);
 
 
     }catch(error){
@@ -2029,8 +3675,7 @@ async function updatePassword(){
 
 
         showMessage(
-            error?.message ||
-            "Unable to update password.",
+            getFriendlyError(error),
             "error"
         );
 
@@ -2050,7 +3695,7 @@ async function updatePassword(){
 ===================================================== */
 
 supabaseClient.auth.onAuthStateChange(
-    async (event,session) => {
+    function(event,session){
 
         console.log(
             "Supabase Auth Event:",
@@ -2065,16 +3710,23 @@ supabaseClient.auth.onAuthStateChange(
         if(event === "PASSWORD_RECOVERY"){
 
             document
-                .getElementById("mainTabs")
-                .style.display = "none";
+                .getElementById(
+                    "mainTabs"
+                )
+                .style.display =
+                "none";
 
 
             hideAllForms();
 
 
             document
-                .getElementById("resetForm")
-                .classList.add("active");
+                .getElementById(
+                    "resetForm"
+                )
+                .classList.add(
+                    "active"
+                );
 
 
             showMessage(
@@ -2088,17 +3740,68 @@ supabaseClient.auth.onAuthStateChange(
 
 
         /*
-        IMPORTANT:
-
-        Do NOT automatically redirect on every
-        SIGNED_IN event here.
-
-        loginTeacher() controls the dashboard redirect.
-
-        This prevents the login page and dashboard
-        from fighting each other and causing the
-        login -> dashboard -> login loop.
+        OAUTH LOGIN RETURN
         */
+
+        if(
+            event === "SIGNED_IN" &&
+            session &&
+            session.user
+        ){
+
+            const hash =
+                window.location.hash ||
+                "";
+
+
+            if(
+                hash.includes(
+                    "type=recovery"
+                )
+            ){
+
+                return;
+
+            }
+
+
+            /*
+            OAuth has completed.
+
+            No localStorage.
+            No sessionStorage.
+
+            Supabase owns the session.
+            */
+
+            const provider =
+                session.user.app_metadata
+                ?.provider;
+
+
+            if(
+                provider === "google" ||
+                provider === "facebook" ||
+                provider === "apple"
+            ){
+
+                showMessage(
+                    "Authentication successful. Opening Teacher Dashboard...",
+                    "success"
+                );
+
+
+                setTimeout(() => {
+
+                    window.location.replace(
+                        TEACHER_DASHBOARD
+                    );
+
+                },500);
+
+            }
+
+        }
 
     }
 );
@@ -2113,28 +3816,38 @@ async function handleAuthRedirect(){
     try{
 
         const hash =
-            window.location.hash || "";
+            window.location.hash ||
+            "";
 
 
         /*
-        PASSWORD RECOVERY LINK
+        PASSWORD RECOVERY
         */
 
         if(
-            hash.includes("type=recovery")
+            hash.includes(
+                "type=recovery"
+            )
         ){
 
             document
-                .getElementById("mainTabs")
-                .style.display = "none";
+                .getElementById(
+                    "mainTabs"
+                )
+                .style.display =
+                "none";
 
 
             hideAllForms();
 
 
             document
-                .getElementById("resetForm")
-                .classList.add("active");
+                .getElementById(
+                    "resetForm"
+                )
+                .classList.add(
+                    "active"
+                );
 
 
             showMessage(
@@ -2148,25 +3861,70 @@ async function handleAuthRedirect(){
 
 
         /*
-        EMAIL CONFIRMATION
-
-        Do NOT force an automatic redirect here.
-
-        The user can return to this page and
-        login normally.
-
-        This avoids redirect loops.
+        OAUTH / AUTH SESSION
         */
 
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth
+            .getSession();
+
+
+        if(error){
+
+            console.error(
+                "GET SESSION ERROR:",
+                error
+            );
+
+            return;
+
+        }
+
+
         if(
-            hash.includes("access_token") ||
-            hash.includes("type=signup")
+            data &&
+            data.session &&
+            data.session.user
         ){
 
-            showMessage(
-                "Your email confirmation was received. You can now login.",
-                "success"
-            );
+            const provider =
+                data.session.user
+                    .app_metadata
+                    ?.provider;
+
+
+            /*
+            Only automatically redirect
+            OAuth sessions.
+
+            Normal email/password login is
+            controlled by loginTeacher().
+            */
+
+            if(
+                provider === "google" ||
+                provider === "facebook" ||
+                provider === "apple"
+            ){
+
+                showMessage(
+                    "Login successful. Opening Teacher Dashboard...",
+                    "success"
+                );
+
+
+                setTimeout(() => {
+
+                    window.location.replace(
+                        TEACHER_DASHBOARD
+                    );
+
+                },500);
+
+            }
 
         }
 
@@ -2178,6 +3936,119 @@ async function handleAuthRedirect(){
         );
 
     }
+
+}
+
+
+/* =====================================================
+   FRIENDLY ERROR
+===================================================== */
+
+function getFriendlyError(error){
+
+    const raw =
+        error?.message ||
+        "Authentication failed.";
+
+    const text =
+        raw.toLowerCase();
+
+
+    if(
+        text.includes(
+            "invalid login credentials"
+        )
+    ){
+
+        return "Incorrect email or password.";
+
+    }
+
+
+    if(
+        text.includes(
+            "email not confirmed"
+        )
+    ){
+
+        return "Please verify your email before logging in.";
+
+    }
+
+
+    if(
+        text.includes(
+            "otp"
+        ) &&
+        text.includes(
+            "expired"
+        )
+    ){
+
+        return "This 6-digit code has expired. Please request a new code.";
+
+    }
+
+
+    if(
+        text.includes(
+            "invalid token"
+        )
+    ){
+
+        return "The 6-digit code is incorrect or expired.";
+
+    }
+
+
+    if(
+        text.includes(
+            "already registered"
+        )
+    ){
+
+        return "This account already exists. Please login instead.";
+
+    }
+
+
+    if(
+        text.includes(
+            "provider is not enabled"
+        )
+    ){
+
+        return "This login provider has not been enabled in Supabase yet.";
+
+    }
+
+
+    if(
+        text.includes(
+            "unsupported provider"
+        )
+    ){
+
+        return "This authentication provider is not configured in Supabase.";
+
+    }
+
+
+    if(
+        text.includes(
+            "redirect"
+        ) &&
+        text.includes(
+            "not allowed"
+        )
+    ){
+
+        return "The redirect URL is not allowed in Supabase Authentication settings.";
+
+    }
+
+
+    return raw;
 
 }
 
@@ -2205,31 +4076,62 @@ document.addEventListener(
 
 
         if(
-            activeForm.id === "loginForm"
+            activeForm.id ===
+            "loginForm"
         ){
 
-            loginTeacher();
+            if(
+                currentLoginMethod ===
+                "email"
+            ){
+
+                loginTeacher();
+
+            }
 
         }
 
+
         else if(
-            activeForm.id === "signupForm"
+            activeForm.id ===
+            "signupForm"
         ){
 
-            signupTeacher();
+            if(
+                currentSignupMethod ===
+                "email"
+            ){
+
+                signupEmailTeacher();
+
+            }
 
         }
 
+
         else if(
-            activeForm.id === "forgotForm"
+            activeForm.id ===
+            "emailOTPForm"
+        ){
+
+            verifyEmailOTP();
+
+        }
+
+
+        else if(
+            activeForm.id ===
+            "forgotForm"
         ){
 
             sendResetEmail();
 
         }
 
+
         else if(
-            activeForm.id === "resetForm"
+            activeForm.id ===
+            "resetForm"
         ){
 
             updatePassword();
@@ -2238,6 +4140,37 @@ document.addEventListener(
 
     }
 );
+
+
+/* =====================================================
+   OTP INPUT ONLY NUMBERS
+===================================================== */
+
+document
+    .querySelectorAll(
+        ".otp-input"
+    )
+    .forEach(input => {
+
+        input.addEventListener(
+            "input",
+            function(){
+
+                this.value =
+                    this.value
+                        .replace(
+                            /\D/g,
+                            ""
+                        )
+                        .slice(
+                            0,
+                            6
+                        );
+
+            }
+        );
+
+    });
 
 
 /* =====================================================
