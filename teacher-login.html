@@ -3,11 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>SteadyMaze | Teacher Login</title>
-
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -18,996 +15,536 @@
 :root{
     --bg:#050914;
     --panel:rgba(10,18,35,.84);
-
     --blue:#2563eb;
     --blue2:#60a5fa;
-
     --red:#ef4444;
-    --red2:#f87171;
-
     --gold:#d4af37;
     --gold2:#f4d76b;
-
     --purple:#8b5cf6;
     --purple2:#a78bfa;
-
     --green:#22c55e;
-
     --text:#f8fafc;
     --muted:#94a3b8;
-
     --border:rgba(255,255,255,.10);
 }
 
-html{
-    min-height:100%;
-}
+html{min-height:100%;}
 
 body{
     min-height:100vh;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     color:var(--text);
-
     padding:25px;
-
     overflow-x:hidden;
-
     background:
-        radial-gradient(
-            circle at 10% 15%,
-            rgba(37,99,235,.22),
-            transparent 28%
-        ),
-
-        radial-gradient(
-            circle at 88% 15%,
-            rgba(139,92,246,.18),
-            transparent 27%
-        ),
-
-        radial-gradient(
-            circle at 50% 100%,
-            rgba(239,68,68,.13),
-            transparent 30%
-        ),
-
-        linear-gradient(
-            135deg,
-            #030712,
-            #091326 50%,
-            #050914
-        );
+        radial-gradient(circle at 10% 15%,rgba(37,99,235,.22),transparent 28%),
+        radial-gradient(circle at 88% 15%,rgba(139,92,246,.18),transparent 27%),
+        radial-gradient(circle at 50% 100%,rgba(239,68,68,.13),transparent 30%),
+        linear-gradient(135deg,#030712,#091326 50%,#050914);
 }
 
 body::before,
 body::after{
     content:"";
-
     position:fixed;
-
     width:360px;
     height:360px;
-
     border-radius:50%;
-
     filter:blur(100px);
-
     pointer-events:none;
-
     z-index:0;
 }
 
 body::before{
     left:-160px;
     bottom:-130px;
-
     background:rgba(37,99,235,.12);
 }
 
 body::after{
     right:-150px;
     top:-120px;
-
     background:rgba(139,92,246,.11);
 }
-
-
-/* =========================
-   MAIN CONTAINER
-========================= */
 
 .auth-container{
     width:100%;
     max-width:480px;
-
     position:relative;
-
     z-index:2;
 }
 
-
-/* =========================
-   LOGO
-========================= */
-
 .logo{
     text-align:center;
-
     margin-bottom:22px;
 }
 
 .logo h1{
     font-size:34px;
-
     font-weight:900;
-
     letter-spacing:1px;
 }
 
-.logo .s{
-    color:var(--blue2);
-}
-
-.logo .m{
-    color:var(--gold2);
-}
-
-.logo .aze{
-    color:var(--purple2);
-}
+.logo .s{color:var(--blue2);}
+.logo .m{color:var(--gold2);}
+.logo .aze{color:var(--purple2);}
 
 .logo p{
     color:var(--muted);
-
     font-size:12px;
-
     margin-top:7px;
 }
 
-
-/* =========================
-   CARD
-========================= */
-
 .auth-card{
     width:100%;
-
     padding:30px;
-
     border-radius:24px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.055),
-            rgba(255,255,255,.018)
-        );
-
+    background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
     border:1px solid var(--border);
-
     backdrop-filter:blur(22px);
-
-    box-shadow:
-        0 30px 80px rgba(0,0,0,.45),
-        0 0 0 1px rgba(37,99,235,.04);
-
+    box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 0 1px rgba(37,99,235,.04);
     position:relative;
-
     overflow:hidden;
 }
 
 .auth-card::before{
     content:"";
-
     position:absolute;
-
     top:0;
     left:0;
     right:0;
-
     height:2px;
-
-    background:
-        linear-gradient(
-            90deg,
-            var(--red),
-            var(--blue),
-            var(--gold),
-            var(--purple)
-        );
+    background:linear-gradient(90deg,var(--red),var(--blue),var(--gold),var(--purple));
 }
-
-
-/* =========================
-   TABS
-========================= */
 
 .tabs{
     display:grid;
-
     grid-template-columns:1fr 1fr;
-
     gap:8px;
-
     padding:5px;
-
     background:rgba(255,255,255,.035);
-
     border:1px solid var(--border);
-
     border-radius:12px;
-
     margin-bottom:24px;
 }
 
 .tab{
     border:0;
-
     padding:11px;
-
     border-radius:8px;
-
     color:var(--muted);
-
     background:transparent;
-
     cursor:pointer;
-
     font-weight:700;
-
     font-size:12px;
-
     transition:.2s;
 }
 
-.tab:hover{
-    color:white;
-}
+.tab:hover{color:white;}
 
 .tab.active{
     color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(37,99,235,.85),
-            rgba(139,92,246,.75)
-        );
-
-    box-shadow:
-        0 5px 18px rgba(37,99,235,.20);
+    background:linear-gradient(135deg,rgba(37,99,235,.85),rgba(139,92,246,.75));
+    box-shadow:0 5px 18px rgba(37,99,235,.20);
 }
-
-
-/* =========================
-   AUTH METHODS
-========================= */
 
 .auth-methods{
     display:grid;
-
     grid-template-columns:1fr 1fr;
-
     gap:8px;
-
     margin-bottom:20px;
 }
 
 .method-btn{
     min-height:43px;
-
     border-radius:10px;
-
     border:1px solid var(--border);
-
     background:rgba(255,255,255,.035);
-
     color:#dbe5f0;
-
     cursor:pointer;
-
     font-size:11px;
-
     font-weight:750;
-
     transition:.2s;
 }
 
 .method-btn:hover{
     background:rgba(255,255,255,.075);
-
     border-color:rgba(96,165,250,.35);
-
     transform:translateY(-1px);
 }
 
 .method-btn.active{
     color:white;
-
     border-color:rgba(96,165,250,.45);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(37,99,235,.25),
-            rgba(139,92,246,.20)
-        );
+    background:linear-gradient(135deg,rgba(37,99,235,.25),rgba(139,92,246,.20));
 }
-
-
-/* =========================
-   OAUTH
-========================= */
 
 .oauth-title{
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     margin:18px 0 12px;
-
     color:#64748b;
-
     font-size:9px;
-
     font-weight:800;
-
     letter-spacing:.5px;
 }
 
 .oauth-title::before,
 .oauth-title::after{
     content:"";
-
     flex:1;
-
     height:1px;
-
     background:var(--border);
 }
 
 .oauth-grid{
     display:grid;
-
     grid-template-columns:repeat(3,1fr);
-
     gap:8px;
 }
 
 .oauth-btn{
     height:43px;
-
     border-radius:10px;
-
     border:1px solid var(--border);
-
     background:rgba(255,255,255,.035);
-
     color:#f8fafc;
-
     cursor:pointer;
-
     font-size:11px;
-
     font-weight:750;
-
     transition:.2s;
 }
 
 .oauth-btn:hover{
     background:rgba(255,255,255,.075);
-
     transform:translateY(-1px);
 }
 
-.oauth-btn:disabled{
-    opacity:.6;
-
-    cursor:not-allowed;
-
-    transform:none;
-}
-
-
-/* =========================
-   FORMS
-========================= */
-
-.form{
-    display:none;
-}
-
-.form.active{
-    display:block;
-}
+.form{display:none;}
+.form.active{display:block;}
 
 .auth-header{
     text-align:center;
-
     margin-bottom:25px;
 }
 
 .auth-header h2{
     font-size:23px;
-
     margin-bottom:7px;
 }
 
 .auth-header p{
     color:var(--muted);
-
     font-size:12px;
-
     line-height:1.5;
 }
 
-
-/* =========================
-   FIELDS
-========================= */
-
-.field{
-    margin-bottom:16px;
-}
+.field{margin-bottom:16px;}
 
 label{
     display:block;
-
     margin-bottom:7px;
-
     color:#dbe5f0;
-
     font-size:12px;
-
     font-weight:650;
 }
 
-.input-wrap{
-    position:relative;
-}
+.input-wrap{position:relative;}
 
 input{
     width:100%;
-
     height:48px;
-
     padding:0 14px;
-
     color:white;
-
     background:rgba(255,255,255,.045);
-
     border:1px solid var(--border);
-
     border-radius:11px;
-
     outline:none;
-
     font-size:13px;
-
     transition:.2s;
 }
 
-input::placeholder{
-    color:#65758a;
-}
+input::placeholder{color:#65758a;}
 
 input:focus{
     border-color:rgba(96,165,250,.65);
-
-    box-shadow:
-        0 0 0 3px rgba(37,99,235,.10);
+    box-shadow:0 0 0 3px rgba(37,99,235,.10);
 }
 
-.password-input{
-    padding-right:48px;
-}
+.password-input{padding-right:48px;}
 
 .eye{
     position:absolute;
-
     right:12px;
     top:50%;
-
     transform:translateY(-50%);
-
     border:0;
-
     background:transparent;
-
     color:#91a1b5;
-
     cursor:pointer;
-
     font-size:17px;
 }
 
-
-/* =========================
-   OTP
-========================= */
-
 .otp-input{
     text-align:center;
-
     letter-spacing:9px;
-
     font-size:22px;
-
     font-weight:800;
-
     padding-left:20px;
 }
 
 .otp-help{
     color:#64748b;
-
     font-size:10px;
-
     line-height:1.5;
-
     margin-top:7px;
-
     text-align:center;
 }
 
-
-/* =========================
-   FORM ROW
-========================= */
-
 .form-row{
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
-
     gap:10px;
-
     margin-top:2px;
-
     margin-bottom:18px;
 }
 
 .remember{
     display:flex;
-
     align-items:center;
-
     gap:7px;
-
     color:var(--muted);
-
     font-size:11px;
-
     margin:0;
 }
 
 .remember input{
     width:14px;
     height:14px;
-
     accent-color:var(--blue);
 }
 
 .link{
     border:0;
-
     background:transparent;
-
     color:var(--blue2);
-
     cursor:pointer;
-
     font-size:11px;
-
     font-weight:650;
 }
 
-.link:hover{
-    color:var(--gold2);
-}
-
-
-/* =========================
-   MAIN BUTTON
-========================= */
+.link:hover{color:var(--gold2);}
 
 .main-btn{
     width:100%;
-
     height:49px;
-
     border:0;
-
     border-radius:11px;
-
     color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--blue),
-            var(--purple)
-        );
-
+    background:linear-gradient(135deg,var(--blue),var(--purple));
     font-size:13px;
-
     font-weight:800;
-
     cursor:pointer;
-
-    box-shadow:
-        0 10px 25px rgba(37,99,235,.18);
-
+    box-shadow:0 10px 25px rgba(37,99,235,.18);
     transition:.2s;
 }
 
 .main-btn:hover{
     transform:translateY(-1px);
-
-    box-shadow:
-        0 14px 30px rgba(139,92,246,.20);
+    box-shadow:0 14px 30px rgba(139,92,246,.20);
 }
 
 .main-btn:disabled{
     opacity:.6;
-
     cursor:not-allowed;
-
     transform:none;
 }
 
-
-/* =========================
-   SECOND BUTTON
-========================= */
-
 .back-btn{
     width:100%;
-
     margin-top:10px;
-
     height:43px;
-
     border-radius:10px;
-
     border:1px solid var(--border);
-
     color:#cbd5e1;
-
     background:rgba(255,255,255,.035);
-
     cursor:pointer;
 }
 
-.back-btn:hover{
-    background:rgba(255,255,255,.07);
-}
-
-
-/* =========================
-   DIVIDER
-========================= */
+.back-btn:hover{background:rgba(255,255,255,.07);}
 
 .divider{
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     margin:21px 0;
-
     color:#64748b;
-
     font-size:10px;
 }
 
 .divider::before,
 .divider::after{
     content:"";
-
     flex:1;
-
     height:1px;
-
     background:var(--border);
 }
 
-
-/* =========================
-   INFO BOX
-========================= */
-
 .signup-info{
     padding:13px;
-
     border-radius:11px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(212,175,55,.06),
-            rgba(139,92,246,.05)
-        );
-
+    background:linear-gradient(135deg,rgba(212,175,55,.06),rgba(139,92,246,.05));
     border:1px solid rgba(212,175,55,.13);
-
     color:#b9c6d6;
-
     font-size:10px;
-
     line-height:1.6;
-
     margin-bottom:18px;
 }
 
-.signup-info strong{
-    color:var(--gold2);
-}
-
-
-/* =========================
-   MESSAGE
-========================= */
+.signup-info strong{color:var(--gold2);}
 
 .message{
     display:none;
-
     padding:11px 13px;
-
     margin-bottom:16px;
-
     border-radius:10px;
-
     font-size:11px;
-
     line-height:1.5;
 }
 
-.message.show{
-    display:block;
-}
+.message.show{display:block;}
 
 .message.success{
     color:#86efac;
-
     background:rgba(34,197,94,.08);
-
     border:1px solid rgba(34,197,94,.18);
 }
 
 .message.error{
     color:#fca5a5;
-
     background:rgba(239,68,68,.08);
-
     border:1px solid rgba(239,68,68,.18);
 }
 
 .message.info{
     color:#bfdbfe;
-
     background:rgba(37,99,235,.08);
-
     border:1px solid rgba(37,99,235,.18);
 }
-
-
-/* =========================
-   RESET ICON
-========================= */
 
 .reset-icon{
     width:58px;
     height:58px;
-
     margin:0 auto 15px;
-
     display:flex;
-
     align-items:center;
     justify-content:center;
-
     border-radius:17px;
-
     font-size:25px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(37,99,235,.18),
-            rgba(139,92,246,.18)
-        );
-
+    background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(139,92,246,.18));
     border:1px solid rgba(139,92,246,.25);
 }
 
-
-/* =========================
-   FOOTER
-========================= */
-
 .footer{
     text-align:center;
-
     margin-top:18px;
-
     color:#64748b;
-
     font-size:10px;
 }
 
-.footer span{
-    color:var(--gold2);
-}
-
-
-/* =========================
-   MOBILE
-========================= */
+.footer span{color:var(--gold2);}
 
 @media(max-width:520px){
-
-    body{
-        padding:15px;
-    }
+    body{padding:15px;}
 
     .auth-card{
         padding:23px 18px;
-
         border-radius:20px;
     }
 
-    .logo h1{
-        font-size:29px;
-    }
+    .logo h1{font-size:29px;}
 
-    .auth-header h2{
-        font-size:21px;
-    }
-
+    .auth-header h2{font-size:21px;}
 }
-
 </style>
 </head>
-
 
 <body>
 
 <div class="auth-container">
 
     <div class="logo">
-
         <h1>
             <span class="s">S</span>teady
             <span class="m">M</span><span class="aze">aze</span>
         </h1>
 
-        <p>
-            Teacher Learning & Competition Platform
-        </p>
-
+        <p>Teacher Learning & Competition Platform</p>
     </div>
-
 
     <div class="auth-card">
 
-
-        <!-- MAIN TABS -->
-
-        <div
-            class="tabs"
-            id="mainTabs"
-        >
-
-            <button
-                class="tab active"
-                type="button"
-                onclick="showForm('login')"
-            >
+        <div class="tabs">
+            <button class="tab active" id="loginTab" type="button">
                 Login
             </button>
 
-            <button
-                class="tab"
-                type="button"
-                onclick="showForm('signup')"
-            >
+            <button class="tab" id="signupTab" type="button">
                 Sign Up
             </button>
-
         </div>
 
+        <div id="message" class="message"></div>
 
-        <!-- MESSAGE -->
+        <!-- LOGIN -->
 
-        <div
-            id="message"
-            class="message"
-        ></div>
-
-
-        <!-- =================================================
-             LOGIN
-        ================================================== -->
-
-        <div
-            id="loginForm"
-            class="form active"
-        >
+        <div id="loginForm" class="form active">
 
             <div class="auth-header">
-
-                <h2>
-                    Teacher Login
-                </h2>
+                <h2>Teacher Login</h2>
 
                 <p>
                     Sign in to access your SteadyMaze teacher dashboard.
                 </p>
-
             </div>
-
-
-            <!-- LOGIN METHODS -->
 
             <div class="auth-methods">
 
                 <button
                     class="method-btn active"
-                    type="button"
                     id="emailMethodBtn"
-                    onclick="switchLoginMethod('email')"
-                >
+                    type="button">
                     ✉ Email
                 </button>
 
                 <button
                     class="method-btn"
-                    type="button"
                     id="phoneMethodBtn"
-                    onclick="switchLoginMethod('phone')"
-                >
+                    type="button">
                     📱 Phone
                 </button>
 
             </div>
 
-
-            <!-- EMAIL LOGIN -->
-
             <div id="emailLoginBox">
 
                 <div class="field">
-
-                    <label>
-                        Email Address
-                    </label>
+                    <label>Email Address</label>
 
                     <input
                         id="loginEmail"
                         type="email"
                         placeholder="teacher@example.com"
-                        autocomplete="email"
-                    >
-
+                        autocomplete="email">
                 </div>
-
 
                 <div class="field">
 
-                    <label>
-                        Password
-                    </label>
+                    <label>Password</label>
 
                     <div class="input-wrap">
 
@@ -1016,105 +553,74 @@ input:focus{
                             class="password-input"
                             type="password"
                             placeholder="Enter your password"
-                            autocomplete="current-password"
-                        >
+                            autocomplete="current-password">
 
                         <button
                             class="eye"
                             type="button"
-                            onclick="togglePassword('loginPassword',this)"
-                        >
+                            data-password="loginPassword">
                             👁
                         </button>
 
                     </div>
-
                 </div>
-
 
                 <div class="form-row">
 
                     <label class="remember">
-
-                        <input
-                            type="checkbox"
-                            id="rememberMe"
-                        >
-
+                        <input type="checkbox" id="rememberMe">
                         Remember me
-
                     </label>
-
 
                     <button
                         class="link"
-                        type="button"
-                        onclick="showForgot()"
-                    >
+                        id="forgotLink"
+                        type="button">
                         Forgot Password?
                     </button>
 
                 </div>
 
-
                 <button
                     class="main-btn"
                     id="loginBtn"
-                    type="button"
-                    onclick="loginTeacher()"
-                >
+                    type="button">
                     Login to Teacher Dashboard
                 </button>
 
-
                 <button
                     class="back-btn"
-                    type="button"
-                    onclick="sendEmailOTP()"
-                >
+                    id="emailOtpBtn"
+                    type="button">
                     Login with 6-Digit Email Code
                 </button>
 
             </div>
 
-
-            <!-- PHONE LOGIN -->
-
             <div
                 id="phoneLoginBox"
-                style="display:none;"
-            >
+                style="display:none;">
 
                 <div class="field">
-
-                    <label>
-                        Phone Number
-                    </label>
+                    <label>Phone Number</label>
 
                     <input
                         id="loginPhone"
                         type="tel"
                         placeholder="+254712345678"
-                        autocomplete="tel"
-                    >
-
+                        autocomplete="tel">
                 </div>
-
 
                 <button
                     class="main-btn"
                     id="phoneSendBtn"
-                    type="button"
-                    onclick="sendPhoneOTP()"
-                >
+                    type="button">
                     Send 6-Digit SMS Code
                 </button>
 
-
                 <div
                     id="phoneVerifyBox"
-                    style="display:none;margin-top:16px;"
-                >
+                    style="display:none;margin-top:16px;">
 
                     <div class="field">
 
@@ -1129,22 +635,14 @@ input:focus{
                             inputmode="numeric"
                             maxlength="6"
                             placeholder="000000"
-                            autocomplete="one-time-code"
-                        >
-
-                        <div class="otp-help">
-                            Enter the 6-digit code sent to your phone.
-                        </div>
+                            autocomplete="one-time-code">
 
                     </div>
-
 
                     <button
                         class="main-btn"
                         id="phoneVerifyBtn"
-                        type="button"
-                        onclick="verifyPhoneOTP()"
-                    >
+                        type="button">
                         Verify & Open Teacher Dashboard
                     </button>
 
@@ -1152,77 +650,54 @@ input:focus{
 
             </div>
 
-
-            <!-- OAUTH -->
-
             <div class="oauth-title">
                 CONTINUE WITH
             </div>
-
 
             <div class="oauth-grid">
 
                 <button
                     class="oauth-btn"
-                    id="googleBtn"
-                    type="button"
-                    onclick="loginWithProvider('google')"
-                >
+                    data-provider="google"
+                    type="button">
                     G Google
                 </button>
 
                 <button
                     class="oauth-btn"
-                    id="facebookBtn"
-                    type="button"
-                    onclick="loginWithProvider('facebook')"
-                >
+                    data-provider="facebook"
+                    type="button">
                     f Facebook
                 </button>
 
                 <button
                     class="oauth-btn"
-                    id="appleBtn"
-                    type="button"
-                    onclick="loginWithProvider('apple')"
-                >
+                    data-provider="apple"
+                    type="button">
                      Apple
                 </button>
 
             </div>
 
-
             <div class="divider">
                 SECURE TEACHER ACCESS
             </div>
 
-
             <div class="signup-info">
-
                 🔐 Authentication is handled by
                 <strong>Supabase Auth</strong>.
                 Email and phone verification use a 6-digit code.
-
             </div>
 
         </div>
 
+        <!-- SIGNUP -->
 
-
-        <!-- =================================================
-             SIGN UP
-        ================================================== -->
-
-        <div
-            id="signupForm"
-            class="form"
-        >
+        <div id="signupForm" class="form">
 
             <div class="auth-header">
 
-                <h2>
-                    Create Teacher Account
-                </h2>
+                <h2>Create Teacher Account</h2>
 
                 <p>
                     Create your SteadyMaze teacher account.
@@ -1230,86 +705,64 @@ input:focus{
 
             </div>
 
-
             <div class="field">
 
-                <label>
-                    Full Name
-                </label>
+                <label>Full Name</label>
 
                 <input
                     id="signupName"
                     type="text"
                     placeholder="Your full name"
-                    autocomplete="name"
-                >
+                    autocomplete="name">
 
             </div>
 
-
             <div class="field">
 
-                <label>
-                    Main Skill
-                </label>
+                <label>Main Skill</label>
 
                 <input
                     id="signupSkill"
                     type="text"
-                    placeholder="Example: Web Development"
-                >
+                    placeholder="Example: Web Development">
 
             </div>
-
 
             <div class="auth-methods">
 
                 <button
                     class="method-btn active"
-                    type="button"
                     id="signupEmailMethod"
-                    onclick="switchSignupMethod('email')"
-                >
+                    type="button">
                     ✉ Email
                 </button>
 
                 <button
                     class="method-btn"
-                    type="button"
                     id="signupPhoneMethod"
-                    onclick="switchSignupMethod('phone')"
-                >
+                    type="button">
                     📱 Phone
                 </button>
 
             </div>
 
-
-            <!-- EMAIL SIGNUP -->
-
             <div id="emailSignupBox">
 
                 <div class="field">
 
-                    <label>
-                        Email Address
-                    </label>
+                    <label>Email Address</label>
 
                     <input
                         id="signupEmail"
                         type="email"
                         placeholder="teacher@example.com"
-                        autocomplete="email"
-                    >
+                        autocomplete="email">
 
                 </div>
 
-
                 <div class="field">
 
-                    <label>
-                        Password
-                    </label>
+                    <label>Password</label>
 
                     <div class="input-wrap">
 
@@ -1318,14 +771,12 @@ input:focus{
                             class="password-input"
                             type="password"
                             placeholder="Create a strong password"
-                            autocomplete="new-password"
-                        >
+                            autocomplete="new-password">
 
                         <button
                             class="eye"
                             type="button"
-                            onclick="togglePassword('signupPassword',this)"
-                        >
+                            data-password="signupPassword">
                             👁
                         </button>
 
@@ -1333,12 +784,9 @@ input:focus{
 
                 </div>
 
-
                 <div class="field">
 
-                    <label>
-                        Confirm Password
-                    </label>
+                    <label>Confirm Password</label>
 
                     <div class="input-wrap">
 
@@ -1347,14 +795,12 @@ input:focus{
                             class="password-input"
                             type="password"
                             placeholder="Confirm your password"
-                            autocomplete="new-password"
-                        >
+                            autocomplete="new-password">
 
                         <button
                             class="eye"
                             type="button"
-                            onclick="togglePassword('signupConfirmPassword',this)"
-                        >
+                            data-password="signupConfirmPassword">
                             👁
                         </button>
 
@@ -1362,56 +808,41 @@ input:focus{
 
                 </div>
 
-
                 <button
                     class="main-btn"
                     id="signupBtn"
-                    type="button"
-                    onclick="signupEmailTeacher()"
-                >
+                    type="button">
                     Create Teacher Account
                 </button>
 
             </div>
 
-
-            <!-- PHONE SIGNUP -->
-
             <div
                 id="phoneSignupBox"
-                style="display:none;"
-            >
+                style="display:none;">
 
                 <div class="field">
 
-                    <label>
-                        Phone Number
-                    </label>
+                    <label>Phone Number</label>
 
                     <input
                         id="signupPhone"
                         type="tel"
                         placeholder="+254712345678"
-                        autocomplete="tel"
-                    >
+                        autocomplete="tel">
 
                 </div>
-
 
                 <button
                     class="main-btn"
                     id="signupPhoneBtn"
-                    type="button"
-                    onclick="signupPhoneTeacher()"
-                >
+                    type="button">
                     Send 6-Digit SMS Code
                 </button>
 
-
                 <div
                     id="signupPhoneVerifyBox"
-                    style="display:none;margin-top:16px;"
-                >
+                    style="display:none;margin-top:16px;">
 
                     <div class="field">
 
@@ -1426,18 +857,14 @@ input:focus{
                             inputmode="numeric"
                             maxlength="6"
                             placeholder="000000"
-                            autocomplete="one-time-code"
-                        >
+                            autocomplete="one-time-code">
 
                     </div>
-
 
                     <button
                         class="main-btn"
                         id="signupPhoneVerifyBtn"
-                        type="button"
-                        onclick="verifySignupPhoneOTP()"
-                    >
+                        type="button">
                         Verify & Create Teacher Account
                     </button>
 
@@ -1445,40 +872,34 @@ input:focus{
 
             </div>
 
-
             <div class="oauth-title">
                 OR CONTINUE WITH
             </div>
-
 
             <div class="oauth-grid">
 
                 <button
                     class="oauth-btn"
-                    type="button"
-                    onclick="signupWithProvider('google')"
-                >
+                    data-signup-provider="google"
+                    type="button">
                     G Google
                 </button>
 
                 <button
                     class="oauth-btn"
-                    type="button"
-                    onclick="signupWithProvider('facebook')"
-                >
+                    data-signup-provider="facebook"
+                    type="button">
                     f Facebook
                 </button>
 
                 <button
                     class="oauth-btn"
-                    type="button"
-                    onclick="signupWithProvider('apple')"
-                >
+                    data-signup-provider="apple"
+                    type="button">
                      Apple
                 </button>
 
             </div>
-
 
             <div class="signup-info" style="margin-top:18px;">
 
@@ -1491,27 +912,15 @@ input:focus{
 
         </div>
 
+        <!-- EMAIL OTP -->
 
+        <div id="emailOTPForm" class="form">
 
-        <!-- =================================================
-             EMAIL OTP
-        ================================================== -->
-
-        <div
-            id="emailOTPForm"
-            class="form"
-        >
-
-            <div class="reset-icon">
-                ✉️
-            </div>
-
+            <div class="reset-icon">✉️</div>
 
             <div class="auth-header">
 
-                <h2>
-                    Verify Email
-                </h2>
+                <h2>Verify Email</h2>
 
                 <p>
                     Enter the 6-digit code sent to your email.
@@ -1519,27 +928,20 @@ input:focus{
 
             </div>
 
-
             <div class="field">
 
-                <label>
-                    Email
-                </label>
+                <label>Email</label>
 
                 <input
                     id="otpEmailDisplay"
                     type="email"
-                    readonly
-                >
+                    readonly>
 
             </div>
 
-
             <div class="field">
 
-                <label>
-                    6-Digit Code
-                </label>
+                <label>6-Digit Code</label>
 
                 <input
                     id="emailOTP"
@@ -1548,53 +950,35 @@ input:focus{
                     inputmode="numeric"
                     maxlength="6"
                     placeholder="000000"
-                    autocomplete="one-time-code"
-                >
+                    autocomplete="one-time-code">
 
             </div>
-
 
             <button
                 class="main-btn"
                 id="emailVerifyBtn"
-                type="button"
-                onclick="verifyEmailOTP()"
-            >
+                type="button">
                 Verify & Open Teacher Dashboard
             </button>
 
-
             <button
                 class="back-btn"
-                type="button"
-                onclick="backToLogin()"
-            >
+                id="emailOtpBackBtn"
+                type="button">
                 ← Back to Login
             </button>
 
         </div>
 
+        <!-- FORGOT PASSWORD -->
 
+        <div id="forgotForm" class="form">
 
-        <!-- =================================================
-             FORGOT PASSWORD
-        ================================================== -->
-
-        <div
-            id="forgotForm"
-            class="form"
-        >
-
-            <div class="reset-icon">
-                🔑
-            </div>
-
+            <div class="reset-icon">🔑</div>
 
             <div class="auth-header">
 
-                <h2>
-                    Forgot Password?
-                </h2>
+                <h2>Forgot Password?</h2>
 
                 <p>
                     Enter your teacher email and we will send
@@ -1603,64 +987,43 @@ input:focus{
 
             </div>
 
-
             <div class="field">
 
-                <label>
-                    Teacher Email
-                </label>
+                <label>Teacher Email</label>
 
                 <input
                     id="forgotEmail"
                     type="email"
                     placeholder="teacher@example.com"
-                    autocomplete="email"
-                >
+                    autocomplete="email">
 
             </div>
-
 
             <button
                 class="main-btn"
                 id="forgotBtn"
-                type="button"
-                onclick="sendResetEmail()"
-            >
+                type="button">
                 Send Password Reset
             </button>
 
-
             <button
                 class="back-btn"
-                type="button"
-                onclick="backToLogin()"
-            >
+                id="forgotBackBtn"
+                type="button">
                 ← Back to Login
             </button>
 
         </div>
 
+        <!-- RESET PASSWORD -->
 
+        <div id="resetForm" class="form">
 
-        <!-- =================================================
-             RESET PASSWORD
-        ================================================== -->
-
-        <div
-            id="resetForm"
-            class="form"
-        >
-
-            <div class="reset-icon">
-                🔐
-            </div>
-
+            <div class="reset-icon">🔐</div>
 
             <div class="auth-header">
 
-                <h2>
-                    Get a New Password
-                </h2>
+                <h2>Get a New Password</h2>
 
                 <p>
                     Create a new password for your SteadyMaze
@@ -1669,12 +1032,9 @@ input:focus{
 
             </div>
 
-
             <div class="field">
 
-                <label>
-                    New Password
-                </label>
+                <label>New Password</label>
 
                 <div class="input-wrap">
 
@@ -1683,14 +1043,12 @@ input:focus{
                         class="password-input"
                         type="password"
                         placeholder="Enter new password"
-                        autocomplete="new-password"
-                    >
+                        autocomplete="new-password">
 
                     <button
                         class="eye"
                         type="button"
-                        onclick="togglePassword('newPassword',this)"
-                    >
+                        data-password="newPassword">
                         👁
                     </button>
 
@@ -1698,12 +1056,9 @@ input:focus{
 
             </div>
 
-
             <div class="field">
 
-                <label>
-                    Confirm New Password
-                </label>
+                <label>Confirm New Password</label>
 
                 <div class="input-wrap">
 
@@ -1712,14 +1067,12 @@ input:focus{
                         class="password-input"
                         type="password"
                         placeholder="Confirm new password"
-                        autocomplete="new-password"
-                    >
+                        autocomplete="new-password">
 
                     <button
                         class="eye"
                         type="button"
-                        onclick="togglePassword('confirmNewPassword',this)"
-                    >
+                        data-password="confirmNewPassword">
                         👁
                     </button>
 
@@ -1727,13 +1080,10 @@ input:focus{
 
             </div>
 
-
             <button
                 class="main-btn"
                 id="resetBtn"
-                type="button"
-                onclick="updatePassword()"
-            >
+                type="button">
                 Get a New Password
             </button>
 
@@ -1741,24 +1091,19 @@ input:focus{
 
     </div>
 
-
     <div class="footer">
-
         SteadyMaze © 2026 •
         <span>Teacher Portal</span>
-
     </div>
 
 </div>
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
 /* =====================================================
-   SUPABASE CONFIG
+   SUPABASE
 ===================================================== */
 
 const SUPABASE_URL =
@@ -1766,7 +1111,6 @@ const SUPABASE_URL =
 
 const SUPABASE_ANON_KEY =
     "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -1786,27 +1130,19 @@ const supabaseClient =
    DASHBOARD
 ===================================================== */
 
-const TEACHER_DASHBOARD =
-    "teacher.html";
+const TEACHER_DASHBOARD = "teacher.html";
 
 
 /* =====================================================
-   TEMPORARY AUTH DATA
-   These are NOT localStorage/sessionStorage.
+   STATE
 ===================================================== */
 
 let currentEmailOTPAddress = "";
-
 let currentPhoneNumber = "";
-
 let currentSignupPhone = "";
-
 let currentSignupName = "";
-
 let currentSignupSkill = "";
-
 let currentSignupMethod = "email";
-
 let currentLoginMethod = "email";
 
 
@@ -1814,10 +1150,7 @@ let currentLoginMethod = "email";
    MESSAGE
 ===================================================== */
 
-function showMessage(
-    text,
-    type="info"
-){
+function showMessage(text,type="info"){
 
     const box =
         document.getElementById("message");
@@ -1826,7 +1159,6 @@ function showMessage(
 
     box.className =
         "message show " + type;
-
 }
 
 
@@ -1837,9 +1169,7 @@ function clearMessage(){
 
     box.textContent = "";
 
-    box.className =
-        "message";
-
+    box.className = "message";
 }
 
 
@@ -1856,7 +1186,6 @@ function hideAllForms(){
             form.classList.remove("active");
 
         });
-
 }
 
 
@@ -1872,35 +1201,27 @@ function showForm(formName){
         );
 
     if(form){
-
         form.classList.add("active");
-
     }
-
 
     const tabs =
         document.querySelectorAll(".tab");
 
-    tabs.forEach(tab => {
-
-        tab.classList.remove("active");
-
-    });
-
+    tabs.forEach(tab =>
+        tab.classList.remove("active")
+    );
 
     if(formName === "login"){
-
-        tabs[0].classList.add("active");
-
+        document
+            .getElementById("loginTab")
+            .classList.add("active");
     }
-
 
     if(formName === "signup"){
-
-        tabs[1].classList.add("active");
-
+        document
+            .getElementById("signupTab")
+            .classList.add("active");
     }
-
 }
 
 
@@ -1913,14 +1234,12 @@ function showForgot(){
     document
         .getElementById("forgotForm")
         .classList.add("active");
-
 }
 
 
 function backToLogin(){
 
     showForm("login");
-
 }
 
 
@@ -1928,29 +1247,39 @@ function backToLogin(){
    PASSWORD
 ===================================================== */
 
-function togglePassword(
-    inputId,
-    button
-){
+document
+    .querySelectorAll(".eye")
+    .forEach(button => {
 
-    const input =
-        document.getElementById(inputId);
+        button.addEventListener(
+            "click",
+            function(){
 
-    if(input.type === "password"){
+                const input =
+                    document.getElementById(
+                        this.dataset.password
+                    );
 
-        input.type = "text";
+                if(!input) return;
 
-        button.textContent = "🙈";
+                if(input.type === "password"){
 
-    }else{
+                    input.type = "text";
 
-        input.type = "password";
+                    this.textContent = "🙈";
 
-        button.textContent = "👁";
+                }else{
 
-    }
+                    input.type = "password";
 
-}
+                    this.textContent = "👁";
+
+                }
+
+            }
+        );
+
+    });
 
 
 /* =====================================================
@@ -1961,9 +1290,7 @@ function switchLoginMethod(method){
 
     clearMessage();
 
-    currentLoginMethod =
-        method;
-
+    currentLoginMethod = method;
 
     const emailBox =
         document.getElementById(
@@ -1975,7 +1302,6 @@ function switchLoginMethod(method){
             "phoneLoginBox"
         );
 
-
     const emailBtn =
         document.getElementById(
             "emailMethodBtn"
@@ -1986,41 +1312,23 @@ function switchLoginMethod(method){
             "phoneMethodBtn"
         );
 
-
     if(method === "email"){
 
-        emailBox.style.display =
-            "block";
+        emailBox.style.display = "block";
+        phoneBox.style.display = "none";
 
-        phoneBox.style.display =
-            "none";
-
-        emailBtn.classList.add(
-            "active"
-        );
-
-        phoneBtn.classList.remove(
-            "active"
-        );
+        emailBtn.classList.add("active");
+        phoneBtn.classList.remove("active");
 
     }else{
 
-        emailBox.style.display =
-            "none";
+        emailBox.style.display = "none";
+        phoneBox.style.display = "block";
 
-        phoneBox.style.display =
-            "block";
-
-        emailBtn.classList.remove(
-            "active"
-        );
-
-        phoneBtn.classList.add(
-            "active"
-        );
+        emailBtn.classList.remove("active");
+        phoneBtn.classList.add("active");
 
     }
-
 }
 
 
@@ -2032,9 +1340,7 @@ function switchSignupMethod(method){
 
     clearMessage();
 
-    currentSignupMethod =
-        method;
-
+    currentSignupMethod = method;
 
     const emailBox =
         document.getElementById(
@@ -2046,7 +1352,6 @@ function switchSignupMethod(method){
             "phoneSignupBox"
         );
 
-
     const emailBtn =
         document.getElementById(
             "signupEmailMethod"
@@ -2057,46 +1362,28 @@ function switchSignupMethod(method){
             "signupPhoneMethod"
         );
 
-
     if(method === "email"){
 
-        emailBox.style.display =
-            "block";
+        emailBox.style.display = "block";
+        phoneBox.style.display = "none";
 
-        phoneBox.style.display =
-            "none";
-
-        emailBtn.classList.add(
-            "active"
-        );
-
-        phoneBtn.classList.remove(
-            "active"
-        );
+        emailBtn.classList.add("active");
+        phoneBtn.classList.remove("active");
 
     }else{
 
-        emailBox.style.display =
-            "none";
+        emailBox.style.display = "none";
+        phoneBox.style.display = "block";
 
-        phoneBox.style.display =
-            "block";
-
-        emailBtn.classList.remove(
-            "active"
-        );
-
-        phoneBtn.classList.add(
-            "active"
-        );
+        emailBtn.classList.remove("active");
+        phoneBtn.classList.add("active");
 
     }
-
 }
 
 
 /* =====================================================
-   EMAIL PASSWORD SIGNUP
+   EMAIL SIGNUP
 ===================================================== */
 
 async function signupEmailTeacher(){
@@ -2104,120 +1391,79 @@ async function signupEmailTeacher(){
     clearMessage();
 
     const button =
-        document.getElementById(
-            "signupBtn"
-        );
-
+        document.getElementById("signupBtn");
 
     const name =
         document
-            .getElementById(
-                "signupName"
-            )
+            .getElementById("signupName")
             .value
             .trim();
-
 
     const skill =
         document
-            .getElementById(
-                "signupSkill"
-            )
+            .getElementById("signupSkill")
             .value
             .trim();
 
-
     const email =
         document
-            .getElementById(
-                "signupEmail"
-            )
+            .getElementById("signupEmail")
             .value
             .trim()
             .toLowerCase();
 
-
     const password =
         document
-            .getElementById(
-                "signupPassword"
-            )
+            .getElementById("signupPassword")
             .value;
-
 
     const confirmPassword =
         document
-            .getElementById(
-                "signupConfirmPassword"
-            )
+            .getElementById("signupConfirmPassword")
             .value;
 
-
     if(!name){
-
         showMessage(
             "Please enter your full name.",
             "error"
         );
-
         return;
-
     }
 
-
     if(!skill){
-
         showMessage(
             "Please enter your main skill.",
             "error"
         );
-
         return;
-
     }
 
-
     if(!email){
-
         showMessage(
             "Please enter your email address.",
             "error"
         );
-
         return;
-
     }
 
-
     if(password.length < 6){
-
         showMessage(
             "Password must contain at least 6 characters.",
             "error"
         );
-
         return;
-
     }
 
-
     if(password !== confirmPassword){
-
         showMessage(
             "Passwords do not match.",
             "error"
         );
-
         return;
-
     }
 
-
     button.disabled = true;
-
-    button.textContent =
-        "Creating Account...";
-
+    button.textContent = "Creating Account...";
 
     try{
 
@@ -2225,43 +1471,27 @@ async function signupEmailTeacher(){
             window.location.origin +
             window.location.pathname;
 
-
         const {
             data,
             error
         } =
         await supabaseClient.auth.signUp({
 
-            email:email,
-
-            password:password,
+            email,
+            password,
 
             options:{
-
-                emailRedirectTo:
-                    redirectUrl,
+                emailRedirectTo:redirectUrl,
 
                 data:{
-
                     full_name:name,
-
                     skill:skill,
-
                     account_type:"teacher"
-
                 }
-
             }
-
         });
 
-
-        if(error){
-
-            throw error;
-
-        }
-
+        if(error) throw error;
 
         if(
             data &&
@@ -2270,7 +1500,7 @@ async function signupEmailTeacher(){
         ){
 
             showMessage(
-                "Teacher account created. Check your email for the 6-digit verification code.",
+                "Teacher account created. Check your email to verify your account.",
                 "success"
             );
 
@@ -2280,7 +1510,6 @@ async function signupEmailTeacher(){
                 "Teacher account created successfully.",
                 "success"
             );
-
 
             setTimeout(() => {
 
@@ -2292,7 +1521,6 @@ async function signupEmailTeacher(){
 
         }
 
-
     }catch(error){
 
         console.error(
@@ -2300,25 +1528,20 @@ async function signupEmailTeacher(){
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
 
-
     button.disabled = false;
-
     button.textContent =
         "Create Teacher Account";
-
 }
 
 
 /* =====================================================
-   EMAIL OTP LOGIN
+   EMAIL OTP
 ===================================================== */
 
 async function sendEmailOTP(){
@@ -2327,13 +1550,10 @@ async function sendEmailOTP(){
 
     const email =
         document
-            .getElementById(
-                "loginEmail"
-            )
+            .getElementById("loginEmail")
             .value
             .trim()
             .toLowerCase();
-
 
     if(!email){
 
@@ -2343,21 +1563,14 @@ async function sendEmailOTP(){
         );
 
         return;
-
     }
 
-
     const button =
-        document.querySelector(
-            "#emailLoginBox .back-btn"
-        );
-
+        document.getElementById("emailOtpBtn");
 
     button.disabled = true;
-
     button.textContent =
         "Sending 6-Digit Code...";
-
 
     try{
 
@@ -2367,33 +1580,17 @@ async function sendEmailOTP(){
         await supabaseClient.auth
             .signInWithOtp({
 
-                email:email,
+                email,
 
                 options:{
-
-                    shouldCreateUser:true,
-
-                    data:{
-
-                        account_type:"teacher"
-
-                    }
-
+                    shouldCreateUser:false
                 }
 
             });
 
+        if(error) throw error;
 
-        if(error){
-
-            throw error;
-
-        }
-
-
-        currentEmailOTPAddress =
-            email;
-
+        currentEmailOTPAddress = email;
 
         document
             .getElementById(
@@ -2401,23 +1598,18 @@ async function sendEmailOTP(){
             )
             .value = email;
 
-
         hideAllForms();
 
         document
             .getElementById(
                 "emailOTPForm"
             )
-            .classList.add(
-                "active"
-            );
-
+            .classList.add("active");
 
         showMessage(
             "A 6-digit verification code has been sent to your email.",
             "success"
         );
-
 
     }catch(error){
 
@@ -2426,20 +1618,15 @@ async function sendEmailOTP(){
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
 
-
     button.disabled = false;
-
     button.textContent =
         "Login with 6-Digit Email Code";
-
 }
 
 
@@ -2456,15 +1643,11 @@ async function verifyEmailOTP(){
             "emailVerifyBtn"
         );
 
-
     const token =
         document
-            .getElementById(
-                "emailOTP"
-            )
+            .getElementById("emailOTP")
             .value
             .trim();
-
 
     if(!/^\d{6}$/.test(token)){
 
@@ -2474,9 +1657,7 @@ async function verifyEmailOTP(){
         );
 
         return;
-
     }
-
 
     if(!currentEmailOTPAddress){
 
@@ -2486,15 +1667,10 @@ async function verifyEmailOTP(){
         );
 
         return;
-
     }
 
-
     button.disabled = true;
-
-    button.textContent =
-        "Verifying...";
-
+    button.textContent = "Verifying...";
 
     try{
 
@@ -2508,37 +1684,24 @@ async function verifyEmailOTP(){
                 email:
                     currentEmailOTPAddress,
 
-                token:token,
+                token,
 
                 type:"email"
-
             });
 
+        if(error) throw error;
 
-        if(error){
-
-            throw error;
-
-        }
-
-
-        if(
-            !data ||
-            !data.session
-        ){
+        if(!data || !data.session){
 
             throw new Error(
                 "Verification succeeded but no login session was created."
             );
-
         }
-
 
         showMessage(
             "Email verified successfully. Opening Teacher Dashboard...",
             "success"
         );
-
 
         setTimeout(() => {
 
@@ -2548,7 +1711,6 @@ async function verifyEmailOTP(){
 
         },600);
 
-
     }catch(error){
 
         console.error(
@@ -2556,25 +1718,21 @@ async function verifyEmailOTP(){
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
-
 
     button.disabled = false;
 
     button.textContent =
         "Verify & Open Teacher Dashboard";
-
 }
 
 
 /* =====================================================
-   NORMAL EMAIL PASSWORD LOGIN
+   NORMAL LOGIN
 ===================================================== */
 
 async function loginTeacher(){
@@ -2582,28 +1740,19 @@ async function loginTeacher(){
     clearMessage();
 
     const button =
-        document.getElementById(
-            "loginBtn"
-        );
-
+        document.getElementById("loginBtn");
 
     const email =
         document
-            .getElementById(
-                "loginEmail"
-            )
+            .getElementById("loginEmail")
             .value
             .trim()
             .toLowerCase();
 
-
     const password =
         document
-            .getElementById(
-                "loginPassword"
-            )
+            .getElementById("loginPassword")
             .value;
-
 
     if(!email){
 
@@ -2613,9 +1762,7 @@ async function loginTeacher(){
         );
 
         return;
-
     }
-
 
     if(!password){
 
@@ -2625,15 +1772,10 @@ async function loginTeacher(){
         );
 
         return;
-
     }
 
-
     button.disabled = true;
-
-    button.textContent =
-        "Signing In...";
-
+    button.textContent = "Signing In...";
 
     try{
 
@@ -2644,19 +1786,12 @@ async function loginTeacher(){
         await supabaseClient.auth
             .signInWithPassword({
 
-                email:email,
-
-                password:password
+                email,
+                password
 
             });
 
-
-        if(error){
-
-            throw error;
-
-        }
-
+        if(error) throw error;
 
         if(
             !data ||
@@ -2667,15 +1802,12 @@ async function loginTeacher(){
             throw new Error(
                 "Login session was not created."
             );
-
         }
-
 
         showMessage(
             "Login successful. Opening Teacher Dashboard...",
             "success"
         );
-
 
         setTimeout(() => {
 
@@ -2685,7 +1817,6 @@ async function loginTeacher(){
 
         },600);
 
-
     }catch(error){
 
         console.error(
@@ -2693,25 +1824,21 @@ async function loginTeacher(){
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
-
 
     button.disabled = false;
 
     button.textContent =
         "Login to Teacher Dashboard";
-
 }
 
 
 /* =====================================================
-   PHONE OTP LOGIN
+   PHONE LOGIN
 ===================================================== */
 
 async function sendPhoneOTP(){
@@ -2723,15 +1850,11 @@ async function sendPhoneOTP(){
             "phoneSendBtn"
         );
 
-
     const phone =
         document
-            .getElementById(
-                "loginPhone"
-            )
+            .getElementById("loginPhone")
             .value
             .trim();
-
 
     if(!phone){
 
@@ -2741,15 +1864,11 @@ async function sendPhoneOTP(){
         );
 
         return;
-
     }
 
-
     button.disabled = true;
-
     button.textContent =
         "Sending 6-Digit SMS...";
-
 
     try{
 
@@ -2759,35 +1878,28 @@ async function sendPhoneOTP(){
         await supabaseClient.auth
             .signInWithOtp({
 
-                phone:phone
+                phone,
+
+                options:{
+                    shouldCreateUser:false
+                }
 
             });
 
+        if(error) throw error;
 
-        if(error){
-
-            throw error;
-
-        }
-
-
-        currentPhoneNumber =
-            phone;
-
+        currentPhoneNumber = phone;
 
         document
             .getElementById(
                 "phoneVerifyBox"
             )
-            .style.display =
-            "block";
-
+            .style.display = "block";
 
         showMessage(
             "A 6-digit verification code was sent by SMS.",
             "success"
         );
-
 
     }catch(error){
 
@@ -2796,25 +1908,21 @@ async function sendPhoneOTP(){
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
-
 
     button.disabled = false;
 
     button.textContent =
         "Send 6-Digit SMS Code";
-
 }
 
 
 /* =====================================================
-   VERIFY PHONE OTP
+   VERIFY PHONE LOGIN
 ===================================================== */
 
 async function verifyPhoneOTP(){
@@ -2826,15 +1934,11 @@ async function verifyPhoneOTP(){
             "phoneVerifyBtn"
         );
 
-
     const token =
         document
-            .getElementById(
-                "phoneOTP"
-            )
+            .getElementById("phoneOTP")
             .value
             .trim();
-
 
     if(!/^\d{6}$/.test(token)){
 
@@ -2844,9 +1948,7 @@ async function verifyPhoneOTP(){
         );
 
         return;
-
     }
-
 
     if(!currentPhoneNumber){
 
@@ -2856,15 +1958,10 @@ async function verifyPhoneOTP(){
         );
 
         return;
-
     }
 
-
     button.disabled = true;
-
-    button.textContent =
-        "Verifying...";
-
+    button.textContent = "Verifying...";
 
     try{
 
@@ -2878,37 +1975,25 @@ async function verifyPhoneOTP(){
                 phone:
                     currentPhoneNumber,
 
-                token:token,
+                token,
 
                 type:"sms"
 
             });
 
+        if(error) throw error;
 
-        if(error){
-
-            throw error;
-
-        }
-
-
-        if(
-            !data ||
-            !data.session
-        ){
+        if(!data || !data.session){
 
             throw new Error(
                 "Phone verification succeeded but no session was created."
             );
-
         }
-
 
         showMessage(
             "Phone verified successfully. Opening Teacher Dashboard...",
             "success"
         );
-
 
         setTimeout(() => {
 
@@ -2918,7 +2003,6 @@ async function verifyPhoneOTP(){
 
         },600);
 
-
     }catch(error){
 
         console.error(
@@ -2926,25 +2010,21 @@ async function verifyPhoneOTP(){
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
-
 
     button.disabled = false;
 
     button.textContent =
         "Verify & Open Teacher Dashboard";
-
 }
 
 
 /* =====================================================
-   PHONE TEACHER SIGNUP
+   PHONE SIGNUP
 ===================================================== */
 
 async function signupPhoneTeacher(){
@@ -2956,33 +2036,23 @@ async function signupPhoneTeacher(){
             "signupPhoneBtn"
         );
 
-
     const name =
         document
-            .getElementById(
-                "signupName"
-            )
+            .getElementById("signupName")
             .value
             .trim();
-
 
     const skill =
         document
-            .getElementById(
-                "signupSkill"
-            )
+            .getElementById("signupSkill")
             .value
             .trim();
-
 
     const phone =
         document
-            .getElementById(
-                "signupPhone"
-            )
+            .getElementById("signupPhone")
             .value
             .trim();
-
 
     if(!name){
 
@@ -2992,9 +2062,7 @@ async function signupPhoneTeacher(){
         );
 
         return;
-
     }
-
 
     if(!skill){
 
@@ -3004,9 +2072,7 @@ async function signupPhoneTeacher(){
         );
 
         return;
-
     }
-
 
     if(!phone){
 
@@ -3016,15 +2082,11 @@ async function signupPhoneTeacher(){
         );
 
         return;
-
     }
 
-
     button.disabled = true;
-
     button.textContent =
         "Sending 6-Digit SMS...";
-
 
     try{
 
@@ -3034,57 +2096,36 @@ async function signupPhoneTeacher(){
         await supabaseClient.auth
             .signInWithOtp({
 
-                phone:phone,
+                phone,
 
                 options:{
-
                     shouldCreateUser:true,
 
                     data:{
-
                         full_name:name,
-
                         skill:skill,
-
                         account_type:"teacher"
-
                     }
-
                 }
 
             });
 
+        if(error) throw error;
 
-        if(error){
-
-            throw error;
-
-        }
-
-
-        currentSignupPhone =
-            phone;
-
-        currentSignupName =
-            name;
-
-        currentSignupSkill =
-            skill;
-
+        currentSignupPhone = phone;
+        currentSignupName = name;
+        currentSignupSkill = skill;
 
         document
             .getElementById(
                 "signupPhoneVerifyBox"
             )
-            .style.display =
-            "block";
-
+            .style.display = "block";
 
         showMessage(
             "A 6-digit verification code was sent to your phone.",
             "success"
         );
-
 
     }catch(error){
 
@@ -3093,20 +2134,16 @@ async function signupPhoneTeacher(){
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
-
 
     button.disabled = false;
 
     button.textContent =
         "Send 6-Digit SMS Code";
-
 }
 
 
@@ -3123,15 +2160,11 @@ async function verifySignupPhoneOTP(){
             "signupPhoneVerifyBtn"
         );
 
-
     const token =
         document
-            .getElementById(
-                "signupPhoneOTP"
-            )
+            .getElementById("signupPhoneOTP")
             .value
             .trim();
-
 
     if(!/^\d{6}$/.test(token)){
 
@@ -3141,9 +2174,7 @@ async function verifySignupPhoneOTP(){
         );
 
         return;
-
     }
-
 
     if(!currentSignupPhone){
 
@@ -3153,15 +2184,11 @@ async function verifySignupPhoneOTP(){
         );
 
         return;
-
     }
 
-
     button.disabled = true;
-
     button.textContent =
         "Creating Teacher Account...";
-
 
     try{
 
@@ -3175,37 +2202,25 @@ async function verifySignupPhoneOTP(){
                 phone:
                     currentSignupPhone,
 
-                token:token,
+                token,
 
                 type:"sms"
 
             });
 
+        if(error) throw error;
 
-        if(error){
-
-            throw error;
-
-        }
-
-
-        if(
-            !data ||
-            !data.session
-        ){
+        if(!data || !data.session){
 
             throw new Error(
                 "Verification succeeded but no session was created."
             );
-
         }
-
 
         showMessage(
             "Teacher account created successfully. Opening Teacher Dashboard...",
             "success"
         );
-
 
         setTimeout(() => {
 
@@ -3215,7 +2230,6 @@ async function verifySignupPhoneOTP(){
 
         },600);
 
-
     }catch(error){
 
         console.error(
@@ -3223,48 +2237,26 @@ async function verifySignupPhoneOTP(){
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
-
 
     button.disabled = false;
 
     button.textContent =
         "Verify & Create Teacher Account";
-
 }
 
 
 /* =====================================================
-   GOOGLE / FACEBOOK / APPLE
+   OAUTH
 ===================================================== */
 
-async function loginWithProvider(
-    provider
-){
+async function loginWithProvider(provider){
 
     clearMessage();
-
-    const button =
-        document.getElementById(
-            provider + "Btn"
-        );
-
-
-    if(button){
-
-        button.disabled = true;
-
-        button.textContent =
-            "Connecting...";
-
-    }
-
 
     try{
 
@@ -3272,20 +2264,16 @@ async function loginWithProvider(
             window.location.origin +
             window.location.pathname;
 
-
         const {
-            data,
             error
         } =
         await supabaseClient.auth
             .signInWithOAuth({
 
-                provider:provider,
+                provider,
 
                 options:{
-
-                    redirectTo:
-                        redirectUrl,
+                    redirectTo:redirectUrl,
 
                     queryParams:
                         provider === "google"
@@ -3296,18 +2284,11 @@ async function loginWithProvider(
                         }
                         :
                         undefined
-
                 }
 
             });
 
-
-        if(error){
-
-            throw error;
-
-        }
-
+        if(error) throw error;
 
     }catch(error){
 
@@ -3317,58 +2298,29 @@ async function loginWithProvider(
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
-
-        if(button){
-
-            button.disabled = false;
-
-            button.textContent =
-                provider === "google"
-                ? "G Google"
-                : provider === "facebook"
-                ? "f Facebook"
-                : " Apple";
-
-        }
-
     }
-
 }
 
 
-/* =====================================================
-   PROVIDER SIGNUP
-===================================================== */
-
-async function signupWithProvider(
-    provider
-){
+async function signupWithProvider(provider){
 
     clearMessage();
 
     const name =
         document
-            .getElementById(
-                "signupName"
-            )
+            .getElementById("signupName")
             .value
             .trim();
-
 
     const skill =
         document
-            .getElementById(
-                "signupSkill"
-            )
+            .getElementById("signupSkill")
             .value
             .trim();
-
 
     if(!name){
 
@@ -3378,9 +2330,7 @@ async function signupWithProvider(
         );
 
         return;
-
     }
-
 
     if(!skill){
 
@@ -3390,9 +2340,7 @@ async function signupWithProvider(
         );
 
         return;
-
     }
-
 
     try{
 
@@ -3400,41 +2348,27 @@ async function signupWithProvider(
             window.location.origin +
             window.location.pathname;
 
-
         const {
             error
         } =
         await supabaseClient.auth
             .signInWithOAuth({
 
-                provider:provider,
+                provider,
 
                 options:{
-
-                    redirectTo:
-                        redirectUrl,
+                    redirectTo:redirectUrl,
 
                     data:{
-
                         full_name:name,
-
                         skill:skill,
-
                         account_type:"teacher"
-
                     }
-
                 }
 
             });
 
-
-        if(error){
-
-            throw error;
-
-        }
-
+        if(error) throw error;
 
     }catch(error){
 
@@ -3444,14 +2378,11 @@ async function signupWithProvider(
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
-
 }
 
 
@@ -3464,20 +2395,14 @@ async function sendResetEmail(){
     clearMessage();
 
     const button =
-        document.getElementById(
-            "forgotBtn"
-        );
-
+        document.getElementById("forgotBtn");
 
     const email =
         document
-            .getElementById(
-                "forgotEmail"
-            )
+            .getElementById("forgotEmail")
             .value
             .trim()
             .toLowerCase();
-
 
     if(!email){
 
@@ -3487,22 +2412,16 @@ async function sendResetEmail(){
         );
 
         return;
-
     }
 
-
     button.disabled = true;
-
-    button.textContent =
-        "Sending...";
-
+    button.textContent = "Sending...";
 
     try{
 
         const redirectUrl =
             window.location.origin +
             window.location.pathname;
-
 
         const {
             error
@@ -3513,27 +2432,17 @@ async function sendResetEmail(){
                 email,
 
                 {
-
-                    redirectTo:
-                        redirectUrl
-
+                    redirectTo:redirectUrl
                 }
 
             );
 
-
-        if(error){
-
-            throw error;
-
-        }
-
+        if(error) throw error;
 
         showMessage(
             "Password reset email sent. Check your email.",
             "success"
         );
-
 
     }catch(error){
 
@@ -3542,20 +2451,16 @@ async function sendResetEmail(){
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
-
 
     button.disabled = false;
 
     button.textContent =
         "Send Password Reset";
-
 }
 
 
@@ -3568,26 +2473,17 @@ async function updatePassword(){
     clearMessage();
 
     const button =
-        document.getElementById(
-            "resetBtn"
-        );
-
+        document.getElementById("resetBtn");
 
     const password =
         document
-            .getElementById(
-                "newPassword"
-            )
+            .getElementById("newPassword")
             .value;
-
 
     const confirmPassword =
         document
-            .getElementById(
-                "confirmNewPassword"
-            )
+            .getElementById("confirmNewPassword")
             .value;
-
 
     if(password.length < 6){
 
@@ -3597,9 +2493,7 @@ async function updatePassword(){
         );
 
         return;
-
     }
-
 
     if(password !== confirmPassword){
 
@@ -3609,15 +2503,11 @@ async function updatePassword(){
         );
 
         return;
-
     }
 
-
     button.disabled = true;
-
     button.textContent =
         "Updating Password...";
-
 
     try{
 
@@ -3627,44 +2517,30 @@ async function updatePassword(){
         await supabaseClient.auth
             .updateUser({
 
-                password:password
+                password
 
             });
 
-
-        if(error){
-
-            throw error;
-
-        }
-
+        if(error) throw error;
 
         showMessage(
             "Your password has been changed successfully.",
             "success"
         );
 
-
         document
-            .getElementById(
-                "newPassword"
-            )
+            .getElementById("newPassword")
             .value = "";
 
-
         document
-            .getElementById(
-                "confirmNewPassword"
-            )
+            .getElementById("confirmNewPassword")
             .value = "";
-
 
         setTimeout(() => {
 
             showForm("login");
 
         },1200);
-
 
     }catch(error){
 
@@ -3673,25 +2549,21 @@ async function updatePassword(){
             error
         );
 
-
         showMessage(
             getFriendlyError(error),
             "error"
         );
-
     }
-
 
     button.disabled = false;
 
     button.textContent =
         "Get a New Password";
-
 }
 
 
 /* =====================================================
-   AUTH STATE CHANGE
+   AUTH STATE
 ===================================================== */
 
 supabaseClient.auth.onAuthStateChange(
@@ -3702,32 +2574,17 @@ supabaseClient.auth.onAuthStateChange(
             event
         );
 
-
-        /*
-        PASSWORD RECOVERY
-        */
-
         if(event === "PASSWORD_RECOVERY"){
 
             document
-                .getElementById(
-                    "mainTabs"
-                )
-                .style.display =
-                "none";
-
+                .querySelector(".tabs")
+                .style.display = "none";
 
             hideAllForms();
 
-
             document
-                .getElementById(
-                    "resetForm"
-                )
-                .classList.add(
-                    "active"
-                );
-
+                .getElementById("resetForm")
+                .classList.add("active");
 
             showMessage(
                 "Create your new teacher password below.",
@@ -3735,13 +2592,7 @@ supabaseClient.auth.onAuthStateChange(
             );
 
             return;
-
         }
-
-
-        /*
-        OAUTH LOGIN RETURN
-        */
 
         if(
             event === "SIGNED_IN" &&
@@ -3750,34 +2601,20 @@ supabaseClient.auth.onAuthStateChange(
         ){
 
             const hash =
-                window.location.hash ||
-                "";
-
+                window.location.hash || "";
 
             if(
                 hash.includes(
                     "type=recovery"
                 )
             ){
-
                 return;
-
             }
 
-
-            /*
-            OAuth has completed.
-
-            No localStorage.
-            No sessionStorage.
-
-            Supabase owns the session.
-            */
-
             const provider =
-                session.user.app_metadata
-                ?.provider;
-
+                session.user
+                    .app_metadata
+                    ?.provider;
 
             if(
                 provider === "google" ||
@@ -3790,7 +2627,6 @@ supabaseClient.auth.onAuthStateChange(
                     "success"
                 );
 
-
                 setTimeout(() => {
 
                     window.location.replace(
@@ -3798,17 +2634,14 @@ supabaseClient.auth.onAuthStateChange(
                     );
 
                 },500);
-
             }
-
         }
-
     }
 );
 
 
 /* =====================================================
-   HANDLE AUTH REDIRECT
+   AUTH REDIRECT
 ===================================================== */
 
 async function handleAuthRedirect(){
@@ -3816,13 +2649,7 @@ async function handleAuthRedirect(){
     try{
 
         const hash =
-            window.location.hash ||
-            "";
-
-
-        /*
-        PASSWORD RECOVERY
-        */
+            window.location.hash || "";
 
         if(
             hash.includes(
@@ -3831,24 +2658,14 @@ async function handleAuthRedirect(){
         ){
 
             document
-                .getElementById(
-                    "mainTabs"
-                )
-                .style.display =
-                "none";
-
+                .querySelector(".tabs")
+                .style.display = "none";
 
             hideAllForms();
 
-
             document
-                .getElementById(
-                    "resetForm"
-                )
-                .classList.add(
-                    "active"
-                );
-
+                .getElementById("resetForm")
+                .classList.add("active");
 
             showMessage(
                 "Create your new teacher password below.",
@@ -3856,13 +2673,7 @@ async function handleAuthRedirect(){
             );
 
             return;
-
         }
-
-
-        /*
-        OAUTH / AUTH SESSION
-        */
 
         const {
             data,
@@ -3870,7 +2681,6 @@ async function handleAuthRedirect(){
         } =
         await supabaseClient.auth
             .getSession();
-
 
         if(error){
 
@@ -3880,9 +2690,7 @@ async function handleAuthRedirect(){
             );
 
             return;
-
         }
-
 
         if(
             data &&
@@ -3895,15 +2703,6 @@ async function handleAuthRedirect(){
                     .app_metadata
                     ?.provider;
 
-
-            /*
-            Only automatically redirect
-            OAuth sessions.
-
-            Normal email/password login is
-            controlled by loginTeacher().
-            */
-
             if(
                 provider === "google" ||
                 provider === "facebook" ||
@@ -3915,7 +2714,6 @@ async function handleAuthRedirect(){
                     "success"
                 );
 
-
                 setTimeout(() => {
 
                     window.location.replace(
@@ -3923,9 +2721,7 @@ async function handleAuthRedirect(){
                     );
 
                 },500);
-
             }
-
         }
 
     }catch(error){
@@ -3934,9 +2730,7 @@ async function handleAuthRedirect(){
             "AUTH REDIRECT ERROR:",
             error
         );
-
     }
-
 }
 
 
@@ -3953,104 +2747,251 @@ function getFriendlyError(error){
     const text =
         raw.toLowerCase();
 
-
     if(
         text.includes(
             "invalid login credentials"
         )
     ){
-
         return "Incorrect email or password.";
-
     }
-
 
     if(
         text.includes(
             "email not confirmed"
         )
     ){
-
         return "Please verify your email before logging in.";
-
     }
 
-
     if(
-        text.includes(
-            "otp"
-        ) &&
-        text.includes(
-            "expired"
-        )
+        text.includes("otp") &&
+        text.includes("expired")
     ){
-
         return "This 6-digit code has expired. Please request a new code.";
-
     }
 
-
     if(
-        text.includes(
-            "invalid token"
-        )
+        text.includes("invalid token")
     ){
-
         return "The 6-digit code is incorrect or expired.";
-
     }
 
-
     if(
-        text.includes(
-            "already registered"
-        )
+        text.includes("already registered") ||
+        text.includes("already exists")
     ){
-
         return "This account already exists. Please login instead.";
-
     }
 
-
     if(
-        text.includes(
-            "provider is not enabled"
-        )
+        text.includes("provider is not enabled")
     ){
-
         return "This login provider has not been enabled in Supabase yet.";
-
     }
 
-
     if(
-        text.includes(
-            "unsupported provider"
-        )
+        text.includes("unsupported provider")
     ){
-
         return "This authentication provider is not configured in Supabase.";
-
     }
-
 
     if(
-        text.includes(
-            "redirect"
-        ) &&
-        text.includes(
-            "not allowed"
-        )
+        text.includes("redirect") &&
+        text.includes("not allowed")
     ){
-
         return "The redirect URL is not allowed in Supabase Authentication settings.";
-
     }
 
+    if(
+        text.includes("user not found")
+    ){
+        return "No teacher account was found with this information.";
+    }
 
     return raw;
-
 }
+
+
+/* =====================================================
+   BUTTON EVENTS
+===================================================== */
+
+document
+    .getElementById("loginTab")
+    .addEventListener(
+        "click",
+        () => showForm("login")
+    );
+
+document
+    .getElementById("signupTab")
+    .addEventListener(
+        "click",
+        () => showForm("signup")
+    );
+
+document
+    .getElementById("emailMethodBtn")
+    .addEventListener(
+        "click",
+        () => switchLoginMethod("email")
+    );
+
+document
+    .getElementById("phoneMethodBtn")
+    .addEventListener(
+        "click",
+        () => switchLoginMethod("phone")
+    );
+
+document
+    .getElementById("signupEmailMethod")
+    .addEventListener(
+        "click",
+        () => switchSignupMethod("email")
+    );
+
+document
+    .getElementById("signupPhoneMethod")
+    .addEventListener(
+        "click",
+        () => switchSignupMethod("phone")
+    );
+
+document
+    .getElementById("loginBtn")
+    .addEventListener(
+        "click",
+        loginTeacher
+    );
+
+document
+    .getElementById("emailOtpBtn")
+    .addEventListener(
+        "click",
+        sendEmailOTP
+    );
+
+document
+    .getElementById("emailVerifyBtn")
+    .addEventListener(
+        "click",
+        verifyEmailOTP
+    );
+
+document
+    .getElementById("emailOtpBackBtn")
+    .addEventListener(
+        "click",
+        backToLogin
+    );
+
+document
+    .getElementById("forgotLink")
+    .addEventListener(
+        "click",
+        showForgot
+    );
+
+document
+    .getElementById("forgotBackBtn")
+    .addEventListener(
+        "click",
+        backToLogin
+    );
+
+document
+    .getElementById("forgotBtn")
+    .addEventListener(
+        "click",
+        sendResetEmail
+    );
+
+document
+    .getElementById("resetBtn")
+    .addEventListener(
+        "click",
+        updatePassword
+    );
+
+document
+    .getElementById("phoneSendBtn")
+    .addEventListener(
+        "click",
+        sendPhoneOTP
+    );
+
+document
+    .getElementById("phoneVerifyBtn")
+    .addEventListener(
+        "click",
+        verifyPhoneOTP
+    );
+
+document
+    .getElementById("signupBtn")
+    .addEventListener(
+        "click",
+        signupEmailTeacher
+    );
+
+document
+    .getElementById("signupPhoneBtn")
+    .addEventListener(
+        "click",
+        signupPhoneTeacher
+    );
+
+document
+    .getElementById("signupPhoneVerifyBtn")
+    .addEventListener(
+        "click",
+        verifySignupPhoneOTP
+    );
+
+
+/* =====================================================
+   OAUTH BUTTONS
+===================================================== */
+
+document
+    .querySelectorAll(
+        "[data-provider]"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                loginWithProvider(
+                    button.dataset.provider
+                );
+
+            }
+        );
+
+    });
+
+
+document
+    .querySelectorAll(
+        "[data-signup-provider]"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                signupWithProvider(
+                    button.dataset.signupProvider
+                );
+
+            }
+        );
+
+    });
 
 
 /* =====================================================
@@ -4064,92 +3005,57 @@ document.addEventListener(
         if(event.key !== "Enter")
             return;
 
-
         const activeForm =
             document.querySelector(
                 ".form.active"
             );
 
-
         if(!activeForm)
             return;
 
-
         if(
-            activeForm.id ===
-            "loginForm"
+            activeForm.id === "loginForm" &&
+            currentLoginMethod === "email"
         ){
 
-            if(
-                currentLoginMethod ===
-                "email"
-            ){
+            loginTeacher();
 
-                loginTeacher();
-
-            }
-
-        }
-
-
-        else if(
-            activeForm.id ===
-            "signupForm"
+        }else if(
+            activeForm.id === "signupForm" &&
+            currentSignupMethod === "email"
         ){
 
-            if(
-                currentSignupMethod ===
-                "email"
-            ){
+            signupEmailTeacher();
 
-                signupEmailTeacher();
-
-            }
-
-        }
-
-
-        else if(
-            activeForm.id ===
-            "emailOTPForm"
+        }else if(
+            activeForm.id === "emailOTPForm"
         ){
 
             verifyEmailOTP();
 
-        }
-
-
-        else if(
-            activeForm.id ===
-            "forgotForm"
+        }else if(
+            activeForm.id === "forgotForm"
         ){
 
             sendResetEmail();
 
-        }
-
-
-        else if(
-            activeForm.id ===
-            "resetForm"
+        }else if(
+            activeForm.id === "resetForm"
         ){
 
             updatePassword();
 
         }
-
     }
 );
 
 
 /* =====================================================
-   OTP INPUT ONLY NUMBERS
+   OTP NUMBERS ONLY
 ===================================================== */
 
 document
-    .querySelectorAll(
-        ".otp-input"
-    )
+    .querySelectorAll(".otp-input")
     .forEach(input => {
 
         input.addEventListener(
@@ -4158,14 +3064,8 @@ document
 
                 this.value =
                     this.value
-                        .replace(
-                            /\D/g,
-                            ""
-                        )
-                        .slice(
-                            0,
-                            6
-                        );
+                        .replace(/\D/g,"")
+                        .slice(0,6);
 
             }
         );
