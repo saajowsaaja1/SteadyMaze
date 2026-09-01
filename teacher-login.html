@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SteadyMaze | Teacher Login</title>
+
 <style>
 *{
     margin:0;
@@ -18,6 +19,7 @@
     --blue:#2563eb;
     --blue2:#60a5fa;
     --red:#ef4444;
+    --red2:#f87171;
     --gold:#d4af37;
     --gold2:#f4d76b;
     --purple:#8b5cf6;
@@ -223,6 +225,14 @@ body::after{
     transform:translateY(-1px);
 }
 
+.oauth-btn:disabled,
+.main-btn:disabled,
+.back-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+}
+
 .form{display:none;}
 .form.active{display:block;}
 
@@ -358,12 +368,6 @@ input:focus{
     box-shadow:0 14px 30px rgba(139,92,246,.20);
 }
 
-.main-btn:disabled{
-    opacity:.6;
-    cursor:not-allowed;
-    transform:none;
-}
-
 .back-btn{
     width:100%;
     margin-top:10px;
@@ -467,7 +471,6 @@ input:focus{
     }
 
     .logo h1{font-size:29px;}
-
     .auth-header h2{font-size:21px;}
 }
 </style>
@@ -482,20 +485,27 @@ input:focus{
             <span class="s">S</span>teady
             <span class="m">M</span><span class="aze">aze</span>
         </h1>
-
         <p>Teacher Learning & Competition Platform</p>
     </div>
 
     <div class="auth-card">
 
-        <div class="tabs">
-            <button class="tab active" id="loginTab" type="button">
+        <div class="tabs" id="mainTabs">
+
+            <button
+                class="tab active"
+                type="button"
+                onclick="showForm('login')">
                 Login
             </button>
 
-            <button class="tab" id="signupTab" type="button">
+            <button
+                class="tab"
+                type="button"
+                onclick="showForm('signup')">
                 Sign Up
             </button>
+
         </div>
 
         <div id="message" class="message"></div>
@@ -506,7 +516,6 @@ input:focus{
 
             <div class="auth-header">
                 <h2>Teacher Login</h2>
-
                 <p>
                     Sign in to access your SteadyMaze teacher dashboard.
                 </p>
@@ -516,15 +525,17 @@ input:focus{
 
                 <button
                     class="method-btn active"
+                    type="button"
                     id="emailMethodBtn"
-                    type="button">
+                    onclick="switchLoginMethod('email')">
                     ✉ Email
                 </button>
 
                 <button
                     class="method-btn"
+                    type="button"
                     id="phoneMethodBtn"
-                    type="button">
+                    onclick="switchLoginMethod('phone')">
                     📱 Phone
                 </button>
 
@@ -558,24 +569,30 @@ input:focus{
                         <button
                             class="eye"
                             type="button"
-                            data-password="loginPassword">
+                            onclick="togglePassword('loginPassword',this)">
                             👁
                         </button>
 
                     </div>
+
                 </div>
 
                 <div class="form-row">
 
                     <label class="remember">
-                        <input type="checkbox" id="rememberMe">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe">
+
                         Remember me
+
                     </label>
 
                     <button
                         class="link"
-                        id="forgotLink"
-                        type="button">
+                        type="button"
+                        onclick="showForgot()">
                         Forgot Password?
                     </button>
 
@@ -584,24 +601,24 @@ input:focus{
                 <button
                     class="main-btn"
                     id="loginBtn"
-                    type="button">
+                    type="button"
+                    onclick="loginTeacher()">
                     Login to Teacher Dashboard
                 </button>
 
                 <button
                     class="back-btn"
-                    id="emailOtpBtn"
-                    type="button">
+                    type="button"
+                    onclick="sendEmailOTP()">
                     Login with 6-Digit Email Code
                 </button>
 
             </div>
 
-            <div
-                id="phoneLoginBox"
-                style="display:none;">
+            <div id="phoneLoginBox" style="display:none;">
 
                 <div class="field">
+
                     <label>Phone Number</label>
 
                     <input
@@ -609,12 +626,14 @@ input:focus{
                         type="tel"
                         placeholder="+254712345678"
                         autocomplete="tel">
+
                 </div>
 
                 <button
                     class="main-btn"
                     id="phoneSendBtn"
-                    type="button">
+                    type="button"
+                    onclick="sendPhoneOTP()">
                     Send 6-Digit SMS Code
                 </button>
 
@@ -624,9 +643,7 @@ input:focus{
 
                     <div class="field">
 
-                        <label>
-                            6-Digit Verification Code
-                        </label>
+                        <label>6-Digit Verification Code</label>
 
                         <input
                             id="phoneOTP"
@@ -637,12 +654,17 @@ input:focus{
                             placeholder="000000"
                             autocomplete="one-time-code">
 
+                        <div class="otp-help">
+                            Enter the 6-digit code sent to your phone.
+                        </div>
+
                     </div>
 
                     <button
                         class="main-btn"
                         id="phoneVerifyBtn"
-                        type="button">
+                        type="button"
+                        onclick="verifyPhoneOTP()">
                         Verify & Open Teacher Dashboard
                     </button>
 
@@ -658,22 +680,25 @@ input:focus{
 
                 <button
                     class="oauth-btn"
-                    data-provider="google"
-                    type="button">
+                    id="googleBtn"
+                    type="button"
+                    onclick="loginWithProvider('google')">
                     G Google
                 </button>
 
                 <button
                     class="oauth-btn"
-                    data-provider="facebook"
-                    type="button">
+                    id="facebookBtn"
+                    type="button"
+                    onclick="loginWithProvider('facebook')">
                     f Facebook
                 </button>
 
                 <button
                     class="oauth-btn"
-                    data-provider="apple"
-                    type="button">
+                    id="appleBtn"
+                    type="button"
+                    onclick="loginWithProvider('apple')">
                      Apple
                 </button>
 
@@ -684,9 +709,13 @@ input:focus{
             </div>
 
             <div class="signup-info">
+
                 🔐 Authentication is handled by
                 <strong>Supabase Auth</strong>.
-                Email and phone verification use a 6-digit code.
+
+                Email, phone and social authentication
+                are connected to Supabase.
+
             </div>
 
         </div>
@@ -732,15 +761,17 @@ input:focus{
 
                 <button
                     class="method-btn active"
+                    type="button"
                     id="signupEmailMethod"
-                    type="button">
+                    onclick="switchSignupMethod('email')">
                     ✉ Email
                 </button>
 
                 <button
                     class="method-btn"
+                    type="button"
                     id="signupPhoneMethod"
-                    type="button">
+                    onclick="switchSignupMethod('phone')">
                     📱 Phone
                 </button>
 
@@ -776,7 +807,7 @@ input:focus{
                         <button
                             class="eye"
                             type="button"
-                            data-password="signupPassword">
+                            onclick="togglePassword('signupPassword',this)">
                             👁
                         </button>
 
@@ -800,7 +831,7 @@ input:focus{
                         <button
                             class="eye"
                             type="button"
-                            data-password="signupConfirmPassword">
+                            onclick="togglePassword('signupConfirmPassword',this)">
                             👁
                         </button>
 
@@ -811,15 +842,14 @@ input:focus{
                 <button
                     class="main-btn"
                     id="signupBtn"
-                    type="button">
+                    type="button"
+                    onclick="signupEmailTeacher()">
                     Create Teacher Account
                 </button>
 
             </div>
 
-            <div
-                id="phoneSignupBox"
-                style="display:none;">
+            <div id="phoneSignupBox" style="display:none;">
 
                 <div class="field">
 
@@ -836,7 +866,8 @@ input:focus{
                 <button
                     class="main-btn"
                     id="signupPhoneBtn"
-                    type="button">
+                    type="button"
+                    onclick="signupPhoneTeacher()">
                     Send 6-Digit SMS Code
                 </button>
 
@@ -846,9 +877,7 @@ input:focus{
 
                     <div class="field">
 
-                        <label>
-                            6-Digit Verification Code
-                        </label>
+                        <label>6-Digit Verification Code</label>
 
                         <input
                             id="signupPhoneOTP"
@@ -864,7 +893,8 @@ input:focus{
                     <button
                         class="main-btn"
                         id="signupPhoneVerifyBtn"
-                        type="button">
+                        type="button"
+                        onclick="verifySignupPhoneOTP()">
                         Verify & Create Teacher Account
                     </button>
 
@@ -880,22 +910,25 @@ input:focus{
 
                 <button
                     class="oauth-btn"
-                    data-signup-provider="google"
-                    type="button">
+                    id="signupGoogleBtn"
+                    type="button"
+                    onclick="signupWithProvider('google')">
                     G Google
                 </button>
 
                 <button
                     class="oauth-btn"
-                    data-signup-provider="facebook"
-                    type="button">
+                    id="signupFacebookBtn"
+                    type="button"
+                    onclick="signupWithProvider('facebook')">
                     f Facebook
                 </button>
 
                 <button
                     class="oauth-btn"
-                    data-signup-provider="apple"
-                    type="button">
+                    id="signupAppleBtn"
+                    type="button"
+                    onclick="signupWithProvider('apple')">
                      Apple
                 </button>
 
@@ -905,8 +938,9 @@ input:focus{
 
                 👨‍🏫 Your account uses
                 <strong>Supabase Authentication</strong>.
-                Email and phone signup can be verified using
-                a 6-digit code.
+
+                Your teacher profile information is saved
+                in the Supabase user metadata.
 
             </div>
 
@@ -957,20 +991,21 @@ input:focus{
             <button
                 class="main-btn"
                 id="emailVerifyBtn"
-                type="button">
+                type="button"
+                onclick="verifyEmailOTP()">
                 Verify & Open Teacher Dashboard
             </button>
 
             <button
                 class="back-btn"
-                id="emailOtpBackBtn"
-                type="button">
+                type="button"
+                onclick="backToLogin()">
                 ← Back to Login
             </button>
 
         </div>
 
-        <!-- FORGOT PASSWORD -->
+        <!-- FORGOT -->
 
         <div id="forgotForm" class="form">
 
@@ -1002,20 +1037,21 @@ input:focus{
             <button
                 class="main-btn"
                 id="forgotBtn"
-                type="button">
+                type="button"
+                onclick="sendResetEmail()">
                 Send Password Reset
             </button>
 
             <button
                 class="back-btn"
-                id="forgotBackBtn"
-                type="button">
+                type="button"
+                onclick="backToLogin()">
                 ← Back to Login
             </button>
 
         </div>
 
-        <!-- RESET PASSWORD -->
+        <!-- RESET -->
 
         <div id="resetForm" class="form">
 
@@ -1048,7 +1084,7 @@ input:focus{
                     <button
                         class="eye"
                         type="button"
-                        data-password="newPassword">
+                        onclick="togglePassword('newPassword',this)">
                         👁
                     </button>
 
@@ -1066,13 +1102,13 @@ input:focus{
                         id="confirmNewPassword"
                         class="password-input"
                         type="password"
-                        placeholder="Confirm new password"
+                        placeholder="Confirm your password"
                         autocomplete="new-password">
 
                     <button
                         class="eye"
                         type="button"
-                        data-password="confirmNewPassword">
+                        onclick="togglePassword('confirmNewPassword',this)">
                         👁
                     </button>
 
@@ -1083,7 +1119,8 @@ input:focus{
             <button
                 class="main-btn"
                 id="resetBtn"
-                type="button">
+                type="button"
+                onclick="updatePassword()">
                 Get a New Password
             </button>
 
@@ -1134,7 +1171,7 @@ const TEACHER_DASHBOARD = "teacher.html";
 
 
 /* =====================================================
-   STATE
+   VARIABLES
 ===================================================== */
 
 let currentEmailOTPAddress = "";
@@ -1181,10 +1218,8 @@ function hideAllForms(){
 
     document
         .querySelectorAll(".form")
-        .forEach(form => {
-
+        .forEach(form=>{
             form.classList.remove("active");
-
         });
 }
 
@@ -1207,21 +1242,21 @@ function showForm(formName){
     const tabs =
         document.querySelectorAll(".tab");
 
-    tabs.forEach(tab =>
-        tab.classList.remove("active")
-    );
+    tabs.forEach(tab=>{
+        tab.classList.remove("active");
+    });
 
     if(formName === "login"){
-        document
-            .getElementById("loginTab")
-            .classList.add("active");
+        tabs[0].classList.add("active");
     }
 
     if(formName === "signup"){
-        document
-            .getElementById("signupTab")
-            .classList.add("active");
+        tabs[1].classList.add("active");
     }
+
+    document
+        .getElementById("mainTabs")
+        .style.display = "grid";
 }
 
 
@@ -1234,10 +1269,18 @@ function showForgot(){
     document
         .getElementById("forgotForm")
         .classList.add("active");
+
+    document
+        .getElementById("mainTabs")
+        .style.display = "none";
 }
 
 
 function backToLogin(){
+
+    document
+        .getElementById("mainTabs")
+        .style.display = "grid";
 
     showForm("login");
 }
@@ -1247,39 +1290,24 @@ function backToLogin(){
    PASSWORD
 ===================================================== */
 
-document
-    .querySelectorAll(".eye")
-    .forEach(button => {
+function togglePassword(inputId,button){
 
-        button.addEventListener(
-            "click",
-            function(){
+    const input =
+        document.getElementById(inputId);
 
-                const input =
-                    document.getElementById(
-                        this.dataset.password
-                    );
+    if(input.type === "password"){
 
-                if(!input) return;
+        input.type = "text";
 
-                if(input.type === "password"){
+        button.textContent = "🙈";
 
-                    input.type = "text";
+    }else{
 
-                    this.textContent = "🙈";
+        input.type = "password";
 
-                }else{
-
-                    input.type = "password";
-
-                    this.textContent = "👁";
-
-                }
-
-            }
-        );
-
-    });
+        button.textContent = "👁";
+    }
+}
 
 
 /* =====================================================
@@ -1293,24 +1321,16 @@ function switchLoginMethod(method){
     currentLoginMethod = method;
 
     const emailBox =
-        document.getElementById(
-            "emailLoginBox"
-        );
+        document.getElementById("emailLoginBox");
 
     const phoneBox =
-        document.getElementById(
-            "phoneLoginBox"
-        );
+        document.getElementById("phoneLoginBox");
 
     const emailBtn =
-        document.getElementById(
-            "emailMethodBtn"
-        );
+        document.getElementById("emailMethodBtn");
 
     const phoneBtn =
-        document.getElementById(
-            "phoneMethodBtn"
-        );
+        document.getElementById("phoneMethodBtn");
 
     if(method === "email"){
 
@@ -1327,7 +1347,6 @@ function switchLoginMethod(method){
 
         emailBtn.classList.remove("active");
         phoneBtn.classList.add("active");
-
     }
 }
 
@@ -1343,24 +1362,16 @@ function switchSignupMethod(method){
     currentSignupMethod = method;
 
     const emailBox =
-        document.getElementById(
-            "emailSignupBox"
-        );
+        document.getElementById("emailSignupBox");
 
     const phoneBox =
-        document.getElementById(
-            "phoneSignupBox"
-        );
+        document.getElementById("phoneSignupBox");
 
     const emailBtn =
-        document.getElementById(
-            "signupEmailMethod"
-        );
+        document.getElementById("signupEmailMethod");
 
     const phoneBtn =
-        document.getElementById(
-            "signupPhoneMethod"
-        );
+        document.getElementById("signupPhoneMethod");
 
     if(method === "email"){
 
@@ -1377,7 +1388,6 @@ function switchSignupMethod(method){
 
         emailBtn.classList.remove("active");
         phoneBtn.classList.add("active");
-
     }
 }
 
@@ -1394,55 +1404,39 @@ async function signupEmailTeacher(){
         document.getElementById("signupBtn");
 
     const name =
-        document
-            .getElementById("signupName")
-            .value
-            .trim();
+        document.getElementById("signupName")
+        .value.trim();
 
     const skill =
-        document
-            .getElementById("signupSkill")
-            .value
-            .trim();
+        document.getElementById("signupSkill")
+        .value.trim();
 
     const email =
-        document
-            .getElementById("signupEmail")
-            .value
-            .trim()
-            .toLowerCase();
+        document.getElementById("signupEmail")
+        .value.trim()
+        .toLowerCase();
 
     const password =
-        document
-            .getElementById("signupPassword")
-            .value;
+        document.getElementById("signupPassword")
+        .value;
 
     const confirmPassword =
-        document
-            .getElementById("signupConfirmPassword")
-            .value;
+        document.getElementById("signupConfirmPassword")
+        .value;
+
 
     if(!name){
-        showMessage(
-            "Please enter your full name.",
-            "error"
-        );
+        showMessage("Please enter your full name.","error");
         return;
     }
 
     if(!skill){
-        showMessage(
-            "Please enter your main skill.",
-            "error"
-        );
+        showMessage("Please enter your main skill.","error");
         return;
     }
 
     if(!email){
-        showMessage(
-            "Please enter your email address.",
-            "error"
-        );
+        showMessage("Please enter your email address.","error");
         return;
     }
 
@@ -1455,15 +1449,14 @@ async function signupEmailTeacher(){
     }
 
     if(password !== confirmPassword){
-        showMessage(
-            "Passwords do not match.",
-            "error"
-        );
+        showMessage("Passwords do not match.","error");
         return;
     }
 
+
     button.disabled = true;
     button.textContent = "Creating Account...";
+
 
     try{
 
@@ -1471,14 +1464,25 @@ async function signupEmailTeacher(){
             window.location.origin +
             window.location.pathname;
 
+
+        /*
+         * IMPORTANT:
+         * emailRedirectTo is used for Supabase confirmation.
+         *
+         * If email confirmation is enabled in Supabase,
+         * Supabase itself must be able to send the email.
+         */
+
+
         const {
             data,
             error
         } =
         await supabaseClient.auth.signUp({
 
-            email,
-            password,
+            email:email,
+
+            password:password,
 
             options:{
                 emailRedirectTo:redirectUrl,
@@ -1486,40 +1490,80 @@ async function signupEmailTeacher(){
                 data:{
                     full_name:name,
                     skill:skill,
-                    account_type:"teacher"
+                    account_type:"teacher",
+                    role:"teacher"
                 }
             }
         });
 
-        if(error) throw error;
 
-        if(
-            data &&
-            data.user &&
-            !data.session
-        ){
+        if(error){
+            throw error;
+        }
+
+
+        if(!data || !data.user){
+
+            throw new Error(
+                "Teacher account could not be created."
+            );
+        }
+
+
+        /*
+         * If email confirmation is required,
+         * Supabase returns a user without a session.
+         */
+
+        if(!data.session){
+
+            currentEmailOTPAddress = email;
+
+            document
+                .getElementById("otpEmailDisplay")
+                .value = email;
 
             showMessage(
-                "Teacher account created. Check your email to verify your account.",
+                "Account created. Check your email and verify your teacher account.",
                 "success"
             );
 
-        }else{
+            setTimeout(()=>{
 
-            showMessage(
-                "Teacher account created successfully.",
-                "success"
-            );
+                hideAllForms();
 
-            setTimeout(() => {
+                document
+                    .getElementById("emailOTPForm")
+                    .classList.add("active");
 
-                window.location.replace(
-                    TEACHER_DASHBOARD
-                );
+                document
+                    .getElementById("mainTabs")
+                    .style.display = "none";
 
             },700);
 
+            return;
         }
+
+
+        /*
+         * If email confirmation is disabled,
+         * user receives session immediately.
+         */
+
+        showMessage(
+            "Teacher account created successfully. Opening Teacher Dashboard...",
+            "success"
+        );
+
+        setTimeout(()=>{
+
+            window.location.replace(
+                TEACHER_DASHBOARD
+            );
+
+        },700);
+
 
     }catch(error){
 
@@ -1532,16 +1576,19 @@ async function signupEmailTeacher(){
             getFriendlyError(error),
             "error"
         );
-    }
 
-    button.disabled = false;
-    button.textContent =
-        "Create Teacher Account";
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Create Teacher Account";
+    }
 }
 
 
 /* =====================================================
-   EMAIL OTP
+   EMAIL OTP LOGIN
 ===================================================== */
 
 async function sendEmailOTP(){
@@ -1549,11 +1596,10 @@ async function sendEmailOTP(){
     clearMessage();
 
     const email =
-        document
-            .getElementById("loginEmail")
-            .value
-            .trim()
-            .toLowerCase();
+        document.getElementById("loginEmail")
+        .value.trim()
+        .toLowerCase();
+
 
     if(!email){
 
@@ -1565,12 +1611,18 @@ async function sendEmailOTP(){
         return;
     }
 
+
     const button =
-        document.getElementById("emailOtpBtn");
+        document.querySelector(
+            "#emailLoginBox .back-btn"
+        );
+
 
     button.disabled = true;
+
     button.textContent =
         "Sending 6-Digit Code...";
+
 
     try{
 
@@ -1580,7 +1632,7 @@ async function sendEmailOTP(){
         await supabaseClient.auth
             .signInWithOtp({
 
-                email,
+                email:email,
 
                 options:{
                     shouldCreateUser:false
@@ -1588,28 +1640,35 @@ async function sendEmailOTP(){
 
             });
 
-        if(error) throw error;
+
+        if(error){
+            throw error;
+        }
+
 
         currentEmailOTPAddress = email;
 
         document
-            .getElementById(
-                "otpEmailDisplay"
-            )
+            .getElementById("otpEmailDisplay")
             .value = email;
+
 
         hideAllForms();
 
         document
-            .getElementById(
-                "emailOTPForm"
-            )
+            .getElementById("emailOTPForm")
             .classList.add("active");
+
+        document
+            .getElementById("mainTabs")
+            .style.display = "none";
+
 
         showMessage(
             "A 6-digit verification code has been sent to your email.",
             "success"
         );
+
 
     }catch(error){
 
@@ -1622,11 +1681,14 @@ async function sendEmailOTP(){
             getFriendlyError(error),
             "error"
         );
-    }
 
-    button.disabled = false;
-    button.textContent =
-        "Login with 6-Digit Email Code";
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Login with 6-Digit Email Code";
+    }
 }
 
 
@@ -1639,15 +1701,12 @@ async function verifyEmailOTP(){
     clearMessage();
 
     const button =
-        document.getElementById(
-            "emailVerifyBtn"
-        );
+        document.getElementById("emailVerifyBtn");
 
     const token =
-        document
-            .getElementById("emailOTP")
-            .value
-            .trim();
+        document.getElementById("emailOTP")
+        .value.trim();
+
 
     if(!/^\d{6}$/.test(token)){
 
@@ -1659,6 +1718,7 @@ async function verifyEmailOTP(){
         return;
     }
 
+
     if(!currentEmailOTPAddress){
 
         showMessage(
@@ -1669,8 +1729,10 @@ async function verifyEmailOTP(){
         return;
     }
 
+
     button.disabled = true;
     button.textContent = "Verifying...";
+
 
     try{
 
@@ -1678,18 +1740,20 @@ async function verifyEmailOTP(){
             data,
             error
         } =
-        await supabaseClient.auth
-            .verifyOtp({
+        await supabaseClient.auth.verifyOtp({
 
-                email:
-                    currentEmailOTPAddress,
+            email:currentEmailOTPAddress,
 
-                token,
+            token:token,
 
-                type:"email"
-            });
+            type:"email"
+        });
 
-        if(error) throw error;
+
+        if(error){
+            throw error;
+        }
+
 
         if(!data || !data.session){
 
@@ -1698,18 +1762,21 @@ async function verifyEmailOTP(){
             );
         }
 
+
         showMessage(
             "Email verified successfully. Opening Teacher Dashboard...",
             "success"
         );
 
-        setTimeout(() => {
+
+        setTimeout(()=>{
 
             window.location.replace(
                 TEACHER_DASHBOARD
             );
 
-        },600);
+        },700);
+
 
     }catch(error){
 
@@ -1722,17 +1789,19 @@ async function verifyEmailOTP(){
             getFriendlyError(error),
             "error"
         );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Verify & Open Teacher Dashboard";
     }
-
-    button.disabled = false;
-
-    button.textContent =
-        "Verify & Open Teacher Dashboard";
 }
 
 
 /* =====================================================
-   NORMAL LOGIN
+   NORMAL EMAIL LOGIN
 ===================================================== */
 
 async function loginTeacher(){
@@ -1743,16 +1812,14 @@ async function loginTeacher(){
         document.getElementById("loginBtn");
 
     const email =
-        document
-            .getElementById("loginEmail")
-            .value
-            .trim()
-            .toLowerCase();
+        document.getElementById("loginEmail")
+        .value.trim()
+        .toLowerCase();
 
     const password =
-        document
-            .getElementById("loginPassword")
-            .value;
+        document.getElementById("loginPassword")
+        .value;
+
 
     if(!email){
 
@@ -1774,8 +1841,10 @@ async function loginTeacher(){
         return;
     }
 
+
     button.disabled = true;
     button.textContent = "Signing In...";
+
 
     try{
 
@@ -1783,15 +1852,18 @@ async function loginTeacher(){
             data,
             error
         } =
-        await supabaseClient.auth
-            .signInWithPassword({
+        await supabaseClient.auth.signInWithPassword({
 
-                email,
-                password
+            email:email,
+            password:password
 
-            });
+        });
 
-        if(error) throw error;
+
+        if(error){
+            throw error;
+        }
+
 
         if(
             !data ||
@@ -1804,18 +1876,44 @@ async function loginTeacher(){
             );
         }
 
+
+        /*
+         * Optional teacher check.
+         * Account type is read from user metadata.
+         */
+
+        const accountType =
+            data.user.user_metadata
+                ?.account_type;
+
+
+        if(
+            accountType &&
+            accountType !== "teacher"
+        ){
+
+            await supabaseClient.auth.signOut();
+
+            throw new Error(
+                "This account is not registered as a teacher account."
+            );
+        }
+
+
         showMessage(
             "Login successful. Opening Teacher Dashboard...",
             "success"
         );
 
-        setTimeout(() => {
+
+        setTimeout(()=>{
 
             window.location.replace(
                 TEACHER_DASHBOARD
             );
 
-        },600);
+        },700);
+
 
     }catch(error){
 
@@ -1828,12 +1926,14 @@ async function loginTeacher(){
             getFriendlyError(error),
             "error"
         );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Login to Teacher Dashboard";
     }
-
-    button.disabled = false;
-
-    button.textContent =
-        "Login to Teacher Dashboard";
 }
 
 
@@ -1846,15 +1946,12 @@ async function sendPhoneOTP(){
     clearMessage();
 
     const button =
-        document.getElementById(
-            "phoneSendBtn"
-        );
+        document.getElementById("phoneSendBtn");
 
     const phone =
-        document
-            .getElementById("loginPhone")
-            .value
-            .trim();
+        document.getElementById("loginPhone")
+        .value.trim();
+
 
     if(!phone){
 
@@ -1866,40 +1963,46 @@ async function sendPhoneOTP(){
         return;
     }
 
+
     button.disabled = true;
     button.textContent =
         "Sending 6-Digit SMS...";
+
 
     try{
 
         const {
             error
         } =
-        await supabaseClient.auth
-            .signInWithOtp({
+        await supabaseClient.auth.signInWithOtp({
 
-                phone,
+            phone:phone,
 
-                options:{
-                    shouldCreateUser:false
-                }
+            options:{
+                shouldCreateUser:false
+            }
 
-            });
+        });
 
-        if(error) throw error;
+
+        if(error){
+            throw error;
+        }
+
 
         currentPhoneNumber = phone;
 
+
         document
-            .getElementById(
-                "phoneVerifyBox"
-            )
+            .getElementById("phoneVerifyBox")
             .style.display = "block";
+
 
         showMessage(
             "A 6-digit verification code was sent by SMS.",
             "success"
         );
+
 
     }catch(error){
 
@@ -1912,12 +2015,14 @@ async function sendPhoneOTP(){
             getFriendlyError(error),
             "error"
         );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Send 6-Digit SMS Code";
     }
-
-    button.disabled = false;
-
-    button.textContent =
-        "Send 6-Digit SMS Code";
 }
 
 
@@ -1930,15 +2035,12 @@ async function verifyPhoneOTP(){
     clearMessage();
 
     const button =
-        document.getElementById(
-            "phoneVerifyBtn"
-        );
+        document.getElementById("phoneVerifyBtn");
 
     const token =
-        document
-            .getElementById("phoneOTP")
-            .value
-            .trim();
+        document.getElementById("phoneOTP")
+        .value.trim();
+
 
     if(!/^\d{6}$/.test(token)){
 
@@ -1950,6 +2052,7 @@ async function verifyPhoneOTP(){
         return;
     }
 
+
     if(!currentPhoneNumber){
 
         showMessage(
@@ -1960,8 +2063,10 @@ async function verifyPhoneOTP(){
         return;
     }
 
+
     button.disabled = true;
     button.textContent = "Verifying...";
+
 
     try{
 
@@ -1969,19 +2074,20 @@ async function verifyPhoneOTP(){
             data,
             error
         } =
-        await supabaseClient.auth
-            .verifyOtp({
+        await supabaseClient.auth.verifyOtp({
 
-                phone:
-                    currentPhoneNumber,
+            phone:currentPhoneNumber,
 
-                token,
+            token:token,
 
-                type:"sms"
+            type:"sms"
+        });
 
-            });
 
-        if(error) throw error;
+        if(error){
+            throw error;
+        }
+
 
         if(!data || !data.session){
 
@@ -1990,18 +2096,21 @@ async function verifyPhoneOTP(){
             );
         }
 
+
         showMessage(
             "Phone verified successfully. Opening Teacher Dashboard...",
             "success"
         );
 
-        setTimeout(() => {
+
+        setTimeout(()=>{
 
             window.location.replace(
                 TEACHER_DASHBOARD
             );
 
-        },600);
+        },700);
+
 
     }catch(error){
 
@@ -2014,17 +2123,19 @@ async function verifyPhoneOTP(){
             getFriendlyError(error),
             "error"
         );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Verify & Open Teacher Dashboard";
     }
-
-    button.disabled = false;
-
-    button.textContent =
-        "Verify & Open Teacher Dashboard";
 }
 
 
 /* =====================================================
-   PHONE SIGNUP
+   PHONE TEACHER SIGNUP
 ===================================================== */
 
 async function signupPhoneTeacher(){
@@ -2032,27 +2143,20 @@ async function signupPhoneTeacher(){
     clearMessage();
 
     const button =
-        document.getElementById(
-            "signupPhoneBtn"
-        );
+        document.getElementById("signupPhoneBtn");
 
     const name =
-        document
-            .getElementById("signupName")
-            .value
-            .trim();
+        document.getElementById("signupName")
+        .value.trim();
 
     const skill =
-        document
-            .getElementById("signupSkill")
-            .value
-            .trim();
+        document.getElementById("signupSkill")
+        .value.trim();
 
     const phone =
-        document
-            .getElementById("signupPhone")
-            .value
-            .trim();
+        document.getElementById("signupPhone")
+        .value.trim();
+
 
     if(!name){
 
@@ -2084,48 +2188,59 @@ async function signupPhoneTeacher(){
         return;
     }
 
+
     button.disabled = true;
     button.textContent =
         "Sending 6-Digit SMS...";
+
 
     try{
 
         const {
             error
         } =
-        await supabaseClient.auth
-            .signInWithOtp({
+        await supabaseClient.auth.signInWithOtp({
 
-                phone,
+            phone:phone,
 
-                options:{
-                    shouldCreateUser:true,
+            options:{
 
-                    data:{
-                        full_name:name,
-                        skill:skill,
-                        account_type:"teacher"
-                    }
+                shouldCreateUser:true,
+
+                data:{
+
+                    full_name:name,
+                    skill:skill,
+                    account_type:"teacher",
+                    role:"teacher"
+
                 }
 
-            });
+            }
 
-        if(error) throw error;
+        });
+
+
+        if(error){
+            throw error;
+        }
+
 
         currentSignupPhone = phone;
         currentSignupName = name;
         currentSignupSkill = skill;
 
+
         document
-            .getElementById(
-                "signupPhoneVerifyBox"
-            )
+            .getElementById("signupPhoneVerifyBox")
             .style.display = "block";
+
 
         showMessage(
             "A 6-digit verification code was sent to your phone.",
             "success"
         );
+
 
     }catch(error){
 
@@ -2138,12 +2253,14 @@ async function signupPhoneTeacher(){
             getFriendlyError(error),
             "error"
         );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Send 6-Digit SMS Code";
     }
-
-    button.disabled = false;
-
-    button.textContent =
-        "Send 6-Digit SMS Code";
 }
 
 
@@ -2161,10 +2278,11 @@ async function verifySignupPhoneOTP(){
         );
 
     const token =
-        document
-            .getElementById("signupPhoneOTP")
-            .value
-            .trim();
+        document.getElementById(
+            "signupPhoneOTP"
+        )
+        .value.trim();
+
 
     if(!/^\d{6}$/.test(token)){
 
@@ -2176,6 +2294,7 @@ async function verifySignupPhoneOTP(){
         return;
     }
 
+
     if(!currentSignupPhone){
 
         showMessage(
@@ -2186,9 +2305,11 @@ async function verifySignupPhoneOTP(){
         return;
     }
 
+
     button.disabled = true;
     button.textContent =
-        "Creating Teacher Account...";
+        "Verifying...";
+
 
     try{
 
@@ -2196,19 +2317,20 @@ async function verifySignupPhoneOTP(){
             data,
             error
         } =
-        await supabaseClient.auth
-            .verifyOtp({
+        await supabaseClient.auth.verifyOtp({
 
-                phone:
-                    currentSignupPhone,
+            phone:currentSignupPhone,
 
-                token,
+            token:token,
 
-                type:"sms"
+            type:"sms"
+        });
 
-            });
 
-        if(error) throw error;
+        if(error){
+            throw error;
+        }
+
 
         if(!data || !data.session){
 
@@ -2217,18 +2339,39 @@ async function verifySignupPhoneOTP(){
             );
         }
 
+
+        /*
+         * Make sure teacher metadata exists.
+         */
+
+        await supabaseClient.auth.updateUser({
+
+            data:{
+
+                full_name:currentSignupName,
+                skill:currentSignupSkill,
+                account_type:"teacher",
+                role:"teacher"
+
+            }
+
+        });
+
+
         showMessage(
             "Teacher account created successfully. Opening Teacher Dashboard...",
             "success"
         );
 
-        setTimeout(() => {
+
+        setTimeout(()=>{
 
             window.location.replace(
                 TEACHER_DASHBOARD
             );
 
-        },600);
+        },700);
+
 
     }catch(error){
 
@@ -2241,22 +2384,37 @@ async function verifySignupPhoneOTP(){
             getFriendlyError(error),
             "error"
         );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Verify & Create Teacher Account";
     }
-
-    button.disabled = false;
-
-    button.textContent =
-        "Verify & Create Teacher Account";
 }
 
 
 /* =====================================================
-   OAUTH
+   GOOGLE / FACEBOOK / APPLE LOGIN
 ===================================================== */
 
 async function loginWithProvider(provider){
 
     clearMessage();
+
+    const button =
+        document.getElementById(
+            provider + "Btn"
+        );
+
+
+    if(button){
+
+        button.disabled = true;
+        button.textContent = "Connecting...";
+    }
+
 
     try{
 
@@ -2264,37 +2422,41 @@ async function loginWithProvider(provider){
             window.location.origin +
             window.location.pathname;
 
+
         const {
             error
         } =
-        await supabaseClient.auth
-            .signInWithOAuth({
+        await supabaseClient.auth.signInWithOAuth({
 
-                provider,
+            provider:provider,
 
-                options:{
-                    redirectTo:redirectUrl,
+            options:{
 
-                    queryParams:
-                        provider === "google"
-                        ?
-                        {
-                            access_type:"offline",
-                            prompt:"select_account"
-                        }
-                        :
-                        undefined
-                }
+                redirectTo:redirectUrl,
 
-            });
+                queryParams:
+                    provider === "google"
+                    ?
+                    {
+                        access_type:"offline",
+                        prompt:"select_account"
+                    }
+                    :
+                    undefined
+            }
 
-        if(error) throw error;
+        });
+
+
+        if(error){
+            throw error;
+        }
+
 
     }catch(error){
 
         console.error(
-            provider +
-            " LOGIN ERROR:",
+            provider + " LOGIN ERROR:",
             error
         );
 
@@ -2302,25 +2464,39 @@ async function loginWithProvider(provider){
             getFriendlyError(error),
             "error"
         );
+
+
+        if(button){
+
+            button.disabled = false;
+
+            button.textContent =
+                provider === "google"
+                ? "G Google"
+                : provider === "facebook"
+                ? "f Facebook"
+                : " Apple";
+        }
     }
 }
 
+
+/* =====================================================
+   PROVIDER SIGNUP
+===================================================== */
 
 async function signupWithProvider(provider){
 
     clearMessage();
 
     const name =
-        document
-            .getElementById("signupName")
-            .value
-            .trim();
+        document.getElementById("signupName")
+        .value.trim();
 
     const skill =
-        document
-            .getElementById("signupSkill")
-            .value
-            .trim();
+        document.getElementById("signupSkill")
+        .value.trim();
+
 
     if(!name){
 
@@ -2332,6 +2508,7 @@ async function signupWithProvider(provider){
         return;
     }
 
+
     if(!skill){
 
         showMessage(
@@ -2342,39 +2519,48 @@ async function signupWithProvider(provider){
         return;
     }
 
+
     try{
 
         const redirectUrl =
             window.location.origin +
             window.location.pathname;
 
+
         const {
             error
         } =
-        await supabaseClient.auth
-            .signInWithOAuth({
+        await supabaseClient.auth.signInWithOAuth({
 
-                provider,
+            provider:provider,
 
-                options:{
-                    redirectTo:redirectUrl,
+            options:{
 
-                    data:{
-                        full_name:name,
-                        skill:skill,
-                        account_type:"teacher"
-                    }
+                redirectTo:redirectUrl,
+
+                data:{
+
+                    full_name:name,
+                    skill:skill,
+                    account_type:"teacher",
+                    role:"teacher"
+
                 }
 
-            });
+            }
 
-        if(error) throw error;
+        });
+
+
+        if(error){
+            throw error;
+        }
+
 
     }catch(error){
 
         console.error(
-            provider +
-            " SIGNUP ERROR:",
+            provider + " SIGNUP ERROR:",
             error
         );
 
@@ -2398,11 +2584,10 @@ async function sendResetEmail(){
         document.getElementById("forgotBtn");
 
     const email =
-        document
-            .getElementById("forgotEmail")
-            .value
-            .trim()
-            .toLowerCase();
+        document.getElementById("forgotEmail")
+        .value.trim()
+        .toLowerCase();
+
 
     if(!email){
 
@@ -2414,14 +2599,17 @@ async function sendResetEmail(){
         return;
     }
 
+
     button.disabled = true;
     button.textContent = "Sending...";
+
 
     try{
 
         const redirectUrl =
             window.location.origin +
             window.location.pathname;
+
 
         const {
             error
@@ -2437,12 +2625,17 @@ async function sendResetEmail(){
 
             );
 
-        if(error) throw error;
+
+        if(error){
+            throw error;
+        }
+
 
         showMessage(
             "Password reset email sent. Check your email.",
             "success"
         );
+
 
     }catch(error){
 
@@ -2455,12 +2648,14 @@ async function sendResetEmail(){
             getFriendlyError(error),
             "error"
         );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Send Password Reset";
     }
-
-    button.disabled = false;
-
-    button.textContent =
-        "Send Password Reset";
 }
 
 
@@ -2476,14 +2671,13 @@ async function updatePassword(){
         document.getElementById("resetBtn");
 
     const password =
-        document
-            .getElementById("newPassword")
-            .value;
+        document.getElementById("newPassword")
+        .value;
 
     const confirmPassword =
-        document
-            .getElementById("confirmNewPassword")
-            .value;
+        document.getElementById("confirmNewPassword")
+        .value;
+
 
     if(password.length < 6){
 
@@ -2495,6 +2689,7 @@ async function updatePassword(){
         return;
     }
 
+
     if(password !== confirmPassword){
 
         showMessage(
@@ -2505,28 +2700,34 @@ async function updatePassword(){
         return;
     }
 
+
     button.disabled = true;
     button.textContent =
         "Updating Password...";
+
 
     try{
 
         const {
             error
         } =
-        await supabaseClient.auth
-            .updateUser({
+        await supabaseClient.auth.updateUser({
 
-                password
+            password:password
 
-            });
+        });
 
-        if(error) throw error;
+
+        if(error){
+            throw error;
+        }
+
 
         showMessage(
             "Your password has been changed successfully.",
             "success"
         );
+
 
         document
             .getElementById("newPassword")
@@ -2536,11 +2737,17 @@ async function updatePassword(){
             .getElementById("confirmNewPassword")
             .value = "";
 
-        setTimeout(() => {
+
+        setTimeout(()=>{
+
+            document
+                .getElementById("mainTabs")
+                .style.display = "grid";
 
             showForm("login");
 
         },1200);
+
 
     }catch(error){
 
@@ -2553,17 +2760,19 @@ async function updatePassword(){
             getFriendlyError(error),
             "error"
         );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Get a New Password";
     }
-
-    button.disabled = false;
-
-    button.textContent =
-        "Get a New Password";
 }
 
 
 /* =====================================================
-   AUTH STATE
+   AUTH STATE CHANGE
 ===================================================== */
 
 supabaseClient.auth.onAuthStateChange(
@@ -2574,10 +2783,11 @@ supabaseClient.auth.onAuthStateChange(
             event
         );
 
+
         if(event === "PASSWORD_RECOVERY"){
 
             document
-                .querySelector(".tabs")
+                .getElementById("mainTabs")
                 .style.display = "none";
 
             hideAllForms();
@@ -2594,6 +2804,7 @@ supabaseClient.auth.onAuthStateChange(
             return;
         }
 
+
         if(
             event === "SIGNED_IN" &&
             session &&
@@ -2603,18 +2814,17 @@ supabaseClient.auth.onAuthStateChange(
             const hash =
                 window.location.hash || "";
 
-            if(
-                hash.includes(
-                    "type=recovery"
-                )
-            ){
+
+            if(hash.includes("type=recovery")){
                 return;
             }
+
 
             const provider =
                 session.user
                     .app_metadata
                     ?.provider;
+
 
             if(
                 provider === "google" ||
@@ -2627,13 +2837,14 @@ supabaseClient.auth.onAuthStateChange(
                     "success"
                 );
 
-                setTimeout(() => {
+
+                setTimeout(()=>{
 
                     window.location.replace(
                         TEACHER_DASHBOARD
                     );
 
-                },500);
+                },600);
             }
         }
     }
@@ -2651,14 +2862,11 @@ async function handleAuthRedirect(){
         const hash =
             window.location.hash || "";
 
-        if(
-            hash.includes(
-                "type=recovery"
-            )
-        ){
+
+        if(hash.includes("type=recovery")){
 
             document
-                .querySelector(".tabs")
+                .getElementById("mainTabs")
                 .style.display = "none";
 
             hideAllForms();
@@ -2675,12 +2883,13 @@ async function handleAuthRedirect(){
             return;
         }
 
+
         const {
             data,
             error
         } =
-        await supabaseClient.auth
-            .getSession();
+        await supabaseClient.auth.getSession();
+
 
         if(error){
 
@@ -2691,6 +2900,7 @@ async function handleAuthRedirect(){
 
             return;
         }
+
 
         if(
             data &&
@@ -2703,6 +2913,7 @@ async function handleAuthRedirect(){
                     .app_metadata
                     ?.provider;
 
+
             if(
                 provider === "google" ||
                 provider === "facebook" ||
@@ -2714,13 +2925,14 @@ async function handleAuthRedirect(){
                     "success"
                 );
 
-                setTimeout(() => {
+
+                setTimeout(()=>{
 
                     window.location.replace(
                         TEACHER_DASHBOARD
                     );
 
-                },500);
+                },600);
             }
         }
 
@@ -2747,251 +2959,98 @@ function getFriendlyError(error){
     const text =
         raw.toLowerCase();
 
+
     if(
-        text.includes(
-            "invalid login credentials"
-        )
+        text.includes("error sending confirmation email")
     ){
+
+        return "Supabase could not send the confirmation email. Check your Supabase Authentication email/SMTP settings.";
+    }
+
+
+    if(
+        text.includes("error sending recovery email")
+    ){
+
+        return "Supabase could not send the password reset email. Check your Supabase Authentication email/SMTP settings.";
+    }
+
+
+    if(
+        text.includes("invalid login credentials")
+    ){
+
         return "Incorrect email or password.";
     }
 
+
     if(
-        text.includes(
-            "email not confirmed"
-        )
+        text.includes("email not confirmed")
     ){
+
         return "Please verify your email before logging in.";
     }
+
 
     if(
         text.includes("otp") &&
         text.includes("expired")
     ){
+
         return "This 6-digit code has expired. Please request a new code.";
     }
 
-    if(
-        text.includes("invalid token")
-    ){
+
+    if(text.includes("invalid token")){
+
         return "The 6-digit code is incorrect or expired.";
     }
 
+
     if(
         text.includes("already registered") ||
-        text.includes("already exists")
+        text.includes("user already registered")
     ){
+
         return "This account already exists. Please login instead.";
     }
 
-    if(
-        text.includes("provider is not enabled")
-    ){
+
+    if(text.includes("provider is not enabled")){
+
         return "This login provider has not been enabled in Supabase yet.";
     }
 
-    if(
-        text.includes("unsupported provider")
-    ){
+
+    if(text.includes("unsupported provider")){
+
         return "This authentication provider is not configured in Supabase.";
     }
+
 
     if(
         text.includes("redirect") &&
         text.includes("not allowed")
     ){
+
         return "The redirect URL is not allowed in Supabase Authentication settings.";
     }
 
-    if(
-        text.includes("user not found")
-    ){
-        return "No teacher account was found with this information.";
+
+    if(text.includes("rate limit")){
+
+        return "Too many requests. Please wait a little and try again.";
     }
+
+
+    if(text.includes("phone provider")){
+
+        return "Phone authentication is not configured correctly in Supabase.";
+    }
+
 
     return raw;
 }
-
-
-/* =====================================================
-   BUTTON EVENTS
-===================================================== */
-
-document
-    .getElementById("loginTab")
-    .addEventListener(
-        "click",
-        () => showForm("login")
-    );
-
-document
-    .getElementById("signupTab")
-    .addEventListener(
-        "click",
-        () => showForm("signup")
-    );
-
-document
-    .getElementById("emailMethodBtn")
-    .addEventListener(
-        "click",
-        () => switchLoginMethod("email")
-    );
-
-document
-    .getElementById("phoneMethodBtn")
-    .addEventListener(
-        "click",
-        () => switchLoginMethod("phone")
-    );
-
-document
-    .getElementById("signupEmailMethod")
-    .addEventListener(
-        "click",
-        () => switchSignupMethod("email")
-    );
-
-document
-    .getElementById("signupPhoneMethod")
-    .addEventListener(
-        "click",
-        () => switchSignupMethod("phone")
-    );
-
-document
-    .getElementById("loginBtn")
-    .addEventListener(
-        "click",
-        loginTeacher
-    );
-
-document
-    .getElementById("emailOtpBtn")
-    .addEventListener(
-        "click",
-        sendEmailOTP
-    );
-
-document
-    .getElementById("emailVerifyBtn")
-    .addEventListener(
-        "click",
-        verifyEmailOTP
-    );
-
-document
-    .getElementById("emailOtpBackBtn")
-    .addEventListener(
-        "click",
-        backToLogin
-    );
-
-document
-    .getElementById("forgotLink")
-    .addEventListener(
-        "click",
-        showForgot
-    );
-
-document
-    .getElementById("forgotBackBtn")
-    .addEventListener(
-        "click",
-        backToLogin
-    );
-
-document
-    .getElementById("forgotBtn")
-    .addEventListener(
-        "click",
-        sendResetEmail
-    );
-
-document
-    .getElementById("resetBtn")
-    .addEventListener(
-        "click",
-        updatePassword
-    );
-
-document
-    .getElementById("phoneSendBtn")
-    .addEventListener(
-        "click",
-        sendPhoneOTP
-    );
-
-document
-    .getElementById("phoneVerifyBtn")
-    .addEventListener(
-        "click",
-        verifyPhoneOTP
-    );
-
-document
-    .getElementById("signupBtn")
-    .addEventListener(
-        "click",
-        signupEmailTeacher
-    );
-
-document
-    .getElementById("signupPhoneBtn")
-    .addEventListener(
-        "click",
-        signupPhoneTeacher
-    );
-
-document
-    .getElementById("signupPhoneVerifyBtn")
-    .addEventListener(
-        "click",
-        verifySignupPhoneOTP
-    );
-
-
-/* =====================================================
-   OAUTH BUTTONS
-===================================================== */
-
-document
-    .querySelectorAll(
-        "[data-provider]"
-    )
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                loginWithProvider(
-                    button.dataset.provider
-                );
-
-            }
-        );
-
-    });
-
-
-document
-    .querySelectorAll(
-        "[data-signup-provider]"
-    )
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                signupWithProvider(
-                    button.dataset.signupProvider
-                );
-
-            }
-        );
-
-    });
 
 
 /* =====================================================
@@ -3005,13 +3064,16 @@ document.addEventListener(
         if(event.key !== "Enter")
             return;
 
+
         const activeForm =
             document.querySelector(
                 ".form.active"
             );
 
+
         if(!activeForm)
             return;
+
 
         if(
             activeForm.id === "loginForm" &&
@@ -3020,26 +3082,34 @@ document.addEventListener(
 
             loginTeacher();
 
-        }else if(
+        }
+
+        else if(
             activeForm.id === "signupForm" &&
             currentSignupMethod === "email"
         ){
 
             signupEmailTeacher();
 
-        }else if(
+        }
+
+        else if(
             activeForm.id === "emailOTPForm"
         ){
 
             verifyEmailOTP();
 
-        }else if(
+        }
+
+        else if(
             activeForm.id === "forgotForm"
         ){
 
             sendResetEmail();
 
-        }else if(
+        }
+
+        else if(
             activeForm.id === "resetForm"
         ){
 
@@ -3051,12 +3121,12 @@ document.addEventListener(
 
 
 /* =====================================================
-   OTP NUMBERS ONLY
+   OTP ONLY NUMBERS
 ===================================================== */
 
 document
     .querySelectorAll(".otp-input")
-    .forEach(input => {
+    .forEach(input=>{
 
         input.addEventListener(
             "input",
@@ -3066,10 +3136,8 @@ document
                     this.value
                         .replace(/\D/g,"")
                         .slice(0,6);
-
             }
         );
-
     });
 
 
