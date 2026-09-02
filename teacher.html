@@ -2898,6 +2898,7 @@ async function loadTeacherFromSupabase(){
 
             teacherData.profileImage =
                 data.profile_image ||
+                user.user_metadata?.profile_image ||
                 "";
 
         }else{
@@ -2908,6 +2909,10 @@ async function loadTeacherFromSupabase(){
 
             teacherData.email =
                 user.email ||
+                "";
+
+            teacherData.profileImage =
+                user.user_metadata?.profile_image ||
                 "";
 
         }
@@ -3770,6 +3775,7 @@ async function loadPaymentFromSupabase(){
 
     updatePaymentInterface();
 
+
 }
 
 
@@ -3986,32 +3992,31 @@ document
 
 
         const {
-            error:updateError
+            data:authData,
+            error:authError
         } =
             await supabaseClient
-            .from("teachers")
-            .update({
+            .auth
+            .updateUser({
 
-                profile_image:
-                    imageUrl
+                data:{
+                    profile_image:
+                        imageUrl
+                }
 
-            })
-            .eq(
-                "user_id",
-                user.id
-            );
+            });
 
 
-        if(updateError){
+        if(authError){
 
             console.error(
-                "Profile image database error:",
-                updateError
+                "Profile image auth metadata error:",
+                authError
             );
 
             showToast(
-                "Profile image URL could not be saved: " +
-                updateError.message,
+                "Profile photo could not be saved: " +
+                authError.message,
                 "error"
             );
 
@@ -4026,7 +4031,19 @@ document
             Date.now();
 
 
+        if(authData?.user){
+
+            currentUser =
+                authData.user;
+
+        }
+
+
         updateInterface();
+
+
+        this.value =
+            "";
 
 
         showToast(
