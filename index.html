@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,11 +11,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-/* ================================
+/* ==========================================
    STEADYMAZE SUPABASE CONNECTION
-================================ */
+========================================== */
 
-const SUPABASE_URL = "https://uxrltzlxdttbjstomhkb.supabase.co";
+const SUPABASE_URL =
+"https://uxrltzlxdttbjstomhkb.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
@@ -25,16 +27,21 @@ const steadymazeSupabase =
         SUPABASE_PUBLISHABLE_KEY
     );
 
-/* Check Supabase connection silently */
+
+/* ==========================================
+   SILENT SUPABASE CONNECTION CHECK
+========================================== */
+
 async function checkSteadyMazeConnection(){
 
     try{
 
         const {
-            data: {
+            data:{
                 session
             }
-        } = await steadymazeSupabase.auth.getSession();
+        } =
+        await steadymazeSupabase.auth.getSession();
 
         if(session){
 
@@ -63,9 +70,12 @@ async function checkSteadyMazeConnection(){
 }
 
 
-/* Keep authentication state synchronized */
+/* ==========================================
+   AUTH STATE
+========================================== */
+
 steadymazeSupabase.auth.onAuthStateChange(
-    (event, session) => {
+    (event, session)=>{
 
         if(session){
 
@@ -87,12 +97,18 @@ steadymazeSupabase.auth.onAuthStateChange(
 );
 
 
-/* Start silently */
+/* START */
+
 checkSteadyMazeConnection();
 
 </script>
 
+
 <style>
+
+/* ==========================================
+   GLOBAL
+========================================== */
 
 *{
     margin:0;
@@ -105,92 +121,142 @@ html{
 }
 
 body{
+
     background:#020504;
+
     color:#f5f8f6;
-    font-family:Arial, Helvetica, sans-serif;
+
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
 }
 
 
-/* NAVBAR */
+/* ==========================================
+   NAVBAR
+========================================== */
 
 .navbar{
+
     position:fixed;
+
     top:0;
     left:0;
     right:0;
+
     z-index:1000;
 
     height:72px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 
     padding:0 6%;
 
-    background:rgba(2,5,4,.88);
+    background:
+    rgba(2,5,4,.88);
+
     backdrop-filter:blur(18px);
 
-    border-bottom:1px solid rgba(255,255,255,.08);
+    border-bottom:
+    1px solid rgba(255,255,255,.08);
+
 }
 
 .logo{
+
     color:white;
+
     text-decoration:none;
 
     font-size:24px;
+
     font-weight:900;
+
 }
 
 .logo span{
+
     color:#00e676;
+
 }
 
 .nav-links{
+
     display:flex;
+
     gap:28px;
+
 }
 
 .nav-links a{
+
     color:#8b9890;
+
     text-decoration:none;
 
     font-size:10px;
+
     font-weight:800;
+
+    transition:.2s;
+
 }
 
 .nav-links a:hover{
+
     color:#00e676;
+
 }
 
 .nav-buttons{
+
     display:flex;
+
     gap:9px;
+
 }
 
 .signin{
+
     padding:10px 16px;
 
     color:#aeb8b2;
 
     text-decoration:none;
 
-    border:1px solid rgba(255,255,255,.09);
+    border:
+    1px solid rgba(255,255,255,.09);
+
     border-radius:9px;
 
     font-size:9px;
+
     font-weight:900;
+
+    transition:.2s;
+
 }
 
 .signin:hover{
+
     color:#00e676;
+
     border-color:#00e676;
+
 }
 
 .get-started{
+
     padding:11px 17px;
 
     background:#00e676;
+
     color:#001b0c;
 
     text-decoration:none;
@@ -198,25 +264,39 @@ body{
     border-radius:9px;
 
     font-size:9px;
+
     font-weight:900;
+
+    transition:.2s;
+
 }
 
 .get-started:hover{
-    box-shadow:0 10px 30px rgba(0,230,118,.20);
+
+    box-shadow:
+    0 10px 30px
+    rgba(0,230,118,.20);
+
 }
 
 
-/* HERO */
+/* ==========================================
+   HERO
+========================================== */
 
 .hero{
+
     min-height:100vh;
 
     display:flex;
+
     align-items:center;
 
-    padding:140px 6% 90px;
+    padding:
+    140px 6% 90px;
 
     background:
+
     radial-gradient(
         circle at 80% 15%,
         rgba(0,230,118,.13),
@@ -228,58 +308,79 @@ body{
         rgba(0,230,118,.06),
         transparent 30%
     );
+
 }
 
 .hero-content{
+
     max-width:820px;
+
 }
 
 .badge{
+
     display:inline-flex;
+
     align-items:center;
+
     gap:8px;
 
     padding:8px 13px;
 
-    border:1px solid rgba(0,230,118,.18);
+    border:
+    1px solid rgba(0,230,118,.18);
+
     border-radius:30px;
 
     color:#89968e;
 
-    background:rgba(0,230,118,.03);
+    background:
+    rgba(0,230,118,.03);
 
     font-size:8px;
+
     font-weight:900;
 
     letter-spacing:1.5px;
+
 }
 
 .dot{
+
     width:6px;
+
     height:6px;
 
     border-radius:50%;
 
     background:#00e676;
 
-    box-shadow:0 0 12px #00e676;
+    box-shadow:
+    0 0 12px #00e676;
+
 }
 
 .hero h1{
+
     margin-top:25px;
 
-    font-size:clamp(48px,7vw,86px);
+    font-size:
+    clamp(48px,7vw,86px);
 
     line-height:.98;
 
     letter-spacing:-5px;
+
 }
 
 .hero h1 span{
+
     color:#00e676;
+
 }
 
 .hero p{
+
     max-width:620px;
 
     margin-top:25px;
@@ -289,22 +390,27 @@ body{
     font-size:13px;
 
     line-height:1.8;
+
 }
 
 .hero-buttons{
+
     display:flex;
 
     gap:12px;
 
     margin-top:30px;
+
 }
 
 .primary-button{
+
     display:inline-block;
 
     padding:14px 23px;
 
     background:#00e676;
+
     color:#001b0c;
 
     text-decoration:none;
@@ -312,20 +418,32 @@ body{
     border-radius:10px;
 
     font-size:10px;
+
     font-weight:900;
+
+    transition:.2s;
+
 }
 
 .primary-button:hover{
-    box-shadow:0 12px 35px rgba(0,230,118,.20);
+
+    box-shadow:
+    0 12px 35px
+    rgba(0,230,118,.20);
+
     transform:translateY(-2px);
+
 }
 
 .secondary-button{
+
     display:inline-block;
 
     padding:13px 21px;
 
-    border:1px solid rgba(255,255,255,.09);
+    border:
+    1px solid rgba(255,255,255,.09);
+
     border-radius:10px;
 
     color:#aeb8b2;
@@ -333,39 +451,56 @@ body{
     text-decoration:none;
 
     font-size:10px;
+
     font-weight:900;
+
+    transition:.2s;
+
 }
 
 .secondary-button:hover{
+
     color:#00e676;
+
     border-color:#00e676;
+
 }
 
 
-/* SKILLS */
+/* ==========================================
+   SECTION
+========================================== */
 
 .section{
+
     padding:95px 6%;
+
 }
 
 .section-label{
+
     color:#00e676;
 
     font-size:8px;
+
     font-weight:900;
 
     letter-spacing:2px;
+
 }
 
 .section-title{
+
     margin-top:9px;
 
     font-size:38px;
 
     letter-spacing:-2px;
+
 }
 
 .section-description{
+
     max-width:550px;
 
     margin-top:10px;
@@ -375,66 +510,93 @@ body{
     font-size:11px;
 
     line-height:1.8;
+
 }
 
+
+/* ==========================================
+   SKILLS
+========================================== */
+
 .skills-grid{
+
     display:grid;
 
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:
+    repeat(3,1fr);
 
     gap:16px;
 
     margin-top:35px;
+
 }
 
 .skill-card{
+
     overflow:hidden;
 
     background:#07100b;
 
-    border:1px solid rgba(255,255,255,.08);
+    border:
+    1px solid rgba(255,255,255,.08);
 
     border-radius:15px;
 
     transition:.25s;
+
 }
 
 .skill-card:hover{
+
     transform:translateY(-5px);
 
-    border-color:rgba(0,230,118,.3);
+    border-color:
+    rgba(0,230,118,.3);
+
 }
 
 .skill-image{
+
     width:100%;
+
     height:180px;
 
     object-fit:cover;
 
     display:block;
+
 }
 
 .skill-content{
+
     padding:16px;
+
 }
 
 .skill-level{
+
     color:#00e676;
 
     font-size:8px;
+
     font-weight:900;
 
     letter-spacing:1.4px;
+
 }
 
 .skill-name{
+
     margin-top:7px;
 
     font-size:15px;
+
     font-weight:900;
+
 }
 
 .skill-text{
+
     margin-top:6px;
 
     color:#68756d;
@@ -442,23 +604,31 @@ body{
     font-size:9px;
 
     line-height:1.6;
+
 }
 
 
-/* COMPETITION */
+/* ==========================================
+   COMPETITION
+========================================== */
 
 .competition{
+
     padding:95px 6%;
+
 }
 
 .competition-box{
+
     padding:55px;
 
-    border:1px solid rgba(0,230,118,.12);
+    border:
+    1px solid rgba(0,230,118,.12);
 
     border-radius:22px;
 
     background:
+
     radial-gradient(
         circle at 90% 15%,
         rgba(0,230,118,.09),
@@ -466,9 +636,11 @@ body{
     ),
 
     #06100a;
+
 }
 
 .competition-box h2{
+
     max-width:700px;
 
     margin-top:12px;
@@ -476,9 +648,11 @@ body{
     font-size:42px;
 
     letter-spacing:-2px;
+
 }
 
 .competition-box p{
+
     max-width:650px;
 
     margin-top:15px;
@@ -488,35 +662,46 @@ body{
     font-size:11px;
 
     line-height:1.8;
+
 }
 
 .competition-grid{
+
     display:grid;
 
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:
+    repeat(3,1fr);
 
     gap:12px;
 
     margin-top:28px;
+
 }
 
 .competition-card{
+
     padding:19px;
 
-    border:1px solid rgba(255,255,255,.07);
+    border:
+    1px solid rgba(255,255,255,.07);
 
     border-radius:12px;
 
-    background:rgba(255,255,255,.015);
+    background:
+    rgba(255,255,255,.015);
+
 }
 
 .competition-card strong{
+
     display:block;
 
     font-size:11px;
+
 }
 
 .competition-card span{
+
     display:block;
 
     margin-top:6px;
@@ -524,45 +709,60 @@ body{
     color:#607067;
 
     font-size:8px;
+
 }
 
 
-/* HOW */
+/* ==========================================
+   HOW IT WORKS
+========================================== */
 
 .steps{
+
     display:grid;
 
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:
+    repeat(4,1fr);
 
     gap:14px;
 
     margin-top:30px;
+
 }
 
 .step{
+
     padding:23px;
 
-    border:1px solid rgba(255,255,255,.08);
+    border:
+    1px solid rgba(255,255,255,.08);
 
     border-radius:14px;
 
     background:#07100b;
+
 }
 
 .step-number{
+
     color:#00e676;
 
     font-size:9px;
+
     font-weight:900;
+
 }
 
 .step h3{
+
     margin-top:11px;
 
     font-size:13px;
+
 }
 
 .step p{
+
     margin-top:7px;
 
     color:#68756d;
@@ -570,25 +770,33 @@ body{
     font-size:9px;
 
     line-height:1.7;
+
 }
 
 
-/* CTA */
+/* ==========================================
+   CTA
+========================================== */
 
 .cta{
+
     padding:80px 6%;
+
 }
 
 .cta-box{
+
     padding:60px 25px;
 
     text-align:center;
 
-    border:1px solid rgba(255,255,255,.08);
+    border:
+    1px solid rgba(255,255,255,.08);
 
     border-radius:20px;
 
     background:
+
     radial-gradient(
         circle,
         rgba(0,230,118,.07),
@@ -596,15 +804,19 @@ body{
     ),
 
     #050b07;
+
 }
 
 .cta-box h2{
+
     font-size:35px;
 
     letter-spacing:-1.5px;
+
 }
 
 .cta-box p{
+
     max-width:520px;
 
     margin:12px auto 25px;
@@ -614,40 +826,7 @@ body{
     font-size:11px;
 
     line-height:1.7;
-}
 
-
-/* FOOTER */
-
-footer{
-    padding:35px 6%;
-
-    border-top:1px solid rgba(255,255,255,.07);
-
-    background:#020403;
-}
-
-.footer{
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-}
-
-.footer-logo{
-    font-size:17px;
-    font-weight:900;
-}
-
-.footer-logo span{
-    color:#00e676;
-}
-
-.footer-copy{
-    color:#536059;
-
-    font-size:8px;
 }
 
 
@@ -656,264 +835,588 @@ footer{
 ========================================== */
 
 .become-teacher{
-    padding:80px 20px;
 
-    background:#f8fafc;
+    position:relative;
 
-    color:#111827;
+    overflow:hidden;
+
+    padding:100px 6%;
+
+    background:
+
+    radial-gradient(
+        circle at 50% 0%,
+        rgba(0,230,118,.10),
+        transparent 45%
+    ),
+
+    #06100a;
+
+    border-top:
+    1px solid rgba(0,230,118,.10);
+
+    border-bottom:
+    1px solid rgba(255,255,255,.06);
+
 }
 
 .teacher-content{
-    max-width:1000px;
+
+    max-width:1100px;
 
     margin:auto;
 
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-
     text-align:center;
-}
 
-.teacher-content h2{
-    font-size:42px;
-
-    margin-bottom:20px;
-
-    color:#111827;
-}
-
-.teacher-content p{
-    max-width:700px;
-
-    font-size:18px;
-
-    color:#6b7280;
-
-    margin-bottom:25px;
-}
-
-.teacher-content ul{
-    list-style:none;
-
-    margin-bottom:25px;
-}
-
-.teacher-content ul li{
-    font-size:18px;
-
-    margin:10px 0;
-
-    color:#374151;
 }
 
 
-/* STATUS */
+/* TEACHER BADGE */
 
-.teacher-status{
+.teacher-badge{
+
     display:inline-block;
 
-    padding:8px 18px;
+    padding:8px 15px;
+
+    border:
+    1px solid rgba(0,230,118,.20);
 
     border-radius:30px;
 
-    background:#dcfce7;
+    background:
+    rgba(0,230,118,.05);
 
-    color:#15803d;
+    color:#00e676;
+
+    font-size:8px;
+
+    font-weight:900;
+
+    letter-spacing:1.8px;
+
+    margin-bottom:18px;
+
+}
+
+
+/* TEACHER TITLE */
+
+.teacher-content h2{
+
+    font-size:
+    clamp(32px,5vw,48px);
+
+    line-height:1.1;
+
+    letter-spacing:-2px;
+
+    color:#f5f8f6;
+
+}
+
+.teacher-content h2 span{
+
+    color:#00e676;
+
+}
+
+
+/* TEACHER INTRO */
+
+.teacher-content > p{
+
+    max-width:650px;
+
+    margin:18px auto 45px;
+
+    color:#7e8b83;
+
+    font-size:12px;
+
+    line-height:1.8;
+
+}
+
+
+/* FEATURES */
+
+.teacher-features{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:14px;
+
+    margin-bottom:35px;
+
+}
+
+.teacher-feature{
+
+    padding:22px 18px;
+
+    text-align:left;
+
+    background:#07100b;
+
+    border:
+    1px solid rgba(255,255,255,.07);
+
+    border-radius:16px;
+
+    transition:.25s ease;
+
+}
+
+.teacher-feature:hover{
+
+    transform:translateY(-5px);
+
+    border-color:
+    rgba(0,230,118,.30);
+
+    background:#09150e;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.20);
+
+}
+
+
+/* ICON */
+
+.teacher-icon{
+
+    width:45px;
+
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+    rgba(0,230,118,.08);
+
+    border:
+    1px solid rgba(0,230,118,.12);
+
+    border-radius:12px;
+
+    font-size:20px;
+
+    margin-bottom:15px;
+
+}
+
+
+/* FEATURE TEXT */
+
+.teacher-feature h3{
+
+    color:#f5f8f6;
 
     font-size:13px;
+
+    margin-bottom:7px;
+
+}
+
+.teacher-feature p{
+
+    color:#68756d;
+
+    font-size:9px;
+
+    line-height:1.7;
+
+}
+
+
+/* ACTION */
+
+.teacher-action{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+
+/* OPEN */
+
+.teacher-open{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-bottom:17px;
+
+    padding:7px 13px;
+
+    border-radius:30px;
+
+    background:
+    rgba(0,230,118,.06);
+
+    border:
+    1px solid rgba(0,230,118,.15);
+
+    color:#00e676;
+
+    font-size:8px;
 
     font-weight:900;
 
     letter-spacing:1px;
 
-    margin-top:5px;
 }
 
-.teacher-status.closed{
-    background:#fee2e2;
+.teacher-open span{
 
-    color:#dc2626;
+    width:7px;
+
+    height:7px;
+
+    border-radius:50%;
+
+    background:#00e676;
+
+    box-shadow:
+    0 0 12px #00e676;
+
 }
 
 
-/* TIMER LABEL */
+/* TEACHER BUTTON */
 
-.teacher-timer-label{
-    margin-top:20px;
+.teacher-btn{
 
-    color:#64748b;
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:14px;
+
+    min-width:220px;
+
+    padding:15px 25px;
+
+    background:#00e676;
+
+    color:#001b0c;
+
+    text-decoration:none;
+
+    border-radius:11px;
 
     font-size:10px;
 
     font-weight:900;
 
-    letter-spacing:2px;
-}
+    transition:.25s ease;
 
+    box-shadow:
+    0 10px 30px
+    rgba(0,230,118,.14);
 
-/* TIMER */
-
-.teacher-timer{
-    margin-top:5px;
-
-    color:#111827;
-
-    font-size:42px;
-
-    font-weight:900;
-
-    font-variant-numeric:tabular-nums;
-}
-
-
-/* BUTTON */
-
-.teacher-btn{
-    display:inline-block;
-
-    background:#2563eb;
-
-    color:white;
-
-    padding:15px 35px;
-
-    border-radius:12px;
-
-    text-decoration:none;
-
-    font-size:18px;
-
-    font-weight:bold;
-
-    transition:.3s;
-
-    margin-top:15px;
 }
 
 .teacher-btn:hover{
-    background:#1d4ed8;
+
+    background:#18f38a;
 
     transform:translateY(-2px);
+
+    box-shadow:
+    0 15px 40px
+    rgba(0,230,118,.25);
+
 }
 
-.teacher-btn.closed{
-    background:#94a3b8;
+.teacher-btn b{
 
-    cursor:not-allowed;
+    font-size:18px;
 
-    pointer-events:none;
+    transition:.2s ease;
+
+}
+
+.teacher-btn:hover b{
+
+    transform:translateX(5px);
+
 }
 
 
-/* MOBILE */
+/* SMALL TEXT */
+
+.teacher-action small{
+
+    margin-top:13px;
+
+    color:#4f5c55;
+
+    font-size:8px;
+
+}
+
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+footer{
+
+    padding:35px 6%;
+
+    border-top:
+    1px solid rgba(255,255,255,.07);
+
+    background:#020403;
+
+}
+
+.footer{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+.footer-logo{
+
+    font-size:17px;
+
+    font-weight:900;
+
+}
+
+.footer-logo span{
+
+    color:#00e676;
+
+}
+
+.footer-copy{
+
+    color:#536059;
+
+    font-size:8px;
+
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
 
 @media(max-width:900px){
 
     .nav-links{
+
         display:none;
+
     }
 
     .skills-grid{
-        grid-template-columns:repeat(2,1fr);
+
+        grid-template-columns:
+        repeat(2,1fr);
+
     }
 
     .steps{
-        grid-template-columns:repeat(2,1fr);
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+    .teacher-features{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
     }
 
 }
 
+
+/* ==========================================
+   MOBILE
+========================================== */
+
 @media(max-width:600px){
 
     .navbar{
+
         padding:0 18px;
+
     }
 
     .signin{
+
         display:none;
+
     }
 
     .hero{
-        padding:120px 20px 70px;
+
+        padding:
+        120px 20px 70px;
+
     }
 
     .hero h1{
+
         font-size:48px;
+
         letter-spacing:-3px;
+
     }
 
     .hero-buttons{
+
         flex-direction:column;
+
     }
 
     .primary-button,
     .secondary-button{
+
         text-align:center;
+
     }
 
     .section,
     .competition,
     .cta{
-        padding:70px 18px;
+
+        padding:
+        70px 18px;
+
     }
 
     .skills-grid{
+
         grid-template-columns:1fr;
+
     }
 
     .competition-grid{
+
         grid-template-columns:1fr;
+
     }
 
     .steps{
+
         grid-template-columns:1fr;
+
     }
 
     .competition-box{
+
         padding:30px 22px;
+
     }
 
     .competition-box h2{
+
         font-size:30px;
+
     }
 
-    .footer{
-        flex-direction:column;
-        gap:12px;
+    .teacher-features{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .become-teacher{
+
+        padding:75px 18px;
+
     }
 
     .teacher-content h2{
-        font-size:32px;
+
+        font-size:34px;
+
+        letter-spacing:-1.5px;
+
     }
 
-    .teacher-content p{
-        font-size:15px;
+    .teacher-content > p{
+
+        font-size:11px;
+
+        margin-bottom:32px;
+
     }
 
-    .teacher-content ul li{
-        font-size:15px;
+    .teacher-feature{
+
+        padding:20px;
+
     }
 
-    .teacher-timer{
-        font-size:36px;
+    .teacher-btn{
+
+        width:100%;
+
+        min-width:0;
+
+    }
+
+    .footer{
+
+        flex-direction:column;
+
+        gap:12px;
+
     }
 
 }
 
 </style>
+
 </head>
+
 
 <body>
 
 
-<!-- NAVBAR -->
+<!-- ==========================================
+     NAVBAR
+========================================== -->
 
 <header class="navbar">
 
-    <a href="./index.html" class="logo">
+    <a
+        href="./index.html"
+        class="logo"
+    >
         Steady<span>Maze</span>
     </a>
+
 
     <nav class="nav-links">
 
@@ -934,6 +1437,7 @@ footer{
         </a>
 
     </nav>
+
 
     <div class="nav-buttons">
 
@@ -956,7 +1460,9 @@ footer{
 </header>
 
 
-<!-- HERO -->
+<!-- ==========================================
+     HERO
+========================================== -->
 
 <section class="hero">
 
@@ -1000,7 +1506,6 @@ footer{
                 GET STARTED →
             </a>
 
-
             <a
                 href="#skills"
                 class="secondary-button"
@@ -1015,7 +1520,9 @@ footer{
 </section>
 
 
-<!-- SKILLS -->
+<!-- ==========================================
+     SKILLS
+========================================== -->
 
 <section
     class="section"
@@ -1026,9 +1533,11 @@ footer{
         17 DIGITAL SKILLS
     </div>
 
+
     <h2 class="section-title">
         Choose your path
     </h2>
+
 
     <p class="section-description">
 
@@ -1041,7 +1550,7 @@ footer{
     <div class="skills-grid">
 
 
-        <!-- 1 -->
+        <!-- VIDEO EDITING -->
 
         <article class="skill-card">
 
@@ -1070,7 +1579,7 @@ footer{
         </article>
 
 
-        <!-- 2 -->
+        <!-- MOVIE RECAP -->
 
         <article class="skill-card">
 
@@ -1099,7 +1608,7 @@ footer{
         </article>
 
 
-        <!-- 3 -->
+        <!-- THUMBNAIL -->
 
         <article class="skill-card">
 
@@ -1128,7 +1637,7 @@ footer{
         </article>
 
 
-        <!-- 4 -->
+        <!-- DIGITAL MARKETING -->
 
         <article class="skill-card">
 
@@ -1157,7 +1666,7 @@ footer{
         </article>
 
 
-        <!-- 5 -->
+        <!-- AFFILIATE -->
 
         <article class="skill-card">
 
@@ -1186,7 +1695,7 @@ footer{
         </article>
 
 
-        <!-- 6 -->
+        <!-- DROPSHIPPING -->
 
         <article class="skill-card">
 
@@ -1215,7 +1724,7 @@ footer{
         </article>
 
 
-        <!-- 7 -->
+        <!-- FOREX -->
 
         <article class="skill-card">
 
@@ -1244,7 +1753,7 @@ footer{
         </article>
 
 
-        <!-- 8 -->
+        <!-- CRYPTO -->
 
         <article class="skill-card">
 
@@ -1273,7 +1782,7 @@ footer{
         </article>
 
 
-        <!-- 9 -->
+        <!-- CYBERSECURITY -->
 
         <article class="skill-card">
 
@@ -1302,7 +1811,7 @@ footer{
         </article>
 
 
-        <!-- 10 -->
+        <!-- AI AGENT -->
 
         <article class="skill-card">
 
@@ -1331,7 +1840,7 @@ footer{
         </article>
 
 
-        <!-- 11 -->
+        <!-- ENGLISH -->
 
         <article class="skill-card">
 
@@ -1360,7 +1869,7 @@ footer{
         </article>
 
 
-        <!-- 12 -->
+        <!-- DATA -->
 
         <article class="skill-card">
 
@@ -1389,7 +1898,7 @@ footer{
         </article>
 
 
-        <!-- 13 -->
+        <!-- PYTHON -->
 
         <article class="skill-card">
 
@@ -1418,7 +1927,7 @@ footer{
         </article>
 
 
-        <!-- 14 -->
+        <!-- JAVASCRIPT -->
 
         <article class="skill-card">
 
@@ -1447,7 +1956,7 @@ footer{
         </article>
 
 
-        <!-- 15 -->
+        <!-- AI APP -->
 
         <article class="skill-card">
 
@@ -1476,7 +1985,7 @@ footer{
         </article>
 
 
-        <!-- 16 -->
+        <!-- AI WEB -->
 
         <article class="skill-card">
 
@@ -1505,7 +2014,7 @@ footer{
         </article>
 
 
-        <!-- 17 -->
+        <!-- WEB DEVELOPMENT -->
 
         <article class="skill-card">
 
@@ -1533,13 +2042,14 @@ footer{
 
         </article>
 
-
     </div>
 
 </section>
 
 
-<!-- COMPETITION -->
+<!-- ==========================================
+     COMPETITION
+========================================== -->
 
 <section
     class="competition"
@@ -1557,25 +2067,51 @@ footer{
         </h2>
 
         <p>
+
             Build projects based on the skill you study
             and prepare for structured competitions.
+
         </p>
+
 
         <div class="competition-grid">
 
             <div class="competition-card">
-                <strong>Real Projects</strong>
-                <span>Build and submit your work.</span>
+
+                <strong>
+                    Real Projects
+                </strong>
+
+                <span>
+                    Build and submit your work.
+                </span>
+
             </div>
 
-            <div class="competition-card">
-                <strong>AI Review</strong>
-                <span>Project evaluation system.</span>
-            </div>
 
             <div class="competition-card">
-                <strong>Live Leaderboard</strong>
-                <span>Follow competition progress.</span>
+
+                <strong>
+                    AI Review
+                </strong>
+
+                <span>
+                    Project evaluation system.
+                </span>
+
+            </div>
+
+
+            <div class="competition-card">
+
+                <strong>
+                    Live Leaderboard
+                </strong>
+
+                <span>
+                    Follow competition progress.
+                </span>
+
             </div>
 
         </div>
@@ -1585,7 +2121,9 @@ footer{
 </section>
 
 
-<!-- HOW IT WORKS -->
+<!-- ==========================================
+     HOW IT WORKS
+========================================== -->
 
 <section
     class="section"
@@ -1602,6 +2140,7 @@ footer{
 
 
     <div class="steps">
+
 
         <div class="step">
 
@@ -1675,7 +2214,9 @@ footer{
 </section>
 
 
-<!-- CTA -->
+<!-- ==========================================
+     CTA
+========================================== -->
 
 <section class="cta">
 
@@ -1686,8 +2227,10 @@ footer{
         </h2>
 
         <p>
+
             Learn digital skills, build projects and
             prepare for competition.
+
         </p>
 
 
@@ -1703,25 +2246,6 @@ footer{
 </section>
 
 
-<!-- FOOTER -->
-
-<footer>
-
-    <div class="footer">
-
-        <div class="footer-logo">
-            Steady<span>Maze</span>
-        </div>
-
-        <div class="footer-copy">
-            © 2026 SteadyMaze Academy
-        </div>
-
-    </div>
-
-</footer>
-
-
 <!-- ==========================================
      BECOME A TEACHER
 ========================================== -->
@@ -1730,561 +2254,207 @@ footer{
 
     <div class="teacher-content">
 
+
+        <div class="teacher-badge">
+            TEACH WITH STEADYMAZE
+        </div>
+
+
         <h2>
-            Become a Teacher on SteadyMaze
+
+            Become a Teacher on
+            <span>SteadyMaze</span>
+
         </h2>
 
+
         <p>
-            Share your skills, upload lessons, teach students,
-            earn income, and grow with our learning community.
+
+            Share your skills, create courses, teach students,
+            earn from your knowledge, and grow with SteadyMaze.
+
         </p>
 
-        <ul>
 
-            <li>
-                ✔ Upload your own courses
-            </li>
-
-            <li>
-                ✔ Teach students worldwide
-            </li>
-
-            <li>
-                ✔ Earn revenue from course sales
-            </li>
-
-            <li>
-                ✔ Track your students and performance
-            </li>
-
-            <li>
-                ✔ Access your Teacher Dashboard
-            </li>
-
-        </ul>
+        <div class="teacher-features">
 
 
-        <!-- STATUS -->
+            <!-- FEATURE 1 -->
 
-        <div
-            id="teacherStatus"
-            class="teacher-status"
-        >
-            CONNECTING...
+            <div class="teacher-feature">
+
+                <div class="teacher-icon">
+                    📚
+                </div>
+
+                <div>
+
+                    <h3>
+                        Upload Courses
+                    </h3>
+
+                    <p>
+                        Create and publish your own lessons.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- FEATURE 2 -->
+
+            <div class="teacher-feature">
+
+                <div class="teacher-icon">
+                    👨‍🎓
+                </div>
+
+                <div>
+
+                    <h3>
+                        Teach Students
+                    </h3>
+
+                    <p>
+                        Help students learn practical skills.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- FEATURE 3 -->
+
+            <div class="teacher-feature">
+
+                <div class="teacher-icon">
+                    💰
+                </div>
+
+                <div>
+
+                    <h3>
+                        Earn Revenue
+                    </h3>
+
+                    <p>
+                        Earn from your approved course sales.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- FEATURE 4 -->
+
+            <div class="teacher-feature">
+
+                <div class="teacher-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <h3>
+                        Track Performance
+                    </h3>
+
+                    <p>
+                        Monitor students, courses and earnings.
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
 
 
-        <!-- TIMER LABEL -->
+        <!-- TEACHER ACTION -->
 
-        <div class="teacher-timer-label">
-            TIME REMAINING
+        <div class="teacher-action">
+
+
+            <div class="teacher-open">
+
+                <span></span>
+
+                APPLICATIONS OPEN
+
+            </div>
+
+
+            <a
+                href="teacher-login.html"
+                class="teacher-btn"
+            >
+
+                Become a Teacher
+
+                <b>→</b>
+
+            </a>
+
+
+            <small>
+
+                Your application will be reviewed by SteadyMaze.
+
+            </small>
+
         </div>
-
-
-        <!-- TIMER -->
-
-        <div
-            id="teacherTimer"
-            class="teacher-timer"
-        >
-            --:--
-        </div>
-
-
-        <!-- BUTTON -->
-
-        <a
-            href="teacher-login.html"
-            id="teacherButton"
-            class="teacher-btn"
-        >
-            Checking...
-        </a>
 
     </div>
 
 </section>
 
 
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer>
+
+    <div class="footer">
+
+
+        <div class="footer-logo">
+
+            Steady<span>Maze</span>
+
+        </div>
+
+
+        <div class="footer-copy">
+
+            © 2026 SteadyMaze Academy
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- ==========================================
+     FINAL SILENT AUTH CHECK
+========================================== -->
+
 <script>
-
-/* ==========================================
-   TEACHER APPLICATION SCHEDULE
-   SUPABASE ONLY
-   NO LOCALSTORAGE
-========================================== */
-
-
-/*
-   Database table:
-
-   teacher_schedule
-
-   Required columns:
-
-   id
-   open_at
-   close_at
-   created_at
-*/
-
-
-/*
-   OPEN:
-   10 minutes
-
-   CLOSED:
-   5 minutes
-
-   COMPLETE CYCLE:
-   15 minutes
-
-   It repeats forever.
-*/
-
-
-const TEACHER_OPEN_TIME =
-    10 * 60 * 1000;
-
-
-const TEACHER_CLOSED_TIME =
-    5 * 60 * 1000;
-
-
-const TEACHER_CYCLE_TIME =
-    TEACHER_OPEN_TIME +
-    TEACHER_CLOSED_TIME;
-
-
-let teacherScheduleStart = null;
-
-
-/* ==========================================
-   GET LATEST SCHEDULE FROM SUPABASE
-========================================== */
-
-async function getTeacherSchedule(){
-
-    try{
-
-        const {
-            data,
-            error
-        } = await steadymazeSupabase
-
-            .from("teacher_schedule")
-
-            .select("id, open_at, close_at")
-
-            .order(
-                "id",
-                {
-                    ascending:false
-                }
-            )
-
-            .limit(1)
-
-            .maybeSingle();
-
-
-        if(error){
-
-            console.error(
-                "Teacher schedule error:",
-                error
-            );
-
-            showTeacherScheduleError();
-
-            return false;
-
-        }
-
-
-        if(!data){
-
-            console.error(
-                "No teacher schedule found."
-            );
-
-            showTeacherScheduleError();
-
-            return false;
-
-        }
-
-
-        teacherScheduleStart =
-            new Date(
-                data.open_at
-            ).getTime();
-
-
-        if(
-            Number.isNaN(
-                teacherScheduleStart
-            )
-        ){
-
-            console.error(
-                "Invalid teacher schedule date."
-            );
-
-            showTeacherScheduleError();
-
-            return false;
-
-        }
-
-
-        console.log(
-            "Teacher schedule loaded from Supabase:",
-            data
-        );
-
-
-        return true;
-
-    }catch(error){
-
-        console.error(
-            "Teacher schedule connection error:",
-            error
-        );
-
-        showTeacherScheduleError();
-
-        return false;
-
-    }
-
-}
-
-
-/* ==========================================
-   DATABASE ERROR
-========================================== */
-
-function showTeacherScheduleError(){
-
-    const status =
-        document.getElementById(
-            "teacherStatus"
-        );
-
-    const timer =
-        document.getElementById(
-            "teacherTimer"
-        );
-
-    const button =
-        document.getElementById(
-            "teacherButton"
-        );
-
-
-    if(status){
-
-        status.textContent =
-            "SCHEDULE UNAVAILABLE";
-
-        status.classList.add(
-            "closed"
-        );
-
-    }
-
-
-    if(timer){
-
-        timer.textContent =
-            "--:--";
-
-    }
-
-
-    if(button){
-
-        button.textContent =
-            "Applications Unavailable";
-
-        button.classList.add(
-            "closed"
-        );
-
-        button.removeAttribute(
-            "href"
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   FORMAT TIMER
-========================================== */
-
-function formatTeacherTime(
-    milliseconds
-){
-
-    const totalSeconds =
-        Math.max(
-            0,
-            Math.ceil(
-                milliseconds / 1000
-            )
-        );
-
-
-    const minutes =
-        Math.floor(
-            totalSeconds / 60
-        );
-
-
-    const seconds =
-        totalSeconds % 60;
-
-
-    return (
-        String(minutes)
-            .padStart(2,"0")
-        +
-        ":"
-        +
-        String(seconds)
-            .padStart(2,"0")
-    );
-
-}
-
-
-/* ==========================================
-   UPDATE TEACHER STATUS
-========================================== */
-
-function updateTeacherSchedule(){
-
-    if(
-        !teacherScheduleStart
-    ){
-
-        return;
-
-    }
-
-
-    const now =
-        Date.now();
-
-
-    /*
-       IMPORTANT:
-
-       The modulo (%) makes the schedule
-       repeat forever.
-
-       00:00 → 10:00 = OPEN
-       10:00 → 15:00 = CLOSED
-       15:00 → 25:00 = OPEN
-       25:00 → 30:00 = CLOSED
-       30:00 → 40:00 = OPEN
-       40:00 → 45:00 = CLOSED
-       etc...
-    */
-
-
-    const elapsed =
-        (
-            (
-                now -
-                teacherScheduleStart
-            )
-            %
-            TEACHER_CYCLE_TIME
-            +
-            TEACHER_CYCLE_TIME
-        )
-        %
-        TEACHER_CYCLE_TIME;
-
-
-    const status =
-        document.getElementById(
-            "teacherStatus"
-        );
-
-
-    const timer =
-        document.getElementById(
-            "teacherTimer"
-        );
-
-
-    const button =
-        document.getElementById(
-            "teacherButton"
-        );
-
-
-    if(
-        !status ||
-        !timer ||
-        !button
-    ){
-
-        return;
-
-    }
-
-
-    /* ======================================
-       OPEN
-    ====================================== */
-
-    if(
-        elapsed <
-        TEACHER_OPEN_TIME
-    ){
-
-        const remaining =
-            TEACHER_OPEN_TIME -
-            elapsed;
-
-
-        status.textContent =
-            "OPEN";
-
-
-        status.classList.remove(
-            "closed"
-        );
-
-
-        timer.textContent =
-            formatTeacherTime(
-                remaining
-            );
-
-
-        button.textContent =
-            "Become a Teacher";
-
-
-        button.classList.remove(
-            "closed"
-        );
-
-
-        button.href =
-            "teacher-login.html";
-
-    }
-
-
-    /* ======================================
-       CLOSED
-    ====================================== */
-
-    else{
-
-        const remaining =
-            TEACHER_CYCLE_TIME -
-            elapsed;
-
-
-        status.textContent =
-            "CLOSED";
-
-
-        status.classList.add(
-            "closed"
-        );
-
-
-        timer.textContent =
-            formatTeacherTime(
-                remaining
-            );
-
-
-        button.textContent =
-            "Applications Closed";
-
-
-        button.classList.add(
-            "closed"
-        );
-
-
-        button.removeAttribute(
-            "href"
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   START TEACHER SCHEDULE
-========================================== */
-
-async function startTeacherSchedule(){
-
-    const success =
-        await getTeacherSchedule();
-
-
-    if(!success){
-
-        return;
-
-    }
-
-
-    updateTeacherSchedule();
-
-
-    /*
-       Update every second.
-    */
-
-    setInterval(
-        updateTeacherSchedule,
-        1000
-    );
-
-}
-
-
-/* ==========================================
-   START
-========================================== */
-
-startTeacherSchedule();
-
-
-/* ==========================================
-   FINAL SILENT SUPABASE AUTH CHECK
-========================================== */
 
 (async function(){
 
     try{
 
         const {
-            data: {
+            data:{
                 session
             }
         } =
-            await steadymazeSupabase
-            .auth
-            .getSession();
-
+        await steadymazeSupabase.auth.getSession();
 
         if(session){
 
