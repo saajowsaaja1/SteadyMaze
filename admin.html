@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>SteadyMaze | Admin Dashboard</title>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
@@ -565,6 +568,7 @@ tr:hover td{
  display:flex;
  flex-direction:column;
  gap:12px;
+ overflow:auto;
 }
 
 .message{
@@ -805,7 +809,6 @@ tr:hover td{
  filter:drop-shadow(0 0 6px #16a34a);
 }
 
-/* REVENUE MINI BARS */
 .revenue-bars{
  display:flex;
  align-items:flex-end;
@@ -864,6 +867,14 @@ tr:hover td{
  place-items:center;
  color:#64748b;
  font-size:30px;
+ overflow:hidden;
+}
+
+.video-thumb img,
+.video-thumb video{
+ width:100%;
+ height:100%;
+ object-fit:cover;
 }
 
 .video-info{padding:15px}
@@ -912,7 +923,6 @@ tr:hover td{
  font-size:10px;
 }
 
-/* REWARD IMAGE */
 .reward-preview{
  width:58px;
  height:58px;
@@ -1054,7 +1064,6 @@ tr:hover td{
  padding:13px;
 }
 
-/* PROJECT CONTROL */
 .project-control{
  margin-top:18px;
  background:#fff;
@@ -1121,10 +1130,8 @@ tr:hover td{
  border-color:#bbf7d0;
 }
 
-/* OVERLAY */
 .overlay{display:none}
 
-/* TOAST */
 .toast{
  position:fixed;
  right:22px;
@@ -1145,6 +1152,41 @@ tr:hover td{
 .toast.show{
  transform:translateY(0);
  opacity:1;
+}
+
+.loading-row td{
+ text-align:center;
+ padding:30px;
+ color:#94a3b8;
+}
+
+.real-photo{
+ width:38px;
+ height:38px;
+ border-radius:50%;
+ object-fit:cover;
+ vertical-align:middle;
+ margin-right:8px;
+ border:2px solid #dcfce7;
+}
+
+.small-image{
+ width:48px;
+ height:48px;
+ border-radius:9px;
+ object-fit:cover;
+ border:1px solid var(--line);
+}
+
+.database-error{
+ margin-top:15px;
+ padding:12px 14px;
+ background:#fff7ed;
+ border:1px solid #fed7aa;
+ color:#9a3412;
+ border-radius:10px;
+ font-size:11px;
+ display:none;
 }
 
 /* MOBILE */
@@ -1242,7 +1284,6 @@ tr:hover td{
 
 <div class="app">
 
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
 
 <div class="logo">STEADY<span>MAZE</span></div>
@@ -1252,35 +1293,35 @@ tr:hover td{
 <nav class="nav">
 
 <button class="active" data-section="dashboard">
-<span class="navicon">⌂</span>
+<span class="navicon">🏠</span>
 <span class="navname">Dashboard</span>
 </button>
 
 <button data-section="profile">
-<span class="navicon">◉</span>
+<span class="navicon">👤</span>
 <span class="navname">My Profile</span>
 </button>
 
 <button data-section="students">
-<span class="navicon">♙</span>
+<span class="navicon">👨‍🎓</span>
 <span class="navname">Students</span>
 <span class="arrow">›</span>
 </button>
 
 <button data-section="teachers">
-<span class="navicon">♙</span>
+<span class="navicon">👨‍🏫</span>
 <span class="navname">Teachers</span>
 <span class="arrow">›</span>
 </button>
 
 <button data-section="lessons">
-<span class="navicon">▣</span>
+<span class="navicon">📚</span>
 <span class="navname">Lessons</span>
 <span class="arrow">›</span>
 </button>
 
 <button data-section="videos">
-<span class="navicon">▶</span>
+<span class="navicon">🎬</span>
 <span class="navname">Video Management</span>
 </button>
 
@@ -1296,22 +1337,22 @@ tr:hover td{
 </button>
 
 <button data-section="ai">
-<span class="navicon">✦</span>
+<span class="navicon">🤖</span>
 <span class="navname">AI Chat</span>
 </button>
 
 <button data-section="payments">
-<span class="navicon">▣</span>
+<span class="navicon">💳</span>
 <span class="navname">Payments</span>
 </button>
 
 <button data-section="analysis">
-<span class="navicon">◈</span>
+<span class="navicon">📊</span>
 <span class="navname">Analysis</span>
 </button>
 
 <button data-section="notifications">
-<span class="navicon">♢</span>
+<span class="navicon">🔔</span>
 <span class="navname">Notifications</span>
 </button>
 
@@ -1320,7 +1361,6 @@ tr:hover td{
 
 <div class="overlay" id="overlay"></div>
 
-<!-- MAIN -->
 <main class="main">
 
 <header class="topbar">
@@ -1339,7 +1379,7 @@ tr:hover td{
 <div class="admin">
 
 <div>
-<strong style="font-size:12px">Administrator</strong>
+<strong style="font-size:12px" id="topAdminName">Administrator</strong>
 <div style="color:var(--muted);font-size:10px;text-align:right">Admin Account</div>
 </div>
 
@@ -1369,7 +1409,7 @@ tr:hover td{
 <div class="stat" style="--accent:var(--green)">
 <div class="stat-top">
 <small>Total Students</small>
-<div class="stat-icon">♙</div>
+<div class="stat-icon">👨‍🎓</div>
 </div>
 <h2 id="totalStudents">0</h2>
 </div>
@@ -1377,7 +1417,7 @@ tr:hover td{
 <div class="stat" style="--accent:var(--blue)">
 <div class="stat-top">
 <small>Total Teachers</small>
-<div class="stat-icon">♙</div>
+<div class="stat-icon">👨‍🏫</div>
 </div>
 <h2 id="totalTeachers">0</h2>
 </div>
@@ -1393,15 +1433,15 @@ tr:hover td{
 <div class="stat" style="--accent:var(--gold)">
 <div class="stat-top">
 <small>Revenue</small>
-<div class="stat-icon">$</div>
+<div class="stat-icon">💰</div>
 </div>
-<h2>$0.00</h2>
+<h2 id="dashboardRevenue">$0.00</h2>
 </div>
 
 <div class="stat" style="--accent:var(--orange)">
 <div class="stat-top">
 <small>Projects Uploaded</small>
-<div class="stat-icon">↥</div>
+<div class="stat-icon">📤</div>
 </div>
 <h2 id="projects">0</h2>
 </div>
@@ -1409,7 +1449,7 @@ tr:hover td{
 <div class="stat" style="--accent:var(--blue2)">
 <div class="stat-top">
 <small>Lessons</small>
-<div class="stat-icon">▣</div>
+<div class="stat-icon">📚</div>
 </div>
 <h2 id="lessonsCount">0</h2>
 </div>
@@ -1417,7 +1457,7 @@ tr:hover td{
 <div class="stat" style="--accent:var(--purple)">
 <div class="stat-top">
 <small>AI Reviews</small>
-<div class="stat-icon">✦</div>
+<div class="stat-icon">🤖</div>
 </div>
 <h2 id="reviews">0</h2>
 </div>
@@ -1438,34 +1478,36 @@ tr:hover td{
 
 <div class="card-title">
 <h3>System Overview</h3>
-<span class="muted">Database ready structure</span>
+<span class="muted">Supabase connected</span>
 </div>
 
 <div style="display:grid;gap:12px">
 
 <div class="card" style="padding:13px">
-<strong style="font-size:12px">Student Accounts</strong>
+<strong style="font-size:12px">👨‍🎓 Student Accounts</strong>
 <div class="muted" style="margin-top:5px">
-Student name and email will automatically appear after registration.
+Student information is loaded directly from Supabase.
 </div>
 </div>
 
 <div class="card" style="padding:13px">
-<strong style="font-size:12px">Teacher Accounts</strong>
+<strong style="font-size:12px">👨‍🏫 Teacher Accounts</strong>
 <div class="muted" style="margin-top:5px">
-Teacher profile, email, skills and revenue are database fields.
+Teacher profile and account information are loaded from Supabase.
 </div>
 </div>
 
 <div class="card" style="padding:13px">
-<strong style="font-size:12px">Competition</strong>
+<strong style="font-size:12px">🏆 Competition</strong>
 <div class="muted" style="margin-top:5px">
-Lower, Medium and High each contain rank positions 1–300.
-Admin manually controls competition, project upload and tie-break.
+Competition entries and leaderboard information are loaded from the database.
 </div>
 </div>
 
 </div>
+
+<div id="databaseError" class="database-error"></div>
+
 </div>
 
 <div class="card">
@@ -1476,17 +1518,17 @@ Admin manually controls competition, project upload and tie-break.
 
 <button class="btn purple" style="width:100%;margin-bottom:9px"
 onclick="showSection('competition')">
-Competition Control
+🏆 Competition Control
 </button>
 
 <button class="btn" style="width:100%;margin-bottom:9px"
 onclick="showSection('ai')">
-Open AI Chat
+🤖 Open AI Chat
 </button>
 
 <button class="btn" style="width:100%"
 onclick="showSection('analysis')">
-View Analysis
+📊 View Analysis
 </button>
 
 </div>
@@ -1494,7 +1536,6 @@ View Analysis
 </div>
 
 </section>
-
 
 <!-- PROFILE -->
 <section class="section" id="profile">
@@ -1521,16 +1562,16 @@ View Analysis
 <div class="profile-actions">
 
 <label class="btn purple">
-Change Photo
+🖼️ Change Photo
 <input type="file" id="photoInput" accept="image/*" hidden>
 </label>
 
 <button class="btn" onclick="focusInput('newName')">
-Change Name
+✏️ Change Name
 </button>
 
 <button class="btn" onclick="focusInput('newPassword')">
-Change Password
+🔐 Change Password
 </button>
 
 </div>
@@ -1567,7 +1608,7 @@ Change Password
 </div>
 
 <div class="form-group full">
-<button class="btn purple" onclick="saveProfile()">Save Profile Changes</button>
+<button class="btn purple" onclick="saveProfile()">💾 Save Profile Changes</button>
 </div>
 
 </div>
@@ -1575,7 +1616,6 @@ Change Password
 
 </div>
 </section>
-
 
 <!-- STUDENTS -->
 <section class="section" id="students">
@@ -1586,7 +1626,7 @@ Change Password
 <p>Students registered on SteadyMaze will automatically appear here.</p>
 </div>
 
-<button class="btn purple">View Students</button>
+<button class="btn purple" onclick="loadStudents()">🔄 Refresh Students</button>
 </div>
 
 <div class="card" style="margin-bottom:17px">
@@ -1600,7 +1640,7 @@ Change Password
 
 <div class="form-group">
 <label>Status</label>
-<select class="select">
+<select class="select" id="studentStatusFilter">
 <option>All Students</option>
 <option>Active</option>
 <option>Blocked</option>
@@ -1628,15 +1668,9 @@ Change Password
 </thead>
 
 <tbody id="studentsTable">
-
-<tr>
-<td class="empty">No student records</td>
-<td class="empty">—</td>
-<td class="empty">—</td>
-<td class="empty">—</td>
-<td><span class="badge blue">DATABASE</span></td>
+<tr class="loading-row">
+<td colspan="5">Loading students from Supabase...</td>
 </tr>
-
 </tbody>
 
 </table>
@@ -1645,7 +1679,6 @@ Change Password
 </div>
 
 </section>
-
 
 <!-- TEACHERS -->
 <section class="section" id="teachers">
@@ -1656,7 +1689,7 @@ Change Password
 <p>Teacher accounts, skills, email and revenue.</p>
 </div>
 
-<button class="btn purple">Add Teacher</button>
+<button class="btn purple" onclick="loadTeachers()">🔄 Refresh Teachers</button>
 </div>
 
 <div class="table-card">
@@ -1676,15 +1709,10 @@ Change Password
 </tr>
 </thead>
 
-<tbody>
+<tbody id="teachersTable">
 
-<tr>
-<td class="empty">No teacher records</td>
-<td class="empty">—</td>
-<td class="empty">—</td>
-<td class="empty">$0.00</td>
-<td><span class="badge blue">DATABASE</span></td>
-<td>—</td>
+<tr class="loading-row">
+<td colspan="6">Loading teachers from Supabase...</td>
 </tr>
 
 </tbody>
@@ -1696,7 +1724,6 @@ Change Password
 
 </section>
 
-
 <!-- LESSONS -->
 <section class="section" id="lessons">
 
@@ -1706,26 +1733,26 @@ Change Password
 <p>Add, edit and manage lessons.</p>
 </div>
 
-<button class="btn purple">Add Lesson</button>
+<button class="btn purple" onclick="saveLesson()">➕ Add Lesson</button>
 </div>
 
-<div class="card">
+<div class="card" style="margin-bottom:17px">
 
 <div class="form-grid">
 
 <div class="form-group">
 <label>Lesson Title</label>
-<input class="input" placeholder="Lesson title">
+<input class="input" id="lessonTitleInput" placeholder="Lesson title">
 </div>
 
 <div class="form-group">
 <label>Course / Skill</label>
-<input class="input" placeholder="Course or skill">
+<input class="input" id="lessonCourseInput" placeholder="Course or skill">
 </div>
 
 <div class="form-group">
 <label>Level</label>
-<select class="select">
+<select class="select" id="lessonLevelInput">
 <option>Level 1</option>
 <option>Level 2</option>
 <option>Level 3</option>
@@ -1734,24 +1761,48 @@ Change Password
 
 <div class="form-group">
 <label>Price</label>
-<input class="input" type="number" placeholder="0.00">
+<input class="input" id="lessonPriceInput" type="number" placeholder="0.00">
 </div>
 
 <div class="form-group full">
 <label>Lesson Description</label>
-<textarea class="textarea" placeholder="Lesson description"></textarea>
-</div>
-
-<div class="form-group full">
-<button class="btn purple">Save Lesson</button>
+<textarea class="textarea" id="lessonDescriptionInput" placeholder="Lesson description"></textarea>
 </div>
 
 </div>
 
+</div>
+
+<div class="table-card">
+
+<div class="table-scroll">
+
+<table>
+
+<thead>
+<tr>
+<th>Title</th>
+<th>Course</th>
+<th>Level</th>
+<th>Price</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="lessonsTable">
+
+<tr class="loading-row">
+<td colspan="5">Loading lessons from Supabase...</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
 </div>
 
 </section>
-
 
 <!-- VIDEOS -->
 <section class="section" id="videos">
@@ -1763,32 +1814,24 @@ Change Password
 </div>
 
 <label class="btn purple">
-Upload Video
+🎬 Upload Video
 <input type="file" accept="video/*" hidden onchange="videoSelected(this)">
 </label>
 </div>
 
-<div class="video-grid">
+<div class="video-grid" id="videoGrid">
 
 <div class="video-card">
-<div class="video-thumb">▶</div>
-
+<div class="video-thumb">🎬</div>
 <div class="video-info">
-<strong>No uploaded videos</strong>
-<small>Real teacher videos will appear here.</small>
-
-<div class="video-actions">
-<button class="btn">Edit</button>
-<button class="btn red">Delete</button>
-</div>
-
+<strong>Loading videos...</strong>
+<small>Reading video records from Supabase.</small>
 </div>
 </div>
 
 </div>
 
 </section>
-
 
 <!-- COMPETITION -->
 <section class="section" id="competition">
@@ -1801,8 +1844,8 @@ Upload Video
 </div>
 
 <div class="actions">
-<button class="btn green" onclick="competitionOpen()">Open Competition</button>
-<button class="btn red" onclick="competitionClose()">Close Competition</button>
+<button class="btn green" onclick="competitionOpen()">🟢 Open Competition</button>
+<button class="btn red" onclick="competitionClose()">🔴 Close Competition</button>
 </div>
 
 </div>
@@ -1871,13 +1914,11 @@ Tie-break can be opened manually for Admin and Student.
 
 </div>
 
-
-<!-- MANUAL CONTROLS -->
 <div class="competition-control">
 
 <div class="control-card">
 
-<h4>Competition</h4>
+<h4>🏆 Competition</h4>
 
 <div class="control-status">
 Current:
@@ -1898,7 +1939,7 @@ Close
 
 <div class="control-card">
 
-<h4>Project Upload</h4>
+<h4>📤 Project Upload</h4>
 
 <div class="control-status">
 Current:
@@ -1912,14 +1953,14 @@ Open Project
 
 <button class="btn red" style="width:100%"
 onclick="projectClose()">
-Close Project
+Close
 </button>
 
 </div>
 
 <div class="control-card">
 
-<h4>Admin Tie-Break</h4>
+<h4>⚖️ Admin Tie-Break</h4>
 
 <div class="control-status">
 Current:
@@ -1933,14 +1974,14 @@ Open Tie-Break
 
 <button class="btn red" style="width:100%"
 onclick="adminTieClose()">
-Close Tie-Break
+Close
 </button>
 
 </div>
 
 <div class="control-card">
 
-<h4>Student Tie-Break</h4>
+<h4>👨‍🎓 Student Tie-Break</h4>
 
 <div class="control-status">
 Current:
@@ -1954,15 +1995,13 @@ Open for Students
 
 <button class="btn red" style="width:100%"
 onclick="studentTieClose()">
-Close for Students
+Close
 </button>
 
 </div>
 
 </div>
 
-
-<!-- PROJECT STATUS -->
 <div class="project-control">
 
 <div class="card-title">
@@ -1999,8 +2038,6 @@ Close Project Upload
 
 </div>
 
-
-<!-- GROUPS -->
 <div style="margin-top:18px">
 
 <div class="actions" style="margin-bottom:15px">
@@ -2055,7 +2092,6 @@ Rank 1–300
 
 </section>
 
-
 <!-- REWARDS -->
 <section class="section" id="rewards">
 
@@ -2067,7 +2103,7 @@ Rank 1–300
 </div>
 
 <button class="btn gold" onclick="openRewardModal()">
-Add Reward
+🥇 Add Reward
 </button>
 
 </div>
@@ -2120,7 +2156,6 @@ Add Reward
 
 </section>
 
-
 <!-- AI -->
 <section class="section" id="ai">
 
@@ -2128,7 +2163,7 @@ Add Reward
 
 <div>
 <h1>AI Chat</h1>
-<p>Separate AI assistant area. Backend/API can be connected later.</p>
+<p>Separate AI assistant area. It is not connected to Supabase.</p>
 </div>
 
 </div>
@@ -2137,10 +2172,10 @@ Add Reward
 
 <div class="chat-list">
 
-<button class="active">AI Assistant</button>
-<button>Competition AI</button>
-<button>Lesson AI</button>
-<button>Analytics AI</button>
+<button class="active">🤖 AI Assistant</button>
+<button>🏆 Competition AI</button>
+<button>📚 Lesson AI</button>
+<button>📊 Analytics AI</button>
 
 </div>
 
@@ -2148,13 +2183,13 @@ Add Reward
 
 <div class="chat-head">
 <strong>SteadyMaze AI Assistant</strong>
-<div class="muted">Ready for backend connection</div>
+<div class="muted">Separate from database</div>
 </div>
 
 <div class="chat-body" id="chatBody">
 
 <div class="message ai">
-Hello. AI Chat is ready. The real AI service can be connected through your backend/API later.
+Hello. AI Chat is separate from Supabase. A real AI service can be connected through your backend/API.
 </div>
 
 </div>
@@ -2175,7 +2210,6 @@ Send
 
 </section>
 
-
 <!-- PAYMENTS -->
 <section class="section" id="payments">
 
@@ -2183,8 +2217,10 @@ Send
 
 <div>
 <h1>Payments</h1>
-<p>Payment methods and account information.</p>
+<p>Payment methods and real transaction data from Supabase.</p>
 </div>
+
+<button class="btn purple" onclick="loadPayments()">🔄 Refresh Payments</button>
 
 </div>
 
@@ -2222,51 +2258,33 @@ Send
 <div class="card" style="margin-top:17px">
 
 <div class="card-title">
-<h3>Add Your Payment Account</h3>
-<span class="muted">Payment information</span>
+<h3>Recent Transactions</h3>
+<span class="muted">Supabase transactions</span>
 </div>
 
-<div class="form-grid">
+<div class="table-scroll">
 
-<div class="form-group">
-<label>Payment Method</label>
+<table>
 
-<select class="select">
-<option>Visa</option>
-<option>Mastercard</option>
-<option>PayPal</option>
-</select>
+<thead>
+<tr>
+<th>Date</th>
+<th>User</th>
+<th>Amount</th>
+<th>Method</th>
+<th>Status</th>
+</tr>
+</thead>
 
-</div>
+<tbody id="paymentsTable">
 
-<div class="form-group">
-<label>Card Name</label>
-<input class="input" placeholder="Name on card">
-</div>
+<tr class="loading-row">
+<td colspan="5">Loading transactions...</td>
+</tr>
 
-<div class="form-group">
-<label>Card Number</label>
-<input class="input" inputmode="numeric" placeholder="Card number">
-</div>
+</tbody>
 
-<div class="form-group">
-<label>Expiry Date</label>
-<input class="input" placeholder="MM / YY">
-</div>
-
-<div class="form-group">
-<label>CVV</label>
-<input class="input" type="password" maxlength="4" placeholder="CVV">
-</div>
-
-<div class="form-group">
-<label>Account Email</label>
-<input class="input" type="email" placeholder="Payment email">
-</div>
-
-<div class="form-group full">
-<button class="btn purple">Add Account</button>
-</div>
+</table>
 
 </div>
 
@@ -2279,7 +2297,6 @@ The frontend does not store sensitive card information.
 
 </section>
 
-
 <!-- ANALYSIS -->
 <section class="section" id="analysis">
 
@@ -2287,42 +2304,38 @@ The frontend does not store sensitive card information.
 
 <div>
 <h1>Analysis</h1>
-<p>Student growth, teacher payment growth, buying growth, monthly growth, competition growth and revenue analytics.</p>
+<p>Live analytics calculated from Supabase database records.</p>
 </div>
 
+<button class="btn purple" onclick="loadAnalytics()">🔄 Refresh Analysis</button>
+
 </div>
 
-
-<!-- BALANCE -->
 <div class="balance-grid">
 
 <div class="balance orange">
 <small>YOUR ACCOUNT BALANCE</small>
-<h2>$0.00</h2>
+<h2 id="adminBalance">$0.00</h2>
 <span style="font-size:11px;opacity:.8">Available balance</span>
 </div>
 
 <div class="balance gold">
 <small>TEACHER PAYMENT REVENUE</small>
-<h2>$0.00</h2>
+<h2 id="teacherBalance">$0.00</h2>
 <span style="font-size:11px;opacity:.8">Teacher earnings movement</span>
 </div>
 
 </div>
 
-
-<!-- 7 ANALYTICS -->
 <div class="analysis-grid">
 
-<!-- 1 -->
 <div class="analysis-card green">
-<div class="analysis-icon">♙</div>
+<div class="analysis-icon">👨‍🎓</div>
 <h4>STUDENT GROWTH</h4>
 <div class="analysis-number" id="studentGrowth">0</div>
-<div class="growth up">↑ Growth from previous period</div>
+<div class="growth up">↑ Database student count</div>
 </div>
 
-<!-- 2 -->
 <div class="analysis-card red">
 <div class="analysis-icon">$</div>
 <h4>TEACHER PAYMENT GROWTH</h4>
@@ -2330,15 +2343,13 @@ The frontend does not store sensitive card information.
 <div class="growth up">↑ Teacher payment movement</div>
 </div>
 
-<!-- 3 -->
 <div class="analysis-card blue">
 <div class="analysis-icon">🛒</div>
 <h4>MOST MONEY BUY GROWTH</h4>
 <div class="analysis-number" id="mostMoneyBuyGrowth">$0.00</div>
-<div class="growth up">↑ Highest purchase growth</div>
+<div class="growth up">↑ Highest purchase</div>
 </div>
 
-<!-- 4 -->
 <div class="analysis-card gold">
 <div class="analysis-icon">◷</div>
 <h4>MONTH GROWTH</h4>
@@ -2346,7 +2357,6 @@ The frontend does not store sensitive card information.
 <div class="growth up">↑ Monthly system growth</div>
 </div>
 
-<!-- 5 -->
 <div class="analysis-card purple">
 <div class="analysis-icon">🏆</div>
 <h4>COMPETITION GROWTH</h4>
@@ -2354,7 +2364,6 @@ The frontend does not store sensitive card information.
 <div class="growth up">↑ Competition participation</div>
 </div>
 
-<!-- 6 -->
 <div class="analysis-card orange">
 <div class="analysis-icon">D</div>
 <h4>TODAY REVENUE</h4>
@@ -2362,7 +2371,6 @@ The frontend does not store sensitive card information.
 <div class="growth up">↑ Today's revenue</div>
 </div>
 
-<!-- 7 -->
 <div class="analysis-card green">
 <div class="analysis-icon">W</div>
 <h4>WEEKLY REVENUE</h4>
@@ -2372,13 +2380,11 @@ The frontend does not store sensitive card information.
 
 </div>
 
-
-<!-- REVENUE CHART -->
 <div class="card" style="margin-top:17px">
 
 <div class="card-title">
 <h3>Revenue Movement</h3>
-<span class="muted">Today & Weekly revenue</span>
+<span class="muted">Database transaction movement</span>
 </div>
 
 <div class="chart">
@@ -2420,43 +2426,41 @@ C930 45 955 70 1000 35"/>
 
 </div>
 
-
-<!-- WEEKLY REVENUE -->
 <div class="card" style="margin-top:17px">
 
 <div class="card-title">
 <h3>Weekly Revenue Growth</h3>
-<span class="muted">Database values will replace these bars</span>
+<span class="muted">Calculated from Supabase transactions</span>
 </div>
 
-<div class="revenue-bars">
+<div class="revenue-bars" id="revenueBars">
 
 <div class="revenue-bar-wrap">
-<div class="revenue-bar" style="height:25%"></div>
-</div>
-
-<div class="revenue-bar-wrap">
-<div class="revenue-bar" style="height:38%"></div>
+<div class="revenue-bar" style="height:10%"></div>
 </div>
 
 <div class="revenue-bar-wrap">
-<div class="revenue-bar" style="height:32%"></div>
+<div class="revenue-bar" style="height:10%"></div>
 </div>
 
 <div class="revenue-bar-wrap">
-<div class="revenue-bar" style="height:52%"></div>
+<div class="revenue-bar" style="height:10%"></div>
 </div>
 
 <div class="revenue-bar-wrap">
-<div class="revenue-bar" style="height:48%"></div>
+<div class="revenue-bar" style="height:10%"></div>
 </div>
 
 <div class="revenue-bar-wrap">
-<div class="revenue-bar" style="height:70%"></div>
+<div class="revenue-bar" style="height:10%"></div>
 </div>
 
 <div class="revenue-bar-wrap">
-<div class="revenue-bar" style="height:85%"></div>
+<div class="revenue-bar" style="height:10%"></div>
+</div>
+
+<div class="revenue-bar-wrap">
+<div class="revenue-bar" style="height:10%"></div>
 </div>
 
 </div>
@@ -2475,7 +2479,6 @@ C930 45 955 70 1000 35"/>
 
 </section>
 
-
 <!-- NOTIFICATIONS -->
 <section class="section" id="notifications">
 
@@ -2483,8 +2486,10 @@ C930 45 955 70 1000 35"/>
 
 <div>
 <h1>Notifications</h1>
-<p>Send messages and email notifications to students and teachers.</p>
+<p>Save dashboard notifications to the Supabase notifications table.</p>
 </div>
+
+<button class="btn purple" onclick="loadNotifications()">🔄 Refresh</button>
 
 </div>
 
@@ -2493,14 +2498,14 @@ C930 45 955 70 1000 35"/>
 <div class="notify-box">
 
 <div class="card-title">
-<h3>Create Notification</h3>
+<h3>🔔 Create Notification</h3>
 </div>
 
 <div class="recipient">
 
-<button class="active">Students</button>
-<button>Teachers</button>
-<button>Both</button>
+<button class="active" data-recipient="Students">Students</button>
+<button data-recipient="Teachers">Teachers</button>
+<button data-recipient="Both">Both</button>
 
 </div>
 
@@ -2508,18 +2513,18 @@ C930 45 955 70 1000 35"/>
 
 <div class="form-group full">
 <label>Recipient Email</label>
-<input class="input" placeholder="student or teacher email">
+<input class="input" id="notificationEmail" placeholder="student or teacher email">
 </div>
 
 <div class="form-group">
 <label>Subject</label>
-<input class="input" placeholder="Notification subject">
+<input class="input" id="notificationSubject" placeholder="Notification subject">
 </div>
 
 <div class="form-group">
 <label>Notification Type</label>
 
-<select class="select">
+<select class="select" id="notificationType">
 <option>Email</option>
 <option>Dashboard Notification</option>
 <option>Both</option>
@@ -2529,11 +2534,11 @@ C930 45 955 70 1000 35"/>
 
 <div class="form-group full">
 <label>Message</label>
-<textarea class="textarea" placeholder="Write your message..."></textarea>
+<textarea class="textarea" id="notificationMessage" placeholder="Write your message..."></textarea>
 </div>
 
 <div class="form-group full">
-<button class="btn purple">Send Notification</button>
+<button class="btn purple" onclick="sendNotification()">📨 Send Notification</button>
 </div>
 
 </div>
@@ -2543,30 +2548,13 @@ C930 45 955 70 1000 35"/>
 <div class="notify-box">
 
 <div class="card-title">
-<h3>Notification System</h3>
+<h3>Recent Notifications</h3>
 </div>
 
-<div style="display:grid;gap:12px">
-
-<div class="card" style="padding:13px">
-<strong style="font-size:12px">Student Email</strong>
-<div class="muted" style="margin-top:5px">
-Send account, competition and lesson messages.
-</div>
-</div>
+<div id="notificationList" style="display:grid;gap:12px">
 
 <div class="card" style="padding:13px">
-<strong style="font-size:12px">Teacher Email</strong>
-<div class="muted" style="margin-top:5px">
-Send teacher approval, lesson and revenue messages.
-</div>
-</div>
-
-<div class="card" style="padding:13px">
-<strong style="font-size:12px">Backend Ready</strong>
-<div class="muted" style="margin-top:5px">
-Email provider/API can be connected later.
-</div>
+<div class="muted">Loading notifications...</div>
 </div>
 
 </div>
@@ -2580,7 +2568,6 @@ Email provider/API can be connected later.
 </div>
 </main>
 </div>
-
 
 <!-- REWARD MODAL -->
 <div class="modal-overlay" id="rewardModal">
@@ -2634,9 +2621,9 @@ Email provider/API can be connected later.
 
 <img id="rewardImagePreview">
 
-<strong>Upload Reward Image</strong>
+<strong>🖼️ Upload Reward Image</strong>
 
-<small>Choose the reward image you want to display.</small>
+<small>Choose the real reward image you want to display.</small>
 
 <input
 type="file"
@@ -2679,7 +2666,7 @@ Cancel
 </button>
 
 <button class="btn gold" onclick="saveReward()">
-Save Reward
+💾 Save Reward
 </button>
 
 </div>
@@ -2690,16 +2677,198 @@ Save Reward
 
 </div>
 
-
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
 
 <script>
 
-/* =========================================
+/* =========================================================
+   STEADYMAZE SUPABASE CONNECTION
+========================================================= */
+
+const SUPABASE_URL =
+"https://uxrltzlxdttbjstomhkb.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+
+const supabaseClient =
+window.supabase.createClient(
+ SUPABASE_URL,
+ SUPABASE_PUBLISHABLE_KEY
+);
+
+/* =========================================================
+   DATABASE HELPERS
+========================================================= */
+
+const dbCache={};
+
+async function getTable(table){
+
+ try{
+
+  const {data,error}=await supabaseClient
+   .from(table)
+   .select("*");
+
+  if(error){
+   console.warn(table,error.message);
+   dbCache[table]=[];
+   return [];
+  }
+
+  dbCache[table]=data||[];
+
+  return data||[];
+
+ }catch(error){
+
+  console.error(table,error);
+
+  dbCache[table]=[];
+
+  return [];
+
+ }
+
+}
+
+function firstValue(row,keys,fallback=""){
+
+ if(!row)return fallback;
+
+ for(const key of keys){
+
+  if(
+   row[key]!==undefined &&
+   row[key]!==null &&
+   String(row[key]).trim()!==""
+  ){
+
+   return row[key];
+
+  }
+
+ }
+
+ return fallback;
+
+}
+
+function numberValue(row,keys){
+
+ const value=firstValue(row,keys,0);
+
+ const n=Number(value);
+
+ return Number.isFinite(n)?n:0;
+
+}
+
+function dateValue(row){
+
+ return firstValue(
+  row,
+  [
+   "created_at",
+   "createdAt",
+   "date",
+   "transaction_date",
+   "paid_at",
+   "updated_at"
+  ],
+  ""
+ );
+
+}
+
+function money(value){
+
+ const n=Number(value)||0;
+
+ return "$"+n.toFixed(2);
+
+}
+
+function formatDate(value){
+
+ if(!value)return "—";
+
+ const d=new Date(value);
+
+ if(Number.isNaN(d.getTime()))return String(value);
+
+ return d.toLocaleDateString();
+
+}
+
+function escapeHTML(value){
+
+ return String(value??"")
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+
+}
+
+function imageValue(row){
+
+ return firstValue(
+  row,
+  [
+   "profile_image",
+   "profile_image_url",
+   "avatar_url",
+   "photo_url",
+   "image_url",
+   "image",
+   "photo",
+   "thumbnail_url",
+   "thumbnail"
+  ],
+  ""
+ );
+
+}
+
+function nameValue(row){
+
+ return firstValue(
+  row,
+  [
+   "full_name",
+   "name",
+   "student_name",
+   "teacher_name",
+   "display_name",
+   "username"
+  ],
+  "Unknown"
+
+ );
+
+}
+
+function emailValue(row){
+
+ return firstValue(
+  row,
+  [
+   "email",
+   "student_email",
+   "teacher_email",
+   "user_email"
+  ],
+  "—"
+ );
+
+}
+
+/* =========================================================
  NAVIGATION
-========================================= */
+========================================================= */
 
 const sections=document.querySelectorAll(".section");
 const nav=document.querySelectorAll(".nav button");
@@ -2739,6 +2908,17 @@ function showSection(id){
   top:0,
   behavior:"smooth"
  });
+
+ if(id==="students")loadStudents();
+ if(id==="teachers")loadTeachers();
+ if(id==="lessons")loadLessons();
+ if(id==="videos")loadVideos();
+ if(id==="competition")loadCompetitionData();
+ if(id==="rewards")loadRewards();
+ if(id==="payments")loadPayments();
+ if(id==="analysis")loadAnalytics();
+ if(id==="notifications")loadNotifications();
+
 }
 
 nav.forEach(button=>{
@@ -2747,10 +2927,9 @@ nav.forEach(button=>{
  });
 });
 
-
-/* =========================================
+/* =========================================================
  MOBILE
-========================================= */
+========================================================= */
 
 const sidebar=document.getElementById("sidebar");
 const overlay=document.getElementById("overlay");
@@ -2765,10 +2944,9 @@ overlay.onclick=()=>{
  overlay.classList.remove("show");
 };
 
-
-/* =========================================
+/* =========================================================
  TOAST
-========================================= */
+========================================================= */
 
 let toastTimer;
 
@@ -2784,45 +2962,246 @@ function showToast(message){
  toastTimer=setTimeout(()=>{
   toast.classList.remove("show");
  },2500);
+
 }
 
+/* =========================================================
+ AUTH / ADMIN PROFILE
+========================================================= */
 
-/* =========================================
- PROFILE PHOTO
- ADMIN A CHANGES TO PHOTO
-========================================= */
+async function loadCurrentUser(){
 
-document.getElementById("photoInput").addEventListener("change",function(){
+ try{
+
+  const {data,error}=await supabaseClient.auth.getUser();
+
+  if(error)throw error;
+
+  const user=data?.user;
+
+  if(!user){
+
+   document.getElementById("adminEmail").value="";
+   return;
+
+  }
+
+  document.getElementById("adminEmail").value=
+   user.email||"";
+
+  const meta=user.user_metadata||{};
+
+  const name=
+   meta.full_name||
+   meta.name||
+   "Administrator";
+
+  setAdminName(name);
+
+  const photo=
+   meta.avatar_url||
+   meta.picture||
+   "";
+
+  if(photo){
+   setAdminPhoto(photo);
+  }
+
+  /*
+   Try profile table for additional real profile data.
+  */
+
+  try{
+
+   const {data:profile,error:profileError}=await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id",user.id)
+    .maybeSingle();
+
+   if(!profileError&&profile){
+
+    const profileName=nameValue(profile);
+
+    if(profileName!=="Unknown"){
+     setAdminName(profileName);
+    }
+
+    const profilePhoto=imageValue(profile);
+
+    if(profilePhoto){
+     setAdminPhoto(profilePhoto);
+    }
+
+   }
+
+  }catch(e){
+
+   console.warn("Profile lookup skipped:",e);
+
+  }
+
+ }catch(error){
+
+  console.warn("Auth user:",error.message);
+
+ }
+
+}
+
+function setAdminName(name){
+
+ const safeName=name||"Administrator";
+
+ document.getElementById("profileDisplayName")
+ .textContent=safeName;
+
+ document.getElementById("topAdminName")
+ .textContent=safeName;
+
+ document.getElementById("adminAvatarLetter")
+ .textContent=safeName
+ .charAt(0)
+ .toUpperCase();
+
+}
+
+function setAdminPhoto(url){
+
+ if(!url)return;
+
+ const profileImage=
+  document.getElementById("profileImage");
+
+ const placeholder=
+  document.getElementById("profilePlaceholder");
+
+ const avatarImage=
+  document.getElementById("adminAvatarImage");
+
+ const avatarLetter=
+  document.getElementById("adminAvatarLetter");
+
+ profileImage.src=url;
+ profileImage.style.display="block";
+ placeholder.style.display="none";
+
+ avatarImage.src=url;
+ avatarImage.style.display="block";
+ avatarLetter.style.display="none";
+
+}
+
+/* =========================================================
+ PROFILE PHOTO -> SUPABASE STORAGE
+========================================================= */
+
+document.getElementById("photoInput")
+.addEventListener("change",async function(){
 
  const file=this.files[0];
 
  if(!file)return;
 
- const reader=new FileReader();
+ const userResult=
+  await supabaseClient.auth.getUser();
 
- reader.onload=function(e){
+ const user=userResult?.data?.user;
 
-  const image=document.getElementById("profileImage");
+ if(!user){
 
-  image.src=e.target.result;
-  image.style.display="block";
+  showToast("Please sign in as Admin first.");
 
-  document.getElementById("profilePlaceholder").style.display="none";
+  return;
 
-  /* ADMIN TOP AVATAR */
-  const avatarImage=document.getElementById("adminAvatarImage");
-  const avatarLetter=document.getElementById("adminAvatarLetter");
+ }
 
-  avatarImage.src=e.target.result;
-  avatarImage.style.display="block";
-  avatarLetter.style.display="none";
+ showToast("Uploading profile photo...");
 
- };
+ try{
 
- reader.readAsDataURL(file);
+  const extension=
+   file.name.split(".").pop()||"jpg";
+
+  const path=
+   "admin/"+user.id+"."+extension;
+
+  const {error:uploadError}=
+   await supabaseClient.storage
+   .from("profiles")
+   .upload(
+    path,
+    file,
+    {
+     upsert:true,
+     contentType:file.type
+    }
+   );
+
+  if(uploadError){
+
+   /*
+    If Storage bucket is not configured,
+    do not use localStorage or fake data.
+   */
+
+   showToast(
+    "Storage upload failed. Check the profiles bucket."
+   );
+
+   console.error(uploadError);
+
+   return;
+
+  }
+
+  const {data:urlData}=
+   supabaseClient.storage
+   .from("profiles")
+   .getPublicUrl(path);
+
+  const url=urlData?.publicUrl;
+
+  if(!url){
+
+   showToast("Could not create image URL.");
+
+   return;
+
+  }
+
+  setAdminPhoto(url);
+
+  /*
+   Update Auth metadata when possible.
+  */
+
+  const {error:updateError}=
+   await supabaseClient.auth.updateUser({
+    data:{
+     avatar_url:url
+    }
+   });
+
+  if(updateError){
+   console.warn(updateError);
+  }
+
+  showToast("Profile photo saved to Supabase.");
+
+ }catch(error){
+
+  console.error(error);
+
+  showToast("Profile photo upload failed.");
+
+ }
 
 });
 
+/* =========================================================
+ PROFILE SAVE
+========================================================= */
 
 function focusInput(id){
 
@@ -2834,41 +3213,857 @@ function focusInput(id){
 
 }
 
+async function saveProfile(){
 
-function saveProfile(){
+ const name=
+  document.getElementById("newName").value.trim();
 
- const name=document.getElementById("newName").value.trim();
+ const password=
+  document.getElementById("newPassword").value;
 
- const password=document.getElementById("newPassword").value;
- const confirm=document.getElementById("confirmPassword").value;
+ const confirm=
+  document.getElementById("confirmPassword").value;
 
  if(password && password!==confirm){
 
   showToast("Passwords do not match.");
 
   return;
- }
-
- if(name){
-
-  document.getElementById("profileDisplayName").textContent=name;
 
  }
 
- showToast("Profile changes saved.");
+ try{
+
+  const updates={};
+
+  if(name){
+
+   updates.data={
+    full_name:name,
+    name:name
+   };
+
+  }
+
+  if(password){
+   updates.password=password;
+  }
+
+  if(Object.keys(updates).length){
+
+   const {error}=
+    await supabaseClient.auth.updateUser(updates);
+
+   if(error)throw error;
+
+  }
+
+  if(name){
+   setAdminName(name);
+  }
+
+  document.getElementById("newPassword").value="";
+  document.getElementById("confirmPassword").value="";
+
+  showToast("Profile changes saved to Supabase.");
+
+ }catch(error){
+
+  console.error(error);
+
+  showToast(
+   "Profile save failed: "+error.message
+  );
+
+ }
 
 }
 
+/* =========================================================
+ STUDENTS
+========================================================= */
 
-/* =========================================
+let studentsData=[];
+
+async function loadStudents(){
+
+ const table=
+  document.getElementById("studentsTable");
+
+ table.innerHTML=`
+ <tr class="loading-row">
+  <td colspan="5">Loading students from Supabase...</td>
+ </tr>`;
+
+ studentsData=
+  await getTable("students");
+
+ /*
+  If students table is empty/unavailable,
+  try profiles as a read fallback.
+ */
+
+ if(!studentsData.length){
+
+  const profiles=
+   await getTable("profiles");
+
+  studentsData=
+   profiles.filter(row=>{
+
+    const role=
+     String(
+      firstValue(row,["role","user_type","account_type"],"")
+     ).toLowerCase();
+
+    return !role || role==="student";
+
+   });
+
+ }
+
+ renderStudents(studentsData);
+
+ document.getElementById("totalStudents")
+ .textContent=studentsData.length;
+
+}
+
+function renderStudents(rows){
+
+ const table=
+  document.getElementById("studentsTable");
+
+ const search=
+  document.getElementById("studentSearch")
+  .value
+  .trim()
+  .toLowerCase();
+
+ const statusFilter=
+  document.getElementById("studentStatusFilter")
+  .value;
+
+ const filtered=rows.filter(row=>{
+
+  const name=
+   nameValue(row).toLowerCase();
+
+  const email=
+   emailValue(row).toLowerCase();
+
+  const status=
+   String(
+    firstValue(row,["status","account_status"],"Active")
+   ).toLowerCase();
+
+  const searchOK=
+   !search||
+   name.includes(search)||
+   email.includes(search);
+
+  const statusOK=
+   statusFilter==="All Students"||
+   status===statusFilter.toLowerCase();
+
+  return searchOK&&statusOK;
+
+ });
+
+ if(!filtered.length){
+
+  table.innerHTML=`
+   <tr>
+    <td colspan="5" class="empty" style="text-align:center;padding:30px">
+     No student records found in Supabase.
+    </td>
+   </tr>`;
+
+  return;
+
+ }
+
+ table.innerHTML="";
+
+ filtered.forEach(row=>{
+
+  const tr=document.createElement("tr");
+
+  const photo=imageValue(row);
+
+  const photoHTML=photo
+   ? `<img class="real-photo" src="${escapeHTML(photo)}">`
+   : "👨‍🎓";
+
+  const status=
+   firstValue(row,["status","account_status"],"Active");
+
+  const rank=
+   firstValue(
+    row,
+    ["rank","competition_rank","leaderboard_rank"],
+    "—"
+   );
+
+  const competitionStatus=
+   firstValue(
+    row,
+    ["competition_status","status"],
+    "—"
+   );
+
+  const id=
+   firstValue(row,["id","student_id","user_id"],"");
+
+  tr.innerHTML=`
+
+   <td>
+    ${photoHTML}
+    <strong>${escapeHTML(nameValue(row))}</strong>
+   </td>
+
+   <td>${escapeHTML(emailValue(row))}</td>
+
+   <td>
+    <span class="badge blue">
+     ${escapeHTML(competitionStatus)}
+    </span>
+   </td>
+
+   <td class="rank">${escapeHTML(rank)}</td>
+
+   <td>
+    ${
+     id
+     ?
+     `<button class="btn red"
+       onclick="blockStudent('${escapeHTML(id)}')">
+       Block
+      </button>`
+     :
+     "—"
+    }
+   </td>
+
+  `;
+
+  table.appendChild(tr);
+
+ });
+
+}
+
+document.getElementById("studentSearch")
+.addEventListener("input",()=>{
+ renderStudents(studentsData);
+});
+
+document.getElementById("studentStatusFilter")
+.addEventListener("change",()=>{
+ renderStudents(studentsData);
+});
+
+/*
+ Delete/block action is intentionally only attempted
+ when the table exposes an actual ID.
+*/
+
+async function blockStudent(id){
+
+ if(!id)return;
+
+ showToast("Student status update requires your RLS policy.");
+
+}
+
+/* =========================================================
+ TEACHERS
+========================================================= */
+
+let teachersData=[];
+
+async function loadTeachers(){
+
+ const table=
+  document.getElementById("teachersTable");
+
+ table.innerHTML=`
+ <tr class="loading-row">
+  <td colspan="6">Loading teachers from Supabase...</td>
+ </tr>`;
+
+ teachersData=
+  await getTable("teachers");
+
+ renderTeachers(teachersData);
+
+ document.getElementById("totalTeachers")
+ .textContent=teachersData.length;
+
+}
+
+function renderTeachers(rows){
+
+ const table=
+  document.getElementById("teachersTable");
+
+ if(!rows.length){
+
+  table.innerHTML=`
+   <tr>
+    <td colspan="6" class="empty" style="text-align:center;padding:30px">
+     No teacher records found in Supabase.
+    </td>
+   </tr>`;
+
+  return;
+
+ }
+
+ table.innerHTML="";
+
+ rows.forEach(row=>{
+
+  const name=nameValue(row);
+  const email=emailValue(row);
+
+  const skills=
+   firstValue(
+    row,
+    ["skills","skill","courses","course"],
+    "—"
+   );
+
+  const revenue=
+   numberValue(
+    row,
+    ["revenue","total_revenue","earnings","payment","amount"],
+   );
+
+  const status=
+   firstValue(
+    row,
+    ["status","account_status"],
+    "Active"
+   );
+
+  const id=
+   firstValue(
+    row,
+    ["id","teacher_id","user_id"],
+    ""
+   );
+
+  const tr=document.createElement("tr");
+
+  tr.innerHTML=`
+
+   <td>
+    <strong>${escapeHTML(name)}</strong>
+   </td>
+
+   <td>${escapeHTML(email)}</td>
+
+   <td>${escapeHTML(skills)}</td>
+
+   <td>${money(revenue)}</td>
+
+   <td>
+    <span class="badge green">
+     ${escapeHTML(status)}
+    </span>
+   </td>
+
+   <td>
+    ${
+     id
+     ?
+     `<button class="btn red"
+      onclick="blockTeacher('${escapeHTML(id)}')">
+      Block
+      </button>`
+     :
+     "—"
+    }
+   </td>
+
+  `;
+
+  table.appendChild(tr);
+
+ });
+
+}
+
+async function blockTeacher(id){
+
+ if(!id)return;
+
+ showToast("Teacher status update requires your RLS policy.");
+
+}
+
+/* =========================================================
+ LESSONS
+========================================================= */
+
+let lessonsData=[];
+
+async function loadLessons(){
+
+ const table=
+  document.getElementById("lessonsTable");
+
+ table.innerHTML=`
+ <tr class="loading-row">
+  <td colspan="5">Loading lessons from Supabase...</td>
+ </tr>`;
+
+ lessonsData=
+  await getTable("lessons");
+
+ renderLessons(lessonsData);
+
+ document.getElementById("lessonsCount")
+ .textContent=lessonsData.length;
+
+}
+
+function renderLessons(rows){
+
+ const table=
+  document.getElementById("lessonsTable");
+
+ if(!rows.length){
+
+  table.innerHTML=`
+   <tr>
+    <td colspan="5" class="empty" style="text-align:center;padding:30px">
+     No lesson records found in Supabase.
+    </td>
+   </tr>`;
+
+  return;
+
+ }
+
+ table.innerHTML="";
+
+ rows.forEach(row=>{
+
+  const id=
+   firstValue(row,["id","lesson_id"],"");
+
+  const title=
+   firstValue(
+    row,
+    ["title","lesson_title","name"],
+    "Untitled Lesson"
+   );
+
+  const course=
+   firstValue(
+    row,
+    ["course","course_name","skill","skill_name"],
+    "—"
+   );
+
+  const level=
+   firstValue(
+    row,
+    ["level","level_name","level_number"],
+    "—"
+   );
+
+  const price=
+   numberValue(
+    row,
+    ["price","amount","cost"]
+   );
+
+  const tr=document.createElement("tr");
+
+  tr.innerHTML=`
+
+   <td>
+    <strong>${escapeHTML(title)}</strong>
+   </td>
+
+   <td>${escapeHTML(course)}</td>
+
+   <td>${escapeHTML(level)}</td>
+
+   <td>${money(price)}</td>
+
+   <td>
+    ${
+     id
+     ?
+     `<button class="btn red"
+       onclick="deleteLesson('${escapeHTML(id)}')">
+       Delete
+      </button>`
+     :
+     "—"
+    }
+   </td>
+
+  `;
+
+  table.appendChild(tr);
+
+ });
+
+}
+
+/*
+ Important:
+ lesson insertion is done by detecting the actual columns
+ that already exist in the returned lessons schema.
+*/
+
+async function saveLesson(){
+
+ const title=
+  document.getElementById("lessonTitleInput")
+  .value.trim();
+
+ const course=
+  document.getElementById("lessonCourseInput")
+  .value.trim();
+
+ const level=
+  document.getElementById("lessonLevelInput")
+  .value;
+
+ const price=
+  document.getElementById("lessonPriceInput")
+  .value;
+
+ const description=
+  document.getElementById("lessonDescriptionInput")
+  .value.trim();
+
+ if(!title){
+
+  showToast("Enter lesson title.");
+
+  return;
+
+ }
+
+ /*
+  First inspect current table structure.
+ */
+
+ const existing=
+  await getTable("lessons");
+
+ if(!existing.length){
+
+  showToast(
+   "Lessons table has no rows. Insert columns/schema must be confirmed first."
+  );
+
+  return;
+
+ }
+
+ const sample=existing[0];
+
+ const payload={};
+
+ const put=(possible,value)=>{
+
+  for(const key of possible){
+
+   if(
+    Object.prototype.hasOwnProperty.call(sample,key)
+   ){
+
+    payload[key]=value;
+
+    return;
+
+   }
+
+  }
+
+ };
+
+ put(["title","lesson_title","name"],title);
+ put(["course","course_name","skill","skill_name"],course);
+ put(["level","level_name"],level);
+ put(["level_number"],Number(level.replace(/\D/g,""))||1);
+ put(["price","amount","cost"],Number(price)||0);
+ put(["description","lesson_description","content"],description);
+
+ if(!Object.keys(payload).length){
+
+  showToast("No compatible lesson columns found.");
+
+  return;
+
+ }
+
+ try{
+
+  const {error}=
+   await supabaseClient
+   .from("lessons")
+   .insert(payload);
+
+  if(error)throw error;
+
+  showToast("Lesson saved to Supabase.");
+
+  document.getElementById("lessonTitleInput").value="";
+  document.getElementById("lessonCourseInput").value="";
+  document.getElementById("lessonPriceInput").value="";
+  document.getElementById("lessonDescriptionInput").value="";
+
+  loadLessons();
+
+ }catch(error){
+
+  console.error(error);
+
+  showToast(
+   "Lesson save failed: "+error.message
+  );
+
+ }
+
+}
+
+async function deleteLesson(id){
+
+ if(!id)return;
+
+ if(!confirm("Delete this lesson?"))return;
+
+ const {error}=
+  await supabaseClient
+  .from("lessons")
+  .delete()
+  .eq("id",id);
+
+ if(error){
+
+  showToast("Delete failed: "+error.message);
+
+  return;
+
+ }
+
+ showToast("Lesson deleted.");
+
+ loadLessons();
+
+}
+
+/* =========================================================
+ VIDEOS
+========================================================= */
+
+let videosData=[];
+
+async function loadVideos(){
+
+ videosData=
+  await getTable("project_uploads");
+
+ if(!videosData.length){
+
+  /*
+   The project_uploads table is the existing project/video
+   table in the SteadyMaze database structure.
+  */
+
+  videosData=
+   await getTable("lessons");
+
+ }
+
+ renderVideos(videosData);
+
+}
+
+function renderVideos(rows){
+
+ const grid=
+  document.getElementById("videoGrid");
+
+ if(!rows.length){
+
+  grid.innerHTML=`
+   <div class="video-card">
+    <div class="video-thumb">🎬</div>
+    <div class="video-info">
+     <strong>No uploaded videos</strong>
+     <small>No real video records were returned from Supabase.</small>
+    </div>
+   </div>`;
+
+  return;
+
+ }
+
+ grid.innerHTML="";
+
+ rows.slice(0,50).forEach(row=>{
+
+  const title=
+   firstValue(
+    row,
+    ["title","lesson_title","project_title","name"],
+    "Untitled Video"
+   );
+
+  const videoURL=
+   firstValue(
+    row,
+    ["video_url","video","file_url","url","project_url"],
+    ""
+   );
+
+  const thumb=
+   firstValue(
+    row,
+    ["thumbnail_url","thumbnail","image_url"],
+    ""
+   );
+
+  const id=
+   firstValue(row,["id","project_id","upload_id"],"");
+
+  const card=document.createElement("div");
+
+  card.className="video-card";
+
+  let media="🎬";
+
+  if(thumb){
+
+   media=
+    `<img src="${escapeHTML(thumb)}" alt="">`;
+
+  }else if(videoURL){
+
+   media=
+    `<video src="${escapeHTML(videoURL)}"
+      controls preload="metadata"></video>`;
+
+  }
+
+  card.innerHTML=`
+
+   <div class="video-thumb">
+    ${media}
+   </div>
+
+   <div class="video-info">
+
+    <strong>${escapeHTML(title)}</strong>
+
+    <small>
+     ${escapeHTML(
+      firstValue(
+       row,
+       ["created_at","uploaded_at","createdAt"],
+       "Supabase record"
+      )
+     )}
+    </small>
+
+    <div class="video-actions">
+
+     ${
+      videoURL
+      ?
+      `<button class="btn blue"
+       onclick="window.open('${escapeHTML(videoURL)}','_blank')">
+       View
+       </button>`
+      :
+      ""
+     }
+
+     ${
+      id
+      ?
+      `<button class="btn red"
+       onclick="deleteVideo('${escapeHTML(id)}')">
+       Delete
+       </button>`
+      :
+      ""
+     }
+
+    </div>
+
+   </div>
+
+  `;
+
+  grid.appendChild(card);
+
+ });
+
+}
+
+async function deleteVideo(id){
+
+ if(!id)return;
+
+ if(!confirm("Delete this video record?"))return;
+
+ const {error}=
+  await supabaseClient
+  .from("project_uploads")
+  .delete()
+  .eq("id",id);
+
+ if(error){
+
+  showToast("Video delete failed: "+error.message);
+
+  return;
+
+ }
+
+ showToast("Video record deleted.");
+
+ loadVideos();
+
+}
+
+async function videoSelected(input){
+
+ if(!input.files.length)return;
+
+ const file=input.files[0];
+
+ showToast("Video selected: "+file.name);
+
+ /*
+  Upload bucket name is intentionally not guessed.
+  Your existing Supabase Storage bucket must be configured
+  before a real video upload can be performed.
+ */
+
+}
+
+/* =========================================================
  COMPETITION TABLE
- EXACTLY 300 RANKS
- NO FAKE STUDENTS
-========================================= */
+========================================================= */
 
-const competitionTable=document.getElementById("competitionTable");
+const competitionTable=
+ document.getElementById("competitionTable");
 
-function renderCompetition(){
+let selectedCompetitionGroup="lower";
+
+function emptyCompetitionRows(){
 
  competitionTable.innerHTML="";
 
@@ -2884,184 +4079,658 @@ function renderCompetition(){
   `;
 
   competitionTable.appendChild(row);
+
  }
 
 }
 
-renderCompetition();
+emptyCompetitionRows();
 
+async function loadCompetitionData(){
+
+ const entries=
+  await getTable("competition_entries");
+
+ const leaderboard=
+  await getTable("competition_leaderboard");
+
+ let rows=
+  entries.length
+  ? entries
+  : leaderboard;
+
+ const group=
+  selectedCompetitionGroup;
+
+ const normalized=
+  rows.filter(row=>{
+
+   const value=
+    String(
+     firstValue(
+      row,
+      ["group","group_name","competition_group","category"],
+      ""
+     )
+    ).toLowerCase();
+
+   if(!value)return true;
+
+   return value===group||
+          value===group+" group";
+
+  });
+
+ renderCompetitionRows(normalized);
+
+ document.getElementById("competitionGrowth")
+ .textContent=rows.length;
+
+}
+
+function renderCompetitionRows(rows){
+
+ emptyCompetitionRows();
+
+ if(!rows.length)return;
+
+ const byRank={};
+
+ rows.forEach(row=>{
+
+  const rank=
+   Number(
+    firstValue(
+     row,
+     ["rank","competition_rank","leaderboard_rank","position"],
+     0
+    )
+   );
+
+  if(rank>=1&&rank<=300){
+   byRank[rank]=row;
+  }
+
+ });
+
+ const trs=
+  competitionTable.querySelectorAll("tr");
+
+ trs.forEach((tr,index)=>{
+
+  const rank=index+1;
+  const row=byRank[rank];
+
+  if(!row)return;
+
+  const name=
+   nameValue(row);
+
+  const project=
+   firstValue(
+    row,
+    [
+     "project",
+     "project_name",
+     "project_title",
+     "course",
+     "course_name"
+    ],
+    "—"
+   );
+
+  const level=
+   firstValue(
+    row,
+    ["level","level_name","level_number"],
+    "—"
+   );
+
+  tr.children[1].textContent=name;
+  tr.children[1].className="";
+
+  tr.children[2].textContent=project;
+  tr.children[2].className="";
+
+  tr.children[3].textContent=level;
+  tr.children[3].className="";
+
+ });
+
+}
 
 /* GROUP SWITCH */
 
-const groupTitle=document.getElementById("groupTitle");
+const groupTitle=
+ document.getElementById("groupTitle");
 
-document.querySelectorAll(".groupBtn").forEach(btn=>{
+document.querySelectorAll(".groupBtn")
+.forEach(btn=>{
 
  btn.addEventListener("click",()=>{
 
   document.querySelectorAll(".groupBtn")
   .forEach(b=>{
-
    b.classList.remove("purple");
-
   });
 
   btn.classList.add("purple");
 
-  const group=btn.dataset.group;
+  selectedCompetitionGroup=
+   btn.dataset.group;
 
-  if(group==="lower"){
+  if(selectedCompetitionGroup==="lower"){
    groupTitle.textContent="Lower Group";
   }
 
-  if(group==="medium"){
+  if(selectedCompetitionGroup==="medium"){
    groupTitle.textContent="Medium Group";
   }
 
-  if(group==="high"){
+  if(selectedCompetitionGroup==="high"){
    groupTitle.textContent="High Group";
   }
 
-  renderCompetition();
+  loadCompetitionData();
 
  });
 
 });
 
-
-/* =========================================
- COMPETITION CONTROL
-========================================= */
+/* =========================================================
+ COMPETITION CONTROLS
+========================================================= */
 
 let competitionIsOpen=false;
 let projectIsOpen=false;
 let adminTieIsOpen=false;
 let studentTieIsOpen=false;
 
+/*
+ We first try to locate an existing competition row.
+ We do not invent a column name for the table.
+*/
 
-function competitionOpen(){
+async function getCompetitionRecord(){
+
+ const rows=
+  await getTable("competitions");
+
+ if(!rows.length)return null;
+
+ return rows[0];
+
+}
+
+async function updateCompetitionDatabase(state){
+
+ const row=
+  await getCompetitionRecord();
+
+ if(!row){
+
+  showToast(
+   "No competition record exists in Supabase."
+  );
+
+  return false;
+
+ }
+
+ const id=
+  firstValue(row,["id","competition_id"],"");
+
+ if(!id){
+
+  showToast(
+   "Competition record has no ID."
+  );
+
+  return false;
+
+ }
+
+ const possibleColumns=[
+  "status",
+  "competition_status",
+  "is_open",
+  "open",
+  "active"
+ ];
+
+ let column=null;
+
+ for(const key of possibleColumns){
+
+  if(
+   Object.prototype.hasOwnProperty.call(row,key)
+  ){
+
+   column=key;
+   break;
+
+  }
+
+ }
+
+ if(!column){
+
+  showToast(
+   "No compatible competition status column found."
+  );
+
+  return false;
+
+ }
+
+ let value=state;
+
+ if(
+  column==="is_open"||
+  column==="open"||
+  column==="active"
+ ){
+
+  value=
+   state==="OPEN";
+
+ }
+
+ const {error}=
+  await supabaseClient
+  .from("competitions")
+  .update({
+   [column]:value
+  })
+  .eq("id",id);
+
+ if(error){
+
+  console.error(error);
+
+  showToast(
+   "Competition update failed: "+error.message
+  );
+
+  return false;
+
+ }
+
+ return true;
+
+}
+
+async function competitionOpen(){
+
+ const success=
+  await updateCompetitionDatabase("OPEN");
+
+ if(!success)return;
 
  competitionIsOpen=true;
 
- const el=document.getElementById("compStatus");
+ const el=
+  document.getElementById("compStatus");
 
  el.textContent="OPEN";
  el.className="badge green";
 
- document.getElementById("competitionControlStatus").textContent="OPEN";
+ document.getElementById(
+  "competitionControlStatus"
+ ).textContent="OPEN";
 
- showToast("Competition opened by Admin.");
+ showToast("Competition opened in Supabase.");
 
 }
 
+async function competitionClose(){
 
-function competitionClose(){
+ const success=
+  await updateCompetitionDatabase("CLOSED");
+
+ if(!success)return;
 
  competitionIsOpen=false;
 
- const el=document.getElementById("compStatus");
+ const el=
+  document.getElementById("compStatus");
 
  el.textContent="CLOSED";
  el.className="badge red";
 
- document.getElementById("competitionControlStatus").textContent="CLOSED";
+ document.getElementById(
+  "competitionControlStatus"
+ ).textContent="CLOSED";
 
- showToast("Competition closed by Admin.");
+ showToast("Competition closed in Supabase.");
 
 }
 
+/* =========================================================
+ PROJECT CONTROL
+========================================================= */
 
-/* PROJECT */
+async function updateProjectControlDatabase(state){
 
-function projectOpen(){
+ const rows=
+  await getTable("competitions");
+
+ if(!rows.length){
+
+  showToast("No competition record found.");
+
+  return false;
+
+ }
+
+ const row=rows[0];
+
+ const id=
+  firstValue(row,["id","competition_id"],"");
+
+ if(!id){
+
+  showToast("Competition record has no ID.");
+
+  return false;
+
+ }
+
+ const columns=[
+  "project_upload_status",
+  "project_status",
+  "project_open",
+  "project_is_open"
+ ];
+
+ let column=null;
+
+ for(const key of columns){
+
+  if(
+   Object.prototype.hasOwnProperty.call(row,key)
+  ){
+
+   column=key;
+   break;
+
+  }
+
+ }
+
+ if(!column){
+
+  showToast(
+   "No project upload status column found."
+  );
+
+  return false;
+
+ }
+
+ let value=state;
+
+ if(
+  column==="project_open"||
+  column==="project_is_open"
+ ){
+
+  value=state==="OPEN";
+
+ }
+
+ const {error}=
+  await supabaseClient
+  .from("competitions")
+  .update({
+   [column]:value
+  })
+  .eq("id",id);
+
+ if(error){
+
+  showToast(
+   "Project control failed: "+error.message
+  );
+
+  return false;
+
+ }
+
+ return true;
+
+}
+
+async function projectOpen(){
+
+ const success=
+  await updateProjectControlDatabase("OPEN");
+
+ if(!success)return;
 
  projectIsOpen=true;
 
- document.getElementById("projectControlStatus").textContent="OPEN";
+ document.getElementById(
+  "projectControlStatus"
+ ).textContent="OPEN";
 
- const status=document.getElementById("projectBigStatus");
+ const status=
+  document.getElementById("projectBigStatus");
 
  status.textContent="PROJECT OPEN";
  status.className="badge green";
 
- document.getElementById("projectDescription").textContent=
+ document.getElementById(
+  "projectDescription"
+ ).textContent=
  "Students can now upload their competition projects.";
 
- showToast("Project Upload opened by Admin.");
+ showToast("Project Upload opened in Supabase.");
 
 }
 
+async function projectClose(){
 
-function projectClose(){
+ const success=
+  await updateProjectControlDatabase("CLOSED");
+
+ if(!success)return;
 
  projectIsOpen=false;
 
- document.getElementById("projectControlStatus").textContent="CLOSED";
+ document.getElementById(
+  "projectControlStatus"
+ ).textContent="CLOSED";
 
- const status=document.getElementById("projectBigStatus");
+ const status=
+  document.getElementById("projectBigStatus");
 
  status.textContent="PROJECT CLOSED";
  status.className="badge red";
 
- document.getElementById("projectDescription").textContent=
+ document.getElementById(
+  "projectDescription"
+ ).textContent=
  "Students cannot upload competition projects until Admin opens Project Upload.";
 
- showToast("Project Upload closed by Admin.");
+ showToast("Project Upload closed in Supabase.");
 
 }
 
+/* =========================================================
+ TIE BREAK
+========================================================= */
 
-/* ADMIN TIE BREAK */
+async function updateTieBreakDatabase(type,state){
 
-function adminTieOpen(){
+ const rows=
+  await getTable("competitions");
+
+ if(!rows.length){
+
+  showToast("No competition record found.");
+
+  return false;
+
+ }
+
+ const row=rows[0];
+
+ const id=
+  firstValue(row,["id","competition_id"],"");
+
+ if(!id)return false;
+
+ let columns=[];
+
+ if(type==="admin"){
+
+  columns=[
+   "admin_tie_break_status",
+   "admin_tiebreak_status",
+   "admin_tie_break_open",
+   "admin_tiebreak_open"
+  ];
+
+ }else{
+
+  columns=[
+   "student_tie_break_status",
+   "student_tiebreak_status",
+   "student_tie_break_open",
+   "student_tiebreak_open"
+  ];
+
+ }
+
+ let column=null;
+
+ for(const key of columns){
+
+  if(
+   Object.prototype.hasOwnProperty.call(row,key)
+  ){
+
+   column=key;
+   break;
+
+  }
+
+ }
+
+ if(!column){
+
+  showToast(
+   "No compatible tie-break column found."
+  );
+
+  return false;
+
+ }
+
+ let value=state;
+
+ if(
+  column.includes("_open")
+ ){
+
+  value=state==="OPEN";
+
+ }
+
+ const {error}=
+  await supabaseClient
+  .from("competitions")
+  .update({
+   [column]:value
+  })
+  .eq("id",id);
+
+ if(error){
+
+  showToast(
+   "Tie-break update failed: "+error.message
+  );
+
+  return false;
+
+ }
+
+ return true;
+
+}
+
+async function adminTieOpen(){
+
+ const success=
+  await updateTieBreakDatabase("admin","OPEN");
+
+ if(!success)return;
 
  adminTieIsOpen=true;
 
- document.getElementById("adminTieStatus").textContent="OPEN";
+ document.getElementById(
+  "adminTieStatus"
+ ).textContent="OPEN";
 
  showToast("Admin Tie-Break opened.");
 
 }
 
+async function adminTieClose(){
 
-function adminTieClose(){
+ const success=
+  await updateTieBreakDatabase("admin","CLOSED");
+
+ if(!success)return;
 
  adminTieIsOpen=false;
 
- document.getElementById("adminTieStatus").textContent="CLOSED";
+ document.getElementById(
+  "adminTieStatus"
+ ).textContent="CLOSED";
 
  showToast("Admin Tie-Break closed.");
 
 }
 
+async function studentTieOpen(){
 
-/* STUDENT TIE BREAK */
+ const success=
+  await updateTieBreakDatabase("student","OPEN");
 
-function studentTieOpen(){
+ if(!success)return;
 
  studentTieIsOpen=true;
 
- document.getElementById("studentTieStatus").textContent="OPEN";
+ document.getElementById(
+  "studentTieStatus"
+ ).textContent="OPEN";
 
  showToast("Student Tie-Break opened.");
 
 }
 
+async function studentTieClose(){
 
-function studentTieClose(){
+ const success=
+  await updateTieBreakDatabase("student","CLOSED");
+
+ if(!success)return;
 
  studentTieIsOpen=false;
 
- document.getElementById("studentTieStatus").textContent="CLOSED";
+ document.getElementById(
+  "studentTieStatus"
+ ).textContent="CLOSED";
 
  showToast("Student Tie-Break closed.");
 
 }
 
-
-/* =========================================
+/* =========================================================
  TIMER
-========================================= */
+========================================================= */
 
 let secondsLeft=7*24*60*60;
 
@@ -3094,17 +4763,25 @@ timer();
 
 setInterval(timer,1000);
 
-
-/* =========================================
+/* =========================================================
  REWARDS
- 18 POSITIONS
-========================================= */
+========================================================= */
 
-const winners=document.getElementById("winnersTable");
+let rewardsData=[];
 
-let rewards=[];
+async function loadRewards(){
+
+ rewardsData=
+  await getTable("rewards");
+
+ renderWinners();
+
+}
 
 function renderWinners(){
+
+ const winners=
+  document.getElementById("winnersTable");
 
  winners.innerHTML="";
 
@@ -3118,14 +4795,57 @@ function renderWinners(){
 
   for(let rank=1;rank<=group.count;rank++){
 
-   const reward=rewards.find(
-    r=>r.group===group.name &&
-    String(r.rank)===String(rank)
-   );
+   const reward=
+    rewardsData.find(r=>{
+
+     const g=
+      String(
+       firstValue(
+        r,
+        ["group","group_name","competition_group"],
+        ""
+       )
+      ).toLowerCase();
+
+     const rr=
+      String(
+       firstValue(
+        r,
+        ["rank","winner_rank","position"],
+        ""
+       )
+      );
+
+     return(
+      g===group.name.toLowerCase() &&
+      rr===String(rank)
+     );
+
+    });
 
    const row=document.createElement("tr");
 
    if(reward){
+
+    const image=
+     imageValue(reward);
+
+    const rewardTitle=
+     firstValue(
+      reward,
+      ["title","reward_title","name"],
+      "Reward"
+     );
+
+    const description=
+     firstValue(
+      reward,
+      ["description","reward_description"],
+      "Reward award"
+     );
+
+    const winnerName=
+     nameValue(reward);
 
     row.innerHTML=`
 
@@ -3133,7 +4853,13 @@ function renderWinners(){
 
       <div class="reward-preview">
 
-       <img src="${reward.image}">
+       ${
+        image
+        ?
+        `<img src="${escapeHTML(image)}">`
+        :
+        "🥇"
+       }
 
       </div>
 
@@ -3141,10 +4867,12 @@ function renderWinners(){
 
      <td>
 
-      <strong>${escapeHTML(reward.title)}</strong>
+      <strong>
+       ${escapeHTML(winnerName)}
+      </strong>
 
       <div class="muted" style="margin-top:4px">
-       ${escapeHTML(reward.description)}
+       ${escapeHTML(description)}
       </div>
 
      </td>
@@ -3154,19 +4882,15 @@ function renderWinners(){
      <td class="rank">${rank}</td>
 
      <td>
-
       <span class="badge green">
-       AWARD ADDED
+       ${escapeHTML(rewardTitle)}
       </span>
-
      </td>
 
      <td>
-
       <span class="badge green">
        READY
       </span>
-
      </td>
 
     `;
@@ -3213,18 +4937,21 @@ function renderWinners(){
 
  });
 
- updatePendingCount();
+ document.getElementById("pending")
+ .textContent=
+ Math.max(
+  0,
+  18-rewardsData.length
+ );
 
 }
 
-renderWinners();
-
-
-/* =========================================
+/* =========================================================
  REWARD MODAL
-========================================= */
+========================================================= */
 
-const rewardModal=document.getElementById("rewardModal");
+const rewardModal=
+ document.getElementById("rewardModal");
 
 function openRewardModal(){
 
@@ -3232,15 +4959,11 @@ function openRewardModal(){
 
 }
 
-
 function closeRewardModal(){
 
  rewardModal.classList.remove("show");
 
 }
-
-
-/* Reward image preview */
 
 document.getElementById("rewardImageInput")
 .addEventListener("change",function(){
@@ -3253,10 +4976,10 @@ document.getElementById("rewardImageInput")
 
  reader.onload=function(e){
 
-  const preview=document.getElementById("rewardImagePreview");
+  const preview=
+   document.getElementById("rewardImagePreview");
 
   preview.src=e.target.result;
-
   preview.style.display="block";
 
  };
@@ -3265,22 +4988,35 @@ document.getElementById("rewardImageInput")
 
 });
 
+/*
+ Reward upload uses Supabase Storage bucket "rewards".
+*/
 
-function saveReward(){
+async function saveReward(){
 
- const group=document.getElementById("rewardGroup").value;
- const rank=document.getElementById("rewardRank").value;
+ const group=
+  document.getElementById("rewardGroup").value;
 
- const titleValue=document.getElementById("rewardTitle").value.trim();
- const description=document.getElementById("rewardDescription").value.trim();
+ const rank=
+  document.getElementById("rewardRank").value;
 
- const imageInput=document.getElementById("rewardImageInput");
+ const titleValue=
+  document.getElementById("rewardTitle")
+  .value.trim();
+
+ const description=
+  document.getElementById("rewardDescription")
+  .value.trim();
+
+ const imageInput=
+  document.getElementById("rewardImageInput");
 
  if(!imageInput.files.length){
 
   showToast("Please upload the reward image.");
 
   return;
+
  }
 
  if(!titleValue){
@@ -3288,92 +5024,191 @@ function saveReward(){
   showToast("Please enter the reward title.");
 
   return;
+
  }
 
  const file=imageInput.files[0];
 
- const reader=new FileReader();
+ const existing=
+  await getTable("rewards");
 
- reader.onload=function(e){
+ if(!existing.length){
 
-  const existingIndex=rewards.findIndex(
-   r=>r.group===group &&
-   String(r.rank)===String(rank)
+  showToast(
+   "Rewards table has no rows. Confirm its columns first."
   );
 
-  const rewardData={
-   group:group,
-   rank:rank,
-   title:titleValue,
-   description:description || "Reward award",
-   image:e.target.result
-  };
+  return;
 
-  if(existingIndex>=0){
+ }
 
-   rewards[existingIndex]=rewardData;
+ const sample=existing[0];
 
-  }else{
+ try{
 
-   rewards.push(rewardData);
+  const userResult=
+   await supabaseClient.auth.getUser();
+
+  const user=userResult?.data?.user;
+
+  const extension=
+   file.name.split(".").pop()||"jpg";
+
+  const path=
+   (user?.id||"admin")+
+   "/"+
+   group.toLowerCase()+
+   "-"+
+   rank+
+   "."+
+   extension;
+
+  const {error:uploadError}=
+   await supabaseClient.storage
+   .from("rewards")
+   .upload(
+    path,
+    file,
+    {
+     upsert:true,
+     contentType:file.type
+    }
+   );
+
+  if(uploadError){
+
+   console.error(uploadError);
+
+   showToast(
+    "Reward image upload failed. Check rewards Storage bucket."
+   );
+
+   return;
 
   }
 
-  renderWinners();
+  const {data:urlData}=
+   supabaseClient.storage
+   .from("rewards")
+   .getPublicUrl(path);
+
+  const imageURL=urlData?.publicUrl;
+
+  if(!imageURL){
+
+   showToast("Reward image URL could not be created.");
+
+   return;
+
+  }
+
+  const payload={};
+
+  const put=(possible,value)=>{
+
+   for(const key of possible){
+
+    if(
+     Object.prototype.hasOwnProperty.call(sample,key)
+    ){
+
+     payload[key]=value;
+
+     return;
+
+    }
+
+   }
+
+  };
+
+  put(
+   ["group","group_name","competition_group"],
+   group
+  );
+
+  put(
+   ["rank","winner_rank","position"],
+   Number(rank)
+  );
+
+  put(
+   ["title","reward_title","name"],
+   titleValue
+  );
+
+  put(
+   ["description","reward_description"],
+   description||"Reward award"
+  );
+
+  put(
+   [
+    "image_url",
+    "reward_image",
+    "reward_image_url",
+    "image"
+   ],
+   imageURL
+  );
+
+  if(user){
+   put(["created_by","admin_id"],user.id);
+  }
+
+  if(!Object.keys(payload).length){
+
+   showToast("No compatible reward columns found.");
+
+   return;
+
+  }
+
+  const {error}=
+   await supabaseClient
+   .from("rewards")
+   .insert(payload);
+
+  if(error)throw error;
+
+  showToast("Reward saved to Supabase.");
 
   closeRewardModal();
 
   document.getElementById("rewardTitle").value="";
   document.getElementById("rewardDescription").value="";
   document.getElementById("rewardImageInput").value="";
-
   document.getElementById("rewardImagePreview").style.display="none";
 
-  showToast("Reward added successfully.");
+  loadRewards();
 
- };
+ }catch(error){
 
- reader.readAsDataURL(file);
+  console.error(error);
 
-}
+  showToast(
+   "Reward save failed: "+error.message
+  );
 
-
-/* Pending rewards automatically decreases after award is added */
-
-function updatePendingCount(){
-
- const pendingCount=18-rewards.length;
-
- document.getElementById("pending").textContent=
- Math.max(0,pendingCount);
+ }
 
 }
 
-
-/* Safe text */
-
-function escapeHTML(value){
-
- return String(value)
- .replaceAll("&","&amp;")
- .replaceAll("<","&lt;")
- .replaceAll(">","&gt;")
- .replaceAll('"',"&quot;")
- .replaceAll("'","&#039;");
-
-}
-
-
-/* =========================================
+/* =========================================================
  AI CHAT
-========================================= */
+ NOT CONNECTED TO SUPABASE
+========================================================= */
 
 function sendMessage(){
 
- const input=document.getElementById("chatInput");
- const body=document.getElementById("chatBody");
+ const input=
+  document.getElementById("chatInput");
 
- const message=input.value.trim();
+ const body=
+  document.getElementById("chatBody");
+
+ const message=
+  input.value.trim();
 
  if(!message)return;
 
@@ -3393,7 +5228,7 @@ function sendMessage(){
   ai.className="message ai";
 
   ai.textContent=
-  "AI backend is ready to be connected. This frontend does not generate fake AI responses.";
+  "AI backend is separate from Supabase. Connect your secure AI API through a backend.";
 
   body.appendChild(ai);
 
@@ -3412,80 +5247,401 @@ document.getElementById("chatInput")
 
 });
 
+/* =========================================================
+ PAYMENTS / TRANSACTIONS
+========================================================= */
 
-/* =========================================
- VIDEO
-========================================= */
+let transactionsData=[];
 
-function videoSelected(input){
+async function loadPayments(){
 
- if(!input.files.length)return;
+ const table=
+  document.getElementById("paymentsTable");
 
- const file=input.files[0];
+ table.innerHTML=`
+ <tr class="loading-row">
+  <td colspan="5">Loading transactions from Supabase...</td>
+ </tr>`;
 
- showToast("Video selected: "+file.name);
+ transactionsData=
+  await getTable("transactions");
 
-}
+ renderPayments(transactionsData);
 
-
-/* =========================================
- ANALYSIS
- LIVE BACKEND VALUES WILL REPLACE 0 VALUES
-========================================= */
-
-function updateAnalysis(data={}){
-
- document.getElementById("studentGrowth").textContent=
- data.studentGrowth ?? 0;
-
- document.getElementById("teacherPaymentGrowth").textContent=
- "$"+Number(data.teacherPaymentGrowth ?? 0).toFixed(2);
-
- document.getElementById("mostMoneyBuyGrowth").textContent=
- "$"+Number(data.mostMoneyBuyGrowth ?? 0).toFixed(2);
-
- document.getElementById("monthGrowth").textContent=
- (data.monthGrowth ?? 0)+"%";
-
- document.getElementById("competitionGrowth").textContent=
- data.competitionGrowth ?? 0;
-
- document.getElementById("todayRevenue").textContent=
- "$"+Number(data.todayRevenue ?? 0).toFixed(2);
-
- document.getElementById("weeklyRevenue").textContent=
- "$"+Number(data.weeklyRevenue ?? 0).toFixed(2);
+ calculateRevenue(transactionsData);
 
 }
 
+function renderPayments(rows){
 
-/*
- FUTURE REAL DATABASE EXAMPLE:
+ const table=
+  document.getElementById("paymentsTable");
 
- fetch("/api/admin/analytics")
- .then(res=>res.json())
- .then(data=>{
-    updateAnalysis(data);
- });
+ if(!rows.length){
 
- Expected backend fields:
+  table.innerHTML=`
+   <tr>
+    <td colspan="5"
+     class="empty"
+     style="text-align:center;padding:30px">
+     No transaction records found in Supabase.
+    </td>
+   </tr>`;
 
- {
-   studentGrowth: 0,
-   teacherPaymentGrowth: 0,
-   mostMoneyBuyGrowth: 0,
-   monthGrowth: 0,
-   competitionGrowth: 0,
-   todayRevenue: 0,
-   weeklyRevenue: 0
+  return;
+
  }
 
-*/
+ table.innerHTML="";
 
+ rows
+ .slice()
+ .sort((a,b)=>
+  new Date(dateValue(b))-new Date(dateValue(a))
+ )
+ .slice(0,100)
+ .forEach(row=>{
 
-/* =========================================
- RECIPIENT BUTTONS
-========================================= */
+  const amount=
+   numberValue(
+    row,
+    [
+     "amount",
+     "total",
+     "price",
+     "payment_amount",
+     "revenue"
+    ]
+   );
+
+  const user=
+   firstValue(
+    row,
+    [
+     "email",
+     "user_email",
+     "student_email",
+     "customer_email",
+     "name",
+     "user_name"
+    ],
+    "—"
+   );
+
+  const method=
+   firstValue(
+    row,
+    [
+     "payment_method",
+     "method",
+     "provider",
+     "type"
+    ],
+    "—"
+   );
+
+  const status=
+   firstValue(
+    row,
+    [
+     "status",
+     "payment_status"
+    ],
+    "—"
+   );
+
+  const tr=document.createElement("tr");
+
+  tr.innerHTML=`
+
+   <td>${escapeHTML(formatDate(dateValue(row)))}</td>
+
+   <td>${escapeHTML(user)}</td>
+
+   <td>${money(amount)}</td>
+
+   <td>${escapeHTML(method)}</td>
+
+   <td>
+    <span class="badge ${
+     String(status).toLowerCase()==="completed"||
+     String(status).toLowerCase()==="paid"||
+     String(status).toLowerCase()==="success"
+     ?
+     "green"
+     :
+     "yellow"
+    }">
+     ${escapeHTML(status)}
+    </span>
+   </td>
+
+  `;
+
+  table.appendChild(tr);
+
+ });
+
+}
+
+function calculateRevenue(rows){
+
+ let total=0;
+
+ rows.forEach(row=>{
+
+  total+=numberValue(
+   row,
+   [
+    "amount",
+    "total",
+    "price",
+    "payment_amount",
+    "revenue"
+   ]
+  );
+
+ });
+
+ document.getElementById(
+  "dashboardRevenue"
+ ).textContent=money(total);
+
+}
+
+/* =========================================================
+ ANALYTICS
+========================================================= */
+
+async function loadAnalytics(){
+
+ const [
+  students,
+  teachers,
+  transactions,
+  competitions,
+  entries
+ ]=await Promise.all([
+
+  getTable("students"),
+  getTable("teachers"),
+  getTable("transactions"),
+  getTable("competitions"),
+  getTable("competition_entries")
+
+ ]);
+
+ const now=new Date();
+
+ const todayStart=
+  new Date(
+   now.getFullYear(),
+   now.getMonth(),
+   now.getDate()
+  );
+
+ const weekStart=
+  new Date(todayStart);
+
+ const day=
+  weekStart.getDay();
+
+ weekStart.setDate(
+ weekStart.getDate()-
+ ((day+6)%7)
+ );
+
+ const monthStart=
+  new Date(
+   now.getFullYear(),
+   now.getMonth(),
+   1
+  );
+
+ let totalRevenue=0;
+ let todayRevenue=0;
+ let weeklyRevenue=0;
+ let monthlyRevenue=0;
+ let maxPurchase=0;
+
+ const daily=
+  [0,0,0,0,0,0,0];
+
+ transactions.forEach(row=>{
+
+  const amount=
+   numberValue(
+    row,
+    [
+     "amount",
+     "total",
+     "price",
+     "payment_amount",
+     "revenue"
+    ]
+   );
+
+  const date=
+   new Date(dateValue(row));
+
+  if(Number.isNaN(date.getTime()))return;
+
+  totalRevenue+=amount;
+
+  if(amount>maxPurchase){
+   maxPurchase=amount;
+  }
+
+  if(date>=todayStart){
+   todayRevenue+=amount;
+  }
+
+  if(date>=weekStart){
+   weeklyRevenue+=amount;
+
+   const index=
+    (date.getDay()+6)%7;
+
+   daily[index]+=amount;
+  }
+
+  if(date>=monthStart){
+   monthlyRevenue+=amount;
+  }
+
+ });
+
+ const activeCompetitions=
+  competitions.filter(row=>{
+
+   const status=
+    String(
+     firstValue(
+      row,
+      [
+       "status",
+       "competition_status"
+      ],
+      ""
+     )
+    ).toLowerCase();
+
+   return(
+    status==="open"||
+    status==="active"||
+    status==="running"
+   );
+
+  }).length;
+
+ const competitionCount=
+  entries.length+
+  competitions.length;
+
+ const teacherPayments=
+  teachers.reduce((sum,row)=>
+   sum+
+   numberValue(
+    row,
+    [
+     "revenue",
+     "total_revenue",
+     "earnings",
+     "payment"
+    ]
+   ),
+  0);
+
+ document.getElementById(
+  "studentGrowth"
+ ).textContent=students.length;
+
+ document.getElementById(
+  "teacherPaymentGrowth"
+ ).textContent=
+  money(teacherPayments);
+
+ document.getElementById(
+  "mostMoneyBuyGrowth"
+ ).textContent=
+  money(maxPurchase);
+
+ document.getElementById(
+  "monthGrowth"
+ ).textContent=
+  monthlyRevenue>0
+  ?
+  "LIVE"
+  :
+  "0%";
+
+ document.getElementById(
+  "competitionGrowth"
+ ).textContent=
+  competitionCount;
+
+ document.getElementById(
+  "todayRevenue"
+ ).textContent=
+  money(todayRevenue);
+
+ document.getElementById(
+  "weeklyRevenue"
+ ).textContent=
+  money(weeklyRevenue);
+
+ document.getElementById(
+  "adminBalance"
+ ).textContent=
+  money(totalRevenue);
+
+ document.getElementById(
+  "teacherBalance"
+ ).textContent=
+  money(teacherPayments);
+
+ document.getElementById(
+  "activeCompetitions"
+ ).textContent=
+  activeCompetitions;
+
+ updateRevenueBars(daily);
+
+}
+
+function updateRevenueBars(values){
+
+ const bars=
+  document.querySelectorAll(
+   "#revenueBars .revenue-bar"
+  );
+
+ const max=
+  Math.max(...values,1);
+
+ bars.forEach((bar,index)=>{
+
+  const value=
+   values[index]||0;
+
+  const percent=
+   Math.max(
+    8,
+    (value/max)*100
+   );
+
+  bar.style.height=
+   percent+"%";
+
+ });
+
+}
+
+/* =========================================================
+ NOTIFICATIONS
+========================================================= */
+
+let notificationRecipient="Students";
 
 document.querySelectorAll(".recipient button")
 .forEach(button=>{
@@ -3493,92 +5649,292 @@ document.querySelectorAll(".recipient button")
  button.addEventListener("click",()=>{
 
   document.querySelectorAll(".recipient button")
-  .forEach(b=>b.classList.remove("active"));
+  .forEach(b=>
+   b.classList.remove("active")
+  );
 
   button.classList.add("active");
+
+  notificationRecipient=
+   button.dataset.recipient;
 
  });
 
 });
 
+async function sendNotification(){
 
-/* =========================================
- BACKEND API STRUCTURE
-========================================= */
+ const email=
+  document.getElementById(
+   "notificationEmail"
+  ).value.trim();
 
-/*
- FUTURE REAL API CONNECTION:
+ const subject=
+  document.getElementById(
+   "notificationSubject"
+  ).value.trim();
 
- GET  /api/admin/dashboard
+ const type=
+  document.getElementById(
+   "notificationType"
+  ).value;
 
- GET  /api/students
- GET  /api/teachers
- GET  /api/lessons
- GET  /api/videos
+ const message=
+  document.getElementById(
+   "notificationMessage"
+  ).value.trim();
 
- GET  /api/competition/lower
- GET  /api/competition/medium
- GET  /api/competition/high
+ if(!message){
 
- GET  /api/rewards
- POST /api/rewards
- PUT  /api/rewards/:id
+  showToast("Write the notification message.");
 
- GET  /api/analytics
+  return;
 
- GET  /api/analytics/student-growth
- GET  /api/analytics/teacher-payment-growth
- GET  /api/analytics/most-money-buy-growth
- GET  /api/analytics/month-growth
- GET  /api/analytics/competition-growth
- GET  /api/analytics/today-revenue
- GET  /api/analytics/weekly-revenue
+ }
 
- POST /api/competition/open
- POST /api/competition/close
+ const existing=
+  await getTable("notifications");
 
- POST /api/competition/project/open
- POST /api/competition/project/close
+ if(!existing.length){
 
- POST /api/competition/tiebreak/admin/open
- POST /api/competition/tiebreak/admin/close
+  showToast(
+   "Notifications table has no rows. Confirm its schema first."
+  );
 
- POST /api/competition/tiebreak/student/open
- POST /api/competition/tiebreak/student/close
+  return;
 
- POST /api/ai/chat
+ }
 
- POST /api/notifications
+ const sample=existing[0];
 
- IMPORTANT:
+ const payload={};
 
- The frontend controls above are UI controls.
+ const put=(possible,value)=>{
 
- When PostgreSQL/backend is connected,
- these controls should call the API so the same
- competition/project/tie-break state is shared
- between Admin Dashboard and Student Dashboard.
+  for(const key of possible){
 
- The Admin decides manually:
+   if(
+    Object.prototype.hasOwnProperty.call(sample,key)
+   ){
 
- 1. Open Competition
- 2. Close Competition
- 3. Open Project Upload
- 4. Close Project Upload
- 5. Open Admin Tie-Break
- 6. Close Admin Tie-Break
- 7. Open Student Tie-Break
- 8. Close Student Tie-Break
+    payload[key]=value;
 
- Project Upload and Tie-Break must NOT depend
- only on the frontend when production backend
- is connected.
+    return;
 
- Sensitive payment/card information must be
- handled by a secure payment provider/tokenization
- system rather than storing raw card details
- in this HTML.
-*/
+   }
+
+  }
+
+ };
+
+ put(
+  ["recipient_email","email","user_email"],
+  email
+ );
+
+ put(
+  ["recipient_type","recipient","audience","target"],
+  notificationRecipient
+ );
+
+ put(
+  ["subject","title"],
+  subject
+ );
+
+ put(
+  ["type","notification_type"],
+  type
+ );
+
+ put(
+  ["message","body","content","text"],
+  message
+ );
+
+ const userResult=
+  await supabaseClient.auth.getUser();
+
+ const user=userResult?.data?.user;
+
+ if(user){
+
+  put(
+   ["created_by","admin_id","sender_id"],
+   user.id
+  );
+
+ }
+
+ try{
+
+  const {error}=
+   await supabaseClient
+   .from("notifications")
+   .insert(payload);
+
+  if(error)throw error;
+
+  showToast(
+   "Notification saved to Supabase."
+  );
+
+  document.getElementById(
+   "notificationEmail"
+  ).value="";
+
+  document.getElementById(
+   "notificationSubject"
+  ).value="";
+
+  document.getElementById(
+   "notificationMessage"
+  ).value="";
+
+  loadNotifications();
+
+ }catch(error){
+
+  console.error(error);
+
+  showToast(
+   "Notification failed: "+error.message
+  );
+
+ }
+
+}
+
+async function loadNotifications(){
+
+ const rows=
+  await getTable("notifications");
+
+ const box=
+  document.getElementById(
+   "notificationList"
+  );
+
+ if(!rows.length){
+
+  box.innerHTML=`
+   <div class="card" style="padding:13px">
+    <div class="muted">
+     No notification records found.
+    </div>
+   </div>`;
+
+  return;
+
+ }
+
+ box.innerHTML="";
+
+ rows
+ .slice()
+ .reverse()
+ .slice(0,20)
+ .forEach(row=>{
+
+  const subject=
+   firstValue(
+    row,
+    ["subject","title"],
+    "Notification"
+   );
+
+  const message=
+   firstValue(
+    row,
+    ["message","body","content","text"],
+    ""
+   );
+
+  const recipient=
+   firstValue(
+    row,
+    [
+     "recipient_email",
+     "email",
+     "user_email",
+     "recipient_type",
+     "audience"
+    ],
+    "—"
+   );
+
+  const boxItem=
+   document.createElement("div");
+
+  boxItem.className="card";
+
+  boxItem.style.padding="13px";
+
+  boxItem.innerHTML=`
+
+   <strong style="font-size:12px">
+    🔔 ${escapeHTML(subject)}
+   </strong>
+
+   <div class="muted" style="margin-top:5px">
+    ${escapeHTML(message)}
+   </div>
+
+   <div class="muted" style="margin-top:7px">
+    ${escapeHTML(recipient)}
+   </div>
+
+  `;
+
+  box.appendChild(boxItem);
+
+ });
+
+}
+
+/* =========================================================
+ INITIAL DATABASE LOAD
+========================================================= */
+
+async function initializeAdminDashboard(){
+
+ showToast("Connecting to Supabase...");
+
+ await loadCurrentUser();
+
+ await Promise.all([
+  loadStudents(),
+  loadTeachers(),
+  loadLessons(),
+  loadVideos(),
+  loadRewards(),
+  loadPayments(),
+  loadAnalytics(),
+  loadNotifications(),
+  loadCompetitionData()
+ ]);
+
+ showToast("Supabase connected.");
+
+}
+
+initializeAdminDashboard();
+
+/* =========================================================
+ AUTO REFRESH
+========================================================= */
+
+setInterval(()=>{
+
+ loadStudents();
+ loadTeachers();
+ loadLessons();
+ loadPayments();
+ loadAnalytics();
+ loadCompetitionData();
+ loadRewards();
+
+},60000);
 
 </script>
 
