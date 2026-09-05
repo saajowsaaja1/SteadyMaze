@@ -110,6 +110,7 @@ body{
     font-family:Arial, Helvetica, sans-serif;
 }
 
+
 /* NAVBAR */
 
 .navbar{
@@ -650,6 +651,161 @@ footer{
 }
 
 
+/* ==========================================
+   BECOME A TEACHER
+========================================== */
+
+.become-teacher{
+    padding:80px 20px;
+
+    background:#f8fafc;
+
+    color:#111827;
+}
+
+.teacher-content{
+    max-width:1000px;
+
+    margin:auto;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    text-align:center;
+}
+
+.teacher-content h2{
+    font-size:42px;
+
+    margin-bottom:20px;
+
+    color:#111827;
+}
+
+.teacher-content p{
+    max-width:700px;
+
+    font-size:18px;
+
+    color:#6b7280;
+
+    margin-bottom:25px;
+}
+
+.teacher-content ul{
+    list-style:none;
+
+    margin-bottom:25px;
+}
+
+.teacher-content ul li{
+    font-size:18px;
+
+    margin:10px 0;
+
+    color:#374151;
+}
+
+
+/* STATUS */
+
+.teacher-status{
+    display:inline-block;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    font-size:13px;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+    margin-top:5px;
+}
+
+.teacher-status.closed{
+    background:#fee2e2;
+
+    color:#dc2626;
+}
+
+
+/* TIMER LABEL */
+
+.teacher-timer-label{
+    margin-top:20px;
+
+    color:#64748b;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    letter-spacing:2px;
+}
+
+
+/* TIMER */
+
+.teacher-timer{
+    margin-top:5px;
+
+    color:#111827;
+
+    font-size:42px;
+
+    font-weight:900;
+
+    font-variant-numeric:tabular-nums;
+}
+
+
+/* BUTTON */
+
+.teacher-btn{
+    display:inline-block;
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:15px 35px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+    margin-top:15px;
+}
+
+.teacher-btn:hover{
+    background:#1d4ed8;
+
+    transform:translateY(-2px);
+}
+
+.teacher-btn.closed{
+    background:#94a3b8;
+
+    cursor:not-allowed;
+
+    pointer-events:none;
+}
+
+
 /* MOBILE */
 
 @media(max-width:900px){
@@ -725,6 +881,22 @@ footer{
     .footer{
         flex-direction:column;
         gap:12px;
+    }
+
+    .teacher-content h2{
+        font-size:32px;
+    }
+
+    .teacher-content p{
+        font-size:15px;
+    }
+
+    .teacher-content ul li{
+        font-size:15px;
+    }
+
+    .teacher-timer{
+        font-size:36px;
     }
 
 }
@@ -1550,13 +1722,17 @@ footer{
 </footer>
 
 
-<!-- BECOME A TEACHER SECTION -->
+<!-- ==========================================
+     BECOME A TEACHER
+========================================== -->
 
 <section class="become-teacher">
 
     <div class="teacher-content">
 
-        <h2>Become a Teacher on SteadyMaze</h2>
+        <h2>
+            Become a Teacher on SteadyMaze
+        </h2>
 
         <p>
             Share your skills, upload lessons, teach students,
@@ -1564,84 +1740,536 @@ footer{
         </p>
 
         <ul>
-            <li>✔ Upload your own courses</li>
-            <li>✔ Teach students worldwide</li>
-            <li>✔ Earn revenue from course sales</li>
-            <li>✔ Track your students and performance</li>
-            <li>✔ Access your Teacher Dashboard</li>
+
+            <li>
+                ✔ Upload your own courses
+            </li>
+
+            <li>
+                ✔ Teach students worldwide
+            </li>
+
+            <li>
+                ✔ Earn revenue from course sales
+            </li>
+
+            <li>
+                ✔ Track your students and performance
+            </li>
+
+            <li>
+                ✔ Access your Teacher Dashboard
+            </li>
+
         </ul>
 
-        <a href="teacher-login.html" class="teacher-btn">
-            Become a Teacher
+
+        <!-- STATUS -->
+
+        <div
+            id="teacherStatus"
+            class="teacher-status"
+        >
+            CONNECTING...
+        </div>
+
+
+        <!-- TIMER LABEL -->
+
+        <div class="teacher-timer-label">
+            TIME REMAINING
+        </div>
+
+
+        <!-- TIMER -->
+
+        <div
+            id="teacherTimer"
+            class="teacher-timer"
+        >
+            --:--
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <a
+            href="teacher-login.html"
+            id="teacherButton"
+            class="teacher-btn"
+        >
+            Checking...
         </a>
 
     </div>
 
 </section>
 
-<style>
-
-.become-teacher{
-    padding:80px 20px;
-    background:#f8fafc;
-}
-
-.teacher-content{
-    max-width:1000px;
-    margin:auto;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    text-align:center;
-}
-
-.teacher-content h2{
-    font-size:42px;
-    margin-bottom:20px;
-    color:#111827;
-}
-
-.teacher-content p{
-    max-width:700px;
-    font-size:18px;
-    color:#6b7280;
-    margin-bottom:25px;
-}
-
-.teacher-content ul{
-    list-style:none;
-    margin-bottom:35px;
-}
-
-.teacher-content ul li{
-    font-size:18px;
-    margin:10px 0;
-    color:#374151;
-}
-
-.teacher-btn{
-    background:#2563eb;
-    color:white;
-    padding:15px 35px;
-    border-radius:12px;
-    text-decoration:none;
-    font-size:18px;
-    font-weight:bold;
-    transition:.3s;
-}
-
-.teacher-btn:hover{
-    background:#1d4ed8;
-}
-
-</style>
-
 
 <script>
 
 /* ==========================================
+   TEACHER APPLICATION SCHEDULE
+   SUPABASE ONLY
+   NO LOCALSTORAGE
+========================================== */
+
+
+/*
+   Database table:
+
+   teacher_schedule
+
+   Required columns:
+
+   id
+   open_at
+   close_at
+   created_at
+*/
+
+
+/*
+   OPEN:
+   10 minutes
+
+   CLOSED:
+   5 minutes
+
+   COMPLETE CYCLE:
+   15 minutes
+
+   It repeats forever.
+*/
+
+
+const TEACHER_OPEN_TIME =
+    10 * 60 * 1000;
+
+
+const TEACHER_CLOSED_TIME =
+    5 * 60 * 1000;
+
+
+const TEACHER_CYCLE_TIME =
+    TEACHER_OPEN_TIME +
+    TEACHER_CLOSED_TIME;
+
+
+let teacherScheduleStart = null;
+
+
+/* ==========================================
+   GET LATEST SCHEDULE FROM SUPABASE
+========================================== */
+
+async function getTeacherSchedule(){
+
+    try{
+
+        const {
+            data,
+            error
+        } = await steadymazeSupabase
+
+            .from("teacher_schedule")
+
+            .select("id, open_at, close_at")
+
+            .order(
+                "id",
+                {
+                    ascending:false
+                }
+            )
+
+            .limit(1)
+
+            .maybeSingle();
+
+
+        if(error){
+
+            console.error(
+                "Teacher schedule error:",
+                error
+            );
+
+            showTeacherScheduleError();
+
+            return false;
+
+        }
+
+
+        if(!data){
+
+            console.error(
+                "No teacher schedule found."
+            );
+
+            showTeacherScheduleError();
+
+            return false;
+
+        }
+
+
+        teacherScheduleStart =
+            new Date(
+                data.open_at
+            ).getTime();
+
+
+        if(
+            Number.isNaN(
+                teacherScheduleStart
+            )
+        ){
+
+            console.error(
+                "Invalid teacher schedule date."
+            );
+
+            showTeacherScheduleError();
+
+            return false;
+
+        }
+
+
+        console.log(
+            "Teacher schedule loaded from Supabase:",
+            data
+        );
+
+
+        return true;
+
+    }catch(error){
+
+        console.error(
+            "Teacher schedule connection error:",
+            error
+        );
+
+        showTeacherScheduleError();
+
+        return false;
+
+    }
+
+}
+
+
+/* ==========================================
+   DATABASE ERROR
+========================================== */
+
+function showTeacherScheduleError(){
+
+    const status =
+        document.getElementById(
+            "teacherStatus"
+        );
+
+    const timer =
+        document.getElementById(
+            "teacherTimer"
+        );
+
+    const button =
+        document.getElementById(
+            "teacherButton"
+        );
+
+
+    if(status){
+
+        status.textContent =
+            "SCHEDULE UNAVAILABLE";
+
+        status.classList.add(
+            "closed"
+        );
+
+    }
+
+
+    if(timer){
+
+        timer.textContent =
+            "--:--";
+
+    }
+
+
+    if(button){
+
+        button.textContent =
+            "Applications Unavailable";
+
+        button.classList.add(
+            "closed"
+        );
+
+        button.removeAttribute(
+            "href"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   FORMAT TIMER
+========================================== */
+
+function formatTeacherTime(
+    milliseconds
+){
+
+    const totalSeconds =
+        Math.max(
+            0,
+            Math.ceil(
+                milliseconds / 1000
+            )
+        );
+
+
+    const minutes =
+        Math.floor(
+            totalSeconds / 60
+        );
+
+
+    const seconds =
+        totalSeconds % 60;
+
+
+    return (
+        String(minutes)
+            .padStart(2,"0")
+        +
+        ":"
+        +
+        String(seconds)
+            .padStart(2,"0")
+    );
+
+}
+
+
+/* ==========================================
+   UPDATE TEACHER STATUS
+========================================== */
+
+function updateTeacherSchedule(){
+
+    if(
+        !teacherScheduleStart
+    ){
+
+        return;
+
+    }
+
+
+    const now =
+        Date.now();
+
+
+    /*
+       IMPORTANT:
+
+       The modulo (%) makes the schedule
+       repeat forever.
+
+       00:00 → 10:00 = OPEN
+       10:00 → 15:00 = CLOSED
+       15:00 → 25:00 = OPEN
+       25:00 → 30:00 = CLOSED
+       30:00 → 40:00 = OPEN
+       40:00 → 45:00 = CLOSED
+       etc...
+    */
+
+
+    const elapsed =
+        (
+            (
+                now -
+                teacherScheduleStart
+            )
+            %
+            TEACHER_CYCLE_TIME
+            +
+            TEACHER_CYCLE_TIME
+        )
+        %
+        TEACHER_CYCLE_TIME;
+
+
+    const status =
+        document.getElementById(
+            "teacherStatus"
+        );
+
+
+    const timer =
+        document.getElementById(
+            "teacherTimer"
+        );
+
+
+    const button =
+        document.getElementById(
+            "teacherButton"
+        );
+
+
+    if(
+        !status ||
+        !timer ||
+        !button
+    ){
+
+        return;
+
+    }
+
+
+    /* ======================================
+       OPEN
+    ====================================== */
+
+    if(
+        elapsed <
+        TEACHER_OPEN_TIME
+    ){
+
+        const remaining =
+            TEACHER_OPEN_TIME -
+            elapsed;
+
+
+        status.textContent =
+            "OPEN";
+
+
+        status.classList.remove(
+            "closed"
+        );
+
+
+        timer.textContent =
+            formatTeacherTime(
+                remaining
+            );
+
+
+        button.textContent =
+            "Become a Teacher";
+
+
+        button.classList.remove(
+            "closed"
+        );
+
+
+        button.href =
+            "teacher-login.html";
+
+    }
+
+
+    /* ======================================
+       CLOSED
+    ====================================== */
+
+    else{
+
+        const remaining =
+            TEACHER_CYCLE_TIME -
+            elapsed;
+
+
+        status.textContent =
+            "CLOSED";
+
+
+        status.classList.add(
+            "closed"
+        );
+
+
+        timer.textContent =
+            formatTeacherTime(
+                remaining
+            );
+
+
+        button.textContent =
+            "Applications Closed";
+
+
+        button.classList.add(
+            "closed"
+        );
+
+
+        button.removeAttribute(
+            "href"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   START TEACHER SCHEDULE
+========================================== */
+
+async function startTeacherSchedule(){
+
+    const success =
+        await getTeacherSchedule();
+
+
+    if(!success){
+
+        return;
+
+    }
+
+
+    updateTeacherSchedule();
+
+
+    /*
+       Update every second.
+    */
+
+    setInterval(
+        updateTeacherSchedule,
+        1000
+    );
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+startTeacherSchedule();
+
+
+/* ==========================================
    FINAL SILENT SUPABASE AUTH CHECK
-   No loading screen is shown to visitors.
 ========================================== */
 
 (async function(){
@@ -1652,7 +2280,11 @@ footer{
             data: {
                 session
             }
-        } = await steadymazeSupabase.auth.getSession();
+        } =
+            await steadymazeSupabase
+            .auth
+            .getSession();
+
 
         if(session){
 
@@ -1675,6 +2307,7 @@ footer{
 })();
 
 </script>
+
 
 </body>
 </html>
