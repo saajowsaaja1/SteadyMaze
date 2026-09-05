@@ -6,6 +6,92 @@
 
 <title>SteadyMaze Academy</title>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+/* ================================
+   STEADYMAZE SUPABASE CONNECTION
+================================ */
+
+const SUPABASE_URL = "https://uxrltzlxdttbjstomhkb.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+
+const steadymazeSupabase =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+/* Check Supabase connection silently */
+async function checkSteadyMazeConnection(){
+
+    try{
+
+        const {
+            data: {
+                session
+            }
+        } = await steadymazeSupabase.auth.getSession();
+
+        if(session){
+
+            console.log(
+                "SteadyMaze Supabase: User is logged in",
+                session.user.email
+            );
+
+        }else{
+
+            console.log(
+                "SteadyMaze Supabase: Connected"
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "SteadyMaze Supabase connection error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* Keep authentication state synchronized */
+steadymazeSupabase.auth.onAuthStateChange(
+    (event, session) => {
+
+        if(session){
+
+            console.log(
+                "SteadyMaze Auth:",
+                event,
+                session.user.email
+            );
+
+        }else{
+
+            console.log(
+                "SteadyMaze Auth: signed out"
+            );
+
+        }
+
+    }
+);
+
+
+/* Start silently */
+checkSteadyMazeConnection();
+
+</script>
+
 <style>
 
 *{
@@ -679,16 +765,12 @@ footer{
 
     <div class="nav-buttons">
 
-        <!-- WORKING LOGIN LINK -->
-
         <a
             href="./login.html"
             class="signin"
         >
             SIGN IN
         </a>
-
-        <!-- WORKING GET STARTED LINK -->
 
         <a
             href="./login.html"
@@ -738,8 +820,6 @@ footer{
 
 
         <div class="hero-buttons">
-
-            <!-- WORKING BUTTON -->
 
             <a
                 href="./login.html"
@@ -1439,8 +1519,6 @@ footer{
         </p>
 
 
-        <!-- WORKING BUTTON -->
-
         <a
             href="./login.html"
             class="primary-button"
@@ -1472,8 +1550,6 @@ footer{
 </footer>
 
 
-</body>
-</html>
 <!-- BECOME A TEACHER SECTION -->
 
 <section class="become-teacher">
@@ -1559,3 +1635,46 @@ footer{
 }
 
 </style>
+
+
+<script>
+
+/* ==========================================
+   FINAL SILENT SUPABASE AUTH CHECK
+   No loading screen is shown to visitors.
+========================================== */
+
+(async function(){
+
+    try{
+
+        const {
+            data: {
+                session
+            }
+        } = await steadymazeSupabase.auth.getSession();
+
+        if(session){
+
+            console.log(
+                "SteadyMaze account:",
+                session.user.email
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Supabase error:",
+            error
+        );
+
+    }
+
+})();
+
+</script>
+
+</body>
+</html>
