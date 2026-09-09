@@ -673,7 +673,7 @@ body{
                 <input
                     type="email"
                     id="signupEmail"
-                    placeholder="Enter admin email"
+                    placeholder="Enter a new admin email"
                     autocomplete="email"
                     required>
 
@@ -816,26 +816,14 @@ body{
 <script>
 
 /* =====================================================
-   SUPABASE
+   SUPABASE CONNECTION
    ===================================================== */
 
 const SUPABASE_URL =
-    "YOUR_SUPABASE_URL";
+    "https://uxrltzlxdttbjstomhkb.supabase.co";
 
 const SUPABASE_ANON_KEY =
-    "YOUR_SUPABASE_ANON_KEY";
-
-
-/*
-   ONLY THIS EMAIL IS THE ADMIN EMAIL.
-
-   Example:
-   admin@steadymaze.com
-*/
-
-const ADMIN_EMAIL =
-    "YOUR_ADMIN_EMAIL";
-
+    "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
 
 const supabaseClient =
     window.supabase.createClient(
@@ -908,7 +896,7 @@ function openForm(formName){
         document
             .getElementById("formSubtitle")
             .textContent =
-            "Create your authorized administrator account.";
+            "The Admin account can only be created once.";
 
     }
 
@@ -1010,30 +998,41 @@ function normalizeEmail(email){
 
 
 /* =====================================================
-   CHECK ADMIN EMAIL
+   CHECK IF ADMIN ALREADY EXISTS
    ===================================================== */
 
-function isAdminEmail(email){
+async function adminAlreadyExists(){
 
-    return normalizeEmail(email) ===
-           normalizeEmail(ADMIN_EMAIL);
+    const result =
+        await supabaseClient
+            .from("admin_accounts")
+            .select("id")
+            .limit(1);
+
+    if(result.error){
+
+        console.error(
+            "Admin account check:",
+            result.error
+        );
+
+        throw new Error(
+            "Unable to verify Admin setup. Check the admin_accounts table and its permissions in Supabase."
+        );
+
+    }
+
+    return (
+        Array.isArray(result.data) &&
+        result.data.length > 0
+    );
 
 }
 
 
 /* =====================================================
-   CHECK EMAIL IN STUDENT / TEACHER TABLES
-   =====================================================
-
-   The same Admin email must NOT already exist
-   as a Student or Teacher.
-
-   These checks use your existing tables.
-
-   profiles
-   students
-   teachers
-   */
+   CHECK STUDENT / TEACHER EMAIL
+   ===================================================== */
 
 async function emailAlreadyUsedByStudentOrTeacher(email){
 
@@ -1044,7 +1043,7 @@ async function emailAlreadyUsedByStudentOrTeacher(email){
     const profileResult =
         await supabaseClient
             .from("profiles")
-            .select("id,role,email")
+            .select("id,email,role")
             .ilike("email",cleanEmail)
             .limit(20);
 
@@ -1064,12 +1063,16 @@ async function emailAlreadyUsedByStudentOrTeacher(email){
         profileResult.data &&
         profileResult.data.some(function(row){
 
-            return (
-                normalizeEmail(row.email || "") ===
-                cleanEmail
-                &&
+            const rowEmail =
+                normalizeEmail(row.email || "");
+
+            const rowRole =
                 String(row.role || "")
-                    .toLowerCase() !== "admin"
+                    .toLowerCase();
+
+            return (
+                rowEmail === cleanEmail &&
+                rowRole !== "admin"
             );
 
         })
@@ -1086,6 +1089,16 @@ async function emailAlreadyUsedByStudentOrTeacher(email){
             .select("id,email")
             .ilike("email",cleanEmail)
             .limit(1);
+
+
+    if(studentResult.error){
+
+        console.warn(
+            "Students check:",
+            studentResult.error
+        );
+
+    }
 
 
     if(
@@ -1106,6 +1119,16 @@ async function emailAlreadyUsedByStudentOrTeacher(email){
             .limit(1);
 
 
+    if(teacherResult.error){
+
+        console.warn(
+            "Teachers check:",
+            teacherResult.error
+        );
+
+    }
+
+
     if(
         teacherResult.data &&
         teacherResult.data.length > 0
@@ -1122,7 +1145,7 @@ async function emailAlreadyUsedByStudentOrTeacher(email){
 
 
 /* =====================================================
-   ADMIN ACCOUNT CHECK
+   GET ADMIN ACCOUNT
    ===================================================== */
 
 async function getAdminAccount(userId){
@@ -1136,7 +1159,10 @@ async function getAdminAccount(userId){
             .select(
                 "id,user_id,email,role,status"
             )
-            .eq("user_id",userId)
+            .eq(
+                "user_id",
+                userId
+            )
             .maybeSingle();
 
 
@@ -1182,22 +1208,6 @@ async function loginAdmin(event){
             .getElementById("loginButton");
 
 
-    /*
-       ADMIN EMAIL ONLY
-    */
-
-    if(!isAdminEmail(email)){
-
-        showMessage(
-            "This email is not authorized for Admin access.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
     button.disabled = true;
 
     button.textContent =
@@ -1228,10 +1238,7 @@ async function loginAdmin(event){
         }
 
 
-        if(
-            !data ||
-            !data.user
-        ){
+        if(!data || !data.user){
 
             throw new Error(
                 "Admin authentication failed."
@@ -1239,32 +1246,6 @@ async function loginAdmin(event){
 
         }
 
-
-        /*
-           EMAIL MUST STILL BE THE SPECIAL
-           ADMIN EMAIL.
-        */
-
-        if(
-            !isAdminEmail(
-                data.user.email || ""
-            )
-        ){
-
-            await supabaseClient
-                .auth
-                .signOut();
-
-            throw new Error(
-                "This account is not authorized for Admin access."
-            );
-
-        }
-
-
-        /*
-           CHECK admin_accounts
-        */
 
         const admin =
             await getAdminAccount(
@@ -1279,18 +1260,14 @@ async function loginAdmin(event){
                 .signOut();
 
             throw new Error(
-                "Admin account was not found."
+                "This account is not registered as an Admin."
             );
 
         }
 
 
-        /*
-           CHECK ROLE
-        */
-
         if(
-            String(admin.role)
+            String(admin.role || "")
                 .toLowerCase() !== "admin"
         ){
 
@@ -1305,12 +1282,8 @@ async function loginAdmin(event){
         }
 
 
-        /*
-           CHECK STATUS
-        */
-
         if(
-            String(admin.status)
+            String(admin.status || "")
                 .toLowerCase() !== "active"
         ){
 
@@ -1409,14 +1382,10 @@ async function createAccount(event){
             .getElementById("signupButton");
 
 
-    /*
-       ONLY SPECIAL ADMIN EMAIL
-    */
-
-    if(!isAdminEmail(email)){
+    if(!name){
 
         showMessage(
-            "This email cannot create an Admin account.",
+            "Enter your full name.",
             "error"
         );
 
@@ -1452,44 +1421,58 @@ async function createAccount(event){
     button.disabled = true;
 
     button.textContent =
-        "Checking Email...";
+        "Checking Admin Setup...";
 
 
     try{
 
         /*
-           DO NOT ALLOW THE ADMIN EMAIL TO EXIST
-           AS STUDENT OR TEACHER.
+           ONE-TIME ADMIN CHECK
         */
 
-        const alreadyUsed =
-            await emailAlreadyUsedByStudentOrTeacher(
-                email
-            );
+        const exists =
+            await adminAlreadyExists();
 
 
-        if(alreadyUsed){
+        if(exists){
 
             throw new Error(
-                "This email is already registered as a Student or Teacher. Admin must use a separate email."
+                "An Admin account has already been created. Admin registration is closed. Please use Admin Login."
             );
 
         }
 
 
+        /*
+           CHECK STUDENT / TEACHER
+        */
+
         button.textContent =
-            "Creating Account...";
+            "Checking Email...";
+
+
+        const used =
+            await emailAlreadyUsedByStudentOrTeacher(
+                email
+            );
+
+
+        if(used){
+
+            throw new Error(
+                "This email is already registered as a Student or Teacher. Please use a completely separate Admin email."
+            );
+
+        }
 
 
         /*
-           CREATE SUPABASE AUTH USER
-
-           IMPORTANT:
-           role=admin must be assigned securely
-           through your database/admin process.
-
-           NEVER put service_role key in HTML.
+           CREATE AUTH ACCOUNT
         */
+
+        button.textContent =
+            "Creating Admin Account...";
+
 
         const {
             data,
@@ -1507,7 +1490,9 @@ async function createAccount(event){
 
                         data:{
 
-                            full_name:name
+                            full_name:name,
+
+                            requested_role:"admin"
 
                         }
 
@@ -1523,7 +1508,7 @@ async function createAccount(event){
         }
 
 
-        if(!data.user){
+        if(!data || !data.user){
 
             throw new Error(
                 "Admin account could not be created."
@@ -1532,8 +1517,76 @@ async function createAccount(event){
         }
 
 
+        /*
+           CREATE ADMIN DATABASE RECORD
+        */
+
+        const adminInsert =
+            await supabaseClient
+                .from("admin_accounts")
+                .insert({
+
+                    user_id:data.user.id,
+
+                    email:email,
+
+                    role:"admin",
+
+                    status:"active"
+
+                })
+                .select()
+                .single();
+
+
+        if(adminInsert.error){
+
+            /*
+               If the database record cannot be created,
+               immediately sign out the newly-created user.
+            */
+
+            await supabaseClient
+                .auth
+                .signOut();
+
+            throw new Error(
+                "The Auth account was created, but the Admin database record could not be created. Check admin_accounts permissions/schema in Supabase."
+            );
+
+        }
+
+
+        /*
+           CREATE / UPDATE PROFILE
+        */
+
+        const profileResult =
+            await supabaseClient
+                .from("profiles")
+                .upsert({
+
+                    id:data.user.id,
+
+                    email:email,
+
+                    role:"admin"
+
+                });
+
+
+        if(profileResult.error){
+
+            console.warn(
+                "Profile creation:",
+                profileResult.error
+            );
+
+        }
+
+
         showMessage(
-            "Admin account created. Confirm your email, then the Admin account must be active in Supabase before dashboard access.",
+            "Admin account created successfully. Check your email if Supabase requires email confirmation, then use Admin Login.",
             "success"
         );
 
@@ -1541,6 +1594,13 @@ async function createAccount(event){
         document
             .getElementById("signupForm")
             .reset();
+
+
+        setTimeout(function(){
+
+            openForm("login");
+
+        },1800);
 
 
     }catch(error){
@@ -1582,12 +1642,8 @@ async function oauthLogin(provider){
     try{
 
         /*
-           OAuth provider must be enabled
-           inside Supabase Authentication.
-
-           Google
-           Apple
-           Facebook
+           OAuth is still required to pass through
+           the Admin database verification.
         */
 
         const {
@@ -1747,38 +1803,26 @@ async function forgotPassword(event){
             .getElementById("forgotButton");
 
 
-    /*
-       RESET MUST ONLY BE FOR ADMIN EMAIL
-    */
-
-    if(!isAdminEmail(email)){
-
-        showMessage(
-            "Password recovery is available only for the authorized Admin email.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
     button.disabled = true;
 
     button.textContent =
-        "Sending...";
+        "Checking...";
 
 
     try{
 
-        /*
-           SUPABASE SENDS THE PASSWORD
-           RECOVERY EMAIL.
+        const adminExists =
+            await adminAlreadyExists();
 
-           The exact OTP/code format is controlled
-           by Supabase Auth/email configuration.
-           This HTML does not fake an 8-digit code.
-        */
+
+        if(!adminExists){
+
+            throw new Error(
+                "No Admin account has been created yet."
+            );
+
+        }
+
 
         const redirectUrl =
             window.location.origin +
@@ -1811,7 +1855,7 @@ async function forgotPassword(event){
 
 
         showMessage(
-            "Password recovery request sent. Check your Admin email and follow the Supabase recovery verification.",
+            "Password recovery email sent. Check your email.",
             "success"
         );
 
@@ -1870,47 +1914,22 @@ async function checkExistingSession(){
         }
 
 
-        /*
-           CHECK ADMIN PROFILE
-        */
-
-        const {
-            data:profile
-        } =
-            await supabaseClient
-                .from("profiles")
-                .select(
-                    "id,role"
-                )
-                .eq(
-                    "id",
-                    session.user.id
-                )
-                .maybeSingle();
+        const admin =
+            await getAdminAccount(
+                session.user.id
+            );
 
 
         if(
-            profile &&
-            String(profile.role)
-                .toLowerCase() === "admin"
+            admin &&
+            String(admin.role || "")
+                .toLowerCase() === "admin" &&
+            String(admin.status || "")
+                .toLowerCase() === "active"
         ){
 
-            const admin =
-                await getAdminAccount(
-                    session.user.id
-                );
-
-
-            if(
-                admin &&
-                admin.role === "admin" &&
-                admin.status === "active"
-            ){
-
-                window.location.href =
-                    "admin.html";
-
-            }
+            window.location.href =
+                "admin.html";
 
         }
 
@@ -1946,47 +1965,7 @@ supabaseClient
             }
 
 
-            /*
-               OAuth/other login must still pass
-               Admin verification before admin.html.
-            */
-
             try{
-
-                const {
-                    data:profile
-                } =
-                    await supabaseClient
-                        .from("profiles")
-                        .select(
-                            "id,role"
-                        )
-                        .eq(
-                            "id",
-                            session.user.id
-                        )
-                        .maybeSingle();
-
-
-                if(
-                    !profile ||
-                    String(profile.role)
-                        .toLowerCase() !== "admin"
-                ){
-
-                    await supabaseClient
-                        .auth
-                        .signOut();
-
-                    showMessage(
-                        "This account is not an Admin account.",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
 
                 const admin =
                     await getAdminAccount(
@@ -1996,16 +1975,18 @@ supabaseClient
 
                 if(
                     !admin ||
-                    admin.role !== "admin" ||
-                    admin.status !== "active"
+                    String(admin.role || "")
+                        .toLowerCase() !== "admin" ||
+                    String(admin.status || "")
+                        .toLowerCase() !== "active"
                 ){
-
+m
                     await supabaseClient
                         .auth
                         .signOut();
 
                     showMessage(
-                        "Admin access is not active for this account.",
+                        "This account is not an active Admin account.",
                         "error"
                     );
 
@@ -2021,7 +2002,7 @@ supabaseClient
             }catch(error){
 
                 console.error(
-                    "Auth verification:",
+                    "Admin verification:",
                     error
                 );
 
