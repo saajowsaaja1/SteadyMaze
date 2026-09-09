@@ -6,6 +6,9 @@
 
 <title>SteadyMaze | Admin Portal</title>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
     margin:0;
@@ -35,8 +38,6 @@ body{
     padding:20px;
 }
 
-/* MAIN */
-
 .auth-wrapper{
     width:100%;
     max-width:1050px;
@@ -48,8 +49,6 @@ body{
     grid-template-columns:1fr 1fr;
     box-shadow:0 25px 70px rgba(0,0,0,.35);
 }
-
-/* LEFT */
 
 .brand-side{
     padding:55px;
@@ -117,8 +116,6 @@ body{
     font-weight:bold;
 }
 
-/* RIGHT */
-
 .form-side{
     padding:45px;
     display:flex;
@@ -140,8 +137,6 @@ body{
     color:var(--muted);
     font-size:14px;
 }
-
-/* TABS */
 
 .tabs{
     display:grid;
@@ -165,8 +160,6 @@ body{
     background:var(--primary);
     color:white;
 }
-
-/* FORMS */
 
 .auth-form{
     display:none;
@@ -221,8 +214,6 @@ body{
     font-size:12px;
 }
 
-/* BUTTON */
-
 .submit-btn{
     width:100%;
     height:48px;
@@ -240,7 +231,10 @@ body{
     background:var(--primary-dark);
 }
 
-/* LINKS */
+.submit-btn:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+}
 
 .form-links{
     display:flex;
@@ -259,8 +253,6 @@ body{
 .form-links a:hover{
     text-decoration:underline;
 }
-
-/* MESSAGE */
 
 .message{
     display:none;
@@ -285,8 +277,6 @@ body{
     border:1px solid #bbf7d0;
 }
 
-/* HOME */
-
 .home-link{
     text-align:center;
     margin-top:25px;
@@ -302,16 +292,12 @@ body{
     color:var(--primary);
 }
 
-/* FOOTER */
-
 .footer{
     text-align:center;
     margin-top:22px;
     color:#94a3b8;
     font-size:11px;
 }
-
-/* MOBILE */
 
 @media(max-width:800px){
 
@@ -514,7 +500,8 @@ body{
 
             <button
                 type="submit"
-                class="submit-btn">
+                class="submit-btn"
+                id="loginButton">
 
                 Login to Admin Dashboard
 
@@ -632,7 +619,8 @@ body{
 
             <button
                 type="submit"
-                class="submit-btn">
+                class="submit-btn"
+                id="signupButton">
 
                 Create Admin Account
 
@@ -678,7 +666,8 @@ body{
 
             <button
                 type="submit"
-                class="submit-btn">
+                class="submit-btn"
+                id="forgotButton">
 
                 Send Reset Request
 
@@ -724,6 +713,35 @@ body{
 
 /*
 ========================================
+SUPABASE CONFIGURATION
+========================================
+
+IMPORTANT:
+
+1. Replace YOUR_SUPABASE_URL
+   with your real Supabase Project URL.
+
+2. Replace YOUR_SUPABASE_ANON_KEY
+   with your real Supabase Publishable/Anon key.
+
+DO NOT PUT SERVICE_ROLE KEY HERE.
+*/
+
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+
+const { createClient } = supabase;
+
+const supabaseClient = createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+
+/*
+========================================
 FORM NAVIGATION
 ========================================
 */
@@ -743,13 +761,17 @@ function openForm(formName){
     ];
 
     forms.forEach(function(id){
+
         document.getElementById(id)
         .classList.remove("active");
+
     });
 
     tabs.forEach(function(id){
+
         document.getElementById(id)
         .classList.remove("active");
+
     });
 
 
@@ -807,6 +829,7 @@ function openForm(formName){
     }
 
     clearMessage();
+
 }
 
 
@@ -818,16 +841,19 @@ PASSWORD SHOW / HIDE
 
 function togglePassword(inputId, button){
 
-    const input = document.getElementById(inputId);
+    const input =
+        document.getElementById(inputId);
 
     if(input.type === "password"){
 
         input.type = "text";
+
         button.textContent = "Hide";
 
     }else{
 
         input.type = "password";
+
         button.textContent = "Show";
 
     }
@@ -837,20 +863,18 @@ function togglePassword(inputId, button){
 
 /*
 ========================================
-LOGIN
+LOGIN ADMIN
 ========================================
 
-IMPORTANT:
-This currently only validates the frontend form.
-
-When PostgreSQL/backend is connected,
-this function will send the credentials
-to the real authentication API.
+REAL SUPABASE AUTHENTICATION
 */
 
-function loginAdmin(event){
+async function loginAdmin(event){
 
     event.preventDefault();
+
+    clearMessage();
+
 
     const email =
         document.getElementById("loginEmail")
@@ -859,8 +883,11 @@ function loginAdmin(event){
 
     const password =
         document.getElementById("loginPassword")
-        .value
-        .trim();
+        .value;
+
+
+    const button =
+        document.getElementById("loginButton");
 
 
     if(!email || !password){
@@ -871,29 +898,209 @@ function loginAdmin(event){
         );
 
         return;
+
     }
 
 
-    /*
-    Frontend preview navigation.
+    button.disabled = true;
 
-    Later this will happen only after
-    the backend confirms the account.
-    */
+    button.textContent = "Signing in...";
 
-    window.location.href = "admin.html";
+
+    try{
+
+        /*
+        SUPABASE AUTH LOGIN
+        */
+
+        const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
+
+                email: email,
+
+                password: password
+
+            });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        if(!data || !data.user){
+
+            throw new Error(
+                "Login failed. No authenticated user was returned."
+            );
+
+        }
+
+
+        /*
+        ========================================
+        CHECK ADMIN ROLE
+        ========================================
+
+        This assumes your profiles table has:
+
+        id
+        role
+
+        and:
+
+        profiles.id = auth.users.id
+
+        The role must be:
+
+        admin
+        */
+
+        const { data: profile, error: profileError } =
+            await supabaseClient
+                .from("profiles")
+                .select("id, role")
+                .eq("id", data.user.id)
+                .maybeSingle();
+
+
+        if(profileError){
+
+            await supabaseClient.auth.signOut();
+
+            throw profileError;
+
+        }
+
+
+        if(!profile){
+
+            await supabaseClient.auth.signOut();
+
+            showMessage(
+                "Your account does not have an admin profile.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            !profile.role ||
+            String(profile.role).toLowerCase() !== "admin"
+        ){
+
+            await supabaseClient.auth.signOut();
+
+            showMessage(
+                "Access denied. This account is not an administrator.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /*
+        ========================================
+        ADMIN VERIFIED
+        ========================================
+        */
+
+        showMessage(
+            "Login successful. Opening Admin Dashboard...",
+            "success"
+        );
+
+
+        setTimeout(function(){
+
+            window.location.href = "admin.html";
+
+        }, 700);
+
+
+    }catch(error){
+
+        console.error("Admin login error:", error);
+
+
+        let message =
+            error.message ||
+            "Unable to sign in.";
+
+
+        /*
+        FRIENDLIER SUPABASE ERRORS
+        */
+
+        if(
+            message.toLowerCase()
+            .includes("invalid login credentials")
+        ){
+
+            message =
+            "Incorrect email or password.";
+
+        }
+
+
+        if(
+            message.toLowerCase()
+            .includes("email not confirmed")
+        ){
+
+            message =
+            "Please confirm your email before logging in.";
+
+        }
+
+
+        showMessage(
+            message,
+            "error"
+        );
+
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Login to Admin Dashboard";
+
+    }
+
 }
 
 
 /*
 ========================================
-CREATE ACCOUNT
+CREATE ADMIN ACCOUNT
 ========================================
+
+IMPORTANT SECURITY NOTE:
+
+A public signup form must NOT automatically
+give somebody the admin role.
+
+The account can be created in Supabase Auth,
+but the user must be assigned role="admin"
+through your secure admin/database process
+before the account can access admin.html.
 */
 
-function createAccount(event){
+async function createAccount(event){
 
     event.preventDefault();
+
+    clearMessage();
+
 
     const name =
         document.getElementById("signupName")
@@ -914,6 +1121,22 @@ function createAccount(event){
         .value;
 
 
+    const button =
+        document.getElementById("signupButton");
+
+
+    if(!name){
+
+        showMessage(
+            "Please enter your full name.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
     if(password.length < 8){
 
         showMessage(
@@ -922,6 +1145,7 @@ function createAccount(event){
         );
 
         return;
+
     }
 
 
@@ -933,27 +1157,93 @@ function createAccount(event){
         );
 
         return;
+
     }
 
 
-    /*
-    No fake database is created here.
+    button.disabled = true;
 
-    Later:
-    PostgreSQL/backend will receive:
+    button.textContent = "Creating Account...";
 
-    name
-    email
-    password
 
-    The password must be securely hashed
-    on the server before being stored.
-    */
+    try{
 
-    showMessage(
-        "Account form is valid. Database connection will be added later.",
-        "success"
-    );
+        /*
+        CREATE REAL SUPABASE AUTH USER
+        */
+
+        const { data, error } =
+            await supabaseClient.auth.signUp({
+
+                email: email,
+
+                password: password,
+
+                options: {
+
+                    data: {
+
+                        full_name: name
+
+                    }
+
+                }
+
+            });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        /*
+        If email confirmation is enabled,
+        session may be null.
+        */
+
+        if(data.user){
+
+            showMessage(
+                "Account created successfully. Your account must be approved as an admin before Admin Dashboard access.",
+                "success"
+            );
+
+        }else{
+
+            showMessage(
+                "Account creation could not be completed.",
+                "error"
+            );
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "Admin account creation error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Unable to create account.",
+            "error"
+        );
+
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Create Admin Account";
+
+    }
 
 }
 
@@ -962,16 +1252,25 @@ function createAccount(event){
 ========================================
 FORGOT PASSWORD
 ========================================
+
+REAL SUPABASE PASSWORD RESET
 */
 
-function forgotPassword(event){
+async function forgotPassword(event){
 
     event.preventDefault();
+
+    clearMessage();
+
 
     const email =
         document.getElementById("forgotEmail")
         .value
         .trim();
+
+
+    const button =
+        document.getElementById("forgotButton");
 
 
     if(!email){
@@ -982,19 +1281,84 @@ function forgotPassword(event){
         );
 
         return;
+
     }
 
 
-    /*
-    Later:
-    backend will send a secure password
-    reset email/token.
-    */
+    button.disabled = true;
 
-    showMessage(
-        "Reset request is ready. Password recovery will be connected to the backend later.",
-        "success"
-    );
+    button.textContent = "Sending...";
+
+
+    try{
+
+        /*
+        IMPORTANT:
+
+        After the email link is opened,
+        your recovery page should handle
+        the new password.
+
+        Example:
+
+        admin-reset-password.html
+        */
+
+        const redirectUrl =
+            window.location.origin +
+            window.location.pathname
+            .replace(
+                "admin-login.html",
+                "admin-reset-password.html"
+            );
+
+
+        const { error } =
+            await supabaseClient.auth
+            .resetPasswordForEmail(
+                email,
+                {
+                    redirectTo: redirectUrl
+                }
+            );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        showMessage(
+            "If this email belongs to an account, a password reset link has been sent.",
+            "success"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Password reset error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Unable to send password reset request.",
+            "error"
+        );
+
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Send Reset Request";
+
+    }
 
 }
 
@@ -1028,6 +1392,74 @@ function clearMessage(){
     message.className = "message";
 
 }
+
+
+/*
+========================================
+CHECK EXISTING SESSION
+========================================
+
+If an already authenticated ADMIN opens
+admin-login.html, send them directly
+to admin.html.
+*/
+
+async function checkExistingAdminSession(){
+
+    try{
+
+        const {
+            data: {
+                session
+            }
+        } =
+            await supabaseClient.auth.getSession();
+
+
+        if(!session || !session.user){
+
+            return;
+
+        }
+
+
+        const { data: profile } =
+            await supabaseClient
+                .from("profiles")
+                .select("id, role")
+                .eq("id", session.user.id)
+                .maybeSingle();
+
+
+        if(
+            profile &&
+            profile.role &&
+            String(profile.role).toLowerCase() === "admin"
+        ){
+
+            window.location.href = "admin.html";
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Session check error:",
+            error
+        );
+
+    }
+
+}
+
+
+/*
+========================================
+START
+========================================
+*/
+
+checkExistingAdminSession();
 
 </script>
 
