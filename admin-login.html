@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SteadyMaze | Admin Login</title>
 
+<title>SteadyMaze | Admin Portal</title>
+
+<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -14,551 +16,950 @@
     box-sizing:border-box;
 }
 
+:root{
+    --bg:#f7f3e8;
+    --panel:#ffffff;
+    --primary:#c9a227;
+    --primary-dark:#9f7d12;
+    --text:#111111;
+    --muted:#6b6b6b;
+    --border:#e7d9a8;
+    --danger:#b91c1c;
+    --success:#15803d;
+    --gold-light:#f4e6b0;
+}
+
 body{
-    font-family:Arial, sans-serif;
     min-height:100vh;
+    font-family:Arial, Helvetica, sans-serif;
     background:
-        radial-gradient(circle at top left, rgba(212,175,55,.18), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(0,128,96,.16), transparent 35%),
-        #07111f;
-    color:#fff;
+        radial-gradient(circle at top left,#fffdf5 0%,transparent 35%),
+        linear-gradient(135deg,#f7f3e8,#fffdf8);
     display:flex;
     align-items:center;
     justify-content:center;
     padding:20px;
 }
 
-.container{
+.auth-wrapper{
     width:100%;
     max-width:1050px;
     min-height:650px;
+    background:var(--panel);
+    border-radius:24px;
+    overflow:hidden;
     display:grid;
     grid-template-columns:1fr 1fr;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:28px;
-    overflow:hidden;
-    backdrop-filter:blur(20px);
-    box-shadow:0 30px 80px rgba(0,0,0,.45);
+    box-shadow:0 25px 70px rgba(120,90,10,.16);
+    border:1px solid var(--border);
 }
 
-.left{
+.brand-side{
     padding:55px;
+    color:#111;
+    background:
+        radial-gradient(circle at top right,
+        rgba(201,162,39,.28),
+        transparent 35%),
+        linear-gradient(145deg,#ffffff,#fffaf0,#f5ecd0);
+
     display:flex;
     flex-direction:column;
     justify-content:center;
-    background:
-        linear-gradient(145deg,rgba(212,175,55,.12),transparent),
-        rgba(4,12,25,.7);
+    border-right:1px solid var(--border);
 }
 
-.logo{
-    font-size:30px;
-    font-weight:800;
-    color:#d4af37;
-    margin-bottom:18px;
+.brand{
+    margin-bottom:35px;
 }
 
-.left h1{
-    font-size:46px;
-    line-height:1.1;
-    margin-bottom:20px;
+.brand h1{
+    font-size:42px;
+    letter-spacing:-1px;
+    margin-bottom:8px;
+    color:#111;
 }
 
-.left p{
-    color:#b9c3d0;
+.brand span{
+    color:var(--primary-dark);
+    font-size:14px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+.brand-side h2{
+    font-size:28px;
+    line-height:1.25;
+    margin-bottom:15px;
+    color:#171717;
+}
+
+.brand-side p{
+    color:#626262;
     line-height:1.7;
-    max-width:430px;
-}
-
-.badge{
-    display:inline-flex;
-    width:max-content;
-    padding:8px 14px;
-    border:1px solid rgba(212,175,55,.4);
-    border-radius:50px;
-    color:#d4af37;
-    margin-bottom:25px;
-    font-size:13px;
-    font-weight:700;
+    max-width:420px;
 }
 
 .features{
     margin-top:35px;
-    display:grid;
-    gap:15px;
 }
 
 .feature{
     display:flex;
+    align-items:center;
     gap:12px;
-    align-items:center;
-    color:#dbe2eb;
+    margin-bottom:16px;
+    color:#333;
+    font-size:14px;
 }
 
-.feature span{
-    width:34px;
-    height:34px;
-    border-radius:10px;
+.check{
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    background:var(--gold-light);
     display:flex;
     align-items:center;
     justify-content:center;
-    background:rgba(212,175,55,.12);
-    color:#d4af37;
+    color:var(--primary-dark);
+    font-weight:bold;
+    border:1px solid var(--border);
 }
 
-.right{
+.form-side{
     padding:45px;
-    background:rgba(255,255,255,.04);
+    background:#ffffff;
     display:flex;
-    align-items:center;
+    flex-direction:column;
     justify-content:center;
 }
 
-.auth-box{
-    width:100%;
-    max-width:420px;
+.form-header{
+    margin-bottom:25px;
 }
 
-.auth-box h2{
-    font-size:30px;
-    margin-bottom:8px;
+.form-header h2{
+    color:var(--text);
+    font-size:27px;
+    margin-bottom:7px;
 }
 
-.subtitle{
-    color:#9faabd;
-    margin-bottom:28px;
-    line-height:1.5;
+.form-header p{
+    color:var(--muted);
+    font-size:14px;
 }
 
 .tabs{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:8px;
-    padding:5px;
-    background:rgba(255,255,255,.06);
-    border-radius:12px;
+    gap:7px;
     margin-bottom:25px;
 }
 
 .tab{
-    border:0;
-    background:transparent;
-    color:#9faabd;
-    padding:11px 5px;
+    border:1px solid var(--border);
+    background:#fffdf7;
+    color:#777;
+    padding:11px 6px;
     border-radius:9px;
     cursor:pointer;
-    font-weight:700;
+    font-size:12px;
+    font-weight:bold;
 }
 
 .tab.active{
-    background:#d4af37;
-    color:#07111f;
+    background:var(--primary);
+    color:white;
+    border-color:var(--primary);
 }
 
-.form{
+.auth-form{
     display:none;
 }
 
-.form.active{
+.auth-form.active{
     display:block;
 }
 
-.input-group{
-    margin-bottom:18px;
+.field{
+    margin-bottom:17px;
 }
 
-.input-group label{
+.field label{
     display:block;
-    margin-bottom:8px;
-    color:#dce3ec;
-    font-size:14px;
-    font-weight:600;
+    margin-bottom:7px;
+    color:#374151;
+    font-size:13px;
+    font-weight:bold;
 }
 
-.input-group input{
+.input-box{
+    position:relative;
+}
+
+.input-box input{
     width:100%;
-    padding:15px 16px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,.12);
+    height:48px;
+    padding:0 45px 0 14px;
+    border:1px solid var(--border);
+    border-radius:10px;
     outline:none;
-    background:rgba(0,0,0,.25);
-    color:#fff;
-    font-size:15px;
+    font-size:14px;
+    color:var(--text);
+    background:white;
 }
 
-.input-group input:focus{
-    border-color:#d4af37;
-    box-shadow:0 0 0 3px rgba(212,175,55,.08);
+.input-box input:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(201,162,39,.12);
 }
 
-.btn{
-    width:100%;
-    padding:15px;
+.password-toggle{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
     border:0;
-    border-radius:12px;
-    background:linear-gradient(135deg,#d4af37,#f0d675);
-    color:#07111f;
-    font-weight:800;
+    background:none;
     cursor:pointer;
-    font-size:15px;
-    transition:.2s;
+    color:var(--primary-dark);
+    font-size:12px;
+    font-weight:bold;
 }
 
-.btn:hover{
-    transform:translateY(-1px);
-    box-shadow:0 10px 25px rgba(212,175,55,.2);
+.submit-btn{
+    width:100%;
+    height:48px;
+    border:0;
+    border-radius:10px;
+    background:linear-gradient(135deg,#c9a227,#e4c75b);
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 8px 20px rgba(201,162,39,.18);
+}
+
+.submit-btn:hover{
+    background:linear-gradient(135deg,#b28c19,#d5b542);
+}
+
+.submit-btn:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+}
+
+.form-links{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:15px;
+}
+
+.form-links a{
+    color:var(--primary-dark);
+    text-decoration:none;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.form-links a:hover{
+    text-decoration:underline;
 }
 
 .message{
     display:none;
-    margin-bottom:18px;
-    padding:13px 15px;
-    border-radius:10px;
-    font-size:14px;
+    margin-bottom:16px;
+    padding:12px;
+    border-radius:9px;
+    font-size:13px;
     line-height:1.5;
-}
-
-.message.show{
-    display:block;
 }
 
 .message.error{
-    background:rgba(220,38,38,.12);
-    border:1px solid rgba(220,38,38,.3);
-    color:#ff8f8f;
+    display:block;
+    color:#991b1b;
+    background:#fef2f2;
+    border:1px solid #fecaca;
 }
 
 .message.success{
-    background:rgba(16,185,129,.12);
-    border:1px solid rgba(16,185,129,.3);
-    color:#70e2b6;
+    display:block;
+    color:var(--success);
+    background:#f0fdf4;
+    border:1px solid #bbf7d0;
 }
 
-.small{
+.home-link{
     text-align:center;
-    margin-top:18px;
-    color:#7f8b9d;
-    font-size:12px;
-    line-height:1.5;
+    margin-top:25px;
+}
+
+.home-link a{
+    color:#777;
+    font-size:13px;
+    text-decoration:none;
+}
+
+.home-link a:hover{
+    color:var(--primary-dark);
+}
+
+.footer{
+    text-align:center;
+    margin-top:22px;
+    color:#a08a48;
+    font-size:11px;
 }
 
 @media(max-width:800px){
-    .container{
-        grid-template-columns:1fr;
+
+    body{
+        padding:12px;
     }
 
-    .left{
+    .auth-wrapper{
+        grid-template-columns:1fr;
+        min-height:auto;
+    }
+
+    .brand-side{
         display:none;
     }
 
-    .right{
-        min-height:620px;
-        padding:28px 20px;
+    .form-side{
+        padding:30px 20px;
     }
+
+    .form-header h2{
+        font-size:24px;
+    }
+
+}
+
+@media(max-width:380px){
+
+    .tabs{
+        grid-template-columns:1fr;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="auth-wrapper">
 
-    <div class="left">
-        <div class="logo">SteadyMaze</div>
+    <!-- BRAND SIDE -->
 
-        <div class="badge">ADMIN CONTROL CENTER</div>
+    <section class="brand-side">
 
-        <h1>Welcome to your Admin Dashboard.</h1>
+        <div class="brand">
+            <h1>SteadyMaze</h1>
+            <span>ADMIN CONTROL CENTER</span>
+        </div>
+
+        <h2>
+            Manage the learning platform from one place.
+        </h2>
 
         <p>
-            Securely manage students, teachers, courses, competitions,
-            rewards, payments, notifications and platform analytics.
+            Admin access for managing students, teachers,
+            courses, lessons, competition, rewards and payments.
         </p>
 
         <div class="features">
+
             <div class="feature">
-                <span>✓</span>
-                Secure Supabase Authentication
+                <div class="check">✓</div>
+                Student management
             </div>
 
             <div class="feature">
-                <span>✓</span>
-                Admin Role Verification
+                <div class="check">✓</div>
+                Teacher management
             </div>
 
             <div class="feature">
-                <span>✓</span>
-                Premium Dashboard Access
+                <div class="check">✓</div>
+                Competition management
             </div>
+
+            <div class="feature">
+                <div class="check">✓</div>
+                Course and lesson management
+            </div>
+
+            <div class="feature">
+                <div class="check">✓</div>
+                Payments and rewards
+            </div>
+
         </div>
-    </div>
 
-    <div class="right">
+    </section>
 
-        <div class="auth-box">
+    <!-- FORM SIDE -->
 
-            <h2>Admin Access</h2>
+    <section class="form-side">
 
-            <p class="subtitle">
-                Sign in or create your authorized administrator account.
+        <div class="form-header">
+
+            <h2 id="formTitle">
+                Admin Login
+            </h2>
+
+            <p id="formSubtitle">
+                Sign in to continue to the admin dashboard.
             </p>
 
-            <div id="message" class="message"></div>
+        </div>
 
-            <div class="tabs">
-                <button class="tab active" onclick="showForm('login',this)">
-                    Login
-                </button>
+        <div id="message" class="message"></div>
 
-                <button class="tab" onclick="showForm('signup',this)">
-                    Create Account
-                </button>
+        <!-- TABS -->
 
-                <button class="tab" onclick="showForm('forgot',this)">
-                    Forgot Password
-                </button>
-            </div>
+        <div class="tabs">
 
-            <!-- LOGIN -->
+            <button
+                class="tab active"
+                id="loginTab"
+                onclick="openForm('login')">
 
-            <form id="loginForm" class="form active">
+                Login
 
-                <div class="input-group">
-                    <label>Email</label>
+            </button>
+
+            <button
+                class="tab"
+                id="signupTab"
+                onclick="openForm('signup')">
+
+                Create Account
+
+            </button>
+
+            <button
+                class="tab"
+                id="forgotTab"
+                onclick="openForm('forgot')">
+
+                Forgot Password
+
+            </button>
+
+        </div>
+
+        <!-- LOGIN -->
+
+        <form
+            id="loginForm"
+            class="auth-form active"
+            onsubmit="loginAdmin(event)">
+
+            <div class="field">
+
+                <label for="loginEmail">
+                    Admin Email
+                </label>
+
+                <div class="input-box">
+
                     <input
                         type="email"
                         id="loginEmail"
-                        placeholder="Admin email"
-                        required
-                    >
+                        placeholder="Enter admin email"
+                        autocomplete="email"
+                        required>
+
                 </div>
 
-                <div class="input-group">
-                    <label>Password</label>
+            </div>
+
+            <div class="field">
+
+                <label for="loginPassword">
+                    Password
+                </label>
+
+                <div class="input-box">
+
                     <input
                         type="password"
                         id="loginPassword"
-                        placeholder="Your password"
-                        required
-                    >
+                        placeholder="Enter password"
+                        autocomplete="current-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('loginPassword', this)">
+
+                        Show
+
+                    </button>
+
                 </div>
 
-                <button class="btn" type="submit">
-                    Login to Admin
-                </button>
+            </div>
 
-            </form>
+            <button
+                type="submit"
+                class="submit-btn"
+                id="loginButton">
 
+                Login to Admin Dashboard
 
-            <!-- SIGN UP -->
+            </button>
 
-            <form id="signupForm" class="form">
+            <div class="form-links">
 
-                <div class="input-group">
-                    <label>Full Name</label>
+                <a onclick="openForm('forgot')">
+                    Forgot Password?
+                </a>
+
+                <a onclick="openForm('signup')">
+                    Create Account
+                </a>
+
+            </div>
+
+        </form>
+
+        <!-- CREATE ACCOUNT -->
+
+        <form
+            id="signupForm"
+            class="auth-form"
+            onsubmit="createAccount(event)">
+
+            <div class="field">
+
+                <label for="signupName">
+                    Full Name
+                </label>
+
+                <div class="input-box">
+
                     <input
                         type="text"
                         id="signupName"
-                        placeholder="Admin full name"
-                        required
-                    >
+                        placeholder="Enter full name"
+                        required>
+
                 </div>
 
-                <div class="input-group">
-                    <label>Admin Email</label>
+            </div>
+
+            <div class="field">
+
+                <label for="signupEmail">
+                    Admin Email
+                </label>
+
+                <div class="input-box">
+
                     <input
                         type="email"
                         id="signupEmail"
-                        placeholder="Authorized admin email"
-                        required
-                    >
+                        placeholder="Enter admin email"
+                        autocomplete="email"
+                        required>
+
                 </div>
 
-                <div class="input-group">
-                    <label>Password</label>
+            </div>
+
+            <div class="field">
+
+                <label for="signupPassword">
+                    Password
+                </label>
+
+                <div class="input-box">
+
                     <input
                         type="password"
                         id="signupPassword"
                         placeholder="Create password"
-                        minlength="6"
-                        required
-                    >
+                        autocomplete="new-password"
+                        minlength="8"
+                        required>
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('signupPassword', this)">
+
+                        Show
+
+                    </button>
+
                 </div>
 
-                <button class="btn" type="submit">
-                    Create Admin Account
-                </button>
+            </div>
 
-                <div class="small">
-                    Only the authorized administrator email can create
-                    an administrator account.
+            <div class="field">
+
+                <label for="signupConfirm">
+                    Confirm Password
+                </label>
+
+                <div class="input-box">
+
+                    <input
+                        type="password"
+                        id="signupConfirm"
+                        placeholder="Confirm password"
+                        minlength="8"
+                        required>
+
                 </div>
 
-            </form>
+            </div>
 
+            <button
+                type="submit"
+                class="submit-btn"
+                id="signupButton">
 
-            <!-- FORGOT PASSWORD -->
+                Create Admin Account
 
-            <form id="forgotForm" class="form">
+            </button>
 
-                <div class="input-group">
-                    <label>Admin Email</label>
+            <div class="form-links">
+
+                <a onclick="openForm('login')">
+                    Already have an account? Login
+                </a>
+
+            </div>
+
+        </form>
+
+        <!-- FORGOT PASSWORD -->
+
+        <form
+            id="forgotForm"
+            class="auth-form"
+            onsubmit="forgotPassword(event)">
+
+            <div class="field">
+
+                <label for="forgotEmail">
+                    Admin Email
+                </label>
+
+                <div class="input-box">
+
                     <input
                         type="email"
                         id="forgotEmail"
                         placeholder="Enter your admin email"
-                        required
-                    >
+                        autocomplete="email"
+                        required>
+
                 </div>
 
-                <button class="btn" type="submit">
-                    Send Reset Email
-                </button>
-
-            </form>
-
-            <div class="small">
-                SteadyMaze Academy • Secure Administration
             </div>
+
+            <button
+                type="submit"
+                class="submit-btn"
+                id="forgotButton">
+
+                Send Reset Request
+
+            </button>
+
+            <div class="form-links">
+
+                <a onclick="openForm('login')">
+                    ← Back to Login
+                </a>
+
+                <a onclick="openForm('signup')">
+                    Create Account
+                </a>
+
+            </div>
+
+        </form>
+
+        <div class="home-link">
+
+            <a href="index.html">
+                ← Back to SteadyMaze Homepage
+            </a>
 
         </div>
 
-    </div>
+        <div class="footer">
+
+            SteadyMaze Admin Portal © 2026
+
+        </div>
+
+    </section>
 
 </div>
 
 
 <script>
 
-/* =========================================
-   SUPABASE CONFIGURATION
-   ========================================= */
+/* =====================================================
+   SUPABASE
+   ===================================================== */
 
-const SUPABASE_URL = "YOUR_SUPABASE_URL";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+const SUPABASE_URL =
+    "YOUR_SUPABASE_URL";
+
+const SUPABASE_ANON_KEY =
+    "YOUR_SUPABASE_ANON_KEY";
+
 
 /*
-   IMPORTANT:
-   Put the one special email that belongs to
-   the SteadyMaze administrator here.
+   Geli halkaan email-ka Admin-ka gaarka ah.
+
+   Tusaale:
+   admin@steadymaze.com
 */
-const ADMIN_EMAIL = "YOUR_ADMIN_EMAIL";
+
+const ADMIN_EMAIL =
+    "YOUR_ADMIN_EMAIL";
 
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
 
-/* =========================================
-   FORM SWITCHING
-   ========================================= */
+/* =====================================================
+   FORM NAVIGATION
+   ===================================================== */
 
-function showForm(formName, button){
+function openForm(formName){
 
-    document.querySelectorAll(".form").forEach(form => {
-        form.classList.remove("active");
-    });
+    document
+        .querySelectorAll(".auth-form")
+        .forEach(function(form){
 
-    document.querySelectorAll(".tab").forEach(tab => {
-        tab.classList.remove("active");
-    });
+            form.classList.remove("active");
+
+        });
+
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(function(tab){
+
+            tab.classList.remove("active");
+
+        });
+
 
     if(formName === "login"){
-        document.getElementById("loginForm").classList.add("active");
+
+        document
+            .getElementById("loginForm")
+            .classList.add("active");
+
+        document
+            .getElementById("loginTab")
+            .classList.add("active");
+
+        document
+            .getElementById("formTitle")
+            .textContent = "Admin Login";
+
+        document
+            .getElementById("formSubtitle")
+            .textContent =
+            "Sign in to continue to the admin dashboard.";
     }
+
 
     if(formName === "signup"){
-        document.getElementById("signupForm").classList.add("active");
+
+        document
+            .getElementById("signupForm")
+            .classList.add("active");
+
+        document
+            .getElementById("signupTab")
+            .classList.add("active");
+
+        document
+            .getElementById("formTitle")
+            .textContent = "Create Admin Account";
+
+        document
+            .getElementById("formSubtitle")
+            .textContent =
+            "Create your administrator account.";
     }
+
 
     if(formName === "forgot"){
-        document.getElementById("forgotForm").classList.add("active");
+
+        document
+            .getElementById("forgotForm")
+            .classList.add("active");
+
+        document
+            .getElementById("forgotTab")
+            .classList.add("active");
+
+        document
+            .getElementById("formTitle")
+            .textContent = "Reset Password";
+
+        document
+            .getElementById("formSubtitle")
+            .textContent =
+            "Reset your administrator password.";
     }
 
-    button.classList.add("active");
 
-    hideMessage();
+    clearMessage();
 }
 
 
-/* =========================================
+/* =====================================================
+   PASSWORD SHOW / HIDE
+   ===================================================== */
+
+function togglePassword(inputId, button){
+
+    const input =
+        document.getElementById(inputId);
+
+    if(input.type === "password"){
+
+        input.type = "text";
+
+        button.textContent = "Hide";
+
+    }else{
+
+        input.type = "password";
+
+        button.textContent = "Show";
+
+    }
+}
+
+
+/* =====================================================
    MESSAGE
-   ========================================= */
+   ===================================================== */
 
 function showMessage(text, type){
 
-    const message = document.getElementById("message");
+    const message =
+        document.getElementById("message");
 
     message.textContent = text;
-    message.className = "message show " + type;
+
+    message.className =
+        "message " + type;
 }
 
-function hideMessage(){
 
-    const message = document.getElementById("message");
+function clearMessage(){
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = "";
 
     message.className = "message";
-    message.textContent = "";
 }
 
 
-/* =========================================
+/* =====================================================
    ADMIN EMAIL CHECK
-   ========================================= */
+   ===================================================== */
 
-function isAuthorizedAdminEmail(email){
+function isAdminEmail(email){
 
-    return email.trim().toLowerCase() ===
-           ADMIN_EMAIL.trim().toLowerCase();
+    return (
+        email.trim().toLowerCase() ===
+        ADMIN_EMAIL.trim().toLowerCase()
+    );
 }
 
 
-/* =========================================
-   GET ADMIN PROFILE
-   ========================================= */
+/* =====================================================
+   GET ADMIN ACCOUNT
+   ===================================================== */
 
-async function getAdminProfile(userId){
+async function getAdminAccount(userId){
 
-    const { data, error } = await supabaseClient
-        .from("profiles")
-        .select("id, role, full_name")
-        .eq("id", userId)
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("admin_accounts")
+        .select(
+            "id,user_id,email,role,status"
+        )
+        .eq("user_id", userId)
         .maybeSingle();
 
+
     if(error){
+
         throw error;
+
     }
+
 
     return data;
 }
 
 
-/* =========================================
-   LOGIN
-   ========================================= */
+/* =====================================================
+   LOGIN ADMIN
+   ===================================================== */
 
-document
-.getElementById("loginForm")
-.addEventListener("submit", async function(event){
+async function loginAdmin(event){
 
     event.preventDefault();
 
-    hideMessage();
+    clearMessage();
+
 
     const email =
-        document.getElementById("loginEmail")
-        .value
-        .trim()
-        .toLowerCase();
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
 
     const password =
-        document.getElementById("loginPassword")
-        .value;
+        document
+            .getElementById("loginPassword")
+            .value;
 
-    if(!isAuthorizedAdminEmail(email)){
+
+    const button =
+        document.getElementById(
+            "loginButton"
+        );
+
+
+    /*
+       ADMIN EMAIL ONLY
+    */
+
+    if(!isAdminEmail(email)){
 
         showMessage(
             "This email is not authorized for Admin access.",
@@ -566,116 +967,234 @@ document
         );
 
         return;
+
     }
 
-    const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
 
-    if(error){
+    button.disabled = true;
 
-        showMessage(
-            error.message,
-            "error"
-        );
+    button.textContent =
+        "Checking Admin...";
 
-        return;
-    }
-
-    if(!data.user){
-
-        showMessage(
-            "Admin account could not be verified.",
-            "error"
-        );
-
-        return;
-    }
 
     try{
 
-        const profile =
-            await getAdminProfile(data.user.id);
+        /*
+           SUPABASE AUTH
+        */
 
-        if(!profile){
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+                .signInWithPassword({
+
+                    email:email,
+
+                    password:password
+
+                });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        if(!data.user){
+
+            throw new Error(
+                "Admin authentication failed."
+            );
+
+        }
+
+
+        /*
+           CHECK ADMIN TABLE
+        */
+
+        const admin =
+            await getAdminAccount(
+                data.user.id
+            );
+
+
+        if(!admin){
 
             await supabaseClient.auth.signOut();
 
             showMessage(
-                "Admin profile was not found.",
+                "This account is not registered as an Admin.",
                 "error"
             );
 
             return;
+
         }
 
-        if(profile.role !== "admin"){
+
+        /*
+           ROLE CHECK
+        */
+
+        if(
+            String(admin.role)
+                .toLowerCase() !== "admin"
+        ){
 
             await supabaseClient.auth.signOut();
 
             showMessage(
-                "This account does not have Admin permission.",
+                "Access denied. This account is not an Admin.",
                 "error"
             );
 
             return;
+
         }
+
+
+        /*
+           STATUS CHECK
+        */
+
+        if(admin.status !== "active"){
+
+            await supabaseClient.auth.signOut();
+
+            showMessage(
+                "This Admin account is not active.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /*
+           EMAIL CHECK
+        */
+
+        if(
+            admin.email
+                .trim()
+                .toLowerCase() !==
+            ADMIN_EMAIL
+                .trim()
+                .toLowerCase()
+        ){
+
+            await supabaseClient.auth.signOut();
+
+            showMessage(
+                "Admin email verification failed.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /*
+           EVERYTHING VERIFIED
+        */
 
         showMessage(
             "Admin verified. Opening dashboard...",
             "success"
         );
 
+
         setTimeout(function(){
 
-            window.location.href = "admin.html";
+            window.location.href =
+                "admin.html";
 
-        }, 700);
+        },700);
+
 
     }catch(error){
 
-        await supabaseClient.auth.signOut();
+        console.error(
+            "Admin Login Error:",
+            error
+        );
+
 
         showMessage(
-            error.message,
+            error.message ||
+            "Unable to login.",
             "error"
         );
+
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Login to Admin Dashboard";
+
     }
 
-});
+}
 
 
-/* =========================================
+/* =====================================================
    CREATE ADMIN ACCOUNT
-   ========================================= */
+   ===================================================== */
 
-document
-.getElementById("signupForm")
-.addEventListener("submit", async function(event){
+async function createAccount(event){
 
     event.preventDefault();
 
-    hideMessage();
+    clearMessage();
+
 
     const name =
-        document.getElementById("signupName")
-        .value
-        .trim();
+        document
+            .getElementById("signupName")
+            .value
+            .trim();
+
 
     const email =
-        document.getElementById("signupEmail")
-        .value
-        .trim()
-        .toLowerCase();
+        document
+            .getElementById("signupEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
 
     const password =
-        document.getElementById("signupPassword")
-        .value;
+        document
+            .getElementById("signupPassword")
+            .value;
 
 
-    if(!isAuthorizedAdminEmail(email)){
+    const confirm =
+        document
+            .getElementById("signupConfirm")
+            .value;
+
+
+    const button =
+        document.getElementById(
+            "signupButton"
+        );
+
+
+    /*
+       ONLY SPECIAL ADMIN EMAIL
+    */
+
+    if(!isAdminEmail(email)){
 
         showMessage(
             "Only the authorized Admin email can create this account.",
@@ -683,179 +1202,285 @@ document
         );
 
         return;
+
     }
 
 
-    const { data, error } =
-        await supabaseClient.auth.signUp({
-
-            email: email,
-
-            password: password,
-
-            options:{
-                data:{
-                    full_name:name
-                }
-            }
-
-        });
-
-
-    if(error){
+    if(password.length < 8){
 
         showMessage(
-            error.message,
+            "Password must contain at least 8 characters.",
             "error"
         );
 
         return;
+
     }
 
 
-    /*
-       Supabase may require email verification.
-       The admin role must be assigned securely
-       in the database; never put a service_role key
-       inside this HTML file.
-    */
-
-    if(data.user){
+    if(password !== confirm){
 
         showMessage(
-            "Account created. Check your email for verification, then log in after your Admin role has been approved.",
-            "success"
-        );
-
-        document
-            .getElementById("signupForm")
-            .reset();
-    }
-
-});
-
-
-/* =========================================
-   FORGOT PASSWORD
-   ========================================= */
-
-document
-.getElementById("forgotForm")
-.addEventListener("submit", async function(event){
-
-    event.preventDefault();
-
-    hideMessage();
-
-    const email =
-        document.getElementById("forgotEmail")
-        .value
-        .trim()
-        .toLowerCase();
-
-
-    if(!isAuthorizedAdminEmail(email)){
-
-        showMessage(
-            "This email is not the authorized Admin email.",
+            "Passwords do not match.",
             "error"
         );
 
         return;
+
     }
 
 
-    const { error } =
-        await supabaseClient.auth
-        .resetPasswordForEmail(
-            email,
-            {
-                redirectTo:
-                window.location.origin +
-                "/admin-reset-password.html"
-            }
-        );
+    button.disabled = true;
 
-
-    if(error){
-
-        showMessage(
-            error.message,
-            "error"
-        );
-
-        return;
-    }
-
-
-    showMessage(
-        "Password reset email has been sent.",
-        "success"
-    );
-
-});
-
-
-/* =========================================
-   EXISTING SESSION CHECK
-   ========================================= */
-
-async function checkAdminSession(){
-
-    const { data } =
-        await supabaseClient.auth.getSession();
-
-    const session = data.session;
-
-    if(!session || !session.user){
-
-        return;
-    }
-
-
-    const email =
-        session.user.email
-        ?.trim()
-        .toLowerCase();
-
-
-    if(!isAuthorizedAdminEmail(email)){
-
-        await supabaseClient.auth.signOut();
-
-        return;
-    }
+    button.textContent =
+        "Creating Account...";
 
 
     try{
 
-        const profile =
-            await getAdminProfile(
-                session.user.id
+        /*
+           CREATE USER IN SUPABASE AUTH
+        */
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+                .signUp({
+
+                    email:email,
+
+                    password:password,
+
+                    options:{
+                        data:{
+                            full_name:name
+                        }
+                    }
+
+                });
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        if(data.user){
+
+            showMessage(
+                "Account created. Please verify your email, then login. The account must have Admin permission in Supabase before dashboard access.",
+                "success"
             );
 
 
-        if(profile && profile.role === "admin"){
-
-            window.location.href = "admin.html";
+            document
+                .getElementById("signupForm")
+                .reset();
 
         }
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Admin Signup Error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Unable to create Admin account.",
+            "error"
+        );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Create Admin Account";
 
     }
 
 }
 
 
-checkAdminSession();
+/* =====================================================
+   FORGOT PASSWORD
+   ===================================================== */
+
+async function forgotPassword(event){
+
+    event.preventDefault();
+
+    clearMessage();
 
 
-/* =========================================
+    const email =
+        document
+            .getElementById("forgotEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const button =
+        document.getElementById(
+            "forgotButton"
+        );
+
+
+    if(!isAdminEmail(email)){
+
+        showMessage(
+            "This email is not authorized for Admin access.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Sending...";
+
+
+    try{
+
+        const resetUrl =
+            window.location.origin +
+            window.location.pathname
+                .replace(
+                    "admin-login.html",
+                    "admin-reset-password.html"
+                );
+
+
+        const {
+            error
+        } =
+            await supabaseClient.auth
+                .resetPasswordForEmail(
+                    email,
+                    {
+                        redirectTo:resetUrl
+                    }
+                );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        showMessage(
+            "Password reset email has been sent.",
+            "success"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Password Reset Error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Unable to send reset email.",
+            "error"
+        );
+
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Send Reset Request";
+
+    }
+
+}
+
+
+/* =====================================================
+   EXISTING SESSION CHECK
+   ===================================================== */
+
+async function checkExistingAdminSession(){
+
+    try{
+
+        const {
+            data
+        } =
+            await supabaseClient.auth
+                .getSession();
+
+
+        const session =
+            data.session;
+
+
+        if(!session){
+
+            return;
+
+        }
+
+
+        /*
+           CHECK ADMIN ACCOUNT
+        */
+
+        const admin =
+            await getAdminAccount(
+                session.user.id
+            );
+
+
+        if(
+            admin &&
+            admin.role === "admin" &&
+            admin.status === "active" &&
+            isAdminEmail(admin.email)
+        ){
+
+            window.location.href =
+                "admin.html";
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Session Check Error:",
+            error
+        );
+
+    }
+
+}
+
+
+checkExistingAdminSession();
+
+
+/* =====================================================
    AUTH STATE
-   ========================================= */
+   ===================================================== */
 
 supabaseClient.auth.onAuthStateChange(
     async function(event, session){
@@ -868,22 +1493,10 @@ supabaseClient.auth.onAuthStateChange(
             return;
         }
 
-        const email =
-            session.user.email
-            ?.trim()
-            .toLowerCase();
-
-
-        if(!isAuthorizedAdminEmail(email)){
-
-            await supabaseClient.auth.signOut();
-
-            showMessage(
-                "This account is not authorized for Admin access.",
-                "error"
-            );
-
-        }
+        /*
+           Admin verification is performed
+           by loginAdmin().
+        */
 
     }
 );
