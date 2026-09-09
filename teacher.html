@@ -498,6 +498,13 @@ textarea{
     transform:translateY(0)
 }
 
+.btn:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+    transform:none;
+    filter:none;
+}
+
 .btn-blue{
     background:
         linear-gradient(
@@ -763,6 +770,262 @@ textarea{
     font-size:11px;
     line-height:1.6;
     margin-bottom:18px;
+}
+
+/* =========================
+   FOREX / CRYPTO COURSE RULES
+   ========================= */
+
+.course-rules-panel{
+    display:none;
+    margin:20px 0;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid rgba(212,175,55,.28);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(22,166,106,.07),
+            rgba(212,175,55,.055),
+            rgba(239,35,60,.045)
+        );
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.20),
+        inset 0 1px rgba(255,255,255,.035);
+}
+
+.course-rules-panel.show{
+    display:block;
+    animation:rulesIn .3s ease;
+}
+
+@keyframes rulesIn{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.course-rules-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.course-rules-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.course-rules-title .rules-icon{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:rgba(212,175,55,.10);
+    border:1px solid rgba(212,175,55,.20);
+    font-size:19px;
+}
+
+.course-rules-title h3{
+    font-size:16px;
+}
+
+.course-rules-title p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:3px;
+}
+
+.rules-course-badge{
+    padding:7px 10px;
+    border-radius:20px;
+    background:rgba(139,61,255,.10);
+    border:1px solid rgba(139,61,255,.22);
+    color:#d1b6ff;
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    white-space:nowrap;
+}
+
+.rules-columns{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.rules-column{
+    padding:16px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.rules-column.allowed{
+    background:rgba(22,166,106,.055);
+    border-color:rgba(57,217,138,.18);
+}
+
+.rules-column.not-allowed{
+    background:rgba(239,35,60,.055);
+    border-color:rgba(239,35,60,.18);
+}
+
+.rules-column h4{
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.rules-column.allowed h4{
+    color:#8ff0bb;
+}
+
+.rules-column.not-allowed h4{
+    color:#ff9eaa;
+}
+
+.rules-list{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.rules-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    color:#d9d0dc;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.rules-list li .rule-mark{
+    flex:0 0 auto;
+    font-weight:900;
+}
+
+.allowed .rule-mark{
+    color:var(--green2);
+}
+
+.not-allowed .rule-mark{
+    color:var(--red2);
+}
+
+.rules-note{
+    margin-top:14px;
+    padding:11px 13px;
+    border-radius:10px;
+    background:rgba(0,0,0,.16);
+    color:#bcaebe;
+    font-size:10px;
+    line-height:1.55;
+}
+
+.rules-confirm{
+    margin-top:16px;
+    padding:14px;
+    border-radius:13px;
+    background:rgba(255,255,255,.025);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.rules-checkbox{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    cursor:pointer;
+    margin:0;
+    color:#fff;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.rules-checkbox input{
+    width:17px;
+    height:17px;
+    margin:1px 0 0;
+    flex:0 0 auto;
+    accent-color:var(--green2);
+    cursor:pointer;
+}
+
+.rules-checkbox span{
+    color:#eee3ef;
+}
+
+.rules-submit-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:14px;
+    flex-wrap:wrap;
+}
+
+.review-status{
+    display:none;
+    align-items:center;
+    gap:7px;
+    padding:8px 11px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:700;
+}
+
+.review-status.show{
+    display:inline-flex;
+}
+
+.review-status.pending{
+    color:#ffe49a;
+    background:rgba(212,175,55,.08);
+    border:1px solid rgba(212,175,55,.18);
+}
+
+.review-status.approved{
+    color:#9af0c1;
+    background:rgba(22,166,106,.08);
+    border:1px solid rgba(57,217,138,.18);
+}
+
+.review-status.rejected{
+    color:#ffabb6;
+    background:rgba(239,35,60,.08);
+    border:1px solid rgba(239,35,60,.18);
+}
+
+.review-status.changes{
+    color:#d6bcff;
+    background:rgba(139,61,255,.08);
+    border:1px solid rgba(139,61,255,.18);
+}
+
+.course-review-info{
+    display:none;
+    margin-top:14px;
+    padding:11px 13px;
+    border-radius:10px;
+    background:rgba(212,175,55,.045);
+    border:1px solid rgba(212,175,55,.12);
+    color:#cbbdce;
+    font-size:10px;
+    line-height:1.5;
+}
+
+.course-review-info.show{
+    display:block;
 }
 
 /* =========================
@@ -1403,6 +1666,14 @@ textarea{
     .profile-photo-area{
         padding-bottom:20px
     }
+
+    .rules-columns{
+        grid-template-columns:1fr;
+    }
+
+    .course-rules-header{
+        flex-direction:column;
+    }
 }
 
 @media(max-width:500px){
@@ -1445,6 +1716,15 @@ textarea{
         left:15px;
         right:15px;
         min-width:0
+    }
+
+    .rules-submit-row{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .rules-submit-row .btn{
+        width:100%;
     }
 }
 </style>
@@ -2010,7 +2290,9 @@ Skill
 <input
 id="lessonSkill"
 type="text"
-placeholder="Skill"
+placeholder="Skill — e.g. Forex, Crypto, Video Editing"
+oninput="handleCourseSkillChange()"
+onchange="handleCourseSkillChange()"
 >
 
 </div>
@@ -2085,6 +2367,218 @@ Lesson Introduction
 id="lessonIntro"
 placeholder="Lesson introduction..."
 ></textarea>
+
+</div>
+
+</div>
+
+
+<!-- =================================================
+     FOREX / CRYPTO COURSE RULES
+================================================= -->
+
+<div
+id="courseRulesPanel"
+class="course-rules-panel"
+>
+
+<div class="course-rules-header">
+
+<div class="course-rules-title">
+
+<div class="rules-icon">
+⚖️
+</div>
+
+<div>
+
+<h3>
+SteadyMaze Course Rules
+</h3>
+
+<p>
+Special rules for Forex and Crypto educational courses.
+</p>
+
+</div>
+
+</div>
+
+<div
+id="rulesCourseBadge"
+class="rules-course-badge"
+>
+Forex / Crypto
+</div>
+
+</div>
+
+
+<div class="rules-columns">
+
+<div class="rules-column allowed">
+
+<h4>
+🟢 What you CAN include
+</h4>
+
+<ul class="rules-list">
+
+<li>
+<span class="rule-mark">✓</span>
+<span>
+Market fundamentals
+</span>
+</li>
+
+<li>
+<span class="rule-mark">✓</span>
+<span>
+Basic concepts
+</span>
+</li>
+
+<li>
+<span class="rule-mark">✓</span>
+<span>
+Spot trading concepts
+</span>
+</li>
+
+<li>
+<span class="rule-mark">✓</span>
+<span>
+Risk management
+</span>
+</li>
+
+<li>
+<span class="rule-mark">✓</span>
+<span>
+Financial / market education
+</span>
+</li>
+
+<li>
+<span class="rule-mark">✓</span>
+<span>
+Technology and educational content
+</span>
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="rules-column not-allowed">
+
+<h4>
+🔴 What you CANNOT include
+</h4>
+
+<ul class="rules-list">
+
+<li>
+<span class="rule-mark">✕</span>
+<span>
+Riba / Interest
+</span>
+</li>
+
+<li>
+<span class="rule-mark">✕</span>
+<span>
+Margin trading
+</span>
+</li>
+
+<li>
+<span class="rule-mark">✕</span>
+<span>
+Leverage trading
+</span>
+</li>
+
+<li>
+<span class="rule-mark">✕</span>
+<span>
+Gambling-style speculation
+</span>
+</li>
+
+<li>
+<span class="rule-mark">✕</span>
+<span>
+Content encouraging gambling or reckless trading
+</span>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="rules-note">
+
+<strong>Important:</strong>
+SteadyMaze allows educational market content, but course content must follow these rules.
+Submitting a course does not mean automatic approval. The course will be reviewed by the Admin / Owner.
+
+</div>
+
+
+<div class="rules-confirm">
+
+<label class="rules-checkbox">
+
+<input
+type="checkbox"
+id="courseRulesAcknowledged"
+onchange="handleRulesCheckboxChange()"
+>
+
+<span>
+☑️ I understand the SteadyMaze course rules
+</span>
+
+</label>
+
+
+<div class="rules-submit-row">
+
+<div>
+
+<span
+id="courseReviewStatus"
+class="review-status pending"
+>
+● Pending Review
+</span>
+
+</div>
+
+<button
+type="button"
+id="submitCourseReviewBtn"
+class="btn btn-gold"
+onclick="submitCourseForReview()"
+>
+Submit Course for Review
+</button>
+
+</div>
+
+
+<div
+id="courseReviewInfo"
+class="course-review-info"
+>
+Your course will be sent to the Admin Dashboard for review.
+The final decision is made by the Owner/Admin.
+</div>
 
 </div>
 
@@ -2707,6 +3201,600 @@ let teacherData = {
 
 
 /* =====================================================
+   COURSE RULES
+===================================================== */
+
+const RESTRICTED_COURSE_SKILLS = [
+    "forex",
+    "crypto"
+];
+
+
+function normalizeCourseSkill(value){
+
+    return String(
+        value || ""
+    )
+    .trim()
+    .toLowerCase()
+    .replace(
+        /\s+/g,
+        " "
+    );
+
+}
+
+
+function isRestrictedCourseSkill(skill){
+
+    const normalized =
+        normalizeCourseSkill(
+            skill
+        );
+
+    return RESTRICTED_COURSE_SKILLS
+        .includes(
+            normalized
+        );
+
+}
+
+
+function handleCourseSkillChange(){
+
+    const skillInput =
+        document.getElementById(
+            "lessonSkill"
+        );
+
+    const panel =
+        document.getElementById(
+            "courseRulesPanel"
+        );
+
+    const badge =
+        document.getElementById(
+            "rulesCourseBadge"
+        );
+
+    const skill =
+        skillInput?.value ||
+        "";
+
+
+    if(
+        isRestrictedCourseSkill(
+            skill
+        )
+    ){
+
+        panel.classList.add(
+            "show"
+        );
+
+        badge.textContent =
+            normalizeCourseSkill(
+                skill
+            )
+            .toUpperCase();
+
+        return;
+
+    }
+
+
+    panel.classList.remove(
+        "show"
+    );
+
+    badge.textContent =
+        "Forex / Crypto";
+
+
+    const checkbox =
+        document.getElementById(
+            "courseRulesAcknowledged"
+        );
+
+    if(checkbox){
+
+        checkbox.checked =
+            false;
+
+    }
+
+}
+
+
+function handleRulesCheckboxChange(){
+
+    const checkbox =
+        document.getElementById(
+            "courseRulesAcknowledged"
+        );
+
+    const submitButton =
+        document.getElementById(
+            "submitCourseReviewBtn"
+        );
+
+
+    if(
+        !checkbox ||
+        !submitButton
+    )
+        return;
+
+
+    submitButton.disabled =
+        !checkbox.checked;
+
+}
+
+
+function resetCourseReviewUI(){
+
+    const panel =
+        document.getElementById(
+            "courseRulesPanel"
+        );
+
+    const checkbox =
+        document.getElementById(
+            "courseRulesAcknowledged"
+        );
+
+    const submitButton =
+        document.getElementById(
+            "submitCourseReviewBtn"
+        );
+
+    const status =
+        document.getElementById(
+            "courseReviewStatus"
+        );
+
+    const info =
+        document.getElementById(
+            "courseReviewInfo"
+        );
+
+
+    if(panel)
+        panel.classList.remove(
+            "show"
+        );
+
+    if(checkbox)
+        checkbox.checked =
+            false;
+
+    if(submitButton){
+
+        submitButton.disabled =
+            true;
+
+        submitButton.textContent =
+            "Submit Course for Review";
+
+    }
+
+    if(status){
+
+        status.className =
+            "review-status pending";
+
+        status.textContent =
+            "● Pending Review";
+
+        status.classList.remove(
+            "show"
+        );
+
+    }
+
+    if(info)
+        info.classList.remove(
+            "show"
+        );
+
+}
+
+
+async function submitCourseForReview(){
+
+    const user =
+        await getLoggedTeacher();
+
+    if(!user)
+        return;
+
+
+    const skill =
+        document
+        .getElementById(
+            "lessonSkill"
+        )
+        .value
+        .trim();
+
+
+    const title =
+        document
+        .getElementById(
+            "lessonTitle"
+        )
+        .value
+        .trim();
+
+
+    const level =
+        document
+        .getElementById(
+            "lessonLevel"
+        )
+        .value;
+
+
+    const description =
+        document
+        .getElementById(
+            "lessonDescription"
+        )
+        .value
+        .trim();
+
+
+    const checkbox =
+        document.getElementById(
+            "courseRulesAcknowledged"
+        );
+
+
+    if(
+        !isRestrictedCourseSkill(
+            skill
+        )
+    ){
+
+        showToast(
+            "The special course rules apply only to Forex or Crypto.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !title ||
+        !skill ||
+        !level ||
+        !description
+    ){
+
+        showToast(
+            "Complete the lesson information before submitting for review.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !checkbox ||
+        !checkbox.checked
+    ){
+
+        showToast(
+            "Please confirm that you understand the SteadyMaze course rules.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "submitCourseReviewBtn"
+        );
+
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Submitting...";
+
+
+    try{
+
+        const submittedAt =
+            new Date()
+            .toISOString();
+
+
+        /*
+         * First find whether this lesson already exists
+         * for this teacher with the same title.
+         *
+         * No fake/demo data is created.
+         */
+
+        const {
+            data:existingLesson,
+            error:findError
+        } =
+            await supabaseClient
+            .from("lessons")
+            .select(
+                "id,status,rules_acknowledged"
+            )
+            .eq(
+                "teacher_id",
+                user.id
+            )
+            .eq(
+                "title",
+                title
+            )
+            .maybeSingle();
+
+
+        if(findError){
+
+            console.error(
+                "Course review lookup error:",
+                findError
+            );
+
+            showToast(
+                "Could not check the course review status: " +
+                findError.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            existingLesson &&
+            existingLesson.status ===
+            "pending_review"
+        ){
+
+            showToast(
+                "This course is already pending Admin review.",
+                "error"
+            );
+
+            showCourseReviewStatus(
+                "pending"
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * The lesson must exist before it can be submitted.
+         * This feature does not create fake lessons.
+         */
+
+        if(!existingLesson){
+
+            showToast(
+                "Save the lesson first, then submit it for review.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const {
+            error:updateError
+        } =
+            await supabaseClient
+            .from("lessons")
+            .update({
+
+                status:
+                    "pending_review",
+
+                rules_acknowledged:
+                    true,
+
+                rules_acknowledged_at:
+                    submittedAt,
+
+                submitted_at:
+                    submittedAt
+
+            })
+            .eq(
+                "id",
+                existingLesson.id
+            )
+            .eq(
+                "teacher_id",
+                user.id
+            );
+
+
+        if(updateError){
+
+            console.error(
+                "Course review submit error:",
+                updateError
+            );
+
+            showToast(
+                "Course could not be submitted: " +
+                updateError.message,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const lessonIndex =
+            teacherData.lessons.findIndex(
+                lesson =>
+                    String(
+                        lesson.id
+                    ) ===
+                    String(
+                        existingLesson.id
+                    )
+            );
+
+
+        if(
+            lessonIndex !== -1
+        ){
+
+            teacherData
+            .lessons[
+                lessonIndex
+            ]
+            .status =
+                "pending_review";
+
+            teacherData
+            .lessons[
+                lessonIndex
+            ]
+            .rulesAcknowledged =
+                true;
+
+        }
+
+
+        showCourseReviewStatus(
+            "pending"
+        );
+
+
+        const info =
+            document.getElementById(
+                "courseReviewInfo"
+            );
+
+
+        if(info){
+
+            info.textContent =
+                "Submitted successfully. Status: pending_review. The course is now waiting for Admin / Owner review. AI may assist with future scanning, but Admin / Owner makes the final decision.";
+
+            info.classList.add(
+                "show"
+            );
+
+        }
+
+
+        showToast(
+            "Course submitted for Admin review successfully."
+        );
+
+
+        renderLessons();
+
+
+    }catch(error){
+
+        console.error(
+            "Course review unexpected error:",
+            error
+        );
+
+        showToast(
+            "An unexpected error occurred while submitting the course.",
+            "error"
+        );
+
+    }finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Submit Course for Review";
+
+        handleRulesCheckboxChange();
+
+    }
+
+}
+
+
+function showCourseReviewStatus(
+    status
+){
+
+    const element =
+        document.getElementById(
+            "courseReviewStatus"
+        );
+
+
+    if(!element)
+        return;
+
+
+    element.className =
+        "review-status " +
+        status;
+
+
+    if(status === "pending"){
+
+        element.textContent =
+            "● Pending Review";
+
+    }else if(status === "approved"){
+
+        element.textContent =
+            "✓ Approved";
+
+    }else if(status === "rejected"){
+
+        element.textContent =
+            "✕ Rejected";
+
+    }else if(status === "changes"){
+
+        element.textContent =
+            "✎ Changes Requested";
+
+    }else{
+
+        element.textContent =
+            "● Pending Review";
+
+    }
+
+
+    element.classList.add(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
    TOAST
 ===================================================== */
 
@@ -3249,6 +4337,23 @@ async function loadLessonsFromSupabase(){
                 videoUrl:
                     lesson.video_url || "",
 
+                status:
+                    lesson.status ||
+                    "draft",
+
+                rulesAcknowledged:
+                    Boolean(
+                        lesson.rules_acknowledged
+                    ),
+
+                rulesAcknowledgedAt:
+                    lesson.rules_acknowledged_at ||
+                    null,
+
+                submittedAt:
+                    lesson.submitted_at ||
+                    null,
+
                 createdAt:
                     lesson.created_at || ""
 
@@ -3351,6 +4456,58 @@ async function saveLesson(){
         );
 
         return;
+
+    }
+
+
+    /*
+     * Forex / Crypto courses must acknowledge
+     * the SteadyMaze course rules before saving.
+     */
+
+    if(
+        isRestrictedCourseSkill(
+            skill
+        )
+    ){
+
+        const checkbox =
+            document.getElementById(
+                "courseRulesAcknowledged"
+            );
+
+
+        if(
+            !checkbox ||
+            !checkbox.checked
+        ){
+
+            showToast(
+                "Please read and accept the SteadyMaze course rules for Forex/Crypto.",
+                "error"
+            );
+
+            const panel =
+                document.getElementById(
+                    "courseRulesPanel"
+                );
+
+            if(panel){
+
+                panel.classList.add(
+                    "show"
+                );
+
+                panel.scrollIntoView({
+                    behavior:"smooth",
+                    block:"center"
+                });
+
+            }
+
+            return;
+
+        }
 
     }
 
@@ -3563,6 +4720,18 @@ async function saveLesson(){
 
             videoUrl:
                 videoUrl,
+
+            status:
+                "draft",
+
+            rulesAcknowledged:
+                false,
+
+            rulesAcknowledgedAt:
+                null,
+
+            submittedAt:
+                null,
 
             createdAt:
                 data.created_at
@@ -4517,12 +5686,104 @@ function clearLessonForm(){
     ).textContent =
         "";
 
+
+    resetCourseReviewUI();
+
 }
 
 
 /* =====================================================
    LESSON RENDER
 ===================================================== */
+
+function getLessonStatusHTML(
+    lesson
+){
+
+    const status =
+        String(
+            lesson.status ||
+            "draft"
+        )
+        .toLowerCase();
+
+
+    if(
+        status ===
+        "pending_review"
+    ){
+
+        return `
+            <span
+                class="review-status pending"
+                style="display:inline-flex"
+            >
+                ● Pending Review
+            </span>
+        `;
+
+    }
+
+
+    if(
+        status ===
+        "approved"
+    ){
+
+        return `
+            <span
+                class="review-status approved"
+                style="display:inline-flex"
+            >
+                ✓ Approved
+            </span>
+        `;
+
+    }
+
+
+    if(
+        status ===
+        "rejected"
+    ){
+
+        return `
+            <span
+                class="review-status rejected"
+                style="display:inline-flex"
+            >
+                ✕ Rejected
+            </span>
+        `;
+
+    }
+
+
+    if(
+        status ===
+        "changes_requested"
+    ){
+
+        return `
+            <span
+                class="review-status changes"
+                style="display:inline-flex"
+            >
+                ✎ Changes Requested
+            </span>
+        `;
+
+    }
+
+
+    return `
+        <span class="level-badge">
+            Draft
+        </span>
+    `;
+
+}
+
 
 function renderLessons(){
 
@@ -4592,7 +5853,12 @@ function renderLessons(){
                     align-items:center;
                     gap:7px;
                     flex-wrap:wrap;
+                    justify-content:flex-end;
                 ">
+
+                    ${getLessonStatusHTML(
+                        lesson
+                    )}
 
                     <span class="level-badge">
                         ${escapeHTML(
@@ -4647,11 +5913,25 @@ function renderLessons(){
 
                 </div>
 
-                <span class="level-badge">
-                    ${escapeHTML(
-                        lesson.level
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:7px;
+                    flex-wrap:wrap;
+                    justify-content:flex-end;
+                ">
+
+                    <span class="level-badge">
+                        ${escapeHTML(
+                            lesson.level
+                        )}
+                    </span>
+
+                    ${getLessonStatusHTML(
+                        lesson
                     )}
-                </span>
+
+                </div>
 
             </div>
 
@@ -4711,6 +5991,13 @@ function viewLesson(index){
         "";
 
 
+    const status =
+        String(
+            lesson.status ||
+            "draft"
+        );
+
+
     document.getElementById(
         "lessonModalContent"
     ).innerHTML = `
@@ -4756,6 +6043,22 @@ function viewLesson(index){
             <input
                 value="${escapeHTML(
                     lesson.level
+                )}"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Review Status
+            </label>
+
+            <input
+                value="${escapeHTML(
+                    status
                 )}"
                 readonly
             >
