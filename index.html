@@ -714,7 +714,9 @@ body{
     background:
     rgba(0,0,0,.86);
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:blur(22px);
+
+    -webkit-backdrop-filter:blur(22px);
 
 }
 
@@ -733,23 +735,27 @@ body{
     padding:28px;
 
     border:
-    1px solid rgba(139,0,0,.30);
+    1px solid rgba(255,255,255,.16);
 
     border-radius:22px;
 
     background:
 
-    radial-gradient(
-        circle at 90% 10%,
-        rgba(139,0,0,.16),
-        transparent 30%
-    ),
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,.09),
+        rgba(36,0,72,.72),
+        rgba(2,2,2,.94)
+    );
 
-    #17002d;
+    backdrop-filter:blur(28px);
+
+    -webkit-backdrop-filter:blur(28px);
 
     box-shadow:
-    0 30px 100px
-    rgba(0,0,0,.70);
+    0 30px 100px rgba(0,0,0,.75),
+    0 0 60px rgba(255,255,255,.04),
+    0 0 50px rgba(139,0,0,.10);
 
 }
 
@@ -808,11 +814,14 @@ body{
     flex-shrink:0;
 
     border:
-    1px solid rgba(255,255,255,.10);
+    1px solid rgba(255,255,255,.16);
 
     border-radius:10px;
 
-    background:#020202;
+    background:
+    rgba(255,255,255,.06);
+
+    backdrop-filter:blur(14px);
 
     color:#ffffff;
 
@@ -823,8 +832,18 @@ body{
 }
 
 .skill-teacher-close:hover{
+
     border-color:#8b0000;
+
+    background:
+    rgba(139,0,0,.12);
+
 }
+
+
+/* ==========================================
+   TEACHER GRID
+========================================== */
 
 .skill-teacher-grid{
 
@@ -837,23 +856,58 @@ body{
 
 }
 
+
+/* ==========================================
+   TEACHER CARD
+========================================== */
+
 .skill-teacher-card{
 
     overflow:hidden;
 
     border:
-    1px solid rgba(255,255,255,.08);
+    1px solid rgba(255,255,255,.13);
 
     border-radius:16px;
 
     background:
+
     linear-gradient(
         145deg,
-        #240048,
-        #020202
+        rgba(255,255,255,.08),
+        rgba(36,0,72,.68),
+        rgba(2,2,2,.90)
     );
 
+    backdrop-filter:blur(22px);
+
+    -webkit-backdrop-filter:blur(22px);
+
+    box-shadow:
+    inset 0 1px 0
+    rgba(255,255,255,.06);
+
+    transition:.25s ease;
+
 }
+
+.skill-teacher-card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:
+    rgba(255,255,255,.23);
+
+    box-shadow:
+    0 20px 55px rgba(0,0,0,.45),
+    0 0 25px rgba(139,0,0,.08);
+
+}
+
+
+/* ==========================================
+   TEACHER VIDEO
+========================================== */
 
 .skill-teacher-video{
 
@@ -862,6 +916,8 @@ body{
     aspect-ratio:16/9;
 
     background:#020202;
+
+    overflow:hidden;
 
 }
 
@@ -875,7 +931,23 @@ body{
 
     display:none;
 
+    background:#020202;
+
 }
+
+.skill-teacher-video.video-active video{
+    display:block;
+}
+
+.skill-teacher-video.video-active
+.skill-teacher-placeholder{
+    display:none;
+}
+
+
+/* ==========================================
+   NO EMOJI INTRO PLACEHOLDER
+========================================== */
 
 .skill-teacher-placeholder{
 
@@ -893,23 +965,30 @@ body{
 
     text-align:center;
 
+    cursor:pointer;
+
     background:
 
     radial-gradient(
-        circle,
-        rgba(139,0,0,.18),
-        transparent 65%
+        circle at 50% 50%,
+        rgba(139,0,0,.20),
+        transparent 55%
     ),
 
-    #020202;
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,.06),
+        rgba(36,0,72,.48),
+        #020202
+    );
 
 }
 
 .skill-teacher-play{
 
-    width:50px;
+    width:54px;
 
-    height:50px;
+    height:54px;
 
     display:flex;
 
@@ -926,28 +1005,64 @@ body{
         #8b0000
     );
 
-    margin-bottom:10px;
+    border:
+    1px solid rgba(255,255,255,.18);
 
-    font-size:18px;
+    margin-bottom:12px;
+
+    box-shadow:
+    0 10px 35px rgba(139,0,0,.20);
+
+    position:relative;
+
+}
+
+.skill-teacher-play::before{
+
+    content:"";
+
+    width:0;
+
+    height:0;
+
+    border-top:
+    8px solid transparent;
+
+    border-bottom:
+    8px solid transparent;
+
+    border-left:
+    12px solid #ffffff;
+
+    margin-left:4px;
 
 }
 
 .skill-teacher-placeholder strong{
+
     font-size:10px;
+
+    letter-spacing:.8px;
+
 }
 
 .skill-teacher-placeholder span{
 
-    margin-top:5px;
+    margin-top:6px;
 
-    color:#716875;
+    color:#8b8290;
 
     font-size:8px;
 
 }
 
+
+/* ==========================================
+   TEACHER INFO
+========================================== */
+
 .skill-teacher-info{
-    padding:15px;
+    padding:16px;
 }
 
 .skill-teacher-name{
@@ -980,20 +1095,40 @@ body{
 
 }
 
-.skill-teacher-view{
 
-    display:inline-block;
+/* ==========================================
+   TEACHER ACTIONS
+========================================== */
+
+.skill-teacher-actions{
+
+    display:flex;
+
+    gap:8px;
 
     margin-top:13px;
 
-    padding:8px 12px;
+}
+
+.skill-teacher-action{
+
+    flex:1;
+
+    min-height:34px;
+
+    padding:8px 10px;
 
     border:
-    1px solid rgba(255,255,255,.09);
+    1px solid rgba(255,255,255,.13);
 
     border-radius:8px;
 
+    background:
+    rgba(255,255,255,.04);
+
     color:#ffffff;
+
+    cursor:pointer;
 
     text-decoration:none;
 
@@ -1001,14 +1136,528 @@ body{
 
     font-weight:900;
 
+    text-align:center;
+
+    transition:.2s;
+
 }
 
-.skill-teacher-view:hover{
+.skill-teacher-action:hover{
 
     border-color:#8b0000;
 
     background:
-    rgba(139,0,0,.10);
+    rgba(139,0,0,.12);
+
+}
+
+.skill-teacher-buy{
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(36,0,72,.85),
+        rgba(139,0,0,.75)
+    );
+
+    border-color:
+    rgba(139,0,0,.35);
+
+}
+
+
+/* ==========================================
+   EMPTY TEACHERS
+========================================== */
+
+.skill-teacher-empty{
+
+    grid-column:1/-1;
+
+    padding:55px 25px;
+
+    text-align:center;
+
+    border:
+    1px solid rgba(255,255,255,.12);
+
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,.06),
+        rgba(36,0,72,.45),
+        rgba(2,2,2,.80)
+    );
+
+    backdrop-filter:blur(20px);
+
+}
+
+.skill-teacher-empty-title{
+
+    font-size:15px;
+
+    font-weight:900;
+
+}
+
+.skill-teacher-empty-text{
+
+    margin-top:8px;
+
+    color:#766e7b;
+
+    font-size:9px;
+
+    line-height:1.7;
+
+}
+
+
+/* ==========================================
+   AUTH GATE
+========================================== */
+
+.skill-auth-gate{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:5000;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+    rgba(0,0,0,.78);
+
+    backdrop-filter:blur(24px);
+
+    -webkit-backdrop-filter:blur(24px);
+
+}
+
+.skill-auth-gate.active{
+    display:flex;
+}
+
+.skill-auth-box{
+
+    width:min(450px,100%);
+
+    padding:35px;
+
+    text-align:center;
+
+    border:
+    1px solid rgba(255,255,255,.17);
+
+    border-radius:22px;
+
+    background:
+
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,.10),
+        rgba(36,0,72,.78),
+        rgba(2,2,2,.94)
+    );
+
+    backdrop-filter:blur(30px);
+
+    -webkit-backdrop-filter:blur(30px);
+
+    box-shadow:
+    0 30px 100px rgba(0,0,0,.75);
+
+}
+
+.skill-auth-label{
+
+    color:#b13a3a;
+
+    font-size:8px;
+
+    font-weight:900;
+
+    letter-spacing:2px;
+
+}
+
+.skill-auth-title{
+
+    margin-top:10px;
+
+    font-size:24px;
+
+    font-weight:900;
+
+}
+
+.skill-auth-text{
+
+    margin-top:10px;
+
+    color:#8a818f;
+
+    font-size:10px;
+
+    line-height:1.7;
+
+}
+
+.skill-auth-actions{
+
+    display:flex;
+
+    gap:9px;
+
+    margin-top:23px;
+
+}
+
+.skill-auth-button{
+
+    flex:1;
+
+    padding:12px;
+
+    border-radius:9px;
+
+    text-decoration:none;
+
+    font-size:9px;
+
+    font-weight:900;
+
+}
+
+.skill-auth-login{
+
+    color:#ffffff;
+
+    border:
+    1px solid rgba(255,255,255,.15);
+
+    background:
+    rgba(255,255,255,.05);
+
+}
+
+.skill-auth-register{
+
+    color:#ffffff;
+
+    background:
+    linear-gradient(
+        135deg,
+        #240048,
+        #8b0000
+    );
+
+}
+
+.skill-auth-close{
+
+    margin-top:15px;
+
+    background:none;
+
+    border:0;
+
+    color:#716a76;
+
+    cursor:pointer;
+
+    font-size:8px;
+
+    font-weight:900;
+
+}
+
+
+/* ==========================================
+   LEVEL BUY MODAL
+========================================== */
+
+.level-buy-overlay{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:4500;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+    rgba(0,0,0,.80);
+
+    backdrop-filter:blur(24px);
+
+    -webkit-backdrop-filter:blur(24px);
+
+}
+
+.level-buy-overlay.active{
+    display:flex;
+}
+
+.level-buy-modal{
+
+    width:min(650px,100%);
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    padding:30px;
+
+    border:
+    1px solid rgba(255,255,255,.16);
+
+    border-radius:22px;
+
+    background:
+
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,.09),
+        rgba(36,0,72,.78),
+        rgba(2,2,2,.94)
+    );
+
+    backdrop-filter:blur(30px);
+
+    -webkit-backdrop-filter:blur(30px);
+
+    box-shadow:
+    0 30px 100px rgba(0,0,0,.75);
+
+}
+
+.level-buy-header{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+}
+
+.level-buy-label{
+
+    color:#b13a3a;
+
+    font-size:8px;
+
+    font-weight:900;
+
+    letter-spacing:2px;
+
+}
+
+.level-buy-title{
+
+    margin-top:7px;
+
+    font-size:25px;
+
+    font-weight:900;
+
+}
+
+.level-buy-description{
+
+    margin-top:7px;
+
+    color:#827987;
+
+    font-size:9px;
+
+}
+
+.level-buy-close{
+
+    width:38px;
+
+    height:38px;
+
+    flex-shrink:0;
+
+    border:
+    1px solid rgba(255,255,255,.13);
+
+    border-radius:9px;
+
+    background:
+    rgba(255,255,255,.05);
+
+    color:#ffffff;
+
+    cursor:pointer;
+
+    font-size:19px;
+
+}
+
+.level-buy-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:12px;
+
+    margin-top:25px;
+
+}
+
+.level-buy-card{
+
+    padding:20px;
+
+    text-align:center;
+
+    border:
+    1px solid rgba(255,255,255,.11);
+
+    border-radius:14px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,.07),
+        rgba(36,0,72,.50),
+        rgba(2,2,2,.72)
+    );
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.level-buy-card:hover{
+
+    transform:translateY(-3px);
+
+    border-color:
+    rgba(139,0,0,.45);
+
+}
+
+.level-buy-card.selected{
+
+    border-color:#8b0000;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(139,0,0,.17),
+        rgba(36,0,72,.62),
+        rgba(2,2,2,.80)
+    );
+
+    box-shadow:
+    0 0 30px rgba(139,0,0,.10);
+
+}
+
+.level-buy-name{
+
+    font-size:11px;
+
+    font-weight:900;
+
+}
+
+.level-buy-price{
+
+    margin-top:10px;
+
+    font-size:25px;
+
+    font-weight:900;
+
+    color:#ffffff;
+
+}
+
+.level-buy-access{
+
+    margin-top:6px;
+
+    color:#746b79;
+
+    font-size:8px;
+
+}
+
+.level-buy-continue{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:14px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #240048,
+        #8b0000
+    );
+
+    color:#ffffff;
+
+    cursor:pointer;
+
+    font-size:9px;
+
+    font-weight:900;
+
+}
+
+.level-buy-continue:disabled{
+
+    opacity:.40;
+
+    cursor:not-allowed;
+
+}
+
+.level-buy-note{
+
+    margin-top:10px;
+
+    text-align:center;
+
+    color:#5e5663;
+
+    font-size:8px;
 
 }
 
@@ -1726,6 +2375,26 @@ footer{
         font-size:22px;
     }
 
+    .skill-auth-box{
+        padding:28px 20px;
+    }
+
+    .skill-auth-actions{
+        flex-direction:column;
+    }
+
+    .level-buy-modal{
+        padding:22px 18px;
+    }
+
+    .level-buy-grid{
+        grid-template-columns:1fr;
+    }
+
+    .skill-teacher-actions{
+        flex-direction:column;
+    }
+
 }
 
 </style>
@@ -1905,12 +2574,7 @@ footer{
     <div class="skills-grid">
 
 
-        <!-- VIDEO EDITING -->
-
-        <article
-            class="skill-card"
-            data-skill="Video Editing"
-        >
+        <article class="skill-card" data-skill="Video Editing">
 
             <img
                 class="skill-image"
@@ -1919,34 +2583,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    LOWER
-                </div>
-
-                <div class="skill-name">
-                    Video Editing
-                </div>
-
-                <div class="skill-text">
-                    Learn professional video editing.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">LOWER</div>
+                <div class="skill-name">Video Editing</div>
+                <div class="skill-text">Learn professional video editing.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- MOVIE RECAP -->
-
-        <article
-            class="skill-card"
-            data-skill="Movie Recap"
-        >
+        <article class="skill-card" data-skill="Movie Recap">
 
             <img
                 class="skill-image"
@@ -1955,34 +2601,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    LOWER
-                </div>
-
-                <div class="skill-name">
-                    Movie Recap
-                </div>
-
-                <div class="skill-text">
-                    Learn recap and storytelling.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">LOWER</div>
+                <div class="skill-name">Movie Recap</div>
+                <div class="skill-text">Learn recap and storytelling.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- THUMBNAIL -->
-
-        <article
-            class="skill-card"
-            data-skill="Thumbnail"
-        >
+        <article class="skill-card" data-skill="Thumbnail">
 
             <img
                 class="skill-image"
@@ -1991,34 +2619,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    LOWER
-                </div>
-
-                <div class="skill-name">
-                    Thumbnail
-                </div>
-
-                <div class="skill-text">
-                    Create strong digital thumbnails.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">LOWER</div>
+                <div class="skill-name">Thumbnail</div>
+                <div class="skill-text">Create strong digital thumbnails.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- DIGITAL MARKETING -->
-
-        <article
-            class="skill-card"
-            data-skill="Digital Marketing"
-        >
+        <article class="skill-card" data-skill="Digital Marketing">
 
             <img
                 class="skill-image"
@@ -2027,34 +2637,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    LOWER
-                </div>
-
-                <div class="skill-name">
-                    Digital Marketing
-                </div>
-
-                <div class="skill-text">
-                    Learn modern marketing strategies.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">LOWER</div>
+                <div class="skill-name">Digital Marketing</div>
+                <div class="skill-text">Learn modern marketing strategies.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- AFFILIATE MARKETING -->
-
-        <article
-            class="skill-card"
-            data-skill="Affiliate Marketing"
-        >
+        <article class="skill-card" data-skill="Affiliate Marketing">
 
             <img
                 class="skill-image"
@@ -2063,34 +2655,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    LOWER
-                </div>
-
-                <div class="skill-name">
-                    Affiliate Marketing
-                </div>
-
-                <div class="skill-text">
-                    Learn affiliate marketing basics.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">LOWER</div>
+                <div class="skill-name">Affiliate Marketing</div>
+                <div class="skill-text">Learn affiliate marketing basics.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- DROPSHIPPING -->
-
-        <article
-            class="skill-card"
-            data-skill="Dropshipping"
-        >
+        <article class="skill-card" data-skill="Dropshipping">
 
             <img
                 class="skill-image"
@@ -2099,34 +2673,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    LOWER
-                </div>
-
-                <div class="skill-name">
-                    Dropshipping
-                </div>
-
-                <div class="skill-text">
-                    Learn e-commerce fundamentals.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">LOWER</div>
+                <div class="skill-name">Dropshipping</div>
+                <div class="skill-text">Learn e-commerce fundamentals.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- SOCIAL MEDIA -->
-
-        <article
-            class="skill-card"
-            data-skill="Social Media"
-        >
+        <article class="skill-card" data-skill="Social Media">
 
             <img
                 class="skill-image"
@@ -2135,34 +2691,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    LOWER
-                </div>
-
-                <div class="skill-name">
-                    Social Media
-                </div>
-
-                <div class="skill-text">
-                    Learn content and social media strategy.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">LOWER</div>
+                <div class="skill-name">Social Media</div>
+                <div class="skill-text">Learn content and social media strategy.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- GRAPHIC DESIGN -->
-
-        <article
-            class="skill-card"
-            data-skill="Graphic Design"
-        >
+        <article class="skill-card" data-skill="Graphic Design">
 
             <img
                 class="skill-image"
@@ -2171,34 +2709,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    LOWER
-                </div>
-
-                <div class="skill-name">
-                    Graphic Design
-                </div>
-
-                <div class="skill-text">
-                    Create visual designs for digital projects.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">LOWER</div>
+                <div class="skill-name">Graphic Design</div>
+                <div class="skill-text">Create visual designs for digital projects.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- CONTENT CREATION -->
-
-        <article
-            class="skill-card"
-            data-skill="Content Creation"
-        >
+        <article class="skill-card" data-skill="Content Creation">
 
             <img
                 class="skill-image"
@@ -2207,23 +2727,10 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    LOWER
-                </div>
-
-                <div class="skill-name">
-                    Content Creation
-                </div>
-
-                <div class="skill-text">
-                    Plan and create useful digital content.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">LOWER</div>
+                <div class="skill-name">Content Creation</div>
+                <div class="skill-text">Plan and create useful digital content.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
@@ -2236,19 +2743,12 @@ footer{
     <div class="skill-group">
 
         <div class="skill-group-title">
-
             Medium
-
-            <span>
-                8 SKILLS
-            </span>
-
+            <span>8 SKILLS</span>
         </div>
 
         <div class="skill-group-description">
-
             Develop stronger technical, business and digital skills.
-
         </div>
 
     </div>
@@ -2257,12 +2757,7 @@ footer{
     <div class="skills-grid">
 
 
-        <!-- FOREX -->
-
-        <article
-            class="skill-card"
-            data-skill="Forex"
-        >
+        <article class="skill-card" data-skill="Forex">
 
             <img
                 class="skill-image"
@@ -2271,34 +2766,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    MEDIUM
-                </div>
-
-                <div class="skill-name">
-                    Forex
-                </div>
-
-                <div class="skill-text">
-                    Learn market analysis concepts.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">MEDIUM</div>
+                <div class="skill-name">Forex</div>
+                <div class="skill-text">Learn market analysis concepts.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- CRYPTO -->
-
-        <article
-            class="skill-card"
-            data-skill="Crypto"
-        >
+        <article class="skill-card" data-skill="Crypto">
 
             <img
                 class="skill-image"
@@ -2307,34 +2784,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    MEDIUM
-                </div>
-
-                <div class="skill-name">
-                    Crypto
-                </div>
-
-                <div class="skill-text">
-                    Explore blockchain concepts.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">MEDIUM</div>
+                <div class="skill-name">Crypto</div>
+                <div class="skill-text">Explore blockchain concepts.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- CYBERSECURITY -->
-
-        <article
-            class="skill-card"
-            data-skill="Cybersecurity"
-        >
+        <article class="skill-card" data-skill="Cybersecurity">
 
             <img
                 class="skill-image"
@@ -2343,34 +2802,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    MEDIUM
-                </div>
-
-                <div class="skill-name">
-                    Cybersecurity
-                </div>
-
-                <div class="skill-text">
-                    Learn cybersecurity fundamentals.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">MEDIUM</div>
+                <div class="skill-name">Cybersecurity</div>
+                <div class="skill-text">Learn cybersecurity fundamentals.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- AI AGENT -->
-
-        <article
-            class="skill-card"
-            data-skill="AI Agent"
-        >
+        <article class="skill-card" data-skill="AI Agent">
 
             <img
                 class="skill-image"
@@ -2379,34 +2820,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    MEDIUM
-                </div>
-
-                <div class="skill-name">
-                    AI Agent
-                </div>
-
-                <div class="skill-text">
-                    Explore AI automation.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">MEDIUM</div>
+                <div class="skill-name">AI Agent</div>
+                <div class="skill-text">Explore AI automation.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- ENGLISH -->
-
-        <article
-            class="skill-card"
-            data-skill="English"
-        >
+        <article class="skill-card" data-skill="English">
 
             <img
                 class="skill-image"
@@ -2415,34 +2838,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    MEDIUM
-                </div>
-
-                <div class="skill-name">
-                    English
-                </div>
-
-                <div class="skill-text">
-                    Improve practical English skills.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">MEDIUM</div>
+                <div class="skill-name">English</div>
+                <div class="skill-text">Improve practical English skills.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- DATA ANALYSIS -->
-
-        <article
-            class="skill-card"
-            data-skill="Data Analysis"
-        >
+        <article class="skill-card" data-skill="Data Analysis">
 
             <img
                 class="skill-image"
@@ -2451,34 +2856,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    MEDIUM
-                </div>
-
-                <div class="skill-name">
-                    Data Analysis
-                </div>
-
-                <div class="skill-text">
-                    Turn data into useful insights.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">MEDIUM</div>
+                <div class="skill-name">Data Analysis</div>
+                <div class="skill-text">Turn data into useful insights.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- UI UX -->
-
-        <article
-            class="skill-card"
-            data-skill="UI/UX Design"
-        >
+        <article class="skill-card" data-skill="UI/UX Design">
 
             <img
                 class="skill-image"
@@ -2487,34 +2874,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    MEDIUM
-                </div>
-
-                <div class="skill-name">
-                    UI/UX Design
-                </div>
-
-                <div class="skill-text">
-                    Design clear and useful digital experiences.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">MEDIUM</div>
+                <div class="skill-name">UI/UX Design</div>
+                <div class="skill-text">Design clear and useful digital experiences.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- E COMMERCE -->
-
-        <article
-            class="skill-card"
-            data-skill="E-Commerce"
-        >
+        <article class="skill-card" data-skill="E-Commerce">
 
             <img
                 class="skill-image"
@@ -2523,23 +2892,10 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    MEDIUM
-                </div>
-
-                <div class="skill-name">
-                    E-Commerce
-                </div>
-
-                <div class="skill-text">
-                    Learn digital commerce fundamentals.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">MEDIUM</div>
+                <div class="skill-name">E-Commerce</div>
+                <div class="skill-text">Learn digital commerce fundamentals.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
@@ -2552,19 +2908,12 @@ footer{
     <div class="skill-group">
 
         <div class="skill-group-title">
-
             High
-
-            <span>
-                8 SKILLS
-            </span>
-
+            <span>8 SKILLS</span>
         </div>
 
         <div class="skill-group-description">
-
             Build advanced technical and AI-powered projects.
-
         </div>
 
     </div>
@@ -2573,12 +2922,7 @@ footer{
     <div class="skills-grid">
 
 
-        <!-- PYTHON -->
-
-        <article
-            class="skill-card"
-            data-skill="Python"
-        >
+        <article class="skill-card" data-skill="Python">
 
             <img
                 class="skill-image"
@@ -2587,34 +2931,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    HIGH
-                </div>
-
-                <div class="skill-name">
-                    Python
-                </div>
-
-                <div class="skill-text">
-                    Build applications using Python.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">HIGH</div>
+                <div class="skill-name">Python</div>
+                <div class="skill-text">Build applications using Python.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- JAVASCRIPT -->
-
-        <article
-            class="skill-card"
-            data-skill="JavaScript"
-        >
+        <article class="skill-card" data-skill="JavaScript">
 
             <img
                 class="skill-image"
@@ -2623,34 +2949,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    HIGH
-                </div>
-
-                <div class="skill-name">
-                    JavaScript
-                </div>
-
-                <div class="skill-text">
-                    Build interactive websites.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">HIGH</div>
+                <div class="skill-name">JavaScript</div>
+                <div class="skill-text">Build interactive websites.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- AI APP -->
-
-        <article
-            class="skill-card"
-            data-skill="AI App"
-        >
+        <article class="skill-card" data-skill="AI App">
 
             <img
                 class="skill-image"
@@ -2659,34 +2967,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    HIGH
-                </div>
-
-                <div class="skill-name">
-                    AI App
-                </div>
-
-                <div class="skill-text">
-                    Build AI-powered applications.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">HIGH</div>
+                <div class="skill-name">AI App</div>
+                <div class="skill-text">Build AI-powered applications.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- AI WEB -->
-
-        <article
-            class="skill-card"
-            data-skill="AI Web"
-        >
+        <article class="skill-card" data-skill="AI Web">
 
             <img
                 class="skill-image"
@@ -2695,34 +2985,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    HIGH
-                </div>
-
-                <div class="skill-name">
-                    AI Web
-                </div>
-
-                <div class="skill-text">
-                    Create AI-powered web experiences.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">HIGH</div>
+                <div class="skill-name">AI Web</div>
+                <div class="skill-text">Create AI-powered web experiences.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- WEB DEVELOPMENT -->
-
-        <article
-            class="skill-card"
-            data-skill="Web Development"
-        >
+        <article class="skill-card" data-skill="Web Development">
 
             <img
                 class="skill-image"
@@ -2731,34 +3003,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    HIGH
-                </div>
-
-                <div class="skill-name">
-                    Web Development
-                </div>
-
-                <div class="skill-text">
-                    Build modern professional websites.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">HIGH</div>
+                <div class="skill-name">Web Development</div>
+                <div class="skill-text">Build modern professional websites.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- APP DEVELOPMENT -->
-
-        <article
-            class="skill-card"
-            data-skill="App Development"
-        >
+        <article class="skill-card" data-skill="App Development">
 
             <img
                 class="skill-image"
@@ -2767,34 +3021,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    HIGH
-                </div>
-
-                <div class="skill-name">
-                    App Development
-                </div>
-
-                <div class="skill-text">
-                    Learn how to build modern applications.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">HIGH</div>
+                <div class="skill-name">App Development</div>
+                <div class="skill-text">Learn how to build modern applications.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- SOFTWARE DEVELOPMENT -->
-
-        <article
-            class="skill-card"
-            data-skill="Software Development"
-        >
+        <article class="skill-card" data-skill="Software Development">
 
             <img
                 class="skill-image"
@@ -2803,34 +3039,16 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    HIGH
-                </div>
-
-                <div class="skill-name">
-                    Software Development
-                </div>
-
-                <div class="skill-text">
-                    Build structured software projects.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">HIGH</div>
+                <div class="skill-name">Software Development</div>
+                <div class="skill-text">Build structured software projects.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
 
 
-        <!-- CLOUD TECHNOLOGY -->
-
-        <article
-            class="skill-card"
-            data-skill="Cloud Technology"
-        >
+        <article class="skill-card" data-skill="Cloud Technology">
 
             <img
                 class="skill-image"
@@ -2839,23 +3057,10 @@ footer{
             >
 
             <div class="skill-content">
-
-                <div class="skill-level">
-                    HIGH
-                </div>
-
-                <div class="skill-name">
-                    Cloud Technology
-                </div>
-
-                <div class="skill-text">
-                    Explore modern cloud infrastructure.
-                </div>
-
-                <div class="skill-teachers-hint">
-                    VIEW TEACHERS →
-                </div>
-
+                <div class="skill-level">HIGH</div>
+                <div class="skill-name">Cloud Technology</div>
+                <div class="skill-text">Explore modern cloud infrastructure.</div>
+                <div class="skill-teachers-hint">VIEW TEACHERS →</div>
             </div>
 
         </article>
@@ -2916,6 +3121,139 @@ footer{
             class="skill-teacher-grid"
             id="skillTeacherGrid"
         ></div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     AUTH GATE
+========================================== -->
+
+<div
+    class="skill-auth-gate"
+    id="skillAuthGate"
+>
+
+    <div
+        class="skill-auth-box"
+        onclick="event.stopPropagation()"
+    >
+
+        <div class="skill-auth-label">
+            STEADYMAZE ACCOUNT
+        </div>
+
+        <div class="skill-auth-title">
+            Sign in to continue
+        </div>
+
+        <div class="skill-auth-text">
+            Create an account or sign in to watch teacher
+            introductions and choose a learning level.
+        </div>
+
+        <div class="skill-auth-actions">
+
+            <a
+                href="./login.html"
+                class="skill-auth-button skill-auth-login"
+            >
+                SIGN IN
+            </a>
+
+            <a
+                href="./login.html"
+                class="skill-auth-button skill-auth-register"
+            >
+                CREATE ACCOUNT
+            </a>
+
+        </div>
+
+        <button
+            type="button"
+            class="skill-auth-close"
+            onclick="closeAuthGate()"
+        >
+            CLOSE
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     LEVEL BUY MODAL
+========================================== -->
+
+<div
+    class="level-buy-overlay"
+    id="levelBuyOverlay"
+>
+
+    <div
+        class="level-buy-modal"
+        onclick="event.stopPropagation()"
+    >
+
+        <div class="level-buy-header">
+
+            <div>
+
+                <div class="level-buy-label">
+                    CHOOSE YOUR LEVEL
+                </div>
+
+                <div
+                    class="level-buy-title"
+                    id="buySkillName"
+                >
+                    Select Level
+                </div>
+
+                <div
+                    class="level-buy-description"
+                    id="buySkillDescription"
+                >
+                    Choose the level you want to purchase.
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="level-buy-close"
+                onclick="closeLevelBuy()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="level-buy-grid"
+            id="levelBuyGrid"
+        ></div>
+
+
+        <button
+            type="button"
+            class="level-buy-continue"
+            id="levelBuyContinue"
+            disabled
+        >
+            CONTINUE
+        </button>
+
+
+        <div class="level-buy-note">
+            Payment and enrollment will be completed through the SteadyMaze student system.
+        </div>
 
     </div>
 
@@ -3296,29 +3634,718 @@ footer{
 
 <script>
 
+/*
+================================================
+STEADYMAZE TEACHER SYSTEM
+
+IMPORTANT:
+No fake teachers are created here.
+
+The system reads approved teacher records from
+the existing Supabase "teachers" table.
+
+Because the exact teacher table columns may vary,
+the code checks common field names safely.
+================================================
+*/
+
+
 const skillStudentCounts = {};
+
+let currentSkill = "";
+let currentTeacher = null;
+let currentLevel = null;
 
 
 /* ==========================================
-   OPEN TEACHERS FOR SELECTED SKILL
+   LEVEL PRICES
 ========================================== */
 
-function openSkillTeachers(skill){
+const levelPrices = {
+
+    LOWER: {
+        "Level 1": 3,
+        "Level 2": 5,
+        "Level 3": 11
+    },
+
+    MEDIUM: {
+        "Level 1": 5,
+        "Level 2": 10,
+        "Level 3": 20
+    },
+
+    HIGH: {
+        "Level 1": 100,
+        "Level 2": 200
+    }
+
+};
+
+
+/* ==========================================
+   GET SKILL GROUP
+========================================== */
+
+function getSkillGroup(skill){
+
+    const card =
+        Array.from(
+            document.querySelectorAll(".skill-card")
+        ).find(function(item){
+
+            return item.getAttribute("data-skill") === skill;
+
+        });
+
+
+    if(!card){
+        return "LOWER";
+    }
+
+
+    const levelElement =
+        card.querySelector(".skill-level");
+
+
+    if(!levelElement){
+        return "LOWER";
+    }
+
+
+    return levelElement.textContent
+        .trim()
+        .toUpperCase();
+
+}
+
+
+/* ==========================================
+   AUTH CHECK
+========================================== */
+
+async function getSteadyMazeSession(){
+
+    try{
+
+        const {
+            data:{
+                session
+            }
+        } =
+        await steadymazeSupabase.auth.getSession();
+
+
+        return session || null;
+
+    }catch(error){
+
+        console.error(
+            "SteadyMaze auth check error:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+/* ==========================================
+   SHOW AUTH GATE
+========================================== */
+
+function showAuthGate(){
+
+    const gate =
+        document.getElementById(
+            "skillAuthGate"
+        );
+
+    gate.classList.add("active");
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* ==========================================
+   CLOSE AUTH GATE
+========================================== */
+
+function closeAuthGate(){
+
+    const gate =
+        document.getElementById(
+            "skillAuthGate"
+        );
+
+    gate.classList.remove("active");
+
+    if(
+        !document
+        .getElementById("skillTeacherOverlay")
+        .classList.contains("active")
+    ){
+
+        document.body.style.overflow = "";
+
+    }
+
+}
+
+
+/* ==========================================
+   REQUIRE LOGIN
+========================================== */
+
+async function requireSteadyMazeAuth(){
+
+    const session =
+        await getSteadyMazeSession();
+
+
+    if(!session){
+
+        showAuthGate();
+
+        return null;
+
+    }
+
+
+    return session;
+
+}
+
+
+/* ==========================================
+   SAFE TEACHER VALUE
+========================================== */
+
+function teacherValue(
+    teacher,
+    names
+){
+
+    if(!teacher){
+        return "";
+    }
+
+
+    for(
+        const name of names
+    ){
+
+        if(
+            teacher[name] !== undefined &&
+            teacher[name] !== null &&
+            String(teacher[name]).trim() !== ""
+        ){
+
+            return String(
+                teacher[name]
+            ).trim();
+
+        }
+
+    }
+
+
+    return "";
+
+}
+
+
+/* ==========================================
+   NORMALIZE TEACHER
+========================================== */
+
+function normalizeTeacher(teacher){
+
+    const name =
+        teacherValue(
+            teacher,
+            [
+                "name",
+                "full_name",
+                "teacher_name",
+                "display_name"
+            ]
+        );
+
+
+    const skill =
+        teacherValue(
+            teacher,
+            [
+                "skill",
+                "skills",
+                "course_skill",
+                "category"
+            ]
+        );
+
+
+    const introVideo =
+        teacherValue(
+            teacher,
+            [
+                "intro_video",
+                "intro_video_url",
+                "introVideo",
+                "video_url",
+                "video",
+                "intro"
+            ]
+        );
+
+
+    const studentsRaw =
+        teacherValue(
+            teacher,
+            [
+                "students",
+                "student_count",
+                "students_count",
+                "total_students"
+            ]
+        );
+
+
+    const profileImage =
+        teacherValue(
+            teacher,
+            [
+                "profile_image",
+                "profile_image_url",
+                "avatar",
+                "avatar_url",
+                "photo",
+                "photo_url"
+            ]
+        );
+
+
+    return {
+
+        id:
+            teacher.id ||
+            teacher.teacher_id ||
+            null,
+
+        name:
+            name ||
+            "Teacher",
+
+        skill:
+            skill,
+
+        introVideo:
+            introVideo,
+
+        students:
+            studentsRaw
+            ? Number(studentsRaw) || 0
+            : 0,
+
+        profileImage:
+            profileImage
+
+    };
+
+}
+
+
+/* ==========================================
+   CHECK WHETHER TEACHER BELONGS TO SKILL
+========================================== */
+
+function teacherMatchesSkill(
+    teacher,
+    skill
+){
+
+    const normalized =
+        normalizeTeacher(teacher);
+
+
+    if(!normalized.skill){
+        return false;
+    }
+
+
+    const teacherSkills =
+        normalized.skill
+            .split(",")
+            .map(function(item){
+                return item.trim().toLowerCase();
+            });
+
+
+    return teacherSkills.includes(
+        skill.trim().toLowerCase()
+    );
+
+}
+
+
+/* ==========================================
+   LOAD TEACHERS FROM SUPABASE
+========================================== */
+
+async function loadTeachersForSkill(skill){
+
+    try{
+
+        const result =
+            await steadymazeSupabase
+                .from("teachers")
+                .select("*");
+
+
+        if(result.error){
+
+            console.error(
+                "Teacher data error:",
+                result.error
+            );
+
+            return [];
+
+        }
+
+
+        const rows =
+            Array.isArray(result.data)
+            ? result.data
+            : [];
+
+
+        const teachers =
+            rows
+            .filter(function(teacher){
+
+                return teacherMatchesSkill(
+                    teacher,
+                    skill
+                );
+
+            })
+            .map(function(teacher){
+
+                return normalizeTeacher(
+                    teacher
+                );
+
+            });
+
+
+        return teachers;
+
+    }catch(error){
+
+        console.error(
+            "Could not load teachers:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+/* ==========================================
+   UPDATE STUDENT COUNT
+========================================== */
+
+async function loadSkillStudentCount(skill){
+
+    /*
+       We do not create fake numbers.
+
+       If the current database exposes a compatible
+       student count in the teachers table, use it.
+       Otherwise the display remains 0 until the
+       student/course relationship is wired.
+    */
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await steadymazeSupabase
+            .from("teachers")
+            .select("*");
+
+
+        if(error || !Array.isArray(data)){
+
+            return 0;
+
+        }
+
+
+        let total = 0;
+
+
+        data
+        .filter(function(row){
+
+            return teacherMatchesSkill(
+                row,
+                skill
+            );
+
+        })
+        .forEach(function(row){
+
+            const teacher =
+                normalizeTeacher(row);
+
+
+            total +=
+                Number(
+                    teacher.students
+                ) || 0;
+
+        });
+
+
+        return total;
+
+    }catch(error){
+
+        console.error(
+            "Student count error:",
+            error
+        );
+
+        return 0;
+
+    }
+
+}
+
+
+/* ==========================================
+   CREATE TEACHER CARD
+========================================== */
+
+function createTeacherCard(
+    teacher,
+    index
+){
+
+    const card =
+        document.createElement("article");
+
+
+    card.className =
+        "skill-teacher-card";
+
+
+    const videoUrl =
+        teacher.introVideo || "";
+
+
+    const studentCount =
+        Number(
+            teacher.students
+        ) || 0;
+
+
+    const safeName =
+        teacher.name ||
+        "Teacher";
+
+
+    const safeSkill =
+        teacher.skill ||
+        currentSkill;
+
+
+    card.innerHTML = `
+
+        <div
+            class="skill-teacher-video"
+            data-teacher-index="${index}"
+        >
+
+            <div
+                class="skill-teacher-placeholder"
+                data-action="intro"
+            >
+
+                <div class="skill-teacher-play"></div>
+
+                <strong>
+                    INTRO VIDEO
+                </strong>
+
+                <span>
+                    Watch ${escapeHtml(safeName)}'s introduction
+                </span>
+
+            </div>
+
+
+            <video
+                controls
+                preload="metadata"
+                playsinline
+            ></video>
+
+        </div>
+
+
+        <div class="skill-teacher-info">
+
+            <div class="skill-teacher-name">
+                ${escapeHtml(safeName)}
+            </div>
+
+            <div class="skill-teacher-skill">
+                ${escapeHtml(safeSkill)}
+            </div>
+
+            <div class="skill-teacher-count">
+                ${studentCount} Students
+            </div>
+
+
+            <div class="skill-teacher-actions">
+
+                <button
+                    type="button"
+                    class="skill-teacher-action"
+                    data-action="intro-button"
+                >
+                    WATCH INTRO
+                </button>
+
+                <button
+                    type="button"
+                    class="skill-teacher-action skill-teacher-buy"
+                    data-action="buy"
+                >
+                    BUY LEVEL
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    const placeholder =
+        card.querySelector(
+            '[data-action="intro"]'
+        );
+
+
+    const introButton =
+        card.querySelector(
+            '[data-action="intro-button"]'
+        );
+
+
+    const buyButton =
+        card.querySelector(
+            '[data-action="buy"]'
+        );
+
+
+    placeholder.addEventListener(
+        "click",
+        function(){
+
+            watchTeacherIntro(
+                teacher,
+                card
+            );
+
+        }
+    );
+
+
+    introButton.addEventListener(
+        "click",
+        function(){
+
+            watchTeacherIntro(
+                teacher,
+                card
+            );
+
+        }
+    );
+
+
+    buyButton.addEventListener(
+        "click",
+        function(){
+
+            openBuyLevels(
+                currentSkill,
+                teacher
+            );
+
+        }
+    );
+
+
+    return card;
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ==========================================
+   OPEN TEACHERS
+========================================== */
+
+async function openSkillTeachers(skill){
 
     const overlay =
         document.getElementById(
             "skillTeacherOverlay"
         );
 
+
     const skillName =
         document.getElementById(
             "selectedSkillName"
         );
 
+
     const students =
         document.getElementById(
             "selectedSkillStudents"
         );
+
 
     const grid =
         document.getElementById(
@@ -3326,15 +4353,64 @@ function openSkillTeachers(skill){
         );
 
 
-    skillName.textContent = skill;
+    currentSkill =
+        skill;
 
 
-    const count =
-        skillStudentCounts[skill] || 0;
+    currentTeacher =
+        null;
+
+
+    skillName.textContent =
+        skill;
 
 
     students.textContent =
-        count +
+        "Loading teachers...";
+
+
+    grid.innerHTML = `
+
+        <div class="skill-teacher-empty">
+
+            <div class="skill-teacher-empty-title">
+                Loading teachers
+            </div>
+
+            <div class="skill-teacher-empty-text">
+                Finding approved teachers for ${escapeHtml(skill)}.
+            </div>
+
+        </div>
+
+    `;
+
+
+    overlay.classList.add("active");
+
+    document.body.style.overflow =
+        "hidden";
+
+
+    const [
+        teachers,
+        studentCount
+    ] =
+    await Promise.all([
+
+        loadTeachersForSkill(skill),
+
+        loadSkillStudentCount(skill)
+
+    ]);
+
+
+    skillStudentCounts[skill] =
+        studentCount;
+
+
+    students.textContent =
+        studentCount +
         " Students studying " +
         skill;
 
@@ -3342,74 +4418,312 @@ function openSkillTeachers(skill){
     grid.innerHTML = "";
 
 
-    /* CREATE 5 TEACHER INTRO SLOTS */
+    if(!teachers.length){
 
-    for(let i = 1; i <= 5; i++){
+        grid.innerHTML = `
 
-        const card =
-            document.createElement("article");
+            <div class="skill-teacher-empty">
 
-        card.className =
-            "skill-teacher-card";
-
-
-        card.innerHTML = `
-
-            <div class="skill-teacher-video">
-
-                <div class="skill-teacher-placeholder">
-
-                    <div class="skill-teacher-play">
-                        ▶
-                    </div>
-
-                    <strong>
-                        Teacher Intro ${i}
-                    </strong>
-
-                    <span>
-                        ${skill} teacher introduction
-                    </span>
-
+                <div class="skill-teacher-empty-title">
+                    No teacher intro published yet
                 </div>
 
-                <video
-                    controls
-                    preload="metadata"
-                ></video>
-
-            </div>
-
-
-            <div class="skill-teacher-info">
-
-                <div class="skill-teacher-name">
-                    Teacher ${i}
+                <div class="skill-teacher-empty-text">
+                    Approved ${escapeHtml(skill)}
+                    teachers will appear here when their
+                    teacher profile and introduction video
+                    are published.
                 </div>
-
-                <div class="skill-teacher-skill">
-                    ${skill}
-                </div>
-
-                <div class="skill-teacher-count">
-                    ${count} Students
-                </div>
-
-                <a
-                    href="./login.html"
-                    class="skill-teacher-view"
-                >
-                    VIEW TEACHER →
-                </a>
 
             </div>
 
         `;
 
+        return;
+
+    }
+
+
+    teachers.forEach(
+        function(teacher,index){
+
+            grid.appendChild(
+                createTeacherCard(
+                    teacher,
+                    index
+                )
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   WATCH TEACHER INTRO
+========================================== */
+
+async function watchTeacherIntro(
+    teacher,
+    card
+){
+
+    const session =
+        await requireSteadyMazeAuth();
+
+
+    if(!session){
+
+        return;
+
+    }
+
+
+    currentTeacher =
+        teacher;
+
+
+    const videoBox =
+        card.querySelector(
+            ".skill-teacher-video"
+        );
+
+
+    const video =
+        card.querySelector(
+            "video"
+        );
+
+
+    if(
+        !teacher.introVideo
+    ){
+
+        alert(
+            "This teacher has not published an introduction video yet."
+        );
+
+        return;
+
+    }
+
+
+    video.src =
+        teacher.introVideo;
+
+
+    videoBox.classList.add(
+        "video-active"
+    );
+
+
+    try{
+
+        await video.play();
+
+    }catch(error){
+
+        console.log(
+            "Video is ready. Browser requires user interaction to play."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   OPEN BUY LEVEL
+========================================== */
+
+async function openBuyLevels(
+    skill,
+    teacher
+){
+
+    const session =
+        await requireSteadyMazeAuth();
+
+
+    if(!session){
+
+        return;
+
+    }
+
+
+    currentSkill =
+        skill;
+
+
+    currentTeacher =
+        teacher ||
+        null;
+
+
+    currentLevel =
+        null;
+
+
+    const group =
+        getSkillGroup(skill);
+
+
+    const prices =
+        levelPrices[group] ||
+        levelPrices.LOWER;
+
+
+    const overlay =
+        document.getElementById(
+            "levelBuyOverlay"
+        );
+
+
+    const name =
+        document.getElementById(
+            "buySkillName"
+        );
+
+
+    const description =
+        document.getElementById(
+            "buySkillDescription"
+        );
+
+
+    const grid =
+        document.getElementById(
+            "levelBuyGrid"
+        );
+
+
+    const continueButton =
+        document.getElementById(
+            "levelBuyContinue"
+        );
+
+
+    name.textContent =
+        skill;
+
+
+    if(teacher && teacher.name){
+
+        description.textContent =
+            "Choose a level for " +
+            teacher.name +
+            "'s " +
+            skill +
+            " course.";
+
+    }else{
+
+        description.textContent =
+            "Choose the level you want to purchase.";
+
+    }
+
+
+    grid.innerHTML = "";
+
+
+    Object.keys(prices)
+    .forEach(function(level){
+
+        const price =
+            prices[level];
+
+
+        const card =
+            document.createElement("button");
+
+
+        card.type =
+            "button";
+
+
+        card.className =
+            "level-buy-card";
+
+
+        card.innerHTML = `
+
+            <div class="level-buy-name">
+                ${level}
+            </div>
+
+            <div class="level-buy-price">
+                $${price}
+            </div>
+
+            <div class="level-buy-access">
+                SteadyMaze course level
+            </div>
+
+        `;
+
+
+        card.addEventListener(
+            "click",
+            function(){
+
+                document
+                .querySelectorAll(
+                    ".level-buy-card"
+                )
+                .forEach(function(item){
+
+                    item.classList.remove(
+                        "selected"
+                    );
+
+                });
+
+
+                card.classList.add(
+                    "selected"
+                );
+
+
+                currentLevel = {
+
+                    name:
+                        level,
+
+                    price:
+                        price,
+
+                    skill:
+                        skill,
+
+                    group:
+                        group,
+
+                    teacherId:
+                        teacher
+                        ? teacher.id
+                        : null
+
+                };
+
+
+                continueButton.disabled =
+                    false;
+
+
+                continueButton.textContent =
+                    "CONTINUE WITH " +
+                    level.toUpperCase();
+
+            }
+        );
+
 
         grid.appendChild(card);
 
-    }
+    });
 
 
     overlay.classList.add("active");
@@ -3418,6 +4732,89 @@ function openSkillTeachers(skill){
         "hidden";
 
 }
+
+
+/* ==========================================
+   CONTINUE TO STUDENT SYSTEM
+========================================== */
+
+document
+.getElementById(
+    "levelBuyContinue"
+)
+.addEventListener(
+    "click",
+    async function(){
+
+        if(!currentLevel){
+
+            return;
+
+        }
+
+
+        const session =
+            await requireSteadyMazeAuth();
+
+
+        if(!session){
+
+            return;
+
+        }
+
+
+        /*
+           The student dashboard receives the selected
+           skill and level.
+
+           This does NOT fake a purchase.
+           Actual payment/enrollment remains handled
+           by the student/payment system.
+        */
+
+        const skill =
+            encodeURIComponent(
+                currentLevel.skill
+            );
+
+
+        const level =
+            encodeURIComponent(
+                currentLevel.name
+            );
+
+
+        const teacherId =
+            currentLevel.teacherId
+            ? encodeURIComponent(
+                currentLevel.teacherId
+            )
+            : "";
+
+
+        let url =
+            "./student.html" +
+            "?skill=" +
+            skill +
+            "&level=" +
+            level;
+
+
+        if(teacherId){
+
+            url +=
+                "&teacher=" +
+                teacherId;
+
+        }
+
+
+        window.location.href =
+            url;
+
+    }
+);
 
 
 /* ==========================================
@@ -3431,7 +4828,11 @@ function closeSkillTeachers(){
             "skillTeacherOverlay"
         );
 
-    overlay.classList.remove("active");
+
+    overlay.classList.remove(
+        "active"
+    );
+
 
     document.body.style.overflow =
         "";
@@ -3440,11 +4841,46 @@ function closeSkillTeachers(){
 
 
 /* ==========================================
-   CLICK OUTSIDE TO CLOSE
+   CLOSE LEVEL BUY
+========================================== */
+
+function closeLevelBuy(){
+
+    const overlay =
+        document.getElementById(
+            "levelBuyOverlay"
+        );
+
+
+    overlay.classList.remove(
+        "active"
+    );
+
+
+    currentLevel =
+        null;
+
+
+    document.body.style.overflow =
+        document
+        .getElementById(
+            "skillTeacherOverlay"
+        )
+        .classList.contains("active")
+        ? "hidden"
+        : "";
+
+}
+
+
+/* ==========================================
+   CLICK OUTSIDE TEACHER POPUP
 ========================================== */
 
 document
-.getElementById("skillTeacherOverlay")
+.getElementById(
+    "skillTeacherOverlay"
+)
 .addEventListener(
     "click",
     function(event){
@@ -3452,6 +4888,50 @@ document
         if(event.target === this){
 
             closeSkillTeachers();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   CLICK OUTSIDE AUTH
+========================================== */
+
+document
+.getElementById(
+    "skillAuthGate"
+)
+.addEventListener(
+    "click",
+    function(event){
+
+        if(event.target === this){
+
+            closeAuthGate();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   CLICK OUTSIDE BUY LEVEL
+========================================== */
+
+document
+.getElementById(
+    "levelBuyOverlay"
+)
+.addEventListener(
+    "click",
+    function(event){
+
+        if(event.target === this){
+
+            closeLevelBuy();
 
         }
 
@@ -3476,9 +4956,12 @@ document
                     "data-skill"
                 );
 
+
             if(skill){
 
-                openSkillTeachers(skill);
+                openSkillTeachers(
+                    skill
+                );
 
             }
 
@@ -3496,7 +4979,60 @@ document.addEventListener(
     "keydown",
     function(event){
 
-        if(event.key === "Escape"){
+        if(event.key !== "Escape"){
+            return;
+        }
+
+
+        const authGate =
+            document.getElementById(
+                "skillAuthGate"
+            );
+
+
+        const buyOverlay =
+            document.getElementById(
+                "levelBuyOverlay"
+            );
+
+
+        const teacherOverlay =
+            document.getElementById(
+                "skillTeacherOverlay"
+            );
+
+
+        if(
+            authGate.classList.contains(
+                "active"
+            )
+        ){
+
+            closeAuthGate();
+
+            return;
+
+        }
+
+
+        if(
+            buyOverlay.classList.contains(
+                "active"
+            )
+        ){
+
+            closeLevelBuy();
+
+            return;
+
+        }
+
+
+        if(
+            teacherOverlay.classList.contains(
+                "active"
+            )
+        ){
 
             closeSkillTeachers();
 
