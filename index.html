@@ -122,7 +122,18 @@ html{
 
 body{
 
-    background:#020504;
+    background:
+    radial-gradient(
+        circle at 80% 15%,
+        rgba(139,0,0,.12),
+        transparent 28%
+    ),
+    radial-gradient(
+        circle at 15% 65%,
+        rgba(36,0,72,.25),
+        transparent 35%
+    ),
+    #020202;
 
     color:#f5f8f6;
 
@@ -159,7 +170,7 @@ body{
     padding:0 6%;
 
     background:
-    rgba(2,5,4,.88);
+    rgba(2,2,2,.90);
 
     backdrop-filter:blur(18px);
 
@@ -182,7 +193,7 @@ body{
 
 .logo span{
 
-    color:#00e676;
+    color:#8b0000;
 
 }
 
@@ -196,7 +207,7 @@ body{
 
 .nav-links a{
 
-    color:#8b9890;
+    color:#8f8a98;
 
     text-decoration:none;
 
@@ -210,7 +221,7 @@ body{
 
 .nav-links a:hover{
 
-    color:#00e676;
+    color:#ffffff;
 
 }
 
@@ -245,9 +256,9 @@ body{
 
 .signin:hover{
 
-    color:#00e676;
+    color:#ffffff;
 
-    border-color:#00e676;
+    border-color:#8b0000;
 
 }
 
@@ -255,9 +266,14 @@ body{
 
     padding:11px 17px;
 
-    background:#00e676;
+    background:
+    linear-gradient(
+        135deg,
+        #240048,
+        #8b0000
+    );
 
-    color:#001b0c;
+    color:#ffffff;
 
     text-decoration:none;
 
@@ -275,7 +291,7 @@ body{
 
     box-shadow:
     0 10px 30px
-    rgba(0,230,118,.20);
+    rgba(139,0,0,.28);
 
 }
 
@@ -299,15 +315,17 @@ body{
 
     radial-gradient(
         circle at 80% 15%,
-        rgba(0,230,118,.13),
+        rgba(139,0,0,.22),
         transparent 30%
     ),
 
     radial-gradient(
-        circle at 10% 80%,
-        rgba(0,230,118,.06),
-        transparent 30%
-    );
+        circle at 25% 70%,
+        rgba(36,0,72,.35),
+        transparent 35%
+    ),
+
+    #020202;
 
 }
 
@@ -328,14 +346,14 @@ body{
     padding:8px 13px;
 
     border:
-    1px solid rgba(0,230,118,.18);
+    1px solid rgba(139,0,0,.35);
 
     border-radius:30px;
 
-    color:#89968e;
+    color:#aaa2b1;
 
     background:
-    rgba(0,230,118,.03);
+    rgba(36,0,72,.15);
 
     font-size:8px;
 
@@ -353,10 +371,10 @@ body{
 
     border-radius:50%;
 
-    background:#00e676;
+    background:#8b0000;
 
     box-shadow:
-    0 0 12px #00e676;
+    0 0 12px #8b0000;
 
 }
 
@@ -375,7 +393,7 @@ body{
 
 .hero h1 span{
 
-    color:#00e676;
+    color:#8b0000;
 
 }
 
@@ -385,7 +403,7 @@ body{
 
     margin-top:25px;
 
-    color:#7e8b83;
+    color:#8e8794;
 
     font-size:13px;
 
@@ -409,9 +427,14 @@ body{
 
     padding:14px 23px;
 
-    background:#00e676;
+    background:
+    linear-gradient(
+        135deg,
+        #240048,
+        #8b0000
+    );
 
-    color:#001b0c;
+    color:#ffffff;
 
     text-decoration:none;
 
@@ -429,7 +452,7 @@ body{
 
     box-shadow:
     0 12px 35px
-    rgba(0,230,118,.20);
+    rgba(139,0,0,.28);
 
     transform:translateY(-2px);
 
@@ -460,9 +483,9 @@ body{
 
 .secondary-button:hover{
 
-    color:#00e676;
+    color:#ffffff;
 
-    border-color:#00e676;
+    border-color:#8b0000;
 
 }
 
@@ -475,11 +498,14 @@ body{
 
     padding:95px 6%;
 
+    background:
+    #020202;
+
 }
 
 .section-label{
 
-    color:#00e676;
+    color:#8b0000;
 
     font-size:8px;
 
@@ -505,7 +531,7 @@ body{
 
     margin-top:10px;
 
-    color:#758179;
+    color:#827a89;
 
     font-size:11px;
 
@@ -535,7 +561,12 @@ body{
 
     overflow:hidden;
 
-    background:#07100b;
+    background:
+    linear-gradient(
+        145deg,
+        #17002d,
+        #020202
+    );
 
     border:
     1px solid rgba(255,255,255,.08);
@@ -551,7 +582,11 @@ body{
     transform:translateY(-5px);
 
     border-color:
-    rgba(0,230,118,.3);
+    rgba(139,0,0,.55);
+
+    box-shadow:
+    0 15px 40px
+    rgba(139,0,0,.10);
 
 }
 
@@ -575,7 +610,7 @@ body{
 
 .skill-level{
 
-    color:#00e676;
+    color:#b13a3a;
 
     font-size:8px;
 
@@ -599,11 +634,72 @@ body{
 
     margin-top:6px;
 
-    color:#68756d;
+    color:#787080;
 
     font-size:9px;
 
     line-height:1.6;
+
+}
+
+
+/* ==========================================
+   SKILL LEVEL HEADERS
+========================================== */
+
+.skill-group{
+
+    margin-top:48px;
+
+}
+
+.skill-group:first-of-type{
+
+    margin-top:35px;
+
+}
+
+.skill-group-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:18px;
+
+    font-weight:900;
+
+}
+
+.skill-group-title span{
+
+    padding:6px 11px;
+
+    border-radius:20px;
+
+    background:
+    rgba(139,0,0,.10);
+
+    border:
+    1px solid rgba(139,0,0,.25);
+
+    color:#b13a3a;
+
+    font-size:8px;
+
+    letter-spacing:1.5px;
+
+}
+
+.skill-group-description{
+
+    margin-top:7px;
+
+    color:#706975;
+
+    font-size:10px;
 
 }
 
@@ -616,6 +712,16 @@ body{
 
     padding:95px 6%;
 
+    background:
+
+    radial-gradient(
+        circle at 90% 20%,
+        rgba(139,0,0,.14),
+        transparent 35%
+    ),
+
+    #020202;
+
 }
 
 .competition-box{
@@ -623,7 +729,7 @@ body{
     padding:55px;
 
     border:
-    1px solid rgba(0,230,118,.12);
+    1px solid rgba(139,0,0,.20);
 
     border-radius:22px;
 
@@ -631,11 +737,11 @@ body{
 
     radial-gradient(
         circle at 90% 15%,
-        rgba(0,230,118,.09),
+        rgba(36,0,72,.45),
         transparent 35%
     ),
 
-    #06100a;
+    #17002d;
 
 }
 
@@ -657,7 +763,7 @@ body{
 
     margin-top:15px;
 
-    color:#78847d;
+    color:#8b8290;
 
     font-size:11px;
 
@@ -688,7 +794,7 @@ body{
     border-radius:12px;
 
     background:
-    rgba(255,255,255,.015);
+    rgba(2,2,2,.35);
 
 }
 
@@ -706,7 +812,7 @@ body{
 
     margin-top:6px;
 
-    color:#607067;
+    color:#746b79;
 
     font-size:8px;
 
@@ -739,13 +845,18 @@ body{
 
     border-radius:14px;
 
-    background:#07100b;
+    background:
+    linear-gradient(
+        145deg,
+        #17002d,
+        #020202
+    );
 
 }
 
 .step-number{
 
-    color:#00e676;
+    color:#8b0000;
 
     font-size:9px;
 
@@ -765,7 +876,311 @@ body{
 
     margin-top:7px;
 
-    color:#68756d;
+    color:#746c78;
+
+    font-size:9px;
+
+    line-height:1.7;
+
+}
+
+
+/* ==========================================
+   TEACHER MARKETPLACE
+========================================== */
+
+.teacher-market{
+
+    padding:100px 6%;
+
+    background:
+
+    radial-gradient(
+        circle at 10% 20%,
+        rgba(36,0,72,.42),
+        transparent 35%
+    ),
+
+    radial-gradient(
+        circle at 90% 70%,
+        rgba(139,0,0,.13),
+        transparent 35%
+    ),
+
+    #020202;
+
+}
+
+.teacher-market-header{
+
+    max-width:700px;
+
+}
+
+.teacher-market-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:18px;
+
+    margin-top:35px;
+
+}
+
+.teacher-market-card{
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        145deg,
+        #17002d,
+        #020202
+    );
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+    border-radius:18px;
+
+    transition:.25s;
+
+}
+
+.teacher-market-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:
+    rgba(139,0,0,.45);
+
+    box-shadow:
+    0 20px 50px
+    rgba(139,0,0,.10);
+
+}
+
+.teacher-video{
+
+    position:relative;
+
+    width:100%;
+
+    aspect-ratio:16/9;
+
+    background:#020202;
+
+}
+
+.teacher-video video{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+.teacher-video-placeholder{
+
+    width:100%;
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:25px;
+
+    background:
+
+    radial-gradient(
+        circle,
+        rgba(139,0,0,.15),
+        transparent 65%
+    ),
+
+    #17002d;
+
+}
+
+.play-circle{
+
+    width:58px;
+
+    height:58px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(
+        135deg,
+        #240048,
+        #8b0000
+    );
+
+    box-shadow:
+    0 0 30px
+    rgba(139,0,0,.25);
+
+    font-size:20px;
+
+    margin-bottom:13px;
+
+}
+
+.teacher-video-placeholder strong{
+
+    font-size:12px;
+
+}
+
+.teacher-video-placeholder span{
+
+    margin-top:6px;
+
+    color:#7d7382;
+
+    font-size:8px;
+
+}
+
+.teacher-market-content{
+
+    padding:18px;
+
+}
+
+.teacher-market-top{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+}
+
+.teacher-name{
+
+    font-size:14px;
+
+    font-weight:900;
+
+}
+
+.teacher-status{
+
+    padding:5px 8px;
+
+    border-radius:20px;
+
+    color:#b13a3a;
+
+    background:
+    rgba(139,0,0,.09);
+
+    border:
+    1px solid rgba(139,0,0,.20);
+
+    font-size:7px;
+
+    font-weight:900;
+
+}
+
+.teacher-skill{
+
+    margin-top:7px;
+
+    color:#9a929f;
+
+    font-size:9px;
+
+}
+
+.teacher-market-description{
+
+    margin-top:10px;
+
+    color:#716a76;
+
+    font-size:9px;
+
+    line-height:1.7;
+
+}
+
+.teacher-market-button{
+
+    display:inline-block;
+
+    margin-top:15px;
+
+    padding:9px 13px;
+
+    border-radius:8px;
+
+    border:
+    1px solid rgba(255,255,255,.09);
+
+    color:#ffffff;
+
+    text-decoration:none;
+
+    font-size:8px;
+
+    font-weight:900;
+
+    transition:.2s;
+
+}
+
+.teacher-market-button:hover{
+
+    border-color:#8b0000;
+
+    background:
+    rgba(139,0,0,.10);
+
+}
+
+.teacher-market-note{
+
+    margin-top:25px;
+
+    padding:16px;
+
+    border:
+    1px solid rgba(255,255,255,.07);
+
+    border-radius:12px;
+
+    color:#6f6874;
+
+    background:
+    rgba(36,0,72,.15);
 
     font-size:9px;
 
@@ -782,6 +1197,8 @@ body{
 
     padding:80px 6%;
 
+    background:#020202;
+
 }
 
 .cta-box{
@@ -791,7 +1208,7 @@ body{
     text-align:center;
 
     border:
-    1px solid rgba(255,255,255,.08);
+    1px solid rgba(139,0,0,.18);
 
     border-radius:20px;
 
@@ -799,11 +1216,11 @@ body{
 
     radial-gradient(
         circle,
-        rgba(0,230,118,.07),
+        rgba(36,0,72,.38),
         transparent 60%
     ),
 
-    #050b07;
+    #17002d;
 
 }
 
@@ -821,7 +1238,7 @@ body{
 
     margin:12px auto 25px;
 
-    color:#78847d;
+    color:#837a8a;
 
     font-size:11px;
 
@@ -846,14 +1263,14 @@ body{
 
     radial-gradient(
         circle at 50% 0%,
-        rgba(0,230,118,.10),
+        rgba(36,0,72,.45),
         transparent 45%
     ),
 
-    #06100a;
+    #020202;
 
     border-top:
-    1px solid rgba(0,230,118,.10);
+    1px solid rgba(139,0,0,.14);
 
     border-bottom:
     1px solid rgba(255,255,255,.06);
@@ -880,14 +1297,14 @@ body{
     padding:8px 15px;
 
     border:
-    1px solid rgba(0,230,118,.20);
+    1px solid rgba(139,0,0,.28);
 
     border-radius:30px;
 
     background:
-    rgba(0,230,118,.05);
+    rgba(139,0,0,.07);
 
-    color:#00e676;
+    color:#b13a3a;
 
     font-size:8px;
 
@@ -917,7 +1334,7 @@ body{
 
 .teacher-content h2 span{
 
-    color:#00e676;
+    color:#8b0000;
 
 }
 
@@ -930,7 +1347,7 @@ body{
 
     margin:18px auto 45px;
 
-    color:#7e8b83;
+    color:#7e7584;
 
     font-size:12px;
 
@@ -960,7 +1377,8 @@ body{
 
     text-align:left;
 
-    background:#07100b;
+    background:
+    #17002d;
 
     border:
     1px solid rgba(255,255,255,.07);
@@ -976,9 +1394,9 @@ body{
     transform:translateY(-5px);
 
     border-color:
-    rgba(0,230,118,.30);
+    rgba(139,0,0,.35);
 
-    background:#09150e;
+    background:#240048;
 
     box-shadow:
     0 15px 40px rgba(0,0,0,.20);
@@ -1001,10 +1419,10 @@ body{
     justify-content:center;
 
     background:
-    rgba(0,230,118,.08);
+    rgba(139,0,0,.10);
 
     border:
-    1px solid rgba(0,230,118,.12);
+    1px solid rgba(139,0,0,.20);
 
     border-radius:12px;
 
@@ -1029,7 +1447,7 @@ body{
 
 .teacher-feature p{
 
-    color:#68756d;
+    color:#756d7a;
 
     font-size:9px;
 
@@ -1068,12 +1486,12 @@ body{
     border-radius:30px;
 
     background:
-    rgba(0,230,118,.06);
+    rgba(139,0,0,.07);
 
     border:
-    1px solid rgba(0,230,118,.15);
+    1px solid rgba(139,0,0,.20);
 
-    color:#00e676;
+    color:#b13a3a;
 
     font-size:8px;
 
@@ -1091,10 +1509,10 @@ body{
 
     border-radius:50%;
 
-    background:#00e676;
+    background:#8b0000;
 
     box-shadow:
-    0 0 12px #00e676;
+    0 0 12px #8b0000;
 
 }
 
@@ -1115,9 +1533,14 @@ body{
 
     padding:15px 25px;
 
-    background:#00e676;
+    background:
+    linear-gradient(
+        135deg,
+        #240048,
+        #8b0000
+    );
 
-    color:#001b0c;
+    color:#ffffff;
 
     text-decoration:none;
 
@@ -1131,19 +1554,17 @@ body{
 
     box-shadow:
     0 10px 30px
-    rgba(0,230,118,.14);
+    rgba(139,0,0,.14);
 
 }
 
 .teacher-btn:hover{
 
-    background:#18f38a;
-
     transform:translateY(-2px);
 
     box-shadow:
     0 15px 40px
-    rgba(0,230,118,.25);
+    rgba(139,0,0,.25);
 
 }
 
@@ -1168,7 +1589,7 @@ body{
 
     margin-top:13px;
 
-    color:#4f5c55;
+    color:#514958;
 
     font-size:8px;
 
@@ -1186,7 +1607,7 @@ footer{
     border-top:
     1px solid rgba(255,255,255,.07);
 
-    background:#020403;
+    background:#020202;
 
 }
 
@@ -1210,13 +1631,13 @@ footer{
 
 .footer-logo span{
 
-    color:#00e676;
+    color:#8b0000;
 
 }
 
 .footer-copy{
 
-    color:#536059;
+    color:#59515f;
 
     font-size:8px;
 
@@ -1250,6 +1671,13 @@ footer{
     }
 
     .teacher-features{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+    .teacher-market-grid{
 
         grid-template-columns:
         repeat(2,1fr);
@@ -1307,7 +1735,8 @@ footer{
 
     .section,
     .competition,
-    .cta{
+    .cta,
+    .teacher-market{
 
         padding:
         70px 18px;
@@ -1345,6 +1774,12 @@ footer{
     }
 
     .teacher-features{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .teacher-market-grid{
 
         grid-template-columns:1fr;
 
@@ -1426,6 +1861,10 @@ footer{
 
         <a href="#competition">
             Competition
+        </a>
+
+        <a href="#teachers">
+            Teachers
         </a>
 
         <a href="#how">
@@ -1530,7 +1969,7 @@ footer{
 >
 
     <div class="section-label">
-        17 DIGITAL SKILLS
+        25 DIGITAL SKILLS
     </div>
 
 
@@ -1541,16 +1980,32 @@ footer{
 
     <p class="section-description">
 
-        Learn practical digital skills through structured
-        learning paths and project-based training.
+        Explore 25 practical digital skills organized into
+        Lower, Medium and High learning paths.
 
     </p>
+
+
+    <!-- LOWER -->
+
+    <div class="skill-group">
+
+        <div class="skill-group-title">
+            Lower
+            <span>9 SKILLS</span>
+        </div>
+
+        <div class="skill-group-description">
+            Start with practical digital and online skills.
+        </div>
+
+    </div>
 
 
     <div class="skills-grid">
 
 
-        <!-- VIDEO EDITING -->
+        <!-- 01 VIDEO EDITING -->
 
         <article class="skill-card">
 
@@ -1562,9 +2017,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    LOWER
-                </div>
+                <div class="skill-level">LOWER</div>
 
                 <div class="skill-name">
                     Video Editing
@@ -1579,7 +2032,7 @@ footer{
         </article>
 
 
-        <!-- MOVIE RECAP -->
+        <!-- 02 MOVIE RECAP -->
 
         <article class="skill-card">
 
@@ -1591,9 +2044,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    LOWER
-                </div>
+                <div class="skill-level">LOWER</div>
 
                 <div class="skill-name">
                     Movie Recap
@@ -1608,7 +2059,7 @@ footer{
         </article>
 
 
-        <!-- THUMBNAIL -->
+        <!-- 03 THUMBNAIL -->
 
         <article class="skill-card">
 
@@ -1620,9 +2071,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    LOWER
-                </div>
+                <div class="skill-level">LOWER</div>
 
                 <div class="skill-name">
                     Thumbnail
@@ -1637,7 +2086,7 @@ footer{
         </article>
 
 
-        <!-- DIGITAL MARKETING -->
+        <!-- 04 DIGITAL MARKETING -->
 
         <article class="skill-card">
 
@@ -1649,9 +2098,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    LOWER
-                </div>
+                <div class="skill-level">LOWER</div>
 
                 <div class="skill-name">
                     Digital Marketing
@@ -1666,7 +2113,7 @@ footer{
         </article>
 
 
-        <!-- AFFILIATE -->
+        <!-- 05 AFFILIATE -->
 
         <article class="skill-card">
 
@@ -1678,9 +2125,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    LOWER
-                </div>
+                <div class="skill-level">LOWER</div>
 
                 <div class="skill-name">
                     Affiliate Marketing
@@ -1695,7 +2140,7 @@ footer{
         </article>
 
 
-        <!-- DROPSHIPPING -->
+        <!-- 06 DROPSHIPPING -->
 
         <article class="skill-card">
 
@@ -1707,9 +2152,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    LOWER
-                </div>
+                <div class="skill-level">LOWER</div>
 
                 <div class="skill-name">
                     Dropshipping
@@ -1724,7 +2167,109 @@ footer{
         </article>
 
 
-        <!-- FOREX -->
+        <!-- 07 SOCIAL MEDIA -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1000&q=85"
+                alt="Social Media"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">LOWER</div>
+
+                <div class="skill-name">
+                    Social Media
+                </div>
+
+                <div class="skill-text">
+                    Learn content and social media strategy.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 08 GRAPHIC DESIGN -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1000&q=85"
+                alt="Graphic Design"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">LOWER</div>
+
+                <div class="skill-name">
+                    Graphic Design
+                </div>
+
+                <div class="skill-text">
+                    Create visual designs for digital projects.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 09 CONTENT CREATION -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=1000&q=85"
+                alt="Content Creation"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">LOWER</div>
+
+                <div class="skill-name">
+                    Content Creation
+                </div>
+
+                <div class="skill-text">
+                    Plan and create useful digital content.
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <!-- MEDIUM -->
+
+    <div class="skill-group">
+
+        <div class="skill-group-title">
+            Medium
+            <span>8 SKILLS</span>
+        </div>
+
+        <div class="skill-group-description">
+            Develop stronger technical, business and digital skills.
+        </div>
+
+    </div>
+
+
+    <div class="skills-grid">
+
+
+        <!-- 10 FOREX -->
 
         <article class="skill-card">
 
@@ -1736,9 +2281,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    MEDIUM
-                </div>
+                <div class="skill-level">MEDIUM</div>
 
                 <div class="skill-name">
                     Forex
@@ -1753,7 +2296,7 @@ footer{
         </article>
 
 
-        <!-- CRYPTO -->
+        <!-- 11 CRYPTO -->
 
         <article class="skill-card">
 
@@ -1765,9 +2308,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    MEDIUM
-                </div>
+                <div class="skill-level">MEDIUM</div>
 
                 <div class="skill-name">
                     Crypto
@@ -1782,7 +2323,7 @@ footer{
         </article>
 
 
-        <!-- CYBERSECURITY -->
+        <!-- 12 CYBERSECURITY -->
 
         <article class="skill-card">
 
@@ -1794,9 +2335,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    MEDIUM
-                </div>
+                <div class="skill-level">MEDIUM</div>
 
                 <div class="skill-name">
                     Cybersecurity
@@ -1811,7 +2350,7 @@ footer{
         </article>
 
 
-        <!-- AI AGENT -->
+        <!-- 13 AI AGENT -->
 
         <article class="skill-card">
 
@@ -1823,9 +2362,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    MEDIUM
-                </div>
+                <div class="skill-level">MEDIUM</div>
 
                 <div class="skill-name">
                     AI Agent
@@ -1840,7 +2377,7 @@ footer{
         </article>
 
 
-        <!-- ENGLISH -->
+        <!-- 14 ENGLISH -->
 
         <article class="skill-card">
 
@@ -1852,9 +2389,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    MEDIUM
-                </div>
+                <div class="skill-level">MEDIUM</div>
 
                 <div class="skill-name">
                     English
@@ -1869,7 +2404,7 @@ footer{
         </article>
 
 
-        <!-- DATA -->
+        <!-- 15 DATA -->
 
         <article class="skill-card">
 
@@ -1881,9 +2416,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    MEDIUM
-                </div>
+                <div class="skill-level">MEDIUM</div>
 
                 <div class="skill-name">
                     Data Analysis
@@ -1898,7 +2431,82 @@ footer{
         </article>
 
 
-        <!-- PYTHON -->
+        <!-- 16 UI UX -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1000&q=85"
+                alt="UI UX Design"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">MEDIUM</div>
+
+                <div class="skill-name">
+                    UI/UX Design
+                </div>
+
+                <div class="skill-text">
+                    Design clear and useful digital experiences.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 17 E-COMMERCE -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=85"
+                alt="E-Commerce"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">MEDIUM</div>
+
+                <div class="skill-name">
+                    E-Commerce
+                </div>
+
+                <div class="skill-text">
+                    Learn digital commerce fundamentals.
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <!-- HIGH -->
+
+    <div class="skill-group">
+
+        <div class="skill-group-title">
+            High
+            <span>8 SKILLS</span>
+        </div>
+
+        <div class="skill-group-description">
+            Build advanced technical and AI-powered projects.
+        </div>
+
+    </div>
+
+
+    <div class="skills-grid">
+
+
+        <!-- 18 PYTHON -->
 
         <article class="skill-card">
 
@@ -1910,9 +2518,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    HIGH
-                </div>
+                <div class="skill-level">HIGH</div>
 
                 <div class="skill-name">
                     Python
@@ -1927,7 +2533,7 @@ footer{
         </article>
 
 
-        <!-- JAVASCRIPT -->
+        <!-- 19 JAVASCRIPT -->
 
         <article class="skill-card">
 
@@ -1939,9 +2545,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    HIGH
-                </div>
+                <div class="skill-level">HIGH</div>
 
                 <div class="skill-name">
                     JavaScript
@@ -1956,7 +2560,7 @@ footer{
         </article>
 
 
-        <!-- AI APP -->
+        <!-- 20 AI APP -->
 
         <article class="skill-card">
 
@@ -1968,9 +2572,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    HIGH
-                </div>
+                <div class="skill-level">HIGH</div>
 
                 <div class="skill-name">
                     AI App
@@ -1985,7 +2587,7 @@ footer{
         </article>
 
 
-        <!-- AI WEB -->
+        <!-- 21 AI WEB -->
 
         <article class="skill-card">
 
@@ -1997,9 +2599,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    HIGH
-                </div>
+                <div class="skill-level">HIGH</div>
 
                 <div class="skill-name">
                     AI Web
@@ -2014,7 +2614,7 @@ footer{
         </article>
 
 
-        <!-- WEB DEVELOPMENT -->
+        <!-- 22 WEB DEVELOPMENT -->
 
         <article class="skill-card">
 
@@ -2026,9 +2626,7 @@ footer{
 
             <div class="skill-content">
 
-                <div class="skill-level">
-                    HIGH
-                </div>
+                <div class="skill-level">HIGH</div>
 
                 <div class="skill-name">
                     Web Development
@@ -2036,6 +2634,87 @@ footer{
 
                 <div class="skill-text">
                     Build modern professional websites.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 23 APP DEVELOPMENT -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1000&q=85"
+                alt="App Development"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">HIGH</div>
+
+                <div class="skill-name">
+                    App Development
+                </div>
+
+                <div class="skill-text">
+                    Learn how to build modern applications.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 24 SOFTWARE DEVELOPMENT -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=85"
+                alt="Software Development"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">HIGH</div>
+
+                <div class="skill-name">
+                    Software Development
+                </div>
+
+                <div class="skill-text">
+                    Build structured software projects.
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- 25 CLOUD TECHNOLOGY -->
+
+        <article class="skill-card">
+
+            <img
+                class="skill-image"
+                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=85"
+                alt="Cloud Technology"
+            >
+
+            <div class="skill-content">
+
+                <div class="skill-level">HIGH</div>
+
+                <div class="skill-name">
+                    Cloud Technology
+                </div>
+
+                <div class="skill-text">
+                    Explore modern cloud infrastructure.
                 </div>
 
             </div>
@@ -2115,6 +2794,241 @@ footer{
             </div>
 
         </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     TEACHER MARKETPLACE + INTRO VIDEOS
+========================================== -->
+
+<section
+    class="teacher-market"
+    id="teachers"
+>
+
+    <div class="teacher-market-header">
+
+        <div class="section-label">
+            TEACHER MARKETPLACE
+        </div>
+
+        <h2 class="section-title">
+            Meet your teachers
+        </h2>
+
+        <p class="section-description">
+
+            Discover teachers, watch their introduction videos,
+            explore their skills and find the right teacher
+            for your learning journey.
+
+        </p>
+
+    </div>
+
+
+    <div class="teacher-market-grid">
+
+
+        <!-- TEACHER VIDEO 1 -->
+
+        <article class="teacher-market-card">
+
+            <div class="teacher-video">
+
+                <!--
+                    ADMIN CAN LATER REPLACE THIS
+                    SOURCE WITH THE TEACHER INTRO VIDEO.
+                -->
+
+                <div class="teacher-video-placeholder">
+
+                    <div class="play-circle">
+                        ▶
+                    </div>
+
+                    <strong>
+                        Teacher Introduction
+                    </strong>
+
+                    <span>
+                        Intro video will appear here
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="teacher-market-content">
+
+                <div class="teacher-market-top">
+
+                    <div class="teacher-name">
+                        SteadyMaze Teacher
+                    </div>
+
+                    <div class="teacher-status">
+                        TEACHER
+                    </div>
+
+                </div>
+
+                <div class="teacher-skill">
+                    Digital Skills
+                </div>
+
+                <div class="teacher-market-description">
+
+                    Meet your teacher and discover their
+                    teaching experience and skills.
+
+                </div>
+
+                <a
+                    href="./login.html"
+                    class="teacher-market-button"
+                >
+                    VIEW TEACHER
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- TEACHER VIDEO 2 -->
+
+        <article class="teacher-market-card">
+
+            <div class="teacher-video">
+
+                <div class="teacher-video-placeholder">
+
+                    <div class="play-circle">
+                        ▶
+                    </div>
+
+                    <strong>
+                        Teacher Introduction
+                    </strong>
+
+                    <span>
+                        Intro video will appear here
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="teacher-market-content">
+
+                <div class="teacher-market-top">
+
+                    <div class="teacher-name">
+                        SteadyMaze Teacher
+                    </div>
+
+                    <div class="teacher-status">
+                        TEACHER
+                    </div>
+
+                </div>
+
+                <div class="teacher-skill">
+                    Technology & AI
+                </div>
+
+                <div class="teacher-market-description">
+
+                    Explore practical technology lessons
+                    and project-based learning.
+
+                </div>
+
+                <a
+                    href="./login.html"
+                    class="teacher-market-button"
+                >
+                    VIEW TEACHER
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- TEACHER VIDEO 3 -->
+
+        <article class="teacher-market-card">
+
+            <div class="teacher-video">
+
+                <div class="teacher-video-placeholder">
+
+                    <div class="play-circle">
+                        ▶
+                    </div>
+
+                    <strong>
+                        Teacher Introduction
+                    </strong>
+
+                    <span>
+                        Intro video will appear here
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="teacher-market-content">
+
+                <div class="teacher-market-top">
+
+                    <div class="teacher-name">
+                        SteadyMaze Teacher
+                    </div>
+
+                    <div class="teacher-status">
+                        TEACHER
+                    </div>
+
+                </div>
+
+                <div class="teacher-skill">
+                    Creative Skills
+                </div>
+
+                <div class="teacher-market-description">
+
+                    Learn from teachers focused on creative
+                    digital projects and real-world skills.
+
+                </div>
+
+                <a
+                    href="./login.html"
+                    class="teacher-market-button"
+                >
+                    VIEW TEACHER
+                </a>
+
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <div class="teacher-market-note">
+
+        Teacher introduction videos can later be connected
+        to the Teacher Marketplace and Supabase so approved
+        teachers can display their own introduction videos
+        on the SteadyMaze homepage.
 
     </div>
 
@@ -2279,8 +3193,6 @@ footer{
         <div class="teacher-features">
 
 
-            <!-- FEATURE 1 -->
-
             <div class="teacher-feature">
 
                 <div class="teacher-icon">
@@ -2301,8 +3213,6 @@ footer{
 
             </div>
 
-
-            <!-- FEATURE 2 -->
 
             <div class="teacher-feature">
 
@@ -2325,8 +3235,6 @@ footer{
             </div>
 
 
-            <!-- FEATURE 3 -->
-
             <div class="teacher-feature">
 
                 <div class="teacher-icon">
@@ -2347,8 +3255,6 @@ footer{
 
             </div>
 
-
-            <!-- FEATURE 4 -->
 
             <div class="teacher-feature">
 
@@ -2372,8 +3278,6 @@ footer{
 
         </div>
 
-
-        <!-- TEACHER ACTION -->
 
         <div class="teacher-action">
 
