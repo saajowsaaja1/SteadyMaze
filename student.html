@@ -1686,62 +1686,347 @@ body{
 
     <div class="boards">
 
-       <!-- =========================================
+       <!-- =====================================================
      STEADYMAZE MAIN COMPETITION LIVEBOARD
-     Replace the old 3 competition tables
-========================================= -->
+     SUPABASE CONNECTED
+====================================================== -->
 
-<section id="mainCompetitionSection">
+<div class="liveboard-card">
 
-    <div class="competition-header">
+    <div class="liveboard-header">
         <div>
-            <span class="competition-label">MAIN COMPETITION</span>
-            <h2>Main Competition Liveboard</h2>
-            <p>
-                Follow live results from every Main Competition skill.
-            </p>
+            <span class="liveboard-label">
+                MAIN COMPETITION
+            </span>
+
+            <h2>Liveboard</h2>
         </div>
 
-        <div class="competition-status">
-            <span></span>
-            LIVE
+        <div class="live-status" id="liveStatus">
+            <span class="live-dot"></span>
+            <span id="liveStatusText">CLOSED</span>
         </div>
     </div>
 
-    <div id="competitionSkills"
-         class="competition-skills">
+    <div class="liveboard-table-wrapper">
+
+        <table class="liveboard-table">
+
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Profile</th>
+                    <th>Student Name</th>
+                    <th>Points</th>
+                    <th>Creativity</th>
+                    <th>Storytelling</th>
+                    <th>Quality</th>
+                </tr>
+            </thead>
+
+            <tbody id="liveboardRows">
+                <!-- Supabase data ayaa halkan imanaya -->
+            </tbody>
+
+        </table>
+
     </div>
 
-    <div class="liveboard-card">
+</div>
 
-        <div class="liveboard-header">
 
-            <div>
-                <small>MAIN COMPETITION</small>
-                <h3 id="selectedSkillName">
-                    Loading...
-                </h3>
-            </div>
+<style>
+.liveboard-card {
+    width: 100%;
+    overflow: hidden;
+    background: #020202;
+    border: 1px solid rgba(139, 0, 0, 0.35);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+}
 
-            <div id="selectedSkillGroup"
-                 class="skill-group">
-                —
-            </div>
+.liveboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px;
+    background: linear-gradient(
+        135deg,
+        #020202,
+        #17002d,
+        #240048
+    );
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
 
-        </div>
+.liveboard-label {
+    display: block;
+    margin-bottom: 6px;
+    color: #777;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
 
-        <div id="liveboardContainer">
+.liveboard-header h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 23px;
+}
 
-            <div class="liveboard-loading">
+.live-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 30px;
+    color: #777;
+    border: 1px solid rgba(255,255,255,0.1);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.live-status.active {
+    color: #00e676;
+    border-color: rgba(0, 230, 118, 0.45);
+    box-shadow: 0 0 18px rgba(0,230,118,0.15);
+}
+
+.live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #555;
+}
+
+.live-status.active .live-dot {
+    background: #00e676;
+    box-shadow: 0 0 10px #00e676;
+}
+
+.liveboard-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.liveboard-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+.liveboard-table thead th {
+    padding: 16px;
+    background: #17002d;
+    color: #999;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.liveboard-table tbody td {
+    padding: 15px 16px;
+    color: #ddd;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.liveboard-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.liveboard-student-name {
+    color: #fff;
+    font-weight: 600;
+}
+
+.liveboard-rank {
+    color: #fff;
+    font-weight: 800;
+}
+
+.liveboard-score {
+    color: #00e676;
+    font-weight: 700;
+}
+
+@media (max-width: 700px) {
+    .liveboard-header {
+        padding: 18px;
+    }
+
+    .liveboard-header h2 {
+        font-size: 20px;
+    }
+
+    .liveboard-table {
+        min-width: 850px;
+    }
+}
+</style>
+
+
+<script>
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+/* =====================================================
+   MAIN LIVEBOARD
+===================================================== */
+
+async function loadMainLiveboard(competitionId) {
+
+    const rowsContainer =
+        document.getElementById("liveboardRows");
+
+    if (!rowsContainer) return;
+
+    rowsContainer.innerHTML = `
+        <tr>
+            <td colspan="7" style="text-align:center;padding:30px;">
                 Loading Liveboard...
-            </div>
+            </td>
+        </tr>
+    `;
 
-        </div>
 
-    </div>
+    /*
+      Data waxaa laga keenayaa:
 
-</section>
+      main_liveboard_scores
 
+      Rank waxaa lagu sameynayaa
+      total_score DESC.
+    */
+
+    const { data, error } = await supabaseClient
+        .from("main_liveboard_scores")
+        .select(`
+            student_id,
+            points,
+            creativity,
+            storytelling,
+            quality,
+            total_score
+        `)
+        .eq("competition_id", competitionId)
+        .order("total_score", {
+            ascending: false
+        });
+
+
+    if (error) {
+
+        console.error(
+            "Liveboard error:",
+            error
+        );
+
+        rowsContainer.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center;padding:30px;color:#ff5555;">
+                    Unable to load Liveboard.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+        rowsContainer.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center;padding:30px;color:#777;">
+                    No competitors yet.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    /*
+      Rank automatic:
+
+      first student = Rank 1
+      second = Rank 2
+      third = Rank 3
+      ...
+      1,000,000 = Rank 1,000,000
+
+      Lama hardcode-gareynayo 1M rows.
+    */
+
+    rowsContainer.innerHTML = data.map(
+        (student, index) => {
+
+            const rank = index + 1;
+
+            return `
+                <tr>
+
+                    <td>
+                        <span class="liveboard-rank">
+                            ${rank.toLocaleString()}
+                        </span>
+                    </td>
+
+                    <td>
+                        <img
+                            class="liveboard-profile"
+                            src="${student.profile_url || ''}"
+                            alt=""
+                        >
+                    </td>
+
+                    <td>
+                        <span class="liveboard-student-name">
+                            ${student.student_name || ''}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="liveboard-score">
+                            ${student.points ?? 0}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${student.creativity ?? 0}
+                    </td>
+
+                    <td>
+                        ${student.storytelling ?? 0}
+                    </td>
+
+                    <td>
+                        ${student.quality ?? 0}
+                    </td>
+
+                </tr>
+            `;
+        }
+    ).join("");
+}
+</script>
 
 <style>
 
