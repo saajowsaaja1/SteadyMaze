@@ -1686,279 +1686,927 @@ body{
 
     <div class="boards">
 
-        <!-- VIDEO EDITING -->
-        <div class="board">
-            <div class="board-head">
-                <h3>VIDEO EDITING</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
+       <!-- =========================================
+     STEADYMAZE MAIN COMPETITION LIVEBOARD
+     Replace the old 3 competition tables
+========================================= -->
 
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
+<section id="mainCompetitionSection">
 
-            <div class="rows" id="videoEditingRows"></div>
+    <div class="competition-header">
+        <div>
+            <span class="competition-label">MAIN COMPETITION</span>
+            <h2>Main Competition Liveboard</h2>
+            <p>
+                Follow live results from every Main Competition skill.
+            </p>
         </div>
 
-        <!-- THUMBNAIL -->
-        <div class="board">
-            <div class="board-head">
-                <h3>THUMBNAIL DESIGN</h3>
-                <p>Top 20 Winners • Live</p>
+        <div class="competition-status">
+            <span></span>
+            LIVE
+        </div>
+    </div>
+
+    <div id="competitionSkills"
+         class="competition-skills">
+    </div>
+
+    <div class="liveboard-card">
+
+        <div class="liveboard-header">
+
+            <div>
+                <small>MAIN COMPETITION</small>
+                <h3 id="selectedSkillName">
+                    Loading...
+                </h3>
             </div>
 
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
+            <div id="selectedSkillGroup"
+                 class="skill-group">
+                —
             </div>
 
-            <div class="rows" id="thumbnailRows"></div>
         </div>
 
-        <!-- MOVIE RECAP -->
-        <div class="board">
-            <div class="board-head">
-                <h3>MOVIE RECAP</h3>
-                <p>Top 20 Winners • Live</p>
+        <div id="liveboardContainer">
+
+            <div class="liveboard-loading">
+                Loading Liveboard...
             </div>
 
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="movieRecapRows"></div>
-        </div>
-
-        <!-- DIGITAL MARKETING -->
-        <div class="board">
-            <div class="board-head">
-                <h3>DIGITAL MARKETING</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="digitalMarketingRows"></div>
-        </div>
-
-        <!-- AFFILIATE -->
-        <div class="board">
-            <div class="board-head">
-                <h3>AFFILIATE MARKETING</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="affiliateRows"></div>
-        </div>
-
-        <!-- DROPSHIPPING -->
-        <div class="board">
-            <div class="board-head">
-                <h3>DROPSHIPPING</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="dropshippingRows"></div>
-        </div>
-
-        <!-- ENGLISH -->
-        <div class="board">
-            <div class="board-head">
-                <h3>ENGLISH</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="englishRows"></div>
-        </div>
-
-        <!-- AI AGENT -->
-        <div class="board">
-            <div class="board-head">
-                <h3>AI AGENT</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="aiAgentRows"></div>
-        </div>
-
-        <!-- DATA ANALYSIS -->
-        <div class="board">
-            <div class="board-head">
-                <h3>DATA ANALYSIS</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="dataRows"></div>
-        </div>
-
-        <!-- CYBERSECURITY -->
-        <div class="board">
-            <div class="board-head">
-                <h3>CYBERSECURITY</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="cyberRows"></div>
-        </div>
-
-        <!-- PYTHON -->
-        <div class="board">
-            <div class="board-head">
-                <h3>PYTHON</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="pythonRows"></div>
-        </div>
-
-        <!-- JAVA -->
-        <div class="board">
-            <div class="board-head">
-                <h3>JAVA</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="javaRows"></div>
-        </div>
-
-        <!-- WEB DEVELOPMENT -->
-        <div class="board">
-            <div class="board-head">
-                <h3>WEB DEVELOPMENT</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="webDevRows"></div>
-        </div>
-
-        <!-- AI WEB -->
-        <div class="board">
-            <div class="board-head">
-                <h3>AI WEB</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="aiWebRows"></div>
-        </div>
-
-        <!-- AI APP -->
-        <div class="board">
-            <div class="board-head">
-                <h3>AI APP</h3>
-                <p>Top 20 Winners • Live</p>
-            </div>
-
-            <div class="row column-title">
-                <div>Rank</div>
-                <div>Profile</div>
-                <div>Name</div>
-                <div>Points</div>
-                <div>Level</div>
-            </div>
-
-            <div class="rows" id="aiAppRows"></div>
         </div>
 
     </div>
 
 </section>
+
+
+<style>
+
+#mainCompetitionSection {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.competition-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    border-radius: 22px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(23,0,45,.92),
+            rgba(2,2,2,.95)
+        );
+    border: 1px solid rgba(201,162,39,.22);
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.45),
+        inset 0 1px rgba(255,255,255,.04);
+}
+
+.competition-label {
+    color: #c9a227;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.competition-header h2 {
+    margin: 7px 0;
+    color: #fff;
+    font-size: 27px;
+}
+
+.competition-header p {
+    margin: 0;
+    color: #888;
+    font-size: 13px;
+}
+
+.competition-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 20px;
+    color: #ddd;
+    font-size: 11px;
+    font-weight: 800;
+    background: rgba(0,0,0,.35);
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.competition-status span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00e676;
+    box-shadow: 0 0 12px #00e676;
+}
+
+.competition-skills {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 18px 2px;
+}
+
+.competition-skill {
+    flex: 0 0 auto;
+    padding: 11px 17px;
+    border-radius: 13px;
+    color: #aaa;
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.08);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.competition-skill:hover {
+    color: #fff;
+    border-color: rgba(201,162,39,.45);
+}
+
+.competition-skill.active {
+    color: #fff;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(139,0,0,.55),
+            rgba(36,0,72,.7)
+        );
+    border-color: #c9a227;
+    box-shadow:
+        0 0 25px rgba(139,0,0,.2);
+}
+
+.liveboard-card {
+    overflow: hidden;
+    border-radius: 22px;
+    background: rgba(10,10,12,.82);
+    border: 1px solid rgba(201,162,39,.18);
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.55);
+    backdrop-filter: blur(18px);
+}
+
+.liveboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 22px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.liveboard-header small {
+    color: #777;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+}
+
+.liveboard-header h3 {
+    margin-top: 5px;
+    color: #fff;
+    font-size: 23px;
+}
+
+.skill-group {
+    padding: 8px 13px;
+    border-radius: 10px;
+    color: #c9a227;
+    background: rgba(201,162,39,.08);
+    border: 1px solid rgba(201,162,39,.2);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.liveboard-table-wrap {
+    overflow-x: auto;
+}
+
+.liveboard-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+.liveboard-table th {
+    padding: 16px;
+    color: #777;
+    background: rgba(36,0,72,.25);
+    font-size: 10px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+}
+
+.liveboard-table td {
+    padding: 15px 16px;
+    color: #ddd;
+    font-size: 13px;
+    border-top: 1px solid rgba(255,255,255,.05);
+}
+
+.liveboard-table tr:hover {
+    background: rgba(139,0,0,.07);
+}
+
+.live-rank {
+    color: #c9a227 !important;
+    font-weight: 900;
+}
+
+.live-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.live-profile img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #240048;
+    border: 1px solid rgba(201,162,39,.35);
+}
+
+.live-student {
+    color: #fff !important;
+    font-weight: 750;
+}
+
+.live-total {
+    color: #c9a227 !important;
+    font-weight: 900;
+}
+
+.liveboard-loading,
+.liveboard-empty,
+.liveboard-error {
+    padding: 55px 20px;
+    text-align: center;
+    color: #777;
+}
+
+.liveboard-error {
+    color: #ff7777;
+}
+
+@media(max-width:700px) {
+
+    .competition-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .liveboard-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+</style>
+
+
+<script>
+
+/* =========================================
+   SUPABASE CONNECTION
+========================================= */
+
+const liveboardSupabase =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+let liveboardUser = null;
+let liveboardRole = null;
+let liveboardCompetitions = [];
+let liveboardSelected = null;
+
+
+/* =========================================
+   START
+========================================= */
+
+async function startMainLiveboard() {
+
+    const {
+        data: {
+            user
+        },
+        error
+    } = await liveboardSupabase.auth.getUser();
+
+    if (error || !user) {
+
+        showLiveboardMessage(
+            "Please sign in first.",
+            "liveboard-error"
+        );
+
+        return;
+    }
+
+    liveboardUser = user;
+
+    await getLiveboardUserRole();
+
+    await loadAllowedCompetitions();
+}
+
+
+/* =========================================
+   GET USER ROLE
+========================================= */
+
+async function getLiveboardUserRole() {
+
+    const {
+        data,
+        error
+    } = await liveboardSupabase
+        .from("profiles")
+        .select("role")
+        .eq("id", liveboardUser.id)
+        .maybeSingle();
+
+    if (error) {
+
+        console.error(error);
+
+        liveboardRole = "student";
+
+        return;
+    }
+
+    liveboardRole =
+        data?.role || "student";
+}
+
+
+/* =========================================
+   LOAD ALLOWED COMPETITIONS
+========================================= */
+
+async function loadAllowedCompetitions() {
+
+    let query =
+        liveboardSupabase
+        .from("main_competitions")
+        .select(`
+            id,
+            skill_name,
+            skill_group,
+            status
+        `)
+        .eq("status", "open")
+        .order("skill_name");
+
+
+    /*
+       SUPPORT + SPECIAL + ADMIN
+       can see ALL Main Liveboards.
+    */
+
+    const canSeeAll =
+        liveboardRole === "support" ||
+        liveboardRole === "special" ||
+        liveboardRole === "admin";
+
+
+    /*
+       NORMAL STUDENT
+       can only see competitions entered.
+    */
+
+    if (!canSeeAll) {
+
+        const {
+            data: entries,
+            error
+        } = await liveboardSupabase
+            .from("main_competition_entries")
+            .select("competition_id")
+            .eq("student_id", liveboardUser.id)
+            .in("status", [
+                "active",
+                "winner"
+            ]);
+
+
+        if (error) {
+
+            console.error(error);
+
+            showLiveboardMessage(
+                "Unable to check your competitions.",
+                "liveboard-error"
+            );
+
+            return;
+        }
+
+
+        const competitionIds =
+            (entries || [])
+            .map(row => row.competition_id);
+
+
+        /*
+           Maximum 2 competitions
+           for normal Main students.
+        */
+
+        query =
+            competitionIds.length
+                ? query.in(
+                    "id",
+                    competitionIds
+                  )
+                : null;
+    }
+
+
+    if (!query) {
+
+        showLiveboardMessage(
+            "You have no Main Competition Liveboard access.",
+            "liveboard-empty"
+        );
+
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } = await query;
+
+
+    if (error) {
+
+        console.error(error);
+
+        showLiveboardMessage(
+            "Unable to load competitions.",
+            "liveboard-error"
+        );
+
+        return;
+    }
+
+
+    liveboardCompetitions =
+        data || [];
+
+
+    renderCompetitionSkills();
+
+
+    if (liveboardCompetitions.length) {
+
+        selectLiveboardCompetition(
+            liveboardCompetitions[0].id
+        );
+
+    } else {
+
+        showLiveboardMessage(
+            "No Main Competition is currently open.",
+            "liveboard-empty"
+        );
+    }
+}
+
+
+/* =========================================
+   SKILL BUTTONS
+========================================= */
+
+function renderCompetitionSkills() {
+
+    const container =
+        document.getElementById(
+            "competitionSkills"
+        );
+
+    container.innerHTML = "";
+
+
+    liveboardCompetitions.forEach(
+        competition => {
+
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "competition-skill";
+
+            button.textContent =
+                competition.skill_name;
+
+            button.dataset.id =
+                competition.id;
+
+            button.onclick = () =>
+                selectLiveboardCompetition(
+                    competition.id
+                );
+
+            container.appendChild(button);
+        }
+    );
+}
+
+
+/* =========================================
+   SELECT
+========================================= */
+
+async function selectLiveboardCompetition(
+    competitionId
+) {
+
+    liveboardSelected =
+        liveboardCompetitions.find(
+            item =>
+                item.id === competitionId
+        );
+
+
+    if (!liveboardSelected) {
+        return;
+    }
+
+
+    document
+        .querySelectorAll(
+            ".competition-skill"
+        )
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.id === competitionId
+            );
+        });
+
+
+    document.getElementById(
+        "selectedSkillName"
+    ).textContent =
+        liveboardSelected.skill_name;
+
+
+    document.getElementById(
+        "selectedSkillGroup"
+    ).textContent =
+        liveboardSelected.skill_group;
+
+
+    await loadCompetitionLiveboard(
+        competitionId
+    );
+}
+
+
+/* =========================================
+   LOAD SCORES
+========================================= */
+
+async function loadCompetitionLiveboard(
+    competitionId
+) {
+
+    const container =
+        document.getElementById(
+            "liveboardContainer"
+        );
+
+
+    container.innerHTML = `
+        <div class="liveboard-loading">
+            Loading Liveboard...
+        </div>
+    `;
+
+
+    const {
+        data: scores,
+        error
+    } = await liveboardSupabase
+        .from("main_liveboard_scores")
+        .select(`
+            student_id,
+            points,
+            creativity,
+            storytelling,
+            quality,
+            total_score,
+            ai_review_status
+        `)
+        .eq("competition_id", competitionId)
+        .eq("ai_review_status", "completed")
+        .order("total_score", {
+            ascending: false
+        });
+
+
+    if (error) {
+
+        console.error(error);
+
+        showLiveboardMessage(
+            "Unable to load Liveboard.",
+            "liveboard-error"
+        );
+
+        return;
+    }
+
+
+    if (!scores || !scores.length) {
+
+        showLiveboardMessage(
+            "No completed scores yet.",
+            "liveboard-empty"
+        );
+
+        return;
+    }
+
+
+    const ids =
+        scores.map(
+            row => row.student_id
+        );
+
+
+    const {
+        data: profiles,
+        error: profileError
+    } =
+        await liveboardSupabase
+        .from("profiles")
+        .select(`
+            id,
+            name,
+            profile_image
+        `)
+        .in("id", ids);
+
+
+    if (profileError) {
+
+        console.error(profileError);
+
+        showLiveboardMessage(
+            "Unable to load student profiles.",
+            "liveboard-error"
+        );
+
+        return;
+    }
+
+
+    const profileMap =
+        new Map();
+
+
+    (profiles || []).forEach(
+        profile => {
+
+            profileMap.set(
+                profile.id,
+                profile
+            );
+        }
+    );
+
+
+    renderLiveboardTable(
+        scores,
+        profileMap
+    );
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+function renderLiveboardTable(
+    scores,
+    profileMap
+) {
+
+    const container =
+        document.getElementById(
+            "liveboardContainer"
+        );
+
+
+    let html = `
+
+        <div class="liveboard-table-wrap">
+
+            <table class="liveboard-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Profile</th>
+                        <th>Points</th>
+                        <th>Creativity</th>
+                        <th>Storytelling</th>
+                        <th>Quality</th>
+                        <th>Total</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+    `;
+
+
+    scores.forEach(
+        (score, index) => {
+
+            const profile =
+                profileMap.get(
+                    score.student_id
+                );
+
+
+            const name =
+                profile?.name ||
+                "Student";
+
+
+            const image =
+                profile?.profile_image ||
+                "https://via.placeholder.com/80";
+
+
+            html += `
+
+                <tr>
+
+                    <td class="live-rank">
+                        #${index + 1}
+                    </td>
+
+                    <td>
+
+                        <div class="live-profile">
+
+                            <img
+                                src="${escapeLiveboard(image)}"
+                                alt="Profile"
+                            >
+
+                            <span class="live-student">
+                                ${escapeLiveboard(name)}
+                            </span>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+                        ${formatLiveScore(score.points)}
+                    </td>
+
+                    <td>
+                        ${formatLiveScore(score.creativity)}
+                    </td>
+
+                    <td>
+                        ${formatLiveScore(score.storytelling)}
+                    </td>
+
+                    <td>
+                        ${formatLiveScore(score.quality)}
+                    </td>
+
+                    <td class="live-total">
+                        ${formatLiveScore(score.total_score)}
+                    </td>
+
+                </tr>
+            `;
+        }
+    );
+
+
+    html += `
+
+                </tbody>
+
+            </table>
+
+        </div>
+    `;
+
+
+    container.innerHTML = html;
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+function showLiveboardMessage(
+    message,
+    className
+) {
+
+    document.getElementById(
+        "liveboardContainer"
+    ).innerHTML = `
+        <div class="${className}">
+            ${escapeLiveboard(message)}
+        </div>
+    `;
+}
+
+
+/* =========================================
+   HELPERS
+========================================= */
+
+function formatLiveScore(value) {
+
+    const number =
+        Number(value);
+
+    return Number.isFinite(number)
+        ? (
+            Number.isInteger(number)
+                ? number
+                : number.toFixed(1)
+          )
+        : "0";
+}
+
+
+function escapeLiveboard(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+/* =========================================
+   REALTIME
+========================================= */
+
+liveboardSupabase
+    .channel("main-liveboard-updates")
+    .on(
+        "postgres_changes",
+        {
+            event: "*",
+            schema: "public",
+            table: "main_liveboard_scores"
+        },
+        () => {
+
+            if (liveboardSelected) {
+
+                loadCompetitionLiveboard(
+                    liveboardSelected.id
+                );
+            }
+        }
+    )
+    .subscribe();
+
+
+/* =========================================
+   RUN
+========================================= */
+
+startMainLiveboard();
+
+</script>
                 Competition Rewards
             </h2>
 
