@@ -1,0 +1,1025 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteadyMaze | Student Portal</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --black:#020202;
+  --panel:#101014;
+  --purple:#17002d;
+  --violet:#240048;
+  --red:#8b0000;
+  --border:#29242f;
+  --muted:#9994a2;
+  --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--black);
+  color:white;
+  font-family:Inter,sans-serif;
+  min-height:100vh;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:255px;
+  background:#09090c;
+  border-right:1px solid var(--border);
+  padding:25px 16px;
+  position:fixed;
+  height:100vh;
+  overflow-y:auto;
+  z-index:10;
+}
+.logo{
+  font-size:23px;
+  font-weight:800;
+  letter-spacing:-1px;
+  padding:8px 12px 32px;
+}
+.logo span{color:#b65aff}
+.student-mini{
+  background:linear-gradient(135deg,#240048,#15101c);
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:13px;
+  margin-bottom:25px;
+}
+.student-mini small{color:var(--muted)}
+.menu-label{
+  color:#77717e;
+  font-size:10px;
+  letter-spacing:2px;
+  padding:12px;
+}
+.nav{
+  width:100%;
+  background:none;
+  border:0;
+  color:#aaa5b1;
+  text-align:left;
+  padding:13px 14px;
+  border-radius:9px;
+  margin:3px 0;
+  font-size:13px;
+}
+.nav:hover,.nav.active{
+  background:linear-gradient(100deg,#31005a,#190023);
+  color:white;
+  border-left:3px solid #bb55ff;
+}
+.main{
+  margin-left:255px;
+  width:calc(100% - 255px);
+  padding:25px 30px;
+  max-width:1700px;
+}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:28px;
+}
+.topbar h2{font-size:21px}
+.top-actions{display:flex;gap:12px;align-items:center}
+.avatar{
+  width:42px;height:42px;border-radius:50%;
+  object-fit:cover;background:#32114a;
+  border:1px solid #8e43bd;
+}
+.page{display:none}
+.page.active{display:block}
+.welcome{
+  padding:30px;
+  border:1px solid #39204a;
+  border-radius:17px;
+  background:
+  radial-gradient(circle at 85% 20%,#3b075b 0,transparent 38%),
+  linear-gradient(120deg,#17002d,#101014);
+  margin-bottom:22px;
+}
+.welcome h1{font-size:27px;margin-bottom:9px}
+.welcome p{color:#b9b0c1;font-size:13px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;margin-bottom:22px;
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:20px;
+  min-width:0;
+}
+.card small{color:var(--muted);font-size:11px}
+.card h2{font-size:25px;margin-top:12px}
+.card p{font-size:12px;color:var(--muted);margin-top:8px}
+.section-title{
+  font-size:18px;margin:27px 0 15px;
+}
+.two-col{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:17px;
+}
+.skill-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+}
+.skill{
+  background:linear-gradient(145deg,#17101e,#0e0e12);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:18px;
+}
+.skill h3{font-size:14px;margin-bottom:9px}
+.skill p{font-size:11px;color:var(--muted);margin:5px 0}
+.price{color:#d58aff;font-weight:700;font-size:18px}
+.btn{
+  border:0;border-radius:8px;
+  background:linear-gradient(100deg,#7600a9,#410064);
+  color:white;padding:11px 17px;
+  font-size:12px;font-weight:600;
+}
+.btn:hover{filter:brightness(1.2)}
+.btn.secondary{
+  background:#211a29;border:1px solid #42314f;
+}
+.btn.danger{background:#690c19}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.field{
+  width:100%;background:#09090d;
+  color:white;border:1px solid #39313f;
+  border-radius:8px;padding:12px;margin:8px 0 15px;
+  outline:none;
+}
+.field:focus{border-color:#a94bdb}
+label{font-size:12px;color:#c4bdcc}
+.table-wrap{
+  overflow-x:auto;
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{
+  padding:14px;text-align:left;
+  border-bottom:1px solid #28232d;
+  font-size:12px;
+}
+th{color:#b68bd0;background:#151019}
+td{color:#ddd}
+.empty{
+  color:var(--muted);font-size:13px;
+  text-align:center;padding:25px;
+}
+.status{
+  display:inline-block;padding:5px 9px;
+  border-radius:20px;background:#251630;
+  color:#d4a1f2;font-size:10px;
+}
+.profile-layout{
+  display:grid;grid-template-columns:280px 1fr;gap:20px;
+}
+.profile-photo{
+  width:110px;height:110px;object-fit:cover;
+  border-radius:50%;border:2px solid #9b42ce;
+  background:#261033;
+}
+.payment-card{
+  background:linear-gradient(135deg,#1d0633,#0e1019);
+  border:1px solid #50316b;
+  border-radius:16px;padding:25px;
+}
+.payment-method{
+  display:flex;justify-content:space-between;
+  align-items:center;padding:17px;
+  background:#141219;border:1px solid var(--border);
+  border-radius:10px;margin-top:12px;
+}
+.teacher-video{
+  background:#111016;border:1px solid var(--border);
+  border-radius:12px;padding:12px;
+}
+.teacher-video iframe{
+  width:100%;aspect-ratio:16/9;border:0;
+  border-radius:8px;
+}
+.notice{
+  background:#1c1025;border:1px solid #432354;
+  padding:13px;border-radius:9px;
+  font-size:12px;color:#d9c9e6;margin:14px 0;
+}
+#loginScreen{
+  position:fixed;inset:0;z-index:100;
+  background:#020202;display:flex;
+  align-items:center;justify-content:center;padding:20px;
+}
+.login-box{
+  width:100%;max-width:420px;
+  padding:30px;background:#101014;
+  border:1px solid #402451;border-radius:16px;
+}
+.login-box h1{margin-bottom:10px}
+.login-box p{color:var(--muted);font-size:12px;margin-bottom:20px}
+.mobile-menu{display:none}
+footer{color:#777;font-size:11px;padding:30px 0}
+@media(max-width:1000px){
+ .grid{grid-template-columns:repeat(2,1fr)}
+ .skill-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:650px){
+ .sidebar{width:230px;transform:translateX(-100%);transition:.25s}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin-left:0;width:100%;padding:17px}
+ .mobile-menu{display:inline-block}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .card{padding:13px}
+ .card h2{font-size:19px}
+ .welcome{padding:21px}
+ .welcome h1{font-size:22px}
+ .two-col,.profile-layout{grid-template-columns:1fr}
+ .skill-grid{grid-template-columns:1fr}
+ .topbar h2{font-size:16px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+ <div class="login-box">
+  <div class="logo">Steady<span>Maze</span></div>
+  <h1>Student Portal</h1>
+  <p>Sign in to continue your learning journey.</p>
+
+  <label>Email</label>
+  <input class="field" id="email" type="email" placeholder="Your email">
+
+  <label>Password</label>
+  <input class="field" id="password" type="password" placeholder="Your password">
+
+  <button class="btn" style="width:100%" onclick="login()">Sign In</button>
+  <button class="btn secondary" style="width:100%;margin-top:10px"
+  onclick="register()">Create Student Account</button>
+  <p id="authMessage" style="margin-top:15px"></p>
+ </div>
+</div>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+ <div class="logo">Steady<span>Maze</span></div>
+
+ <div class="student-mini">
+  <small>STUDENT ACCOUNT</small>
+  <h3 id="sideName" style="margin-top:8px">Student</h3>
+  <small id="sideEmail">Loading account...</small>
+ </div>
+
+ <div class="menu-label">MAIN MENU</div>
+ <button class="nav active" onclick="showPage('overview',this)">▦ Overview</button>
+ <button class="nav" onclick="showPage('competition',this)">♛ Competition</button>
+ <button class="nav" onclick="showPage('courses',this)">▣ My Courses</button>
+
+ <div class="menu-label">MY ACCOUNT</div>
+ <button class="nav" onclick="showPage('profile',this)">◉ My Profile</button>
+ <button class="nav" onclick="showPage('payments',this)">▤ Payments</button>
+ <button class="nav" onclick="showPage('rewards',this)">✧ Rewards</button>
+ <button class="nav" onclick="showPage('supportpoints',this)">☆ Support Points</button>
+
+ <div class="menu-label">CAREER</div>
+ <button class="nav" onclick="showPage('employment',this)">▤ Direct Employment</button>
+ <button class="nav" onclick="showPage('help',this)">? Help & Support</button>
+
+ <div style="margin-top:35px">
+  <button class="nav" onclick="logout()">↪ Logout</button>
+ </div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+ <div style="display:flex;align-items:center;gap:12px">
+  <button class="btn secondary mobile-menu"
+  onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <h2 id="pageTitle">Student Overview</h2>
+ </div>
+ <div class="top-actions">
+  <span id="headerName" style="font-size:12px;color:#c4b9ce">Student</span>
+  <img class="avatar" id="headerAvatar" alt="Profile">
+ </div>
+</header>
+
+<!-- OVERVIEW -->
+<section class="page active" id="overview">
+ <div class="welcome">
+  <small style="color:#d5a0ff">WELCOME TO STEADYMAZE</small>
+  <h1>Hello, <span id="welcomeName">Student</span></h1>
+  <p>Learn skills. Build projects. Compete. Earn recognition.</p>
+ </div>
+
+ <div class="grid">
+  <div class="card"><small>ENROLLED COURSES</small><h2 id="courseCount">0</h2><p>Purchased courses</p></div>
+  <div class="card"><small>COMPETITION ENTRIES</small><h2 id="entryCount">0</h2><p>Your registered competitions</p></div>
+  <div class="card"><small>SUPPORT POINTS</small><h2 id="pointCount">0</h2><p>Verified points</p></div>
+  <div class="card"><small>REWARDS</small><h2 id="rewardCount">0</h2><p>Rewards assigned to you</p></div>
+ </div>
+
+ <h3 class="section-title">Competition Categories</h3>
+ <div class="grid">
+  <div class="card"><small>LOWER CATEGORY</small><h2>$8</h2><p>8 videos · 2 months</p></div>
+  <div class="card"><small>MEDIUM CATEGORY</small><h2>$10</h2><p>8 videos · 2 months</p></div>
+  <div class="card"><small>HIGH CATEGORY</small><h2>$13</h2><p>8 videos · 2 months</p></div>
+  <div class="card"><small>RANK CAPACITY</small><h2>900K</h2><p>Per skill leaderboard</p></div>
+ </div>
+
+ <h3 class="section-title">Teacher Introduction Videos</h3>
+ <div class="grid" id="teacherVideos">
+  <div class="card empty">Loading teacher videos...</div>
+ </div>
+
+ <h3 class="section-title">Your Recent Activity</h3>
+ <div class="card" id="activity">
+  <p class="empty">Your account activity will appear here.</p>
+ </div>
+</section>
+
+<!-- COMPETITION -->
+<section class="page" id="competition">
+ <div class="welcome">
+  <h1>Competition Arena</h1>
+  <p>Choose your skill, join an available cycle and submit your project.</p>
+  <div class="notice">Each skill has its own leaderboard with a maximum of 900,000 rank positions. Competition deadlines are controlled by the administrator.</div>
+ </div>
+
+ <h3 class="section-title">Lower Skills · $8</h3>
+ <div class="skill-grid" id="lowerSkills"></div>
+
+ <h3 class="section-title">Medium Skills · $10</h3>
+ <div class="skill-grid" id="mediumSkills"></div>
+
+ <h3 class="section-title">High Skills · $13</h3>
+ <div class="skill-grid" id="highSkills"></div>
+
+ <h3 class="section-title">Competition Project Upload</h3>
+ <div class="card">
+  <label>Select your registered competition</label>
+  <select class="field" id="uploadEntry"></select>
+  <label>Project video (MP4)</label>
+  <input class="field" type="file" id="projectFile" accept="video/mp4,video/webm">
+  <button class="btn" onclick="uploadProject()">Submit Project</button>
+  <p id="uploadMessage" class="notice">Upload is subject to administrator-controlled opening and deadline rules.</p>
+ </div>
+
+ <h3 class="section-title">Skill Leaderboards</h3>
+ <label>Select Skill</label>
+ <select class="field" id="leaderSkill" onchange="loadLeaderboard()"></select>
+ <div class="table-wrap">
+  <table>
+   <thead><tr>
+    <th>Rank</th><th>Profile</th><th>Name</th>
+    <th>Points</th><th>Creativity</th><th>Storytelling</th>
+    <th>Quality</th>
+   </tr></thead>
+   <tbody id="leaderboardBody">
+    <tr><td colspan="7" class="empty">Select a skill to load its leaderboard.</td></tr>
+   </tbody>
+  </table>
+ </div>
+
+ <h3 class="section-title">Tie-Break Submission</h3>
+ <div class="card">
+  <p style="color:var(--muted);font-size:12px">
+   Tie-break submissions are available only to students selected by the administrator when a qualifying tie occurs.
+  </p>
+  <label>Eligible tie-break entry</label>
+  <select class="field" id="tieEntry"></select>
+  <input class="field" type="file" id="tieFile" accept="video/*">
+  <button class="btn" onclick="uploadTieBreak()">Submit Tie-Break Project</button>
+  <p id="tieMessage" class="notice">Tie-break is currently controlled by the administrator.</p>
+ </div>
+</section>
+
+<!-- COURSES -->
+<section class="page" id="courses">
+ <div class="welcome"><h1>My Courses</h1><p>Your purchased skills, levels and learning materials.</p></div>
+ <div id="myCourses" class="grid">
+  <div class="card empty">Loading courses...</div>
+ </div>
+</section>
+
+<!-- PROFILE -->
+<section class="page" id="profile">
+ <div class="welcome"><h1>My Profile</h1><p>Manage your student identity and account information.</p></div>
+ <div class="profile-layout">
+  <div class="card" style="text-align:center">
+   <img id="profilePhoto" class="profile-photo" alt="Student profile">
+   <h3 id="profileDisplayName" style="margin:15px 0">Student</h3>
+   <label>Upload profile photo</label>
+   <input class="field" type="file" id="avatarFile" accept="image/*">
+   <button class="btn" onclick="uploadAvatar()">Update Photo</button>
+  </div>
+  <div class="card">
+   <h3 style="margin-bottom:20px">Personal Information</h3>
+   <label>Full Name</label>
+   <input class="field" id="profileName" placeholder="Your full name">
+   <label>Email</label>
+   <input class="field" id="profileEmail" disabled>
+   <label>Country</label>
+   <input class="field" id="profileCountry" placeholder="Your country">
+   <label>About Me</label>
+   <input class="field" id="profileAbout" placeholder="Introduce yourself">
+   <button class="btn" onclick="saveProfile()">Save Profile</button>
+   <p id="profileMessage" class="notice"></p>
+  </div>
+ </div>
+</section>
+
+<!-- PAYMENTS -->
+<section class="page" id="payments">
+ <div class="welcome"><h1>Payments & Transactions</h1><p>View your purchases, payment records and transaction status.</p></div>
+
+ <div class="payment-card">
+  <small>STEADYMAZE ACCOUNT</small>
+  <h2 style="margin:15px 0">Payment Center</h2>
+  <p style="font-size:12px;color:#c2b5cf">Secure payment records for your learning and competition purchases.</p>
+  <div class="grid" style="margin-top:20px">
+   <div class="card"><small>COMPLETED PAYMENTS</small><h2 id="paidCount">0</h2></div>
+   <div class="card"><small>PENDING PAYMENTS</small><h2 id="pendingCount">0</h2></div>
+  </div>
+ </div>
+
+ <h3 class="section-title">Available Payment Methods</h3>
+ <div class="payment-method"><div><b>VISA</b><p style="font-size:11px;color:#999">Card payments</p></div><span>••••</span></div>
+ <div class="payment-method"><div><b>Mastercard</b><p style="font-size:11px;color:#999">Card payments</p></div><span>••••</span></div>
+ <div class="payment-method"><div><b>PayPal</b><p style="font-size:11px;color:#999">Online payments</p></div><span>••••</span></div>
+
+ <h3 class="section-title">Transaction History</h3>
+ <div class="table-wrap"><table>
+  <thead><tr><th>Reference</th><th>Type</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+  <tbody id="paymentBody"><tr><td colspan="5" class="empty">No payment records.</td></tr></tbody>
+ </table></div>
+ <div class="notice">Payment methods are displayed here. Actual card processing requires a properly configured payment provider and server-side verification. Never store card numbers or CVV in this dashboard.</div>
+</section>
+
+<!-- REWARDS -->
+<section class="page" id="rewards">
+ <div class="welcome"><h1>My Rewards</h1><p>Rewards assigned by the SteadyMaze administration team.</p></div>
+ <div id="rewardList" class="grid"><div class="card empty">Loading rewards...</div></div>
+</section>
+
+<!-- SUPPORT POINTS -->
+<section class="page" id="supportpoints">
+ <div class="welcome"><h1>Support Points</h1><p>A separate recognition system. Support Points do not enter the main competition leaderboard.</p></div>
+ <div class="grid">
+  <div class="card"><small>LOWER POINT VALUE</small><h2>$4</h2><p>Per verified point</p></div>
+  <div class="card"><small>MEDIUM POINT VALUE</small><h2>$5</h2><p>Per verified point</p></div>
+  <div class="card"><small>HIGH POINT VALUE</small><h2>$6</h2><p>Per verified point</p></div>
+ </div>
+ <div class="card">
+  <h3>My Support Point Records</h3>
+  <div class="table-wrap" style="margin-top:15px"><table>
+   <thead><tr><th>Skill</th><th>Points</th><th>Value</th><th>Status</th><th>Date</th></tr></thead>
+   <tbody id="supportBody"><tr><td colspan="5" class="empty">No support points yet.</td></tr></tbody>
+  </table></div>
+ </div>
+</section>
+
+<!-- EMPLOYMENT -->
+<section class="page" id="employment">
+ <div class="welcome"><h1>Direct Employment</h1><p>Explore future career opportunities through SteadyMaze.</p></div>
+ <div class="card">
+  <h3>Career Pathway</h3>
+  <p style="color:var(--muted);font-size:13px;margin:12px 0">This section will connect eligible students with employment opportunities when the employment programme is launched.</p>
+  <span class="status">Coming Soon</span>
+ </div>
+</section>
+
+<!-- HELP -->
+<section class="page" id="help">
+ <div class="welcome"><h1>Help & Support</h1><p>Get assistance with your account, courses and competitions.</p></div>
+ <div class="card">
+  <label>Subject</label>
+  <input class="field" id="ticketSubject" placeholder="What do you need help with?">
+  <label>Message</label>
+  <textarea class="field" id="ticketMessage" rows="5" placeholder="Describe your issue"></textarea>
+  <button class="btn" onclick="sendSupport()">Submit Support Request</button>
+  <p id="ticketStatus" class="notice"></p>
+ </div>
+</section>
+
+<footer>© 2026 SteadyMaze. All rights reserved.</footer>
+</main>
+</div>
+
+<script>
+// SUPABASE CONNECTION
+const SUPABASE_URL = "https://uxrltzlxdttbjstomhkb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+
+const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let currentUser = null;
+let currentProfile = null;
+
+const skills = {
+ lower:[
+  {name:"Video Editing",price:8,group:"Lower"},
+  {name:"Movie Recap",price:8,group:"Lower"},
+  {name:"Thumbnail",price:8,group:"Lower"}
+ ],
+ medium:[
+  {name:"English",price:10,group:"Medium"},
+  {name:"AI Agent",price:10,group:"Medium"},
+  {name:"Data Analysis",price:10,group:"Medium"}
+ ],
+ high:[
+  {name:"Python",price:13,group:"High"},
+  {name:"Java",price:13,group:"High"},
+  {name:"AI Web",price:13,group:"High"},
+  {name:"AI App",price:13,group:"High"},
+  {name:"Web Development",price:13,group:"High"}
+ ]
+};
+
+function allSkills(){
+ return [...skills.lower,...skills.medium,...skills.high];
+}
+
+function message(id,text){
+ document.getElementById(id).textContent=text;
+}
+
+// AUTHENTICATION
+async function login(){
+ const email=document.getElementById("email").value.trim();
+ const password=document.getElementById("password").value;
+ const {data,error}=await db.auth.signInWithPassword({email,password});
+ if(error)return message("authMessage",error.message);
+ currentUser=data.user;
+ await initialize();
+}
+
+async function register(){
+ const email=document.getElementById("email").value.trim();
+ const password=document.getElementById("password").value;
+ if(password.length<8)return message("authMessage","Password must have at least 8 characters.");
+ const {data,error}=await db.auth.signUp({email,password});
+ if(error)return message("authMessage",error.message);
+ message("authMessage","Account created. Check your email if verification is required.");
+ if(data.session){
+  currentUser=data.user;
+  await initialize();
+ }
+}
+
+async function logout(){
+ await db.auth.signOut();
+ location.reload();
+}
+
+async function initialize(){
+ if(!currentUser)return;
+ document.getElementById("loginScreen").style.display="none";
+ document.getElementById("sideEmail").textContent=currentUser.email;
+ document.getElementById("profileEmail").value=currentUser.email;
+ await loadProfile();
+ await Promise.all([
+  loadCourses(),loadEntries(),loadRewards(),
+  loadPayments(),loadSupportPoints(),loadTeacherVideos()
+ ]);
+}
+
+db.auth.getSession().then(async({data})=>{
+ if(data.session){
+  currentUser=data.session.user;
+  await initialize();
+ }
+});
+
+// NAVIGATION
+function showPage(id,button){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));
+ if(button)button.classList.add("active");
+ const names={
+ overview:"Student Overview",competition:"Competition",
+ courses:"My Courses",profile:"My Profile",payments:"Payments",
+ rewards:"My Rewards",supportpoints:"Support Points",
+ employment:"Direct Employment",help:"Help & Support"
+ };
+ document.getElementById("pageTitle").textContent=names[id];
+ document.getElementById("sidebar").classList.remove("open");
+ if(id==="competition")loadEntries();
+ if(id==="competition")loadLeaderboard();
+}
+
+// PROFILE
+async function loadProfile(){
+ const {data,error}=await db.from("profiles")
+ .select("*").eq("id",currentUser.id).maybeSingle();
+ if(error){console.error(error);return}
+ currentProfile=data;
+
+ if(!data)return;
+
+ const name=data.full_name||"Student";
+ document.getElementById("sideName").textContent=name;
+ document.getElementById("headerName").textContent=name;
+ document.getElementById("welcomeName").textContent=name;
+ document.getElementById("profileDisplayName").textContent=name;
+ document.getElementById("profileName").value=data.full_name||"";
+ document.getElementById("profileCountry").value=data.country||"";
+ document.getElementById("profileAbout").value=data.about||"";
+
+ if(data.avatar_url){
+  document.getElementById("profilePhoto").src=data.avatar_url;
+  document.getElementById("headerAvatar").src=data.avatar_url;
+ }
+}
+
+async function saveProfile(){
+ const full_name=document.getElementById("profileName").value.trim();
+ if(!full_name)return message("profileMessage","Full name is required.");
+
+ const {error}=await db.from("profiles").upsert({
+  id:currentUser.id,
+  full_name,
+  country:document.getElementById("profileCountry").value,
+  about:document.getElementById("profileAbout").value,
+  email:currentUser.email,
+  updated_at:new Date().toISOString()
+ });
+ if(error)return message("profileMessage",error.message);
+ message("profileMessage","Profile saved successfully.");
+ await loadProfile();
+}
+
+async function uploadAvatar(){
+ const file=document.getElementById("avatarFile").files[0];
+ if(!file)return message("profileMessage","Choose an image first.");
+ if(!file.type.startsWith("image/"))return message("profileMessage","Choose an image file.");
+
+ const path=currentUser.id+"/profile-"+Date.now()+"-"+file.name;
+ const {error:uploadError}=await db.storage.from("avatars").upload(path,file);
+ if(uploadError)return message("profileMessage",uploadError.message);
+
+ const {data}=db.storage.from("avatars").getPublicUrl(path);
+ const {error}=await db.from("profiles").upsert({
+  id:currentUser.id,
+  email:currentUser.email,
+  avatar_url:data.publicUrl
+ });
+ if(error)return message("profileMessage",error.message);
+ message("profileMessage","Profile photo updated.");
+ await loadProfile();
+}
+
+// COURSES
+async function loadCourses(){
+ const {data,error}=await db.from("enrollments")
+ .select("*").eq("student_id",currentUser.id);
+ if(error){console.error(error);return}
+ document.getElementById("courseCount").textContent=data.length;
+ const box=document.getElementById("myCourses");
+ box.innerHTML="";
+ if(!data.length){
+  box.innerHTML='<div class="card empty">You have not purchased a course yet.</div>';
+  return;
+ }
+ data.forEach(c=>{
+  const el=document.createElement("div");
+  el.className="card";
+  el.innerHTML=`<small>MY COURSE</small><h3 style="margin:12px 0">${safe(c.skill_name)}</h3>
+  <p>Level: ${safe(c.level)}</p><p>Status: ${safe(c.status)}</p>`;
+  box.appendChild(el);
+ });
+}
+
+// COMPETITION SKILLS
+function renderSkills(){
+ const groups=[
+  ["lowerSkills",skills.lower],
+  ["mediumSkills",skills.medium],
+  ["highSkills",skills.high]
+ ];
+ groups.forEach(([id,list])=>{
+  document.getElementById(id).innerHTML="";
+  list.forEach(s=>{
+   const el=document.createElement("div");
+   el.className="skill";
+   el.innerHTML=`<h3>${safe(s.name)}</h3>
+   <p>${s.group} Category</p>
+   <p>8 videos · 2 months</p>
+   <p>Maximum 900,000 rank positions</p>
+   <div class="price">$${s.price}</div>
+   <button class="btn secondary" style="margin-top:12px"
+   onclick="joinCompetition('${s.name}')">View Competition</button>`;
+   document.getElementById(id).appendChild(el);
+  });
+ });
+
+ const select=document.getElementById("leaderSkill");
+ select.innerHTML="";
+ allSkills().forEach(s=>{
+  const o=document.createElement("option");
+  o.value=s.name;o.textContent=s.name;
+  select.appendChild(o);
+ });
+}
+
+async function joinCompetition(skill){
+ const {data:cycle,error}=await db.from("competition_cycles")
+ .select("*").eq("skill_name",skill)
+ .eq("is_open",true).maybeSingle();
+
+ if(error)return alert(error.message);
+ if(!cycle)return alert("This competition is not currently open.");
+
+ const {data:existing}=await db.from("competition_entries")
+ .select("id").eq("student_id",currentUser.id)
+ .eq("cycle_id",cycle.id).maybeSingle();
+
+ if(existing)return alert("You are already registered in this cycle.");
+
+ const {error:joinError}=await db.from("competition_entries").insert({
+  student_id:currentUser.id,
+  cycle_id:cycle.id,
+  skill_name:skill,
+  status:"registered"
+ });
+ if(joinError)return alert(joinError.message);
+
+ alert("Competition registration successful.");
+ await loadEntries();
+}
+
+// COMPETITION ENTRIES
+async function loadEntries(){
+ const {data,error}=await db.from("competition_entries")
+ .select("*").eq("student_id",currentUser.id);
+ if(error){console.error(error);return}
+
+ document.getElementById("entryCount").textContent=data.length;
+ const options='<option value="">Select registered entry</option>'+
+ data.map(e=>`<option value="${safe(e.id)}">${safe(e.skill_name)} — ${safe(e.status)}</option>`).join("");
+
+ document.getElementById("uploadEntry").innerHTML=options;
+ document.getElementById("tieEntry").innerHTML=options;
+
+}
+
+// PROJECT UPLOAD
+async function uploadProject(){
+ const id=document.getElementById("uploadEntry").value;
+ const file=document.getElementById("projectFile").files[0];
+ if(!id||!file)return message("uploadMessage","Select an entry and video.");
+ if(!file.type.startsWith("video/"))return message("uploadMessage","Choose a video file.");
+
+ const {data:entry,error}=await db.from("competition_entries")
+ .select("*").eq("id",id).eq("student_id",currentUser.id).single();
+
+ if(error)return message("uploadMessage",error.message);
+
+ const {data:cycle,error:cycleError}=await db.from("competition_cycles")
+ .select("*").eq("id",entry.cycle_id).single();
+
+ if(cycleError)return message("uploadMessage",cycleError.message);
+
+ if(!cycle.is_open || cycle.tie_break_open===false && entry.status==="tie_break"){
+  return message("uploadMessage","Uploads are currently closed.");
+ }
+ if(cycle.deadline && new Date()>new Date(cycle.deadline)){
+  return message("uploadMessage","The competition deadline has passed.");
+ }
+ if(entry.status!=="registered" && entry.status!=="eligible_tie_break"){
+  return message("uploadMessage","This entry is not eligible for upload.");
+ }
+
+ const path=currentUser.id+"/"+id+"/"+Date.now()+"-"+file.name;
+ const {error:storageError}=await db.storage.from("competition-projects").upload(path,file);
+ if(storageError)return message("uploadMessage",storageError.message);
+
+ const {data:url}=db.storage.from("competition-projects").getPublicUrl(path);
+
+ const {error:saveError}=await db.from("competition_entries").update({
+  project_url:url.publicUrl,
+  status:"submitted",
+  submitted_at:new Date().toISOString()
+ }).eq("id",id).eq("student_id",currentUser.id);
+
+ if(saveError)return message("uploadMessage",saveError.message);
+ message("uploadMessage","Project submitted successfully.");
+}
+
+// TIE BREAK
+async function uploadTieBreak(){
+ const id=document.getElementById("tieEntry").value;
+ const file=document.getElementById("tieFile").files[0];
+ if(!id||!file)return message("tieMessage","Select your eligible entry and tie-break video.");
+
+ const {data:entry,error}=await db.from("competition_entries")
+ .select("*").eq("id",id).eq("student_id",currentUser.id).single();
+ if(error)return message("tieMessage",error.message);
+
+ const {data:cycle}=await db.from("competition_cycles")
+ .select("*").eq("id",entry.cycle_id).single();
+
+ if(!cycle || !cycle.tie_break_open || entry.status!=="eligible_tie_break"){
+  return message("tieMessage","You are not currently eligible for tie-break.");
+ }
+
+ const path=currentUser.id+"/tie-"+id+"-"+Date.now()+"-"+file.name;
+ const {error:uploadError}=await db.storage.from("competition-projects").upload(path,file);
+ if(uploadError)return message("tieMessage",uploadError.message);
+
+ const {data:url}=db.storage.from("competition-projects").getPublicUrl(path);
+ const {error:saveError}=await db.from("competition_entries").update({
+  tie_break_url:url.publicUrl,
+  status:"tie_break_submitted",
+  tie_break_submitted_at:new Date().toISOString()
+ }).eq("id",id).eq("student_id",currentUser.id);
+
+ if(saveError)return message("tieMessage",saveError.message);
+ message("tieMessage","Tie-break video submitted.");
+}
+
+// LEADERBOARD
+async function loadLeaderboard(){
+ const skill=document.getElementById("leaderSkill").value;
+ if(!skill)return;
+
+ const body=document.getElementById("leaderboardBody");
+ body.innerHTML='<tr><td colspan="7" class="empty">Loading leaderboard...</td></tr>';
+
+ const {data,error}=await db.from("competition_entries")
+ .select("student_name,avatar_url,points,creativity,storytelling,quality,rank")
+ .eq("skill_name",skill)
+ .eq("status","submitted")
+ .order("points",{ascending:false})
+ .limit(100);
+
+ if(error){
+  body.innerHTML=`<tr><td colspan="7">${safe(error.message)}</td></tr>`;
+  return;
+ }
+ body.innerHTML="";
+ if(!data.length){
+  body.innerHTML='<tr><td colspan="7" class="empty">No submitted projects yet.</td></tr>';
+  return;
+ }
+ data.forEach((s,i)=>{
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td>${s.rank??i+1}</td>
+  <td>${s.avatar_url?`<img src="${safe(s.avatar_url)}" width="30" height="30" style="border-radius:50%">`:"—"}</td>
+  <td>${safe(s.student_name||"Student")}</td>
+  <td>${s.points??0}</td>
+  <td>${s.creativity??0}</td>
+  <td>${s.storytelling??0}</td>
+  <td>${s.quality??0}</td>`;
+  body.appendChild(tr);
+ });
+}
+
+// REWARDS
+async function loadRewards(){
+ const {data,error}=await db.from("rewards")
+ .select("*").eq("student_id",currentUser.id);
+ if(error){console.error(error);return}
+ document.getElementById("rewardCount").textContent=data.length;
+ const box=document.getElementById("rewardList");
+ box.innerHTML="";
+ if(!data.length){
+  box.innerHTML='<div class="card empty">No rewards assigned yet.</div>';
+  return;
+ }
+ data.forEach(r=>{
+  const el=document.createElement("div");
+  el.className="card";
+  el.innerHTML=`<small>STEADYMAZE REWARD</small>
+  <h3 style="margin:12px 0">${safe(r.reward_name)}</h3>
+  <p>${safe(r.description||"Congratulations!")}</p>
+  <span class="status">${safe(r.status||"Awarded")}</span>`;
+  box.appendChild(el);
+ });
+}
+
+// PAYMENTS
+async function loadPayments(){
+ const {data,error}=await db.from("payments")
+ .select("*").eq("student_id",currentUser.id)
+ .order("created_at",{ascending:false});
+ if(error){console.error(error);return}
+
+ const paid=data.filter(p=>p.status==="paid");
+ const pending=data.filter(p=>p.status==="pending");
+ document.getElementById("paidCount").textContent=paid.length;
+ document.getElementById("pendingCount").textContent=pending.length;
+
+ const body=document.getElementById("paymentBody");
+ body.innerHTML="";
+ if(!data.length){
+  body.innerHTML='<tr><td colspan="5" class="empty">No transactions recorded.</td></tr>';
+  return;
+ }
+ data.forEach(p=>{
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td>${safe(p.reference||"—")}</td>
+  <td>${safe(p.payment_type||"—")}</td>
+  <td>$${Number(p.amount||0).toFixed(2)}</td>
+  <td>${p.created_at?new Date(p.created_at).toLocaleDateString():"—"}</td>
+  <td><span class="status">${safe(p.status)}</span></td>`;
+  body.appendChild(tr);
+ });
+}
+
+// SUPPORT POINTS
+async function loadSupportPoints(){
+ const {data,error}=await db.from("support_points")
+ .select("*").eq("student_id",currentUser.id);
+ if(error){console.error(error);return}
+
+ const total=data.reduce((sum,p)=>sum+Number(p.points||0),0);
+ document.getElementById("pointCount").textContent=total;
+
+ const body=document.getElementById("supportBody");
+ body.innerHTML="";
+ if(!data.length){
+  body.innerHTML='<tr><td colspan="5" class="empty">No support point records.</td></tr>';
+  return;
+ }
+ data.forEach(p=>{
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td>${safe(p.skill_name)}</td>
+  <td>${p.points}</td>
+  <td>$${Number(p.value||0).toFixed(2)}</td>
+  <td>${safe(p.status)}</td>
+  <td>${p.created_at?new Date(p.created_at).toLocaleDateString():"—"}</td>`;
+  body.appendChild(tr);
+ });
+}
+
+// TEACHER INTRO VIDEOS
+async function loadTeacherVideos(){
+ const {data,error}=await db.from("teacher_intro_videos")
+ .select("*").eq("is_published",true).limit(8);
+ if(error){console.error(error);return}
+
+ const box=document.getElementById("teacherVideos");
+ box.innerHTML="";
+ if(!data.length){
+  box.innerHTML='<div class="card empty">Teacher introduction videos will appear here.</div>';
+  return;
+ }
+ data.forEach(v=>{
+  const el=document.createElement("div");
+  el.className="teacher-video";
+  el.innerHTML=`<h3 style="font-size:13px;margin-bottom:10px">${safe(v.title)}</h3>
+  <iframe src="${safe(v.video_url)}" loading="lazy" allowfullscreen></iframe>
+  <p style="font-size:11px;color:#aaa;margin-top:9px">${safe(v.teacher_name||"Teacher")}</p>`;
+  box.appendChild(el);
+ });
+}
+
+// SUPPORT REQUEST
+async function sendSupport(){
+ const subject=document.getElementById("ticketSubject").value.trim();
+ const body=document.getElementById("ticketMessage").value.trim();
+ if(!subject||!body)return message("ticketStatus","Complete both fields.");
+
+ const {error}=await db.from("support_tickets").insert({
+  student_id:currentUser.id,
+  subject,
+  message:body,
+  status:"open"
+ });
+ if(error)return message("ticketStatus",error.message);
+ message("ticketStatus","Support request submitted.");
+}
+
+// SAFE TEXT
+function safe(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+renderSkills();
+</script>
+</body>
+</html>
