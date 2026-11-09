@@ -372,117 +372,829 @@ footer{color:#777;font-size:10px;padding:30px 0}
 </section>
 
 <!-- COMPETITION -->
-<section class="page" id="competition">
 
- <div class="welcome">
-  <small>STEADYMAZE ARENA</small>
-  <h1>Main Competition</h1>
-  <p>Choose one of the 11 skills and join its competition when registration is open.</p>
-  <div class="notice">
-   Each skill has its own leaderboard with 900,000 prepared rank positions. The administrator controls opening, closing and competition deadlines.
-  </div>
- </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteadyMaze Competition</title>
 
- <h3 class="section-title">LOWER CATEGORY · $8</h3>
- <div class="skill-grid" id="lowerSkills"></div>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
- <h3 class="section-title">MEDIUM CATEGORY · $10</h3>
- <div class="skill-grid" id="mediumSkills"></div>
+body {
+    background: #020202;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
 
- <h3 class="section-title">HIGH CATEGORY · $13</h3>
- <div class="skill-grid" id="highSkills"></div>
+button, input, select {
+    font: inherit;
+}
 
- <h3 class="section-title">My Competition Entries</h3>
- <div class="table-wrap">
-  <table>
-   <thead>
-    <tr>
-     <th>Skill</th><th>Category</th><th>Cycle</th>
-     <th>Status</th><th>Deadline</th>
-    </tr>
-   </thead>
-   <tbody id="entriesBody">
-    <tr><td colspan="5" class="empty">Loading entries...</td></tr>
-   </tbody>
-  </table>
- </div>
+.container {
+    max-width: 1450px;
+    margin: auto;
+    padding: 25px;
+}
 
- <h3 class="section-title">Project Video Upload</h3>
- <div class="card">
-  <p style="font-size:12px;color:var(--muted);margin-bottom:14px">
-   Upload your project after the administrator opens the competition. Your submission will be connected to your competition entry.
-  </p>
+/* HEADER */
 
-  <label>Select registered competition</label>
-  <select class="field" id="uploadEntry">
-   <option value="">Select entry</option>
-  </select>
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #291639;
+}
 
-  <label>Project video</label>
-  <input class="field" type="file" id="projectFile" accept="video/mp4,video/webm,video/quicktime">
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
 
-  <button class="btn" onclick="uploadProject()">Submit Project</button>
-  <div id="uploadMessage" class="notice">The administrator controls upload availability and deadlines.</div>
- </div>
+.logo span {
+    color: #a855f7;
+}
 
- <h3 class="section-title">11 Skill Leaderboards</h3>
- <div class="card" style="margin-bottom:15px">
-  <label>Choose a skill leaderboard</label>
-  <select class="field" id="leaderSkill" onchange="loadLeaderboard()"></select>
+.header-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
 
-  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
-   <span class="status">900,000 Rank Positions</span>
-   <span id="leaderInfo" style="font-size:10px;color:var(--muted)">Page 1</span>
-  </div>
- </div>
+.header-btn {
+    background: #17002d;
+    border: 1px solid #542580;
+    color: #d8b4ff;
+    padding: 11px 16px;
+    border-radius: 9px;
+}
 
- <div class="table-wrap">
-  <table>
-   <thead>
-    <tr>
-     <th>Rank</th>
-     <th>Profile</th>
-     <th>Name</th>
-     <th>Points</th>
-     <th>Creativity</th>
-     <th>Storytelling</th>
-     <th>Quality</th>
-    </tr>
-   </thead>
-   <tbody id="leaderboardBody">
-    <tr><td colspan="7" class="empty">Choose a skill.</td></tr>
-   </tbody>
-  </table>
- </div>
+/* INTRO */
 
- <div class="rank-page">
-  <button class="btn secondary" onclick="changeRankPage(-1)">Previous</button>
-  <select class="field" id="rankPage" onchange="loadLeaderboard()">
-   <option value="0">Ranks 1–50</option>
-   <option value="1">Ranks 51–100</option>
-   <option value="2">Ranks 101–150</option>
-   <option value="3">Ranks 151–200</option>
-   <option value="4">Ranks 201–250</option>
-  </select>
-  <button class="btn secondary" onclick="changeRankPage(1)">Next</button>
-  <span style="font-size:10px;color:var(--muted)">50 positions per page</span>
- </div>
+.intro {
+    margin: 35px 0 25px;
+}
 
- <h3 class="section-title">Tie-Break Submission</h3>
- <div class="card">
-  <p style="font-size:12px;color:var(--muted);line-height:1.7">
-   Tie-break is a separate submission. Only students selected by the administrator can submit a tie-break project.
-  </p>
-  <label>Eligible entry</label>
-  <select class="field" id="tieEntry">
-   <option value="">Select eligible entry</option>
-  </select>
-  <label>Tie-break video</label>
-  <input class="field" type="file" id="tieFile" accept="video/*">
-  <button class="btn" onclick="uploadTieBreak()">Submit Tie-Break</button>
-  <div id="tieMessage" class="notice">Tie-break is controlled by the administrator.</div>
- </div>
+.intro-label {
+    color: #b879ff;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.intro h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.intro p {
+    color: #999;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* SUMMARY */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background: linear-gradient(135deg,#17002d,#240048);
+    border: 1px solid #492269;
+    border-radius: 15px;
+    padding: 23px;
+}
+
+.summary-card small {
+    color: #c8a1e9;
+    font-size: 12px;
+}
+
+.summary-card h2 {
+    font-size: 29px;
+    margin-top: 13px;
+}
+
+.summary-card p {
+    color: #9b83ad;
+    font-size: 11px;
+    margin-top: 8px;
+}
+
+/* CATEGORY */
+
+.category {
+    margin-bottom: 27px;
+}
+
+.category-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.category-heading h2 {
+    font-size: 17px;
+}
+
+.category-heading span {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.skill-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+}
+
+.skill-btn {
+    background: #0e0914;
+    border: 1px solid #38234b;
+    color: #c4b4d2;
+    border-radius: 10px;
+    padding: 14px 19px;
+    cursor: pointer;
+    transition: .2s;
+    font-size: 13px;
+}
+
+.skill-btn:hover {
+    background: #240048;
+    border-color: #a855f7;
+    color: white;
+}
+
+.skill-btn.active {
+    background: linear-gradient(135deg,#59208a,#8b35cb);
+    color: white;
+    border-color: #b66cff;
+    box-shadow: 0 0 18px #7728a044;
+}
+
+.skill-btn .skill-number {
+    display: block;
+    font-size: 10px;
+    color: #cda8eb;
+    margin-top: 5px;
+}
+
+/* LEADERBOARD */
+
+.leaderboard {
+    background: #0b0710;
+    border: 1px solid #2b193b;
+    border-radius: 17px;
+    padding: 23px;
+    margin-top: 32px;
+}
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.board-header h2 {
+    font-size: 22px;
+}
+
+.board-header p {
+    color: #999;
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.capacity {
+    background: #210b37;
+    color: #d6aaff;
+    border: 1px solid #61358a;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+/* SEARCH */
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.search {
+    flex: 1;
+    min-width: 200px;
+    background: #130b1b;
+    color: white;
+    border: 1px solid #39234c;
+    border-radius: 9px;
+    padding: 13px;
+    outline: none;
+}
+
+.search:focus {
+    border-color: #a855f7;
+}
+
+.page-size {
+    background: #130b1b;
+    color: white;
+    border: 1px solid #39234c;
+    border-radius: 9px;
+    padding: 12px;
+    outline: none;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 930px;
+}
+
+thead {
+    background: #1b0d29;
+}
+
+th {
+    color: #d0a5f5;
+    font-size: 11px;
+    letter-spacing: .5px;
+    padding: 17px 13px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+td {
+    padding: 13px;
+    border-bottom: 1px solid #24152f;
+    font-size: 13px;
+    color: #bdb4c5;
+}
+
+tbody tr:hover {
+    background: #170c21;
+}
+
+.rank {
+    color: #c18aff;
+    font-weight: bold;
+}
+
+.profile {
+    height: 35px;
+    width: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #20112e;
+    border: 1px solid #563474;
+    color: #b87aff;
+}
+
+.zero {
+    color: #777;
+    font-weight: bold;
+}
+
+/* PAGINATION */
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 23px;
+}
+
+.pagination-info {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.page-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.page-buttons button {
+    background: #240048;
+    border: 1px solid #65358d;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+.page-buttons button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+footer {
+    text-align: center;
+    padding: 30px 10px;
+    color: #777;
+    font-size: 11px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px) {
+
+    .container {
+        padding: 15px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .intro h1 {
+        font-size: 26px;
+    }
+
+    .leaderboard {
+        padding: 14px;
+    }
+
+    .skill-btn {
+        padding: 11px 13px;
+    }
+
+    .board-header h2 {
+        font-size: 19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="logo">
+        STEADY<span>MAZE</span>
+    </div>
+
+    <div class="header-right">
+        <div class="header-btn">Competition Center</div>
+    </div>
+
+</header>
+
+<!-- INTRO -->
+
+<section class="intro">
+
+    <div class="intro-label">STEADYMAZE SKILL CHAMPIONSHIP</div>
+
+    <h1>Competition Leaderboard</h1>
+
+    <p>
+        Learn. Practice. Compete. Earn Recognition.
+        Explore rankings across all competition skills.
+    </p>
+
 </section>
+
+<!-- SUMMARY -->
+
+<section class="summary">
+
+    <div class="summary-card">
+        <small>Total Competition Skills</small>
+        <h2 id="skillTotal">11</h2>
+        <p>Lower, Medium and High</p>
+    </div>
+
+    <div class="summary-card">
+        <small>Total Rank Capacity</small>
+        <h2>9.9M</h2>
+        <p>900,000 ranks per skill</p>
+    </div>
+
+    <div class="summary-card">
+        <small>Registered Participants</small>
+        <h2 id="participantTotal">0</h2>
+        <p>Verified participants only</p>
+    </div>
+
+</section>
+
+<!-- LOWER -->
+
+<section class="category">
+
+    <div class="category-heading">
+        <h2>LOWER SKILLS</h2>
+        <span>3 Competition Skills</span>
+    </div>
+
+    <div class="skill-buttons" id="lowerButtons"></div>
+
+</section>
+
+<!-- MEDIUM -->
+
+<section class="category">
+
+    <div class="category-heading">
+        <h2>MEDIUM SKILLS</h2>
+        <span>3 Competition Skills</span>
+    </div>
+
+    <div class="skill-buttons" id="mediumButtons"></div>
+
+</section>
+
+<!-- HIGH -->
+
+<section class="category">
+
+    <div class="category-heading">
+        <h2>HIGH SKILLS</h2>
+        <span>5 Competition Skills</span>
+    </div>
+
+    <div class="skill-buttons" id="highButtons"></div>
+
+</section>
+
+<!-- TABLE -->
+
+<section class="leaderboard">
+
+    <div class="board-header">
+
+        <div>
+            <h2 id="selectedSkill">Video Editing</h2>
+            <p>Official Skill Competition Ranking</p>
+        </div>
+
+        <div class="capacity">
+            900,000 RANK SLOTS
+        </div>
+
+    </div>
+
+    <div class="toolbar">
+
+        <input
+            class="search"
+            id="searchInput"
+            type="search"
+            placeholder="Search rank number or participant name..."
+        >
+
+        <select class="page-size" id="pageSize">
+            <option value="25">25 Rows</option>
+            <option value="50">50 Rows</option>
+            <option value="100">100 Rows</option>
+        </select>
+
+    </div>
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>RANK</th>
+                    <th>NAME</th>
+                    <th>PROFILE</th>
+                    <th>POINTS</th>
+                    <th>CREATIVITY</th>
+                    <th>STORYTELLING</th>
+                    <th>QUALITY</th>
+                </tr>
+            </thead>
+
+            <tbody id="tableBody"></tbody>
+
+        </table>
+
+    </div>
+
+    <div class="pagination">
+
+        <div class="pagination-info" id="pageInfo">
+            Ranks 1–25 / 900,000
+        </div>
+
+        <div class="page-buttons">
+
+            <button id="previousBtn">
+                Previous
+            </button>
+
+            <button id="nextBtn">
+                Next
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    STEADYMAZE © 2026 | ALL RIGHTS RESERVED
+</footer>
+
+</div>
+
+<script>
+
+// OFFICIAL COMPETITION SKILLS
+
+const categories = {
+
+    lower: [
+        "Video Editing",
+        "Movie Recap",
+        "Thumbnail Design"
+    ],
+
+    medium: [
+        "English",
+        "AI Agent",
+        "Data Analysis"
+    ],
+
+    high: [
+        "AI App Development",
+        "AI Web Development",
+        "Python",
+        "Java",
+        "Web Development"
+    ]
+
+};
+
+const CAPACITY = 900000;
+
+let currentSkill = "Video Editing";
+let currentPage = 1;
+let pageSize = 25;
+let searchValue = "";
+
+// RENDER SKILL BUTTONS
+
+function createSkillButtons() {
+
+    renderCategory("lower", "lowerButtons");
+    renderCategory("medium", "mediumButtons");
+    renderCategory("high", "highButtons");
+
+}
+
+function renderCategory(category, elementId) {
+
+    const area = document.getElementById(elementId);
+
+    categories[category].forEach((skill, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "skill-btn";
+
+        button.innerHTML = `
+            ${skill}
+            <span class="skill-number">
+                ${category.toUpperCase()} SKILL
+            </span>
+        `;
+
+        button.onclick = () => selectSkill(skill);
+
+        area.appendChild(button);
+
+    });
+
+}
+
+// SELECT SKILL
+
+function selectSkill(skill) {
+
+    currentSkill = skill;
+    currentPage = 1;
+    searchValue = "";
+
+    document.getElementById("searchInput").value = "";
+
+    document.getElementById("selectedSkill").textContent = skill;
+
+    updateActiveButtons();
+    renderTable();
+
+}
+
+function updateActiveButtons() {
+
+    document.querySelectorAll(".skill-btn").forEach(button => {
+
+        button.classList.toggle(
+            "active",
+            button.textContent.trim().startsWith(currentSkill)
+        );
+
+    });
+
+}
+
+// RENDER EMPTY RANK SLOTS
+
+function renderTable() {
+
+    const tbody = document.getElementById("tableBody");
+
+    let start;
+    let end;
+
+    const rankSearch = Number(
+        searchValue.replace(/,/g, "")
+    );
+
+    // Search exact rank
+
+    if (
+        searchValue !== "" &&
+        Number.isInteger(rankSearch) &&
+        rankSearch >= 1 &&
+        rankSearch <= CAPACITY
+    ) {
+
+        start = rankSearch;
+        end = rankSearch;
+
+    } else if (searchValue !== "") {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center;padding:35px">
+                    No registered participant found.
+                </td>
+            </tr>
+        `;
+
+        document.getElementById("pageInfo").textContent =
+            "No matching participant.";
+
+        document.getElementById("previousBtn").disabled = true;
+        document.getElementById("nextBtn").disabled = true;
+
+        return;
+
+    } else {
+
+        start = (currentPage - 1) * pageSize + 1;
+
+        end = Math.min(
+            start + pageSize - 1,
+            CAPACITY
+        );
+
+    }
+
+    let rows = "";
+
+    for(let i = start; i <= end; i++) {
+
+        rows += `
+            <tr>
+
+                <td class="rank">${i.toLocaleString()}</td>
+
+                <td>—</td>
+
+                <td>
+                    <span class="profile">—</span>
+                </td>
+
+                <td class="zero">0</td>
+
+                <td class="zero">0</td>
+
+                <td class="zero">0</td>
+
+                <td class="zero">0</td>
+
+            </tr>
+        `;
+
+    }
+
+    tbody.innerHTML = rows;
+
+    document.getElementById("pageInfo").textContent =
+        `Ranks ${start.toLocaleString()} – ${end.toLocaleString()} / 900,000`;
+
+    document.getElementById("previousBtn").disabled =
+        currentPage === 1 || searchValue !== "";
+
+    document.getElementById("nextBtn").disabled =
+        end >= CAPACITY || searchValue !== "";
+
+}
+
+// PAGINATION
+
+document.getElementById("previousBtn").onclick = () => {
+
+    if(currentPage > 1) {
+
+        currentPage--;
+
+        renderTable();
+
+    }
+
+};
+
+document.getElementById("nextBtn").onclick = () => {
+
+    if(currentPage * pageSize < CAPACITY) {
+
+        currentPage++;
+
+        renderTable();
+
+    }
+
+};
+
+// SEARCH
+
+document.getElementById("searchInput").addEventListener(
+    "input",
+    function() {
+
+        searchValue = this.value.trim();
+
+        renderTable();
+
+    }
+);
+
+// PAGE SIZE
+
+document.getElementById("pageSize").addEventListener(
+    "change",
+    function() {
+
+        pageSize = Number(this.value);
+
+        currentPage = 1;
+
+        renderTable();
+
+    }
+);
+
+// START
+
+createSkillButtons();
+
+updateActiveButtons();
+
+renderTable();
+
+</script>
+
+</body>
+</html>
 
 <!-- COURSES -->
 <section class="page" id="courses">
