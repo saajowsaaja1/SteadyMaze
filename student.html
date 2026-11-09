@@ -11,2968 +11,1375 @@
 
 <style>
 :root{
- --black:#020202;
- --panel:#101014;
- --purple:#17002d;
- --violet:#240048;
- --red:#8b0000;
- --border:#302738;
- --muted:#9994a2;
- --white:#fff;
- --accent:#b65aff;
+  --black:#020202;
+  --panel:#10091a;
+  --panel2:#17002d;
+  --purple:#240048;
+  --red:#8b0000;
+  --red2:#c21b35;
+  --white:#f8f5ff;
+  --muted:#a69bb5;
+  --border:rgba(255,255,255,.09);
+  --green:#32c98b;
+  --yellow:#f4c45e;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box}
 body{
- background:var(--black);color:white;
- font-family:Inter,sans-serif;min-height:100vh;
+  margin:0;
+  background:var(--black);
+  color:var(--white);
+  font-family:Inter,Arial,sans-serif;
 }
-button,input,select,textarea{font:inherit}
+button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-.app{min-height:100vh}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.danger{color:#ff7373}
+.success{color:var(--green)}
+.gold{color:var(--yellow)}
+.app{display:flex;min-height:100vh}
 .sidebar{
- position:fixed;left:0;top:0;bottom:0;
- width:250px;background:#09090d;
- border-right:1px solid var(--border);
- padding:23px 15px;overflow-y:auto;z-index:20;
+  width:255px;position:fixed;inset:0 auto 0 0;
+  background:#08050d;border-right:1px solid var(--border);
+  padding:25px 17px;z-index:10;overflow-y:auto;
 }
-.logo{
- font-size:24px;font-weight:800;letter-spacing:-1px;
- padding:8px 12px 27px;
+.brand{font-size:24px;font-weight:800;letter-spacing:-1px;margin:5px 10px 35px}
+.brand span{color:#b14cff}
+.nav-label{font-size:10px;color:#756b82;font-weight:800;letter-spacing:1.5px;margin:22px 12px 9px}
+.nav-btn{
+  width:100%;border:0;background:transparent;color:#bcb2c9;
+  padding:13px 14px;text-align:left;border-radius:10px;
+  margin:3px 0;font-size:13px;font-weight:600;
 }
-.logo span{color:#b65aff}
-.student-mini{
- padding:15px;background:linear-gradient(135deg,#240048,#111018);
- border:1px solid var(--border);border-radius:13px;
- margin-bottom:22px;overflow:hidden;
+.nav-btn:hover,.nav-btn.active{background:linear-gradient(100deg,#240048,#390044);color:white}
+.nav-btn.active{border-left:3px solid #bd45ff}
+.side-profile{
+  margin-top:35px;padding:14px;border:1px solid var(--border);
+  border-radius:13px;display:flex;align-items:center;gap:10px;
 }
-.student-mini small{color:var(--muted);font-size:10px}
-.student-mini h3{font-size:14px;margin:9px 0 5px}
-.menu-label{
- color:#77717e;font-size:10px;letter-spacing:1.8px;
- padding:13px 12px 7px;
-}
-.nav{
- display:block;width:100%;border:0;background:none;
- color:#aaa5b1;text-align:left;padding:12px 13px;
- border-radius:9px;margin:3px 0;font-size:12px;
- transition:.2s;
-}
-.nav:hover,.nav.active{
- background:linear-gradient(100deg,#31005a,#190023);
- color:white;border-left:3px solid #bb55ff;
-}
-.main{
- margin-left:250px;padding:25px 30px;
- max-width:1750px;min-height:100vh;
-}
-.topbar{
- display:flex;justify-content:space-between;
- align-items:center;gap:15px;margin-bottom:25px;
-}
-.topbar h2{font-size:19px}
-.top-actions{display:flex;align-items:center;gap:12px}
 .avatar{
- width:42px;height:42px;border-radius:50%;
- object-fit:cover;background:#32114a;
- border:1px solid #8e43bd;
+  width:40px;height:40px;border-radius:50%;object-fit:cover;
+  background:#2b1640;border:1px solid #63338c;
 }
-.mobile-menu{display:none}
-.page{display:none}
-.page.active{display:block}
+.side-name{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis}
+.main{margin-left:255px;width:calc(100% - 255px);padding:28px 34px 60px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:28px}
+.topbar h1{font-size:23px;margin:0}
+.top-actions{display:flex;align-items:center;gap:10px}
+.icon-btn,.menu-btn{
+  background:#160d20;border:1px solid var(--border);color:white;
+  border-radius:10px;padding:11px 13px;
+}
+.menu-btn{display:none}
+.section{display:none}
+.section.active{display:block}
 .welcome{
- padding:28px;border:1px solid #39204a;
- border-radius:16px;margin-bottom:21px;
- background:
- radial-gradient(circle at 85% 20%,#3b075b 0,transparent 38%),
- linear-gradient(120deg,#17002d,#101014);
+  padding:28px;border:1px solid #43205c;border-radius:18px;
+  background:radial-gradient(circle at 90% 20%,#4b0b40 0,#240048 28%,#100719 70%);
+  margin-bottom:22px;position:relative;overflow:hidden;
 }
-.welcome h1{font-size:26px;margin:8px 0}
-.welcome p{font-size:12px;color:#b9b0c1;line-height:1.7}
-.welcome small{color:#d5a0ff;font-size:10px;letter-spacing:1.5px}
-.grid{
- display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
- gap:14px;margin-bottom:20px;
-}
+.welcome h2{font-size:25px;margin:0 0 8px}
+.welcome p{font-size:13px;color:#d0c3db;margin:0}
+.welcome-tag{display:inline-block;font-size:10px;letter-spacing:1px;color:#e4b6ff;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:22px}
 .card{
- background:var(--panel);border:1px solid var(--border);
- border-radius:13px;padding:19px;min-width:0;
+  background:linear-gradient(145deg,#130b1d,#0a0710);
+  border:1px solid var(--border);border-radius:15px;padding:19px;
+  min-width:0;
 }
-.card small{color:var(--muted);font-size:10px}
-.card h2{font-size:25px;margin-top:11px}
-.card p{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6}
-.section-title{font-size:17px;margin:26px 0 14px}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.skill-grid{
- display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
- gap:13px;
-}
-.skill{
- background:linear-gradient(145deg,#17101e,#0e0e12);
- border:1px solid var(--border);border-radius:13px;padding:17px;
-}
-.skill h3{font-size:14px;margin-bottom:8px}
-.skill p{font-size:11px;color:var(--muted);margin:5px 0}
-.price{font-size:20px;color:#d58aff;font-weight:800;margin-top:13px}
+.stat-title{font-size:11px;color:var(--muted);margin-bottom:13px}
+.stat-value{font-size:26px;font-weight:800}
+.stat-note{font-size:10px;color:#8e829c;margin-top:7px}
+.panel-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:25px 0 13px}
+.panel-title h3{font-size:16px;margin:0}
+.panel-title p{font-size:11px;color:var(--muted);margin:5px 0 0}
 .btn{
- border:0;border-radius:8px;
- background:linear-gradient(100deg,#7600a9,#410064);
- color:white;padding:11px 16px;font-size:11px;font-weight:700;
+  border:0;border-radius:9px;padding:11px 15px;
+  background:linear-gradient(100deg,#6b1595,#a20d38);
+  color:white;font-weight:700;font-size:12px;
 }
-.btn:hover{filter:brightness(1.2)}
-.btn.secondary{background:#211a29;border:1px solid #42314f}
-.btn.danger{background:#690c19}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.field{
- width:100%;background:#09090d;color:white;
- border:1px solid #39313f;border-radius:8px;
- padding:12px;margin:8px 0 15px;outline:none;
+.btn:hover{filter:brightness(1.15)}
+.btn.secondary{background:#21142c;border:1px solid var(--border)}
+.btn.danger-btn{background:#6b101b}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}
+.field label{font-size:11px;color:#c5b8d2;font-weight:600}
+.field input,.field textarea,.field select{
+  width:100%;background:#09060e;border:1px solid #392849;
+  color:white;border-radius:9px;padding:12px;outline:none;
 }
-.field:focus{border-color:#a94bdb}
-label{font-size:11px;color:#c4bdcc}
-.table-wrap{
- overflow-x:auto;border:1px solid var(--border);
- border-radius:12px;background:#101014;
+.field textarea{min-height:90px;resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:#a23cce}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th,td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:11px}
+th{color:#bba9ca;background:#140b1c;font-weight:700}
+td{color:#e4dce9}
+tr:last-child td{border-bottom:0}
+.status{display:inline-block;padding:5px 8px;border-radius:20px;font-size:10px;background:#292033;color:#d8c8e8}
+.status.success{background:#103b2c;color:#69e5b0}
+.status.pending{background:#403219;color:#f5d27b}
+.status.failed{background:#451a24;color:#ff9aaa}
+.empty{padding:25px;text-align:center;color:var(--muted);font-size:12px}
+.skill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.skill-card{
+  border:1px solid var(--border);border-radius:13px;overflow:hidden;background:#100a17;
 }
-table{width:100%;border-collapse:collapse;min-width:750px}
-th,td{
- padding:12px;text-align:left;
- border-bottom:1px solid #28232d;font-size:11px;
+.skill-card img{width:100%;height:125px;object-fit:cover;background:#21122e}
+.skill-content{padding:13px}
+.skill-content h4{font-size:13px;margin:0 0 7px}
+.skill-content p{font-size:10px;color:var(--muted);min-height:30px}
+.skill-content .price{font-size:13px;font-weight:800;margin:10px 0}
+.profile-layout{display:grid;grid-template-columns:260px 1fr;gap:18px}
+.profile-photo-box{text-align:center}
+.profile-photo-box .avatar{width:100px;height:100px;margin:10px auto 15px;display:block}
+.progress{height:7px;background:#2b2035;border-radius:10px;overflow:hidden}
+.progress span{height:100%;display:block;background:linear-gradient(90deg,#7b29bd,#d21d49)}
+.notice{padding:13px 15px;border:1px solid #593b17;background:#241a0d;color:#f3d28a;border-radius:10px;font-size:11px;margin:12px 0}
+.auth-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:20px;background:radial-gradient(circle at 50% 20%,#270044,#020202 65%);
 }
-th{color:#c99bea;background:#17101e;white-space:nowrap}
-td{color:#ddd}
-.empty{color:var(--muted);text-align:center;padding:24px;font-size:12px}
-.status{
- display:inline-block;padding:5px 9px;border-radius:20px;
- background:#251630;color:#d4a1f2;font-size:10px;
-}
-.notice{
- background:#1c1025;border:1px solid #432354;
- padding:12px;border-radius:9px;font-size:11px;
- color:#d9c9e6;margin:12px 0;line-height:1.6;
-}
-.profile-layout{
- display:grid;grid-template-columns:270px 1fr;gap:18px;
-}
-.profile-photo{
- width:115px;height:115px;object-fit:cover;
- border-radius:50%;border:2px solid #9b42ce;
- background:#261033;margin-bottom:13px;
-}
-.payment-hero{
- background:
- radial-gradient(circle at 80% 10%,#492078,transparent 45%),
- linear-gradient(120deg,#18002e,#10131e);
- border:1px solid #50316b;border-radius:16px;
- padding:25px;margin-bottom:20px;
-}
-.payment-total{
- background:#211c2a;border:1px solid #443451;
- padding:17px;border-radius:10px;margin-top:18px;
-}
-.payment-method{
- display:flex;justify-content:space-between;
- align-items:center;padding:17px;
- background:#141219;border:1px solid var(--border);
- border-radius:10px;margin:10px 0;
-}
-.teacher-grid{
- display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
- gap:13px;
-}
-.teacher-video{
- background:#111016;border:1px solid var(--border);
- border-radius:12px;padding:11px;
-}
-.teacher-video iframe{
- width:100%;aspect-ratio:16/9;border:0;border-radius:8px;
- background:#080808;
-}
-.teacher-video h4{font-size:12px;margin:9px 0}
-.teacher-video p{font-size:10px;color:var(--muted)}
-.rank-photo{
- width:30px;height:30px;border-radius:50%;object-fit:cover;
- background:#261033;vertical-align:middle;
-}
-.rank-page{
- display:flex;gap:8px;align-items:center;
- margin:12px 0;flex-wrap:wrap;
-}
-.rank-page select{width:120px}
-#loginScreen{
- position:fixed;inset:0;z-index:100;
- background:#020202;display:flex;
- align-items:center;justify-content:center;padding:20px;
-}
-.login-box{
- width:100%;max-width:410px;padding:30px;
- background:#101014;border:1px solid #402451;border-radius:16px;
-}
-.login-box h1{font-size:24px;margin-bottom:9px}
-.login-box p{color:var(--muted);font-size:12px;margin-bottom:18px}
-#authMessage{margin-top:12px;color:#e1b4ff}
-footer{color:#777;font-size:10px;padding:30px 0}
-@media(max-width:1100px){
+.auth-card{width:100%;max-width:420px;padding:30px;background:#100a18;border:1px solid #48265c;border-radius:18px}
+.auth-card h1{margin:0 0 8px;font-size:24px}
+.auth-card .brand{margin:0 0 25px}
+.message{font-size:11px;margin-top:10px;min-height:16px}
+.file-label{display:block;border:1px dashed #684080;padding:16px;border-radius:10px;text-align:center;color:#d8c0ed;font-size:11px;cursor:pointer}
+.file-label input{display:none}
+.mobile-overlay{display:none}
+@media(max-width:1050px){
  .grid{grid-template-columns:repeat(2,1fr)}
- .teacher-grid{grid-template-columns:repeat(2,1fr)}
+ .skill-grid{grid-template-columns:repeat(2,1fr)}
 }
-@media(max-width:700px){
- .sidebar{width:245px;transform:translateX(-100%);transition:.25s}
+@media(max-width:760px){
+ .sidebar{transform:translateX(-100%);transition:.25s}
  .sidebar.open{transform:translateX(0)}
- .main{margin-left:0;padding:15px}
- .mobile-menu{display:inline-block}
- .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
- .card{padding:13px}
- .card h2{font-size:19px}
- .welcome{padding:20px}
- .welcome h1{font-size:21px}
+ .main{margin-left:0;width:100%;padding:20px 15px 45px}
+ .menu-btn{display:block}
+ .topbar h1{font-size:18px}
+ .welcome{padding:21px}
+ .welcome h2{font-size:21px}
  .two-col,.profile-layout{grid-template-columns:1fr}
  .skill-grid{grid-template-columns:1fr}
- .teacher-grid{grid-template-columns:1fr}
- .topbar h2{font-size:15px}
- .top-actions span{display:none}
+ .grid{gap:10px}
+ .card{padding:14px}
+ .stat-value{font-size:22px}
+ .mobile-overlay.show{display:block;position:fixed;inset:0;background:#0009;z-index:9}
 }
+@media(max-width:380px){.grid{grid-template-columns:1fr 1fr}.top-actions .icon-btn{padding:9px}}
 </style>
 </head>
 
 <body>
 
-<!-- AUTHENTICATION -->
-<div id="loginScreen">
- <div class="login-box">
-  <div class="logo">Steady<span>Maze</span></div>
-  <h1>Student Portal</h1>
-  <p>Learn skills. Build projects. Compete. Earn recognition.</p>
+<!-- AUTH -->
+<div id="authScreen" class="auth-screen">
+ <div class="auth-card">
+  <div class="brand">Steady<span>Maze</span></div>
+  <h1 id="authTitle">Student Login</h1>
+  <p class="muted small">Access your learning and competition dashboard.</p>
 
-  <label>Email Address</label>
-  <input class="field" id="email" type="email" placeholder="Your email">
+  <div id="registerNameField" class="field hidden">
+   <label>Full name</label>
+   <input id="registerName" type="text" placeholder="Your full name">
+  </div>
 
-  <label>Password</label>
-  <input class="field" id="password" type="password" placeholder="Your password">
+  <div class="field">
+   <label>Email address</label>
+   <input id="authEmail" type="email" placeholder="name@example.com">
+  </div>
+  <div class="field">
+   <label>Password</label>
+   <input id="authPassword" type="password" placeholder="Password">
+  </div>
 
-  <button class="btn" style="width:100%" onclick="login()">Sign In</button>
-  <button class="btn secondary" style="width:100%;margin-top:10px" onclick="register()">Create Account</button>
-  <div id="authMessage"></div>
+  <button class="btn" style="width:100%;margin-top:8px" id="authButton" onclick="handleAuth()">Login</button>
+  <p class="message" id="authMessage"></p>
+  <p class="small muted" style="text-align:center;margin-top:18px">
+   <span id="authSwitchText">New to SteadyMaze?</span>
+   <a href="#" style="color:#d28aff" onclick="toggleAuth(event)" id="authSwitch">Create account</a>
+  </p>
  </div>
 </div>
 
-<div class="app">
+<!-- APP -->
+<div id="app" class="app hidden">
+ <div class="mobile-overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
 
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
- <div class="logo">Steady<span>Maze</span></div>
+ <aside class="sidebar" id="sidebar">
+  <div class="brand">Steady<span>Maze</span></div>
 
- <div class="student-mini">
-  <small>STUDENT ACCOUNT</small>
-  <h3 id="sideName">Student</h3>
-  <small id="sideEmail">Not signed in</small>
- </div>
+  <div class="nav-label">MAIN MENU</div>
+  <button class="nav-btn active" onclick="showSection('overview',this)">▦ &nbsp; Overview</button>
+  <button class="nav-btn" onclick="showSection('profile',this)">◉ &nbsp; My Profile</button>
+  <button class="nav-btn" onclick="showSection('catalog',this)">▤ &nbsp; Explore Courses</button>
+  <button class="nav-btn" onclick="showSection('mycourses',this)">▣ &nbsp; My Courses</button>
 
- <div class="menu-label">MAIN MENU</div>
- <button class="nav active" onclick="showPage('overview',this)">▦ Dashboard</button>
- <button class="nav" onclick="showPage('competition',this)">♛ Competition</button>
- <button class="nav" onclick="showPage('courses',this)">▣ My Courses</button>
+  <div class="nav-label">COMPETITION</div>
+  <button class="nav-btn" onclick="showSection('competition',this)">◇ &nbsp; Competitions</button>
+  <button class="nav-btn" onclick="showSection('leaderboard',this)">♛ &nbsp; Leaderboard</button>
+  <button class="nav-btn" onclick="showSection('tieBreak',this)">⇄ &nbsp; Tie-break</button>
 
- <div class="menu-label">MY ACCOUNT</div>
- <button class="nav" onclick="showPage('profile',this)">◉ My Profile</button>
- <button class="nav" onclick="showPage('payments',this)">▤ Payments</button>
- <button class="nav" onclick="showPage('rewards',this)">✧ Rewards</button>
- <button class="nav" onclick="showPage('supportpoints',this)">☆ Support Points</button>
+  <div class="nav-label">ACCOUNT</div>
+  <button class="nav-btn" onclick="showSection('payments',this)">＄ &nbsp; Payments</button>
+  <button class="nav-btn" onclick="showSection('rewards',this)">★ &nbsp; Rewards</button>
+  <button class="nav-btn" onclick="showSection('support',this)">✉ &nbsp; Support</button>
+  <button class="nav-btn" onclick="showSection('notifications',this)">♧ &nbsp; Notifications</button>
 
- <div class="menu-label">CAREER & SUPPORT</div>
- <button class="nav" onclick="showPage('employment',this)">▤ Direct Employment</button>
- <button class="nav" onclick="showPage('help',this)">? Help & Support</button>
-
- <div style="margin-top:30px">
-  <button class="nav" onclick="logout()">↪ Logout</button>
- </div>
-</aside>
-
-<main class="main">
-
-<header class="topbar">
- <div style="display:flex;align-items:center;gap:12px">
-  <button class="btn secondary mobile-menu" onclick="toggleMenu()">☰</button>
-  <h2 id="pageTitle">Student Dashboard</h2>
- </div>
- <div class="top-actions">
-  <span id="headerName" style="font-size:12px;color:#c4b9ce">Student</span>
-  <img class="avatar" id="headerAvatar" alt="Profile">
- </div>
-</header>
-
-<!-- DASHBOARD HOMEPAGE -->
-<section class="page active" id="overview">
-
- <div class="welcome">
-  <small>WELCOME TO STEADYMAZE</small>
-  <h1>Hello, <span id="welcomeName">Student</span></h1>
-  <p>Your journey starts here. Learn, practice, create projects and compete with other students.</p>
- </div>
-
- <div class="grid">
-  <div class="card">
-   <small>MY COURSES</small>
-   <h2 id="courseCount">0</h2>
-   <p>Purchased courses</p>
+  <div class="side-profile">
+   <img id="sideAvatar" class="avatar" src="https://placehold.co/100x100/240048/ffffff?text=SM" alt="Profile">
+   <div style="min-width:0">
+    <div class="side-name" id="sideName">Student</div>
+    <div class="small muted">Student account</div>
+   </div>
   </div>
-  <div class="card">
-   <small>COMPETITION ENTRIES</small>
-   <h2 id="entryCount">0</h2>
-   <p>Registered entries</p>
-  </div>
-  <div class="card">
-   <small>SUPPORT POINTS</small>
-   <h2 id="pointCount">0</h2>
-   <p>Verified points</p>
-  </div>
-  <div class="card">
-   <small>MY REWARDS</small>
-   <h2 id="rewardCount">0</h2>
-   <p>Admin assigned rewards</p>
-  </div>
- </div>
-
- <h3 class="section-title">Competition Categories</h3>
- <div class="grid">
-  <div class="card">
-   <small>LOWER CATEGORY</small>
-   <h2>$8</h2>
-   <p>8 videos · 2 months</p>
-  </div>
-  <div class="card">
-   <small>MEDIUM CATEGORY</small>
-   <h2>$10</h2>
-   <p>8 videos · 2 months</p>
-  </div>
-  <div class="card">
-   <small>HIGH CATEGORY</small>
-   <h2>$13</h2>
-   <p>8 videos · 2 months</p>
-  </div>
-  <div class="card">
-   <small>RANK CAPACITY</small>
-   <h2>900K</h2>
-   <p>Per skill leaderboard</p>
-  </div>
- </div>
-
- <h3 class="section-title">Teacher Introduction Videos</h3>
- <p style="font-size:11px;color:var(--muted);margin-bottom:13px">
-  Meet your teachers and explore their course introductions.
- </p>
- <div class="teacher-grid" id="teacherVideos">
-  <div class="card empty">Loading teacher videos...</div>
- </div>
-
- <h3 class="section-title">Recent Competition Activity</h3>
- <div class="card" id="recentActivity">
-  <p class="empty">Your recent activity will appear here.</p>
- </div>
-
-</section>
-
-<!-- COMPETITION -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SteadyMaze Competition</title>
-
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background: #020202;
-    color: #fff;
-    font-family: Arial, sans-serif;
-}
-
-button, input, select {
-    font: inherit;
-}
-
-.container {
-    max-width: 1450px;
-    margin: auto;
-    padding: 25px;
-}
-
-/* HEADER */
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
-    padding-bottom: 25px;
-    border-bottom: 1px solid #291639;
-}
-
-.logo {
-    font-size: 25px;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-.logo span {
-    color: #a855f7;
-}
-
-.header-right {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.header-btn {
-    background: #17002d;
-    border: 1px solid #542580;
-    color: #d8b4ff;
-    padding: 11px 16px;
-    border-radius: 9px;
-}
-
-/* INTRO */
-
-.intro {
-    margin: 35px 0 25px;
-}
-
-.intro-label {
-    color: #b879ff;
-    font-size: 11px;
-    letter-spacing: 3px;
-    margin-bottom: 12px;
-}
-
-.intro h1 {
-    font-size: 34px;
-    margin-bottom: 10px;
-}
-
-.intro p {
-    color: #999;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-/* SUMMARY */
-
-.summary {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 18px;
-    margin-bottom: 30px;
-}
-
-.summary-card {
-    background: linear-gradient(135deg,#17002d,#240048);
-    border: 1px solid #492269;
-    border-radius: 15px;
-    padding: 23px;
-}
-
-.summary-card small {
-    color: #c8a1e9;
-    font-size: 12px;
-}
-
-.summary-card h2 {
-    font-size: 29px;
-    margin-top: 13px;
-}
-
-.summary-card p {
-    color: #9b83ad;
-    font-size: 11px;
-    margin-top: 8px;
-}
-
-/* CATEGORY */
-
-.category {
-    margin-bottom: 27px;
-}
-
-.category-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.category-heading h2 {
-    font-size: 17px;
-}
-
-.category-heading span {
-    color: #aaa;
-    font-size: 12px;
-}
-
-.skill-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 11px;
-}
-
-.skill-btn {
-    background: #0e0914;
-    border: 1px solid #38234b;
-    color: #c4b4d2;
-    border-radius: 10px;
-    padding: 14px 19px;
-    cursor: pointer;
-    transition: .2s;
-    font-size: 13px;
-}
-
-.skill-btn:hover {
-    background: #240048;
-    border-color: #a855f7;
-    color: white;
-}
-
-.skill-btn.active {
-    background: linear-gradient(135deg,#59208a,#8b35cb);
-    color: white;
-    border-color: #b66cff;
-    box-shadow: 0 0 18px #7728a044;
-}
-
-.skill-btn .skill-number {
-    display: block;
-    font-size: 10px;
-    color: #cda8eb;
-    margin-top: 5px;
-}
-
-/* LEADERBOARD */
-
-.leaderboard {
-    background: #0b0710;
-    border: 1px solid #2b193b;
-    border-radius: 17px;
-    padding: 23px;
-    margin-top: 32px;
-}
-
-.board-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 22px;
-}
-
-.board-header h2 {
-    font-size: 22px;
-}
-
-.board-header p {
-    color: #999;
-    font-size: 12px;
-    margin-top: 7px;
-}
-
-.capacity {
-    background: #210b37;
-    color: #d6aaff;
-    border: 1px solid #61358a;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-}
-
-/* SEARCH */
-
-.toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.search {
-    flex: 1;
-    min-width: 200px;
-    background: #130b1b;
-    color: white;
-    border: 1px solid #39234c;
-    border-radius: 9px;
-    padding: 13px;
-    outline: none;
-}
-
-.search:focus {
-    border-color: #a855f7;
-}
-
-.page-size {
-    background: #130b1b;
-    color: white;
-    border: 1px solid #39234c;
-    border-radius: 9px;
-    padding: 12px;
-    outline: none;
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 930px;
-}
-
-thead {
-    background: #1b0d29;
-}
-
-th {
-    color: #d0a5f5;
-    font-size: 11px;
-    letter-spacing: .5px;
-    padding: 17px 13px;
-    text-align: left;
-    white-space: nowrap;
-}
-
-td {
-    padding: 13px;
-    border-bottom: 1px solid #24152f;
-    font-size: 13px;
-    color: #bdb4c5;
-}
-
-tbody tr:hover {
-    background: #170c21;
-}
-
-.rank {
-    color: #c18aff;
-    font-weight: bold;
-}
-
-.profile {
-    height: 35px;
-    width: 35px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #20112e;
-    border: 1px solid #563474;
-    color: #b87aff;
-}
-
-.zero {
-    color: #777;
-    font-weight: bold;
-}
-
-/* PAGINATION */
-
-.pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 23px;
-}
-
-.pagination-info {
-    color: #aaa;
-    font-size: 12px;
-}
-
-.page-buttons {
-    display: flex;
-    gap: 8px;
-}
-
-.page-buttons button {
-    background: #240048;
-    border: 1px solid #65358d;
-    color: white;
-    border-radius: 8px;
-    padding: 10px 16px;
-    cursor: pointer;
-}
-
-.page-buttons button:disabled {
-    opacity: .35;
-    cursor: not-allowed;
-}
-
-footer {
-    text-align: center;
-    padding: 30px 10px;
-    color: #777;
-    font-size: 11px;
-}
-
-/* MOBILE */
-
-@media(max-width:700px) {
-
-    .container {
-        padding: 15px;
-    }
-
-    .summary {
-        grid-template-columns: 1fr;
-    }
-
-    .intro h1 {
-        font-size: 26px;
-    }
-
-    .leaderboard {
-        padding: 14px;
-    }
-
-    .skill-btn {
-        padding: 11px 13px;
-    }
-
-    .board-header h2 {
-        font-size: 19px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<!-- HEADER -->
-
-<header class="header">
-
-    <div class="logo">
-        STEADY<span>MAZE</span>
+  <button class="nav-btn" style="margin-top:12px;color:#ff8585" onclick="logout()">↪ &nbsp; Logout</button>
+ </aside>
+
+ <main class="main">
+  <header class="topbar">
+   <div style="display:flex;align-items:center;gap:12px">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div><h1 id="pageTitle">Overview</h1><div class="small muted">Your SteadyMaze learning space</div></div>
+   </div>
+   <div class="top-actions">
+    <button class="icon-btn" onclick="showSection('notifications')">♧</button>
+    <button class="icon-btn" onclick="showSection('profile')">
+     <img id="topAvatar" class="avatar" style="width:25px;height:25px;vertical-align:middle" src="https://placehold.co/100x100/240048/ffffff?text=SM" alt="">
+    </button>
+   </div>
+  </header>
+
+  <!-- OVERVIEW -->
+  <section class="section active" id="overview">
+   <div class="welcome">
+    <span class="welcome-tag">YOUR JOURNEY STARTS HERE</span>
+    <h2>Welcome back, <span id="welcomeName">Student</span></h2>
+    <p>Learn new skills, complete projects and build your future with SteadyMaze.</p>
+   </div>
+
+   <div class="grid">
+    <div class="card"><div class="stat-title">MY COURSES</div><div class="stat-value" id="statCourses">0</div><div class="stat-note">Active enrollments</div></div>
+    <div class="card"><div class="stat-title">COMPLETED COURSES</div><div class="stat-value" id="statCompleted">0</div><div class="stat-note">Courses completed</div></div>
+    <div class="card"><div class="stat-title">TOTAL POINTS</div><div class="stat-value" id="statPoints">0</div><div class="stat-note">Recorded student points</div></div>
+    <div class="card"><div class="stat-title">CURRENT RANK</div><div class="stat-value" id="statRank">—</div><div class="stat-note">Rank recorded in your profile</div></div>
+   </div>
+
+   <div class="two-col">
+    <div class="card">
+     <div class="panel-title"><h3>Learning Progress</h3></div>
+     <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:9px">
+      <span class="muted">Completed lessons</span><b id="lessonProgressText">0%</b>
+     </div>
+     <div class="progress"><span id="lessonProgressBar" style="width:0%"></span></div>
+     <p class="small muted" id="lessonProgressNote">Your lesson progress will appear here.</p>
     </div>
-
-    <div class="header-right">
-        <div class="header-btn">Competition Center</div>
+    <div class="card">
+     <div class="panel-title"><h3>Learning Streak</h3></div>
+     <div class="stat-value"><span id="statStreak">0</span> <span class="small muted">days</span></div>
+     <p class="small muted">Your current learning streak from your student profile.</p>
     </div>
+   </div>
 
-</header>
+   <div class="panel-title"><div><h3>Recent Enrollments</h3><p>Your latest course registrations</p></div><button class="btn secondary" onclick="showSection('mycourses')">View courses</button></div>
+   <div class="table-wrap"><table><thead><tr><th>Course</th><th>Status</th><th>Enrolled</th></tr></thead><tbody id="recentEnrollments"><tr><td colspan="3" class="empty">Loading...</td></tr></tbody></table></div>
+  </section>
 
-<!-- INTRO -->
-
-<section class="intro">
-
-    <div class="intro-label">STEADYMAZE SKILL CHAMPIONSHIP</div>
-
-    <h1>Competition Leaderboard</h1>
-
-    <p>
-        Learn. Practice. Compete. Earn Recognition.
-        Explore rankings across all competition skills.
-    </p>
-
-</section>
-
-<!-- SUMMARY -->
-
-<section class="summary">
-
-    <div class="summary-card">
-        <small>Total Competition Skills</small>
-        <h2 id="skillTotal">11</h2>
-        <p>Lower, Medium and High</p>
+  <!-- PROFILE -->
+  <section class="section" id="profile">
+   <div class="profile-layout">
+    <div class="card profile-photo-box">
+     <img id="profileAvatar" class="avatar" src="https://placehold.co/150x150/240048/ffffff?text=SM" alt="Profile photo">
+     <h3 id="profileDisplayName">Student</h3>
+     <p class="small muted" id="profileEmail">—</p>
+     <label class="file-label">Upload profile photo
+      <input type="file" id="avatarFile" accept="image/*" onchange="uploadAvatar()">
+     </label>
+     <p class="small muted">Your photo is saved in your Supabase profile.</p>
     </div>
-
-    <div class="summary-card">
-        <small>Total Rank Capacity</small>
-        <h2>9.9M</h2>
-        <p>900,000 ranks per skill</p>
+    <div class="card">
+     <div class="panel-title"><h3>Personal Information</h3></div>
+     <div class="field"><label>Full name</label><input id="profileName" type="text"></div>
+     <div class="field"><label>Email</label><input id="profileEmailInput" type="email" disabled></div>
+     <div class="field"><label>Country</label><input id="profileCountry" type="text" placeholder="Your country"></div>
+     <div class="field"><label>About me</label><textarea id="profileBio" placeholder="Tell us about yourself"></textarea></div>
+     <button class="btn" onclick="saveProfile()">Save profile</button>
+     <p class="message" id="profileMessage"></p>
     </div>
+   </div>
+  </section>
 
-    <div class="summary-card">
-        <small>Registered Participants</small>
-        <h2 id="participantTotal">0</h2>
-        <p>Verified participants only</p>
+  <!-- COURSE CATALOG -->
+  <section class="section" id="catalog">
+   <div class="panel-title"><div><h3>Explore Skills & Courses</h3><p>Courses available in the SteadyMaze database</p></div></div>
+   <div class="skill-grid" id="courseCatalog"><div class="empty">Loading courses...</div></div>
+  </section>
+
+  <!-- MY COURSES -->
+  <section class="section" id="mycourses">
+   <div class="panel-title"><div><h3>My Courses</h3><p>Your enrolled courses and lessons</p></div></div>
+   <div id="myCoursesList"><div class="empty">Loading your courses...</div></div>
+  </section>
+
+  <!-- COMPETITION -->
+  <section class="section" id="competition">
+   <div class="panel-title"><div><h3>Competitions</h3><p>Join an available competition and submit your project</p></div></div>
+   <div class="notice">Competition registration depends on the competition status and your database permissions. Check the competition rules before joining.</div>
+   <div class="table-wrap"><table><thead><tr><th>Competition</th><th>Type</th><th>Capacity</th><th>Status</th><th>Action</th></tr></thead><tbody id="competitionRows"><tr><td colspan="5" class="empty">Loading competitions...</td></tr></tbody></table></div>
+
+   <div class="card" style="margin-top:20px">
+    <div class="panel-title"><h3>Submit Competition Project</h3></div>
+    <div class="field"><label>Competition</label><select id="projectCompetition"><option value="">Select competition</option></select></div>
+    <div class="field"><label>Project title</label><input id="projectTitle" placeholder="Enter your project title"></div>
+    <div class="field"><label>Description</label><textarea id="projectDescription" placeholder="Describe your project"></textarea></div>
+    <div class="field"><label>Project video or file</label><input id="projectFile" type="file" accept="video/*,.pdf,.zip,.jpg,.jpeg,.png"></div>
+    <button class="btn" onclick="submitProject()">Upload project</button>
+    <p class="message" id="projectMessage"></p>
+   </div>
+   <div class="panel-title"><h3>My Competition Projects</h3></div>
+   <div class="table-wrap"><table><thead><tr><th>Project</th><th>Competition</th><th>Status</th><th>Submitted</th></tr></thead><tbody id="myProjects"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody></table></div>
+  </section>
+
+  <!-- LEADERBOARD -->
+  <section class="section" id="leaderboard">
+   <div class="panel-title"><div><h3>Competition Leaderboard</h3><p>Ranks and points recorded in the database</p></div></div>
+   <div class="field" style="max-width:400px"><label>Select competition</label><select id="leaderCompetition" onchange="loadLeaderboard()"><option value="">Select competition</option></select></div>
+   <div class="table-wrap"><table><thead><tr><th>Rank</th><th>Student</th><th>Points</th><th>Level</th><th>Status</th></tr></thead><tbody id="leaderboardRows"><tr><td colspan="5" class="empty">Select a competition.</td></tr></tbody></table></div>
+
+   <div class="panel-title"><div><h3>Main Competition Scores</h3><p>Creativity, storytelling and quality scores</p></div></div>
+   <div class="field" style="max-width:400px"><label>Main competition</label><select id="mainCompetitionSelect" onchange="loadMainScores()"><option value="">Select main competition</option></select></div>
+   <div class="table-wrap"><table><thead><tr><th>Student</th><th>Points</th><th>Creativity</th><th>Storytelling</th><th>Quality</th><th>AI Review</th></tr></thead><tbody id="mainScoreRows"><tr><td colspan="6" class="empty">Select a main competition.</td></tr></tbody></table></div>
+  </section>
+
+  <!-- TIE BREAK -->
+  <section class="section" id="tieBreak">
+   <div class="panel-title"><div><h3>Tie-break</h3><p>Your tie-break records, if any</p></div></div>
+   <div class="table-wrap"><table><thead><tr><th>Competition</th><th>Original points</th><th>Tie-break points</th><th>Final points</th><th>Rank before</th><th>Rank after</th><th>Status</th></tr></thead><tbody id="tieRows"><tr><td colspan="7" class="empty">Loading tie-break records...</td></tr></tbody></table></div>
+  </section>
+
+  <!-- PAYMENTS -->
+  <section class="section" id="payments">
+   <div class="panel-title"><div><h3>Payments</h3><p>Your recorded payment history</p></div></div>
+   <div class="grid">
+    <div class="card"><div class="stat-title">TOTAL RECORDED</div><div class="stat-value" id="paymentTotal">0</div></div>
+    <div class="card"><div class="stat-title">SUCCESSFUL</div><div class="stat-value success" id="paymentSuccess">0</div></div>
+    <div class="card"><div class="stat-title">PENDING</div><div class="stat-value gold" id="paymentPending">0</div></div>
+    <div class="card"><div class="stat-title">FAILED</div><div class="stat-value danger" id="paymentFailed">0</div></div>
+   </div>
+   <div class="notice">This page displays payment records only. It does not collect card numbers or process Visa, Mastercard or PayPal payments. A secure payment provider must be integrated for real payments.</div>
+   <div class="table-wrap"><table><thead><tr><th>Reference</th><th>Amount</th><th>Currency</th><th>Provider</th><th>Status</th><th>Date</th></tr></thead><tbody id="paymentRows"><tr><td colspan="6" class="empty">Loading payments...</td></tr></tbody></table></div>
+  </section>
+
+  <!-- REWARDS -->
+  <section class="section" id="rewards">
+   <div class="panel-title"><div><h3>Rewards & Recognition</h3><p>Your awards and achievements</p></div></div>
+   <div class="notice">Rewards are not yet connected because your current database table list does not include a rewards table. No sample rewards are displayed as real awards.</div>
+   <div class="card"><h3>Achievement records</h3><p class="small muted">When a rewards table is added and connected, your confirmed rewards will appear here.</p></div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="section" id="support">
+   <div class="panel-title"><div><h3>Student Support</h3><p>Send a question or request to the SteadyMaze team</p></div></div>
+   <div class="two-col">
+    <div class="card">
+     <div class="field"><label>Subject</label><input id="supportTitle" placeholder="What do you need help with?"></div>
+     <div class="field"><label>Description</label><textarea id="supportDescription" placeholder="Explain your request"></textarea></div>
+     <button class="btn" onclick="sendSupportRequest()">Send request</button>
+     <p class="message" id="supportMessage"></p>
     </div>
-
-</section>
-
-<!-- LOWER -->
-
-<section class="category">
-
-    <div class="category-heading">
-        <h2>LOWER SKILLS</h2>
-        <span>3 Competition Skills</span>
+    <div class="card">
+     <h3>Support Points</h3>
+     <p class="small muted">Support Points are separate from the main competition. Your database currently has no dedicated support-points table, so this section will not invent a points balance.</p>
+     <span class="status pending">Awaiting database setup</span>
     </div>
+   </div>
+   <div class="panel-title"><h3>My Support Requests</h3></div>
+   <div class="table-wrap"><table><thead><tr><th>Subject</th><th>Status</th><th>Date</th></tr></thead><tbody id="supportRows"><tr><td colspan="3" class="empty">Loading...</td></tr></tbody></table></div>
+  </section>
 
-    <div class="skill-buttons" id="lowerButtons"></div>
-
-</section>
-
-<!-- MEDIUM -->
-
-<section class="category">
-
-    <div class="category-heading">
-        <h2>MEDIUM SKILLS</h2>
-        <span>3 Competition Skills</span>
-    </div>
-
-    <div class="skill-buttons" id="mediumButtons"></div>
-
-</section>
-
-<!-- HIGH -->
-
-<section class="category">
-
-    <div class="category-heading">
-        <h2>HIGH SKILLS</h2>
-        <span>5 Competition Skills</span>
-    </div>
-
-    <div class="skill-buttons" id="highButtons"></div>
-
-</section>
-
-<!-- TABLE -->
-
-<section class="leaderboard">
-
-    <div class="board-header">
-
-        <div>
-            <h2 id="selectedSkill">Video Editing</h2>
-            <p>Official Skill Competition Ranking</p>
-        </div>
-
-        <div class="capacity">
-            900,000 RANK SLOTS
-        </div>
-
-    </div>
-
-    <div class="toolbar">
-
-        <input
-            class="search"
-            id="searchInput"
-            type="search"
-            placeholder="Search rank number or participant name..."
-        >
-
-        <select class="page-size" id="pageSize">
-            <option value="25">25 Rows</option>
-            <option value="50">50 Rows</option>
-            <option value="100">100 Rows</option>
-        </select>
-
-    </div>
-
-    <div class="table-wrap">
-
-        <table>
-
-            <thead>
-                <tr>
-                    <th>RANK</th>
-                    <th>NAME</th>
-                    <th>PROFILE</th>
-                    <th>POINTS</th>
-                    <th>CREATIVITY</th>
-                    <th>STORYTELLING</th>
-                    <th>QUALITY</th>
-                </tr>
-            </thead>
-
-            <tbody id="tableBody"></tbody>
-
-        </table>
-
-    </div>
-
-    <div class="pagination">
-
-        <div class="pagination-info" id="pageInfo">
-            Ranks 1–25 / 900,000
-        </div>
-
-        <div class="page-buttons">
-
-            <button id="previousBtn">
-                Previous
-            </button>
-
-            <button id="nextBtn">
-                Next
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-<footer>
-    STEADYMAZE © 2026 | ALL RIGHTS RESERVED
-</footer>
-
+  <!-- NOTIFICATIONS -->
+  <section class="section" id="notifications">
+   <div class="panel-title"><div><h3>Notifications</h3><p>Messages and updates for your account</p></div><button class="btn secondary" onclick="markAllNotificationsRead()">Mark all read</button></div>
+   <div id="notificationList"><div class="empty">Loading notifications...</div></div>
+  </section>
+ </main>
 </div>
 
 <script>
-
-// OFFICIAL COMPETITION SKILLS
-
-const categories = {
-
-    lower: [
-        "Video Editing",
-        "Movie Recap",
-        "Thumbnail Design"
-    ],
-
-    medium: [
-        "English",
-        "AI Agent",
-        "Data Analysis"
-    ],
-
-    high: [
-        "AI App Development",
-        "AI Web Development",
-        "Python",
-        "Java",
-        "Web Development"
-    ]
-
-};
-
-const CAPACITY = 900000;
-
-let currentSkill = "Video Editing";
-let currentPage = 1;
-let pageSize = 25;
-let searchValue = "";
-
-// RENDER SKILL BUTTONS
-
-function createSkillButtons() {
-
-    renderCategory("lower", "lowerButtons");
-    renderCategory("medium", "mediumButtons");
-    renderCategory("high", "highButtons");
-
-}
-
-function renderCategory(category, elementId) {
-
-    const area = document.getElementById(elementId);
-
-    categories[category].forEach((skill, index) => {
-
-        const button = document.createElement("button");
-
-        button.className = "skill-btn";
-
-        button.innerHTML = `
-            ${skill}
-            <span class="skill-number">
-                ${category.toUpperCase()} SKILL
-            </span>
-        `;
-
-        button.onclick = () => selectSkill(skill);
-
-        area.appendChild(button);
-
-    });
-
-}
-
-// SELECT SKILL
-
-function selectSkill(skill) {
-
-    currentSkill = skill;
-    currentPage = 1;
-    searchValue = "";
-
-    document.getElementById("searchInput").value = "";
-
-    document.getElementById("selectedSkill").textContent = skill;
-
-    updateActiveButtons();
-    renderTable();
-
-}
-
-function updateActiveButtons() {
-
-    document.querySelectorAll(".skill-btn").forEach(button => {
-
-        button.classList.toggle(
-            "active",
-            button.textContent.trim().startsWith(currentSkill)
-        );
-
-    });
-
-}
-
-// RENDER EMPTY RANK SLOTS
-
-function renderTable() {
-
-    const tbody = document.getElementById("tableBody");
-
-    let start;
-    let end;
-
-    const rankSearch = Number(
-        searchValue.replace(/,/g, "")
-    );
-
-    // Search exact rank
-
-    if (
-        searchValue !== "" &&
-        Number.isInteger(rankSearch) &&
-        rankSearch >= 1 &&
-        rankSearch <= CAPACITY
-    ) {
-
-        start = rankSearch;
-        end = rankSearch;
-
-    } else if (searchValue !== "") {
-
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="7" style="text-align:center;padding:35px">
-                    No registered participant found.
-                </td>
-            </tr>
-        `;
-
-        document.getElementById("pageInfo").textContent =
-            "No matching participant.";
-
-        document.getElementById("previousBtn").disabled = true;
-        document.getElementById("nextBtn").disabled = true;
-
-        return;
-
-    } else {
-
-        start = (currentPage - 1) * pageSize + 1;
-
-        end = Math.min(
-            start + pageSize - 1,
-            CAPACITY
-        );
-
-    }
-
-    let rows = "";
-
-    for(let i = start; i <= end; i++) {
-
-        rows += `
-            <tr>
-
-                <td class="rank">${i.toLocaleString()}</td>
-
-                <td>—</td>
-
-                <td>
-                    <span class="profile">—</span>
-                </td>
-
-                <td class="zero">0</td>
-
-                <td class="zero">0</td>
-
-                <td class="zero">0</td>
-
-                <td class="zero">0</td>
-
-            </tr>
-        `;
-
-    }
-
-    tbody.innerHTML = rows;
-
-    document.getElementById("pageInfo").textContent =
-        `Ranks ${start.toLocaleString()} – ${end.toLocaleString()} / 900,000`;
-
-    document.getElementById("previousBtn").disabled =
-        currentPage === 1 || searchValue !== "";
-
-    document.getElementById("nextBtn").disabled =
-        end >= CAPACITY || searchValue !== "";
-
-}
-
-// PAGINATION
-
-document.getElementById("previousBtn").onclick = () => {
-
-    if(currentPage > 1) {
-
-        currentPage--;
-
-        renderTable();
-
-    }
-
-};
-
-document.getElementById("nextBtn").onclick = () => {
-
-    if(currentPage * pageSize < CAPACITY) {
-
-        currentPage++;
-
-        renderTable();
-
-    }
-
-};
-
-// SEARCH
-
-document.getElementById("searchInput").addEventListener(
-    "input",
-    function() {
-
-        searchValue = this.value.trim();
-
-        renderTable();
-
-    }
-);
-
-// PAGE SIZE
-
-document.getElementById("pageSize").addEventListener(
-    "change",
-    function() {
-
-        pageSize = Number(this.value);
-
-        currentPage = 1;
-
-        renderTable();
-
-    }
-);
-
-// START
-
-createSkillButtons();
-
-updateActiveButtons();
-
-renderTable();
-
-</script>
-
-</body>
-</html>
-
-<!-- COURSES -->
-<section class="page" id="courses">
- <div class="welcome">
-  <small>LEARNING CENTER</small>
-  <h1>My Courses</h1>
-  <p>All your purchased skills, levels and learning materials.</p>
- </div>
- <div id="myCourses" class="grid">
-  <div class="card empty">Loading courses...</div>
- </div>
-</section>
-
-<!-- PROFILE -->
-<section class="page" id="profile">
- <div class="welcome">
-  <small>PERSONAL ACCOUNT</small>
-  <h1>My Profile</h1>
-  <p>Manage your personal information and profile photo.</p>
- </div>
-
- <div class="profile-layout">
-  <div class="card" style="text-align:center">
-   <img id="profilePhoto" class="profile-photo" alt="Student profile">
-   <h3 id="profileDisplayName" style="margin-bottom:13px">Student</h3>
-   <label>Choose profile photo</label>
-   <input class="field" type="file" id="avatarFile" accept="image/*">
-   <button class="btn" style="width:100%" onclick="uploadAvatar()">Save Profile Photo</button>
-  </div>
-
-  <div class="card">
-   <h3 style="margin-bottom:20px">Personal Information</h3>
-
-   <label>Full Name</label>
-   <input class="field" id="profileName" placeholder="Enter your full name">
-
-   <label>Email Address</label>
-   <input class="field" id="profileEmail" disabled>
-
-   <label>Country</label>
-   <input class="field" id="profileCountry" placeholder="Your country">
-
-   <label>About Me</label>
-   <textarea class="field" id="profileAbout" rows="4" placeholder="Introduce yourself"></textarea>
-
-   <button class="btn" onclick="saveProfile()">Save Changes</button>
-   <div id="profileMessage" class="notice"></div>
-  </div>
- </div>
-</section>
-
-<!-- PAYMENTS -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SteadyMaze | Payments</title>
-
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background: #020202;
-    color: white;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-}
-
-.container {
-    max-width: 1250px;
-    margin: auto;
-    padding: 30px 22px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 35px;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-.logo span {
-    color: #a45bff;
-}
-
-.profile {
-    background: #17002d;
-    padding: 12px 18px;
-    border-radius: 12px;
-    border: 1px solid #48236d;
-}
-
-.heading {
-    margin-bottom: 25px;
-}
-
-.heading h1 {
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-.heading p {
-    color: #999;
-    font-size: 14px;
-}
-
-.summary {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-bottom: 35px;
-}
-
-.card {
-    background: linear-gradient(135deg,#17002d,#240048);
-    border: 1px solid #48236d;
-    padding: 24px;
-    border-radius: 17px;
-}
-
-.card small {
-    color: #c3a6df;
-}
-
-.card h2 {
-    font-size: 29px;
-    margin-top: 15px;
-}
-
-.card .sub {
-    color: #aaa;
-    font-size: 12px;
-    margin-top: 9px;
-}
-
-.section {
-    background: #0b0710;
-    border: 1px solid #28143a;
-    padding: 25px;
-    border-radius: 17px;
-    margin-bottom: 25px;
-}
-
-.section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 23px;
-    flex-wrap: wrap;
-}
-
-.section-title h2 {
-    font-size: 19px;
-}
-
-.methods {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 16px;
-}
-
-.method {
-    background: #130c1b;
-    border: 1px solid #38204b;
-    padding: 22px;
-    border-radius: 13px;
-}
-
-.method h3 {
-    margin-bottom: 15px;
-}
-
-.method p {
-    color: #999;
-    font-size: 13px;
-    margin-bottom: 15px;
-}
-
-.method button,
-.primary-btn {
-    background: #6e25a8;
-    border: none;
-    color: white;
-    padding: 11px 17px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.method button:hover,
-.primary-btn:hover {
-    background: #8b36d0;
-}
-
-.add-method {
-    border: 1px dashed #7944a0;
-    background: #100a17;
-    color: #d4aaff;
-    padding: 20px;
-    border-radius: 13px;
-    cursor: pointer;
-    text-align: center;
-    font-size: 15px;
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 650px;
-}
-
-th, td {
-    padding: 17px 12px;
-    border-bottom: 1px solid #291936;
-    text-align: left;
-    font-size: 13px;
-}
-
-th {
-    color: #b58bd5;
-    font-weight: 600;
-}
-
-td {
-    color: #ddd;
-}
-
-.status {
-    padding: 6px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-}
-
-.completed {
-    background: #123b29;
-    color: #65e5a0;
-}
-
-.pending {
-    background: #45340e;
-    color: #ffd36a;
-}
-
-.failed {
-    background: #481d24;
-    color: #ff8585;
-}
-
-.receipt {
-    background: none;
-    color: #bd8aff;
-    border: none;
-    cursor: pointer;
-}
-
-.empty {
-    text-align: center;
-    color: #888;
-    padding: 25px;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: #000c;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-    z-index: 10;
-}
-
-.modal-box {
-    background: #170b22;
-    border: 1px solid #70419a;
-    border-radius: 16px;
-    padding: 27px;
-    width: 100%;
-    max-width: 400px;
-}
-
-.modal-box h2 {
-    margin-bottom: 20px;
-}
-
-.modal-box input,
-.modal-box select {
-    width: 100%;
-    padding: 13px;
-    margin-bottom: 15px;
-    background: #09050d;
-    color: white;
-    border: 1px solid #49305e;
-    border-radius: 8px;
-}
-
-.modal-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.close-btn {
-    background: #33243d;
-    color: white;
-    border: none;
-    padding: 11px 17px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.notice {
-    color: #999;
-    font-size: 12px;
-    line-height: 1.6;
-    margin-top: 15px;
-}
-
-@media(max-width:750px) {
-    .summary {
-        grid-template-columns: 1fr;
-    }
-
-    .methods {
-        grid-template-columns: 1fr;
-    }
-
-    .heading h1 {
-        font-size: 25px;
-    }
-
-    .container {
-        padding: 20px 14px;
-    }
-
-    .section {
-        padding: 17px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <header class="header">
-        <div class="logo">STEADY<span>MAZE</span></div>
-        <div class="profile">Student Payment Center</div>
-    </header>
-
-    <div class="heading">
-        <h1>Payments & Transactions</h1>
-        <p>Manage your payments, payment methods and transaction history.</p>
-    </div>
-
-    <!-- PAYMENT SUMMARY -->
-
-    <div class="summary">
-
-        <div class="card">
-            <small>Total Payments</small>
-            <h2 id="total">$0.00</h2>
-            <div class="sub">Total recorded transactions</div>
-        </div>
-
-        <div class="card">
-            <small>Completed Payments</small>
-            <h2 id="completed">$0.00</h2>
-            <div class="sub">Successfully completed</div>
-        </div>
-
-        <div class="card">
-            <small>Pending Payments</small>
-            <h2 id="pending">$0.00</h2>
-            <div class="sub">Awaiting confirmation</div>
-        </div>
-
-    </div>
-
-    <!-- PAYMENT METHODS -->
-
-    <section class="section">
-
-        <div class="section-title">
-            <h2>Payment Methods</h2>
-            <span style="color:#aaa;font-size:12px">
-                Manage your methods
-            </span>
-        </div>
-
-        <div class="methods" id="methods">
-
-            <div class="method">
-                <h3>VISA</h3>
-                <p>Card payment method</p>
-                <button onclick="openModal('VISA')">Add Method</button>
-            </div>
-
-            <div class="method">
-                <h3>Mastercard</h3>
-                <p>Card payment method</p>
-                <button onclick="openModal('Mastercard')">Add Method</button>
-            </div>
-
-            <div class="method">
-                <h3>PayPal</h3>
-                <p>Online payment method</p>
-                <button onclick="openModal('PayPal')">Add Method</button>
-            </div>
-
-        </div>
-
-        <p class="notice">
-            This is a visual prototype. Payment methods are not connected
-            to a real payment processor.
-        </p>
-
-    </section>
-
-    <!-- SAVED METHODS -->
-
-    <section class="section">
-
-        <div class="section-title">
-            <h2>My Saved Methods</h2>
-        </div>
-
-        <div id="savedMethods" class="empty">
-            No payment methods added yet.
-        </div>
-
-    </section>
-
-    <!-- TRANSACTION HISTORY -->
-
-    <section class="section">
-
-        <div class="section-title">
-            <h2>Transaction History</h2>
-            <button class="primary-btn" onclick="addDemoTransaction()">
-                Add Demo Transaction
-            </button>
-        </div>
-
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Reference</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Receipt</th>
-                    </tr>
-                </thead>
-
-                <tbody id="transactions">
-                    <tr>
-                        <td colspan="6" class="empty">
-                            No transactions available.
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </section>
-
-</div>
-
-<!-- ADD METHOD MODAL -->
-
-<div class="modal" id="modal">
-    <div class="modal-box">
-
-        <h2>Add Payment Method</h2>
-
-        <form id="methodForm">
-
-            <select id="methodType">
-                <option>VISA</option>
-                <option>Mastercard</option>
-                <option>PayPal</option>
-            </select>
-
-            <input
-                type="text"
-                id="methodName"
-                placeholder="Account holder name"
-                required
-            >
-
-            <input
-                type="text"
-                id="lastFour"
-                placeholder="Last four digits (card only)"
-                maxlength="4"
-                inputmode="numeric"
-            >
-
-            <div class="modal-actions">
-                <button class="primary-btn" type="submit">
-                    Save Method
-                </button>
-
-                <button class="close-btn" type="button"
-                    onclick="closeModal()">
-                    Cancel
-                </button>
-            </div>
-
-        </form>
-
-        <p class="notice">
-            Demo only. Never enter a full card number, security code
-            or password here.
-        </p>
-
-    </div>
-</div>
-
-<script>
-
-let transactions = [];
-let savedMethods = [];
-
-function updateSummary() {
-
-    let total = 0;
-    let completed = 0;
-    let pending = 0;
-
-    transactions.forEach(t => {
-        total += t.amount;
-
-        if(t.status === "Completed") {
-            completed += t.amount;
-        }
-
-        if(t.status === "Pending") {
-            pending += t.amount;
-        }
-    });
-
-    document.getElementById("total").textContent =
-        "$" + total.toFixed(2);
-
-    document.getElementById("completed").textContent =
-        "$" + completed.toFixed(2);
-
-    document.getElementById("pending").textContent =
-        "$" + pending.toFixed(2);
-}
-
-function renderTransactions() {
-
-    const tbody = document.getElementById("transactions");
-
-    if(transactions.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6" class="empty">
-                    No transactions available.
-                </td>
-            </tr>`;
-        updateSummary();
-        return;
-    }
-
-    tbody.innerHTML = transactions.map(t => {
-
-        let statusClass =
-            t.status === "Completed" ? "completed" :
-            t.status === "Pending" ? "pending" : "failed";
-
-        return `
-        <tr>
-            <td>${t.reference}</td>
-            <td>${t.type}</td>
-            <td>$${t.amount.toFixed(2)}</td>
-            <td>${t.date}</td>
-            <td>
-                <span class="status ${statusClass}">
-                    ${t.status}
-                </span>
-            </td>
-            <td>
-                <button class="receipt"
-                    onclick="downloadReceipt('${t.reference}')">
-                    Receipt
-                </button>
-            </td>
-        </tr>`;
-    }).join("");
-
-    updateSummary();
-}
-
-function addDemoTransaction() {
-
-    transactions.push({
-        reference: "SM-" + Date.now(),
-        type: "Course Purchase",
-        amount: 25,
-        date: new Date().toLocaleDateString(),
-        status: "Pending"
-    });
-
-    renderTransactions();
-}
-
-function openModal(type) {
-    document.getElementById("modalType").value = type;
-    document.getElementById("modal").style.display = "flex";
-}
-
-function closeModal() {
-    document.getElementById("modal").style.display = "none";
-}
-
-document.getElementById("methodForm")
-.addEventListener("submit", function(e) {
-
-    e.preventDefault();
-
-    const type = document.getElementById("methodType").value;
-    const name = document.getElementById("methodName").value.trim();
-    const lastFour = document.getElementById("lastFour").value;
-
-    if(!name) return;
-
-    if(type !== "PayPal" &&
-       lastFour !== "" &&
-       !/^\d{4}$/.test(lastFour)) {
-        alert("Enter exactly four digits.");
-        return;
-    }
-
-    savedMethods.push({
-        type: type,
-        name: name,
-        lastFour: lastFour
-    });
-
-    renderMethods();
-
-    this.reset();
-    closeModal();
-});
-
-function renderMethods() {
-
-    const area = document.getElementById("savedMethods");
-
-    if(savedMethods.length === 0) {
-        area.innerHTML = "No payment methods added yet.";
-        return;
-    }
-
-    area.innerHTML = savedMethods.map((m, i) => `
-        <div class="method" style="margin-bottom:12px">
-            <h3>${m.type}</h3>
-            <p>${m.name}</p>
-            <p>${m.lastFour ? "Ending in •••• " + m.lastFour : "PayPal account"}</p>
-            <button onclick="removeMethod(${i})">Remove</button>
-        </div>
-    `).join("");
-}
-
-function removeMethod(index) {
-    savedMethods.splice(index, 1);
-    renderMethods();
-}
-
-function downloadReceipt(reference) {
-
-    const t = transactions.find(x => x.reference === reference);
-
-    if(!t) return;
-
-    const receipt = `
-STEADYMAZE PAYMENT RECEIPT
-
-Reference: ${t.reference}
-Type: ${t.type}
-Amount: $${t.amount.toFixed(2)}
-Date: ${t.date}
-Status: ${t.status}
-
-Prototype receipt - not proof of payment.
-    `;
-
-    const blob = new Blob([receipt], {type: "text/plain"});
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = reference + "-receipt.txt";
-    a.click();
-
-    URL.revokeObjectURL(url);
-}
-
-renderTransactions();
-
-</script>
-
-</body>
-</html>
-
-<!-- REWARDS -->
-<section class="page" id="rewards">
- <div class="welcome">
-  <small>STUDENT ACHIEVEMENTS</small>
-  <h1>My Rewards</h1>
-  <p>Rewards assigned directly by the SteadyMaze administration team.</p>
- </div>
- <div id="rewardList" class="grid">
-  <div class="card empty">Loading rewards...</div>
- </div>
-</section>
-
-<!-- SUPPORT POINTS -->
-<
-<script>
-// ======================================
-// 1. SUPABASE CONNECTION
-// ======================================
+// ==========================================
+// 1. SUPABASE CONFIGURATION
+// ==========================================
 
 const SUPABASE_URL = "https://uxrltzlxdttbjstomhkb.supabase.co";
-
 const SUPABASE_KEY = "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
 
-const db = window.supabase.createClient(
- SUPABASE_URL,
- SUPABASE_KEY
-);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
 let currentProfile = null;
-let currentEntries = [];
-let currentRankPage = 0;
+let competitionsCache = [];
+let mainCompetitionsCache = [];
+let authMode = "login";
 
-// ======================================
-// 2. THE 11 STEADYMAZE SKILLS
-// ======================================
+// ==========================================
+// 2. GENERAL HELPERS
+// ==========================================
 
-const skills = {
- lower:[
-  {name:"Video Editing",price:8,group:"Lower"},
-  {name:"Movie Recap",price:8,group:"Lower"},
-  {name:"Thumbnail",price:8,group:"Lower"}
- ],
- medium:[
-  {name:"English",price:10,group:"Medium"},
-  {name:"AI Agent",price:10,group:"Medium"},
-  {name:"Data Analysis",price:10,group:"Medium"}
- ],
- high:[
-  {name:"Python",price:13,group:"High"},
-  {name:"Java",price:13,group:"High"},
-  {name:"AI Web",price:13,group:"High"},
-  {name:"AI App",price:13,group:"High"},
-  {name:"Web Development",price:13,group:"High"}
- ]
-};
+function el(id){ return document.getElementById(id); }
 
-function allSkills(){
- return [...skills.lower,...skills.medium,...skills.high];
+function escapeHTML(value){
+ return String(value ?? "").replace(/[&<>"']/g, char => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+ }[char]));
 }
 
-function safe(value){
- return String(value??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;",
-  "<":"&lt;",
-  ">":"&gt;",
-  '"':"&quot;",
-  "'":"&#39;"
- })[c]);
-}
-
-function message(id,text){
- const el=document.getElementById(id);
- if(el)el.textContent=text;
+function message(id,text,type=""){
+ const node=el(id);
+ if(!node)return;
+ node.textContent=text;
+ node.className="message "+type;
 }
 
 function formatDate(value){
  if(!value)return "—";
- return new Date(value).toLocaleDateString();
+ const date=new Date(value);
+ if(Number.isNaN(date.getTime()))return "—";
+ return date.toLocaleDateString();
 }
 
-function money(value){
- return "$"+Number(value||0).toFixed(2);
+function money(amount,currency){
+ return `${Number(amount||0).toFixed(2)} ${currency||""}`;
 }
 
-// ======================================
+function statusClass(value){
+ const s=String(value||"").toLowerCase();
+ if(["paid","success","successful","completed","approved","submitted"].includes(s))return "success";
+ if(["pending","processing","registered","under_review"].includes(s))return "pending";
+ if(["failed","rejected","cancelled"].includes(s))return "failed";
+ return "";
+}
+
+function setStatus(value){
+ return `<span class="status ${statusClass(value)}">${escapeHTML(value||"Unknown")}</span>`;
+}
+
+function fallbackPhoto(){
+ return "https://placehold.co/150x150/240048/ffffff?text=SM";
+}
+
+function showSection(id,button){
+ document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+ const section=el(id);
+ if(section)section.classList.add("active");
+
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+ if(button)button.classList.add("active");
+ else{
+  const nav=[...document.querySelectorAll(".nav-btn")].find(b=>b.getAttribute("onclick")?.includes(`'${id}'`));
+  if(nav)nav.classList.add("active");
+ }
+
+ const titles={
+  overview:"Overview",profile:"My Profile",catalog:"Explore Courses",
+  mycourses:"My Courses",competition:"Competitions",leaderboard:"Leaderboard",
+  tieBreak:"Tie-break",payments:"Payments",rewards:"Rewards",
+  support:"Student Support",notifications:"Notifications"
+ };
+ el("pageTitle").textContent=titles[id]||"Student Portal";
+ closeSidebar();
+}
+
+function toggleSidebar(){
+ el("sidebar").classList.toggle("open");
+ el("mobileOverlay").classList.toggle("show");
+}
+function closeSidebar(){
+ el("sidebar").classList.remove("open");
+ el("mobileOverlay").classList.remove("show");
+}
+
+// ==========================================
 // 3. AUTHENTICATION
-// ======================================
+// ==========================================
 
-async function login(){
- const email=document.getElementById("email").value.trim();
- const password=document.getElementById("password").value;
+function toggleAuth(event){
+ if(event)event.preventDefault();
+ authMode=authMode==="login"?"register":"login";
+ el("authTitle").textContent=authMode==="login"?"Student Login":"Create Student Account";
+ el("authButton").textContent=authMode==="login"?"Login":"Create account";
+ el("registerNameField").classList.toggle("hidden",authMode!=="register");
+ el("authSwitchText").textContent=authMode==="login"?"New to SteadyMaze?":"Already have an account?";
+ el("authSwitch").textContent=authMode==="login"?"Create account":"Login";
+ message("authMessage","");
+}
+
+async function handleAuth(){
+ const email=el("authEmail").value.trim();
+ const password=el("authPassword").value;
+ const name=el("registerName").value.trim();
 
  if(!email||!password){
-  return message("authMessage","Enter your email and password.");
+  message("authMessage","Enter your email and password.","danger");
+  return;
  }
 
- const {data,error}=await db.auth.signInWithPassword({
-  email,password
- });
+ el("authButton").disabled=true;
+ message("authMessage","Please wait...");
 
- if(error)return message("authMessage",error.message);
+ try{
+  if(authMode==="register"){
+   if(!name){
+    message("authMessage","Enter your full name.","danger");
+    return;
+   }
 
- currentUser=data.user;
- await initialize();
-}
+   const {data,error}=await db.auth.signUp({email,password});
+   if(error)throw error;
 
-async function register(){
- const email=document.getElementById("email").value.trim();
- const password=document.getElementById("password").value;
+   if(data.user){
+    const {error:profileError}=await db.from("profiles").upsert({
+     id:data.user.id,
+     email:email,
+     full_name:name,
+     role:"student",
+     status:"active",
+     updated_at:new Date().toISOString()
+    },{onConflict:"id"});
 
- if(!email||password.length<8){
-  return message("authMessage","Enter a valid email and password of at least 8 characters.");
- }
+    if(profileError)console.warn("Profile creation:",profileError.message);
+   }
 
- const {data,error}=await db.auth.signUp({
-  email,password
- });
-
- if(error)return message("authMessage",error.message);
-
- if(data.session){
-  currentUser=data.user;
-  await initialize();
- }else{
-  message("authMessage","Account created. Check your email to verify your account.");
+   message("authMessage","Account created. Check your email if confirmation is required.","success");
+  }else{
+   const {error}=await db.auth.signInWithPassword({email,password});
+   if(error)throw error;
+   await initializeApp();
+  }
+ }catch(error){
+  message("authMessage",error.message||"Authentication failed.","danger");
+ }finally{
+  el("authButton").disabled=false;
  }
 }
 
 async function logout(){
  await db.auth.signOut();
- location.reload();
+ currentUser=null;
+ currentProfile=null;
+ el("app").classList.add("hidden");
+ el("authScreen").classList.remove("hidden");
 }
 
-async function initialize(){
- if(!currentUser)return;
+async function initializeApp(){
+ const {data:{session},error}=await db.auth.getSession();
+ if(error)throw error;
 
- document.getElementById("loginScreen").style.display="none";
-
- document.getElementById("sideEmail").textContent=currentUser.email;
- document.getElementById("profileEmail").value=currentUser.email;
-
- await ensureProfile();
-
- await Promise.all([
-  loadProfile(),
-  loadCourses(),
-  loadEntries(),
-  loadRewards(),
-  loadPayments(),
-  loadSupportPoints(),
-  loadTeacherVideos()
- ]);
-
- loadRecentActivity();
-}
-
-db.auth.getSession().then(async({data,error})=>{
- if(error)console.error(error);
-
- if(data.session){
-  currentUser=data.session.user;
-  await initialize();
+ if(!session){
+  el("app").classList.add("hidden");
+  el("authScreen").classList.remove("hidden");
+  return;
  }
-});
+
+ currentUser=session.user;
+ el("authScreen").classList.add("hidden");
+ el("app").classList.remove("hidden");
+
+ await loadProfile();
+ await Promise.allSettled([
+  loadOverview(),
+  loadCatalog(),
+  loadMyCourses(),
+  loadCompetitions(),
+  loadMyProjects(),
+  loadPayments(),
+  loadTieBreak(),
+  loadSupportRequests(),
+  loadNotifications(),
+  loadMainCompetitions()
+ ]);
+}
 
 db.auth.onAuthStateChange((event,session)=>{
  if(event==="SIGNED_OUT"){
-  location.reload();
+  currentUser=null;
+  el("app").classList.add("hidden");
+  el("authScreen").classList.remove("hidden");
  }
 });
 
-// Create an initial profile if one does not exist.
-async function ensureProfile(){
- const {data,error}=await db.from("profiles")
-  .select("id")
-  .eq("id",currentUser.id)
-  .maybeSingle();
-
- if(error){
-  console.error("Profile check:",error.message);
-  return;
- }
-
- if(!data){
-  const {error:insertError}=await db.from("profiles").insert({
-   id:currentUser.id,
-   email:currentUser.email,
-   full_name:currentUser.user_metadata?.full_name||""
-  });
-
-  if(insertError)console.error(insertError.message);
- }
-}
-
-// ======================================
-// 4. NAVIGATION
-// ======================================
-
-const pageNames={
- overview:"Student Dashboard",
- competition:"Main Competition",
- courses:"My Courses",
- profile:"My Profile",
- payments:"Payments",
- rewards:"My Rewards",
- supportpoints:"Support Points",
- employment:"Direct Employment",
- help:"Help & Support"
-};
-
-function showPage(id,button){
- document.querySelectorAll(".page").forEach(p=>{
-  p.classList.remove("active");
- });
-
- document.getElementById(id).classList.add("active");
-
- document.querySelectorAll(".nav").forEach(n=>{
-  n.classList.remove("active");
- });
-
- if(button)button.classList.add("active");
-
- document.getElementById("pageTitle").textContent=pageNames[id];
-
- document.getElementById("sidebar").classList.remove("open");
-
- if(id==="competition"){
-  loadEntries();
-  loadLeaderboard();
- }
-
- if(id==="payments")loadPayments();
- if(id==="rewards")loadRewards();
- if(id==="courses")loadCourses();
-}
-
-function toggleMenu(){
- document.getElementById("sidebar").classList.toggle("open");
-}
-
-// ======================================
-// 5. PROFILE
-// ======================================
+// ==========================================
+// 4. PROFILE
+// ==========================================
 
 async function loadProfile(){
+ if(!currentUser)return;
+
  const {data,error}=await db.from("profiles")
-  .select("*")
-  .eq("id",currentUser.id)
-  .maybeSingle();
+  .select("id,role,full_name,email,profile_photo,country,bio,status")
+  .eq("id",currentUser.id).maybeSingle();
 
- if(error){
-  console.error("Profile:",error.message);
-  return;
- }
+ if(error)throw error;
 
- currentProfile=data;
+ currentProfile=data||{
+  id:currentUser.id,
+  full_name:currentUser.user_metadata?.full_name||"",
+  email:currentUser.email
+ };
 
- if(!data)return;
+ const name=currentProfile.full_name||"Student";
+ const photo=currentProfile.profile_photo||fallbackPhoto();
 
- const name=data.full_name||"Student";
+ el("sideName").textContent=name;
+ el("welcomeName").textContent=name;
+ el("profileDisplayName").textContent=name;
+ el("profileEmail").textContent=currentUser.email||"";
+ el("profileName").value=currentProfile.full_name||"";
+ el("profileEmailInput").value=currentUser.email||"";
+ el("profileCountry").value=currentProfile.country||"";
+ el("profileBio").value=currentProfile.bio||"";
 
- document.getElementById("sideName").textContent=name;
- document.getElementById("headerName").textContent=name;
- document.getElementById("welcomeName").textContent=name;
- document.getElementById("profileDisplayName").textContent=name;
-
- document.getElementById("profileName").value=data.full_name||"";
- document.getElementById("profileCountry").value=data.country||"";
- document.getElementById("profileAbout").value=data.about||"";
-
- if(data.avatar_url){
-  document.getElementById("profilePhoto").src=data.avatar_url;
-  document.getElementById("headerAvatar").src=data.avatar_url;
- }
+ el("sideAvatar").src=photo;
+ el("topAvatar").src=photo;
+ el("profileAvatar").src=photo;
 }
 
 async function saveProfile(){
- const full_name=document.getElementById("profileName").value.trim();
-
+ const full_name=el("profileName").value.trim();
  if(!full_name){
-  return message("profileMessage","Full name is required.");
+  message("profileMessage","Full name is required.","danger");
+  return;
  }
 
- const payload={
+ const update={
   id:currentUser.id,
-  email:currentUser.email,
   full_name,
-  country:document.getElementById("profileCountry").value.trim(),
-  about:document.getElementById("profileAbout").value.trim(),
+  email:currentUser.email,
+  country:el("profileCountry").value.trim()||null,
+  bio:el("profileBio").value.trim()||null,
+  role:currentProfile?.role||"student",
+  status:currentProfile?.status||"active",
   updated_at:new Date().toISOString()
  };
 
- const {error}=await db.from("profiles").upsert(payload,{
-  onConflict:"id"
- });
-
- if(error)return message("profileMessage",error.message);
-
- message("profileMessage","Profile saved successfully.");
+ const {error}=await db.from("profiles").upsert(update,{onConflict:"id"});
+ if(error){
+  message("profileMessage",error.message,"danger");
+  return;
+ }
 
  await loadProfile();
+ message("profileMessage","Profile saved successfully.","success");
 }
 
 async function uploadAvatar(){
- const file=document.getElementById("avatarFile").files[0];
-
- if(!file)return message("profileMessage","Choose a profile photo.");
+ const file=el("avatarFile").files[0];
+ if(!file)return;
 
  if(!file.type.startsWith("image/")){
-  return message("profileMessage","Please choose an image.");
+  message("profileMessage","Please choose an image file.","danger");
+  return;
  }
-
  if(file.size>5*1024*1024){
-  return message("profileMessage","Image must be smaller than 5MB.");
+  message("profileMessage","Image must be 5MB or smaller.","danger");
+  return;
  }
 
- const path=currentUser.id+"/profile-"+Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+ message("profileMessage","Uploading photo...");
 
- const {error:uploadError}=await db.storage
-  .from("avatars")
-  .upload(path,file,{upsert:true});
+ const ext=file.name.split(".").pop().toLowerCase();
+ const path=`${currentUser.id}/avatar-${Date.now()}.${ext}`;
 
- if(uploadError)return message("profileMessage",uploadError.message);
+ const {error:uploadError}=await db.storage.from("avatars").upload(path,file,{upsert:true});
+ if(uploadError){
+  message("profileMessage","Storage upload failed: "+uploadError.message,"danger");
+  return;
+ }
 
  const {data}=db.storage.from("avatars").getPublicUrl(path);
+ const photoUrl=data.publicUrl;
 
  const {error}=await db.from("profiles").upsert({
   id:currentUser.id,
+  full_name:currentProfile?.full_name||"",
   email:currentUser.email,
-  avatar_url:data.publicUrl,
+  profile_photo:photoUrl,
+  role:currentProfile?.role||"student",
+  status:currentProfile?.status||"active",
   updated_at:new Date().toISOString()
  },{onConflict:"id"});
 
- if(error)return message("profileMessage",error.message);
-
- message("profileMessage","Profile photo saved successfully.");
+ if(error){
+  message("profileMessage",error.message,"danger");
+  return;
+ }
 
  await loadProfile();
+ message("profileMessage","Profile photo updated.","success");
 }
 
-// ======================================
-// 6. HOMEPAGE TEACHER VIDEOS
-// ======================================
+// ==========================================
+// 5. OVERVIEW / STUDENT PROFILE STATS
+// ==========================================
 
-function videoEmbed(url){
- if(!url)return "";
+async function loadOverview(){
+ const uid=currentUser.id;
 
- try{
-  const u=new URL(url);
+ const [enrollmentResult,studentResult,progressResult]=await Promise.all([
+  db.from("enrollments").select("id,status,course_id,enrolled_at").eq("student_id",uid),
+  db.from("student_profiles").select("total_points,current_rank,learning_streak,total_courses,completed_courses").eq("user_id",uid).maybeSingle(),
+  db.from("lesson_progress").select("id,completed,progress_percent").eq("student_id",uid)
+ ]);
 
-  if(u.hostname.includes("youtube.com")){
-   if(u.pathname==="/watch"){
-    return "https://www.youtube.com/embed/"+u.searchParams.get("v");
-   }
-   if(u.pathname.startsWith("/shorts/")){
-    return "https://www.youtube.com/embed/"+u.pathname.split("/")[2];
-   }
-  }
+ if(enrollmentResult.error)throw enrollmentResult.error;
+ if(studentResult.error)throw studentResult.error;
+ if(progressResult.error)throw progressResult.error;
 
-  if(u.hostname==="youtu.be"){
-   return "https://www.youtube.com/embed"+u.pathname;
-  }
+ const enrollments=enrollmentResult.data||[];
+ const student=studentResult.data||{};
+ const progress=progressResult.data||[];
 
-  if(u.hostname.includes("vimeo.com")){
-   return "https://player.vimeo.com/video"+u.pathname;
-  }
+ const active=enrollments.filter(x=>!["completed","cancelled"].includes(String(x.status).toLowerCase())).length;
+ const completed=enrollments.filter(x=>String(x.status).toLowerCase()==="completed").length;
 
-  return url;
- }catch{
-  return "";
- }
-}
+ el("statCourses").textContent=active;
+ el("statCompleted").textContent=student.completed_courses??completed;
+ el("statPoints").textContent=student.total_points??0;
+ el("statRank").textContent=student.current_rank?`#${student.current_rank}`:"—";
+ el("statStreak").textContent=student.learning_streak??0;
 
-async function loadTeacherVideos(){
- const {data,error}=await db.from("teacher_intro_videos")
-  .select("*")
-  .eq("is_published",true)
-  .limit(8);
+ const percent=progress.length
+  ?Math.round(progress.reduce((sum,x)=>sum+Number(x.progress_percent||0),0)/progress.length)
+  :0;
 
- const box=document.getElementById("teacherVideos");
+ el("lessonProgressText").textContent=percent+"%";
+ el("lessonProgressBar").style.width=percent+"%";
+ el("lessonProgressNote").textContent=`${progress.filter(x=>x.completed).length} completed lesson records out of ${progress.length}.`;
 
- if(error){
-  box.innerHTML='<div class="card empty">Teacher videos are not available yet.</div>';
-  console.error(error);
+ const recent=enrollments.slice().sort((a,b)=>new Date(b.enrolled_at)-new Date(a.enrolled_at)).slice(0,5);
+ if(!recent.length){
+  el("recentEnrollments").innerHTML='<tr><td colspan="3" class="empty">No enrollments found.</td></tr>';
   return;
  }
 
- box.innerHTML="";
+ const courseIds=[...new Set(recent.map(x=>x.course_id))];
+ const {data:courses}=await db.from("courses").select("id,title").in("id",courseIds);
+ const courseMap=Object.fromEntries((courses||[]).map(c=>[c.id,c.title]));
 
- if(!data?.length){
-  box.innerHTML='<div class="card empty">Teacher introduction videos will appear here when published.</div>';
-  return;
- }
-
- data.forEach(v=>{
-  const el=document.createElement("div");
-  el.className="teacher-video";
-
-  const embed=videoEmbed(v.video_url);
-
-  el.innerHTML=`
-   ${embed?`<iframe src="${safe(embed)}" loading="lazy" allowfullscreen></iframe>`:""}
-   <h4>${safe(v.title)}</h4>
-   <p>${safe(v.teacher_name||"SteadyMaze Teacher")}</p>
-  `;
-
-  box.appendChild(el);
- });
+ el("recentEnrollments").innerHTML=recent.map(x=>`
+  <tr><td>${escapeHTML(courseMap[x.course_id]||"Course")}</td>
+  <td>${setStatus(x.status)}</td><td>${formatDate(x.enrolled_at)}</td></tr>
+ `).join("");
 }
 
-// ======================================
-// 7. COURSES
-// ======================================
+// ==========================================
+// 6. COURSE CATALOG
+// ==========================================
 
-async function loadCourses(){
- const {data,error}=await db.from("enrollments")
-  .select("*")
-  .eq("student_id",currentUser.id);
-
- if(error){
-  console.error("Courses:",error.message);
-  return;
- }
-
- document.getElementById("courseCount").textContent=data.length;
-
- const box=document.getElementById("myCourses");
- box.innerHTML="";
-
- if(!data.length){
-  box.innerHTML='<div class="card empty">You have not purchased a course yet.</div>';
-  return;
- }
-
- data.forEach(c=>{
-  const el=document.createElement("div");
-  el.className="card";
-
-  el.innerHTML=`
-   <small>MY COURSE</small>
-   <h3 style="margin:12px 0">${safe(c.skill_name)}</h3>
-   <p>Level: ${safe(c.level)}</p>
-   <p>Status: <span class="status">${safe(c.status)}</span></p>
-   <p>Purchased: ${formatDate(c.created_at)}</p>
-  `;
-
-  box.appendChild(el);
- });
-}
-
-// ======================================
-// 8. COMPETITION SKILL CARDS
-// ======================================
-
-function renderSkills(){
- const groups=[
-  ["lowerSkills",skills.lower],
-  ["mediumSkills",skills.medium],
-  ["highSkills",skills.high]
- ];
-
- groups.forEach(([id,list])=>{
-  const box=document.getElementById(id);
-  box.innerHTML="";
-
-  list.forEach(s=>{
-   const el=document.createElement("div");
-   el.className="skill";
-
-   el.innerHTML=`
-    <small>${s.group.toUpperCase()} CATEGORY</small>
-    <h3 style="margin-top:9px">${safe(s.name)}</h3>
-    <p>8 project videos</p>
-    <p>2-month competition cycle</p>
-    <p>900,000 rank positions</p>
-    <div class="price">$${s.price}</div>
-    <button class="btn secondary" style="margin-top:12px;width:100%"
-     onclick="joinCompetition('${safe(s.name)}')">
-     Join Competition
-    </button>
-   `;
-
-   box.appendChild(el);
-  });
- });
-
- const select=document.getElementById("leaderSkill");
- select.innerHTML="";
-
- allSkills().forEach(s=>{
-  const o=document.createElement("option");
-  o.value=s.name;
-  o.textContent=s.name+" — "+s.group;
-  select.appendChild(o);
- });
-}
-
-// ======================================
-// 9. JOIN COMPETITION
-// ======================================
-
-async function joinCompetition(skill){
- const {data:cycle,error}=await db.from("competition_cycles")
-  .select("*")
-  .eq("skill_name",skill)
-  .eq("is_open",true)
-  .maybeSingle();
-
- if(error)return alert(error.message);
-
- if(!cycle)return alert("This competition is not currently open.");
-
- if(cycle.deadline && new Date(cycle.deadline)<new Date()){
-  return alert("The competition deadline has passed.");
- }
-
- const {data:existing,error:existingError}=await db.from("competition_entries")
-  .select("id")
-  .eq("student_id",currentUser.id)
-  .eq("cycle_id",cycle.id)
-  .maybeSingle();
-
- if(existingError)return alert(existingError.message);
-
- if(existing)return alert("You are already registered in this cycle.");
-
- const {error:joinError}=await db.from("competition_entries").insert({
-  student_id:currentUser.id,
-  cycle_id:cycle.id,
-  skill_name:skill,
-  status:"registered"
- });
-
- if(joinError)return alert(joinError.message);
-
- alert("Competition registration successful.");
-
- await loadEntries();
-}
-
-// ======================================
-// 10. COMPETITION ENTRIES
-// ======================================
-
-async function loadEntries(){
- const {data,error}=await db.from("competition_entries")
-  .select("*")
-  .eq("student_id",currentUser.id)
+async function loadCatalog(){
+ const {data,error}=await db.from("courses")
+  .select("id,skill_id,skill_level_id,title,description,image_url,price,currency,status")
+  .eq("status","published")
   .order("created_at",{ascending:false});
 
  if(error){
-  console.error("Entries:",error.message);
+  el("courseCatalog").innerHTML=`<div class="empty">${escapeHTML(error.message)}</div>`;
   return;
  }
 
- currentEntries=data||[];
-
- document.getElementById("entryCount").textContent=currentEntries.length;
-
- const upload=document.getElementById("uploadEntry");
- const tie=document.getElementById("tieEntry");
-
- upload.innerHTML='<option value="">Select registered entry</option>';
- tie.innerHTML='<option value="">Select eligible entry</option>';
-
- currentEntries.forEach(e=>{
-  const label=e.skill_name+" — "+e.status;
-
-  const o=document.createElement("option");
-  o.value=e.id;
-  o.textContent=label;
-
-  if(["registered","submitted"].includes(e.status)){
-   upload.appendChild(o);
-  }
-
-  if(e.status==="eligible_tie_break"){
-   const t=document.createElement("option");
-   t.value=e.id;
-   t.textContent=label;
-   tie.appendChild(t);
-  }
- });
-
- const body=document.getElementById("entriesBody");
- body.innerHTML="";
-
- if(!currentEntries.length){
-  body.innerHTML='<tr><td colspan="5" class="empty">No competition entries yet.</td></tr>';
- }else{
-  currentEntries.forEach(e=>{
-   const skill=allSkills().find(s=>s.name===e.skill_name);
-
-   const tr=document.createElement("tr");
-   tr.innerHTML=`
-    <td>${safe(e.skill_name)}</td>
-    <td>${safe(skill?.group||"—")}</td>
-    <td>${safe(e.cycle_id)}</td>
-    <td><span class="status">${safe(e.status)}</span></td>
-    <td>${formatDate(e.deadline)}</td>
-   `;
-
-   body.appendChild(tr);
-  });
+ if(!data?.length){
+  el("courseCatalog").innerHTML='<div class="empty">No published courses are available right now.</div>';
+  return;
  }
+
+ el("courseCatalog").innerHTML=data.map(course=>`
+  <article class="skill-card">
+   <img src="${escapeHTML(course.image_url||"https://placehold.co/600x300/240048/ffffff?text=SteadyMaze+Course")}" alt="">
+   <div class="skill-content">
+    <h4>${escapeHTML(course.title)}</h4>
+    <p>${escapeHTML(course.description||"Learn this skill with SteadyMaze.")}</p>
+    <div class="price">${money(course.price,course.currency)}</div>
+    <button class="btn secondary" onclick="requestCourseInfo('${course.id}')">View course</button>
+   </div>
+  </article>
+ `).join("");
 }
 
-// ======================================
-// 11. PROJECT VIDEO UPLOAD
-// ======================================
+function requestCourseInfo(courseId){
+ showSection("mycourses");
+ alert("To purchase this course, use the official SteadyMaze checkout when it is connected. Course access is not granted by this button.");
+}
 
-async function uploadProject(){
- const id=document.getElementById("uploadEntry").value;
- const file=document.getElementById("projectFile").files[0];
+// ==========================================
+// 7. MY COURSES AND LESSONS
+// ==========================================
 
- if(!id||!file){
-  return message("uploadMessage","Select your competition and project video.");
+async function loadMyCourses(){
+ const {data:enrollments,error}=await db.from("enrollments")
+  .select("id,course_id,skill_id,skill_level_id,status,enrolled_at")
+  .eq("student_id",currentUser.id)
+  .order("enrolled_at",{ascending:false});
+
+ if(error){
+  el("myCoursesList").innerHTML=`<div class="empty">${escapeHTML(error.message)}</div>`;
+  return;
  }
 
- if(!file.type.startsWith("video/")){
-  return message("uploadMessage","Please choose a video file.");
+ if(!enrollments?.length){
+  el("myCoursesList").innerHTML='<div class="empty">You have not enrolled in any courses yet.</div>';
+  return;
+ }
+
+ const ids=[...new Set(enrollments.map(x=>x.course_id))];
+ const {data:courses,error:courseError}=await db.from("courses")
+  .select("id,title,description,image_url")
+  .in("id",ids);
+
+ if(courseError)throw courseError;
+ const courseMap=Object.fromEntries((courses||[]).map(c=>[c.id,c]));
+
+ const lessonResult=await db.from("lessons")
+  .select("id,course_id,title,description,video_url,lesson_order,duration_minutes,status")
+  .in("course_id",ids)
+  .eq("status","published")
+  .order("lesson_order");
+
+ const lessons=lessonResult.data||[];
+
+ el("myCoursesList").innerHTML=enrollments.map(enrollment=>{
+  const course=courseMap[enrollment.course_id]||{};
+  const courseLessons=lessons.filter(l=>l.course_id===enrollment.course_id);
+
+  return `
+   <div class="card" style="margin-bottom:15px">
+    <div style="display:flex;gap:14px;align-items:center">
+     <img src="${escapeHTML(course.image_url||"https://placehold.co/100x80/240048/ffffff?text=Course")}" style="width:90px;height:70px;object-fit:cover;border-radius:9px">
+     <div style="flex:1">
+      <h3 style="font-size:15px;margin:0 0 6px">${escapeHTML(course.title||"Course")}</h3>
+      <p class="small muted">${escapeHTML(course.description||"")}</p>
+      ${setStatus(enrollment.status)}
+     </div>
+    </div>
+    <div style="margin-top:15px">
+     <b class="small">Lessons (${courseLessons.length})</b>
+     ${courseLessons.length?courseLessons.map(lesson=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border)">
+       <div><div class="small">${escapeHTML(lesson.lesson_order)}. ${escapeHTML(lesson.title)}</div>
+       <div class="small muted">${lesson.duration_minutes||0} minutes</div></div>
+       ${lesson.video_url?`<a href="${escapeHTML(lesson.video_url)}" target="_blank" rel="noopener" class="btn secondary" style="text-decoration:none">Open lesson</a>`:'<span class="status pending">Video unavailable</span>'}
+      </div>
+     `).join(""):'<p class="small muted">No published lessons are available for this course.</p>'}
+    </div>
+   </div>
+  `;
+ }).join("");
+}
+
+// ==========================================
+// 8. COMPETITIONS
+// ==========================================
+
+async function loadCompetitions(){
+ const {data,error}=await db.from("competitions")
+  .select("id,name,competition_type,max_students,current_round,status,opened_at")
+  .order("opened_at",{ascending:false});
+
+ if(error){
+  el("competitionRows").innerHTML=`<tr><td colspan="5" class="empty">${escapeHTML(error.message)}</td></tr>`;
+  return;
+ }
+
+ competitionsCache=data||[];
+
+ if(!competitionsCache.length){
+  el("competitionRows").innerHTML='<tr><td colspan="5" class="empty">No competitions have been created.</td></tr>';
+  return;
+ }
+
+ el("competitionRows").innerHTML=competitionsCache.map(c=>`
+  <tr>
+   <td>${escapeHTML(c.name)}</td>
+   <td>${escapeHTML(c.competition_type)}</td>
+   <td>${Number(c.max_students||0).toLocaleString()}</td>
+   <td>${setStatus(c.status)}</td>
+   <td>${String(c.status).toLowerCase()==="open"
+    ?`<button class="btn" onclick="joinCompetition('${c.id}')">Join</button>`
+    :'<span class="muted">Closed</span>'}</td>
+  </tr>
+ `).join("");
+
+ const options='<option value="">Select competition</option>'+competitionsCache.map(c=>
+  `<option value="${c.id}">${escapeHTML(c.name)}</option>`).join("");
+
+ el("projectCompetition").innerHTML=options;
+ el("leaderCompetition").innerHTML=options;
+}
+
+async function joinCompetition(competitionId){
+ const competition=competitionsCache.find(c=>c.id===competitionId);
+ if(!competition)return;
+
+ if(String(competition.status).toLowerCase()!=="open"){
+  alert("This competition is not open.");
+  return;
+ }
+
+ const {data:existing,error:checkError}=await db.from("competition_entries")
+  .select("id")
+  .eq("competition_id",competitionId)
+  .eq("student_id",currentUser.id)
+  .maybeSingle();
+
+ if(checkError){
+  alert(checkError.message);
+  return;
+ }
+ if(existing){
+  alert("You are already registered for this competition.");
+  return;
+ }
+
+ const {error}=await db.from("competition_entries").insert({
+  competition_id:competitionId,
+  student_id:currentUser.id,
+  student_name:currentProfile?.full_name||currentUser.email,
+  profile_photo:currentProfile?.profile_photo||null,
+  round_name:String(competition.current_round||1),
+  points:0,
+  status:"registered",
+  joined_at:new Date().toISOString(),
+  updated_at:new Date().toISOString()
+ });
+
+ if(error){
+  alert("Could not join: "+error.message);
+  return;
+ }
+
+ alert("You have joined the competition.");
+ await loadCompetitions();
+ await loadMyProjects();
+}
+
+// ==========================================
+// 9. PROJECT UPLOAD
+// ==========================================
+
+async function submitProject(){
+ const competitionId=el("projectCompetition").value;
+ const title=el("projectTitle").value.trim();
+ const description=el("projectDescription").value.trim();
+ const file=el("projectFile").files[0];
+
+ if(!competitionId||!title||!file){
+  message("projectMessage","Select a competition, enter a title and choose a file.","danger");
+  return;
+ }
+
+ const competition=competitionsCache.find(c=>c.id===competitionId);
+ if(!competition||String(competition.status).toLowerCase()!=="open"){
+  message("projectMessage","This competition is not open for submissions.","danger");
+  return;
  }
 
  if(file.size>500*1024*1024){
-  return message("uploadMessage","Video exceeds the 500MB upload limit.");
+  message("projectMessage","File size must not exceed 500MB.","danger");
+  return;
  }
 
- const {data:entry,error}=await db.from("competition_entries")
-  .select("*")
-  .eq("id",id)
+ message("projectMessage","Checking your registration...");
+
+ const {data:entry,error:entryError}=await db.from("competition_entries")
+  .select("id,status")
+  .eq("competition_id",competitionId)
   .eq("student_id",currentUser.id)
-  .single();
+  .maybeSingle();
 
- if(error)return message("uploadMessage",error.message);
-
- if(entry.status!=="registered"){
-  return message("uploadMessage","This entry is not open for a new project submission.");
+ if(entryError){
+  message("projectMessage",entryError.message,"danger");
+  return;
+ }
+ if(!entry){
+  message("projectMessage","Join this competition before submitting a project.","danger");
+  return;
  }
 
- const {data:cycle,error:cycleError}=await db.from("competition_cycles")
-  .select("*")
-  .eq("id",entry.cycle_id)
-  .single();
+ const path=`${competitionId}/${currentUser.id}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,"_")}`;
 
- if(cycleError)return message("uploadMessage",cycleError.message);
+ message("projectMessage","Uploading project file...");
 
- if(!cycle.is_open){
-  return message("uploadMessage","The administrator has closed this competition.");
+ const {error:uploadError}=await db.storage.from("competition-projects").upload(path,file);
+ if(uploadError){
+  message("projectMessage","File upload failed: "+uploadError.message,"danger");
+  return;
  }
 
- if(cycle.deadline && new Date()>new Date(cycle.deadline)){
-  return message("uploadMessage","The competition deadline has passed.");
+ const {data:urlData}=db.storage.from("competition-projects").getPublicUrl(path);
+ const fileUrl=urlData.publicUrl;
+ const isVideo=file.type.startsWith("video/");
+
+ const {error:projectError}=await db.from("competition_projects").insert({
+  competition_id:competitionId,
+  student_id:currentUser.id,
+  title,
+  description:description||null,
+  video_url:isVideo?fileUrl:null,
+  file_url:fileUrl,
+  points:0,
+  status:"submitted",
+  submitted_at:new Date().toISOString(),
+  created_at:new Date().toISOString(),
+  updated_at:new Date().toISOString()
+ });
+
+ if(projectError){
+  message("projectMessage","Project record failed: "+projectError.message,"danger");
+  return;
  }
 
- const path=currentUser.id+"/"+id+"/"+Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-
- message("uploadMessage","Uploading your project...");
-
- const {error:storageError}=await db.storage
-  .from("competition-projects")
-  .upload(path,file,{upsert:false});
-
- if(storageError)return message("uploadMessage",storageError.message);
-
- const {data:url}=db.storage
-  .from("competition-projects")
-  .getPublicUrl(path);
-
- const {error:saveError}=await db.from("competition_entries")
+ const {error:updateError}=await db.from("competition_entries")
   .update({
-   project_url:url.publicUrl,
+   course_project:title,
+   profile_photo:currentProfile?.profile_photo||null,
+   student_name:currentProfile?.full_name||currentUser.email,
    status:"submitted",
-   submitted_at:new Date().toISOString()
+   updated_at:new Date().toISOString()
   })
-  .eq("id",id)
-  .eq("student_id",currentUser.id);
+  .eq("id",entry.id);
 
- if(saveError){
-  return message("uploadMessage","Video uploaded but entry update failed: "+saveError.message);
+ if(updateError){
+  message("projectMessage","Project uploaded, but entry update failed: "+updateError.message,"danger");
+  return;
  }
 
- message("uploadMessage","Project successfully submitted. It is now awaiting review and scoring.");
+ el("projectTitle").value="";
+ el("projectDescription").value="";
+ el("projectFile").value="";
+ message("projectMessage","Project submitted successfully.","success");
 
- document.getElementById("projectFile").value="";
-
- await loadEntries();
+ await loadMyProjects();
  await loadLeaderboard();
- loadRecentActivity();
 }
 
-// ======================================
-// 12. TIE BREAK
-// ======================================
-
-async function uploadTieBreak(){
- const id=document.getElementById("tieEntry").value;
- const file=document.getElementById("tieFile").files[0];
-
- if(!id||!file){
-  return message("tieMessage","Select your eligible entry and video.");
- }
-
- if(!file.type.startsWith("video/")){
-  return message("tieMessage","Choose a video file.");
- }
-
- const {data:entry,error}=await db.from("competition_entries")
-  .select("*")
-  .eq("id",id)
-  .eq("student_id",currentUser.id)
-  .single();
-
- if(error)return message("tieMessage",error.message);
-
- if(entry.status!=="eligible_tie_break"){
-  return message("tieMessage","You are not eligible for tie-break.");
- }
-
- const {data:cycle,error:cycleError}=await db.from("competition_cycles")
-  .select("*")
-  .eq("id",entry.cycle_id)
-  .single();
-
- if(cycleError)return message("tieMessage",cycleError.message);
-
- if(!cycle.tie_break_open){
-  return message("tieMessage","Tie-break is currently closed.");
- }
-
- const path=currentUser.id+"/tie-"+id+"-"+Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-
- message("tieMessage","Uploading tie-break project...");
-
- const {error:uploadError}=await db.storage
-  .from("competition-projects")
-  .upload(path,file);
-
- if(uploadError)return message("tieMessage",uploadError.message);
-
- const {data:url}=db.storage
-  .from("competition-projects")
-  .getPublicUrl(path);
-
- const {error:saveError}=await db.from("competition_entries")
-  .update({
-   tie_break_url:url.publicUrl,
-   status:"tie_break_submitted",
-   tie_break_submitted_at:new Date().toISOString()
-  })
-  .eq("id",id)
-  .eq("student_id",currentUser.id);
-
- if(saveError)return message("tieMessage",saveError.message);
-
- message("tieMessage","Tie-break project submitted successfully.");
-
- document.getElementById("tieFile").value="";
- await loadEntries();
-}
-
-// ======================================
-// 13. LEADERBOARD
-// ======================================
-
-// Each skill has its own rank positions.
-// Only 50 positions are rendered at a time.
-// The database contains the actual student scores and ranks.
-
-async function loadLeaderboard(){
- const skill=document.getElementById("leaderSkill").value;
- if(!skill)return;
-
- const page=Number(document.getElementById("rankPage").value);
- const start=page*50+1;
- const end=start+49;
-
- currentRankPage=page;
-
- document.getElementById("leaderInfo").textContent=
-  "Ranks "+start+"–"+end+" / 900,000";
-
- const body=document.getElementById("leaderboardBody");
-
- body.innerHTML='<tr><td colspan="7" class="empty">Loading leaderboard...</td></tr>';
-
- const {data,error}=await db.from("competition_entries")
-  .select("id,student_name,avatar_url,points,creativity,storytelling,quality,rank,status")
-  .eq("skill_name",skill)
-  .eq("status","submitted")
-  .gte("rank",start)
-  .lte("rank",end)
-  .order("rank",{ascending:true});
-
- if(error){
-  body.innerHTML=`<tr><td colspan="7" class="empty">${safe(error.message)}</td></tr>`;
-  return;
- }
-
- const rankMap=new Map();
-
- (data||[]).forEach(s=>{
-  rankMap.set(Number(s.rank),s);
- });
-
- body.innerHTML="";
-
- for(let rank=start;rank<=end;rank++){
-  const student=rankMap.get(rank);
-  const tr=document.createElement("tr");
-
-  if(student){
-   tr.innerHTML=`
-    <td><b>${rank.toLocaleString()}</b></td>
-    <td>
-     ${student.avatar_url?
-      `<img class="rank-photo" src="${safe(student.avatar_url)}" alt="Profile">`:
-      "—"}
-    </td>
-    <td>${safe(student.student_name||"Student")}</td>
-    <td>${Number(student.points||0)}</td>
-    <td>${Number(student.creativity||0)}</td>
-    <td>${Number(student.storytelling||0)}</td>
-    <td>${Number(student.quality||0)}</td>
-   `;
-  }else{
-   tr.innerHTML=`
-    <td>${rank.toLocaleString()}</td>
-    <td>—</td>
-    <td style="color:#666">Available rank position</td>
-    <td>—</td><td>—</td><td>—</td><td>—</td>
-   `;
-  }
-
-  body.appendChild(tr);
- }
-}
-
-function changeRankPage(direction){
- const select=document.getElementById("rankPage");
- const next=Math.max(0,Math.min(17999,Number(select.value)+direction));
-
- select.value=String(next);
- loadLeaderboard();
-}
-
-// ======================================
-// 14. REWARDS
-// ======================================
-
-async function loadRewards(){
- const {data,error}=await db.from("rewards")
-  .select("*")
-  .eq("student_id",currentUser.id);
-
- if(error){
-  console.error("Rewards:",error.message);
-  return;
- }
-
- document.getElementById("rewardCount").textContent=data.length;
-
- const box=document.getElementById("rewardList");
- box.innerHTML="";
-
- if(!data.length){
-  box.innerHTML='<div class="card empty">No rewards assigned yet.</div>';
-  return;
- }
-
- data.forEach(r=>{
-  const el=document.createElement("div");
-  el.className="card";
-
-  el.innerHTML=`
-   <small>STEADYMAZE REWARD</small>
-   <h3 style="margin:12px 0">${safe(r.reward_name)}</h3>
-   <p>${safe(r.description||"Congratulations on your achievement!")}</p>
-   <span class="status">${safe(r.status||"Awarded")}</span>
-   <p>${formatDate(r.created_at)}</p>
-  `;
-
-  box.appendChild(el);
- });
-}
-
-// ======================================
-// 15. PAYMENTS
-// ======================================
-
-async function loadPayments(){
- const {data,error}=await db.from("payments")
-  .select("*")
+async function loadMyProjects(){
+ const {data,error}=await db.from("competition_projects")
+  .select("id,competition_id,title,status,submitted_at,created_at")
   .eq("student_id",currentUser.id)
   .order("created_at",{ascending:false});
 
  if(error){
-  console.error("Payments:",error.message);
+  el("myProjects").innerHTML=`<tr><td colspan="4" class="empty">${escapeHTML(error.message)}</td></tr>`;
   return;
  }
-
- const paid=data.filter(p=>p.status==="paid");
- const pending=data.filter(p=>p.status==="pending");
- const failed=data.filter(p=>p.status==="failed");
-
- const total=paid.reduce((sum,p)=>sum+Number(p.amount||0),0);
-
- document.getElementById("totalPaid").textContent=money(total);
- document.getElementById("paidCount").textContent=paid.length;
- document.getElementById("pendingCount").textContent=pending.length;
- document.getElementById("failedCount").textContent=failed.length;
- document.getElementById("transactionCount").textContent=data.length;
-
- const body=document.getElementById("paymentBody");
- body.innerHTML="";
-
- if(!data.length){
-  body.innerHTML='<tr><td colspan="6" class="empty">No transactions recorded.</td></tr>';
-  return;
- }
-
- data.forEach(p=>{
-  const tr=document.createElement("tr");
-
-  tr.innerHTML=`
-   <td>${safe(p.reference||"—")}</td>
-   <td>${safe(p.payment_type||"—")}</td>
-   <td>${money(p.amount)}</td>
-   <td>${safe(p.payment_method||"—")}</td>
-   <td>${formatDate(p.created_at)}</td>
-   <td><span class="status">${safe(p.status)}</span></td>
-  `;
-
-  body.appendChild(tr);
- });
-}
-
-// ======================================
-// 16. SUPPORT POINTS
-// ======================================
-
-async function loadSupportPoints(){
- const {data,error}=await db.from("support_points")
-  .select("*")
-  .eq("student_id",currentUser.id);
-
- if(error){
-  console.error("Support points:",error.message);
-  return;
- }
-
- const verified=data.filter(p=>p.status==="verified");
-
- const total=verified.reduce((sum,p)=>sum+Number(p.points||0),0);
-
- document.getElementById("pointCount").textContent=total;
-
- const body=document.getElementById("supportBody");
- body.innerHTML="";
-
- if(!data.length){
-  body.innerHTML='<tr><td colspan="5" class="empty">No support points yet.</td></tr>';
-  return;
- }
-
- data.forEach(p=>{
-  const tr=document.createElement("tr");
-
-  tr.innerHTML=`
-   <td>${safe(p.skill_name)}</td>
-   <td>${Number(p.points||0)}</td>
-   <td>${money(p.value)}</td>
-   <td><span class="status">${safe(p.status)}</span></td>
-   <td>${formatDate(p.created_at)}</td>
-  `;
-
-  body.appendChild(tr);
- });
-}
-
-// ======================================
-// 17. RECENT ACTIVITY
-// ======================================
-
-async function loadRecentActivity(){
- const box=document.getElementById("recentActivity");
-
- const {data,error}=await db.from("competition_entries")
-  .select("skill_name,status,created_at")
-  .eq("student_id",currentUser.id)
-  .order("created_at",{ascending:false})
-  .limit(5);
-
- if(error){
-  box.innerHTML='<p class="empty">Activity is currently unavailable.</p>';
-  return;
- }
-
- box.innerHTML="";
 
  if(!data?.length){
-  box.innerHTML='<p class="empty">Your competition activity will appear here.</p>';
+  el("myProjects").innerHTML='<tr><td colspan="4" class="empty">You have not submitted any projects.</td></tr>';
   return;
  }
 
- data.forEach(item=>{
-  const p=document.createElement("p");
-  p.style.cssText="padding:12px;border-bottom:1px solid #28232d;font-size:12px;color:#ddd";
-
-  p.textContent=item.skill_name+" — "+item.status+" — "+formatDate(item.created_at);
-
-  box.appendChild(p);
- });
+ const names=Object.fromEntries(competitionsCache.map(c=>[c.id,c.name]));
+ el("myProjects").innerHTML=data.map(p=>`
+  <tr><td>${escapeHTML(p.title)}</td><td>${escapeHTML(names[p.competition_id]||"Competition")}</td>
+  <td>${setStatus(p.status)}</td><td>${formatDate(p.submitted_at||p.created_at)}</td></tr>
+ `).join("");
 }
 
-// ======================================
-// 18. HELP & SUPPORT
-// ======================================
+// ==========================================
+// 10. COMPETITION LEADERBOARD
+// ==========================================
 
-async function sendSupport(){
- const subject=document.getElementById("ticketSubject").value.trim();
- const body=document.getElementById("ticketMessage").value.trim();
-
- if(!subject||!body){
-  return message("ticketStatus","Complete both fields.");
+async function loadLeaderboard(){
+ const competitionId=el("leaderCompetition").value;
+ if(!competitionId){
+  el("leaderboardRows").innerHTML='<tr><td colspan="5" class="empty">Select a competition.</td></tr>';
+  return;
  }
 
- const {error}=await db.from("support_tickets").insert({
-  student_id:currentUser.id,
-  subject,
-  message:body,
-  status:"open"
- });
+ const {data,error}=await db.from("competition_leaderboard")
+  .select("student_id,full_name,profile_photo,level,points,live_rank,status")
+  .eq("competition_id",competitionId)
+  .order("live_rank",{ascending:true,nullsFirst:false})
+  .order("points",{ascending:false});
 
- if(error)return message("ticketStatus",error.message);
+ if(error){
+  el("leaderboardRows").innerHTML=`<tr><td colspan="5" class="empty">${escapeHTML(error.message)}</td></tr>`;
+  return;
+ }
 
- message("ticketStatus","Your support request was submitted successfully.");
+ if(!data?.length){
+  el("leaderboardRows").innerHTML='<tr><td colspan="5" class="empty">No leaderboard records have been published for this competition.</td></tr>';
+  return;
+ }
 
- document.getElementById("ticketSubject").value="";
- document.getElementById("ticketMessage").value="";
+ el("leaderboardRows").innerHTML=data.map(row=>`
+  <tr>
+   <td>${row.live_rank?`#${row.live_rank}`:"Pending"}</td>
+   <td><div style="display:flex;align-items:center;gap:9px">
+    <img src="${escapeHTML(row.profile_photo||fallbackPhoto())}" class="avatar" style="width:30px;height:30px">
+    ${escapeHTML(row.full_name||"Student")}
+   </div></td>
+   <td>${Number(row.points||0)}</td>
+   <td>${escapeHTML(row.level||"—")}</td>
+   <td>${setStatus(row.status)}</td>
+  </tr>
+ `).join("");
 }
 
-// ======================================
-// 19. INITIALIZE DASHBOARD
-// ======================================
+// ==========================================
+// 11. MAIN COMPETITION SCORES
+// ==========================================
 
-renderSkills();
+async function loadMainCompetitions(){
+ const {data,error}=await db.from("main_competitions")
+  .select("id,skill_name,skill_group,status")
+  .order("created_at",{ascending:false});
 
+ if(error){
+  el("mainCompetitionSelect").innerHTML='<option value="">Could not load competitions</option>';
+  return;
+ }
+
+ mainCompetitionsCache=data||[];
+ el("mainCompetitionSelect").innerHTML='<option value="">Select main competition</option>'+
+  mainCompetitionsCache.map(c=>`<option value="${c.id}">${escapeHTML(c.skill_name)} — ${escapeHTML(c.skill_group)}</option>`).join("");
+}
+
+async function loadMainScores(){
+ const competitionId=el("mainCompetitionSelect").value;
+ if(!competitionId){
+  el("mainScoreRows").innerHTML='<tr><td colspan="6" class="empty">Select a main competition.</td></tr>';
+  return;
+ }
+
+ const {data,error}=await db.from("main_liveboard_scores")
+  .select("student_id,points,creativity,storytelling,quality,total_score,ai_review_status")
+  .eq("competition_id",competitionId)
+  .order("total_score",{ascending:false,nullsFirst:false});
+
+ if(error){
+  el("mainScoreRows").innerHTML=`<tr><td colspan="6" class="empty">${escapeHTML(error.message)}</td></tr>`;
+  return;
+ }
+
+ if(!data?.length){
+  el("mainScoreRows").innerHTML='<tr><td colspan="6" class="empty">No scores have been published.</td></tr>';
+  return;
+ }
+
+ const ids=[...new Set(data.map(x=>x.student_id))];
+ const {data:profiles}=await db.from("profiles").select("id,full_name").in("id",ids);
+ const names=Object.fromEntries((profiles||[]).map(p=>[p.id,p.full_name]));
+
+ el("mainScoreRows").innerHTML=data.map(row=>`
+  <tr>
+   <td>${escapeHTML(names[row.student_id]||"Student")}</td>
+   <td>${Number(row.total_score??row.points??0)}</td>
+   <td>${Number(row.creativity||0)}</td>
+   <td>${Number(row.storytelling||0)}</td>
+   <td>${Number(row.quality||0)}</td>
+   <td>${setStatus(row.ai_review_status)}</td>
+  </tr>
+ `).join("");
+}
+
+// ==========================================
+// 12. TIE-BREAK RECORDS
+// ==========================================
+
+async function loadTieBreak(){
+ const {data,error}=await db.from("tie_break_entries")
+  .select("competition_id,original_points,tie_break_points,final_points,rank_before,rank_after,status,created_at")
+  .eq("student_id",currentUser.id)
+  .order("created_at",{ascending:false});
+
+ if(error){
+  el("tieRows").innerHTML=`<tr><td colspan="7" class="empty">${escapeHTML(error.message)}</td></tr>`;
+  return;
+ }
+
+ if(!data?.length){
+  el("tieRows").innerHTML='<tr><td colspan="7" class="empty">No tie-break records found.</td></tr>';
+  return;
+ }
+
+ const ids=[...new Set(data.map(x=>x.competition_id))];
+ const {data:comps}=await db.from("competitions").select("id,name").in("id",ids);
+ const names=Object.fromEntries((comps||[]).map(c=>[c.id,c.name]));
+
+ el("tieRows").innerHTML=data.map(x=>`
+  <tr>
+   <td>${escapeHTML(names[x.competition_id]||"Competition")}</td>
+   <td>${x.original_points}</td><td>${x.tie_break_points}</td><td>${x.final_points}</td>
+   <td>${x.rank_before??"—"}</td><td>${x.rank_after??"—"}</td><td>${setStatus(x.status)}</td>
+  </tr>
+ `).join("");
+}
+
+// ==========================================
+// 13. PAYMENTS
+// ==========================================
+
+async function loadPayments(){
+ const {data,error}=await db.from("payments")
+  .select("id,amount,currency,provider,transaction_reference,status,paid_at,created_at")
+  .eq("student_id",currentUser.id)
+  .order("created_at",{ascending:false});
+
+ if(error){
+  el("paymentRows").innerHTML=`<tr><td colspan="6" class="empty">${escapeHTML(error.message)}</td></tr>`;
+  return;
+ }
+
+ const rows=data||[];
+ const successful=rows.filter(p=>["paid","success","successful","completed"].includes(String(p.status).toLowerCase()));
+ const pending=rows.filter(p=>String(p.status).toLowerCase()==="pending");
+ const failed=rows.filter(p=>["failed","cancelled","rejected"].includes(String(p.status).toLowerCase()));
+
+ el("paymentTotal").textContent=rows.length;
+ el("paymentSuccess").textContent=successful.length;
+ el("paymentPending").textContent=pending.length;
+ el("paymentFailed").textContent=failed.length;
+
+ if(!rows.length){
+  el("paymentRows").innerHTML='<tr><td colspan="6" class="empty">No payment records found.</td></tr>';
+  return;
+ }
+
+ el("paymentRows").innerHTML=rows.map(p=>`
+  <tr>
+   <td>${escapeHTML(p.transaction_reference||p.id.slice(0,8))}</td>
+   <td>${Number(p.amount).toFixed(2)}</td>
+   <td>${escapeHTML(p.currency)}</td>
+   <td>${escapeHTML(p.provider)}</td>
+   <td>${setStatus(p.status)}</td>
+   <td>${formatDate(p.paid_at||p.created_at)}</td>
+  </tr>
+ `).join("");
+}
+
+// ==========================================
+// 14. SUPPORT REQUESTS
+// ==========================================
+
+async function sendSupportRequest(){
+ const title=el("supportTitle").value.trim();
+ const description=el("supportDescription").value.trim();
+
+ if(!title){
+  message("supportMessage","Please enter a subject.","danger");
+  return;
+ }
+
+ const {error}=await db.from("feature_requests").insert({
+  user_id:currentUser.id,
+  title,
+  description:description||null,
+  status:"pending",
+  created_at:new Date().toISOString(),
+  updated_at:new Date().toISOString()
+ });
+
+ if(error){
+  message("supportMessage",error.message,"danger");
+  return;
+ }
+
+ el("supportTitle").value="";
+ el("supportDescription").value="";
+ message("supportMessage","Your request has been sent.","success");
+ await loadSupportRequests();
+}
+
+async function loadSupportRequests(){
+ const {data,error}=await db.from("feature_requests")
+  .select("id,title,status,created_at")
+  .eq("user_id",currentUser.id)
+  .order("created_at",{ascending:false});
+
+ if(error){
+  el("supportRows").innerHTML=`<tr><td colspan="3" class="empty">${escapeHTML(error.message)}</td></tr>`;
+  return;
+ }
+
+ if(!data?.length){
+  el("supportRows").innerHTML='<tr><td colspan="3" class="empty">No support requests yet.</td></tr>';
+  return;
+ }
+
+ el("supportRows").innerHTML=data.map(x=>`
+  <tr><td>${escapeHTML(x.title)}</td><td>${setStatus(x.status)}</td><td>${formatDate(x.created_at)}</td></tr>
+ `).join("");
+}
+
+// ==========================================
+// 15. NOTIFICATIONS
+// ==========================================
+
+async function loadNotifications(){
+ const {data,error}=await db.from("notifications")
+  .select("id,title,message,notification_type,is_read,created_at")
+  .eq("user_id",currentUser.id)
+  .order("created_at",{ascending:false})
+  .limit(50);
+
+ if(error){
+  el("notificationList").innerHTML=`<div class="empty">${escapeHTML(error.message)}</div>`;
+  return;
+ }
+
+ if(!data?.length){
+  el("notificationList").innerHTML='<div class="empty">No notifications yet.</div>';
+  return;
+ }
+
+ el("notificationList").innerHTML=data.map(n=>`
+  <div class="card" style="margin-bottom:10px;${n.is_read?"opacity:.65":""}">
+   <div style="display:flex;justify-content:space-between;gap:12px">
+    <b style="font-size:13px">${escapeHTML(n.title)}</b>
+    ${n.is_read?'<span class="status">Read</span>':'<span class="status success">New</span>'}
+   </div>
+   <p class="small muted">${escapeHTML(n.message)}</p>
+   <div class="small muted">${formatDate(n.created_at)}</div>
+   ${!n.is_read?`<button class="btn secondary" style="margin-top:10px" onclick="markNotificationRead('${n.id}')">Mark as read</button>`:""}
+  </div>
+ `).join("");
+}
+
+async function markNotificationRead(id){
+ const {error}=await db.from("notifications")
+  .update({is_read:true})
+  .eq("id",id)
+  .eq("user_id",currentUser.id);
+
+ if(error){alert(error.message);return;}
+ await loadNotifications();
+}
+
+async function markAllNotificationsRead(){
+ const {error}=await db.from("notifications")
+  .update({is_read:true})
+  .eq("user_id",currentUser.id)
+  .eq("is_read",false);
+
+ if(error){alert(error.message);return;}
+ await loadNotifications();
+}
+
+// ==========================================
+// 16. START APPLICATION
+// ==========================================
+
+document.addEventListener("DOMContentLoaded",async()=>{
+ try{
+  await initializeApp();
+ }catch(error){
+  console.error("SteadyMaze initialization:",error);
+  el("authScreen").classList.remove("hidden");
+  message("authMessage","Could not load dashboard: "+error.message,"danger");
+ }
+});
 </script>
+
 </body>
 </html>
