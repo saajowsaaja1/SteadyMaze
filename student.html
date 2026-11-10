@@ -1,1041 +1,364 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SteadyMaze | Student Portal</title>
-
+<title>SteadyMaze | Student Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#07050c;
-  --panel:#110b1b;
-  --panel2:#191025;
-  --purple:#a020f0;
-  --purple2:#6d16bd;
-  --border:rgba(190,100,255,.19);
-  --text:#f7f2ff;
-  --muted:#a99bb8;
-  --green:#4ade80;
-  --red:#fb7185;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Inter,Arial,sans-serif;
-}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.app{display:flex;min-height:100vh}
-.sidebar{
-  width:255px;position:fixed;inset:0 auto 0 0;
-  background:linear-gradient(180deg,#12091e,#090710);
-  border-right:1px solid var(--border);
-  padding:25px 17px;display:flex;flex-direction:column;
-  z-index:20;overflow-y:auto;
-}
-.logo{font-size:25px;font-weight:800;margin:4px 10px}
-.logo span{color:#bd48ff}
-.logo-sub{color:var(--muted);font-size:12px;margin:5px 10px 30px}
-.student-mini{
-  display:flex;align-items:center;gap:12px;
-  padding:13px;background:#1b1028;border:1px solid var(--border);
-  border-radius:15px;margin-bottom:25px;
-}
-.avatar{
-  width:43px;height:43px;border-radius:50%;
-  object-fit:cover;background:#30213e;
-}
-.student-mini strong{font-size:13px}
-.student-mini small{display:block;color:var(--muted);margin-top:4px}
-.nav-label{
-  color:#806d91;font-size:10px;text-transform:uppercase;
-  letter-spacing:1.5px;margin:18px 10px 9px;
-}
-.nav-btn{
-  width:100%;border:0;background:transparent;color:#cfc4da;
-  padding:13px 12px;border-radius:11px;text-align:left;
-  margin:3px 0;font-size:13px;display:flex;gap:12px;align-items:center;
-}
-.nav-btn:hover,.nav-btn.active{
-  background:linear-gradient(100deg,#7412b7,#361052);
-  color:white;box-shadow:0 5px 20px #6d16bd35;
-}
-.nav-icon{width:20px;text-align:center;font-size:16px}
-.logout{margin-top:auto;color:#ff8297}
-.main{margin-left:255px;width:calc(100% - 255px);padding:25px 30px 60px}
-.topbar{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:15px;margin-bottom:25px;
-}
-.welcome h2{font-size:21px;margin:0 0 6px}
-.welcome p{margin:0;color:var(--muted);font-size:13px}
-.top-actions{display:flex;align-items:center;gap:12px}
-.search{
-  width:min(350px,35vw);background:#171020;border:1px solid var(--border);
-  border-radius:12px;padding:12px 15px;color:white;outline:none;
-}
-.icon-btn{
-  background:#1a1025;border:1px solid var(--border);color:white;
-  padding:11px 14px;border-radius:12px;
-}
-.mobile-menu{display:none}
-.page{display:none}
-.page.active{display:block}
-.hero{
-  min-height:250px;padding:35px;border-radius:22px;
-  border:1px solid var(--border);
-  background:
-  radial-gradient(circle at 80% 20%,#6c16a955,transparent 38%),
-  linear-gradient(110deg,#170b24,#0d0914 70%);
-  position:relative;overflow:hidden;
-}
-.hero:after{
-  content:"";position:absolute;width:300px;height:300px;
-  right:5%;top:-100px;border-radius:50%;
-  background:#9b20f0;filter:blur(110px);opacity:.25;
-}
-.eyebrow{color:#d17cff;font-size:11px;letter-spacing:2px;font-weight:700}
-.hero h1{font-size:clamp(25px,4vw,39px);max-width:620px;margin:15px 0 10px}
-.hero p{color:#c5b8d2;max-width:580px;line-height:1.7;font-size:13px}
-.btn{
-  border:0;border-radius:10px;padding:12px 17px;
-  background:linear-gradient(100deg,#a020f0,#6815b5);
-  color:white;font-weight:700;font-size:12px;
-}
-.btn.secondary{background:#21132f;border:1px solid var(--border)}
-.btn.danger{background:#7f1d35}
-.stats{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:15px;margin:22px 0 30px;
-}
-.stat,.panel,.course-card{
-  background:linear-gradient(145deg,#171020,#100b17);
-  border:1px solid var(--border);border-radius:16px;
-}
-.stat{padding:20px}
-.stat small{color:var(--muted);font-size:12px}
-.stat strong{display:block;font-size:27px;margin-top:12px}
-.section-head{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;margin:25px 0 15px;
-}
-.section-head h2{font-size:19px;margin:0}
-.section-head p{color:var(--muted);font-size:12px;margin:5px 0}
-.course-grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;
-}
-.course-card{overflow:hidden}
-.course-card img{width:100%;height:140px;object-fit:cover;background:#21132f}
-.course-info{padding:13px}
-.course-info strong{font-size:13px}
-.course-info p{color:var(--muted);font-size:11px}
-.progress{height:6px;background:#30223d;border-radius:20px;overflow:hidden}
-.progress span{display:block;height:100%;background:#bd42ff;width:0}
-.panel{padding:20px;margin-bottom:18px}
-.panel h3{margin:0 0 15px;font-size:15px}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:17px}
-.field{margin:12px 0}
-.field label{display:block;color:var(--muted);font-size:11px;margin-bottom:7px}
-.field input,.field textarea,.field select{
-  width:100%;background:#0b0811;border:1px solid var(--border);
-  color:white;padding:12px;border-radius:10px;outline:none;
-}
-.field textarea{min-height:100px;resize:vertical}
-.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
-table{border-collapse:collapse;width:100%;min-width:650px}
-th,td{padding:13px 14px;text-align:left;border-bottom:1px solid #30233a;font-size:12px}
-th{background:#21132e;color:#d9a8ff;font-size:11px}
-td{color:#e9e0f1}
-tr:last-child td{border-bottom:0}
-.profile-pic{width:34px;height:34px;border-radius:50%;object-fit:cover;vertical-align:middle}
-.badge{
-  display:inline-block;padding:5px 9px;border-radius:20px;
-  background:#35154b;color:#e2b5ff;font-size:10px;
-}
-.muted{color:var(--muted);font-size:12px}
-.notice{
-  padding:12px;border:1px solid var(--border);border-radius:10px;
-  color:#cbb9da;font-size:12px;margin:12px 0;
-}
-.skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.skill-card{
-  border:1px solid var(--border);background:#160e20;
-  padding:15px;border-radius:12px;cursor:pointer;text-align:left;color:white;
-}
-.skill-card:hover,.skill-card.selected{border-color:#c45aff;background:#29143a}
-.auth-screen{
-  position:fixed;inset:0;background:#07040c;z-index:100;
-  display:flex;align-items:center;justify-content:center;padding:20px;
-}
-.auth-box{
-  width:min(420px,100%);padding:28px;border:1px solid var(--border);
-  border-radius:20px;background:#140d1e;
-}
-.auth-box h1{font-size:25px;margin-top:0}
-.auth-box p{font-size:12px;color:var(--muted);line-height:1.6}
-.status-line{font-size:12px;color:var(--muted);margin-top:10px}
-.empty{padding:25px;text-align:center;color:var(--muted);font-size:12px}
-.mobile-bottom{display:none}
-@media(max-width:1100px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .course-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:760px){
-  .sidebar{transform:translateX(-100%);transition:.25s;width:270px}
-  .sidebar.open{transform:translateX(0)}
-  .main{margin:0;width:100%;padding:18px 14px 90px}
-  .mobile-menu{display:block}
-  .topbar{align-items:flex-start}
-  .top-actions .search{display:none}
-  .welcome h2{font-size:17px}
-  .hero{padding:24px;min-height:230px}
-  .stats{gap:9px}
-  .stat{padding:14px}
-  .stat strong{font-size:22px}
-  .course-grid{grid-template-columns:1fr 1fr;gap:9px}
-  .course-card img{height:105px}
-  .course-info{padding:10px}
-  .grid-2{grid-template-columns:1fr}
-  .skill-grid{grid-template-columns:1fr 1fr}
-  .mobile-bottom{
-    display:flex;position:fixed;bottom:0;left:0;right:0;
-    background:#100a18;border-top:1px solid var(--border);
-    justify-content:space-around;padding:11px 5px;z-index:15;
-  }
-  .mobile-bottom button{
-    background:none;border:0;color:#cdbbdc;font-size:10px;
-  }
-}
-@media(max-width:390px){.course-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+:root{--ink:#07060a;--panel:#0f0d14;--raise:#171320;--line:#2a2433;--gold:#d4af6a;--gold2:#f1dba5;--violet:#8a4fd6;--mute:#8f8999;--txt:#ece7f2;--bad:#e07a7a;--ok:#7bd1a0;--serif:"Cormorant Garamond",Georgia,serif;--sans:Figtree,system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--txt);font:14px/1.6 var(--sans);min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);font-weight:600}
+.logo{font:700 26px var(--serif);letter-spacing:1px;color:var(--gold2)}.logo i{font-style:normal;color:var(--violet)}
+.side{position:fixed;inset:0 auto 0 0;width:240px;background:#0a080e;border-right:1px solid var(--line);padding:26px 16px;z-index:20;transition:transform .25s}
+.who{margin:22px 0 16px;padding:14px;border:1px solid var(--line);border-radius:4px;background:linear-gradient(160deg,#1a1226,#0f0d14)}
+.who b{display:block;font:600 19px var(--serif);color:var(--gold2)}.who span{font-size:12px;color:var(--mute);word-break:break-all}
+.nav{display:block;width:100%;text-align:left;background:none;border:0;border-left:2px solid transparent;color:#b3adbd;padding:11px 12px;margin:2px 0;transition:.2s}
+.nav:hover{color:#fff}.nav.on{color:var(--gold2);border-color:var(--gold);background:linear-gradient(90deg,#2a1d3c,transparent)}
+.main{margin-left:240px;padding:28px 36px 40px;max-width:1500px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:12px}.top h2{font-size:28px}
+.me{display:flex;align-items:center;gap:12px;color:var(--mute)}
+.av{width:42px;height:42px;border-radius:50%;object-fit:cover;background:var(--raise);border:1px solid var(--gold)}
+.burger{display:none;background:var(--raise);border:1px solid var(--line);padding:8px 12px;border-radius:4px}
+.page{display:none}.page.on{display:block}
+.hero{padding:34px;border:1px solid #3b2d52;border-radius:4px;margin-bottom:22px;background:radial-gradient(circle at 90% 0,#3a1b63 0,transparent 45%),linear-gradient(120deg,#160f22,#0c0a11)}
+.hero h1{font-size:42px;line-height:1.1;color:var(--gold2);margin:4px 0 8px}.hero p{max-width:60ch;color:#b9b0c4}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px;min-width:0}
+.card small{color:var(--mute);font-size:12px}.card .n{font:600 38px var(--serif);color:var(--gold2);line-height:1.1;margin-top:6px}
+.card p{color:var(--mute);font-size:13px;margin-top:6px}.card h3{font-size:21px;margin-bottom:6px}
+h3.sec{font-size:25px;margin:28px 0 14px;color:var(--gold2)}
+.btn{background:linear-gradient(135deg,#e2c27e,#b8903f);color:#17100a;border:0;border-radius:3px;padding:11px 20px;font-weight:600}
+.btn:hover{filter:brightness(1.1)}.btn.alt{background:var(--raise);color:var(--txt);border:1px solid var(--line)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.f{width:100%;background:#09070d;border:1px solid var(--line);border-radius:3px;padding:12px;margin:6px 0 16px}.f:focus{border-color:var(--gold);outline:0}
+label{font-size:13px;color:#c9c2d3}.msg{margin-top:12px;color:var(--gold2);font-size:13px;min-height:18px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{padding:13px 14px;text-align:left;border-bottom:1px solid #221c2b;font-size:13px}
+th{color:var(--gold);font-weight:500;background:var(--raise);white-space:nowrap}
+td.rk{font:600 20px var(--serif);color:var(--gold2)}tr:hover td{background:#130f1b}
+.empty{color:var(--mute);text-align:center;padding:26px}
+.tag{display:inline-block;padding:3px 10px;border:1px solid #4a3a63;border-radius:20px;font-size:12px;color:#d9c3f5}
+.tag.ok{border-color:#2f6b4c;color:var(--ok)}.tag.bad{border-color:#7a3a3a;color:var(--bad)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 6px}
+.chip{background:var(--panel);border:1px solid var(--line);padding:10px 16px;border-radius:3px;color:#c4bcd0}.chip:hover{border-color:var(--gold)}
+.chip.on{border-color:var(--gold);background:linear-gradient(135deg,#2c1e40,#15101d);color:var(--gold2)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}.bar .f{margin:0;width:auto;flex:1;min-width:150px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.prof{display:grid;grid-template-columns:280px 1fr;gap:18px}
+.pp{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:var(--raise);margin-bottom:14px}
+.vid{aspect-ratio:16/9;width:100%;border:0;border-radius:3px;background:#000}
+.rp{width:30px;height:30px;border-radius:50%;object-fit:cover;vertical-align:middle;background:var(--raise)}
+.meter{height:8px;background:var(--raise);border-radius:4px;overflow:hidden;margin-top:6px}.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--violet),var(--gold))}
+.slot.off{opacity:.55}
+.hello{display:grid;grid-template-columns:1.4fr 1fr;gap:0;border:1px solid #3b2d52;border-radius:4px;overflow:hidden;margin-bottom:34px;background:linear-gradient(120deg,#150e20,#0b090f)}
+.hello>div{padding:44px 40px}
+.hello h1{font-size:54px;line-height:1.02;color:var(--gold2);margin:10px 0 16px}
+.kick{font-size:13px;color:var(--gold);letter-spacing:.3px}
+.sub{color:#b9b0c4;max-width:46ch}
+.next{background:radial-gradient(circle at 100% 0,#4a2380 0,#1a1030 55%);border-left:1px solid #3b2d52;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.clock{font:600 60px/1 var(--serif);color:var(--gold2)}
+.next p:not(.kick){color:#cdbfe0}.next .btn{align-self:flex-start;margin-top:8px}
+.shead{display:flex;justify-content:space-between;align-items:baseline;margin:36px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.shead h3{font-size:28px;color:var(--gold2)}
+.link{background:none;border:0;color:var(--gold);text-decoration:underline;text-underline-offset:4px}
+.cyc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.cyc .card{border-top:2px solid var(--gold)}
+.cyc .card h3{font-size:26px;margin:6px 0 2px}
+.reel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}
+.reel .card{flex:0 0 min(320px,80%);scroll-snap-align:start;padding:12px}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.hello{grid-template-columns:1fr}.hello>div{padding:28px 22px}.hello h1{font-size:38px}.clock{font-size:46px}.next{border-left:0;border-top:1px solid #3b2d52}.cyc{grid-template-columns:1fr}.side{transform:translateX(-100%)}.side.open{transform:none}.main{margin-left:0;padding:18px 14px}.burger{display:block}.hero h1{font-size:32px}.hero{padding:24px 18px}.two,.prof{grid-template-columns:1fr}.me span{display:none}.grid,.g3{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:15px}.card .n{font-size:30px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-<div class="auth-screen" id="authScreen">
-  <div class="auth-box">
-    <div class="logo">Steady<span>Maze</span></div>
-    <h1>Student Portal</h1>
-    <p>Sign in to continue learning, manage your courses and participate in competitions.</p>
-    <div class="field"><label>Email address</label><input id="authEmail" type="email" placeholder="you@example.com"></div>
-    <div class="field"><label>Password</label><input id="authPassword" type="password" placeholder="Your password"></div>
-    <button class="btn" style="width:100%" onclick="signIn()">Sign In</button>
-    <button class="btn secondary" style="width:100%;margin-top:10px" onclick="signUp()">Create Student Account</button>
-    <div class="status-line" id="authMessage"></div>
-  </div>
-</div>
-
-<div class="app">
-<aside class="sidebar" id="sidebar">
-  <div class="logo">Steady<span>Maze</span></div>
-  <div class="logo-sub">STUDENT PORTAL</div>
-
-  <div class="student-mini">
-    <img class="avatar" id="sideAvatar" src="https://placehold.co/100x100/241438/ffffff?text=SM">
-    <div><strong id="sideName">Student</strong><small id="sideEmail">Student account</small></div>
-  </div>
-
-  <div class="nav-label">Main Menu</div>
-  <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">⌂</span>Dashboard</button>
-  <button class="nav-btn" data-page="profile"><span class="nav-icon">◉</span>My Profile / Bio</button>
-  <button class="nav-btn" data-page="courses"><span class="nav-icon">▣</span>My Courses</button>
-  <button class="nav-btn" data-page="competition"><span class="nav-icon">♜</span>Competition</button>
-  <button class="nav-btn" data-page="leaderboard"><span class="nav-icon">🏆</span>Leaderboards</button>
-
-  <div class="nav-label">My Account</div>
-  <button class="nav-btn" data-page="payments"><span class="nav-icon">▤</span>Payments</button>
-  <button class="nav-btn" data-page="rewards"><span class="nav-icon">✧</span>Rewards</button>
-  <button class="nav-btn" data-page="supportpoints"><span class="nav-icon">★</span>Support Points</button>
-
-  <div class="nav-label">Career & Help</div>
-  <button class="nav-btn" data-page="employment"><span class="nav-icon">▣</span>Direct Employment</button>
-  <button class="nav-btn" data-page="support"><span class="nav-icon">?</span>Help & Support</button>
-  <button class="nav-btn logout" onclick="signOut()"><span class="nav-icon">⇥</span>Logout</button>
+<aside class="side" id="side">
+ <div class="logo">Steady<i>Maze</i></div>
+ <div class="who"><b id="sName">Student</b><span id="sEmail"></span></div>
+ <button class="nav on" data-p="home">Home</button>
+ <button class="nav" data-p="profile">Profile</button>
+ <button class="nav" data-p="courses">My courses</button>
+ <button class="nav" data-p="analysis">Analysis</button>
+ <button class="nav" data-p="competition">Competition</button>
+ <button class="nav" data-p="cycle">Cycle</button>
+ <button class="nav" style="margin-top:22px" onclick="logout()">Log out</button>
 </aside>
 
 <main class="main">
-  <header class="topbar">
-    <div style="display:flex;gap:12px;align-items:center">
-      <button class="icon-btn mobile-menu" onclick="toggleSidebar()">☰</button>
-      <div class="welcome">
-        <h2 id="welcomeName">Welcome to SteadyMaze</h2>
-        <p>Your learning journey starts here.</p>
-      </div>
-    </div>
-    <div class="top-actions">
-      <input class="search" id="globalSearch" placeholder="Search courses and skills..." oninput="searchCourses()">
-      <button class="icon-btn" onclick="loadAll()">↻</button>
-    </div>
-  </header>
+<header class="top"><div style="display:flex;align-items:center;gap:12px"><button class="burger" aria-label="Menu" onclick="$('side').classList.toggle('open')">☰</button><h2 id="title">Home</h2></div>
+<div class="me"><span id="hName">Student</span><img class="av" id="hAv" alt=""></div></header>
 
-  <!-- DASHBOARD -->
-  <section class="page active" id="page-dashboard">
-    <div class="hero">
-      <div class="eyebrow">STEADYMAZE LEARNING CENTER</div>
-      <h1>Learn Valuable Skills.<br>Build Your Future.</h1>
-      <p>Learn from structured courses, practice your skills, submit projects and take part in SteadyMaze competitions.</p>
-      <button class="btn" onclick="showPage('courses')">▶ Continue Learning</button>
-      <button class="btn secondary" onclick="showPage('competition')">♜ Explore Competition</button>
-    </div>
+<!-- 1 HOME -->
+<section class="page on" id="home">
+ <div class="hello">
+  <div>
+   <p class="kick">Welcome back</p>
+   <h1><span id="wName">Student</span>,<br>your next move.</h1>
+   <p class="sub">Finish each cycle video before its deadline, learn from your teachers, and climb the ranking.</p>
+  </div>
+  <div class="next">
+   <p class="kick" id="nxLabel">Next deadline</p>
+   <div class="clock" id="nxTime">—</div>
+   <p id="nxWhat">Join a cycle to start your countdown.</p>
+   <button class="btn" onclick="go('cycle')">Open cycle</button>
+  </div>
+ </div>
 
-    <div class="stats">
-      <div class="stat"><small>My Enrollments</small><strong id="statCourses">—</strong></div>
-      <div class="stat"><small>Competition Entries</small><strong id="statEntries">—</strong></div>
-      <div class="stat"><small>Support Points</small><strong id="statPoints">—</strong></div>
-      <div class="stat"><small>My Rewards</small><strong id="statRewards">—</strong></div>
-    </div>
+ <div class="shead"><h3>My cycles</h3><button class="link" onclick="go('cycle')">See all videos</button></div>
+ <div class="cyc" id="homeCycles"><div class="card empty">Loading…</div></div>
 
-    <div class="section-head">
-      <div><h2>Continue Learning</h2><p>Your enrolled courses from the database.</p></div>
-      <button class="btn secondary" onclick="showPage('courses')">View Courses →</button>
-    </div>
-    <div class="course-grid" id="dashboardCourses"><div class="empty">Loading your courses...</div></div>
+ <div class="shead"><h3>Meet your teachers</h3></div>
+ <div class="reel" id="intro"><div class="card empty">Loading…</div></div>
 
-    <div class="section-head"><div><h2>Teacher Introduction</h2><p>Teacher introduction videos linked to your courses.</p></div></div>
-    <div class="panel">
-      <p class="muted">Teacher introduction videos will appear here when a video URL is available in your course or lesson records.</p>
-      <div id="teacherIntroList" class="muted">No teacher introduction video has been connected yet.</div>
-    </div>
-  </section>
+ <div class="shead"><h3>Lessons by skill</h3></div>
+ <div id="lessonChips"></div>
+ <div class="grid g3" id="lessons" style="margin-top:16px"></div>
+</section>
 
-  <!-- PROFILE / BIO -->
-  <section class="page" id="page-profile">
-    <div class="section-head"><div><h2>My Profile & Bio</h2><p>Manage the student information shown on your account and competition profile.</p></div></div>
-    <div class="grid-2">
-      <div class="panel">
-        <h3>Profile Information</h3>
-        <div style="display:flex;align-items:center;gap:15px;margin-bottom:20px">
-          <img id="profileAvatar" class="avatar" style="width:75px;height:75px" src="https://placehold.co/100x100/241438/ffffff?text=SM">
-          <div><strong id="profileEmail">—</strong><p class="muted">Student profile photo</p></div>
-        </div>
-        <div class="field"><label>Full Name *</label><input id="profileName" placeholder="Your full name"></div>
-        <div class="field"><label>Country</label><input id="profileCountry" placeholder="Country"></div>
-        <div class="field"><label>About Me / Bio</label><textarea id="profileBio" placeholder="Write a short introduction about yourself..."></textarea></div>
-        <div class="field"><label>Profile Photo</label><input id="profileFile" type="file" accept="image/*"></div>
-        <button class="btn" onclick="saveProfile()">Save Profile</button>
-        <div class="status-line" id="profileMessage"></div>
-      </div>
-      <div class="panel">
-        <h3>My Public Student Profile</h3>
-        <img id="bioAvatar" class="avatar" style="width:90px;height:90px" src="https://placehold.co/100x100/241438/ffffff?text=SM">
-        <h2 id="bioName">Student Name</h2>
-        <p class="muted" id="bioCountry">Country not added</p>
-        <p id="bioText" class="muted">Your bio will appear here after you save your profile.</p>
-        <div class="notice">Your full name and profile photo can be displayed beside your name in competition leaderboards.</div>
-      </div>
-    </div>
-  </section>
+<!-- 2 PROFILE -->
+<section class="page" id="profile">
+ <div class="prof">
+  <div class="card" style="text-align:center"><img class="pp" id="pPhoto" alt=""><h3 id="pName">Student</h3>
+   <label>Profile photo</label><input class="f" type="file" id="avFile" accept="image/*">
+   <button class="btn" style="width:100%" onclick="uploadAvatar()">Save photo</button></div>
+  <div>
+   <div class="card"><h3 style="margin-bottom:14px">Personal information</h3>
+    <label>Full name</label><input class="f" id="pFull"><label>Country</label><input class="f" id="pCountry">
+    <button class="btn" onclick="saveProfile()">Save changes</button><div class="msg" id="pMsg"></div></div>
+   <div class="two" style="margin-top:16px">
+    <div class="card"><h3 style="margin-bottom:14px">Change email</h3><label>New email</label><input class="f" id="newEmail" type="email">
+     <button class="btn" onclick="changeEmail()">Change email</button><div class="msg" id="eMsg"></div></div>
+    <div class="card"><h3 style="margin-bottom:14px">Change password</h3><label>New password</label><input class="f" id="newPass" type="password" autocomplete="new-password">
+     <label>Repeat password</label><input class="f" id="newPass2" type="password" autocomplete="new-password">
+     <button class="btn" onclick="changePass()">Change password</button><div class="msg" id="wMsg"></div></div>
+   </div>
+  </div>
+ </div>
+</section>
 
-  <!-- COURSES -->
-  <section class="page" id="page-courses">
-    <div class="section-head"><div><h2>My Courses</h2><p>Courses connected to your student enrollment.</p></div></div>
-    <div class="course-grid" id="allCourses"><div class="empty">Loading courses...</div></div>
-    <div class="panel" style="margin-top:20px">
-      <h3>Course Lessons</h3>
-      <div id="lessonList" class="muted">Choose an enrolled course to view its lessons.</div>
-    </div>
-  </section>
+<!-- 3 COURSES -->
+<section class="page" id="courses">
+ <div class="hero"><small style="color:var(--gold)">Learning</small><h1>My courses</h1><p>The skills you have enrolled in.</p></div>
+ <div class="grid" id="courseList"></div>
+</section>
 
-  <!-- COMPETITION -->
-  <section class="page" id="page-competition">
-    <div class="section-head"><div><h2>SteadyMaze Competition</h2><p>Available competitions are loaded from your Supabase database.</p></div></div>
-    <div class="notice">Competition registration and project submission depend on the competition status set by the administrator.</div>
-    <div class="panel">
-      <h3>Available Competition Skills</h3>
-      <div class="skill-grid" id="competitionSkills"><div class="empty">Loading competitions...</div></div>
-    </div>
-    <div class="grid-2">
-      <div class="panel">
-        <h3>Competition Registration</h3>
-        <div class="field"><label>Select Competition</label><select id="competitionSelect"><option value="">Select an available competition</option></select></div>
-        <button class="btn" onclick="registerCompetition()">Register for Competition</button>
-        <div class="status-line" id="registerMessage"></div>
-      </div>
-      <div class="panel">
-        <h3>Submit Your Project</h3>
-        <div class="field"><label>Registered Competition</label><select id="uploadCompetition"><option value="">Select competition</option></select></div>
-        <div class="field"><label>Project Title</label><input id="projectTitle" placeholder="Project title"></div>
-        <div class="field"><label>Project Description</label><textarea id="projectDescription" placeholder="Describe your project..."></textarea></div>
-        <div class="field"><label>Video File</label><input id="projectFile" type="file" accept="video/mp4,video/webm,video/quicktime"></div>
-        <button class="btn" onclick="submitProject()">Submit Project</button>
-        <div class="status-line" id="uploadMessage"></div>
-      </div>
-    </div>
-    <div class="panel">
-      <h3>My Competition Entries</h3>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Competition</th><th>Joined</th><th>Status</th><th>Points</th></tr></thead>
-        <tbody id="myEntries"><tr><td colspan="4" class="empty">Loading entries...</td></tr></tbody>
-      </table></div>
-    </div>
-  </section>
+<!-- 4 ANALYSIS -->
+<section class="page" id="analysis">
+ <div class="grid">
+  <div class="card"><small>Skills joined</small><div class="n" id="aJoined">0</div></div>
+  <div class="card"><small>Videos submitted</small><div class="n" id="aVideos">0</div></div>
+  <div class="card"><small>Total points</small><div class="n" id="aPoints">0</div></div>
+  <div class="card"><small>Best rank</small><div class="n" id="aRank">—</div></div>
+ </div>
+ <h3 class="sec" style="margin-top:6px">Score by skill</h3>
+ <div class="card" id="aBars"><p class="empty">Scores appear after your projects are reviewed.</p></div>
+</section>
 
-  <!-- LEADERBOARD -->
-  <section class="page" id="page-leaderboard">
-    <div class="section-head"><div><h2>Competition Leaderboards</h2><p>Each competition has its own leaderboard. Only real database entries are shown.</p></div></div>
-    <div class="panel">
-      <div class="field"><label>Choose Competition / Skill</label><select id="leaderCompetition" onchange="loadLeaderboard()"><option value="">Select competition</option></select></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th>Rank</th><th>Profile</th><th>Name</th><th>Points</th>
-            <th>Creativity</th><th>Quality</th><th>Storytelling</th>
-          </tr></thead>
-          <tbody id="leaderboardBody"><tr><td colspan="7" class="empty">Choose a competition to view its leaderboard.</td></tr></tbody>
-        </table>
-      </div>
-      <p class="muted" id="leaderboardInfo">Ranks are calculated from the actual score records returned by Supabase.</p>
-    </div>
-  </section>
+<!-- 5 COMPETITION -->
+<section class="page" id="competition">
+ <div class="hero"><small style="color:var(--gold)">SteadyMaze Skill Championship</small><h1>Leaderboards</h1><p>11 skills, each with its own ranking from 1 to 900,000.</p></div>
+ <div id="chips"></div>
+ <div class="card" style="margin-top:18px">
+  <h3 id="lbTitle">Video Editing</h3><p id="lbInfo"></p>
+  <div class="bar"><input class="f" id="rankSearch" type="number" min="1" max="900000" placeholder="Go to rank number"><button class="btn alt" onclick="goRank()">Go</button>
+   <select class="f" id="pageSize" style="flex:0 0 120px" onchange="rankStart=1;board()"><option>25</option><option>50</option><option>100</option></select></div>
+  <div class="tw"><table><thead><tr><th>Rank</th><th>Name</th><th>Profile</th><th>Points</th><th>Creativity</th><th>Storytelling</th><th>Quality</th></tr></thead><tbody id="lb"></tbody></table></div>
+  <div class="bar" style="justify-content:space-between"><button class="btn alt" onclick="pageBy(-1)">Previous</button><span id="lbRange" style="color:var(--mute)"></span><button class="btn alt" onclick="pageBy(1)">Next</button></div>
+ </div>
+</section>
 
-  <!-- PAYMENTS -->
-  <section class="page" id="page-payments">
-    <div class="section-head"><div><h2>Payments</h2><p>View payment records saved to your student account.</p></div></div>
-    <div class="stats">
-      <div class="stat"><small>Total Paid</small><strong id="totalPaid">—</strong></div>
-      <div class="stat"><small>Successful Payments</small><strong id="paidCount">—</strong></div>
-    </div>
-    <div class="panel">
-      <h3>Payment History</h3>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Date</th><th>Provider</th><th>Reference</th><th>Amount</th><th>Status</th></tr></thead>
-        <tbody id="paymentBody"><tr><td colspan="5" class="empty">Loading payment records...</td></tr></tbody>
-      </table></div>
-      <div class="notice">This page displays payment records only. A real payment provider must be connected separately to process payments. Do not enter card numbers or security codes here.</div>
-    </div>
-  </section>
-
-  <!-- REWARDS -->
-  <section class="page" id="page-rewards">
-    <div class="section-head"><div><h2>My Rewards</h2><p>Rewards assigned to your account.</p></div></div>
-    <div class="panel">
-      <h3>Reward Records</h3>
-      <div class="empty">Rewards table has not been confirmed in your database yet. No reward data is being fabricated.</div>
-    </div>
-  </section>
-
-  <!-- SUPPORT POINTS -->
-  <section class="page" id="page-supportpoints">
-    <div class="section-head"><div><h2>Support Points</h2><p>Your support point history.</p></div></div>
-    <div class="panel">
-      <h3>Points Overview</h3>
-      <div class="empty">Support points table has not been confirmed in your database yet.</div>
-    </div>
-  </section>
-
-  <!-- EMPLOYMENT -->
-  <section class="page" id="page-employment">
-    <div class="section-head"><div><h2>Direct Employment</h2><p>Explore career opportunities through SteadyMaze.</p></div></div>
-    <div class="panel">
-      <h3>Career Pathway</h3>
-      <p class="muted">Build your skills, complete projects and develop a portfolio that can support future employment opportunities.</p>
-      <div class="notice">Employment applications and employer matching will appear here when the relevant database workflow is connected.</div>
-    </div>
-  </section>
-
-  <!-- SUPPORT -->
-  <section class="page" id="page-support">
-    <div class="section-head"><div><h2>Help & Support</h2><p>Contact the SteadyMaze support team.</p></div></div>
-    <div class="panel">
-      <h3>Support Request</h3>
-      <div class="field"><label>Subject</label><input id="ticketSubject" placeholder="What do you need help with?"></div>
-      <div class="field"><label>Message</label><textarea id="ticketMessage" placeholder="Write your message..."></textarea></div>
-      <button class="btn" onclick="sendSupportTicket()">Send Request</button>
-      <div class="status-line" id="ticketStatus"></div>
-    </div>
-  </section>
-
+<!-- 6 CYCLE -->
+<section class="page" id="cycle">
+ <div class="hero"><small style="color:var(--gold)">Two-month cycle, 8 videos</small><h1>Cycle</h1><p>Each video has its own deadline. When a deadline passes, that video expires and can no longer be uploaded.</p></div>
+ <div class="card"><h3>Start a new cycle</h3>
+  <label>Skill</label><select class="f" id="joinSkill" onchange="showPrice()"></select>
+  <p id="priceTxt" style="margin:-8px 0 14px"></p><button class="btn" onclick="join()">Join cycle</button><div class="msg" id="jMsg"></div></div>
+ <h3 class="sec">My cycle videos</h3>
+ <div class="bar"><select class="f" id="cycEntry" onchange="loadCycle()"></select></div>
+ <div id="cycInfo" style="margin-bottom:12px;color:var(--mute)"></div>
+ <div class="grid" id="slots"></div>
+</section>
 </main>
-</div>
-
-<div class="mobile-bottom">
-  <button onclick="showPage('dashboard')">⌂<br>Home</button>
-  <button onclick="showPage('courses')">▣<br>Courses</button>
-  <button onclick="showPage('competition')">♜<br>Competition</button>
-  <button onclick="showPage('profile')">◉<br>Profile</button>
-</div>
 
 <script>
-/* ============================
-   SUPABASE CONNECTION
-============================ */
-const SUPABASE_URL = "https://uxrltzlxdttbjstomhkb.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const db=window.supabase.createClient("https://uxrltzlxdttbjstomhkb.supabase.co","sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b");
+const $=id=>document.getElementById(id);
+const GROUPS={Lower:{price:7,skills:["Video Editing","Thumbnail","Movie Recap"]},Medium:{price:10,skills:["English","AI Agent","Data Analytics"]},High:{price:13,skills:["Python","Java","AI App","AI Web","Web Development"]}};
+const ALL=Object.values(GROUPS).flatMap(g=>g.skills);
+const groupOf=s=>Object.keys(GROUPS).find(k=>GROUPS[k].skills.includes(s));
+let user=null,skill=ALL[0],rankStart=1,myEntries=[];
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+const say=(id,t)=>{$(id).textContent=t};
+const day=v=>v?new Date(v).toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"}):"—";
+const tag=(v,c="")=>`<span class="tag ${c}">${esc(v)}</span>`;
+const fname=f=>f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+const cards=(id,list,fn,none)=>{$(id).innerHTML=list.length?list.map(r=>`<div class="card">${fn(r)}</div>`).join(""):`<div class="card empty" style="grid-column:1/-1">${none}</div>`};
 
-let currentUser = null;
-let currentProfile = null;
-let competitions = [];
-let enrollments = [];
-let courses = [];
-let skills = [];
-let entries = [];
+/* SESSION: login lives on its own page */
+const LOGIN_URL="login.html";
+async function logout(){await db.auth.signOut();location.href=LOGIN_URL}
+db.auth.getSession().then(({data})=>{
+ if(data.session){user=data.session.user;start()}else location.href=LOGIN_URL});
+db.auth.onAuthStateChange((ev)=>{if(ev==="SIGNED_OUT")location.href=LOGIN_URL});
 
-const $ = id => document.getElementById(id);
-const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, c => ({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c]));
-
-function message(id,text,isError=false){
-  const el=$(id);
-  if(el){el.textContent=text;el.style.color=isError?"#fb7185":"#4ade80";}
+async function start(){
+ say("sEmail",user.email);
+ const{data}=await db.from("profiles").select("id").eq("id",user.id).maybeSingle();
+ if(!data)await db.from("profiles").insert({id:user.id,email:user.email,full_name:user.user_metadata?.full_name||""});
+ $("joinSkill").innerHTML=ALL.map(s=>`<option>${s}</option>`).join("");
+ showPrice();buildChips();lessonChips();
+ await Promise.all([loadProfile(),loadEntries(),loadCourses(),loadIntro()]);
+ loadLessons();loadAnalysis();board();loadCycle();
 }
+const TITLES={home:"Home",profile:"Profile",courses:"My courses",analysis:"Analysis",competition:"Competition",cycle:"Cycle"};
+document.querySelectorAll(".nav[data-p]").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".page").forEach(x=>x.classList.toggle("on",x.id===b.dataset.p));
+ document.querySelectorAll(".nav").forEach(x=>x.classList.toggle("on",x===b));
+ say("title",TITLES[b.dataset.p]);$("side").classList.remove("open");
+ if(user&&b.dataset.p==="analysis")loadAnalysis();if(user&&b.dataset.p==="cycle")loadEntries().then(loadCycle)});
 
-/* ============================
-   NAVIGATION
-============================ */
-function showPage(name){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  const target=$("page-"+name);
-  if(target)target.classList.add("active");
-
-  document.querySelectorAll(".nav-btn[data-page]").forEach(b=>{
-    b.classList.toggle("active",b.dataset.page===name);
-  });
-  $("sidebar").classList.remove("open");
-  if(name==="leaderboard")loadLeaderboard();
-  if(name==="payments")loadPayments();
-  if(name==="courses")renderCourses($("allCourses"));
-}
-function toggleSidebar(){ $("sidebar").classList.toggle("open"); }
-
-document.querySelectorAll(".nav-btn[data-page]").forEach(btn=>{
-  btn.addEventListener("click",()=>showPage(btn.dataset.page));
-});
-
-/* ============================
-   AUTHENTICATION
-============================ */
-async function signIn(){
-  const email=$("authEmail").value.trim();
-  const password=$("authPassword").value;
-  if(!email||!password)return message("authMessage","Enter your email and password.",true);
-
-  message("authMessage","Signing in...");
-  const {data,error}=await db.auth.signInWithPassword({email,password});
-  if(error)return message("authMessage",error.message,true);
-  currentUser=data.user;
-  await startPortal();
-}
-
-async function signUp(){
-  const email=$("authEmail").value.trim();
-  const password=$("authPassword").value;
-  if(!email||password.length<6)return message("authMessage","Enter an email and a password with at least 6 characters.",true);
-
-  message("authMessage","Creating account...");
-  const {data,error}=await db.auth.signUp({email,password});
-  if(error)return message("authMessage",error.message,true);
-
-  if(data.session){
-    currentUser=data.user;
-    await startPortal();
-  }else{
-    message("authMessage","Account created. Check your email to confirm, then sign in.");
-  }
-}
-
-async function signOut(){
-  await db.auth.signOut();
-  currentUser=null;
-  $("authScreen").style.display="flex";
-  showPage("dashboard");
-}
-
-async function startPortal(){
-  $("authScreen").style.display="none";
-  await loadProfile();
-  await loadAll();
-}
-
-async function checkSession(){
-  const {data,error}=await db.auth.getSession();
-  if(error){console.error(error);return;}
-  if(data.session){
-    currentUser=data.session.user;
-    await startPortal();
-  }
-}
-
-/* ============================
-   PROFILE / BIO
-============================ */
+/* 2 PROFILE */
 async function loadProfile(){
-  if(!currentUser)return;
+ const{data}=await db.from("profiles").select("*").eq("id",user.id).maybeSingle();if(!data)return;
+ const n=data.full_name||"Student";["sName","hName","wName","pName"].forEach(i=>say(i,n));
+ $("pFull").value=data.full_name||"";$("pCountry").value=data.country||"";
+ if(data.avatar_url){$("pPhoto").src=data.avatar_url;$("hAv").src=data.avatar_url}}
+async function saveProfile(){const full_name=$("pFull").value.trim();if(!full_name)return say("pMsg","Enter your full name.");
+ const{error}=await db.from("profiles").upsert({id:user.id,email:user.email,full_name,country:$("pCountry").value.trim(),updated_at:new Date().toISOString()},{onConflict:"id"});
+ if(error)return say("pMsg",error.message);say("pMsg","Changes saved.");loadProfile()}
+async function uploadAvatar(){const f=$("avFile").files[0];
+ if(!f||!f.type.startsWith("image/"))return say("pMsg","Choose an image file.");if(f.size>5*1024*1024)return say("pMsg","The image must be under 5 MB.");
+ const path=user.id+"/profile-"+Date.now()+"-"+fname(f);
+ const up=await db.storage.from("avatars").upload(path,f,{upsert:true});if(up.error)return say("pMsg",up.error.message);
+ const url=db.storage.from("avatars").getPublicUrl(path).data.publicUrl;
+ const{error}=await db.from("profiles").upsert({id:user.id,email:user.email,avatar_url:url,updated_at:new Date().toISOString()},{onConflict:"id"});
+ if(error)return say("pMsg",error.message);say("pMsg","Photo saved.");loadProfile()}
+async function changeEmail(){const email=$("newEmail").value.trim();if(!email)return say("eMsg","Enter the new email.");
+ const{error}=await db.auth.updateUser({email});say("eMsg",error?error.message:"Check both inboxes to confirm the change.")}
+async function changePass(){const a=$("newPass").value,b=$("newPass2").value;
+ if(a.length<8)return say("wMsg","Use at least 8 characters.");if(a!==b)return say("wMsg","The passwords do not match.");
+ const{error}=await db.auth.updateUser({password:a});if(error)return say("wMsg",error.message);
+ say("wMsg","Password changed.");$("newPass").value="";$("newPass2").value=""}
 
-  const {data,error}=await db.from("profiles")
-    .select("id,role,full_name,email,profile_photo,country,bio,status")
-    .eq("id",currentUser.id).maybeSingle();
+/* 1 HOME VIDEOS */
+function embed(u){try{const x=new URL(u);
+ if(x.hostname.includes("youtube.com")){if(x.pathname==="/watch")return"https://www.youtube.com/embed/"+x.searchParams.get("v");if(x.pathname.startsWith("/shorts/"))return"https://www.youtube.com/embed/"+x.pathname.split("/")[2]}
+ if(x.hostname==="youtu.be")return"https://www.youtube.com/embed"+x.pathname;
+ if(x.hostname.includes("vimeo.com"))return"https://player.vimeo.com/video"+x.pathname;return u}catch{return""}}
+const player=v=>{const e=embed(v.video_url);return(e?`<iframe class="vid" src="${esc(e)}" loading="lazy" allowfullscreen></iframe>`:"")+`<h3 style="margin-top:10px;font-size:18px">${esc(v.title)}</h3><p>${esc(v.teacher_name||"SteadyMaze teacher")}</p>`};
+async function loadIntro(){const{data,error}=await db.from("teacher_intro_videos").select("*").eq("is_published",true).limit(8);
+ cards("intro",error?[]:data||[],player,"Teacher introductions will appear here when published.")}
+let lessonSkill=ALL[0];
+function lessonChips(){
+ $("lessonChips").innerHTML=`<div class="chips">${ALL.map(s=>`<button class="chip${s===lessonSkill?" on":""}" data-l="${esc(s)}">${esc(s)}</button>`).join("")}</div>`;
+ document.querySelectorAll("[data-l]").forEach(c=>c.onclick=()=>{lessonSkill=c.dataset.l;lessonChips();loadLessons()})}
+async function loadLessons(){const s=lessonSkill;
+ const{data,error}=await db.from("lesson_videos").select("*").eq("skill_name",s).eq("is_published",true).order("created_at",{ascending:false});
+ cards("lessons",error?[]:data||[],v=>player(v),"No lessons uploaded for "+esc(s)+" yet.")}
+function go(p){document.querySelector('.nav[data-p="'+p+'"]').click()}
+let nxTimer=null;
+async function loadNext(){
+ const ids=[...new Set(myEntries.map(e=>e.cycle_id))];
+ if(!ids.length)return;
+ const[{data:t},{data:sb}]=await Promise.all([
+  db.from("cycle_tasks").select("id,video_no,deadline,cycle_id").in("cycle_id",ids).gt("deadline",new Date().toISOString()).order("deadline").limit(30),
+  db.from("submissions").select("task_id").eq("student_id",user.id)]);
+ const done=new Set((sb||[]).map(x=>x.task_id)),n=(t||[]).find(x=>!done.has(x.id));
+ clearInterval(nxTimer);
+ if(!n){say("nxTime","Done");say("nxWhat","No open video deadlines right now.");return}
+ const e=myEntries.find(x=>x.cycle_id===n.cycle_id);
+ say("nxWhat",(e?e.skill_name+", ":"")+"video "+n.video_no+" closes "+day(n.deadline));
+ const tick=()=>{const ms=new Date(n.deadline)-new Date();if(ms<=0){say("nxTime","Expired");clearInterval(nxTimer);return}
+  const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);say("nxTime",d+"d "+h+"h "+m+"m")};
+ tick();nxTimer=setInterval(tick,30000)}
 
-  if(error){console.error("Profile:",error.message);return;}
+/* 3 COURSES */
+async function loadCourses(){const{data,error}=await db.from("enrollments").select("*").eq("student_id",user.id);
+ cards("courseList",error?[]:data||[],c=>`<small>Course</small><h3 style="margin-top:8px">${esc(c.skill_name)}</h3><p>${tag(c.status)}</p><p>Since ${day(c.created_at)}</p>`,"You have not enrolled in a course yet.")}
 
-  if(!data){
-    const {error:insertError}=await db.from("profiles").insert({
-      id:currentUser.id,
-      role:"student",
-      full_name:"",
-      email:currentUser.email
-    });
-    if(insertError)console.error("Profile creation:",insertError.message);
-    currentProfile={id:currentUser.id,email:currentUser.email,full_name:""};
-  }else{
-    currentProfile=data;
-  }
-  renderProfile();
-}
-
-function renderProfile(){
-  const p=currentProfile||{};
-  const name=p.full_name||"Student";
-  const photo=p.profile_photo||"https://placehold.co/100x100/241438/ffffff?text=SM";
-
-  $("sideName").textContent=name;
-  $("sideEmail").textContent=p.email||currentUser.email;
-  $("welcomeName").textContent="Welcome back, "+name;
-  $("profileEmail").textContent=p.email||currentUser.email;
-  $("profileName").value=p.full_name||"";
-  $("profileCountry").value=p.country||"";
-  $("profileBio").value=p.bio||"";
-
-  ["sideAvatar","profileAvatar","bioAvatar"].forEach(id=>$(id).src=photo);
-  $("bioName").textContent=name;
-  $("bioCountry").textContent=p.country||"Country not added";
-  $("bioText").textContent=p.bio||"No bio added yet.";
-}
-
-async function saveProfile(){
-  if(!currentUser)return;
-  const full_name=$("profileName").value.trim();
-  if(!full_name)return message("profileMessage","Full name is required.",true);
-
-  let profile_photo=currentProfile?.profile_photo||null;
-  const file=$("profileFile").files[0];
-
-  if(file){
-    const ext=file.name.split(".").pop().toLowerCase();
-    const path=currentUser.id+"/profile-"+Date.now()+"."+ext;
-    const {data:upload,error:uploadError}=await db.storage.from("avatars").upload(path,file,{upsert:true});
-    if(uploadError)return message("profileMessage","Photo upload failed: "+uploadError.message,true);
-    const {data:urlData}=db.storage.from("avatars").getPublicUrl(upload.path);
-    profile_photo=urlData.publicUrl;
-  }
-
-  const updates={
-    id:currentUser.id,
-    full_name,
-    email:currentUser.email,
-    country:$("profileCountry").value.trim()||null,
-    bio:$("profileBio").value.trim()||null,
-    profile_photo,
-    updated_at:new Date().toISOString()
-  };
-
-  const {error}=await db.from("profiles").upsert(updates,{onConflict:"id"});
-  if(error)return message("profileMessage",error.message,true);
-
-  currentProfile={...currentProfile,...updates};
-  renderProfile();
-  message("profileMessage","Profile saved successfully.");
-}
-
-/* ============================
-   LOAD DATA
-============================ */
-async function loadAll(){
-  if(!currentUser)return;
-  await Promise.all([
-    loadSkills(),
-    loadCoursesData(),
-    loadCompetitions(),
-    loadEntries(),
-    loadPayments()
-  ]);
-  updateStats();
-}
-
-async function loadSkills(){
-  const {data,error}=await db.from("skills")
-    .select("id,name,category,description,image_url,is_active,display_order")
-    .eq("is_active",true).order("display_order");
-
-  if(error){console.error("Skills:",error.message);skills=[];return;}
-  skills=data||[];
-}
-
-async function loadCoursesData(){
-  const {data:enrollData,error}=await db.from("enrollments")
-    .select("id,student_id,course_id,skill_id,skill_level_id,status,enrolled_at")
-    .eq("student_id",currentUser.id);
-
-  if(error){console.error("Enrollments:",error.message);return;}
-  enrollments=enrollData||[];
-
-  const ids=[...new Set(enrollments.map(e=>e.course_id).filter(Boolean))];
-  if(!ids.length){courses=[];renderCourses($("dashboardCourses"));return;}
-
-  const {data:courseData,error:courseError}=await db.from("courses")
-    .select("id,skill_id,skill_level_id,teacher_id,title,description,image_url,price,currency,status")
-    .in("id",ids);
-
-  if(courseError){console.error("Courses:",courseError.message);return;}
-  courses=courseData||[];
-  renderCourses($("dashboardCourses"));
-  renderCourses($("allCourses"));
-}
-
-function renderCourses(container){
-  if(!container)return;
-  if(!courses.length){
-    container.innerHTML='<div class="empty">You have no enrolled courses yet.</div>';
-    return;
-  }
-  container.innerHTML=courses.map(c=>{
-    const image=c.image_url||"https://placehold.co/600x350/241438/ffffff?text=SteadyMaze+Course";
-    return `<div class="course-card">
-      <img src="${escapeHTML(image)}" alt="Course thumbnail">
-      <div class="course-info">
-        <strong>${escapeHTML(c.title||"Course")}</strong>
-        <p>${escapeHTML(c.description||"SteadyMaze learning course")}</p>
-        <span class="badge">${escapeHTML(c.status||"Enrolled")}</span>
-        <p>${escapeHTML(c.price??"")} ${escapeHTML(c.currency||"")}</p>
-        <button class="btn secondary" style="width:100%" onclick="loadLessons('${c.id}')">View Lessons</button>
-      </div>
-    </div>`;
-  }).join("");
-}
-
-async function loadLessons(courseId){
-  const {data,error}=await db.from("lessons")
-    .select("id,course_id,title,description,video_url,thumbnail_url,pdf_url,lesson_order,duration_minutes,status")
-    .eq("course_id",courseId).order("lesson_order");
-
-  if(error){$("lessonList").textContent="Could not load lessons: "+error.message;return;}
-  if(!data?.length){$("lessonList").textContent="No lessons are available for this course yet.";return;}
-
-  $("lessonList").innerHTML=data.map(l=>`
-    <div class="notice">
-      <strong>${escapeHTML(l.lesson_order??"")} · ${escapeHTML(l.title)}</strong>
-      <p>${escapeHTML(l.description||"")}</p>
-      ${l.video_url?`<a href="${escapeHTML(l.video_url)}" target="_blank" rel="noopener" style="color:#d18aff">Watch lesson video →</a>`:"<span class='muted'>Video not added</span>"}
-    </div>`).join("");
-}
-
-/* ============================
-   COMPETITIONS
-   Uses main_competitions:
-   id, skill_name, skill_group, status
-============================ */
-async function loadCompetitions(){
-  const {data,error}=await db.from("main_competitions")
-    .select("id,skill_name,skill_group,status,created_at")
-    .order("skill_group").order("skill_name");
-
-  if(error){
-    console.error("Main competitions:",error.message);
-    $("competitionSkills").innerHTML='<div class="empty">Could not load competitions. Check main_competitions permissions.</div>';
-    return;
-  }
-
-  competitions=data||[];
-  const active=competitions.filter(c=>String(c.status||"").toLowerCase()==="open");
-
-  $("competitionSkills").innerHTML=competitions.length?competitions.map(c=>`
-    <button class="skill-card" onclick="selectCompetition('${c.id}')">
-      <strong>${escapeHTML(c.skill_name)}</strong>
-      <p class="muted">${escapeHTML(c.skill_group||"Competition")}</p>
-      <span class="badge">${escapeHTML(c.status||"Not set")}</span>
-    </button>`).join(""):'<div class="empty">No competition records found.</div>';
-
-  const options='<option value="">Select competition</option>'+competitions.map(c=>
-    `<option value="${c.id}">${escapeHTML(c.skill_name)} — ${escapeHTML(c.skill_group||"")} (${escapeHTML(c.status||"")})</option>`
-  ).join("");
-
-  $("competitionSelect").innerHTML=options;
-  $("uploadCompetition").innerHTML=options;
-  $("leaderCompetition").innerHTML=options;
-
-  if(active.length){
-    $("competitionSelect").value=active[0].id;
-    $("uploadCompetition").value=active[0].id;
-    $("leaderCompetition").value=active[0].id;
-  }
-}
-
-function selectCompetition(id){
-  $("competitionSelect").value=id;
-  $("uploadCompetition").value=id;
-  $("leaderCompetition").value=id;
-  showPage("competition");
-}
-
-async function registerCompetition(){
-  const competition_id=$("competitionSelect").value;
-  if(!competition_id)return message("registerMessage","Select a competition first.",true);
-
-  const competition=competitions.find(c=>c.id===competition_id);
-  if(!competition)return message("registerMessage","Competition not found.",true);
-  if(String(competition.status||"").toLowerCase()!=="open"){
-    return message("registerMessage","This competition is not open for registration.",true);
-  }
-
-  const {data:existing,error:checkError}=await db.from("competition_entries")
-    .select("id").eq("competition_id",competition_id)
-    .eq("student_id",currentUser.id).maybeSingle();
-
-  if(checkError)return message("registerMessage",checkError.message,true);
-  if(existing)return message("registerMessage","You are already registered for this competition.",true);
-
-  const p=currentProfile||{};
-  const {error}=await db.from("competition_entries").insert({
-    competition_id,
-    student_id:currentUser.id,
-    student_name:p.full_name||currentUser.email,
-    profile_photo:p.profile_photo||null,
-    status:"registered",
-    joined_at:new Date().toISOString()
-  });
-
-  if(error)return message("registerMessage",error.message,true);
-  message("registerMessage","Registration submitted successfully.");
-  await loadEntries();
-  updateStats();
-}
-
-/* ============================
-   PROJECT UPLOAD
-   Storage bucket: competition-projects
-============================ */
-async function submitProject(){
-  const competition_id=$("uploadCompetition").value;
-  const title=$("projectTitle").value.trim();
-  const description=$("projectDescription").value.trim();
-  const file=$("projectFile").files[0];
-
-  if(!competition_id||!title||!file)
-    return message("uploadMessage","Select a competition, enter a title and choose a video file.",true);
-
-  const competition=competitions.find(c=>c.id===competition_id);
-  if(!competition||String(competition.status||"").toLowerCase()!=="open")
-    return message("uploadMessage","This competition is not open.",true);
-
-  if(!file.type.startsWith("video/"))
-    return message("uploadMessage","Please choose a valid video file.",true);
-
-  message("uploadMessage","Uploading video...");
-
-  const ext=file.name.split(".").pop().toLowerCase();
-  const path=currentUser.id+"/"+competition_id+"/"+Date.now()+"."+ext;
-  const {data:uploaded,error:uploadError}=await db.storage
-    .from("competition-projects").upload(path,file,{upsert:false});
-
-  if(uploadError)
-    return message("uploadMessage","Storage upload failed. Check the competition-projects bucket and its policies: "+uploadError.message,true);
-
-  const {data:urlData}=db.storage.from("competition-projects").getPublicUrl(uploaded.path);
-
-  const {error}=await db.from("competition_projects").insert({
-    competition_id,
-    student_id:currentUser.id,
-    title,
-    description:description||null,
-    video_url:urlData.publicUrl,
-    status:"submitted",
-    submitted_at:new Date().toISOString()
-  });
-
-  if(error)return message("uploadMessage","Video uploaded, but database save failed: "+error.message,true);
-
-  message("uploadMessage","Project submitted successfully.");
-  $("projectTitle").value="";
-  $("projectDescription").value="";
-  $("projectFile").value="";
-  await loadEntries();
-}
-
-/* ============================
-   STUDENT ENTRIES
-============================ */
+/* ENTRIES (shared) */
 async function loadEntries(){
-  const {data,error}=await db.from("competition_entries")
-    .select("id,competition_id,student_id,rank,profile_photo,student_name,points,round_name,status,joined_at")
-    .eq("student_id",currentUser.id).order("joined_at",{ascending:false});
-
-  if(error){
-    console.error("Entries:",error.message);
-    $("myEntries").innerHTML=`<tr><td colspan="4">Could not load entries: ${escapeHTML(error.message)}</td></tr>`;
-    return;
-  }
-  entries=data||[];
-
-  $("myEntries").innerHTML=entries.length?entries.map(e=>{
-    const c=competitions.find(x=>x.id===e.competition_id);
-    return `<tr>
-      <td>${escapeHTML(c?.skill_name||"Competition")}</td>
-      <td>${e.joined_at?new Date(e.joined_at).toLocaleDateString():"—"}</td>
-      <td><span class="badge">${escapeHTML(e.status||"registered")}</span></td>
-      <td>${escapeHTML(e.points??0)}</td>
-    </tr>`;
-  }).join(""):'<tr><td colspan="4" class="empty">You have not joined a competition yet.</td></tr>';
+ const{data,error}=await db.from("competition_entries").select("*").eq("student_id",user.id).order("created_at",{ascending:false});
+ myEntries=error?[]:data||[];
+ const keep=$("cycEntry").value;
+ $("cycEntry").innerHTML=myEntries.length?myEntries.map(e=>`<option value="${esc(e.id)}">${esc(e.skill_name)} (${esc(e.status)})</option>`).join(""):'<option value="">No cycles joined yet</option>';
+ if(keep)$("cycEntry").value=keep;
+ const rows=await Promise.all(myEntries.slice(0,3).map(async e=>{
+  const{data:t}=await db.from("cycle_tasks").select("id").eq("cycle_id",e.cycle_id);
+  const{data:s}=await db.from("submissions").select("id").eq("entry_id",e.id).eq("student_id",user.id);
+  return{e,total:(t||[]).length||8,done:(s||[]).length}}));
+ cards("homeCycles",rows,r=>`<small>${esc(groupOf(r.e.skill_name)||"")} cycle</small><h3 style="margin-top:6px">${esc(r.e.skill_name)}</h3><p>${r.done} of ${r.total} videos submitted</p><div class="meter"><i style="width:${Math.round(r.done/r.total*100)}%"></i></div><p>Deadline ${day(r.e.deadline)}</p>`,"You have not joined a cycle yet. Open the Cycle page to start.");
+ loadNext();
 }
 
-/* ============================
-   LEADERBOARD
-   Reads main_liveboard and
-   main_liveboard_scores.
-============================ */
-async function loadLeaderboard(){
-  const competition_id=$("leaderCompetition").value;
-  if(!competition_id){
-    $("leaderboardBody").innerHTML='<tr><td colspan="7" class="empty">Select a competition.</td></tr>';
-    return;
-  }
+/* 4 ANALYSIS */
+async function loadAnalysis(){
+ const{data:subs}=await db.from("submissions").select("id").eq("student_id",user.id);
+ const pts=myEntries.reduce((s,e)=>s+Number(e.points||0),0),ranks=myEntries.map(e=>Number(e.rank)).filter(r=>r>0);
+ say("aJoined",myEntries.length);say("aVideos",(subs||[]).length);say("aPoints",pts);say("aRank",ranks.length?Math.min(...ranks).toLocaleString():"—");
+ const scored=myEntries.filter(e=>Number(e.points||0)>0);
+ $("aBars").innerHTML=scored.length?scored.map(e=>{const bars=[["Creativity",e.creativity],["Storytelling",e.storytelling],["Quality",e.quality]];
+  return`<div style="margin-bottom:20px"><b style="font:600 20px var(--serif);color:var(--gold2)">${esc(e.skill_name)}</b> <span style="color:var(--mute)">${Number(e.points)} points</span>`+bars.map(([n,v])=>`<div style="margin-top:8px;font-size:12px;color:var(--mute)">${n} ${Number(v||0)}</div><div class="meter"><i style="width:${Math.min(100,Number(v||0))}%"></i></div>`).join("")+"</div>"}).join(""):'<p class="empty">Scores appear after your projects are reviewed.</p>'}
 
-  $("leaderboardBody").innerHTML='<tr><td colspan="7" class="empty">Loading leaderboard...</td></tr>';
+/* 5 COMPETITION */
+function buildChips(){
+ $("chips").innerHTML=Object.entries(GROUPS).map(([g,o])=>`<div style="margin-top:12px"><small style="color:var(--mute)">${g} skills</small><div class="chips">${o.skills.map(s=>`<button class="chip${s===skill?" on":""}" data-s="${esc(s)}">${esc(s)}</button>`).join("")}</div></div>`).join("");
+ document.querySelectorAll(".chip[data-s]").forEach(c=>c.onclick=()=>{skill=c.dataset.s;rankStart=1;buildChips();board()})}
+async function board(){
+ const size=Number($("pageSize").value),end=Math.min(rankStart+size-1,900000);
+ say("lbTitle",skill+" ranking");say("lbInfo","Ranks "+rankStart.toLocaleString()+" to "+end.toLocaleString()+" of 900,000");say("lbRange",rankStart.toLocaleString()+" – "+end.toLocaleString());
+ $("lb").innerHTML='<tr><td colspan="7" class="empty">Loading…</td></tr>';
+ const{data,error}=await db.from("competition_entries").select("student_name,avatar_url,points,creativity,storytelling,quality,rank").eq("skill_name",skill).eq("status","submitted").gte("rank",rankStart).lte("rank",end).order("rank",{ascending:true});
+ if(error)return $("lb").innerHTML=`<tr><td colspan="7" class="empty">${esc(error.message)}</td></tr>`;
+ const m=new Map((data||[]).map(s=>[Number(s.rank),s]));let h="";
+ for(let r=rankStart;r<=end;r++){const s=m.get(r);
+  h+=s?`<tr><td class="rk">${r.toLocaleString()}</td><td>${esc(s.student_name||"Student")}</td><td>${s.avatar_url?`<img class="rp" src="${esc(s.avatar_url)}" alt="">`:"—"}</td><td>${Number(s.points||0)}</td><td>${Number(s.creativity||0)}</td><td>${Number(s.storytelling||0)}</td><td>${Number(s.quality||0)}</td></tr>`
+  :`<tr><td class="rk" style="opacity:.5">${r.toLocaleString()}</td><td style="color:var(--mute)">Open position</td><td>—</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>`}
+ $("lb").innerHTML=h}
+function pageBy(d){const s=Number($("pageSize").value);rankStart=Math.max(1,Math.min(900000-s+1,rankStart+d*s));board()}
+function goRank(){const r=Number($("rankSearch").value);if(Number.isInteger(r)&&r>=1&&r<=900000){rankStart=r;board()}}
 
-  const {data:scoreRows,error:scoreError}=await db.from("main_liveboard_scores")
-    .select("competition_id,student_id,points,creativity,quality,storytelling,total_score,ai_review_status")
-    .eq("competition_id",competition_id);
-
-  if(scoreError){
-    console.error("Score table:",scoreError.message);
-    $("leaderboardBody").innerHTML=`<tr><td colspan="7">Score table error: ${escapeHTML(scoreError.message)}</td></tr>`;
-    return;
-  }
-
-  let rows=scoreRows||[];
-
-  // If no score rows exist yet, read the liveboard records.
-  if(!rows.length){
-    const {data:liveRows,error:liveError}=await db.from("main_liveboard")
-      .select("competition_id,student_id,points,creativity,quality,storytelling")
-      .eq("competition_id",competition_id);
-
-    if(liveError){
-      $("leaderboardBody").innerHTML=`<tr><td colspan="7">Leaderboard error: ${escapeHTML(liveError.message)}</td></tr>`;
-      return;
-    }
-    rows=liveRows||[];
-  }
-
-  if(!rows.length){
-    $("leaderboardBody").innerHTML='<tr><td colspan="7" class="empty">No scored participants yet. The leaderboard will appear when score records are added.</td></tr>';
-    $("leaderboardInfo").textContent="No leaderboard scores are currently available.";
-    return;
-  }
-
-  rows.sort((a,b)=>Number(b.total_score??b.points??0)-Number(a.total_score??a.points??0));
-
-  const studentIds=[...new Set(rows.map(r=>r.student_id).filter(Boolean))];
-  const {data:profilesData,error:profilesError}=await db.from("profiles")
-    .select("id,full_name,profile_photo").in("id",studentIds);
-
-  if(profilesError)console.error("Leaderboard profiles:",profilesError.message);
-  const profileMap=new Map((profilesData||[]).map(p=>[p.id,p]));
-
-  $("leaderboardBody").innerHTML=rows.map((r,index)=>{
-    const p=profileMap.get(r.student_id)||{};
-    const name=p.full_name||"Student";
-    const photo=p.profile_photo||"https://placehold.co/80x80/241438/ffffff?text=SM";
-    const points=r.total_score??r.points??0;
-    return `<tr>
-      <td><strong>#${index+1}</strong></td>
-      <td><img class="profile-pic" src="${escapeHTML(photo)}" alt="Profile"></td>
-      <td>${escapeHTML(name)}</td>
-      <td>${escapeHTML(points)}</td>
-      <td>${escapeHTML(r.creativity??"—")}</td>
-      <td>${escapeHTML(r.quality??"—")}</td>
-      <td>${escapeHTML(r.storytelling??"—")}</td>
-    </tr>`;
-  }).join("");
-
-  $("leaderboardInfo").textContent=rows.length+" actual participant score records shown. No empty placeholder ranks are generated.";
-}
-
-/* ============================
-   PAYMENTS
-============================ */
-async function loadPayments(){
-  if(!currentUser)return;
-  const {data,error}=await db.from("payments")
-    .select("id,amount,currency,provider,transaction_reference,status,paid_at,created_at")
-    .eq("student_id",currentUser.id).order("created_at",{ascending:false});
-
-  if(error){
-    $("paymentBody").innerHTML=`<tr><td colspan="5">Payment records error: ${escapeHTML(error.message)}</td></tr>`;
-    return;
-  }
-
-  const list=data||[];
-  const paid=list.filter(p=>String(p.status||"").toLowerCase()==="paid"||String(p.status||"").toLowerCase()==="success");
-  const total=paid.reduce((sum,p)=>sum+Number(p.amount||0),0);
-  $("totalPaid").textContent=total.toFixed(2);
-  $("paidCount").textContent=paid.length;
-
-  $("paymentBody").innerHTML=list.length?list.map(p=>`
-    <tr>
-      <td>${p.created_at?new Date(p.created_at).toLocaleDateString():"—"}</td>
-      <td>${escapeHTML(p.provider||"—")}</td>
-      <td>${escapeHTML(p.transaction_reference||"—")}</td>
-      <td>${escapeHTML(p.amount)} ${escapeHTML(p.currency||"")}</td>
-      <td><span class="badge">${escapeHTML(p.status||"pending")}</span></td>
-    </tr>`).join(""):'<tr><td colspan="5" class="empty">No payment records found.</td></tr>';
-}
-
-/* ============================
-   SUPPORT TICKET
-   Table/columns not confirmed:
-   fail clearly instead of fake success.
-============================ */
-async function sendSupportTicket(){
-  const subject=$("ticketSubject").value.trim();
-  const description=$("ticketMessage").value.trim();
-  if(!subject||!description)return message("ticketStatus","Enter a subject and message.",true);
-
-  const {error}=await db.from("support_tickets").insert({
-    user_id:currentUser.id,
-    subject,
-    message:description,
-    status:"open"
-  });
-
-  if(error)return message("ticketStatus","Support ticket was not saved. The support_tickets table or its column policies need to be checked: "+error.message,true);
-
-  message("ticketStatus","Your support request was submitted.");
-  $("ticketSubject").value="";
-  $("ticketMessage").value="";
-}
-
-/* ============================
-   SEARCH + DASHBOARD STATS
-============================ */
-function searchCourses(){
-  const q=$("globalSearch").value.toLowerCase();
-  const filtered=courses.filter(c=>(c.title||"").toLowerCase().includes(q));
-  const container=$("dashboardCourses");
-  if(!q){renderCourses(container);return;}
-  if(!filtered.length){container.innerHTML='<div class="empty">No matching courses found.</div>';return;}
-  const old=courses;
-  courses=filtered;
-  renderCourses(container);
-  courses=old;
-}
-
-function updateStats(){
-  $("statCourses").textContent=enrollments.length;
-  $("statEntries").textContent=entries.length;
-  $("statPoints").textContent="—";
-  $("statRewards").textContent="—";
-}
-
-/* ============================
-   START
-============================ */
-checkSession();
+/* 6 CYCLE */
+function showPrice(){const s=$("joinSkill").value,g=groupOf(s);say("priceTxt",g+" skill: $"+GROUPS[g].price+" for 8 videos in 2 months.")}
+async function join(){const s=$("joinSkill").value;
+ const{data:cy,error}=await db.from("competition_cycles").select("*").eq("skill_name",s).eq("is_open",true).maybeSingle();
+ if(error)return say("jMsg",error.message);if(!cy)return say("jMsg","No open cycle for "+s+" right now.");
+ if(cy.deadline&&new Date(cy.deadline)<new Date())return say("jMsg","This cycle has already ended.");
+ if(myEntries.some(e=>e.cycle_id===cy.id))return say("jMsg","You already joined this cycle.");
+ const{error:e2}=await db.from("competition_entries").insert({student_id:user.id,cycle_id:cy.id,skill_name:s,status:"registered",deadline:cy.deadline});
+ if(e2)return say("jMsg",e2.message);say("jMsg","You joined the "+s+" cycle.");await loadEntries();loadCycle()}
+async function loadCycle(){
+ const id=$("cycEntry").value,e=myEntries.find(x=>String(x.id)===id);
+ if(!e){$("cycInfo").textContent="";return cards("slots",[],0,"Join a cycle above to see its 8 videos.")}
+ const{data:cy}=await db.from("competition_cycles").select("*").eq("id",e.cycle_id).single();
+ const{data:tasks}=await db.from("cycle_tasks").select("*").eq("cycle_id",e.cycle_id).order("video_no");
+ const{data:subs}=await db.from("submissions").select("*").eq("entry_id",e.id).eq("student_id",user.id);
+ const done=new Map((subs||[]).map(s=>[s.task_id,s]));
+ $("cycInfo").textContent=e.skill_name+" cycle ends "+day(cy?.deadline)+". "+(done.size)+" of "+((tasks||[]).length||8)+" videos submitted.";
+ cards("slots",tasks||[],t=>{
+  const sub=done.get(t.id),late=new Date(t.deadline)<new Date()||(cy&&(!cy.is_open||new Date(cy.deadline)<new Date()));
+  const st=sub?tag("Submitted","ok"):late?tag("Expired","bad"):tag("Open");
+  return`<div class="slot${late&&!sub?" off":""}"><small>Video ${Number(t.video_no)}</small><h3 style="margin-top:6px">${esc(t.title||"Project video")}</h3><p>Deadline ${day(t.deadline)}</p><p>${st}</p>`+
+   (sub||late?"":`<input class="f" type="file" accept="video/*" id="f${t.id}" style="margin-top:12px"><button class="btn" onclick="uploadVideo('${esc(e.id)}','${esc(t.id)}')">Upload</button><div class="msg" id="m${t.id}"></div>`)+"</div>"},"No videos have been set for this cycle yet.")}
+async function uploadVideo(entryId,taskId){
+ const msg="m"+taskId,f=$("f"+taskId).files[0];
+ if(!f||!f.type.startsWith("video/"))return say(msg,"Choose a video file.");if(f.size>500*1024*1024)return say(msg,"The video is over 500 MB.");
+ const{data:t}=await db.from("cycle_tasks").select("deadline,cycle_id").eq("id",taskId).single();
+ const{data:cy}=await db.from("competition_cycles").select("is_open,deadline").eq("id",t.cycle_id).single();
+ if(new Date()>new Date(t.deadline)||!cy.is_open||new Date()>new Date(cy.deadline)){say(msg,"The deadline has passed. This video has expired.");return loadCycle()}
+ say(msg,"Uploading…");
+ const path=user.id+"/"+entryId+"/"+taskId+"-"+Date.now()+"-"+fname(f);
+ const up=await db.storage.from("competition-projects").upload(path,f,{upsert:false});if(up.error)return say(msg,up.error.message);
+ const url=db.storage.from("competition-projects").getPublicUrl(path).data.publicUrl;
+ const{error}=await db.from("submissions").insert({student_id:user.id,entry_id:entryId,task_id:taskId,video_url:url});
+ if(error)return say(msg,error.message);
+ await db.from("competition_entries").update({status:"submitted",submitted_at:new Date().toISOString()}).eq("id",entryId).eq("student_id",user.id);
+ await loadEntries();loadCycle()}
 </script>
 </body>
 </html>
