@@ -1,1584 +1,1041 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SteadyMaze | Student Academy</title>
+<title>SteadyMaze | Student Portal</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#08070d;
-  --panel:#111019;
-  --panel2:#171421;
-  --purple:#8b5cf6;
-  --violet:#b48aff;
-  --red:#8b0000;
-  --text:#f7f4ff;
-  --muted:#918b9f;
-  --line:rgba(255,255,255,.075);
-  --sidebar:250px;
+  --bg:#07050c;
+  --panel:#110b1b;
+  --panel2:#191025;
+  --purple:#a020f0;
+  --purple2:#6d16bd;
+  --border:rgba(190,100,255,.19);
+  --text:#f7f2ff;
+  --muted:#a99bb8;
+  --green:#4ade80;
+  --red:#fb7185;
 }
-
-*{margin:0;padding:0;box-sizing:border-box}
-
+*{box-sizing:border-box}
 body{
-  background:
-    radial-gradient(ellipse at 75% -10%,rgba(91,35,145,.22),transparent 38%),
-    var(--bg);
-  color:var(--text);
-  font-family:Inter,Manrope,sans-serif;
-  min-height:100vh;
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,Arial,sans-serif;
 }
-
-button,input{font:inherit}
+button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-a{color:inherit;text-decoration:none}
-
 .app{display:flex;min-height:100vh}
-
-/* SIDEBAR */
-
 .sidebar{
-  width:var(--sidebar);
-  height:100vh;
-  position:fixed;
-  left:0;top:0;
-  background:rgba(12,10,18,.96);
-  border-right:1px solid var(--line);
-  padding:27px 17px;
-  display:flex;
-  flex-direction:column;
-  z-index:20;
+  width:255px;position:fixed;inset:0 auto 0 0;
+  background:linear-gradient(180deg,#12091e,#090710);
+  border-right:1px solid var(--border);
+  padding:25px 17px;display:flex;flex-direction:column;
+  z-index:20;overflow-y:auto;
 }
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:0 10px;
-  margin-bottom:43px;
+.logo{font-size:25px;font-weight:800;margin:4px 10px}
+.logo span{color:#bd48ff}
+.logo-sub{color:var(--muted);font-size:12px;margin:5px 10px 30px}
+.student-mini{
+  display:flex;align-items:center;gap:12px;
+  padding:13px;background:#1b1028;border:1px solid var(--border);
+  border-radius:15px;margin-bottom:25px;
 }
-
-.brand-icon{
-  width:39px;height:39px;
-  border-radius:13px;
-  background:linear-gradient(140deg,#a855f7,#4c1d95);
-  display:grid;place-items:center;
-  font-weight:900;font-size:19px;
-  box-shadow:0 5px 25px #8b5cf644;
-}
-
-.brand-name{
-  font-size:19px;
-  font-weight:900;
-  letter-spacing:-.7px;
-}
-
-.brand-name span{color:#b58aff}
-
-.nav-label{
-  color:#686273;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:1.8px;
-  padding:0 12px;
-  margin:15px 0 12px;
-}
-
-.nav-link{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  padding:13px 14px;
-  margin:3px 0;
-  border-radius:11px;
-  color:#aaa4b5;
-  font-size:13px;
-  font-weight:600;
-  transition:.25s;
-  border:1px solid transparent;
-}
-
-.nav-link i{width:17px;font-size:14px}
-
-.nav-link:hover,
-.nav-link.active{
-  color:white;
-  background:linear-gradient(100deg,rgba(139,92,246,.22),rgba(139,92,246,.05));
-  border-color:rgba(168,85,247,.16);
-}
-
-.nav-link.active{
-  box-shadow:inset 3px 0 #a855f7;
-}
-
-.sidebar-bottom{margin-top:auto}
-
-.profile-mini{
-  display:flex;align-items:center;gap:11px;
-  padding:13px 10px;
-  border-top:1px solid var(--line);
-  margin-top:15px;
-}
-
 .avatar{
-  width:37px;height:37px;
-  border-radius:50%;
-  background:#292035;
-  object-fit:cover;
-  border:1px solid #8b5cf6;
+  width:43px;height:43px;border-radius:50%;
+  object-fit:cover;background:#30213e;
 }
-
-.profile-mini strong{font-size:12px;display:block}
-.profile-mini small{color:var(--muted);font-size:10px}
-
-/* MAIN */
-
-.main{
-  margin-left:var(--sidebar);
-  width:calc(100% - var(--sidebar));
-  padding:29px 38px 60px;
-  max-width:1800px;
+.student-mini strong{font-size:13px}
+.student-mini small{display:block;color:var(--muted);margin-top:4px}
+.nav-label{
+  color:#806d91;font-size:10px;text-transform:uppercase;
+  letter-spacing:1.5px;margin:18px 10px 9px;
 }
-
+.nav-btn{
+  width:100%;border:0;background:transparent;color:#cfc4da;
+  padding:13px 12px;border-radius:11px;text-align:left;
+  margin:3px 0;font-size:13px;display:flex;gap:12px;align-items:center;
+}
+.nav-btn:hover,.nav-btn.active{
+  background:linear-gradient(100deg,#7412b7,#361052);
+  color:white;box-shadow:0 5px 20px #6d16bd35;
+}
+.nav-icon{width:20px;text-align:center;font-size:16px}
+.logout{margin-top:auto;color:#ff8297}
+.main{margin-left:255px;width:calc(100% - 255px);padding:25px 30px 60px}
 .topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:37px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:15px;margin-bottom:25px;
 }
-
-.breadcrumb{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.breadcrumb span{color:#c5a4ff}
-
+.welcome h2{font-size:21px;margin:0 0 6px}
+.welcome p{margin:0;color:var(--muted);font-size:13px}
 .top-actions{display:flex;align-items:center;gap:12px}
-
-.icon-button{
-  width:40px;height:40px;
-  display:grid;place-items:center;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:#15121d;
-  color:#ddd5ed;
+.search{
+  width:min(350px,35vw);background:#171020;border:1px solid var(--border);
+  border-radius:12px;padding:12px 15px;color:white;outline:none;
 }
-
-.menu-button{display:none}
-
-/* HERO */
-
+.icon-btn{
+  background:#1a1025;border:1px solid var(--border);color:white;
+  padding:11px 14px;border-radius:12px;
+}
+.mobile-menu{display:none}
+.page{display:none}
+.page.active{display:block}
 .hero{
-  position:relative;
-  overflow:hidden;
-  border:1px solid rgba(174,124,255,.19);
-  border-radius:23px;
-  min-height:285px;
-  padding:39px 42px;
+  min-height:250px;padding:35px;border-radius:22px;
+  border:1px solid var(--border);
   background:
-    linear-gradient(100deg,rgba(12,8,20,.98) 0%,rgba(30,12,49,.92) 55%,rgba(38,11,53,.76) 100%);
-  margin-bottom:31px;
+  radial-gradient(circle at 80% 20%,#6c16a955,transparent 38%),
+  linear-gradient(110deg,#170b24,#0d0914 70%);
+  position:relative;overflow:hidden;
 }
-
-.hero:before{
-  content:"";
-  position:absolute;
-  width:390px;height:390px;
-  border-radius:50%;
-  right:4%;top:-190px;
-  background:radial-gradient(circle,rgba(151,72,255,.32),transparent 68%);
-}
-
 .hero:after{
-  content:"";
-  position:absolute;
-  width:250px;height:250px;
-  right:17%;bottom:-190px;
-  background:radial-gradient(circle,rgba(139,0,0,.23),transparent 70%);
+  content:"";position:absolute;width:300px;height:300px;
+  right:5%;top:-100px;border-radius:50%;
+  background:#9b20f0;filter:blur(110px);opacity:.25;
 }
-
-.hero-content{position:relative;z-index:2;max-width:620px}
-
-.eyebrow{
-  color:#c4a2ff;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  font-size:10px;
-  font-weight:800;
-  margin-bottom:17px;
+.eyebrow{color:#d17cff;font-size:11px;letter-spacing:2px;font-weight:700}
+.hero h1{font-size:clamp(25px,4vw,39px);max-width:620px;margin:15px 0 10px}
+.hero p{color:#c5b8d2;max-width:580px;line-height:1.7;font-size:13px}
+.btn{
+  border:0;border-radius:10px;padding:12px 17px;
+  background:linear-gradient(100deg,#a020f0,#6815b5);
+  color:white;font-weight:700;font-size:12px;
 }
-
-.hero h1{
-  font-size:clamp(28px,4vw,43px);
-  line-height:1.16;
-  letter-spacing:-1.8px;
-  font-weight:900;
-  margin-bottom:15px;
-}
-
-.hero h1 span{
-  background:linear-gradient(90deg,#c084fc,#f0abfc);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.hero p{
-  color:#b9b1c7;
-  font-size:13px;
-  line-height:1.8;
-  max-width:500px;
-  margin-bottom:25px;
-}
-
-.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
-
-.primary-btn,.secondary-btn{
-  border-radius:10px;
-  padding:13px 19px;
-  font-size:12px;
-  font-weight:800;
-  border:1px solid transparent;
-}
-
-.primary-btn{
-  color:white;
-  background:linear-gradient(110deg,#9333ea,#6d28d9);
-  box-shadow:0 8px 25px #7c3aed33;
-}
-
-.secondary-btn{
-  color:#e7dcf8;
-  background:rgba(255,255,255,.04);
-  border-color:rgba(255,255,255,.12);
-}
-
-/* STATS */
-
+.btn.secondary{background:#21132f;border:1px solid var(--border)}
+.btn.danger{background:#7f1d35}
 .stats{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:15px;
-  margin-bottom:38px;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;margin:22px 0 30px;
 }
-
-.stat-card{
-  background:linear-gradient(145deg,#171420,#100e17);
-  border:1px solid var(--line);
-  border-radius:15px;
-  padding:20px;
+.stat,.panel,.course-card{
+  background:linear-gradient(145deg,#171020,#100b17);
+  border:1px solid var(--border);border-radius:16px;
 }
-
-.stat-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:18px;
+.stat{padding:20px}
+.stat small{color:var(--muted);font-size:12px}
+.stat strong{display:block;font-size:27px;margin-top:12px}
+.section-head{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;margin:25px 0 15px;
 }
-
-.stat-icon{
-  width:36px;height:36px;
-  display:grid;place-items:center;
-  border-radius:11px;
-  background:rgba(139,92,246,.14);
-  color:#c19aff;
-}
-
-.stat-card small{color:var(--muted);font-size:11px}
-.stat-card h3{font-size:24px;margin-top:7px;letter-spacing:-.7px}
-
-/* SECTION */
-
-.section{margin-top:37px}
-
-.section-heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  gap:15px;
-  margin-bottom:19px;
-}
-
-.section-heading h2{
-  font-size:21px;
-  letter-spacing:-.7px;
-  font-weight:800;
-}
-
-.section-heading p{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:7px;
-}
-
-.text-link{
-  color:#c29aff;
-  font-size:11px;
-  font-weight:700;
-  white-space:nowrap;
-}
-
-/* FILTERS */
-
-.filters{
-  display:flex;
-  gap:9px;
-  overflow-x:auto;
-  padding-bottom:7px;
-  margin-bottom:19px;
-}
-
-.filter-btn{
-  padding:9px 15px;
-  border-radius:30px;
-  border:1px solid var(--line);
-  background:#13111a;
-  color:#a9a2b4;
-  font-size:11px;
-  font-weight:700;
-  white-space:nowrap;
-}
-
-.filter-btn.active{
-  color:white;
-  background:#592b91;
-  border-color:#8b5cf6;
-}
-
-.search-box{
-  width:220px;
-  position:relative;
-}
-
-.search-box i{
-  position:absolute;left:13px;top:13px;
-  color:#82798f;font-size:12px;
-}
-
-.search-box input{
-  width:100%;
-  padding:11px 12px 11px 35px;
-  background:#15121d;
-  border:1px solid var(--line);
-  border-radius:10px;
-  outline:none;
-  color:white;
-  font-size:11px;
-}
-
-/* COURSE CARDS */
-
+.section-head h2{font-size:19px;margin:0}
+.section-head p{color:var(--muted);font-size:12px;margin:5px 0}
 .course-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:19px;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;
 }
-
-.course-card{
-  background:linear-gradient(150deg,#191622,#100e16);
-  border:1px solid rgba(255,255,255,.075);
-  border-radius:16px;
-  overflow:hidden;
-  transition:.3s;
+.course-card{overflow:hidden}
+.course-card img{width:100%;height:140px;object-fit:cover;background:#21132f}
+.course-info{padding:13px}
+.course-info strong{font-size:13px}
+.course-info p{color:var(--muted);font-size:11px}
+.progress{height:6px;background:#30223d;border-radius:20px;overflow:hidden}
+.progress span{display:block;height:100%;background:#bd42ff;width:0}
+.panel{padding:20px;margin-bottom:18px}
+.panel h3{margin:0 0 15px;font-size:15px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.field{margin:12px 0}
+.field label{display:block;color:var(--muted);font-size:11px;margin-bottom:7px}
+.field input,.field textarea,.field select{
+  width:100%;background:#0b0811;border:1px solid var(--border);
+  color:white;padding:12px;border-radius:10px;outline:none;
 }
-
-.course-card:hover{
-  transform:translateY(-5px);
-  border-color:rgba(168,85,247,.45);
-  box-shadow:0 15px 40px #0008;
+.field textarea{min-height:100px;resize:vertical}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:650px}
+th,td{padding:13px 14px;text-align:left;border-bottom:1px solid #30233a;font-size:12px}
+th{background:#21132e;color:#d9a8ff;font-size:11px}
+td{color:#e9e0f1}
+tr:last-child td{border-bottom:0}
+.profile-pic{width:34px;height:34px;border-radius:50%;object-fit:cover;vertical-align:middle}
+.badge{
+  display:inline-block;padding:5px 9px;border-radius:20px;
+  background:#35154b;color:#e2b5ff;font-size:10px;
 }
-
-.course-image{
-  height:175px;
-  position:relative;
-  background:linear-gradient(135deg,#241538,#11101a);
-  overflow:hidden;
+.muted{color:var(--muted);font-size:12px}
+.notice{
+  padding:12px;border:1px solid var(--border);border-radius:10px;
+  color:#cbb9da;font-size:12px;margin:12px 0;
 }
-
-.course-image img{
-  width:100%;height:100%;
-  object-fit:cover;
-  display:block;
-  transition:.4s;
+.skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.skill-card{
+  border:1px solid var(--border);background:#160e20;
+  padding:15px;border-radius:12px;cursor:pointer;text-align:left;color:white;
 }
-
-.course-card:hover .course-image img{transform:scale(1.05)}
-
-.course-category{
-  position:absolute;top:13px;left:13px;
-  background:rgba(10,8,16,.82);
-  border:1px solid rgba(255,255,255,.12);
-  padding:7px 10px;
-  border-radius:20px;
-  font-size:9px;
-  font-weight:800;
-  color:#e4d4ff;
-  backdrop-filter:blur(8px);
+.skill-card:hover,.skill-card.selected{border-color:#c45aff;background:#29143a}
+.auth-screen{
+  position:fixed;inset:0;background:#07040c;z-index:100;
+  display:flex;align-items:center;justify-content:center;padding:20px;
 }
-
-.course-body{padding:17px}
-
-.course-body h3{
-  font-size:15px;
-  font-weight:800;
-  margin-bottom:8px;
+.auth-box{
+  width:min(420px,100%);padding:28px;border:1px solid var(--border);
+  border-radius:20px;background:#140d1e;
 }
-
-.course-description{
-  font-size:11px;
-  color:#958da1;
-  line-height:1.7;
-  min-height:36px;
-}
-
-.course-meta{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  color:#aaa2b5;
-  font-size:10px;
-  margin:16px 0;
-}
-
-.course-meta i{color:#b68aff;margin-right:5px}
-
-.course-footer{
-  border-top:1px solid var(--line);
-  padding-top:14px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.course-price{
-  font-size:17px;
-  font-weight:900;
-}
-
-.course-price small{
-  color:#91899c;
-  font-size:9px;
-  font-weight:500;
-}
-
-.course-open{
-  border:1px solid rgba(168,85,247,.35);
-  background:rgba(139,92,246,.13);
-  color:#d9c2ff;
-  border-radius:8px;
-  padding:9px 13px;
-  font-size:10px;
-  font-weight:800;
-}
-
-/* VIDEO GALLERY */
-
-.video-panel{
-  background:linear-gradient(140deg,#171420,#100e17);
-  border:1px solid var(--line);
-  border-radius:17px;
-  padding:22px;
-}
-
-.video-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:15px;
-}
-
-.video-card{
-  background:#0d0b12;
-  border:1px solid var(--line);
-  border-radius:12px;
-  overflow:hidden;
-}
-
-.video-thumb{
-  height:145px;
-  background:#21152e;
-  position:relative;
-}
-
-.video-thumb img{
-  width:100%;height:100%;object-fit:cover;
-}
-
-.play-button{
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:43px;height:43px;
-  border-radius:50%;
-  display:grid;place-items:center;
-  background:rgba(10,8,16,.76);
-  color:white;
-  border:1px solid rgba(255,255,255,.35);
-}
-
-.video-info{padding:13px}
-.video-info h4{font-size:12px;margin-bottom:7px}
-.video-info p{font-size:10px;color:var(--muted);line-height:1.6}
-
-/* EMPTY + LOADING */
-
-.empty-state{
-  padding:35px 20px;
-  text-align:center;
-  border:1px dashed rgba(255,255,255,.12);
-  border-radius:14px;
-  color:#9a91a6;
-  font-size:12px;
-  line-height:1.8;
-  grid-column:1/-1;
-}
-
-.empty-state i{
-  display:block;
-  font-size:25px;
-  color:#9b6be0;
-  margin-bottom:13px;
-}
-
-.status-message{
-  color:#b9a9d1;
-  font-size:11px;
-  margin-top:12px;
-}
-
-/* LOGIN */
-
-.login-overlay{
-  position:fixed;inset:0;
-  z-index:100;
-  background:rgba(5,3,9,.94);
-  backdrop-filter:blur(15px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-.login-box{
-  width:100%;
-  max-width:410px;
-  background:#15111e;
-  border:1px solid rgba(168,85,247,.25);
-  border-radius:20px;
-  padding:30px;
-  box-shadow:0 25px 90px #000;
-}
-
-.login-box h2{font-size:23px;margin-bottom:8px}
-.login-box p{color:var(--muted);font-size:12px;line-height:1.7;margin-bottom:23px}
-
-.login-box input{
-  width:100%;
-  padding:14px;
-  margin-bottom:12px;
-  background:#0d0b12;
-  border:1px solid var(--line);
-  color:white;
-  border-radius:10px;
-  outline:none;
-}
-
-.login-box button{width:100%;margin-top:5px}
-.login-switch{
-  color:#c5a2ff;
-  background:none;
-  border:0;
-  margin-top:17px;
-  font-size:11px;
-}
-.close-login{
-  float:right;
-  color:#aaa;
-  background:none;
-  border:0;
-  font-size:20px;
-}
-
-/* MOBILE */
-
+.auth-box h1{font-size:25px;margin-top:0}
+.auth-box p{font-size:12px;color:var(--muted);line-height:1.6}
+.status-line{font-size:12px;color:var(--muted);margin-top:10px}
+.empty{padding:25px;text-align:center;color:var(--muted);font-size:12px}
+.mobile-bottom{display:none}
 @media(max-width:1100px){
-  .course-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-
-@media(max-width:760px){
-  :root{--sidebar:0px}
-
-  .sidebar{
-    width:265px;
-    transform:translateX(-100%);
-    transition:.3s;
-    box-shadow:20px 0 50px #0008;
-  }
-
-  .sidebar.open{transform:translateX(0)}
-
-  .main{
-    margin-left:0;
-    width:100%;
-    padding:19px 15px 45px;
-  }
-
-  .menu-button{display:grid}
-  .topbar{margin-bottom:23px}
-  .hero{padding:29px 23px;min-height:300px}
-  .hero h1{font-size:31px}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .stat-card{padding:15px}
-  .stat-card h3{font-size:21px}
-  .course-grid{grid-template-columns:1fr}
-  .course-image{height:205px}
-  .video-grid{grid-template-columns:1fr}
-  .video-thumb{height:190px}
-  .section-heading{align-items:start}
-  .search-box{width:100%}
-}
-
-@media(min-width:761px) and (max-width:1050px){
-  .main{padding:25px 22px}
-  .sidebar{width:220px}
-  .main{margin-left:220px;width:calc(100% - 220px)}
   .stats{grid-template-columns:repeat(2,1fr)}
+  .course-grid{grid-template-columns:repeat(2,1fr)}
 }
+@media(max-width:760px){
+  .sidebar{transform:translateX(-100%);transition:.25s;width:270px}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin:0;width:100%;padding:18px 14px 90px}
+  .mobile-menu{display:block}
+  .topbar{align-items:flex-start}
+  .top-actions .search{display:none}
+  .welcome h2{font-size:17px}
+  .hero{padding:24px;min-height:230px}
+  .stats{gap:9px}
+  .stat{padding:14px}
+  .stat strong{font-size:22px}
+  .course-grid{grid-template-columns:1fr 1fr;gap:9px}
+  .course-card img{height:105px}
+  .course-info{padding:10px}
+  .grid-2{grid-template-columns:1fr}
+  .skill-grid{grid-template-columns:1fr 1fr}
+  .mobile-bottom{
+    display:flex;position:fixed;bottom:0;left:0;right:0;
+    background:#100a18;border-top:1px solid var(--border);
+    justify-content:space-around;padding:11px 5px;z-index:15;
+  }
+  .mobile-bottom button{
+    background:none;border:0;color:#cdbbdc;font-size:10px;
+  }
+}
+@media(max-width:390px){.course-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-box">
+    <div class="logo">Steady<span>Maze</span></div>
+    <h1>Student Portal</h1>
+    <p>Sign in to continue learning, manage your courses and participate in competitions.</p>
+    <div class="field"><label>Email address</label><input id="authEmail" type="email" placeholder="you@example.com"></div>
+    <div class="field"><label>Password</label><input id="authPassword" type="password" placeholder="Your password"></div>
+    <button class="btn" style="width:100%" onclick="signIn()">Sign In</button>
+    <button class="btn secondary" style="width:100%;margin-top:10px" onclick="signUp()">Create Student Account</button>
+    <div class="status-line" id="authMessage"></div>
+  </div>
+</div>
+
 <div class="app">
-
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
+  <div class="logo">Steady<span>Maze</span></div>
+  <div class="logo-sub">STUDENT PORTAL</div>
 
-  <div class="brand">
-    <div class="brand-icon">S</div>
-    <div class="brand-name">Steady<span>Maze</span></div>
+  <div class="student-mini">
+    <img class="avatar" id="sideAvatar" src="https://placehold.co/100x100/241438/ffffff?text=SM">
+    <div><strong id="sideName">Student</strong><small id="sideEmail">Student account</small></div>
   </div>
 
-  <div class="nav-label">STUDENT MENU</div>
+  <div class="nav-label">Main Menu</div>
+  <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">⌂</span>Dashboard</button>
+  <button class="nav-btn" data-page="profile"><span class="nav-icon">◉</span>My Profile / Bio</button>
+  <button class="nav-btn" data-page="courses"><span class="nav-icon">▣</span>My Courses</button>
+  <button class="nav-btn" data-page="competition"><span class="nav-icon">♜</span>Competition</button>
+  <button class="nav-btn" data-page="leaderboard"><span class="nav-icon">🏆</span>Leaderboards</button>
 
-  <a href="#dashboard" class="nav-link active">
-    <i class="fa-solid fa-house"></i> Dashboard
-  </a>
+  <div class="nav-label">My Account</div>
+  <button class="nav-btn" data-page="payments"><span class="nav-icon">▤</span>Payments</button>
+  <button class="nav-btn" data-page="rewards"><span class="nav-icon">✧</span>Rewards</button>
+  <button class="nav-btn" data-page="supportpoints"><span class="nav-icon">★</span>Support Points</button>
 
-  <a href="#courses" class="nav-link">
-    <i class="fa-solid fa-graduation-cap"></i> Explore Courses
-  </a>
-
-  <a href="#videos" class="nav-link">
-    <i class="fa-solid fa-circle-play"></i> Video Gallery
-  </a>
-
-  <a href="#my-learning" class="nav-link">
-    <i class="fa-solid fa-book-open"></i> My Learning
-  </a>
-
-  <div class="nav-label">COMPETITION</div>
-
-  <a href="#competition" class="nav-link">
-    <i class="fa-solid fa-trophy"></i> Competition
-  </a>
-
-  <a href="#leaderboard" class="nav-link">
-    <i class="fa-solid fa-ranking-star"></i> Leaderboard
-  </a>
-
-  <div class="nav-label">MY ACCOUNT</div>
-
-  <a href="#profile" class="nav-link">
-    <i class="fa-solid fa-user"></i> My Profile
-  </a>
-
-  <a href="#payments" class="nav-link">
-    <i class="fa-solid fa-wallet"></i> Payments
-  </a>
-
-  <a href="#rewards" class="nav-link">
-    <i class="fa-solid fa-gift"></i> Rewards
-  </a>
-
-  <div class="sidebar-bottom">
-    <a href="#support" class="nav-link">
-      <i class="fa-solid fa-headset"></i> Help & Support
-    </a>
-
-    <div class="profile-mini">
-      <img id="sidebarAvatar" class="avatar"
-           src="https://placehold.co/100x100/21152e/ffffff?text=S"
-           alt="Student profile">
-      <div>
-        <strong id="sidebarName">Student Account</strong>
-        <small id="sidebarEmail">Sign in to continue</small>
-      </div>
-    </div>
-  </div>
+  <div class="nav-label">Career & Help</div>
+  <button class="nav-btn" data-page="employment"><span class="nav-icon">▣</span>Direct Employment</button>
+  <button class="nav-btn" data-page="support"><span class="nav-icon">?</span>Help & Support</button>
+  <button class="nav-btn logout" onclick="signOut()"><span class="nav-icon">⇥</span>Logout</button>
 </aside>
 
-<!-- MAIN CONTENT -->
-<main class="main" id="dashboard">
-
+<main class="main">
   <header class="topbar">
-    <div style="display:flex;align-items:center;gap:13px">
-      <button class="icon-button menu-button" onclick="toggleSidebar()">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-      <div class="breadcrumb">Student Portal / <span>Dashboard</span></div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <button class="icon-btn mobile-menu" onclick="toggleSidebar()">☰</button>
+      <div class="welcome">
+        <h2 id="welcomeName">Welcome to SteadyMaze</h2>
+        <p>Your learning journey starts here.</p>
+      </div>
     </div>
-
     <div class="top-actions">
-      <button class="icon-button" title="Notifications">
-        <i class="fa-regular fa-bell"></i>
-      </button>
-      <button class="icon-button" title="Account" onclick="showLogin()">
-        <i class="fa-regular fa-user"></i>
-      </button>
+      <input class="search" id="globalSearch" placeholder="Search courses and skills..." oninput="searchCourses()">
+      <button class="icon-btn" onclick="loadAll()">↻</button>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="eyebrow">STEADYMAZE ACADEMY</div>
-      <h1>Build Your Skills.<br><span>Shape Your Future.</span></h1>
-      <p>
-        Learn professional skills, explore new opportunities,
-        build real projects and take your next step with SteadyMaze.
-      </p>
-      <div class="hero-buttons">
-        <a href="#courses" class="primary-btn">
-          Explore Courses <i class="fa-solid fa-arrow-right"></i>
-        </a>
-        <a href="#videos" class="secondary-btn">
-          <i class="fa-solid fa-play"></i> Watch Videos
-        </a>
-      </div>
+  <!-- DASHBOARD -->
+  <section class="page active" id="page-dashboard">
+    <div class="hero">
+      <div class="eyebrow">STEADYMAZE LEARNING CENTER</div>
+      <h1>Learn Valuable Skills.<br>Build Your Future.</h1>
+      <p>Learn from structured courses, practice your skills, submit projects and take part in SteadyMaze competitions.</p>
+      <button class="btn" onclick="showPage('courses')">▶ Continue Learning</button>
+      <button class="btn secondary" onclick="showPage('competition')">♜ Explore Competition</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><small>My Enrollments</small><strong id="statCourses">—</strong></div>
+      <div class="stat"><small>Competition Entries</small><strong id="statEntries">—</strong></div>
+      <div class="stat"><small>Support Points</small><strong id="statPoints">—</strong></div>
+      <div class="stat"><small>My Rewards</small><strong id="statRewards">—</strong></div>
+    </div>
+
+    <div class="section-head">
+      <div><h2>Continue Learning</h2><p>Your enrolled courses from the database.</p></div>
+      <button class="btn secondary" onclick="showPage('courses')">View Courses →</button>
+    </div>
+    <div class="course-grid" id="dashboardCourses"><div class="empty">Loading your courses...</div></div>
+
+    <div class="section-head"><div><h2>Teacher Introduction</h2><p>Teacher introduction videos linked to your courses.</p></div></div>
+    <div class="panel">
+      <p class="muted">Teacher introduction videos will appear here when a video URL is available in your course or lesson records.</p>
+      <div id="teacherIntroList" class="muted">No teacher introduction video has been connected yet.</div>
     </div>
   </section>
 
-  <!-- STATS -->
-  <section class="stats">
-    <div class="stat-card">
-      <div class="stat-top">
-        <small>Available Skills</small>
-        <div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div>
+  <!-- PROFILE / BIO -->
+  <section class="page" id="page-profile">
+    <div class="section-head"><div><h2>My Profile & Bio</h2><p>Manage the student information shown on your account and competition profile.</p></div></div>
+    <div class="grid-2">
+      <div class="panel">
+        <h3>Profile Information</h3>
+        <div style="display:flex;align-items:center;gap:15px;margin-bottom:20px">
+          <img id="profileAvatar" class="avatar" style="width:75px;height:75px" src="https://placehold.co/100x100/241438/ffffff?text=SM">
+          <div><strong id="profileEmail">—</strong><p class="muted">Student profile photo</p></div>
+        </div>
+        <div class="field"><label>Full Name *</label><input id="profileName" placeholder="Your full name"></div>
+        <div class="field"><label>Country</label><input id="profileCountry" placeholder="Country"></div>
+        <div class="field"><label>About Me / Bio</label><textarea id="profileBio" placeholder="Write a short introduction about yourself..."></textarea></div>
+        <div class="field"><label>Profile Photo</label><input id="profileFile" type="file" accept="image/*"></div>
+        <button class="btn" onclick="saveProfile()">Save Profile</button>
+        <div class="status-line" id="profileMessage"></div>
       </div>
-      <h3 id="skillCount">—</h3>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-top">
-        <small>Available Courses</small>
-        <div class="stat-icon"><i class="fa-solid fa-book"></i></div>
+      <div class="panel">
+        <h3>My Public Student Profile</h3>
+        <img id="bioAvatar" class="avatar" style="width:90px;height:90px" src="https://placehold.co/100x100/241438/ffffff?text=SM">
+        <h2 id="bioName">Student Name</h2>
+        <p class="muted" id="bioCountry">Country not added</p>
+        <p id="bioText" class="muted">Your bio will appear here after you save your profile.</p>
+        <div class="notice">Your full name and profile photo can be displayed beside your name in competition leaderboards.</div>
       </div>
-      <h3 id="courseCount">—</h3>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-top">
-        <small>My Enrollments</small>
-        <div class="stat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-      </div>
-      <h3 id="enrollmentCount">—</h3>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-top">
-        <small>My Account</small>
-        <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
-      </div>
-      <h3 id="accountStatus" style="font-size:16px">Guest</h3>
     </div>
   </section>
 
   <!-- COURSES -->
-  <section class="section" id="courses">
-
-    <div class="section-heading">
-      <div>
-        <h2>Explore Our Courses</h2>
-        <p>Discover skills and find the right learning path for you.</p>
-      </div>
-      <a href="#courses" class="text-link">Explore all <i class="fa-solid fa-arrow-right"></i></a>
-    </div>
-
-    <div style="display:flex;justify-content:space-between;gap:13px;flex-wrap:wrap">
-      <div class="filters">
-        <button class="filter-btn active" data-category="all">All Skills</button>
-        <button class="filter-btn" data-category="lower">Lower</button>
-        <button class="filter-btn" data-category="medium">Medium</button>
-        <button class="filter-btn" data-category="high">High</button>
-      </div>
-
-      <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input id="courseSearch" type="search" placeholder="Search courses...">
-      </div>
-    </div>
-
-    <div class="course-grid" id="courseGrid">
-      <div class="empty-state">
-        <i class="fa-solid fa-circle-notch fa-spin"></i>
-        Loading courses from SteadyMaze...
-      </div>
-    </div>
-
-    <p class="status-message" id="courseStatus"></p>
-  </section>
-
-  <!-- VIDEO GALLERY -->
-  <section class="section" id="videos">
-    <div class="section-heading">
-      <div>
-        <h2>Learning Video Gallery</h2>
-        <p>Explore available lessons and course video content.</p>
-      </div>
-      <span class="text-link">STEADYMAZE VIDEOS</span>
-    </div>
-
-    <div class="video-panel">
-      <div class="video-grid" id="videoGrid">
-        <div class="empty-state">
-          <i class="fa-solid fa-film"></i>
-          Video lessons will appear here when available in the database.
-        </div>
-      </div>
+  <section class="page" id="page-courses">
+    <div class="section-head"><div><h2>My Courses</h2><p>Courses connected to your student enrollment.</p></div></div>
+    <div class="course-grid" id="allCourses"><div class="empty">Loading courses...</div></div>
+    <div class="panel" style="margin-top:20px">
+      <h3>Course Lessons</h3>
+      <div id="lessonList" class="muted">Choose an enrolled course to view its lessons.</div>
     </div>
   </section>
 
-  <!-- MY LEARNING -->
-  <section class="section" id="my-learning">
-    <div class="section-heading">
-      <div>
-        <h2>My Learning</h2>
-        <p>Your enrolled courses and learning progress.</p>
+  <!-- COMPETITION -->
+  <section class="page" id="page-competition">
+    <div class="section-head"><div><h2>SteadyMaze Competition</h2><p>Available competitions are loaded from your Supabase database.</p></div></div>
+    <div class="notice">Competition registration and project submission depend on the competition status set by the administrator.</div>
+    <div class="panel">
+      <h3>Available Competition Skills</h3>
+      <div class="skill-grid" id="competitionSkills"><div class="empty">Loading competitions...</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <h3>Competition Registration</h3>
+        <div class="field"><label>Select Competition</label><select id="competitionSelect"><option value="">Select an available competition</option></select></div>
+        <button class="btn" onclick="registerCompetition()">Register for Competition</button>
+        <div class="status-line" id="registerMessage"></div>
+      </div>
+      <div class="panel">
+        <h3>Submit Your Project</h3>
+        <div class="field"><label>Registered Competition</label><select id="uploadCompetition"><option value="">Select competition</option></select></div>
+        <div class="field"><label>Project Title</label><input id="projectTitle" placeholder="Project title"></div>
+        <div class="field"><label>Project Description</label><textarea id="projectDescription" placeholder="Describe your project..."></textarea></div>
+        <div class="field"><label>Video File</label><input id="projectFile" type="file" accept="video/mp4,video/webm,video/quicktime"></div>
+        <button class="btn" onclick="submitProject()">Submit Project</button>
+        <div class="status-line" id="uploadMessage"></div>
       </div>
     </div>
-
-    <div class="course-grid" id="myLearningGrid">
-      <div class="empty-state">
-        <i class="fa-solid fa-book-open"></i>
-        Sign in to view your enrolled courses.
-      </div>
+    <div class="panel">
+      <h3>My Competition Entries</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Competition</th><th>Joined</th><th>Status</th><th>Points</th></tr></thead>
+        <tbody id="myEntries"><tr><td colspan="4" class="empty">Loading entries...</td></tr></tbody>
+      </table></div>
     </div>
   </section>
 
-  <!-- OTHER SECTIONS -->
-  <section class="section" id="competition">
-    <div class="section-heading">
-      <div>
-        <h2>Competition Centre</h2>
-        <p>Your competition journey starts here.</p>
+  <!-- LEADERBOARD -->
+  <section class="page" id="page-leaderboard">
+    <div class="section-head"><div><h2>Competition Leaderboards</h2><p>Each competition has its own leaderboard. Only real database entries are shown.</p></div></div>
+    <div class="panel">
+      <div class="field"><label>Choose Competition / Skill</label><select id="leaderCompetition" onchange="loadLeaderboard()"><option value="">Select competition</option></select></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Rank</th><th>Profile</th><th>Name</th><th>Points</th>
+            <th>Creativity</th><th>Quality</th><th>Storytelling</th>
+          </tr></thead>
+          <tbody id="leaderboardBody"><tr><td colspan="7" class="empty">Choose a competition to view its leaderboard.</td></tr></tbody>
+        </table>
       </div>
-    </div>
-    <div class="video-panel">
-      <div class="empty-state">
-        <i class="fa-solid fa-trophy"></i>
-        Competition registration and uploads will be connected in the next development stage.
-      </div>
+      <p class="muted" id="leaderboardInfo">Ranks are calculated from the actual score records returned by Supabase.</p>
     </div>
   </section>
 
-  <section class="section" id="leaderboard">
-    <div class="section-heading">
-      <div>
-        <h2>Competition Leaderboard</h2>
-        <p>Student rankings will appear here.</p>
-      </div>
+  <!-- PAYMENTS -->
+  <section class="page" id="page-payments">
+    <div class="section-head"><div><h2>Payments</h2><p>View payment records saved to your student account.</p></div></div>
+    <div class="stats">
+      <div class="stat"><small>Total Paid</small><strong id="totalPaid">—</strong></div>
+      <div class="stat"><small>Successful Payments</small><strong id="paidCount">—</strong></div>
     </div>
-    <div class="video-panel">
-      <div class="empty-state">
-        <i class="fa-solid fa-ranking-star"></i>
-        Leaderboard will display real competition results when available.
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="profile">
-    <div class="section-heading">
-      <div>
-        <h2>My Profile</h2>
-        <p>Your student account information.</p>
-      </div>
-    </div>
-    <div class="video-panel">
-      <p id="profileDetails" style="color:#aaa2b5;font-size:12px">
-        Sign in to view your student profile.
-      </p>
+    <div class="panel">
+      <h3>Payment History</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Date</th><th>Provider</th><th>Reference</th><th>Amount</th><th>Status</th></tr></thead>
+        <tbody id="paymentBody"><tr><td colspan="5" class="empty">Loading payment records...</td></tr></tbody>
+      </table></div>
+      <div class="notice">This page displays payment records only. A real payment provider must be connected separately to process payments. Do not enter card numbers or security codes here.</div>
     </div>
   </section>
 
-  <section class="section" id="payments">
-    <div class="section-heading">
-      <div>
-        <h2>Payments</h2>
-        <p>Your course payment records.</p>
-      </div>
-    </div>
-    <div class="video-panel">
-      <div class="empty-state">
-        <i class="fa-solid fa-wallet"></i>
-        Payment records will be displayed here. Payment processing is not enabled in this page yet.
-      </div>
+  <!-- REWARDS -->
+  <section class="page" id="page-rewards">
+    <div class="section-head"><div><h2>My Rewards</h2><p>Rewards assigned to your account.</p></div></div>
+    <div class="panel">
+      <h3>Reward Records</h3>
+      <div class="empty">Rewards table has not been confirmed in your database yet. No reward data is being fabricated.</div>
     </div>
   </section>
 
-  <section class="section" id="rewards">
-    <div class="section-heading">
-      <div>
-        <h2>My Rewards</h2>
-        <p>Your achievements and rewards.</p>
-      </div>
-    </div>
-    <div class="video-panel">
-      <div class="empty-state">
-        <i class="fa-solid fa-gift"></i>
-        Your rewards will appear here when reward records are available.
-      </div>
+  <!-- SUPPORT POINTS -->
+  <section class="page" id="page-supportpoints">
+    <div class="section-head"><div><h2>Support Points</h2><p>Your support point history.</p></div></div>
+    <div class="panel">
+      <h3>Points Overview</h3>
+      <div class="empty">Support points table has not been confirmed in your database yet.</div>
     </div>
   </section>
 
-  <section class="section" id="support">
-    <div class="section-heading">
-      <div>
-        <h2>Help & Support</h2>
-        <p>Need help with your SteadyMaze account?</p>
-      </div>
+  <!-- EMPLOYMENT -->
+  <section class="page" id="page-employment">
+    <div class="section-head"><div><h2>Direct Employment</h2><p>Explore career opportunities through SteadyMaze.</p></div></div>
+    <div class="panel">
+      <h3>Career Pathway</h3>
+      <p class="muted">Build your skills, complete projects and develop a portfolio that can support future employment opportunities.</p>
+      <div class="notice">Employment applications and employer matching will appear here when the relevant database workflow is connected.</div>
     </div>
-    <div class="video-panel">
-      <p style="color:#aaa2b5;font-size:12px">
-        Contact the SteadyMaze support team for assistance.
-      </p>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="page" id="page-support">
+    <div class="section-head"><div><h2>Help & Support</h2><p>Contact the SteadyMaze support team.</p></div></div>
+    <div class="panel">
+      <h3>Support Request</h3>
+      <div class="field"><label>Subject</label><input id="ticketSubject" placeholder="What do you need help with?"></div>
+      <div class="field"><label>Message</label><textarea id="ticketMessage" placeholder="Write your message..."></textarea></div>
+      <button class="btn" onclick="sendSupportTicket()">Send Request</button>
+      <div class="status-line" id="ticketStatus"></div>
     </div>
   </section>
 
 </main>
 </div>
 
-<!-- LOGIN MODAL -->
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-box">
-    <button class="close-login" onclick="hideLogin()">×</button>
-    <h2 id="loginTitle">Welcome Back</h2>
-    <p id="loginDescription">Sign in to access your SteadyMaze student account.</p>
-
-    <form id="authForm">
-      <input id="authName" type="text" placeholder="Full name" style="display:none">
-      <input id="authEmail" type="email" placeholder="Email address" required>
-      <input id="authPassword" type="password" placeholder="Password" required minlength="6">
-      <button class="primary-btn" type="submit" id="authSubmit">Sign In</button>
-    </form>
-
-    <p id="authMessage" class="status-message"></p>
-
-    <button class="login-switch" id="authSwitch" onclick="switchAuthMode()">
-      Create a student account
-    </button>
-  </div>
+<div class="mobile-bottom">
+  <button onclick="showPage('dashboard')">⌂<br>Home</button>
+  <button onclick="showPage('courses')">▣<br>Courses</button>
+  <button onclick="showPage('competition')">♜<br>Competition</button>
+  <button onclick="showPage('profile')">◉<br>Profile</button>
 </div>
 
 <script>
-/* =====================================
-   STEADYMAZE SUPABASE CONFIGURATION
-===================================== */
-
+/* ============================
+   SUPABASE CONNECTION
+============================ */
 const SUPABASE_URL = "https://uxrltzlxdttbjstomhkb.supabase.co";
-const SUPABASE_KEY = "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const SUPABASE_ANON_KEY = "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
-let allCourses = [];
-let allSkills = [];
-let authMode = "signin";
+let currentProfile = null;
+let competitions = [];
+let enrollments = [];
+let courses = [];
+let skills = [];
+let entries = [];
 
-/* =====================================
-   MOBILE SIDEBAR
-===================================== */
+const $ = id => document.getElementById(id);
+const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
 
-function toggleSidebar(){
-  document.getElementById("sidebar").classList.toggle("open");
+function message(id,text,isError=false){
+  const el=$(id);
+  if(el){el.textContent=text;el.style.color=isError?"#fb7185":"#4ade80";}
 }
 
-/* =====================================
-   LOGIN MODAL
-===================================== */
+/* ============================
+   NAVIGATION
+============================ */
+function showPage(name){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  const target=$("page-"+name);
+  if(target)target.classList.add("active");
 
-function showLogin(){
-  document.getElementById("loginOverlay").style.display="flex";
+  document.querySelectorAll(".nav-btn[data-page]").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===name);
+  });
+  $("sidebar").classList.remove("open");
+  if(name==="leaderboard")loadLeaderboard();
+  if(name==="payments")loadPayments();
+  if(name==="courses")renderCourses($("allCourses"));
 }
+function toggleSidebar(){ $("sidebar").classList.toggle("open"); }
 
-function hideLogin(){
-  document.getElementById("loginOverlay").style.display="none";
-}
-
-function switchAuthMode(){
-  authMode = authMode === "signin" ? "signup" : "signin";
-
-  document.getElementById("loginTitle").textContent =
-    authMode === "signin" ? "Welcome Back" : "Create Your Account";
-
-  document.getElementById("loginDescription").textContent =
-    authMode === "signin"
-      ? "Sign in to access your SteadyMaze student account."
-      : "Create your SteadyMaze student account.";
-
-  document.getElementById("authName").style.display =
-    authMode === "signup" ? "block" : "none";
-
-  document.getElementById("authName").required =
-    authMode === "signup";
-
-  document.getElementById("authSubmit").textContent =
-    authMode === "signin" ? "Sign In" : "Create Account";
-
-  document.getElementById("authSwitch").textContent =
-    authMode === "signin"
-      ? "Create a student account"
-      : "Already have an account? Sign in";
-
-  document.getElementById("authMessage").textContent="";
-}
-
-/* =====================================
-   AUTHENTICATION
-===================================== */
-
-document.getElementById("authForm").addEventListener("submit",async function(e){
-  e.preventDefault();
-
-  const email=document.getElementById("authEmail").value.trim();
-  const password=document.getElementById("authPassword").value;
-  const fullName=document.getElementById("authName").value.trim();
-  const message=document.getElementById("authMessage");
-  const submit=document.getElementById("authSubmit");
-
-  submit.disabled=true;
-  submit.textContent="Please wait...";
-  message.textContent="";
-
-  try{
-    if(authMode==="signup"){
-      if(!fullName){
-        throw new Error("Please enter your full name.");
-      }
-
-      const {data,error}=await supabaseClient.auth.signUp({
-        email,
-        password,
-        options:{
-          data:{full_name:fullName}
-        }
-      });
-
-      if(error) throw error;
-
-      if(data.user && data.session){
-        await ensureProfile(data.user,fullName);
-        message.textContent="Account created successfully.";
-      }else{
-        message.textContent="Check your email to confirm your account.";
-      }
-
-    }else{
-      const {data,error}=await supabaseClient.auth.signInWithPassword({
-        email,password
-      });
-
-      if(error) throw error;
-
-      currentUser=data.user;
-      await ensureProfile(currentUser);
-      hideLogin();
-      await loadStudentDashboard();
-    }
-
-  }catch(error){
-    message.textContent=error.message || "Authentication failed.";
-  }finally{
-    submit.disabled=false;
-    submit.textContent=authMode==="signin"?"Sign In":"Create Account";
-  }
+document.querySelectorAll(".nav-btn[data-page]").forEach(btn=>{
+  btn.addEventListener("click",()=>showPage(btn.dataset.page));
 });
 
-/* =====================================
-   PROFILE
-===================================== */
+/* ============================
+   AUTHENTICATION
+============================ */
+async function signIn(){
+  const email=$("authEmail").value.trim();
+  const password=$("authPassword").value;
+  if(!email||!password)return message("authMessage","Enter your email and password.",true);
 
-async function ensureProfile(user,providedName=""){
-  const {data:existing,error:readError}=await supabaseClient
-    .from("profiles")
-    .select("id,full_name,email,profile_photo,country,bio,role")
-    .eq("id",user.id)
-    .maybeSingle();
+  message("authMessage","Signing in...");
+  const {data,error}=await db.auth.signInWithPassword({email,password});
+  if(error)return message("authMessage",error.message,true);
+  currentUser=data.user;
+  await startPortal();
+}
 
-  if(readError) throw readError;
+async function signUp(){
+  const email=$("authEmail").value.trim();
+  const password=$("authPassword").value;
+  if(!email||password.length<6)return message("authMessage","Enter an email and a password with at least 6 characters.",true);
 
-  if(!existing){
-    const name=providedName || user.user_metadata?.full_name || "";
+  message("authMessage","Creating account...");
+  const {data,error}=await db.auth.signUp({email,password});
+  if(error)return message("authMessage",error.message,true);
 
-    const {error}=await supabaseClient
-      .from("profiles")
-      .insert({
-        id:user.id,
-        full_name:name,
-        email:user.email,
-        role:"student"
-      });
-
-    if(error) throw error;
+  if(data.session){
+    currentUser=data.user;
+    await startPortal();
+  }else{
+    message("authMessage","Account created. Check your email to confirm, then sign in.");
   }
+}
 
+async function signOut(){
+  await db.auth.signOut();
+  currentUser=null;
+  $("authScreen").style.display="flex";
+  showPage("dashboard");
+}
+
+async function startPortal(){
+  $("authScreen").style.display="none";
   await loadProfile();
+  await loadAll();
 }
 
+async function checkSession(){
+  const {data,error}=await db.auth.getSession();
+  if(error){console.error(error);return;}
+  if(data.session){
+    currentUser=data.session.user;
+    await startPortal();
+  }
+}
+
+/* ============================
+   PROFILE / BIO
+============================ */
 async function loadProfile(){
-  if(!currentUser) return;
+  if(!currentUser)return;
 
-  const {data,error}=await supabaseClient
-    .from("profiles")
-    .select("full_name,email,profile_photo,country,bio,role")
-    .eq("id",currentUser.id)
-    .maybeSingle();
+  const {data,error}=await db.from("profiles")
+    .select("id,role,full_name,email,profile_photo,country,bio,status")
+    .eq("id",currentUser.id).maybeSingle();
 
-  if(error){
-    console.error("Profile error:",error.message);
-    return;
+  if(error){console.error("Profile:",error.message);return;}
+
+  if(!data){
+    const {error:insertError}=await db.from("profiles").insert({
+      id:currentUser.id,
+      role:"student",
+      full_name:"",
+      email:currentUser.email
+    });
+    if(insertError)console.error("Profile creation:",insertError.message);
+    currentProfile={id:currentUser.id,email:currentUser.email,full_name:""};
+  }else{
+    currentProfile=data;
   }
-
-  const name=data?.full_name || "Student";
-  const email=data?.email || currentUser.email || "";
-
-  document.getElementById("sidebarName").textContent=name;
-  document.getElementById("sidebarEmail").textContent=email;
-  document.getElementById("accountStatus").textContent="Active";
-
-  if(data?.profile_photo){
-    document.getElementById("sidebarAvatar").src=data.profile_photo;
-  }
-
-  document.getElementById("profileDetails").innerHTML=`
-    <strong style="color:white">Full Name:</strong> ${escapeHTML(name)}<br><br>
-    <strong style="color:white">Email:</strong> ${escapeHTML(email)}<br><br>
-    <strong style="color:white">Country:</strong> ${escapeHTML(data?.country || "Not added")}<br><br>
-    <strong style="color:white">About:</strong> ${escapeHTML(data?.bio || "No description added")}
-  `;
+  renderProfile();
 }
 
-/* =====================================
-   LOAD SKILLS
-===================================== */
+function renderProfile(){
+  const p=currentProfile||{};
+  const name=p.full_name||"Student";
+  const photo=p.profile_photo||"https://placehold.co/100x100/241438/ffffff?text=SM";
+
+  $("sideName").textContent=name;
+  $("sideEmail").textContent=p.email||currentUser.email;
+  $("welcomeName").textContent="Welcome back, "+name;
+  $("profileEmail").textContent=p.email||currentUser.email;
+  $("profileName").value=p.full_name||"";
+  $("profileCountry").value=p.country||"";
+  $("profileBio").value=p.bio||"";
+
+  ["sideAvatar","profileAvatar","bioAvatar"].forEach(id=>$(id).src=photo);
+  $("bioName").textContent=name;
+  $("bioCountry").textContent=p.country||"Country not added";
+  $("bioText").textContent=p.bio||"No bio added yet.";
+}
+
+async function saveProfile(){
+  if(!currentUser)return;
+  const full_name=$("profileName").value.trim();
+  if(!full_name)return message("profileMessage","Full name is required.",true);
+
+  let profile_photo=currentProfile?.profile_photo||null;
+  const file=$("profileFile").files[0];
+
+  if(file){
+    const ext=file.name.split(".").pop().toLowerCase();
+    const path=currentUser.id+"/profile-"+Date.now()+"."+ext;
+    const {data:upload,error:uploadError}=await db.storage.from("avatars").upload(path,file,{upsert:true});
+    if(uploadError)return message("profileMessage","Photo upload failed: "+uploadError.message,true);
+    const {data:urlData}=db.storage.from("avatars").getPublicUrl(upload.path);
+    profile_photo=urlData.publicUrl;
+  }
+
+  const updates={
+    id:currentUser.id,
+    full_name,
+    email:currentUser.email,
+    country:$("profileCountry").value.trim()||null,
+    bio:$("profileBio").value.trim()||null,
+    profile_photo,
+    updated_at:new Date().toISOString()
+  };
+
+  const {error}=await db.from("profiles").upsert(updates,{onConflict:"id"});
+  if(error)return message("profileMessage",error.message,true);
+
+  currentProfile={...currentProfile,...updates};
+  renderProfile();
+  message("profileMessage","Profile saved successfully.");
+}
+
+/* ============================
+   LOAD DATA
+============================ */
+async function loadAll(){
+  if(!currentUser)return;
+  await Promise.all([
+    loadSkills(),
+    loadCoursesData(),
+    loadCompetitions(),
+    loadEntries(),
+    loadPayments()
+  ]);
+  updateStats();
+}
 
 async function loadSkills(){
-  const {data,error}=await supabaseClient
-    .from("skills")
+  const {data,error}=await db.from("skills")
     .select("id,name,category,description,image_url,is_active,display_order")
-    .eq("is_active",true)
-    .order("display_order",{ascending:true});
+    .eq("is_active",true).order("display_order");
 
-  if(error){
-    console.error("Skills error:",error.message);
-    document.getElementById("courseStatus").textContent=
-      "Could not load skills. Please check your Supabase access policies.";
-    return;
-  }
-
-  allSkills=data || [];
-  document.getElementById("skillCount").textContent=allSkills.length;
+  if(error){console.error("Skills:",error.message);skills=[];return;}
+  skills=data||[];
 }
 
-/* =====================================
-   LOAD COURSES
-===================================== */
+async function loadCoursesData(){
+  const {data:enrollData,error}=await db.from("enrollments")
+    .select("id,student_id,course_id,skill_id,skill_level_id,status,enrolled_at")
+    .eq("student_id",currentUser.id);
 
-async function loadCourses(){
-  const {data,error}=await supabaseClient
-    .from("courses")
+  if(error){console.error("Enrollments:",error.message);return;}
+  enrollments=enrollData||[];
+
+  const ids=[...new Set(enrollments.map(e=>e.course_id).filter(Boolean))];
+  if(!ids.length){courses=[];renderCourses($("dashboardCourses"));return;}
+
+  const {data:courseData,error:courseError}=await db.from("courses")
     .select("id,skill_id,skill_level_id,teacher_id,title,description,image_url,price,currency,status")
-    .eq("status","active")
-    .order("created_at",{ascending:false});
+    .in("id",ids);
 
-  if(error){
-    console.error("Courses error:",error.message);
-    document.getElementById("courseGrid").innerHTML=`
-      <div class="empty-state">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        Courses could not be loaded. Check your Supabase courses table and RLS policies.
-      </div>`;
-    return;
-  }
-
-  allCourses=data || [];
-
-  document.getElementById("courseCount").textContent=allCourses.length;
-
-  renderCourses(allCourses);
+  if(courseError){console.error("Courses:",courseError.message);return;}
+  courses=courseData||[];
+  renderCourses($("dashboardCourses"));
+  renderCourses($("allCourses"));
 }
 
-/* =====================================
-   COURSE DISPLAY
-===================================== */
-
-function getSkill(skillId){
-  return allSkills.find(skill=>skill.id===skillId);
-}
-
-function categoryClass(category){
-  return String(category || "").toLowerCase().trim();
-}
-
-function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g,function(char){
-    return {
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    }[char];
-  });
-}
-
-function renderCourses(courses){
-  const grid=document.getElementById("courseGrid");
-
+function renderCourses(container){
+  if(!container)return;
   if(!courses.length){
-    grid.innerHTML=`
-      <div class="empty-state">
-        <i class="fa-solid fa-graduation-cap"></i>
-        No active courses are available right now.
-      </div>`;
+    container.innerHTML='<div class="empty">You have no enrolled courses yet.</div>';
     return;
   }
-
-  grid.innerHTML=courses.map(course=>{
-    const skill=getSkill(course.skill_id);
-    const category=skill?.category || "Course";
-    const image=course.image_url || skill?.image_url || "";
-
-    return `
-      <article class="course-card">
-        <div class="course-image">
-          ${image ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(course.title)}" loading="lazy">` : ""}
-          <span class="course-category">${escapeHTML(category)}</span>
-        </div>
-
-        <div class="course-body">
-          <h3>${escapeHTML(course.title)}</h3>
-          <p class="course-description">
-            ${escapeHTML(course.description || skill?.description || "Explore this learning opportunity at SteadyMaze.")}
-          </p>
-
-          <div class="course-meta">
-            <span><i class="fa-solid fa-book-open"></i> Course</span>
-            <span><i class="fa-solid fa-graduation-cap"></i> ${escapeHTML(skill?.name || "Skill")}</span>
-          </div>
-
-          <div class="course-footer">
-            <div class="course-price">
-              ${escapeHTML(course.currency || "USD")} ${Number(course.price || 0).toFixed(2)}
-              <small>/ course</small>
-            </div>
-            <button class="course-open" onclick="openCourse('${course.id}')">
-              View Course <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-        </div>
-      </article>
-    `;
+  container.innerHTML=courses.map(c=>{
+    const image=c.image_url||"https://placehold.co/600x350/241438/ffffff?text=SteadyMaze+Course";
+    return `<div class="course-card">
+      <img src="${escapeHTML(image)}" alt="Course thumbnail">
+      <div class="course-info">
+        <strong>${escapeHTML(c.title||"Course")}</strong>
+        <p>${escapeHTML(c.description||"SteadyMaze learning course")}</p>
+        <span class="badge">${escapeHTML(c.status||"Enrolled")}</span>
+        <p>${escapeHTML(c.price??"")} ${escapeHTML(c.currency||"")}</p>
+        <button class="btn secondary" style="width:100%" onclick="loadLessons('${c.id}')">View Lessons</button>
+      </div>
+    </div>`;
   }).join("");
 }
 
-/* =====================================
-   COURSE FILTERS + SEARCH
-===================================== */
+async function loadLessons(courseId){
+  const {data,error}=await db.from("lessons")
+    .select("id,course_id,title,description,video_url,thumbnail_url,pdf_url,lesson_order,duration_minutes,status")
+    .eq("course_id",courseId).order("lesson_order");
 
-document.querySelectorAll(".filter-btn").forEach(button=>{
-  button.addEventListener("click",()=>{
-    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-    button.classList.add("active");
+  if(error){$("lessonList").textContent="Could not load lessons: "+error.message;return;}
+  if(!data?.length){$("lessonList").textContent="No lessons are available for this course yet.";return;}
 
-    const category=button.dataset.category;
+  $("lessonList").innerHTML=data.map(l=>`
+    <div class="notice">
+      <strong>${escapeHTML(l.lesson_order??"")} · ${escapeHTML(l.title)}</strong>
+      <p>${escapeHTML(l.description||"")}</p>
+      ${l.video_url?`<a href="${escapeHTML(l.video_url)}" target="_blank" rel="noopener" style="color:#d18aff">Watch lesson video →</a>`:"<span class='muted'>Video not added</span>"}
+    </div>`).join("");
+}
 
-    const filtered=allCourses.filter(course=>{
-      if(category==="all") return true;
+/* ============================
+   COMPETITIONS
+   Uses main_competitions:
+   id, skill_name, skill_group, status
+============================ */
+async function loadCompetitions(){
+  const {data,error}=await db.from("main_competitions")
+    .select("id,skill_name,skill_group,status,created_at")
+    .order("skill_group").order("skill_name");
 
-      const skill=getSkill(course.skill_id);
-      return categoryClass(skill?.category)===category;
-    });
+  if(error){
+    console.error("Main competitions:",error.message);
+    $("competitionSkills").innerHTML='<div class="empty">Could not load competitions. Check main_competitions permissions.</div>';
+    return;
+  }
 
-    applySearch(filtered);
+  competitions=data||[];
+  const active=competitions.filter(c=>String(c.status||"").toLowerCase()==="open");
+
+  $("competitionSkills").innerHTML=competitions.length?competitions.map(c=>`
+    <button class="skill-card" onclick="selectCompetition('${c.id}')">
+      <strong>${escapeHTML(c.skill_name)}</strong>
+      <p class="muted">${escapeHTML(c.skill_group||"Competition")}</p>
+      <span class="badge">${escapeHTML(c.status||"Not set")}</span>
+    </button>`).join(""):'<div class="empty">No competition records found.</div>';
+
+  const options='<option value="">Select competition</option>'+competitions.map(c=>
+    `<option value="${c.id}">${escapeHTML(c.skill_name)} — ${escapeHTML(c.skill_group||"")} (${escapeHTML(c.status||"")})</option>`
+  ).join("");
+
+  $("competitionSelect").innerHTML=options;
+  $("uploadCompetition").innerHTML=options;
+  $("leaderCompetition").innerHTML=options;
+
+  if(active.length){
+    $("competitionSelect").value=active[0].id;
+    $("uploadCompetition").value=active[0].id;
+    $("leaderCompetition").value=active[0].id;
+  }
+}
+
+function selectCompetition(id){
+  $("competitionSelect").value=id;
+  $("uploadCompetition").value=id;
+  $("leaderCompetition").value=id;
+  showPage("competition");
+}
+
+async function registerCompetition(){
+  const competition_id=$("competitionSelect").value;
+  if(!competition_id)return message("registerMessage","Select a competition first.",true);
+
+  const competition=competitions.find(c=>c.id===competition_id);
+  if(!competition)return message("registerMessage","Competition not found.",true);
+  if(String(competition.status||"").toLowerCase()!=="open"){
+    return message("registerMessage","This competition is not open for registration.",true);
+  }
+
+  const {data:existing,error:checkError}=await db.from("competition_entries")
+    .select("id").eq("competition_id",competition_id)
+    .eq("student_id",currentUser.id).maybeSingle();
+
+  if(checkError)return message("registerMessage",checkError.message,true);
+  if(existing)return message("registerMessage","You are already registered for this competition.",true);
+
+  const p=currentProfile||{};
+  const {error}=await db.from("competition_entries").insert({
+    competition_id,
+    student_id:currentUser.id,
+    student_name:p.full_name||currentUser.email,
+    profile_photo:p.profile_photo||null,
+    status:"registered",
+    joined_at:new Date().toISOString()
   });
-});
 
-document.getElementById("courseSearch").addEventListener("input",()=>{
-  const active=document.querySelector(".filter-btn.active");
-  const category=active?.dataset.category || "all";
+  if(error)return message("registerMessage",error.message,true);
+  message("registerMessage","Registration submitted successfully.");
+  await loadEntries();
+  updateStats();
+}
 
-  const filtered=allCourses.filter(course=>{
-    const skill=getSkill(course.skill_id);
-    return category==="all" || categoryClass(skill?.category)===category;
+/* ============================
+   PROJECT UPLOAD
+   Storage bucket: competition-projects
+============================ */
+async function submitProject(){
+  const competition_id=$("uploadCompetition").value;
+  const title=$("projectTitle").value.trim();
+  const description=$("projectDescription").value.trim();
+  const file=$("projectFile").files[0];
+
+  if(!competition_id||!title||!file)
+    return message("uploadMessage","Select a competition, enter a title and choose a video file.",true);
+
+  const competition=competitions.find(c=>c.id===competition_id);
+  if(!competition||String(competition.status||"").toLowerCase()!=="open")
+    return message("uploadMessage","This competition is not open.",true);
+
+  if(!file.type.startsWith("video/"))
+    return message("uploadMessage","Please choose a valid video file.",true);
+
+  message("uploadMessage","Uploading video...");
+
+  const ext=file.name.split(".").pop().toLowerCase();
+  const path=currentUser.id+"/"+competition_id+"/"+Date.now()+"."+ext;
+  const {data:uploaded,error:uploadError}=await db.storage
+    .from("competition-projects").upload(path,file,{upsert:false});
+
+  if(uploadError)
+    return message("uploadMessage","Storage upload failed. Check the competition-projects bucket and its policies: "+uploadError.message,true);
+
+  const {data:urlData}=db.storage.from("competition-projects").getPublicUrl(uploaded.path);
+
+  const {error}=await db.from("competition_projects").insert({
+    competition_id,
+    student_id:currentUser.id,
+    title,
+    description:description||null,
+    video_url:urlData.publicUrl,
+    status:"submitted",
+    submitted_at:new Date().toISOString()
   });
 
-  applySearch(filtered);
-});
+  if(error)return message("uploadMessage","Video uploaded, but database save failed: "+error.message,true);
 
-function applySearch(courses){
-  const term=document.getElementById("courseSearch").value.toLowerCase().trim();
-
-  const filtered=courses.filter(course=>{
-    const skill=getSkill(course.skill_id);
-    return `${course.title} ${course.description || ""} ${skill?.name || ""}`
-      .toLowerCase().includes(term);
-  });
-
-  renderCourses(filtered);
+  message("uploadMessage","Project submitted successfully.");
+  $("projectTitle").value="";
+  $("projectDescription").value="";
+  $("projectFile").value="";
+  await loadEntries();
 }
 
-/* =====================================
-   COURSE DETAILS + LESSONS
-===================================== */
-
-async function openCourse(courseId){
-  const course=allCourses.find(item=>item.id===courseId);
-  if(!course) return;
-
-  const {data:lessons,error}=await supabaseClient
-    .from("lessons")
-    .select("id,title,description,video_url,thumbnail_url,lesson_order,duration_minutes,status")
-    .eq("course_id",courseId)
-    .eq("status","published")
-    .order("lesson_order",{ascending:true});
+/* ============================
+   STUDENT ENTRIES
+============================ */
+async function loadEntries(){
+  const {data,error}=await db.from("competition_entries")
+    .select("id,competition_id,student_id,rank,profile_photo,student_name,points,round_name,status,joined_at")
+    .eq("student_id",currentUser.id).order("joined_at",{ascending:false});
 
   if(error){
-    alert("Could not load lessons: "+error.message);
+    console.error("Entries:",error.message);
+    $("myEntries").innerHTML=`<tr><td colspan="4">Could not load entries: ${escapeHTML(error.message)}</td></tr>`;
     return;
   }
+  entries=data||[];
 
-  const lessonList=(lessons || []).map(lesson=>
-    `${lesson.lesson_order || ""}. ${lesson.title}`
-  ).join("\n");
-
-  alert(
-    course.title+"\n\n"+
-    (course.description || "")+
-    "\n\nLessons:\n"+
-    (lessonList || "No published lessons available yet.")
-  );
+  $("myEntries").innerHTML=entries.length?entries.map(e=>{
+    const c=competitions.find(x=>x.id===e.competition_id);
+    return `<tr>
+      <td>${escapeHTML(c?.skill_name||"Competition")}</td>
+      <td>${e.joined_at?new Date(e.joined_at).toLocaleDateString():"—"}</td>
+      <td><span class="badge">${escapeHTML(e.status||"registered")}</span></td>
+      <td>${escapeHTML(e.points??0)}</td>
+    </tr>`;
+  }).join(""):'<tr><td colspan="4" class="empty">You have not joined a competition yet.</td></tr>';
 }
 
-/* =====================================
-   VIDEO GALLERY FROM LESSONS
-===================================== */
-
-async function loadVideos(){
-  const grid=document.getElementById("videoGrid");
-
-  const {data:lessons,error}=await supabaseClient
-    .from("lessons")
-    .select("id,title,description,video_url,thumbnail_url,course_id,duration_minutes,status")
-    .eq("status","published")
-    .not("video_url","is",null)
-    .limit(9);
-
-  if(error){
-    console.error("Video gallery error:",error.message);
-    grid.innerHTML=`
-      <div class="empty-state">
-        <i class="fa-solid fa-circle-exclamation"></i>
-        Video gallery could not be loaded.
-      </div>`;
+/* ============================
+   LEADERBOARD
+   Reads main_liveboard and
+   main_liveboard_scores.
+============================ */
+async function loadLeaderboard(){
+  const competition_id=$("leaderCompetition").value;
+  if(!competition_id){
+    $("leaderboardBody").innerHTML='<tr><td colspan="7" class="empty">Select a competition.</td></tr>';
     return;
   }
 
-  if(!lessons || !lessons.length){
-    grid.innerHTML=`
-      <div class="empty-state">
-        <i class="fa-solid fa-film"></i>
-        No published video lessons are available yet.
-      </div>`;
+  $("leaderboardBody").innerHTML='<tr><td colspan="7" class="empty">Loading leaderboard...</td></tr>';
+
+  const {data:scoreRows,error:scoreError}=await db.from("main_liveboard_scores")
+    .select("competition_id,student_id,points,creativity,quality,storytelling,total_score,ai_review_status")
+    .eq("competition_id",competition_id);
+
+  if(scoreError){
+    console.error("Score table:",scoreError.message);
+    $("leaderboardBody").innerHTML=`<tr><td colspan="7">Score table error: ${escapeHTML(scoreError.message)}</td></tr>`;
     return;
   }
 
-  grid.innerHTML=lessons.map(lesson=>`
-    <article class="video-card">
-      <div class="video-thumb">
-        ${lesson.thumbnail_url
-          ? `<img src="${escapeHTML(lesson.thumbnail_url)}" alt="${escapeHTML(lesson.title)}" loading="lazy">`
-          : ""}
-        <a class="play-button"
-           href="${escapeHTML(lesson.video_url)}"
-           target="_blank"
-           rel="noopener noreferrer"
-           aria-label="Open lesson video">
-          <i class="fa-solid fa-play"></i>
-        </a>
-      </div>
-      <div class="video-info">
-        <h4>${escapeHTML(lesson.title)}</h4>
-        <p>${escapeHTML(lesson.description || "SteadyMaze learning video")}</p>
-      </div>
-    </article>
-  `).join("");
-}
+  let rows=scoreRows||[];
 
-/* =====================================
-   STUDENT ENROLLMENTS
-===================================== */
+  // If no score rows exist yet, read the liveboard records.
+  if(!rows.length){
+    const {data:liveRows,error:liveError}=await db.from("main_liveboard")
+      .select("competition_id,student_id,points,creativity,quality,storytelling")
+      .eq("competition_id",competition_id);
 
-async function loadEnrollments(){
-  const grid=document.getElementById("myLearningGrid");
-
-  if(!currentUser){
-    document.getElementById("enrollmentCount").textContent="—";
-    return;
-  }
-
-  const {data:enrollments,error}=await supabaseClient
-    .from("enrollments")
-    .select("id,course_id,skill_id,skill_level_id,status,enrolled_at")
-    .eq("student_id",currentUser.id)
-    .order("enrolled_at",{ascending:false});
-
-  if(error){
-    console.error("Enrollment error:",error.message);
-    grid.innerHTML=`
-      <div class="empty-state">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        Your enrollments could not be loaded.
-      </div>`;
-    return;
-  }
-
-  document.getElementById("enrollmentCount").textContent=(enrollments || []).length;
-
-  if(!enrollments || !enrollments.length){
-    grid.innerHTML=`
-      <div class="empty-state">
-        <i class="fa-solid fa-book-open"></i>
-        You have not enrolled in a course yet.
-      </div>`;
-    return;
-  }
-
-  const courseIds=enrollments.map(item=>item.course_id).filter(Boolean);
-
-  const {data:courses,error:courseError}=await supabaseClient
-    .from("courses")
-    .select("id,title,description,image_url,price,currency")
-    .in("id",courseIds);
-
-  if(courseError){
-    console.error(courseError.message);
-    return;
-  }
-
-  grid.innerHTML=enrollments.map(enrollment=>{
-    const course=(courses || []).find(c=>c.id===enrollment.course_id);
-    if(!course) return "";
-
-    return `
-      <article class="course-card">
-        <div class="course-image">
-          ${course.image_url
-            ? `<img src="${escapeHTML(course.image_url)}" alt="${escapeHTML(course.title)}">`
-            : ""}
-          <span class="course-category">${escapeHTML(enrollment.status || "Enrolled")}</span>
-        </div>
-        <div class="course-body">
-          <h3>${escapeHTML(course.title)}</h3>
-          <p class="course-description">${escapeHTML(course.description || "Your enrolled SteadyMaze course.")}</p>
-          <div class="course-footer">
-            <span style="font-size:10px;color:#b8a6d2">
-              ${escapeHTML(enrollment.status || "Enrolled")}
-            </span>
-            <button class="course-open" onclick="openCourse('${course.id}')">
-              Open Course
-            </button>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
-}
-
-/* =====================================
-   DASHBOARD
-===================================== */
-
-async function loadStudentDashboard(){
-  await loadProfile();
-  await loadEnrollments();
-}
-
-async function initialize(){
-  await loadSkills();
-  await loadCourses();
-  await loadVideos();
-
-  const {data,error}=await supabaseClient.auth.getSession();
-
-  if(error){
-    console.error(error.message);
-    return;
-  }
-
-  currentUser=data.session?.user || null;
-
-  if(currentUser){
-    await loadStudentDashboard();
-  }else{
-    document.getElementById("accountStatus").textContent="Guest";
-    document.getElementById("sidebarName").textContent="Student Account";
-    document.getElementById("sidebarEmail").textContent="Sign in to continue";
-  }
-}
-
-/* =====================================
-   AUTH STATE LISTENER
-===================================== */
-
-supabaseClient.auth.onAuthStateChange((event,session)=>{
-  currentUser=session?.user || null;
-
-  if(event==="SIGNED_IN"){
-    setTimeout(()=>loadStudentDashboard(),0);
-  }
-
-  if(event==="SIGNED_OUT"){
-    location.reload();
-  }
-});
-
-/* =====================================
-   NAVIGATION ACTIVE STATE
-===================================== */
-
-document.querySelectorAll(".nav-link").forEach(link=>{
-  link.addEventListener("click",()=>{
-    document.querySelectorAll(".nav-link").forEach(item=>item.classList.remove("active"));
-    link.classList.add("active");
-
-    if(window.innerWidth<=760){
-      document.getElementById("sidebar").classList.remove("open");
+    if(liveError){
+      $("leaderboardBody").innerHTML=`<tr><td colspan="7">Leaderboard error: ${escapeHTML(liveError.message)}</td></tr>`;
+      return;
     }
+    rows=liveRows||[];
+  }
+
+  if(!rows.length){
+    $("leaderboardBody").innerHTML='<tr><td colspan="7" class="empty">No scored participants yet. The leaderboard will appear when score records are added.</td></tr>';
+    $("leaderboardInfo").textContent="No leaderboard scores are currently available.";
+    return;
+  }
+
+  rows.sort((a,b)=>Number(b.total_score??b.points??0)-Number(a.total_score??a.points??0));
+
+  const studentIds=[...new Set(rows.map(r=>r.student_id).filter(Boolean))];
+  const {data:profilesData,error:profilesError}=await db.from("profiles")
+    .select("id,full_name,profile_photo").in("id",studentIds);
+
+  if(profilesError)console.error("Leaderboard profiles:",profilesError.message);
+  const profileMap=new Map((profilesData||[]).map(p=>[p.id,p]));
+
+  $("leaderboardBody").innerHTML=rows.map((r,index)=>{
+    const p=profileMap.get(r.student_id)||{};
+    const name=p.full_name||"Student";
+    const photo=p.profile_photo||"https://placehold.co/80x80/241438/ffffff?text=SM";
+    const points=r.total_score??r.points??0;
+    return `<tr>
+      <td><strong>#${index+1}</strong></td>
+      <td><img class="profile-pic" src="${escapeHTML(photo)}" alt="Profile"></td>
+      <td>${escapeHTML(name)}</td>
+      <td>${escapeHTML(points)}</td>
+      <td>${escapeHTML(r.creativity??"—")}</td>
+      <td>${escapeHTML(r.quality??"—")}</td>
+      <td>${escapeHTML(r.storytelling??"—")}</td>
+    </tr>`;
+  }).join("");
+
+  $("leaderboardInfo").textContent=rows.length+" actual participant score records shown. No empty placeholder ranks are generated.";
+}
+
+/* ============================
+   PAYMENTS
+============================ */
+async function loadPayments(){
+  if(!currentUser)return;
+  const {data,error}=await db.from("payments")
+    .select("id,amount,currency,provider,transaction_reference,status,paid_at,created_at")
+    .eq("student_id",currentUser.id).order("created_at",{ascending:false});
+
+  if(error){
+    $("paymentBody").innerHTML=`<tr><td colspan="5">Payment records error: ${escapeHTML(error.message)}</td></tr>`;
+    return;
+  }
+
+  const list=data||[];
+  const paid=list.filter(p=>String(p.status||"").toLowerCase()==="paid"||String(p.status||"").toLowerCase()==="success");
+  const total=paid.reduce((sum,p)=>sum+Number(p.amount||0),0);
+  $("totalPaid").textContent=total.toFixed(2);
+  $("paidCount").textContent=paid.length;
+
+  $("paymentBody").innerHTML=list.length?list.map(p=>`
+    <tr>
+      <td>${p.created_at?new Date(p.created_at).toLocaleDateString():"—"}</td>
+      <td>${escapeHTML(p.provider||"—")}</td>
+      <td>${escapeHTML(p.transaction_reference||"—")}</td>
+      <td>${escapeHTML(p.amount)} ${escapeHTML(p.currency||"")}</td>
+      <td><span class="badge">${escapeHTML(p.status||"pending")}</span></td>
+    </tr>`).join(""):'<tr><td colspan="5" class="empty">No payment records found.</td></tr>';
+}
+
+/* ============================
+   SUPPORT TICKET
+   Table/columns not confirmed:
+   fail clearly instead of fake success.
+============================ */
+async function sendSupportTicket(){
+  const subject=$("ticketSubject").value.trim();
+  const description=$("ticketMessage").value.trim();
+  if(!subject||!description)return message("ticketStatus","Enter a subject and message.",true);
+
+  const {error}=await db.from("support_tickets").insert({
+    user_id:currentUser.id,
+    subject,
+    message:description,
+    status:"open"
   });
-});
 
-/* START */
-initialize();
+  if(error)return message("ticketStatus","Support ticket was not saved. The support_tickets table or its column policies need to be checked: "+error.message,true);
+
+  message("ticketStatus","Your support request was submitted.");
+  $("ticketSubject").value="";
+  $("ticketMessage").value="";
+}
+
+/* ============================
+   SEARCH + DASHBOARD STATS
+============================ */
+function searchCourses(){
+  const q=$("globalSearch").value.toLowerCase();
+  const filtered=courses.filter(c=>(c.title||"").toLowerCase().includes(q));
+  const container=$("dashboardCourses");
+  if(!q){renderCourses(container);return;}
+  if(!filtered.length){container.innerHTML='<div class="empty">No matching courses found.</div>';return;}
+  const old=courses;
+  courses=filtered;
+  renderCourses(container);
+  courses=old;
+}
+
+function updateStats(){
+  $("statCourses").textContent=enrollments.length;
+  $("statEntries").textContent=entries.length;
+  $("statPoints").textContent="—";
+  $("statRewards").textContent="—";
+}
+
+/* ============================
+   START
+============================ */
+checkSession();
 </script>
-
 </body>
 </html>
