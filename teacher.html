@@ -1,7568 +1,929 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Teacher Dashboard | GURHUB</title>
+<title>SteadyMaze | Student Portal</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Inter,Arial,sans-serif
-}
-
 :root{
-    --bg:#08040d;
-    --panel:rgba(20,10,27,.78);
-    --panel2:rgba(30,12,30,.72);
-
-    --red:#ef233c;
-    --red2:#ff4d61;
-    --gold:#d4af37;
-    --gold2:#ffe58a;
-
-    --green:#16a66a;
-    --green2:#39d98a;
-
-    --purple:#8b3dff;
-    --purple2:#b46cff;
-
-    --text:#fff9f0;
-    --muted:#b9aabd;
-    --border:rgba(255,255,255,.10);
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    min-height:100vh;
-    color:var(--text);
-    background:
-        radial-gradient(circle at 8% 8%,rgba(239,35,60,.24),transparent 25%),
-        radial-gradient(circle at 88% 12%,rgba(139,61,255,.24),transparent 27%),
-        radial-gradient(circle at 82% 88%,rgba(22,166,106,.20),transparent 25%),
-        radial-gradient(circle at 45% 55%,rgba(212,175,55,.10),transparent 28%),
-        linear-gradient(135deg,#050207,#100611 32%,#0a0510 62%,#03100b);
-    overflow-x:hidden;
-}
-
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:0;
-    background:
-        linear-gradient(
-            115deg,
-            transparent 0%,
-            rgba(212,175,55,.025) 35%,
-            transparent 50%,
-            rgba(139,61,255,.025) 70%,
-            transparent 100%
-        );
-}
-
-body::after{
-    content:"";
-    position:fixed;
-    width:520px;
-    height:520px;
-    right:-250px;
-    top:35%;
-    border-radius:50%;
-    pointer-events:none;
-    filter:blur(110px);
-    background:rgba(239,35,60,.11);
-    z-index:0;
-}
-
-button,
-input,
-select,
-textarea{
-    font:inherit
-}
-
-/* =========================
-   SIDEBAR
-========================= */
-
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    width:255px;
-    padding:25px 17px;
-    background:
-        linear-gradient(
-            180deg,
-            rgba(12,4,17,.96),
-            rgba(20,5,22,.92) 45%,
-            rgba(4,18,13,.95)
-        );
-    border-right:1px solid rgba(212,175,55,.20);
-    box-shadow:
-        12px 0 50px rgba(0,0,0,.35),
-        inset -1px 0 rgba(255,255,255,.03);
-    backdrop-filter:blur(25px);
-    z-index:100;
-}
-
-.sidebar::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    height:3px;
-    background:
-        linear-gradient(
-            90deg,
-            var(--red),
-            var(--gold),
-            var(--green),
-            var(--purple)
-        );
-}
-
-.logo{
-    padding:8px 14px 30px;
-    font-size:27px;
-    font-weight:900;
-    letter-spacing:2px;
-    text-shadow:0 0 25px rgba(212,175,55,.18);
-}
-
-.logo span{
-    background:
-        linear-gradient(
-            90deg,
-            var(--gold),
-            #fff1a8,
-            var(--gold)
-        );
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-}
-
-.teacher-mini{
-    padding:15px;
-    border:1px solid rgba(212,175,55,.17);
-    border-radius:18px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(239,35,60,.10),
-            rgba(139,61,255,.08),
-            rgba(22,166,106,.07)
-        );
-    margin-bottom:20px;
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.22),
-        inset 0 1px rgba(255,255,255,.04);
-}
-
-.mini-row{
-    display:flex;
-    align-items:center;
-    gap:11px;
-}
-
-.avatar{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid var(--gold);
-    background:#170b1d;
-    box-shadow:
-        0 0 0 3px rgba(212,175,55,.08),
-        0 0 25px rgba(212,175,55,.16);
-}
-
-.teacher-mini strong{
-    display:block;
-    font-size:13px
-}
-
-.teacher-mini span{
-    color:var(--muted);
-    font-size:11px
-}
-
-.nav{
-    display:flex;
-    flex-direction:column;
-    gap:6px
-}
-
-.nav button{
-    width:100%;
-    border:1px solid transparent;
-    background:transparent;
-    color:#b8a9bd;
-    text-align:left;
-    padding:12px 13px;
-    border-radius:12px;
-    cursor:pointer;
-    transition:.25s ease;
-    position:relative;
-    overflow:hidden;
-}
-
-.nav button::before{
-    content:"";
-    position:absolute;
-    left:0;
-    top:0;
-    bottom:0;
-    width:3px;
-    background:linear-gradient(
-        180deg,
-        var(--gold),
-        var(--red)
-    );
-    transform:scaleY(0);
-    transition:.25s ease;
-}
-
-.nav button:hover{
-    color:#fff;
-    border-color:rgba(255,255,255,.07);
-    background:
-        linear-gradient(
-            90deg,
-            rgba(239,35,60,.13),
-            rgba(139,61,255,.07),
-            transparent
-        );
-    transform:translateX(2px);
-}
-
-.nav button.active{
-    color:#fff;
-    border-color:rgba(212,175,55,.18);
-    background:
-        linear-gradient(
-            90deg,
-            rgba(239,35,60,.17),
-            rgba(139,61,255,.11),
-            rgba(22,166,106,.05)
-        );
-    box-shadow:
-        inset 0 1px rgba(255,255,255,.04),
-        0 8px 25px rgba(0,0,0,.15);
-}
-
-.nav button.active::before{
-    transform:scaleY(1);
-}
-
-.logout{
-    position:absolute;
-    left:17px;
-    right:17px;
-    bottom:20px;
-}
-
-.logout button{
-    width:100%;
-    border:1px solid rgba(239,35,60,.16);
-    background:rgba(239,35,60,.06);
-    color:#d9bdc5;
-    padding:11px;
-    border-radius:11px;
-    cursor:pointer;
-    transition:.25s ease;
-}
-
-.logout button:hover{
-    color:#fff;
-    background:rgba(239,35,60,.14);
-    border-color:rgba(239,35,60,.32);
-}
-
-/* =========================
-   MAIN
-========================= */
-
-.main{
-    margin-left:255px;
-    padding:25px;
-    position:relative;
-    z-index:1;
-}
-
-.topbar{
-    min-height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:24px;
-    position:relative;
-}
-
-.top-title h1{
-    font-size:25px;
-    font-weight:850;
-    letter-spacing:-.5px;
-    background:
-        linear-gradient(
-            90deg,
-            #fff,
-            #ffe89a,
-            #fff
-        );
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-}
-
-.top-title p{
-    color:var(--muted);
-    font-size:13px;
-    margin-top:5px;
-}
-
-.status{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:9px 13px;
-    border-radius:30px;
-    background:
-        linear-gradient(
-            90deg,
-            rgba(22,166,106,.12),
-            rgba(212,175,55,.07)
-        );
-    border:1px solid rgba(57,217,138,.20);
-    color:#9af0c1;
-    font-size:12px;
-    box-shadow:0 5px 20px rgba(0,0,0,.15);
-}
-
-.status-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:var(--green2);
-    box-shadow:0 0 12px var(--green2);
-}
-
-/* =========================
-   SECTIONS
-========================= */
-
-.section{
-    display:none
-}
-
-.section.active{
-    display:block;
-    animation:sectionIn .35s ease;
-}
-
-@keyframes sectionIn{
-    from{
-        opacity:0;
-        transform:translateY(7px)
-    }
-    to{
-        opacity:1;
-        transform:translateY(0)
-    }
-}
-
-/* =========================
-   CARDS
-========================= */
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:20px
-}
-
-.card{
-    background:
-        linear-gradient(
-            135deg,
-            rgba(25,10,29,.84),
-            rgba(12,18,18,.76)
-        );
-    border:1px solid rgba(255,255,255,.09);
-    border-radius:19px;
-    padding:19px;
-    backdrop-filter:blur(20px);
-    box-shadow:
-        0 18px 45px rgba(0,0,0,.20),
-        inset 0 1px rgba(255,255,255,.035);
-    position:relative;
-    overflow:hidden;
-}
-
-.card::before{
-    content:"";
-    position:absolute;
-    width:130px;
-    height:130px;
-    right:-70px;
-    top:-70px;
-    border-radius:50%;
-    background:rgba(212,175,55,.06);
-    filter:blur(10px);
-    pointer-events:none;
-}
-
-.card:hover{
-    border-color:rgba(212,175,55,.16);
-}
-
-.stat-label{
-    color:var(--muted);
-    font-size:12px
-}
-
-.stat-value{
-    font-size:27px;
-    font-weight:800;
-    margin-top:9px
-}
-
-.stat-note{
-    color:#887a8e;
-    font-size:11px;
-    margin-top:5px
-}
-
-.gold{
-    color:var(--gold2);
-    text-shadow:0 0 20px rgba(212,175,55,.13)
-}
-
-.blue{
-    color:#b18aff;
-    text-shadow:0 0 20px rgba(139,61,255,.14)
-}
-
-.content-grid{
-    display:grid;
-    grid-template-columns:1.4fr .8fr;
-    gap:18px
-}
-
-.card h2{
-    font-size:18px;
-    margin-bottom:7px
-}
-
-.card-subtitle{
-    color:var(--muted);
-    font-size:12px;
-    margin-bottom:20px
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-.btn{
-    border:0;
-    border-radius:10px;
-    padding:11px 15px;
-    cursor:pointer;
-    color:white;
-    font-weight:700;
-    font-size:12px;
-    transition:.22s ease;
-}
-
-.btn:hover{
-    transform:translateY(-1px);
-    filter:brightness(1.08);
-}
-
-.btn:active{
-    transform:translateY(0)
-}
-
-.btn:disabled{
-    opacity:.55;
-    cursor:not-allowed;
-    transform:none;
-    filter:none;
-}
-
-.btn-blue{
-    background:
-        linear-gradient(
-            135deg,
-            var(--purple),
-            #5c27c9
-        );
-    box-shadow:
-        0 8px 22px rgba(139,61,255,.18);
-}
-
-.btn-gold{
-    background:
-        linear-gradient(
-            135deg,
-            var(--gold2),
-            var(--gold),
-            #9d7b18
-        );
-    color:#170f04;
-    box-shadow:
-        0 8px 22px rgba(212,175,55,.16);
-}
-
-.btn-dark{
-    background:rgba(255,255,255,.055);
-    border:1px solid var(--border);
-}
-
-.btn-danger{
-    background:rgba(239,35,60,.10);
-    border:1px solid rgba(239,35,60,.20);
-    color:#ffabb6;
-}
-
-/* =========================
-   LESSONS
-========================= */
-
-.lesson-list{
-    display:flex;
-    flex-direction:column;
-    gap:10px
-}
-
-.lesson{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    padding:13px;
-    border:1px solid var(--border);
-    border-radius:13px;
-    background:
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.027),
-            rgba(139,61,255,.025),
-            rgba(22,166,106,.018)
-        );
-    transition:.22s ease;
-}
-
-.lesson:hover{
-    border-color:rgba(212,175,55,.18);
-    transform:translateX(2px);
-}
-
-.lesson-info{
-    min-width:0
-}
-
-.lesson-info strong{
-    display:block;
-    font-size:13px
-}
-
-.lesson-info span{
-    color:var(--muted);
-    font-size:11px
-}
-
-.level-badge{
-    padding:5px 8px;
-    border-radius:7px;
-    font-size:10px;
-    color:#ffe99c;
-    background:rgba(212,175,55,.08);
-    border:1px solid rgba(212,175,55,.17);
-}
-
-/* =========================
-   PROFILE
-========================= */
-
-.profile-box{
-    display:grid;
-    grid-template-columns:180px 1fr;
-    gap:25px
-}
-
-.profile-photo-area{
-    display:flex;
-    align-items:center;
-    flex-direction:column;
-    gap:12px;
-    padding:10px;
-}
-
-.profile-photo{
-    width:135px;
-    height:135px;
-    border-radius:50%;
-    object-fit:cover;
-    border:3px solid var(--gold);
-    background:
-        radial-gradient(
-            circle,
-            #2a1025,
-            #100712
-        );
-    box-shadow:
-        0 0 0 7px rgba(212,175,55,.06),
-        0 0 40px rgba(212,175,55,.18),
-        0 15px 35px rgba(0,0,0,.30);
-}
-
-.upload-label{
-    cursor:pointer;
-    padding:9px 12px;
-    border-radius:9px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(212,175,55,.13),
-            rgba(139,61,255,.10)
-        );
-    border:1px solid rgba(212,175,55,.22);
-    color:#ffe99b;
-    font-size:11px;
-    transition:.2s ease;
-}
-
-.upload-label:hover{
-    background:rgba(212,175,55,.18);
-    transform:translateY(-1px);
-}
-
-input[type=file]{
-    display:none
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px
-}
-
-.field{
-    margin-bottom:14px
-}
-
-.field.full{
-    grid-column:1/-1
-}
-
-label{
-    display:block;
-    color:#d6c8d9;
-    font-size:12px;
-    margin-bottom:7px
-}
-
-input,
-select,
-textarea{
-    width:100%;
-    padding:12px 13px;
-    border:1px solid rgba(255,255,255,.09);
-    border-radius:10px;
-    outline:none;
-    color:white;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.045),
-            rgba(139,61,255,.025)
-        );
-    transition:.2s ease;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:rgba(212,175,55,.48);
-    box-shadow:
-        0 0 0 3px rgba(212,175,55,.06),
-        0 0 20px rgba(139,61,255,.05);
-}
-
-select option{
-    background:#180b1c
-}
-
-textarea{
-    resize:vertical;
-    min-height:100px
-}
-
-/* =========================
-   UPLOAD
-========================= */
-
-.upload-box{
-    border:1px dashed rgba(212,175,55,.28);
-    background:
-        linear-gradient(
-            135deg,
-            rgba(239,35,60,.055),
-            rgba(139,61,255,.06),
-            rgba(22,166,106,.035)
-        );
-    padding:25px;
-    text-align:center;
-    border-radius:15px;
-    margin-bottom:18px;
-}
-
-.upload-box .icon{
-    font-size:28px;
-    margin-bottom:8px;
-    filter:drop-shadow(0 0 12px rgba(212,175,55,.25))
-}
-
-.upload-box h3{
-    font-size:14px;
-    margin-bottom:5px
-}
-
-.upload-box p{
-    color:var(--muted);
-    font-size:11px;
-    margin-bottom:14px
-}
-
-.file-name{
-    color:#e2caff;
-    font-size:11px;
-    margin-top:9px
-}
-
-.warning{
-    padding:14px;
-    border-radius:12px;
-    background:
-        linear-gradient(
-            90deg,
-            rgba(212,175,55,.065),
-            rgba(239,35,60,.035)
-        );
-    border:1px solid rgba(212,175,55,.17);
-    color:#dfce91;
-    font-size:11px;
-    line-height:1.6;
-    margin-bottom:18px;
-}
-
-/* =========================
-   FOREX / CRYPTO COURSE RULES
-   ========================= */
-
-.course-rules-panel{
-    display:none;
-    margin:20px 0;
-    padding:20px;
-    border-radius:18px;
-    border:1px solid rgba(212,175,55,.28);
-    background:
-        linear-gradient(
-            135deg,
-            rgba(22,166,106,.07),
-            rgba(212,175,55,.055),
-            rgba(239,35,60,.045)
-        );
-    box-shadow:
-        0 15px 40px rgba(0,0,0,.20),
-        inset 0 1px rgba(255,255,255,.035);
-}
-
-.course-rules-panel.show{
-    display:block;
-    animation:rulesIn .3s ease;
-}
-
-@keyframes rulesIn{
-    from{
-        opacity:0;
-        transform:translateY(8px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-.course-rules-header{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:18px;
-}
-
-.course-rules-title{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.course-rules-title .rules-icon{
-    width:38px;
-    height:38px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:11px;
-    background:rgba(212,175,55,.10);
-    border:1px solid rgba(212,175,55,.20);
-    font-size:19px;
-}
-
-.course-rules-title h3{
-    font-size:16px;
-}
-
-.course-rules-title p{
-    color:var(--muted);
-    font-size:11px;
-    margin-top:3px;
-}
-
-.rules-course-badge{
-    padding:7px 10px;
-    border-radius:20px;
-    background:rgba(139,61,255,.10);
-    border:1px solid rgba(139,61,255,.22);
-    color:#d1b6ff;
-    font-size:10px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:.4px;
-    white-space:nowrap;
-}
-
-.rules-columns{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-}
-
-.rules-column{
-    padding:16px;
-    border-radius:14px;
-    border:1px solid rgba(255,255,255,.07);
-}
-
-.rules-column.allowed{
-    background:rgba(22,166,106,.055);
-    border-color:rgba(57,217,138,.18);
-}
-
-.rules-column.not-allowed{
-    background:rgba(239,35,60,.055);
-    border-color:rgba(239,35,60,.18);
-}
-
-.rules-column h4{
-    font-size:13px;
-    margin-bottom:12px;
-}
-
-.rules-column.allowed h4{
-    color:#8ff0bb;
-}
-
-.rules-column.not-allowed h4{
-    color:#ff9eaa;
-}
-
-.rules-list{
-    list-style:none;
-    display:flex;
-    flex-direction:column;
-    gap:9px;
-}
-
-.rules-list li{
-    display:flex;
-    align-items:flex-start;
-    gap:8px;
-    color:#d9d0dc;
-    font-size:11px;
-    line-height:1.5;
-}
-
-.rules-list li .rule-mark{
-    flex:0 0 auto;
-    font-weight:900;
-}
-
-.allowed .rule-mark{
-    color:var(--green2);
-}
-
-.not-allowed .rule-mark{
-    color:var(--red2);
-}
-
-.rules-note{
-    margin-top:14px;
-    padding:11px 13px;
-    border-radius:10px;
-    background:rgba(0,0,0,.16);
-    color:#bcaebe;
-    font-size:10px;
-    line-height:1.55;
-}
-
-.rules-confirm{
-    margin-top:16px;
-    padding:14px;
-    border-radius:13px;
-    background:rgba(255,255,255,.025);
-    border:1px solid rgba(255,255,255,.08);
-}
-
-.rules-checkbox{
-    display:flex;
-    align-items:flex-start;
-    gap:10px;
-    cursor:pointer;
-    margin:0;
-    color:#fff;
-    font-size:12px;
-    line-height:1.5;
-}
-
-.rules-checkbox input{
-    width:17px;
-    height:17px;
-    margin:1px 0 0;
-    flex:0 0 auto;
-    accent-color:var(--green2);
-    cursor:pointer;
-}
-
-.rules-checkbox span{
-    color:#eee3ef;
-}
-
-.rules-submit-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    margin-top:14px;
-    flex-wrap:wrap;
-}
-
-.review-status{
-    display:none;
-    align-items:center;
-    gap:7px;
-    padding:8px 11px;
-    border-radius:20px;
-    font-size:10px;
-    font-weight:700;
-}
-
-.review-status.show{
-    display:inline-flex;
-}
-
-.review-status.pending{
-    color:#ffe49a;
-    background:rgba(212,175,55,.08);
-    border:1px solid rgba(212,175,55,.18);
-}
-
-.review-status.approved{
-    color:#9af0c1;
-    background:rgba(22,166,106,.08);
-    border:1px solid rgba(57,217,138,.18);
-}
-
-.review-status.rejected{
-    color:#ffabb6;
-    background:rgba(239,35,60,.08);
-    border:1px solid rgba(239,35,60,.18);
-}
-
-.review-status.changes{
-    color:#d6bcff;
-    background:rgba(139,61,255,.08);
-    border:1px solid rgba(139,61,255,.18);
-}
-
-.course-review-info{
-    display:none;
-    margin-top:14px;
-    padding:11px 13px;
-    border-radius:10px;
-    background:rgba(212,175,55,.045);
-    border:1px solid rgba(212,175,55,.12);
-    color:#cbbdce;
-    font-size:10px;
-    line-height:1.5;
-}
-
-.course-review-info.show{
-    display:block;
-}
-
-/* =========================
-   LEVELS
-========================= */
-
-.level-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px
-}
-
-.level-card{
-    padding:18px;
-    border:1px solid var(--border);
-    border-radius:14px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(239,35,60,.045),
-            rgba(139,61,255,.045),
-            rgba(22,166,106,.035)
-        );
-    transition:.2s ease;
-}
-
-.level-card:hover{
-    border-color:rgba(212,175,55,.22);
-    transform:translateY(-2px);
-}
-
-.level-card h3{
-    font-size:14px;
-    margin-bottom:7px
-}
-
-.level-card p{
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.5
-}
-
-/* =========================
-   PAYMENTS
-========================= */
-
-.payment-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:13px
-}
-
-.payment-method{
-    min-height:130px;
-    border:1px solid var(--border);
-    border-radius:15px;
-    padding:17px;
-    cursor:pointer;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.025),
-            rgba(139,61,255,.025)
-        );
-    transition:.2s ease;
-}
-
-.payment-method:hover{
-    transform:translateY(-2px);
-    border-color:rgba(212,175,55,.18);
-}
-
-.payment-method.selected{
-    border-color:rgba(212,175,55,.55);
-    background:
-        linear-gradient(
-            135deg,
-            rgba(212,175,55,.10),
-            rgba(139,61,255,.08)
-        );
-    box-shadow:
-        0 10px 30px rgba(212,175,55,.07);
-}
-
-.payment-icon{
-    font-size:25px;
-    margin-bottom:15px
-}
-
-.payment-method strong{
-    display:block;
-    font-size:13px
-}
-
-.payment-method span{
-    display:block;
-    color:var(--muted);
-    font-size:10px;
-    margin-top:5px
-}
-
-.split-box{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-top:18px
-}
-
-.split{
-    padding:17px;
-    border-radius:13px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.035),
-            rgba(212,175,55,.035)
-        );
-    border:1px solid var(--border)
-}
-
-.split strong{
-    display:block;
-    font-size:23px
-}
-
-.split span{
-    color:var(--muted);
-    font-size:11px
-}
-
-/* =========================
-   COMPETITION
-========================= */
-
-.competition-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:15px;
-    flex-wrap:wrap
-}
-
-.competition-status{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:9px 13px;
-    border-radius:30px;
-    background:rgba(212,175,55,.08);
-    border:1px solid rgba(212,175,55,.18);
-    color:#e8ca67;
-    font-size:11px;
-    white-space:nowrap
-}
-
-.competition-status.live{
-    color:#86efac;
-    background:rgba(22,166,106,.08);
-    border-color:rgba(57,217,138,.20)
-}
-
-.competition-status.finished{
-    color:#fca5a5;
-    background:rgba(239,35,60,.08);
-    border-color:rgba(239,35,60,.18)
-}
-
-.competition-status-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:currentColor
-}
-
-.competition-info-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin:20px 0
-}
-
-.competition-info{
-    padding:15px;
-    border:1px solid var(--border);
-    border-radius:13px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(239,35,60,.035),
-            rgba(139,61,255,.04)
-        )
-}
-
-.competition-info span{
-    display:block;
-    color:var(--muted);
-    font-size:10px;
-    margin-bottom:6px
-}
-
-.competition-info strong{
-    font-size:20px
-}
-
-.competition-groups{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-bottom:18px
-}
-
-.competition-group-btn{
-    padding:14px;
-    border-radius:12px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.035);
-    color:#bcaec3;
-    cursor:pointer;
-    font-weight:700;
-    transition:.2s ease;
-}
-
-.competition-group-btn:hover{
-    border-color:rgba(212,175,55,.20);
-}
-
-.competition-group-btn.active{
-    color:white;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(239,35,60,.13),
-            rgba(139,61,255,.13),
-            rgba(212,175,55,.06)
-        );
-    border-color:rgba(212,175,55,.40);
-    box-shadow:
-        0 8px 25px rgba(139,61,255,.07);
-}
-
-.competition-group-btn small{
-    display:block;
-    margin-top:4px;
-    color:var(--muted);
-    font-size:10px;
-    font-weight:400
-}
-
-.competition-toolbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    margin-bottom:15px;
-    flex-wrap:wrap
-}
-
-.competition-toolbar h3{
-    font-size:16px
-}
-
-.competition-search{
-    width:260px
-}
-
-.competition-table-wrap{
-    overflow:auto;
-    max-height:650px;
-    border:1px solid var(--border);
-    border-radius:13px
-}
-
-.competition-table{
-    min-width:900px;
-    width:100%;
-    border-collapse:collapse
-}
-
-.competition-table thead{
-    position:sticky;
-    top:0;
-    z-index:2;
-    background:#180a1d
-}
-
-.competition-table th{
-    padding:13px 12px;
-    text-align:left;
-    color:#95869b;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.5px;
-    border-bottom:1px solid var(--border)
-}
-
-.competition-table td{
-    padding:12px;
-    font-size:12px;
-    border-bottom:1px solid rgba(255,255,255,.045)
-}
-
-.competition-table tbody tr:hover{
-    background:
-        linear-gradient(
-            90deg,
-            rgba(239,35,60,.025),
-            rgba(139,61,255,.035)
-        )
-}
-
-.rank-number{
-    color:var(--gold2);
-    font-weight:800
-}
-
-.empty-student{
-    color:#786b80
-}
-
-.points-number{
-    font-weight:800;
-    color:#c4a5ff
-}
-
-.reward-pending{
-    display:inline-block;
-    padding:5px 8px;
-    border-radius:7px;
-    color:#e8ca67;
-    background:rgba(212,175,55,.08);
-    border:1px solid rgba(212,175,55,.15);
-    font-size:10px
-}
-
-.student-status{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    font-size:10px;
-    font-weight:700
-}
-
-.student-status-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%
-}
-
-.status-waiting{
-    color:#8fa1b5
-}
-
-.status-waiting .student-status-dot{
-    background:#718096
-}
-
-.status-active{
-    color:#86efac
-}
-
-.status-active .student-status-dot{
-    background:#4ade80
-}
-
-.status-eliminated{
-    color:#fca5a5
-}
-
-.status-eliminated .student-status-dot{
-    background:#ef4444
-}
-
-/* =========================
-   AI
-========================= */
-
-.ai-box{
-    display:flex;
-    flex-direction:column;
-    height:540px
-}
-
-.chat-messages{
-    flex:1;
-    overflow-y:auto;
-    padding:10px 2px
-}
-
-.message{
-    max-width:80%;
-    padding:11px 13px;
-    border-radius:12px;
-    margin-bottom:10px;
-    font-size:12px;
-    line-height:1.5
-}
-
-.message.ai{
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.05),
-            rgba(139,61,255,.045)
-        );
-    border:1px solid var(--border)
-}
-
-.message.user{
-    margin-left:auto;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(239,35,60,.15),
-            rgba(139,61,255,.16)
-        );
-    border:1px solid rgba(139,61,255,.10)
-}
-
-.chat-form{
-    display:flex;
-    gap:8px;
-    margin-top:10px
-}
-
-/* =========================
-   MODAL
-========================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.76);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:500;
-    backdrop-filter:blur(8px)
-}
-
-.modal.show{
-    display:flex
-}
-
-.modal-box{
-    width:100%;
-    max-width:650px;
-    max-height:90vh;
-    overflow-y:auto;
-    background:
-        linear-gradient(
-            135deg,
-            #18091b,
-            #0d1110
-        );
-    border:1px solid rgba(212,175,55,.18);
-    border-radius:20px;
-    padding:25px;
-    box-shadow:
-        0 30px 80px rgba(0,0,0,.55),
-        0 0 50px rgba(139,61,255,.07)
-}
-
-.modal-header{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:20px
-}
-
-.close{
-    border:0;
-    background:rgba(255,255,255,.06);
-    color:#a9b7c7;
-    width:32px;
-    height:32px;
-    border-radius:8px;
-    cursor:pointer;
-    transition:.2s
-}
-
-.close:hover{
-    color:white;
-    background:rgba(239,35,60,.13)
-}
-
-/* =========================
-   EXTRA
-========================= */
-
-.mobile-menu{
-    display:none
-}
-
-.empty{
-    color:#71849a;
-    font-size:12px;
-    padding:10px
-}
-
-.loading{
-    color:#a995aa;
-    font-size:12px;
-    padding:10px
-}
-
-.toast{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    z-index:1000;
-    min-width:250px;
-    max-width:380px;
-    padding:13px 16px;
-    border-radius:12px;
-    background:
-        linear-gradient(
-            135deg,
-            #1b0b1d,
-            #0d1512
-        );
-    border:1px solid var(--border);
-    box-shadow:
-        0 15px 40px rgba(0,0,0,.45);
-    font-size:12px;
-    display:none
-}
-
-.toast.show{
-    display:block
-}
-
-.toast.success{
-    border-color:rgba(57,217,138,.3);
-    color:#9af0b2
-}
-
-.toast.error{
-    border-color:rgba(239,68,68,.3);
-    color:#ffaaaa
-}
-
-/* =========================
-   SCROLLBAR
-========================= */
-
-::-webkit-scrollbar{
-    width:8px;
-    height:8px
-}
-
-::-webkit-scrollbar-track{
-    background:rgba(255,255,255,.025)
-}
-
-::-webkit-scrollbar-thumb{
-    background:
-        linear-gradient(
-            180deg,
-            var(--purple),
-            var(--gold)
-        );
-    border-radius:20px
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
+--bg:#090711;--side:#100b19;--card:#191321;
+--purple:#8d45c9;--violet:#421d61;--pink:#d94c9b;
+--border:#352641;--text:#f7f2ff;--muted:#a99bb7;
+--green:#53d6a2;--gold:#efc56f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font-family:Inter,Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.layout{display:grid;grid-template-columns:215px minmax(0,1fr) 230px;min-height:100vh}
+.sidebar{background:var(--side);border-right:1px solid var(--border);padding:20px 13px}
+.logo{font-size:21px;font-weight:900;padding:8px 10px 28px}
+.logo span{color:#c17bff}
+.nav-label{font-size:9px;letter-spacing:1.5px;color:#82748f;padding:13px 10px 7px}
+.nav button{display:block;width:100%;border:0;background:none;color:var(--muted);
+padding:11px;border-radius:9px;text-align:left;font-size:12px;margin:2px 0}
+.nav button:hover,.nav button.active{background:linear-gradient(90deg,#6934a0,#9a50d6);color:white}
+.main{padding:24px;min-width:0}
+.right{background:var(--side);border-left:1px solid var(--border);padding:20px 14px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;gap:10px}
+h1{font-size:27px;margin:0 0 7px}
+h2{font-size:16px;margin:0 0 7px}
+h3{font-size:13px}
+.muted{font-size:11px;color:var(--muted)}
+.eyebrow{font-size:10px;color:#c58cff;letter-spacing:1.6px;font-weight:800;margin-bottom:9px}
+.hero{background:linear-gradient(110deg,#27143b,#48205c);
+border:1px solid #593a70;border-radius:15px;padding:22px;
+display:flex;justify-content:space-between;align-items:center;gap:15px;margin:20px 0}
+.hero p{font-size:12px;color:#d0bfdc;max-width:480px;line-height:1.6}
+.btn{border:0;border-radius:8px;padding:10px 15px;
+background:linear-gradient(100deg,#9848dc,#d64d9d);color:white;font-size:11px;font-weight:800}
+.secondary{background:#251832;color:#e7d8f3;border:1px solid #503965;
+border-radius:8px;padding:9px 12px;font-size:10px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:18px 0}
+.stat,.panel,.skill,.course,.video-card{background:var(--card);
+border:1px solid var(--border);border-radius:12px;padding:14px}
+.stat span{font-size:10px;color:var(--muted)}
+.stat strong{display:block;font-size:23px;margin:9px 0 4px}
+.stat small{font-size:9px;color:var(--green)}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:23px 0 12px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.skill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.skill h3{margin:0 0 5px}
+.skill select,.field{width:100%;background:#21172d;border:1px solid #493457;
+border-radius:8px;color:white;padding:10px;font-size:11px;margin-top:9px}
+.skill button{width:100%;margin-top:8px}
+.level-price{font-size:10px;color:#d6b5f2}
+.progress{height:6px;background:#35283e;border-radius:10px;overflow:hidden;margin:9px 0}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#a44fe9,#e34d9d)}
+.course-grid,.video-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.thumb{height:100px;border-radius:8px;background:linear-gradient(135deg,#292044,#663a82);
+display:grid;place-items:center;font-size:30px;margin-bottom:10px}
+.course b,.video-card b{font-size:11px}
+.course p,.video-card p{font-size:10px;color:var(--muted)}
+.video-card iframe{width:100%;height:130px;border:0;border-radius:8px}
+.page{display:none}
+.page.active{display:block}
+.right-profile{display:flex;align-items:center;gap:10px;margin-bottom:25px}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#a34fe7,#d94c9b);
+display:grid;place-items:center;font-weight:bold}
+.schedule{background:#1c1526;border-left:3px solid var(--purple);
+padding:12px;margin:12px 0;border-radius:0 8px 8px 0;font-size:10px}
+.task{padding:13px;background:linear-gradient(120deg,#5842ba,#3666c6);
+border-radius:9px;font-size:10px;margin:9px 0}
+.task.pink{background:linear-gradient(120deg,#a43cb6,#713da1)}
+.table-wrap{overflow:auto;background:var(--card);border:1px solid var(--border);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:11px}
+th,td{text-align:left;padding:13px;border-bottom:1px solid var(--border)}
+th{color:#c4b3d1}
+input.field,textarea.field{display:block}
+.notice{padding:12px;background:#261d11;border:1px solid #59452c;
+border-radius:9px;color:#efd49b;font-size:11px;margin:13px 0}
+.status{color:var(--gold)}
+.empty{padding:20px;text-align:center;color:var(--muted);font-size:11px}
+#toast{position:fixed;bottom:20px;right:20px;background:#263b30;
+border:1px solid #43815c;padding:12px 18px;border-radius:9px;
+font-size:12px;display:none;z-index:99}
+.mobile-menu{display:none}
 @media(max-width:1050px){
-
-    .grid{
-        grid-template-columns:repeat(2,1fr)
-    }
-
-    .content-grid{
-        grid-template-columns:1fr
-    }
-
-    .competition-info-grid{
-        grid-template-columns:repeat(2,1fr)
-    }
+.layout{grid-template-columns:180px minmax(0,1fr)}
+.right{display:none}
+.skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-
-@media(max-width:760px){
-
-    .sidebar{
-        transform:translateX(-100%);
-        transition:.25s
-    }
-
-    .sidebar.open{
-        transform:translateX(0)
-    }
-
-    .main{
-        margin-left:0;
-        padding:15px
-    }
-
-    .mobile-menu{
-        display:block;
-        border:1px solid rgba(212,175,55,.18);
-        background:rgba(255,255,255,.05);
-        color:white;
-        border-radius:9px;
-        padding:9px 11px;
-        cursor:pointer;
-        margin-right:10px
-    }
-
-    .topbar{
-        justify-content:flex-start;
-        gap:5px
-    }
-
-    .top-title{
-        flex:1
-    }
-
-    .grid{
-        grid-template-columns:1fr 1fr
-    }
-
-    .profile-box,
-    .form-grid{
-        grid-template-columns:1fr
-    }
-
-    .level-grid,
-    .competition-groups{
-        grid-template-columns:1fr
-    }
-
-    .competition-info-grid{
-        grid-template-columns:1fr 1fr
-    }
-
-    .profile-photo-area{
-        padding-bottom:20px
-    }
-
-    .rules-columns{
-        grid-template-columns:1fr;
-    }
-
-    .course-rules-header{
-        flex-direction:column;
-    }
-}
-
-@media(max-width:500px){
-
-    .grid,
-    .competition-info-grid{
-        grid-template-columns:1fr
-    }
-
-    .competition-search{
-        width:100%
-    }
-
-    .top-title h1{
-        font-size:20px
-    }
-
-    .status{
-        display:none
-    }
-
-    .payment-grid{
-        grid-template-columns:1fr
-    }
-
-    .split-box{
-        grid-template-columns:1fr
-    }
-
-    .lesson{
-        align-items:flex-start;
-        flex-direction:column
-    }
-
-    .lesson > div:last-child{
-        width:100%
-    }
-
-    .toast{
-        left:15px;
-        right:15px;
-        min-width:0
-    }
-
-    .rules-submit-row{
-        align-items:stretch;
-        flex-direction:column;
-    }
-
-    .rules-submit-row .btn{
-        width:100%;
-    }
+@media(max-width:650px){
+.layout{display:block}
+.sidebar{display:none;position:fixed;z-index:50;width:260px;height:100vh;overflow:auto}
+.sidebar.open{display:block}
+.main{padding:15px}
+.mobile-menu{display:inline-block}
+.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+.skill-grid{grid-template-columns:1fr}
+.course-grid,.video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid2{grid-template-columns:1fr}
+.hero{padding:16px}
+h1{font-size:23px}
 }
 </style>
 </head>
 
 <body>
+<div class="layout">
 
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-
-<div class="logo">GUR<span>HUB</span></div>
-
-<div class="teacher-mini">
-<div class="mini-row">
-
-<img
-src=""
-id="sideAvatar"
-class="avatar"
-alt="Teacher profile"
->
-
-<div>
-<strong id="sideName">Teacher</strong>
-<span id="sideSkill">Teacher Account</span>
-</div>
-
-</div>
-</div>
+<div class="logo"><span>◈</span> SteadyMaze</div>
 
 <nav class="nav">
+<div class="nav-label">LEARNING SPACE</div>
+<button class="active" data-page="dashboard">◈ Dashboard</button>
+<button data-page="skills">▦ Skill Universe</button>
+<button data-page="courses">▶ My Courses</button>
+<button data-page="videos">▣ Teacher Video Gallery</button>
 
-<button
-class="active"
-onclick="showSection('dashboard',this)"
->
-🏠 Dashboard
-</button>
+<div class="nav-label">COMPETITION</div>
+<button data-page="competition">🏆 Competition Main</button>
+<button data-page="leaderboard">☷ Leaderboard</button>
 
-<button
-onclick="showSection('profile',this)"
->
-👤 My Profile
-</button>
+<div class="nav-label">MY ACCOUNT</div>
+<button data-page="profile">◎ My Profile</button>
+<button data-page="payments">◇ Payments</button>
+<button data-page="rewards">✧ Rewards</button>
+<button data-page="support">♡ Support Points</button>
+<button data-page="career">↗ Direct Employment</button>
+<button data-page="help">? Help & Support</button>
 
-<button
-onclick="showSection('lessons',this)"
->
-🎥 My Lessons
-</button>
-
-<button
-onclick="showSection('upload',this)"
->
-⬆️ Add Lesson
-</button>
-
-<button
-onclick="showSection('payments',this)"
->
-💳 Payments
-</button>
-
-<button
-onclick="showSection('competition',this)"
->
-🏆 Competition
-</button>
-
-<button
-onclick="showSection('ai',this)"
->
-🤖 AI Assistant
-</button>
-
+<div class="nav-label">ACCOUNT</div>
+<button id="logout">⇥ Logout</button>
 </nav>
-
-<div class="logout">
-<button onclick="logoutTeacher()">
-← Back to Teacher Login
-</button>
-</div>
-
 </aside>
 
-
+<!-- MAIN -->
 <main class="main">
 
-<div class="topbar">
-
-<button
-class="mobile-menu"
-onclick="toggleSidebar()"
->
-☰
-</button>
-
-<div class="top-title">
-
-<h1 id="pageTitle">
-Teacher Dashboard
-</h1>
-
-<p>
-Manage your GURHUB teaching workspace.
-</p>
-
+<header class="topbar">
+<div>
+<button class="secondary mobile-menu" id="menuBtn">☰</button>
+<span class="muted">STUDENT PORTAL / <span id="pageTitle">DASHBOARD</span></span>
 </div>
-
-<div class="status">
-<span class="status-dot"></span>
-Teacher workspace
+<div style="display:flex;align-items:center;gap:10px">
+<span style="font-size:12px">🔔</span>
+<div class="avatar" id="topAvatar">S</div>
+<b id="topName" style="font-size:11px">Student</b>
 </div>
-
-</div>
-
+</header>
 
 <!-- DASHBOARD -->
+<section class="page active" id="page-dashboard">
+<div class="eyebrow">YOUR LEARNING JOURNEY</div>
+<h1>Hello, <span id="welcomeName">Student</span>!</h1>
+<p class="muted">Welcome back. Keep moving toward your goals.</p>
 
-<section
-id="dashboard"
-class="section active"
->
-
-<div class="grid">
-
-<div class="card">
-<div class="stat-label">
-My Lessons
-</div>
-
-<div
-class="stat-value blue"
-id="lessonCount"
->
-0
-</div>
-
-<div class="stat-note">
-Uploaded lessons
-</div>
-</div>
-
-
-<div class="card">
-<div class="stat-label">
-Active Levels
-</div>
-
-<div class="stat-value gold">
-3
-</div>
-
-<div class="stat-note">
-Beginner • Level 2 • Level 3
-</div>
-</div>
-
-
-<div class="card">
-<div class="stat-label">
-Competition Group
-</div>
-
-<div
-class="stat-value"
-id="teacherGroup"
->
-—
-</div>
-
-<div class="stat-note">
-Assigned group
-</div>
-</div>
-
-
-<div class="card">
-<div class="stat-label">
-Teacher Share
-</div>
-
-<div class="stat-value gold">
-70%
-</div>
-
-<div class="stat-note">
-Payment split
-</div>
-</div>
-
-</div>
-
-
-<div class="content-grid">
-
-<div class="card">
-
-<h2>
-My Recent Lessons
-</h2>
-
-<p class="card-subtitle">
-Lessons you have added to GURHUB.
-</p>
-
-<div
-class="lesson-list"
-id="dashboardLessons"
->
-<div class="loading">
-Loading lessons...
-</div>
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>
-Teaching Levels
-</h2>
-
-<p class="card-subtitle">
-You can publish lessons under each level.
-</p>
-
-<div class="level-grid">
-
-<div class="level-card">
-<h3>Level 1</h3>
-<p>
-Beginner lessons and fundamentals.
-</p>
-</div>
-
-<div class="level-card">
-<h3>Level 2</h3>
-<p>
-Intermediate lessons and practical skills.
-</p>
-</div>
-
-<div class="level-card">
-<h3>Level 3</h3>
-<p>
-Advanced lessons and projects.
-</p>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- PROFILE -->
-
-<section
-id="profile"
-class="section"
->
-
-<div class="card">
-
-<h2>
-Teacher Profile
-</h2>
-
-<p class="card-subtitle">
-Your profile information will be available to students.
-</p>
-
-
-<div class="profile-box">
-
-<div class="profile-photo-area">
-
-<img
-id="profileImage"
-class="profile-photo"
-src=""
-alt="Teacher profile"
->
-
-<label
-class="upload-label"
-for="profileUpload"
->
-Upload Profile Photo
-</label>
-
-<input
-type="file"
-id="profileUpload"
-accept="image/*"
->
-
-</div>
-
-
+<div class="hero">
 <div>
-
-<div class="form-grid">
-
-<div class="field">
-
-<label>
-Full Name
-</label>
-
-<input
-id="profileName"
-type="text"
-placeholder="Teacher full name"
->
-
+<div class="eyebrow">STEADYMAZE ACADEMY</div>
+<h2>Learn today. Lead tomorrow.</h2>
+<p>Build professional skills, learn from teachers, create projects and compete with students around the world.</p>
+<button class="btn" onclick="openPage('skills')">Explore Skills →</button>
+</div>
+<div style="font-size:48px">🎓</div>
 </div>
 
-
-<div class="field">
-
-<label>
-Email
-</label>
-
-<input
-id="profileEmail"
-type="email"
-placeholder="Teacher email"
->
-
+<div class="stats">
+<div class="stat"><span>MY COURSES</span><strong id="statCourses">0</strong><small>Enrolled levels</small></div>
+<div class="stat"><span>COMPETITION ENTRIES</span><strong id="statEntries">0</strong><small>Registered entries</small></div>
+<div class="stat"><span>SUPPORT POINTS</span><strong id="statPoints">0</strong><small>Earned points</small></div>
+<div class="stat"><span>COURSE INVESTMENT</span><strong id="statMoney">$0</strong><small>Selected fees</small></div>
 </div>
 
-
-<div class="field">
-
-<label>
-Main Skill
-</label>
-
-<input
-id="profileSkill"
-type="text"
-placeholder="Your main skill"
->
-
+<div class="grid2">
+<div class="panel">
+<h2>Learning Progress</h2>
+<p class="muted">Your completed course activity</p>
+<div id="progressArea" class="muted">No progress records available yet.</div>
+</div>
+<div class="panel">
+<h2>Skill Groups</h2>
+<p class="muted">20 available learning paths</p>
+<p>Lower <b style="float:right">7 skills</b></p>
+<div class="progress"><i style="width:70%"></i></div>
+<p>Medium <b style="float:right">7 skills</b></p>
+<div class="progress"><i style="width:70%"></i></div>
+<p>High <b style="float:right">6 skills</b></p>
+<div class="progress"><i style="width:60%"></i></div>
+</div>
 </div>
 
-
-<div class="field">
-
-<label>
-Competition Group
-</label>
-
-<select id="profileGroup">
-
-<option value="">
-Select group
-</option>
-
-<option value="Lower">
-Lower
-</option>
-
-<option value="Medium">
-Medium
-</option>
-
-<option value="High">
-High
-</option>
-
-</select>
-
+<div class="section-head">
+<div><h2>My Courses</h2><p class="muted">Your selected learning levels</p></div>
+<button class="secondary" onclick="openPage('courses')">View All →</button>
 </div>
-
-
-<div class="field full">
-
-<label>
-Teacher Introduction
-</label>
-
-<textarea
-id="profileIntro"
-placeholder="Tell students about yourself..."
-></textarea>
-
-</div>
-
-</div>
-
-
-<button
-class="btn btn-blue"
-id="saveProfileBtn"
-onclick="saveProfile()"
->
-Save Profile
-</button>
-
-</div>
-
-</div>
-
-</div>
-
+<div class="course-grid" id="homeCourses"></div>
 </section>
 
+<!-- SKILLS -->
+<section class="page" id="page-skills">
+<div class="eyebrow">20 LEARNING PATHS</div>
+<h1>Skill Universe</h1>
+<p class="muted">Choose a skill and select your learning level.</p>
 
-<!-- LESSONS -->
-
-<section
-id="lessons"
-class="section"
->
-
-<div class="card">
-
-<div style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-margin-bottom:20px
-">
-
-<div>
-
-<h2>
-My Lessons
-</h2>
-
-<p
-class="card-subtitle"
-style="margin-bottom:0"
->
-Manage your uploaded course lessons.
-</p>
-
+<div class="notice">
+Lower: $5 / $8 / $12 · Medium: $15 / $20 / $30 · High: $175 total.
 </div>
 
-<button
-class="btn btn-blue"
-onclick="showSectionById('upload')"
->
-+ Add Lesson
-</button>
-
+<div style="display:flex;gap:7px;flex-wrap:wrap;margin:15px 0">
+<button class="secondary" onclick="renderSkills('All')">All 20</button>
+<button class="secondary" onclick="renderSkills('Lower')">Lower</button>
+<button class="secondary" onclick="renderSkills('Medium')">Medium</button>
+<button class="secondary" onclick="renderSkills('High')">High</button>
 </div>
 
-
-<div
-id="allLessons"
-class="lesson-list"
->
-<div class="loading">
-Loading lessons...
-</div>
-</div>
-
-</div>
-
+<div class="skill-grid" id="skillGrid"></div>
 </section>
 
-
-<!-- ADD LESSON -->
-
-<section
-id="upload"
-class="section"
->
-
-<div class="card">
-
-<h2>
-Add New Lesson
-</h2>
-
-<p class="card-subtitle">
-Create a lesson for Level 1, Level 2 or Level 3.
-</p>
-
-
-<div class="warning">
-
-⚠️
-<strong>Video quality requirement:</strong>
-
-Upload clear educational videos.
-Recommended quality is
-<strong>1080p</strong>
-and up to
-<strong>2K or higher</strong>
-when supported.
-
+<!-- COURSES -->
+<section class="page" id="page-courses">
+<div class="eyebrow">YOUR LEARNING</div>
+<h1>My Courses</h1>
+<p class="muted">Your enrolled courses from your student account.</p>
+<div class="table-wrap" style="margin-top:18px">
+<table>
+<thead><tr><th>Skill</th><th>Group</th><th>Level</th><th>Price</th><th>Status</th></tr></thead>
+<tbody id="courseRows"></tbody>
+</table>
+<div id="courseEmpty" class="empty">No courses enrolled yet.</div>
 </div>
-
-
-<div class="upload-box">
-
-<div class="icon">
-🎥
-</div>
-
-<h3>
-Select Lesson Video
-</h3>
-
-<p>
-Upload your actual lesson video from your device.
-</p>
-
-<label
-for="lessonVideo"
-class="btn btn-blue"
->
-Choose Video
-</label>
-
-<input
-type="file"
-id="lessonVideo"
-accept="video/*"
->
-
-<div
-id="videoFileName"
-class="file-name"
-></div>
-
-</div>
-
-
-<div class="form-grid">
-
-<div class="field">
-
-<label>
-Lesson Title
-</label>
-
-<input
-id="lessonTitle"
-type="text"
-placeholder="Lesson title"
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Skill
-</label>
-
-<input
-id="lessonSkill"
-type="text"
-placeholder="Skill — e.g. Forex, Crypto, Video Editing"
-oninput="handleCourseSkillChange()"
-onchange="handleCourseSkillChange()"
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Level
-</label>
-
-<select id="lessonLevel">
-
-<option value="">
-Select level
-</option>
-
-<option value="Level 1">
-Level 1 — Beginner
-</option>
-
-<option value="Level 2">
-Level 2 — Intermediate
-</option>
-
-<option value="Level 3">
-Level 3 — Advanced
-</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Lesson Number
-</label>
-
-<input
-id="lessonNumber"
-type="number"
-min="1"
-placeholder="1"
->
-
-</div>
-
-
-<div class="field full">
-
-<label>
-What does this video teach?
-</label>
-
-<textarea
-id="lessonDescription"
-placeholder="Explain what students will learn..."
-></textarea>
-
-</div>
-
-
-<div class="field full">
-
-<label>
-Lesson Introduction
-</label>
-
-<textarea
-id="lessonIntro"
-placeholder="Lesson introduction..."
-></textarea>
-
-</div>
-
-</div>
-
-
-<!-- =================================================
-     FOREX / CRYPTO COURSE RULES
-================================================= -->
-
-<div
-id="courseRulesPanel"
-class="course-rules-panel"
->
-
-<div class="course-rules-header">
-
-<div class="course-rules-title">
-
-<div class="rules-icon">
-⚖️
-</div>
-
-<div>
-
-<h3>
-SteadyMaze Course Rules
-</h3>
-
-<p>
-Special rules for Forex and Crypto educational courses.
-</p>
-
-</div>
-
-</div>
-
-<div
-id="rulesCourseBadge"
-class="rules-course-badge"
->
-Forex / Crypto
-</div>
-
-</div>
-
-
-<div class="rules-columns">
-
-<div class="rules-column allowed">
-
-<h4>
-🟢 What you CAN include
-</h4>
-
-<ul class="rules-list">
-
-<li>
-<span class="rule-mark">✓</span>
-<span>
-Market fundamentals
-</span>
-</li>
-
-<li>
-<span class="rule-mark">✓</span>
-<span>
-Basic concepts
-</span>
-</li>
-
-<li>
-<span class="rule-mark">✓</span>
-<span>
-Spot trading concepts
-</span>
-</li>
-
-<li>
-<span class="rule-mark">✓</span>
-<span>
-Risk management
-</span>
-</li>
-
-<li>
-<span class="rule-mark">✓</span>
-<span>
-Financial / market education
-</span>
-</li>
-
-<li>
-<span class="rule-mark">✓</span>
-<span>
-Technology and educational content
-</span>
-</li>
-
-</ul>
-
-</div>
-
-
-<div class="rules-column not-allowed">
-
-<h4>
-🔴 What you CANNOT include
-</h4>
-
-<ul class="rules-list">
-
-<li>
-<span class="rule-mark">✕</span>
-<span>
-Riba / Interest
-</span>
-</li>
-
-<li>
-<span class="rule-mark">✕</span>
-<span>
-Margin trading
-</span>
-</li>
-
-<li>
-<span class="rule-mark">✕</span>
-<span>
-Leverage trading
-</span>
-</li>
-
-<li>
-<span class="rule-mark">✕</span>
-<span>
-Gambling-style speculation
-</span>
-</li>
-
-<li>
-<span class="rule-mark">✕</span>
-<span>
-Content encouraging gambling or reckless trading
-</span>
-</li>
-
-</ul>
-
-</div>
-
-</div>
-
-
-<div class="rules-note">
-
-<strong>Important:</strong>
-SteadyMaze allows educational market content, but course content must follow these rules.
-Submitting a course does not mean automatic approval. The course will be reviewed by the Admin / Owner.
-
-</div>
-
-
-<div class="rules-confirm">
-
-<label class="rules-checkbox">
-
-<input
-type="checkbox"
-id="courseRulesAcknowledged"
-onchange="handleRulesCheckboxChange()"
->
-
-<span>
-☑️ I understand the SteadyMaze course rules
-</span>
-
-</label>
-
-
-<div class="rules-submit-row">
-
-<div>
-
-<span
-id="courseReviewStatus"
-class="review-status pending"
->
-● Pending Review
-</span>
-
-</div>
-
-<button
-type="button"
-id="submitCourseReviewBtn"
-class="btn btn-gold"
-onclick="submitCourseForReview()"
->
-Submit Course for Review
-</button>
-
-</div>
-
-
-<div
-id="courseReviewInfo"
-class="course-review-info"
->
-Your course will be sent to the Admin Dashboard for review.
-The final decision is made by the Owner/Admin.
-</div>
-
-</div>
-
-</div>
-
-
-<button
-class="btn btn-blue"
-id="saveLessonBtn"
-onclick="saveLesson()"
->
-Save Lesson
-</button>
-
-</div>
-
 </section>
 
-
-<!-- PAYMENTS -->
-
-<section
-id="payments"
-class="section"
->
-
-<div class="card">
-
-<h2>
-Payment Settings
-</h2>
-
-<p class="card-subtitle">
-Payment provider settings for your teacher account.
-</p>
-
-
-<div class="payment-grid">
-
-<div
-class="payment-method"
-onclick="selectPayment(this,'Visa')"
->
-
-<div class="payment-icon">
-💳
-</div>
-
-<strong>
-Visa
-</strong>
-
-<span>
-Card payment provider
-</span>
-
-</div>
-
-
-<div
-class="payment-method"
-onclick="selectPayment(this,'Mastercard')"
->
-
-<div class="payment-icon">
-💳
-</div>
-
-<strong>
-Mastercard
-</strong>
-
-<span>
-Card payment provider
-</span>
-
-</div>
-
-
-<div
-class="payment-method"
-onclick="selectPayment(this,'PayPal')"
->
-
-<div class="payment-icon">
-🅿️
-</div>
-
-<strong>
-PayPal
-</strong>
-
-<span>
-PayPal account connection
-</span>
-
-</div>
-
-
-<div
-class="payment-method"
-onclick="selectPayment(this,'Bank')"
->
-
-<div class="payment-icon">
-🏦
-</div>
-
-<strong>
-Bank Account
-</strong>
-
-<span>
-KCB or supported bank
-</span>
-
-</div>
-
-</div>
-
-
-<div
-class="form-grid"
-style="margin-top:20px"
->
-
-<div class="field">
-
-<label>
-Bank Name
-</label>
-
-<input
-id="bankName"
-type="text"
-placeholder="Example: KCB Bank"
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Account Holder Name
-</label>
-
-<input
-id="accountHolder"
-type="text"
-placeholder="Account holder"
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Payment Email
-</label>
-
-<input
-id="paymentEmail"
-type="email"
-placeholder="Payment account email"
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Account Reference
-</label>
-
-<input
-id="accountReference"
-type="text"
-placeholder="Backend reference"
->
-
-</div>
-
-</div>
-
-
-<div class="split-box">
-
-<div class="split">
-
-<strong class="gold">
-70%
-</strong>
-
-<span>
-Teacher share
-</span>
-
-</div>
-
-
-<div class="split">
-
-<strong class="blue">
-30%
-</strong>
-
-<span>
-GURHUB platform share
-</span>
-
-</div>
-
-</div>
-
-
-<button
-class="btn btn-blue"
-style="margin-top:18px"
-onclick="savePaymentSettings()"
->
-Save Payment Settings
-</button>
-
-</div>
-
+<!-- TEACHER VIDEOS -->
+<section class="page" id="page-videos">
+<div class="eyebrow">MEET YOUR INSTRUCTORS</div>
+<h1>Teacher Video Gallery</h1>
+<p class="muted">Introduction videos published by SteadyMaze teachers.</p>
+<div class="video-grid" id="videoGrid" style="margin-top:18px"></div>
 </section>
-
 
 <!-- COMPETITION -->
-
-<section
-id="competition"
-class="section"
->
-
-<div class="card">
-
-<div class="competition-head">
-
+<section class="page" id="page-competition">
+<div class="eyebrow">SHOW YOUR TALENT</div>
+<h1>Competition Main</h1>
+<div class="hero">
 <div>
-
-<h2>
-🏆 Competition Liveboard
-</h2>
-
-<p class="card-subtitle">
-Monitor Lower, Medium and High competition groups in real time.
-</p>
-
+<h2>Learn. Practice. Compete.</h2>
+<p>Competition registration and submission information will appear here.</p>
 </div>
-
-
-<div
-id="competitionStatus"
-class="competition-status"
->
-
-<span class="competition-status-dot"></span>
-
-<span id="competitionStatusText">
-Competition Not Started
-</span>
-
+<span style="font-size:38px">🏆</span>
 </div>
-
+<div class="panel">
+<h2>Competition Status</h2>
+<div id="competitionStatus" class="muted">Loading competition information...</div>
 </div>
-
-
-<div class="competition-info-grid">
-
-<div class="competition-info">
-
-<span>
-Competition Time
-</span>
-
-<strong id="competitionTimer">
-Waiting
-</strong>
-
-</div>
-
-
-<div class="competition-info">
-
-<span>
-Current Group
-</span>
-
-<strong id="currentGroupName">
-Lower
-</strong>
-
-</div>
-
-
-<div class="competition-info">
-
-<span>
-Total Positions
-</span>
-
-<strong>
-300
-</strong>
-
-</div>
-
-
-<div class="competition-info">
-
-<span>
-Highest Points
-</span>
-
-<strong id="competitionHighestPoints">
-0
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="competition-groups">
-
-<button
-class="competition-group-btn active"
-data-group="lower"
-onclick="switchCompetitionGroup('lower',this)"
->
-LOWER
-<small>
-Rank 1–300
-</small>
-</button>
-
-
-<button
-class="competition-group-btn"
-data-group="medium"
-onclick="switchCompetitionGroup('medium',this)"
->
-MEDIUM
-<small>
-Rank 1–300
-</small>
-</button>
-
-
-<button
-class="competition-group-btn"
-data-group="high"
-onclick="switchCompetitionGroup('high',this)"
->
-HIGH
-<small>
-Rank 1–300
-</small>
-</button>
-
-</div>
-
-
-<div class="competition-toolbar">
-
-<h3 id="competitionTableTitle">
-Lower — Liveboard
-</h3>
-
-<input
-id="competitionSearch"
-class="competition-search"
-type="search"
-placeholder="Search student..."
->
-
-</div>
-
-
-<div class="competition-table-wrap">
-
-<table class="competition-table">
-
-<thead>
-
-<tr>
-
-<th>
-Rank
-</th>
-
-<th>
-Student
-</th>
-
-<th>
-Student ID
-</th>
-
-<th>
-Points
-</th>
-
-<th>
-Round
-</th>
-
-<th>
-Status
-</th>
-
-<th>
-Reward
-</th>
-
-</tr>
-
-</thead>
-
-<tbody
-id="competitionTableBody"
->
-</tbody>
-
-</table>
-
-</div>
-
-
-<div
-class="warning"
-style="margin-top:18px;margin-bottom:0"
->
-
-🏆
-<strong>
-Competition structure:
-</strong>
-
-Lower = 300 positions,
-Medium = 300 positions,
-High = 300 positions.
-
-Student data is loaded from Supabase.
-
-</div>
-
-</div>
-
 </section>
 
-
-<!-- AI -->
-
-<section
-id="ai"
-class="section"
->
-
-<div class="card ai-box">
-
-<h2>
-AI Teacher Assistant
-</h2>
-
-<p class="card-subtitle">
-The chat interface is ready for the GURHUB AI backend/API.
-</p>
-
-
-<div
-class="chat-messages"
-id="chatMessages"
->
-
-<div class="message ai">
-Hello. I am the GURHUB teacher assistant.
+<!-- LEADERBOARD -->
+<section class="page" id="page-leaderboard">
+<div class="eyebrow">GLOBAL RANKINGS</div>
+<h1>Leaderboards</h1>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin:15px 0">
+<select class="field" style="max-width:220px" id="rankSkill">
+<option value="">All skills</option>
+</select>
 </div>
-
+<div class="table-wrap">
+<table>
+<thead><tr><th>Rank</th><th>Student</th><th>Skill</th><th>Points</th><th>Creativity</th><th>Storytelling</th></tr></thead>
+<tbody id="rankRows"></tbody>
+</table>
 </div>
+</section>
 
-
-<form
-class="chat-form"
-onsubmit="sendAIMessage(event)"
->
-
-<input
-id="aiInput"
-type="text"
-placeholder="Write a message..."
-required
->
-
-<button
-type="submit"
-class="btn btn-blue"
->
-Send
-</button>
-
-</form>
-
+<!-- PROFILE -->
+<section class="page" id="page-profile">
+<div class="eyebrow">ACCOUNT DETAILS</div>
+<h1>My Profile</h1>
+<div class="panel" style="max-width:550px;margin-top:18px">
+<div class="avatar" style="width:65px;height:65px;font-size:25px" id="profileAvatar">S</div>
+<label class="muted">Full Name</label>
+<input class="field" id="fullName" placeholder="Your full name">
+<label class="muted">Country</label>
+<input class="field" id="country" placeholder="Your country">
+<label class="muted">About Me</label>
+<textarea class="field" id="about" rows="3" placeholder="Tell us about yourself"></textarea>
+<button class="btn" id="saveProfile">Save Profile</button>
 </div>
+</section>
 
+<!-- PAYMENTS -->
+<section class="page" id="page-payments">
+<div class="eyebrow">PAYMENT CENTER</div>
+<h1>Payments</h1>
+<div class="panel" style="margin-top:18px">
+<h2>Course Fee Summary</h2>
+<h1 id="paymentTotal">$0</h1>
+<p class="muted">Your selected course levels and payment status.</p>
+</div>
+<div class="table-wrap" style="margin-top:15px">
+<table><thead><tr><th>Course</th><th>Level</th><th>Amount</th><th>Status</th></tr></thead>
+<tbody id="paymentRows"></tbody></table>
+</div>
+<div class="notice">Payment collection is not enabled yet. No card or bank details are collected by this page.</div>
+</section>
+
+<!-- REWARDS -->
+<section class="page" id="page-rewards">
+<div class="eyebrow">ACHIEVEMENTS</div>
+<h1>Rewards</h1>
+<div class="grid2" style="margin-top:18px">
+<div class="panel">🥇<h2>Lower Winners</h2><p class="muted">Official rewards pending</p></div>
+<div class="panel">🥈<h2>Medium Winners</h2><p class="muted">Official rewards pending</p></div>
+<div class="panel">🏆<h2>High Winners</h2><p class="muted">Official rewards pending</p></div>
+<div class="panel">✧<h2>My Awards</h2><p class="muted">No published awards</p></div>
+</div>
+</section>
+
+<!-- SUPPORT -->
+<section class="page" id="page-support">
+<div class="eyebrow">STUDENT COMMUNITY</div>
+<h1>Support Points</h1>
+<div class="hero"><div><h2 id="supportBalance">0 Points</h2><p>Your official support points balance.</p></div><span>✧</span></div>
+</section>
+
+<!-- CAREER -->
+<section class="page" id="page-career">
+<div class="eyebrow">CAREER GATEWAY</div>
+<h1>Direct Employment</h1>
+<div class="panel" style="margin-top:18px">
+<h2>Prepare for opportunities</h2>
+<p class="muted">Your completed courses and projects can help build a professional portfolio for future employer opportunities.</p>
+<button class="secondary" onclick="openPage('profile')">Complete Profile</button>
+</div>
+</section>
+
+<!-- HELP -->
+<section class="page" id="page-help">
+<div class="eyebrow">SUPPORT CENTER</div>
+<h1>Help & Support</h1>
+<div class="panel" style="margin-top:18px">
+<h2>Contact SteadyMaze</h2>
+<p class="muted">Use the official SteadyMaze support channel for account and course questions.</p>
+</div>
 </section>
 
 </main>
 
-
-<!-- LESSON MODAL -->
-
-<div
-class="modal"
-id="lessonModal"
->
-
-<div class="modal-box">
-
-<div class="modal-header">
-
-<h2>
-Lesson Details
-</h2>
-
-<button
-class="close"
-onclick="closeLessonModal()"
->
-×
-</button>
+<!-- RIGHT SIDEBAR -->
+<aside class="right">
+<div class="right-profile">
+<div class="avatar" id="rightAvatar">S</div>
+<div><b id="rightName" style="font-size:11px">Student</b><p class="muted">Student Account</p></div>
+</div>
+<h3>Your Classes</h3>
+<p class="muted">YOUR LEARNING SCHEDULE</p>
+<div class="schedule">09:00 — Learning Session<br><span class="muted">Course study</span></div>
+<div class="schedule" style="border-color:#d94c9b">12:00 — Practice<br><span class="muted">Skill development</span></div>
+<div class="schedule" style="border-color:#efc56f">15:00 — Project Work<br><span class="muted">Build your portfolio</span></div>
+<h3 style="margin-top:28px">Daily Tasks</h3>
+<div class="task">Complete one lesson</div>
+<div class="task" style="background:linear-gradient(120deg,#a33db7,#713da4)">Practice your skill</div>
+<div style="margin-top:35px;border-top:1px solid var(--border);padding-top:15px">
+<p class="muted">STEADYMAZE ACADEMY</p>
+</div>
+</aside>
 
 </div>
-
-
-<div
-id="lessonModalContent"
-></div>
-
-</div>
-
-</div>
-
-
-<div
-id="toast"
-class="toast"
-></div>
-
+<div id="toast"></div>
 
 <script>
+/* =========================================
+   STEADYMAZE SUPABASE CONFIGURATION
+========================================= */
 
-/* =====================================================
-   SUPABASE
-===================================================== */
+const SUPABASE_URL = "https://uxrltzlxdttbjstomhkb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
 
-const SUPABASE_URL =
-"https://uxrltzlxdttbjstomhkb.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
-
-const supabaseClient =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
+/* =========================================
+   SKILLS AND PRICES
+========================================= */
 
-/* =====================================================
-   DATA
-===================================================== */
+const skills = [
+["Video Editing","Lower","🎬"],
+["Movie Recap","Lower","🎞️"],
+["Affiliate Marketing","Lower","🔗"],
+["Dropshipping","Lower","📦"],
+["Digital Marketing","Lower","📣"],
+["Thumbnail Design","Lower","🖼️"],
+["Graphic Design","Lower","🎨"],
 
-const STORAGE_KEY =
-"gurhub_teacher_data";
+["FX Trading","Medium","💱"],
+["Cryptocurrency","Medium","₿"],
+["Data Analysis","Medium","📊"],
+["English","Medium","🌐"],
+["Cybersecurity","Medium","🛡️"],
+["AI Agent","Medium","🤖"],
+["UI/UX Design","Medium","✏️"],
 
-let currentTeacherId = null;
-
-let currentUser = null;
-
-let isLoadingTeacher = false;
-
-let teacherData = {
-
-    id:null,
-
-    name:"",
-
-    email:"",
-
-    skill:"",
-
-    group:"",
-
-    intro:"",
-
-    profileImage:"",
-
-    lessons:[],
-
-    payment:{
-
-        method:"",
-
-        bankName:"",
-
-        accountHolder:"",
-
-        paymentEmail:"",
-
-        accountReference:""
-
-    }
-
-};
-
-
-/* =====================================================
-   COURSE RULES
-===================================================== */
-
-const RESTRICTED_COURSE_SKILLS = [
-    "forex",
-    "crypto"
+["Python","High","🐍"],
+["Java","High","☕"],
+["AI Web Development","High","🧠"],
+["AI App Development","High","📱"],
+["Web Development","High","💻"],
+["Mobile App Development","High","📲"]
 ];
 
-
-function normalizeCourseSkill(value){
-
-    return String(
-        value || ""
-    )
-    .trim()
-    .toLowerCase()
-    .replace(
-        /\s+/g,
-        " "
-    );
-
-}
-
-
-function isRestrictedCourseSkill(skill){
-
-    const normalized =
-        normalizeCourseSkill(
-            skill
-        );
-
-    return RESTRICTED_COURSE_SKILLS
-        .includes(
-            normalized
-        );
-
-}
-
-
-function handleCourseSkillChange(){
-
-    const skillInput =
-        document.getElementById(
-            "lessonSkill"
-        );
-
-    const panel =
-        document.getElementById(
-            "courseRulesPanel"
-        );
-
-    const badge =
-        document.getElementById(
-            "rulesCourseBadge"
-        );
-
-    const skill =
-        skillInput?.value ||
-        "";
-
-
-    if(
-        isRestrictedCourseSkill(
-            skill
-        )
-    ){
-
-        panel.classList.add(
-            "show"
-        );
-
-        badge.textContent =
-            normalizeCourseSkill(
-                skill
-            )
-            .toUpperCase();
-
-        return;
-
-    }
-
-
-    panel.classList.remove(
-        "show"
-    );
-
-    badge.textContent =
-        "Forex / Crypto";
-
-
-    const checkbox =
-        document.getElementById(
-            "courseRulesAcknowledged"
-        );
-
-    if(checkbox){
-
-        checkbox.checked =
-            false;
-
-    }
-
-}
-
-
-function handleRulesCheckboxChange(){
-
-    const checkbox =
-        document.getElementById(
-            "courseRulesAcknowledged"
-        );
-
-    const submitButton =
-        document.getElementById(
-            "submitCourseReviewBtn"
-        );
-
-
-    if(
-        !checkbox ||
-        !submitButton
-    )
-        return;
-
-
-    submitButton.disabled =
-        !checkbox.checked;
-
-}
-
-
-function resetCourseReviewUI(){
-
-    const panel =
-        document.getElementById(
-            "courseRulesPanel"
-        );
-
-    const checkbox =
-        document.getElementById(
-            "courseRulesAcknowledged"
-        );
-
-    const submitButton =
-        document.getElementById(
-            "submitCourseReviewBtn"
-        );
-
-    const status =
-        document.getElementById(
-            "courseReviewStatus"
-        );
-
-    const info =
-        document.getElementById(
-            "courseReviewInfo"
-        );
-
-
-    if(panel)
-        panel.classList.remove(
-            "show"
-        );
-
-    if(checkbox)
-        checkbox.checked =
-            false;
-
-    if(submitButton){
-
-        submitButton.disabled =
-            true;
-
-        submitButton.textContent =
-            "Submit Course for Review";
-
-    }
-
-    if(status){
-
-        status.className =
-            "review-status pending";
-
-        status.textContent =
-            "● Pending Review";
-
-        status.classList.remove(
-            "show"
-        );
-
-    }
-
-    if(info)
-        info.classList.remove(
-            "show"
-        );
-
-}
-
-
-async function submitCourseForReview(){
-
-    const user =
-        await getLoggedTeacher();
-
-    if(!user)
-        return;
-
-
-    const skill =
-        document
-        .getElementById(
-            "lessonSkill"
-        )
-        .value
-        .trim();
-
-
-    const title =
-        document
-        .getElementById(
-            "lessonTitle"
-        )
-        .value
-        .trim();
-
-
-    const level =
-        document
-        .getElementById(
-            "lessonLevel"
-        )
-        .value;
-
-
-    const description =
-        document
-        .getElementById(
-            "lessonDescription"
-        )
-        .value
-        .trim();
-
-
-    const checkbox =
-        document.getElementById(
-            "courseRulesAcknowledged"
-        );
-
-
-    if(
-        !isRestrictedCourseSkill(
-            skill
-        )
-    ){
-
-        showToast(
-            "The special course rules apply only to Forex or Crypto.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !title ||
-        !skill ||
-        !level ||
-        !description
-    ){
-
-        showToast(
-            "Complete the lesson information before submitting for review.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !checkbox ||
-        !checkbox.checked
-    ){
-
-        showToast(
-            "Please confirm that you understand the SteadyMaze course rules.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const button =
-        document.getElementById(
-            "submitCourseReviewBtn"
-        );
-
-
-    button.disabled =
-        true;
-
-    button.textContent =
-        "Submitting...";
-
-
-    try{
-
-        const submittedAt =
-            new Date()
-            .toISOString();
-
-
-        /*
-         * First find whether this lesson already exists
-         * for this teacher with the same title.
-         *
-         * No fake/demo data is created.
-         */
-
-        const {
-            data:existingLesson,
-            error:findError
-        } =
-            await supabaseClient
-            .from("lessons")
-            .select(
-                "id,status,rules_acknowledged"
-            )
-            .eq(
-                "teacher_id",
-                user.id
-            )
-            .eq(
-                "title",
-                title
-            )
-            .maybeSingle();
-
-
-        if(findError){
-
-            console.error(
-                "Course review lookup error:",
-                findError
-            );
-
-            showToast(
-                "Could not check the course review status: " +
-                findError.message,
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if(
-            existingLesson &&
-            existingLesson.status ===
-            "pending_review"
-        ){
-
-            showToast(
-                "This course is already pending Admin review.",
-                "error"
-            );
-
-            showCourseReviewStatus(
-                "pending"
-            );
-
-            return;
-
-        }
-
-
-        /*
-         * The lesson must exist before it can be submitted.
-         * This feature does not create fake lessons.
-         */
-
-        if(!existingLesson){
-
-            showToast(
-                "Save the lesson first, then submit it for review.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const {
-            error:updateError
-        } =
-            await supabaseClient
-            .from("lessons")
-            .update({
-
-                status:
-                    "pending_review",
-
-                rules_acknowledged:
-                    true,
-
-                rules_acknowledged_at:
-                    submittedAt,
-
-                submitted_at:
-                    submittedAt
-
-            })
-            .eq(
-                "id",
-                existingLesson.id
-            )
-            .eq(
-                "teacher_id",
-                user.id
-            );
-
-
-        if(updateError){
-
-            console.error(
-                "Course review submit error:",
-                updateError
-            );
-
-            showToast(
-                "Course could not be submitted: " +
-                updateError.message,
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const lessonIndex =
-            teacherData.lessons.findIndex(
-                lesson =>
-                    String(
-                        lesson.id
-                    ) ===
-                    String(
-                        existingLesson.id
-                    )
-            );
-
-
-        if(
-            lessonIndex !== -1
-        ){
-
-            teacherData
-            .lessons[
-                lessonIndex
-            ]
-            .status =
-                "pending_review";
-
-            teacherData
-            .lessons[
-                lessonIndex
-            ]
-            .rulesAcknowledged =
-                true;
-
-        }
-
-
-        showCourseReviewStatus(
-            "pending"
-        );
-
-
-        const info =
-            document.getElementById(
-                "courseReviewInfo"
-            );
-
-
-        if(info){
-
-            info.textContent =
-                "Submitted successfully. Status: pending_review. The course is now waiting for Admin / Owner review. AI may assist with future scanning, but Admin / Owner makes the final decision.";
-
-            info.classList.add(
-                "show"
-            );
-
-        }
-
-
-        showToast(
-            "Course submitted for Admin review successfully."
-        );
-
-
-        renderLessons();
-
-
-    }catch(error){
-
-        console.error(
-            "Course review unexpected error:",
-            error
-        );
-
-        showToast(
-            "An unexpected error occurred while submitting the course.",
-            "error"
-        );
-
-    }finally{
-
-        button.disabled =
-            false;
-
-        button.textContent =
-            "Submit Course for Review";
-
-        handleRulesCheckboxChange();
-
-    }
-
-}
-
-
-function showCourseReviewStatus(
-    status
-){
-
-    const element =
-        document.getElementById(
-            "courseReviewStatus"
-        );
-
-
-    if(!element)
-        return;
-
-
-    element.className =
-        "review-status " +
-        status;
-
-
-    if(status === "pending"){
-
-        element.textContent =
-            "● Pending Review";
-
-    }else if(status === "approved"){
-
-        element.textContent =
-            "✓ Approved";
-
-    }else if(status === "rejected"){
-
-        element.textContent =
-            "✕ Rejected";
-
-    }else if(status === "changes"){
-
-        element.textContent =
-            "✎ Changes Requested";
-
-    }else{
-
-        element.textContent =
-            "● Pending Review";
-
-    }
-
-
-    element.classList.add(
-        "show"
-    );
-
-}
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-function showToast(
-    message,
-    type="success"
-){
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-    toast.textContent =
-        message;
-
-    toast.className =
-        "toast show " +
-        type;
-
-    clearTimeout(
-        window.toastTimer
-    );
-
-    window.toastTimer =
-        setTimeout(
-            ()=>{
-                toast.className =
-                    "toast";
-            },
-            3500
-        );
-
-}
-
-
-/* =====================================================
-   AUTH
-===================================================== */
-
-async function getLoggedTeacher(){
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-            .auth
-            .getUser();
-
-
-        if(error){
-
-            console.error(
-                "Auth error:",
-                error
-            );
-
-            window.location.href =
-                "teacher-login.html";
-
-            return null;
-
-        }
-
-
-        const user =
-            data?.user;
-
-
-        if(!user){
-
-            window.location.href =
-                "teacher-login.html";
-
-            return null;
-
-        }
-
-
-        currentUser =
-            user;
-
-        currentTeacherId =
-            user.id;
-
-
-        return user;
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-        window.location.href =
-            "teacher-login.html";
-
-        return null;
-
-    }
-
-}
-
-
-/* =====================================================
-   LOAD TEACHER
-===================================================== */
-
-async function loadTeacherFromSupabase(){
-
-    if(isLoadingTeacher)
-        return;
-
-    isLoadingTeacher = true;
-
-
-    try{
-
-        const user =
-            await getLoggedTeacher();
-
-
-        if(!user)
-            return;
-
-
-        teacherData.id =
-            user.id;
-
-        teacherData.email =
-            user.email || "";
-
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-            .from("teachers")
-            .select("*")
-            .eq(
-                "user_id",
-                user.id
-            )
-            .maybeSingle();
-
-
-        if(error){
-
-            console.error(
-                "Teacher load error:",
-                error
-            );
-
-        }
-
-
-        if(data){
-
-            teacherData.id =
-                data.user_id ||
-                user.id;
-
-            teacherData.name =
-                data.full_name ||
-                user.user_metadata?.full_name ||
-                "";
-
-            teacherData.email =
-                data.email ||
-                user.email ||
-                "";
-
-            teacherData.skill =
-                data.skill ||
-                "";
-
-            teacherData.group =
-                data.group ||
-                data.competition_group ||
-                "";
-
-            teacherData.intro =
-                data.intro ||
-                "";
-
-            teacherData.profileImage =
-                data.profile_image ||
-                user.user_metadata?.profile_image ||
-                "";
-
-        }else{
-
-            teacherData.name =
-                user.user_metadata?.full_name ||
-                "";
-
-            teacherData.email =
-                user.email ||
-                "";
-
-            teacherData.profileImage =
-                user.user_metadata?.profile_image ||
-                "";
-
-        }
-
-
-        const loginTeacher =
-            sessionStorage.getItem(
-                "gurhub_teacher"
-            );
-
-
-        if(loginTeacher){
-
-            try{
-
-                const loginData =
-                    JSON.parse(
-                        loginTeacher
-                    );
-
-
-                if(
-                    !teacherData.name &&
-                    loginData.name
-                ){
-
-                    teacherData.name =
-                        loginData.name;
-
-                }
-
-
-                if(
-                    !teacherData.email &&
-                    loginData.email
-                ){
-
-                    teacherData.email =
-                        loginData.email;
-
-                }
-
-
-                if(
-                    !teacherData.skill &&
-                    loginData.skill
-                ){
-
-                    teacherData.skill =
-                        loginData.skill;
-
-                }
-
-
-                if(
-                    !teacherData.group &&
-                    loginData.group
-                ){
-
-                    teacherData.group =
-                        loginData.group;
-
-                }
-
-            }catch(error){
-
-                console.warn(
-                    "Login session data invalid:",
-                    error
-                );
-
-            }
-
-        }
-
-
-        await loadLessonsFromSupabase();
-
-        await loadPaymentFromSupabase();
-
-        updateInterface();
-
-
-    }finally{
-
-        isLoadingTeacher =
-            false;
-
-    }
-
-}
-
-
-/* =====================================================
-   PROFILE SAVE
-===================================================== */
-
-async function saveProfile(){
-
-    const user =
-        await getLoggedTeacher();
-
-    if(!user)
-        return;
-
-
-    const name =
-        document
-        .getElementById("profileName")
-        .value
-        .trim();
-
-    const email =
-        document
-        .getElementById("profileEmail")
-        .value
-        .trim();
-
-    const skill =
-        document
-        .getElementById("profileSkill")
-        .value
-        .trim();
-
-    const group =
-        document
-        .getElementById("profileGroup")
-        .value;
-
-    const intro =
-        document
-        .getElementById("profileIntro")
-        .value
-        .trim();
-
-
-    if(!name){
-
-        showToast(
-            "Please enter the teacher name.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const button =
-        document.getElementById(
-            "saveProfileBtn"
-        );
-
-    button.disabled =
-        true;
-
-    button.textContent =
-        "Saving...";
-
-
-    try{
-
-        const updateData = {
-
-            user_id:
-                user.id,
-
-            full_name:
-                name,
-
-            email:
-                email || user.email || "",
-
-            skill:
-                skill,
-
-            group:
-                group,
-
-            intro:
-                intro,
-
-            profile_image:
-                teacherData.profileImage || null
-
-        };
-
-
-        const {
-            error
-        } =
-            await supabaseClient
-            .from("teachers")
-            .upsert(
-                updateData,
-                {
-                    onConflict:
-                        "user_id"
-                }
-            );
-
-
-        if(error){
-
-            console.error(
-                "Profile save error:",
-                error
-            );
-
-            showToast(
-                "Teacher profile could not be saved: " +
-                error.message,
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        teacherData.name =
-            name;
-
-        teacherData.email =
-            email || user.email || "";
-
-        teacherData.skill =
-            skill;
-
-        teacherData.group =
-            group;
-
-        teacherData.intro =
-            intro;
-
-
-        updateInterface();
-
-
-        showToast(
-            "Teacher profile saved successfully."
-        );
-
-
-    }finally{
-
-        button.disabled =
-            false;
-
-        button.textContent =
-            "Save Profile";
-
-    }
-
-}
-
-
-/* =====================================================
-   LESSON LOAD
-===================================================== */
-
-async function loadLessonsFromSupabase(){
-
-    if(!currentTeacherId)
-        return;
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-        .from("lessons")
-        .select("*")
-        .eq(
-            "teacher_id",
-            currentTeacherId
-        )
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
-
-
-    if(error){
-
-        console.error(
-            "Lessons load error:",
-            error
-        );
-
-        teacherData.lessons =
-            [];
-
-        renderLessons();
-
-        return;
-
-    }
-
-
-    teacherData.lessons =
-        (data || [])
-        .map(
-            lesson => ({
-
-                id:
-                    lesson.id,
-
-                title:
-                    lesson.title || "",
-
-                skill:
-                    lesson.skill || "",
-
-                level:
-                    lesson.level || "",
-
-                lessonNumber:
-                    lesson.lesson_number ??
-                    "",
-
-                description:
-                    lesson.description || "",
-
-                intro:
-                    lesson.intro || "",
-
-                videoName:
-                    lesson.video_name || "",
-
-                videoUrl:
-                    lesson.video_url || "",
-
-                status:
-                    lesson.status ||
-                    "draft",
-
-                rulesAcknowledged:
-                    Boolean(
-                        lesson.rules_acknowledged
-                    ),
-
-                rulesAcknowledgedAt:
-                    lesson.rules_acknowledged_at ||
-                    null,
-
-                submittedAt:
-                    lesson.submitted_at ||
-                    null,
-
-                createdAt:
-                    lesson.created_at || ""
-
-            })
-        );
-
-
-    renderLessons();
-
-}
-
-
-/* =====================================================
-   SAVE LESSON
-===================================================== */
-
-async function saveLesson(){
-
-    const user =
-        await getLoggedTeacher();
-
-    if(!user)
-        return;
-
-
-    const video =
-        document
-        .getElementById("lessonVideo")
-        .files[0];
-
-    const title =
-        document
-        .getElementById("lessonTitle")
-        .value
-        .trim();
-
-    const skill =
-        document
-        .getElementById("lessonSkill")
-        .value
-        .trim();
-
-    const level =
-        document
-        .getElementById("lessonLevel")
-        .value;
-
-    const number =
-        document
-        .getElementById("lessonNumber")
-        .value;
-
-    const description =
-        document
-        .getElementById("lessonDescription")
-        .value
-        .trim();
-
-    const intro =
-        document
-        .getElementById("lessonIntro")
-        .value
-        .trim();
-
-
-    if(!video){
-
-        showToast(
-            "Please select the lesson video.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(!video.type.startsWith("video/")){
-
-        showToast(
-            "Please select a valid video file.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !title ||
-        !skill ||
-        !level ||
-        !description
-    ){
-
-        showToast(
-            "Please complete the required lesson information.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    /*
-     * Forex / Crypto courses must acknowledge
-     * the SteadyMaze course rules before saving.
-     */
-
-    if(
-        isRestrictedCourseSkill(
-            skill
-        )
-    ){
-
-        const checkbox =
-            document.getElementById(
-                "courseRulesAcknowledged"
-            );
-
-
-        if(
-            !checkbox ||
-            !checkbox.checked
-        ){
-
-            showToast(
-                "Please read and accept the SteadyMaze course rules for Forex/Crypto.",
-                "error"
-            );
-
-            const panel =
-                document.getElementById(
-                    "courseRulesPanel"
-                );
-
-            if(panel){
-
-                panel.classList.add(
-                    "show"
-                );
-
-                panel.scrollIntoView({
-                    behavior:"smooth",
-                    block:"center"
-                });
-
-            }
-
-            return;
-
-        }
-
-    }
-
-
-    const button =
-        document.getElementById(
-            "saveLessonBtn"
-        );
-
-    button.disabled =
-        true;
-
-    button.textContent =
-        "Uploading...";
-
-
-    let uploadedPath = null;
-
-
-    try{
-
-        const extension =
-            getSafeExtension(
-                video.name
-            );
-
-
-        const filePath =
-            user.id +
-            "/" +
-            crypto.randomUUID() +
-            "." +
-            extension;
-
-
-        uploadedPath =
-            filePath;
-
-
-        const {
-            error:uploadError
-        } =
-            await supabaseClient
-            .storage
-            .from("lesson-videos")
-            .upload(
-                filePath,
-                video,
-                {
-                    upsert:false,
-                    contentType:
-                        video.type ||
-                        "video/mp4"
-                }
-            );
-
-
-        if(uploadError){
-
-            console.error(
-                "Video upload error:",
-                uploadError
-            );
-
-            showToast(
-                "Video upload failed: " +
-                uploadError.message,
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const {
-            data:publicData
-        } =
-            supabaseClient
-            .storage
-            .from("lesson-videos")
-            .getPublicUrl(
-                filePath
-            );
-
-
-        const videoUrl =
-            publicData?.publicUrl ||
-            "";
-
-
-        if(!videoUrl){
-
-            showToast(
-                "Could not create lesson video URL.",
-                "error"
-            );
-
-            await removeStorageFile(
-                "lesson-videos",
-                filePath
-            );
-
-            return;
-
-        }
-
-
-        button.textContent =
-            "Saving...";
-
-
-        const lessonData = {
-
-            teacher_id:
-                user.id,
-
-            title:
-                title,
-
-            skill:
-                skill,
-
-            level:
-                level,
-
-            lesson_number:
-                number
-                ? Number(number)
-                : null,
-
-            description:
-                description,
-
-            intro:
-                intro,
-
-            video_name:
-                video.name,
-
-            video_url:
-                videoUrl
-
-        };
-
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-            .from("lessons")
-            .insert(
-                lessonData
-            )
-            .select()
-            .single();
-
-
-        if(error){
-
-            console.error(
-                "Lesson database error:",
-                error
-            );
-
-
-            await removeStorageFile(
-                "lesson-videos",
-                filePath
-            );
-
-
-            showToast(
-                "Lesson could not be saved: " +
-                error.message,
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        teacherData.lessons.unshift({
-
-            id:
-                data.id,
-
-            title:
-                title,
-
-            skill:
-                skill,
-
-            level:
-                level,
-
-            lessonNumber:
-                number,
-
-            description:
-                description,
-
-            intro:
-                intro,
-
-            videoName:
-                video.name,
-
-            videoUrl:
-                videoUrl,
-
-            status:
-                "draft",
-
-            rulesAcknowledged:
-                false,
-
-            rulesAcknowledgedAt:
-                null,
-
-            submittedAt:
-                null,
-
-            createdAt:
-                data.created_at
-
-        });
-
-
-        renderLessons();
-
-        clearLessonForm();
-
-
-        showToast(
-            "Lesson saved successfully."
-        );
-
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-        if(uploadedPath){
-
-            await removeStorageFile(
-                "lesson-videos",
-                uploadedPath
-            );
-
-        }
-
-
-        showToast(
-            "An unexpected error occurred while saving the lesson.",
-            "error"
-        );
-
-    }finally{
-
-        button.disabled =
-            false;
-
-        button.textContent =
-            "Save Lesson";
-
-    }
-
-}
-
-
-/* =====================================================
-   DELETE LESSON
-===================================================== */
-
-async function deleteLesson(
-    index
-){
-
-    const lesson =
-        teacherData.lessons[index];
-
-    if(!lesson)
-        return;
-
-
-    if(
-        !confirm(
-            "Delete this lesson?"
-        )
-    )
-        return;
-
-
-    if(!currentTeacherId)
-        return;
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .from("lessons")
-        .delete()
-        .eq(
-            "id",
-            lesson.id
-        )
-        .eq(
-            "teacher_id",
-            currentTeacherId
-        );
-
-
-    if(error){
-
-        console.error(
-            "Delete lesson error:",
-            error
-        );
-
-        showToast(
-            "Lesson could not be deleted: " +
-            error.message,
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(lesson.videoUrl){
-
-        const path =
-            extractStoragePath(
-                lesson.videoUrl,
-                "lesson-videos"
-            );
-
-        if(path){
-
-            await removeStorageFile(
-                "lesson-videos",
-                path
-            );
-
-        }
-
-    }
-
-
-    teacherData.lessons.splice(
-        index,
-        1
-    );
-
-
-    renderLessons();
-
-
-    showToast(
-        "Lesson deleted successfully."
-    );
-
-}
-
-
-/* =====================================================
-   PAYMENT LOAD
-===================================================== */
-
-async function loadPaymentFromSupabase(){
-
-    if(!currentTeacherId)
-        return;
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-        .from(
-            "teacher_payment_settings"
-        )
-        .select("*")
-        .eq(
-            "teacher_id",
-            currentTeacherId
-        )
-        .maybeSingle();
-
-
-    if(error){
-
-        console.warn(
-            "Payment settings unavailable:",
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    if(!data)
-        return;
-
-
-    teacherData.payment = {
-
-        method:
-            data.method || "",
-
-        bankName:
-            data.bank_name || "",
-
-        accountHolder:
-            data.account_holder || "",
-
-        paymentEmail:
-            data.payment_email || "",
-
-        accountReference:
-            data.account_reference || ""
-
-    };
-
-
-    updatePaymentInterface();
-
-
-}
-
-
-/* =====================================================
-   PAYMENT SAVE
-===================================================== */
-
-async function savePaymentSettings(){
-
-    const user =
-        await getLoggedTeacher();
-
-    if(!user)
-        return;
-
-
-    teacherData.payment.bankName =
-        document
-        .getElementById("bankName")
-        .value
-        .trim();
-
-    teacherData.payment.accountHolder =
-        document
-        .getElementById("accountHolder")
-        .value
-        .trim();
-
-    teacherData.payment.paymentEmail =
-        document
-        .getElementById("paymentEmail")
-        .value
-        .trim();
-
-    teacherData.payment.accountReference =
-        document
-        .getElementById("accountReference")
-        .value
-        .trim();
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .from(
-            "teacher_payment_settings"
-        )
-        .upsert(
-            {
-
-                teacher_id:
-                    user.id,
-
-                method:
-                    teacherData.payment.method,
-
-                bank_name:
-                    teacherData.payment.bankName,
-
-                account_holder:
-                    teacherData.payment.accountHolder,
-
-                payment_email:
-                    teacherData.payment.paymentEmail,
-
-                account_reference:
-                    teacherData.payment.accountReference
-
-            },
-            {
-                onConflict:
-                    "teacher_id"
-            }
-        );
-
-
-    if(error){
-
-        console.error(
-            "Payment save error:",
-            error
-        );
-
-        showToast(
-            "Payment settings could not be saved: " +
-            error.message,
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    showToast(
-        "Payment settings saved successfully."
-    );
-
-}
-
-
-/* =====================================================
-   PROFILE PHOTO
-===================================================== */
-
-document
-.getElementById("profileUpload")
-.addEventListener(
-    "change",
-    async function(){
-
-        const file =
-            this.files[0];
-
-        if(!file)
-            return;
-
-
-        if(!file.type.startsWith("image/")){
-
-            showToast(
-                "Please select an image.",
-                "error"
-            );
-
-            this.value =
-                "";
-
-            return;
-
-        }
-
-
-        const user =
-            await getLoggedTeacher();
-
-        if(!user)
-            return;
-
-
-        const extension =
-            getSafeExtension(
-                file.name
-            );
-
-
-        const filePath =
-            user.id +
-            "/profile." +
-            extension;
-
-
-        const {
-            error
-        } =
-            await supabaseClient
-            .storage
-            .from("teacher-profiles")
-            .upload(
-                filePath,
-                file,
-                {
-                    upsert:true,
-                    contentType:
-                        file.type
-                }
-            );
-
-
-        if(error){
-
-            console.error(
-                "Profile image upload error:",
-                error
-            );
-
-            showToast(
-                "Profile image upload failed: " +
-                error.message,
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const {
-            data
-        } =
-            supabaseClient
-            .storage
-            .from("teacher-profiles")
-            .getPublicUrl(
-                filePath
-            );
-
-
-        if(!data?.publicUrl){
-
-            showToast(
-                "Profile image URL could not be created.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const imageUrl =
-            data.publicUrl;
-
-
-        const {
-            data:authData,
-            error:authError
-        } =
-            await supabaseClient
-            .auth
-            .updateUser({
-
-                data:{
-                    profile_image:
-                        imageUrl
-                }
-
-            });
-
-
-        if(authError){
-
-            console.error(
-                "Profile image auth metadata error:",
-                authError
-            );
-
-            showToast(
-                "Profile photo could not be saved: " +
-                authError.message,
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        teacherData.profileImage =
-            imageUrl +
-            "?t=" +
-            Date.now();
-
-
-        if(authData?.user){
-
-            currentUser =
-                authData.user;
-
-        }
-
-
-        updateInterface();
-
-
-        this.value =
-            "";
-
-
-        showToast(
-            "Profile photo saved successfully."
-        );
-
-    }
-);
-
-
-/* =====================================================
-   UI
-===================================================== */
-
-function updateInterface(){
-
-    const name =
-        teacherData.name ||
-        "Teacher";
-
-    const skill =
-        teacherData.skill ||
-        "Teacher Account";
-
-
-    document.getElementById(
-        "sideName"
-    ).textContent =
-        name;
-
-
-    document.getElementById(
-        "sideSkill"
-    ).textContent =
-        skill;
-
-
-    document.getElementById(
-        "profileName"
-    ).value =
-        teacherData.name || "";
-
-
-    document.getElementById(
-        "profileEmail"
-    ).value =
-        teacherData.email || "";
-
-
-    document.getElementById(
-        "profileSkill"
-    ).value =
-        teacherData.skill || "";
-
-
-    document.getElementById(
-        "profileGroup"
-    ).value =
-        teacherData.group || "";
-
-
-    document.getElementById(
-        "profileIntro"
-    ).value =
-        teacherData.intro || "";
-
-
-    if(teacherData.profileImage){
-
-        document.getElementById(
-            "profileImage"
-        ).src =
-            teacherData.profileImage;
-
-
-        document.getElementById(
-            "sideAvatar"
-        ).src =
-            teacherData.profileImage;
-
-    }else{
-
-        const avatar =
-            createAvatar(name);
-
-
-        document.getElementById(
-            "profileImage"
-        ).src =
-            avatar;
-
-
-        document.getElementById(
-            "sideAvatar"
-        ).src =
-            avatar;
-
-    }
-
-
-    document.getElementById(
-        "teacherGroup"
-    ).textContent =
-        teacherData.group ||
-        "—";
-
-
-    updatePaymentInterface();
-
-    renderLessons();
-
-}
-
-
-/* =====================================================
-   PAYMENT UI
-===================================================== */
-
-function updatePaymentInterface(){
-
-    if(!teacherData.payment)
-        return;
-
-
-    document.getElementById(
-        "bankName"
-    ).value =
-        teacherData.payment.bankName || "";
-
-
-    document.getElementById(
-        "accountHolder"
-    ).value =
-        teacherData.payment.accountHolder || "";
-
-
-    document.getElementById(
-        "paymentEmail"
-    ).value =
-        teacherData.payment.paymentEmail || "";
-
-
-    document.getElementById(
-        "accountReference"
-    ).value =
-        teacherData.payment.accountReference || "";
-
-
-    document
-    .querySelectorAll(
-        ".payment-method"
-    )
-    .forEach(
-        card => {
-
-            const method =
-                card.querySelector(
-                    "strong"
-                )?.textContent
-                ?.trim();
-
-
-            card.classList.toggle(
-                "selected",
-                method ===
-                teacherData.payment.method
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   AVATAR
-===================================================== */
-
-function createAvatar(name){
-
-    const first =
-        (name || "T")
-        .charAt(0)
-        .toUpperCase();
-
-
-    const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg"
-         width="200"
-         height="200">
-
-        <rect
-            width="200"
-            height="200"
-            fill="#180b1d"
-        />
-
-        <text
-            x="100"
-            y="125"
-            text-anchor="middle"
-            font-size="90"
-            font-family="Arial"
-            fill="#d4af37"
-        >
-            ${escapeXML(first)}
-        </text>
-
-    </svg>`;
-
-
-    return "data:image/svg+xml;charset=UTF-8," +
-        encodeURIComponent(svg);
-
-}
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-function showSection(
-    sectionId,
-    button
-){
-
-    document
-    .querySelectorAll(".section")
-    .forEach(
-        section =>
-            section.classList.remove(
-                "active"
-            )
-    );
-
-
-    const section =
-        document.getElementById(
-            sectionId
-        );
-
-
-    if(!section)
-        return;
-
-
-    section.classList.add(
-        "active"
-    );
-
-
-    document
-    .querySelectorAll(".nav button")
-    .forEach(
-        btn =>
-            btn.classList.remove(
-                "active"
-            )
-    );
-
-
-    if(button)
-        button.classList.add(
-            "active"
-        );
-
-
-    const titles = {
-
-        dashboard:
-            "Teacher Dashboard",
-
-        profile:
-            "My Profile",
-
-        lessons:
-            "My Lessons",
-
-        upload:
-            "Add Lesson",
-
-        payments:
-            "Payment Settings",
-
-        competition:
-            "Competition",
-
-        ai:
-            "AI Assistant"
-
-    };
-
-
-    document.getElementById(
-        "pageTitle"
-    ).textContent =
-        titles[sectionId] ||
-        "Teacher Dashboard";
-
-
-    if(
-        sectionId ===
-        "competition"
-    ){
-
-        loadCompetitionFromSupabase();
-
-    }
-
-
-    document
-    .getElementById(
-        "sidebar"
-    )
-    .classList.remove(
-        "open"
-    );
-
-}
-
-
-function showSectionById(
-    sectionId
-){
-
-    const button =
-        [
-            ...document
-            .querySelectorAll(
-                ".nav button"
-            )
-        ]
-        .find(
-            btn =>
-                btn
-                .getAttribute(
-                    "onclick"
-                )
-                ?.includes(
-                    "'" +
-                    sectionId +
-                    "'"
-                )
-        );
-
-
-    showSection(
-        sectionId,
-        button
-    );
-
-}
-
-
-function toggleSidebar(){
-
-    document
-    .getElementById(
-        "sidebar"
-    )
-    .classList.toggle(
-        "open"
-    );
-
-}
-
-
-/* =====================================================
-   VIDEO INPUT
-===================================================== */
-
-document
-.getElementById("lessonVideo")
-.addEventListener(
-    "change",
-    function(){
-
-        const file =
-            this.files[0];
-
-        const output =
-            document.getElementById(
-                "videoFileName"
-            );
-
-
-        if(!file){
-
-            output.textContent =
-                "";
-
-            return;
-
-        }
-
-
-        if(
-            !file.type.startsWith(
-                "video/"
-            )
-        ){
-
-            output.textContent =
-                "Please select a video.";
-
-            this.value =
-                "";
-
-            return;
-
-        }
-
-
-        output.textContent =
-            file.name;
-
-    }
-);
-
-
-/* =====================================================
-   CLEAR LESSON FORM
-===================================================== */
-
-function clearLessonForm(){
-
-    document.getElementById(
-        "lessonTitle"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "lessonSkill"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "lessonLevel"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "lessonNumber"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "lessonDescription"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "lessonIntro"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "lessonVideo"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "videoFileName"
-    ).textContent =
-        "";
-
-
-    resetCourseReviewUI();
-
-}
-
-
-/* =====================================================
-   LESSON RENDER
-===================================================== */
-
-function getLessonStatusHTML(
-    lesson
-){
-
-    const status =
-        String(
-            lesson.status ||
-            "draft"
-        )
-        .toLowerCase();
-
-
-    if(
-        status ===
-        "pending_review"
-    ){
-
-        return `
-            <span
-                class="review-status pending"
-                style="display:inline-flex"
-            >
-                ● Pending Review
-            </span>
-        `;
-
-    }
-
-
-    if(
-        status ===
-        "approved"
-    ){
-
-        return `
-            <span
-                class="review-status approved"
-                style="display:inline-flex"
-            >
-                ✓ Approved
-            </span>
-        `;
-
-    }
-
-
-    if(
-        status ===
-        "rejected"
-    ){
-
-        return `
-            <span
-                class="review-status rejected"
-                style="display:inline-flex"
-            >
-                ✕ Rejected
-            </span>
-        `;
-
-    }
-
-
-    if(
-        status ===
-        "changes_requested"
-    ){
-
-        return `
-            <span
-                class="review-status changes"
-                style="display:inline-flex"
-            >
-                ✎ Changes Requested
-            </span>
-        `;
-
-    }
-
-
-    return `
-        <span class="level-badge">
-            Draft
-        </span>
-    `;
-
-}
-
-
-function renderLessons(){
-
-    const all =
-        document.getElementById(
-            "allLessons"
-        );
-
-    const dashboard =
-        document.getElementById(
-            "dashboardLessons"
-        );
-
-
-    if(!teacherData.lessons.length){
-
-        const empty =
-            `<div class="empty">
-                No lessons added yet.
-            </div>`;
-
-
-        all.innerHTML =
-            empty;
-
-
-        dashboard.innerHTML =
-            empty;
-
-
-        updateDashboardCount();
-
-        return;
-
-    }
-
-
-    all.innerHTML =
-        teacherData.lessons
-        .map(
-            (lesson,index) => `
-
-            <div class="lesson">
-
-                <div class="lesson-info">
-
-                    <strong>
-                        ${escapeHTML(
-                            lesson.title
-                        )}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(
-                            lesson.skill
-                        )}
-                        •
-                        ${escapeHTML(
-                            lesson.videoName
-                        )}
-                    </span>
-
-                </div>
-
-                <div style="
-                    display:flex;
-                    align-items:center;
-                    gap:7px;
-                    flex-wrap:wrap;
-                    justify-content:flex-end;
-                ">
-
-                    ${getLessonStatusHTML(
-                        lesson
-                    )}
-
-                    <span class="level-badge">
-                        ${escapeHTML(
-                            lesson.level
-                        )}
-                    </span>
-
-                    <button
-                        class="btn btn-dark"
-                        onclick="viewLesson(${index})"
-                    >
-                        View
-                    </button>
-
-                    <button
-                        class="btn btn-danger"
-                        onclick="deleteLesson(${index})"
-                    >
-                        Delete
-                    </button>
-
-                </div>
-
-            </div>
-
-        `
-        )
-        .join("");
-
-
-    dashboard.innerHTML =
-        teacherData.lessons
-        .slice(0,4)
-        .map(
-            lesson => `
-
-            <div class="lesson">
-
-                <div class="lesson-info">
-
-                    <strong>
-                        ${escapeHTML(
-                            lesson.title
-                        )}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(
-                            lesson.skill
-                        )}
-                    </span>
-
-                </div>
-
-                <div style="
-                    display:flex;
-                    align-items:center;
-                    gap:7px;
-                    flex-wrap:wrap;
-                    justify-content:flex-end;
-                ">
-
-                    <span class="level-badge">
-                        ${escapeHTML(
-                            lesson.level
-                        )}
-                    </span>
-
-                    ${getLessonStatusHTML(
-                        lesson
-                    )}
-
-                </div>
-
-            </div>
-
-        `
-        )
-        .join("");
-
-
-    updateDashboardCount();
-
-}
-
-
-function updateDashboardCount(){
-
-    document.getElementById(
-        "lessonCount"
-    ).textContent =
-        teacherData.lessons.length;
-
-}
-
-
-/* =====================================================
-   LESSON MODAL
-===================================================== */
-
-function viewLesson(index){
-
-    const lesson =
-        teacherData.lessons[index];
-
-    if(!lesson)
-        return;
-
-
-    const videoButton =
-        lesson.videoUrl
-        ?
-        `
-        <a
-            href="${escapeHTML(
-                lesson.videoUrl
-            )}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-blue"
-            style="
-                display:inline-block;
-                text-decoration:none;
-            "
-        >
-            Open Lesson Video
-        </a>
-        `
-        :
-        "";
-
-
-    const status =
-        String(
-            lesson.status ||
-            "draft"
-        );
-
-
-    document.getElementById(
-        "lessonModalContent"
-    ).innerHTML = `
-
-        <div class="field">
-
-            <label>
-                Lesson Title
-            </label>
-
-            <input
-                value="${escapeHTML(
-                    lesson.title
-                )}"
-                readonly
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Skill
-            </label>
-
-            <input
-                value="${escapeHTML(
-                    lesson.skill
-                )}"
-                readonly
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Level
-            </label>
-
-            <input
-                value="${escapeHTML(
-                    lesson.level
-                )}"
-                readonly
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Review Status
-            </label>
-
-            <input
-                value="${escapeHTML(
-                    status
-                )}"
-                readonly
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Lesson Number
-            </label>
-
-            <input
-                value="${escapeHTML(
-                    lesson.lessonNumber
-                )}"
-                readonly
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Video File
-            </label>
-
-            <input
-                value="${escapeHTML(
-                    lesson.videoName
-                )}"
-                readonly
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Description
-            </label>
-
-            <textarea readonly>${escapeHTML(
-                lesson.description
-            )}</textarea>
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Introduction
-            </label>
-
-            <textarea readonly>${escapeHTML(
-                lesson.intro || ""
-            )}</textarea>
-
-        </div>
-
-
-        ${videoButton}
-
-    `;
-
-
-    document
-    .getElementById(
-        "lessonModal"
-    )
-    .classList.add(
-        "show"
-    );
-
-}
-
-
-function closeLessonModal(){
-
-    document
-    .getElementById(
-        "lessonModal"
-    )
-    .classList.remove(
-        "show"
-    );
-
-}
-
-
-document
-.getElementById(
-    "lessonModal"
-)
-.addEventListener(
-    "click",
-    function(event){
-
-        if(
-            event.target ===
-            this
-        ){
-
-            closeLessonModal();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   PAYMENT
-===================================================== */
-
-function selectPayment(
-    element,
-    method
-){
-
-    document
-    .querySelectorAll(
-        ".payment-method"
-    )
-    .forEach(
-        card =>
-            card.classList.remove(
-                "selected"
-            )
-    );
-
-
-    element.classList.add(
-        "selected"
-    );
-
-
-    teacherData.payment.method =
-        method;
-
-}
-
-
-/* =====================================================
-   COMPETITION
-===================================================== */
-
-const competitionData = {
-
-    status:
-        "waiting",
-
-    startTime:
-        null,
-
-    endTime:
-        null,
-
-    groups:{
-
-        lower:{
-
-            name:
-                "Lower",
-
-            capacity:
-                300,
-
-            students:[]
-
-        },
-
-        medium:{
-
-            name:
-                "Medium",
-
-            capacity:
-                300,
-
-            students:[]
-
-        },
-
-        high:{
-
-            name:
-                "High",
-
-            capacity:
-                300,
-
-            students:[]
-
-        }
-
-    }
-
+const prices = {
+ Lower:[5,8,12],
+ Medium:[15,20,30],
+ High:[35,55,85]
 };
 
+let user = null;
+let profile = null;
+let enrollments = [];
 
-let currentCompetitionGroup =
-    "lower";
+/* =========================================
+   GENERAL FUNCTIONS
+========================================= */
 
-
-function createCompetitionPositions(){
-
-    [
-        "lower",
-        "medium",
-        "high"
-    ]
-    .forEach(
-        groupName => {
-
-            const positions =
-                [];
-
-
-            for(
-                let rank = 1;
-                rank <= 300;
-                rank++
-            ){
-
-                positions.push({
-
-                    rank:
-                        rank,
-
-                    id:
-                        null,
-
-                    name:
-                        null,
-
-                    points:
-                        null,
-
-                    round:
-                        null,
-
-                    status:
-                        "waiting",
-
-                    reward:
-                        "Pending"
-
-                });
-
-            }
-
-
-            competitionData
-            .groups[
-                groupName
-            ]
-            .students =
-                positions;
-
-        }
-    );
-
+function toast(message){
+ const t=document.getElementById("toast");
+ t.textContent=message;
+ t.style.display="block";
+ setTimeout(()=>t.style.display="none",3000);
 }
 
-
-createCompetitionPositions();
-
-
-/* =====================================================
-   COMPETITION LOAD
-===================================================== */
-
-async function loadCompetitionFromSupabase(){
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-        .from(
-            "competition_leaderboard"
-        )
-        .select("*")
-        .order(
-            "rank",
-            {
-                ascending:true
-            }
-        );
-
-
-    if(error){
-
-        console.error(
-            "Competition load error:",
-            error
-        );
-
-        renderCompetition();
-
-        return;
-
-    }
-
-
-    createCompetitionPositions();
-
-
-    (data || [])
-    .forEach(
-        student => {
-
-            const groupValue =
-                student.group ??
-                student.competition_group ??
-                student.competitionGroup ??
-                "";
-
-
-            const group =
-                String(
-                    groupValue
-                )
-                .trim()
-                .toLowerCase();
-
-
-            if(
-                !competitionData
-                .groups[group]
-            )
-                return;
-
-
-            const rank =
-                Number(
-                    student.rank
-                );
-
-
-            if(
-                !Number.isInteger(
-                    rank
-                ) ||
-                rank < 1 ||
-                rank > 300
-            )
-                return;
-
-
-            competitionData
-            .groups[group]
-            .students[
-                rank - 1
-            ] = {
-
-                rank:
-                    rank,
-
-                id:
-                    student.student_id ??
-                    student.studentId ??
-                    student.id ??
-                    null,
-
-                name:
-                    student.student_name ??
-                    student.studentName ??
-                    student.name ??
-                    null,
-
-                points:
-                    student.points ??
-                    null,
-
-                round:
-                    student.round ??
-                    null,
-
-                status:
-                    student.status ||
-                    "waiting",
-
-                reward:
-                    student.reward ||
-                    "Pending"
-
-            };
-
-        }
-    );
-
-
-    if(data && data.length){
-
-        const first =
-            data[0];
-
-
-        if(first.status){
-
-            const status =
-                String(
-                    first.status
-                )
-                .toLowerCase();
-
-
-            if(
-                [
-                    "waiting",
-                    "live",
-                    "finished"
-                ]
-                .includes(status)
-            ){
-
-                competitionData.status =
-                    status;
-
-            }
-
-        }
-
-
-        if(first.start_time){
-
-            competitionData.startTime =
-                first.start_time;
-
-        }
-
-
-        if(first.end_time){
-
-            competitionData.endTime =
-                first.end_time;
-
-        }
-
-    }
-
-
-    renderCompetition();
-
-    updateCompetitionStatus();
-
-
+function money(value){
+ return "$"+Number(value||0).toFixed(2);
 }
 
+function openPage(name){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById("page-"+name).classList.add("active");
 
-/* =====================================================
-   SWITCH GROUP
-===================================================== */
+ document.querySelectorAll(".nav button[data-page]").forEach(b=>{
+  b.classList.toggle("active",b.dataset.page===name);
+ });
 
-function switchCompetitionGroup(
-    group,
-    button
-){
+ document.getElementById("pageTitle").textContent=name.toUpperCase();
+ document.getElementById("sidebar").classList.remove("open");
 
-    if(
-        !competitionData.groups[group]
-    )
-        return;
-
-
-    currentCompetitionGroup =
-        group;
-
-
-    document
-    .querySelectorAll(
-        ".competition-group-btn"
-    )
-    .forEach(
-        btn =>
-            btn.classList.remove(
-                "active"
-            )
-    );
-
-
-    if(button){
-
-        button.classList.add(
-            "active"
-        );
-
-    }
-
-
-    renderCompetition();
-
+ if(name==="courses") renderCourses();
+ if(name==="payments") renderPayments();
+ if(name==="videos") loadTeacherVideos();
+ if(name==="leaderboard") loadLeaderboard();
+ if(name==="competition") loadCompetition();
 }
 
+/* =========================================
+   AUTHENTICATION
+========================================= */
 
-/* =====================================================
-   RENDER COMPETITION
-===================================================== */
+async function checkStudent(){
 
-function renderCompetition(){
+ const {data,error}=await db.auth.getSession();
 
-    const group =
-        competitionData
-        .groups[
-            currentCompetitionGroup
-        ];
+ if(error){
+  console.error(error);
+ }
 
+ if(!data.session){
+  window.location.href="login.html";
+  return;
+ }
 
-    if(!group)
-        return;
+ user=data.session.user;
 
-
-    document.getElementById(
-        "currentGroupName"
-    ).textContent =
-        group.name;
-
-
-    document.getElementById(
-        "competitionTableTitle"
-    ).textContent =
-        group.name +
-        " — Liveboard";
-
-
-    const search =
-        document
-        .getElementById(
-            "competitionSearch"
-        )
-        .value
-        .trim()
-        .toLowerCase();
-
-
-    const tbody =
-        document.getElementById(
-            "competitionTableBody"
-        );
-
-
-    tbody.innerHTML =
-        "";
-
-
-    group.students.forEach(
-        student => {
-
-            const name =
-                student.name
-                ? String(
-                    student.name
-                )
-                : "";
-
-
-            const studentId =
-                student.id !== null &&
-                student.id !== undefined
-                ? String(
-                    student.id
-                )
-                : "";
-
-
-            if(
-                search &&
-                !name
-                .toLowerCase()
-                .includes(search) &&
-                !studentId
-                .toLowerCase()
-                .includes(search)
-            ){
-
-                return;
-
-            }
-
-
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-            row.innerHTML = `
-
-                <td>
-                    <span class="rank-number">
-                        ${student.rank}
-                    </span>
-                </td>
-
-                <td>
-                    ${
-                        student.name
-                        ?
-                        escapeHTML(
-                            student.name
-                        )
-                        :
-                        `<span class="empty-student">
-                            Waiting for student
-                        </span>`
-                    }
-                </td>
-
-                <td>
-                    ${
-                        student.id !== null &&
-                        student.id !== undefined
-                        ?
-                        escapeHTML(
-                            student.id
-                        )
-                        :
-                        "—"
-                    }
-                </td>
-
-                <td>
-                    ${
-                        student.points !== null &&
-                        student.points !== undefined
-                        ?
-                        `<span class="points-number">
-                            ${escapeHTML(
-                                student.points
-                            )}
-                        </span>`
-                        :
-                        "—"
-                    }
-                </td>
-
-                <td>
-                    ${
-                        student.round !== null &&
-                        student.round !== undefined
-                        ?
-                        escapeHTML(
-                            student.round
-                        )
-                        :
-                        "—"
-                    }
-                </td>
-
-                <td>
-                    ${getStudentStatusHTML(
-                        student
-                    )}
-                </td>
-
-                <td>
-                    <span class="reward-pending">
-                        ${escapeHTML(
-                            student.reward ||
-                            "Pending"
-                        )}
-                    </span>
-                </td>
-
-            `;
-
-
-            tbody.appendChild(
-                row
-            );
-
-        }
-    );
-
-
-    updateCompetitionSummary(
-        group
-    );
-
+ await loadProfile();
+ await loadEnrollments();
+ await loadDashboardData();
 }
 
+db.auth.onAuthStateChange((event,session)=>{
+ if(event==="SIGNED_OUT"){
+  window.location.href="login.html";
+ }
+});
 
-/* =====================================================
-   STUDENT STATUS
-===================================================== */
+/* =========================================
+   PROFILE
+========================================= */
 
-function getStudentStatusHTML(
-    student
-){
+async function loadProfile(){
 
-    let label =
-        "Waiting";
+ const {data,error}=await db
+ .from("profiles")
+ .select("*")
+ .eq("id",user.id)
+ .maybeSingle();
 
-    let className =
-        "status-waiting";
+ if(error){
+  console.error("Profile error:",error.message);
+  toast("Profile could not be loaded. Check Supabase tables.");
+  return;
+ }
 
+ profile=data;
 
-    const status =
-        String(
-            student.status ||
-            "waiting"
-        )
-        .toLowerCase();
+ if(!profile){
+  const initial={
+   id:user.id,
+   full_name:user.user_metadata?.full_name || user.email?.split("@")[0] || "Student",
+   email:user.email
+  };
 
+  const result=await db.from("profiles").upsert(initial).select().single();
 
-    if(
-        status ===
-        "active"
-    ){
+  if(result.error){
+   console.error(result.error);
+   toast("Could not create profile. Check database permissions.");
+   return;
+  }
 
-        label =
-            "Active";
+  profile=result.data;
+ }
 
-        className =
-            "status-active";
+ document.getElementById("fullName").value=profile.full_name||"";
+ document.getElementById("country").value=profile.country||"";
+ document.getElementById("about").value=profile.about||"";
 
-    }
-
-
-    if(
-        status ===
-        "eliminated"
-    ){
-
-        label =
-            "Eliminated";
-
-        className =
-            "status-eliminated";
-
-    }
-
-
-    if(
-        status ===
-        "finished"
-    ){
-
-        label =
-            "Finished";
-
-        className =
-            "status-active";
-
-    }
-
-
-    return `
-
-        <span
-            class="student-status ${className}"
-        >
-
-            <span
-                class="student-status-dot"
-            ></span>
-
-            ${label}
-
-        </span>
-
-    `;
-
+ updateStudentName();
 }
 
+function updateStudentName(){
 
-/* =====================================================
-   COMPETITION SUMMARY
-===================================================== */
+ const name=profile?.full_name||"Student";
+ const first=name.charAt(0).toUpperCase();
 
-function updateCompetitionSummary(
-    group
-){
+ document.getElementById("welcomeName").textContent=name;
+ document.getElementById("topName").textContent=name;
+ document.getElementById("rightName").textContent=name;
 
-    const realStudents =
-        group.students.filter(
-            student =>
-                student.name !== null &&
-                student.name !== ""
-        );
-
-
-    const highestPoints =
-        realStudents.length
-        ?
-        Math.max(
-            ...realStudents.map(
-                student =>
-                    Number(
-                        student.points
-                    ) || 0
-            )
-        )
-        :
-        0;
-
-
-    document.getElementById(
-        "competitionHighestPoints"
-    ).textContent =
-        highestPoints;
-
+ ["topAvatar","rightAvatar","profileAvatar"].forEach(id=>{
+  document.getElementById(id).textContent=first;
+ });
 }
 
+document.getElementById("saveProfile").addEventListener("click",async()=>{
 
-document
-.getElementById(
-    "competitionSearch"
-)
-.addEventListener(
-    "input",
-    renderCompetition
-);
+ const full_name=document.getElementById("fullName").value.trim();
 
+ if(!full_name){
+  toast("Full name is required.");
+  return;
+ }
 
-/* =====================================================
-   COMPETITION TIMER
-===================================================== */
+ const updates={
+  id:user.id,
+  full_name,
+  country:document.getElementById("country").value.trim(),
+  about:document.getElementById("about").value.trim(),
+  email:user.email,
+  updated_at:new Date().toISOString()
+ };
 
-function updateCompetitionStatus(){
+ const {data,error}=await db
+ .from("profiles")
+ .upsert(updates)
+ .select()
+ .single();
 
-    const status =
-        competitionData.status;
+ if(error){
+  console.error(error);
+  toast("Profile save failed: "+error.message);
+  return;
+ }
 
+ profile=data;
+ updateStudentName();
+ toast("Profile saved successfully.");
+});
 
-    const badge =
-        document.getElementById(
-            "competitionStatus"
-        );
+/* =========================================
+   ENROLLMENTS
+========================================= */
 
+async function loadEnrollments(){
 
-    const text =
-        document.getElementById(
-            "competitionStatusText"
-        );
+ const {data,error}=await db
+ .from("student_enrollments")
+ .select("*")
+ .eq("student_id",user.id)
+ .order("created_at",{ascending:false});
 
+ if(error){
+  console.error("Enrollment error:",error.message);
+  toast("Courses could not load. Check database setup.");
+  return;
+ }
 
-    const timer =
-        document.getElementById(
-            "competitionTimer"
-        );
-
-
-    badge.className =
-        "competition-status";
-
-
-    if(
-        status ===
-        "waiting"
-    ){
-
-        text.textContent =
-            "Competition Not Started";
-
-        timer.textContent =
-            "Waiting";
-
-    }
-
-
-    else if(
-        status ===
-        "live"
-    ){
-
-        badge.classList.add(
-            "live"
-        );
-
-        text.textContent =
-            "Competition Live";
-
-        updateCompetitionTimer();
-
-    }
-
-
-    else if(
-        status ===
-        "finished"
-    ){
-
-        badge.classList.add(
-            "finished"
-        );
-
-        text.textContent =
-            "Competition Finished";
-
-        timer.textContent =
-            "Finished";
-
-    }
-
-
-    renderCompetition();
-
+ enrollments=data||[];
+ renderCourses();
+ updateStats();
 }
 
+async function enrollSkill(index){
 
-function updateCompetitionTimer(){
+ const skill=skills[index];
+ const level=Number(document.getElementById("level-"+index).value);
 
-    if(
-        competitionData.status !==
-        "live"
-    ){
+ if(!level){
+  toast("Please choose a course level.");
+  return;
+ }
 
-        return;
+ const existing=enrollments.find(e=>
+  e.skill_name===skill[0] && Number(e.level)===level
+ );
 
-    }
+ if(existing){
+  toast("You already enrolled in this level.");
+  return;
+ }
 
+ const amount=prices[skill[1]][level-1];
 
-    if(
-        !competitionData.endTime
-    ){
+ const {data,error}=await db
+ .from("student_enrollments")
+ .insert({
+  student_id:user.id,
+  skill_name:skill[0],
+  group_name:skill[1],
+  level:level,
+  price:amount,
+  payment_status:"pending",
+  enrollment_status:"active"
+ })
+ .select()
+ .single();
 
-        document.getElementById(
-            "competitionTimer"
-        ).textContent =
-            "Live";
+ if(error){
+  console.error(error);
+  toast("Enrollment failed: "+error.message);
+  return;
+ }
 
-        return;
+ enrollments.unshift(data);
 
-    }
+ renderCourses();
+ updateStats();
+ renderSkills("All");
 
-
-    const end =
-        new Date(
-            competitionData.endTime
-        )
-        .getTime();
-
-
-    if(
-        Number.isNaN(end)
-    ){
-
-        document.getElementById(
-            "competitionTimer"
-        ).textContent =
-            "Live";
-
-        return;
-
-    }
-
-
-    const remaining =
-        end -
-        Date.now();
-
-
-    if(
-        remaining <= 0
-    ){
-
-        competitionData.status =
-            "finished";
-
-
-        updateCompetitionStatus();
-
-        return;
-
-    }
-
-
-    const days =
-        Math.floor(
-            remaining /
-            86400000
-        );
-
-
-    const hours =
-        Math.floor(
-            (
-                remaining %
-                86400000
-            ) /
-            3600000
-        );
-
-
-    const minutes =
-        Math.floor(
-            (
-                remaining %
-                3600000
-            ) /
-            60000
-        );
-
-
-    const seconds =
-        Math.floor(
-            (
-                remaining %
-                60000
-            ) /
-            1000
-        );
-
-
-    document.getElementById(
-        "competitionTimer"
-    ).textContent =
-
-        `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
+ toast(skill[0]+" Level "+level+" enrolled successfully.");
 }
 
+/* =========================================
+   SKILL DISPLAY
+========================================= */
 
-setInterval(
-    updateCompetitionTimer,
-    1000
-);
+function renderSkills(group="All"){
 
+ const grid=document.getElementById("skillGrid");
 
-/* =====================================================
-   AI
-===================================================== */
+ grid.innerHTML=skills.map((s,index)=>{
 
-async function sendAIMessage(
-    event
-){
+  if(group!=="All" && s[1]!==group) return "";
 
-    event.preventDefault();
+  const levelOptions=prices[s[1]].map((price,i)=>
+   `<option value="${i+1}">Level ${i+1} — ${money(price)}</option>`
+  ).join("");
 
-
-    const input =
-        document.getElementById(
-            "aiInput"
-        );
-
-
-    const messages =
-        document.getElementById(
-            "chatMessages"
-        );
-
-
-    const text =
-        input.value.trim();
-
-
-    if(!text)
-        return;
-
-
-    const userMessage =
-        document.createElement(
-            "div"
-        );
-
-
-    userMessage.className =
-        "message user";
-
-
-    userMessage.textContent =
-        text;
-
-
-    messages.appendChild(
-        userMessage
-    );
-
-
-    input.value =
-        "";
-
-
-    const aiMessage =
-        document.createElement(
-            "div"
-        );
-
-
-    aiMessage.className =
-        "message ai";
-
-
-    aiMessage.textContent =
-        "AI backend is ready to be connected.";
-
-
-    messages.appendChild(
-        aiMessage
-    );
-
-
-    messages.scrollTop =
-        messages.scrollHeight;
-
+  return `
+  <div class="skill">
+   <div style="font-size:23px">${s[2]}</div>
+   <h3>${s[0]}</h3>
+   <div class="muted">${s[1]} Group</div>
+   <select id="level-${index}">
+    <option value="">Select Level</option>
+    ${levelOptions}
+   </select>
+   ${s[1]==="High"?
+    '<p class="level-price">Full High course: $175</p>':
+    '<p class="level-price">Choose your learning level</p>'}
+   <button class="btn" onclick="enrollSkill(${index})">Enroll Now</button>
+  </div>`;
+ }).join("");
 }
 
+/* =========================================
+   COURSE DISPLAY
+========================================= */
 
-/* =====================================================
-   LOGOUT
-===================================================== */
+function renderCourses(){
 
-async function logoutTeacher(){
+ const rows=document.getElementById("courseRows");
+ const empty=document.getElementById("courseEmpty");
 
-    try{
+ rows.innerHTML=enrollments.map(e=>`
+ <tr>
+  <td>${escapeHTML(e.skill_name)}</td>
+  <td>${escapeHTML(e.group_name)}</td>
+  <td>Level ${e.level}</td>
+  <td>${money(e.price)}</td>
+  <td class="status">${escapeHTML(e.payment_status||"pending")}</td>
+ </tr>
+ `).join("");
 
-        await supabaseClient
-        .auth
-        .signOut();
+ empty.style.display=enrollments.length?"none":"block";
 
-    }catch(error){
-
-        console.error(
-            "Logout error:",
-            error
-        );
-
-    }
-
-
-    sessionStorage.removeItem(
-        "gurhub_teacher"
-    );
-
-
-    localStorage.removeItem(
-        STORAGE_KEY
-    );
-
-
-    window.location.href =
-        "teacher-login.html";
-
+ document.getElementById("homeCourses").innerHTML=enrollments.length?
+ enrollments.slice(0,3).map(e=>`
+ <div class="course">
+  <div class="thumb">📚</div>
+  <b>${escapeHTML(e.skill_name)}</b>
+  <p>${escapeHTML(e.group_name)} · Level ${e.level}</p>
+  <div class="progress"><i style="width:0%"></i></div>
+  <span class="muted">${money(e.price)}</span>
+ </div>`).join("") :
+ '<div class="panel muted">No courses selected yet.</div>';
 }
 
+function updateStats(){
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
+ const total=enrollments.reduce((sum,e)=>sum+Number(e.price||0),0);
 
-function escapeHTML(
-    value
-){
-
-    return String(
-        value ??
-        ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
+ document.getElementById("statCourses").textContent=enrollments.length;
+ document.getElementById("statMoney").textContent=money(total);
 }
 
+/* =========================================
+   PAYMENT HISTORY
+========================================= */
 
-function escapeXML(
-    value
-){
+async function renderPayments(){
 
-    return String(
-        value ??
-        ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&apos;"
-    );
+ const rows=document.getElementById("paymentRows");
 
+ rows.innerHTML=enrollments.map(e=>`
+ <tr>
+  <td>${escapeHTML(e.skill_name)}</td>
+  <td>Level ${e.level}</td>
+  <td>${money(e.price)}</td>
+  <td class="status">${escapeHTML(e.payment_status||"pending")}</td>
+ </tr>`).join("");
+
+ const total=enrollments.reduce((sum,e)=>sum+Number(e.price||0),0);
+
+ document.getElementById("paymentTotal").textContent=money(total);
 }
 
+/* =========================================
+   TEACHER VIDEO GALLERY
+========================================= */
 
-/* =====================================================
-   FILE HELPERS
-===================================================== */
+async function loadTeacherVideos(){
 
-function getSafeExtension(
-    fileName
-){
+ const grid=document.getElementById("videoGrid");
 
-    const clean =
-        String(
-            fileName ||
-            ""
-        )
-        .split("?")[0]
-        .split("#")[0];
+ grid.innerHTML='<div class="empty">Loading teacher videos...</div>';
 
+ const {data,error}=await db
+ .from("teacher_videos")
+ .select("id,title,description,video_url,thumbnail_url,teacher_name")
+ .eq("published",true)
+ .order("created_at",{ascending:false});
 
-    const parts =
-        clean
-        .split(".");
+ if(error){
+  console.error(error);
+  grid.innerHTML='<div class="empty">Teacher video data is unavailable. Check teacher_videos table.</div>';
+  return;
+ }
 
+ if(!data?.length){
+  grid.innerHTML='<div class="empty">No teacher introduction videos have been published yet.</div>';
+  return;
+ }
 
-    if(
-        parts.length < 2
-    ){
-
-        return "bin";
-
-    }
-
-
-    const extension =
-        parts
-        .pop()
-        .toLowerCase()
-        .replace(
-            /[^a-z0-9]/g,
-            ""
-        );
-
-
-    return extension ||
-        "bin";
-
+ grid.innerHTML=data.map(v=>`
+ <div class="video-card">
+  ${v.thumbnail_url?
+   `<img src="${escapeHTML(v.thumbnail_url)}" style="width:100%;height:120px;object-fit:cover;border-radius:8px">`:
+   '<div class="thumb">▶</div>'}
+  <b>${escapeHTML(v.title)}</b>
+  <p>${escapeHTML(v.teacher_name||"SteadyMaze Teacher")}</p>
+  <p>${escapeHTML(v.description||"")}</p>
+  <button class="secondary" onclick="openTeacherVideo('${encodeURIComponent(v.video_url||"")}')">Watch Video</button>
+ </div>
+ `).join("");
 }
 
-
-async function removeStorageFile(
-    bucket,
-    path
-){
-
-    if(!path)
-        return;
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .storage
-        .from(bucket)
-        .remove([
-            path
-        ]);
-
-
-    if(error){
-
-        console.warn(
-            "Storage cleanup error:",
-            error
-        );
-
-    }
-
+function openTeacherVideo(url){
+ const decoded=decodeURIComponent(url);
+ if(!decoded){toast("Video link is unavailable.");return;}
+ if(!/^https:\/\//i.test(decoded)){toast("Invalid video link.");return;}
+ window.open(decoded,"_blank","noopener");
 }
 
+/* =========================================
+   COMPETITION
+========================================= */
 
-function extractStoragePath(
-    publicUrl,
-    bucket
-){
+async function loadCompetition(){
 
-    try{
+ const target=document.getElementById("competitionStatus");
 
-        const url =
-            new URL(
-                publicUrl
-            );
+ const {data,error}=await db
+ .from("competitions")
+ .select("*")
+ .eq("is_open",true);
 
+ if(error){
+  target.textContent="Competition information is not available.";
+  console.error(error);
+  return;
+ }
 
-        const marker =
-            "/storage/v1/object/public/" +
-            bucket +
-            "/";
+ if(!data?.length){
+  target.textContent="No competition is currently open.";
+  return;
+ }
 
-
-        const index =
-            url.pathname.indexOf(
-                marker
-            );
-
-
-        if(
-            index === -1
-        ){
-
-            return null;
-
-        }
-
-
-        return decodeURIComponent(
-            url.pathname
-            .substring(
-                index +
-                marker.length
-            )
-        );
-
-    }catch(error){
-
-        return null;
-
-    }
-
+ target.innerHTML=data.map(c=>`
+ <div class="panel" style="margin:10px 0">
+ <b>${escapeHTML(c.title)}</b>
+ <p class="muted">${escapeHTML(c.group_name||"Competition")}</p>
+ <span class="status">OPEN</span>
+ </div>`).join("");
 }
 
+/* =========================================
+   LEADERBOARD
+========================================= */
 
-/* =====================================================
-   REAL-TIME
-===================================================== */
+async function loadLeaderboard(){
 
-let realtimeChannel = null;
+ const rows=document.getElementById("rankRows");
 
+ const {data,error}=await db
+ .from("leaderboard")
+ .select("*")
+ .order("points",{ascending:false})
+ .limit(100);
 
-function setupRealtime(){
+ if(error){
+  rows.innerHTML='<tr><td colspan="6">Leaderboard is not available yet.</td></tr>';
+  console.error(error);
+  return;
+ }
 
-    if(realtimeChannel)
-        return;
-
-
-    realtimeChannel =
-        supabaseClient
-        .channel(
-            "gurhub-teacher-dashboard"
-        );
-
-
-    realtimeChannel
-    .on(
-        "postgres_changes",
-        {
-            event:"*",
-            schema:"public",
-            table:"teachers"
-        },
-        async payload => {
-
-            const changedUserId =
-                payload.new?.user_id ||
-                payload.old?.user_id ||
-                null;
-
-
-            if(
-                changedUserId ===
-                currentTeacherId
-            ){
-
-                await loadTeacherFromSupabase();
-
-            }
-
-        }
-    )
-    .on(
-        "postgres_changes",
-        {
-            event:"*",
-            schema:"public",
-            table:"lessons"
-        },
-        async payload => {
-
-            const teacherId =
-                payload.new?.teacher_id ||
-                payload.old?.teacher_id ||
-                null;
-
-
-            if(
-                teacherId ===
-                currentTeacherId
-            ){
-
-                await loadLessonsFromSupabase();
-
-            }
-
-        }
-    )
-    .on(
-        "postgres_changes",
-        {
-            event:"*",
-            schema:"public",
-            table:"competition_leaderboard"
-        },
-        async () => {
-
-            await loadCompetitionFromSupabase();
-
-        }
-    )
-    .subscribe(
-        status => {
-
-            console.log(
-                "GURHUB realtime:",
-                status
-            );
-
-        }
-    );
-
+ rows.innerHTML=(data||[]).map((r,i)=>`
+ <tr>
+  <td>${r.rank||i+1}</td>
+  <td>${escapeHTML(r.student_name||"Student")}</td>
+  <td>${escapeHTML(r.skill_name||"")}</td>
+  <td>${r.points||0}</td>
+  <td>${r.creativity||0}</td>
+  <td>${r.storytelling||0}</td>
+ </tr>`).join("") || '<tr><td colspan="6">No results published yet.</td></tr>';
 }
 
+/* =========================================
+   OTHER DASHBOARD DATA
+========================================= */
 
-/* =====================================================
-   AUTH STATE
-===================================================== */
+async function loadDashboardData(){
 
-supabaseClient
-.auth
-.onAuthStateChange(
-    (event, session) => {
+ const {data,error}=await db
+ .from("support_points")
+ .select("points")
+ .eq("student_id",user.id);
 
-        if(
-            event ===
-            "SIGNED_OUT"
-        ){
+ if(!error){
+  const total=(data||[]).reduce((sum,r)=>sum+Number(r.points||0),0);
+  document.getElementById("statPoints").textContent=total;
+  document.getElementById("supportBalance").textContent=total+" Points";
+ }
 
-            window.location.href =
-                "teacher-login.html";
+ const {count}=await db
+ .from("competition_entries")
+ .select("*",{count:"exact",head:true})
+ .eq("student_id",user.id);
 
-            return;
+ document.getElementById("statEntries").textContent=count||0;
+}
 
-        }
+/* =========================================
+   SECURITY AND HELPERS
+========================================= */
 
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,char=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#39;"
+ })[char]);
+}
 
-        if(
-            session?.user &&
-            !currentTeacherId
-        ){
+/* =========================================
+   NAVIGATION
+========================================= */
 
-            currentTeacherId =
-                session.user.id;
+document.querySelectorAll(".nav button[data-page]").forEach(button=>{
+ button.addEventListener("click",()=>openPage(button.dataset.page));
+});
 
-        }
+document.getElementById("menuBtn").addEventListener("click",()=>{
+ document.getElementById("sidebar").classList.toggle("open");
+});
 
-    }
-);
+document.getElementById("logout").addEventListener("click",async()=>{
+ const {error}=await db.auth.signOut();
+ if(error){toast("Logout failed.");return;}
+ window.location.href="login.html";
+});
 
+/* =========================================
+   START STUDENT PORTAL
+========================================= */
 
-/* =====================================================
-   START
-===================================================== */
+renderSkills();
+checkStudent();
 
-(async function(){
-
-    const user =
-        await getLoggedTeacher();
-
-
-    if(!user)
-        return;
-
-
-    setupRealtime();
-
-
-    await loadTeacherFromSupabase();
-
-
-    await loadCompetitionFromSupabase();
-
-
-    updateCompetitionStatus();
-
-})();
 </script>
-
 </body>
 </html>
