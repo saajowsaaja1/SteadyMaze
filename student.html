@@ -3,65 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("sm-theme")||"dark")}catch(e){}</script>
 <title>SteadyMaze | Student Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#07060a;--panel:#0f0d14;--raise:#171320;--line:#2a2433;--gold:#d4af6a;--gold2:#f1dba5;--violet:#8a4fd6;--mute:#8f8999;--txt:#ece7f2;--bad:#e07a7a;--ok:#7bd1a0;--serif:"Cormorant Garamond",Georgia,serif;--sans:Figtree,system-ui,sans-serif}
+:root{color-scheme:dark;--ink:#07060a;--panel:#0f0d14;--raise:#171320;--line:#2a2433;--hov:#130f1b;--field:#09070d;--side:#0a080e;--gold:#d4af6a;--gold2:#f1dba5;--violet:#8a4fd6;--mute:#8f8999;--txt:#ece7f2;--soft:#b9b0c4;--nav:#b3adbd;--navon:#2a1d3c;--bd:#3b2d52;--glow:#3a1b63;--h1:#160f22;--h2:#0c0a11;--btn1:#e2c27e;--btn2:#b8903f;--btnt:#17100a;--chip1:#2c1e40;--chip2:#15101d;--tagb:#4a3a63;--tagt:#d9c3f5;--ok:#7bd1a0;--bad:#e07a7a;--nbg:radial-gradient(circle at 100% 0,#4a2380 0,#1a1030 55%);--ntx:#cdbfe0;--nclk:#f1dba5;--nbtn:linear-gradient(135deg,#e2c27e,#b8903f);--nbtnt:#17100a;--shadow:0 8px 28px rgba(0,0,0,.4);--r:14px;--serif:"Cormorant Garamond",Georgia,serif;--sans:Figtree,system-ui,sans-serif}
+[data-theme="light"]{color-scheme:light;--ink:#faf8ff;--panel:#ffffff;--raise:#f2edfc;--line:#e4dcf4;--hov:#f7f3fe;--field:#ffffff;--side:#ffffff;--gold:#6d28d9;--gold2:#3b1a7a;--violet:#8b5cf6;--mute:#6b6480;--txt:#241b3a;--soft:#5b5272;--nav:#5b5272;--navon:#ece4fd;--bd:#dccff3;--glow:#e3d6fc;--h1:#f1eaff;--h2:#ffffff;--btn1:#8b5cf6;--btn2:#6d28d9;--btnt:#ffffff;--chip1:#ede4ff;--chip2:#f8f4ff;--tagb:#d5c6f2;--tagt:#5b21b6;--ok:#15803d;--bad:#b91c1c;--nbg:linear-gradient(135deg,#8b5cf6,#4c1d95);--ntx:#ede9fe;--nclk:#ffffff;--nbtn:#ffffff;--nbtnt:#4c1d95;--shadow:0 8px 28px rgba(76,29,149,.10)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--ink);color:var(--txt);font:14px/1.6 var(--sans);min-height:100vh}
+body{background:var(--ink);color:var(--txt);font:14px/1.6 var(--sans);min-height:100vh;transition:background .25s,color .25s}
 button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 h1,h2,h3{font-family:var(--serif);font-weight:600}
 .logo{font:700 26px var(--serif);letter-spacing:1px;color:var(--gold2)}.logo i{font-style:normal;color:var(--violet)}
-.side{position:fixed;inset:0 auto 0 0;width:240px;background:#0a080e;border-right:1px solid var(--line);padding:26px 16px;z-index:20;transition:transform .25s}
-.who{margin:22px 0 16px;padding:14px;border:1px solid var(--line);border-radius:4px;background:linear-gradient(160deg,#1a1226,#0f0d14)}
+.side{position:fixed;inset:0 auto 0 0;width:240px;background:var(--side);border-right:1px solid var(--line);padding:26px 16px;z-index:20;transition:transform .25s}
+.who{margin:22px 0 16px;padding:14px;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(160deg,var(--raise),var(--panel))}
 .who b{display:block;font:600 19px var(--serif);color:var(--gold2)}.who span{font-size:12px;color:var(--mute);word-break:break-all}
-.nav{display:block;width:100%;text-align:left;background:none;border:0;border-left:2px solid transparent;color:#b3adbd;padding:11px 12px;margin:2px 0;transition:.2s}
-.nav:hover{color:#fff}.nav.on{color:var(--gold2);border-color:var(--gold);background:linear-gradient(90deg,#2a1d3c,transparent)}
+.nav{display:block;width:100%;text-align:left;background:none;border:0;border-left:2px solid transparent;color:var(--nav);padding:11px 12px;margin:2px 0;border-radius:0 8px 8px 0;transition:.2s}
+.nav:hover{color:var(--txt)}.nav.on{color:var(--gold2);border-color:var(--gold);background:linear-gradient(90deg,var(--navon),transparent)}
 .main{margin-left:240px;padding:28px 36px 40px;max-width:1500px}
 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:12px}.top h2{font-size:28px}
 .me{display:flex;align-items:center;gap:12px;color:var(--mute)}
+#themeBtn{padding:8px 14px;font-size:13px}
 .av{width:42px;height:42px;border-radius:50%;object-fit:cover;background:var(--raise);border:1px solid var(--gold)}
-.burger{display:none;background:var(--raise);border:1px solid var(--line);padding:8px 12px;border-radius:4px}
+.burger{display:none;background:var(--raise);border:1px solid var(--line);padding:8px 12px;border-radius:8px}
 .page{display:none}.page.on{display:block}
-.hero{padding:34px;border:1px solid #3b2d52;border-radius:4px;margin-bottom:22px;background:radial-gradient(circle at 90% 0,#3a1b63 0,transparent 45%),linear-gradient(120deg,#160f22,#0c0a11)}
-.hero h1{font-size:42px;line-height:1.1;color:var(--gold2);margin:4px 0 8px}.hero p{max-width:60ch;color:#b9b0c4}
+.hero{padding:34px;border:1px solid var(--bd);border-radius:var(--r);margin-bottom:22px;background:radial-gradient(circle at 90% 0,var(--glow) 0,transparent 45%),linear-gradient(120deg,var(--h1),var(--h2))}
+.hero h1{font-size:42px;line-height:1.1;color:var(--gold2);margin:4px 0 8px}.hero p{max-width:60ch;color:var(--soft)}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;min-width:0;box-shadow:var(--shadow)}
 .card small{color:var(--mute);font-size:12px}.card .n{font:600 38px var(--serif);color:var(--gold2);line-height:1.1;margin-top:6px}
 .card p{color:var(--mute);font-size:13px;margin-top:6px}.card h3{font-size:21px;margin-bottom:6px}
 h3.sec{font-size:25px;margin:28px 0 14px;color:var(--gold2)}
-.btn{background:linear-gradient(135deg,#e2c27e,#b8903f);color:#17100a;border:0;border-radius:3px;padding:11px 20px;font-weight:600}
+.btn{background:linear-gradient(135deg,var(--btn1),var(--btn2));color:var(--btnt);border:0;border-radius:8px;padding:11px 20px;font-weight:600}
 .btn:hover{filter:brightness(1.1)}.btn.alt{background:var(--raise);color:var(--txt);border:1px solid var(--line)}.btn:disabled{opacity:.4;cursor:not-allowed}
-.f{width:100%;background:#09070d;border:1px solid var(--line);border-radius:3px;padding:12px;margin:6px 0 16px}.f:focus{border-color:var(--gold);outline:0}
-label{font-size:13px;color:#c9c2d3}.msg{margin-top:12px;color:var(--gold2);font-size:13px;min-height:18px}
-.tw{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--panel)}
+.f{width:100%;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:12px;margin:6px 0 16px}.f:focus{border-color:var(--gold);outline:0}
+label{font-size:13px;color:var(--soft)}.msg{margin-top:12px;color:var(--gold);font-size:13px;min-height:18px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);box-shadow:var(--shadow)}
 table{width:100%;border-collapse:collapse;min-width:720px}
-th,td{padding:13px 14px;text-align:left;border-bottom:1px solid #221c2b;font-size:13px}
+th,td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:13px}
 th{color:var(--gold);font-weight:500;background:var(--raise);white-space:nowrap}
-td.rk{font:600 20px var(--serif);color:var(--gold2)}tr:hover td{background:#130f1b}
+td.rk{font:600 20px var(--serif);color:var(--gold2)}tr:hover td{background:var(--hov)}
 .empty{color:var(--mute);text-align:center;padding:26px}
-.tag{display:inline-block;padding:3px 10px;border:1px solid #4a3a63;border-radius:20px;font-size:12px;color:#d9c3f5}
-.tag.ok{border-color:#2f6b4c;color:var(--ok)}.tag.bad{border-color:#7a3a3a;color:var(--bad)}
+.tag{display:inline-block;padding:3px 10px;border:1px solid var(--tagb);border-radius:20px;font-size:12px;color:var(--tagt)}
+.tag.ok{border-color:var(--ok);color:var(--ok)}.tag.bad{border-color:var(--bad);color:var(--bad)}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 6px}
-.chip{background:var(--panel);border:1px solid var(--line);padding:10px 16px;border-radius:3px;color:#c4bcd0}.chip:hover{border-color:var(--gold)}
-.chip.on{border-color:var(--gold);background:linear-gradient(135deg,#2c1e40,#15101d);color:var(--gold2)}
+.chip{background:var(--panel);border:1px solid var(--line);padding:10px 16px;border-radius:8px;color:var(--soft)}.chip:hover{border-color:var(--gold)}
+.chip.on{border-color:var(--gold);background:linear-gradient(135deg,var(--chip1),var(--chip2));color:var(--gold2)}
 .bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}.bar .f{margin:0;width:auto;flex:1;min-width:150px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.prof{display:grid;grid-template-columns:280px 1fr;gap:18px}
 .pp{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:var(--raise);margin-bottom:14px}
-.vid{aspect-ratio:16/9;width:100%;border:0;border-radius:3px;background:#000}
+.vid{aspect-ratio:16/9;width:100%;border:0;border-radius:8px;background:#000}
 .rp{width:30px;height:30px;border-radius:50%;object-fit:cover;vertical-align:middle;background:var(--raise)}
 .meter{height:8px;background:var(--raise);border-radius:4px;overflow:hidden;margin-top:6px}.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--violet),var(--gold))}
 .slot.off{opacity:.55}
-.hello{display:grid;grid-template-columns:1.4fr 1fr;gap:0;border:1px solid #3b2d52;border-radius:4px;overflow:hidden;margin-bottom:34px;background:linear-gradient(120deg,#150e20,#0b090f)}
+.hello{display:grid;grid-template-columns:1.4fr 1fr;gap:0;border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;margin-bottom:34px;background:linear-gradient(120deg,var(--h1),var(--h2))}
 .hello>div{padding:44px 40px}
 .hello h1{font-size:54px;line-height:1.02;color:var(--gold2);margin:10px 0 16px}
 .kick{font-size:13px;color:var(--gold);letter-spacing:.3px}
-.sub{color:#b9b0c4;max-width:46ch}
-.next{background:radial-gradient(circle at 100% 0,#4a2380 0,#1a1030 55%);border-left:1px solid #3b2d52;display:flex;flex-direction:column;justify-content:center;gap:10px}
-.clock{font:600 60px/1 var(--serif);color:var(--gold2)}
-.next p:not(.kick){color:#cdbfe0}.next .btn{align-self:flex-start;margin-top:8px}
+.sub{color:var(--soft);max-width:46ch}
+.next{background:var(--nbg);border-left:1px solid var(--bd);display:flex;flex-direction:column;justify-content:center;gap:10px}
+.next .kick,.next p:not(.kick){color:var(--ntx)}
+.clock{font:600 60px/1 var(--serif);color:var(--nclk)}
+.next .btn{align-self:flex-start;margin-top:8px;background:var(--nbtn);color:var(--nbtnt)}
 .shead{display:flex;justify-content:space-between;align-items:baseline;margin:36px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
 .shead h3{font-size:28px;color:var(--gold2)}
 .link{background:none;border:0;color:var(--gold);text-decoration:underline;text-underline-offset:4px}
@@ -70,8 +74,9 @@ td.rk{font:600 20px var(--serif);color:var(--gold2)}tr:hover td{background:#130f
 .cyc .card h3{font-size:26px;margin:6px 0 2px}
 .reel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}
 .reel .card{flex:0 0 min(320px,80%);scroll-snap-align:start;padding:12px}
+.lvl{margin-bottom:6px}.lvl .n{font-size:34px}.crs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.crs .btn{padding:8px 14px;font-size:13px}.skl{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
 @media(max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){.hello{grid-template-columns:1fr}.hello>div{padding:28px 22px}.hello h1{font-size:38px}.clock{font-size:46px}.next{border-left:0;border-top:1px solid #3b2d52}.cyc{grid-template-columns:1fr}.side{transform:translateX(-100%)}.side.open{transform:none}.main{margin-left:0;padding:18px 14px}.burger{display:block}.hero h1{font-size:32px}.hero{padding:24px 18px}.two,.prof{grid-template-columns:1fr}.me span{display:none}.grid,.g3{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:15px}.card .n{font-size:30px}}
+@media(max-width:760px){.hello{grid-template-columns:1fr}.hello>div{padding:28px 22px}.hello h1{font-size:38px}.clock{font-size:46px}.next{border-left:0;border-top:1px solid var(--bd)}.cyc{grid-template-columns:1fr}.side{transform:translateX(-100%)}.side.open{transform:none}.main{margin-left:0;padding:18px 14px}.burger{display:block}.hero h1{font-size:32px}.hero{padding:24px 18px}.two,.prof{grid-template-columns:1fr}.me span{display:none}.grid,.g3{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:15px}.card .n{font-size:30px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -91,7 +96,7 @@ td.rk{font:600 20px var(--serif);color:var(--gold2)}tr:hover td{background:#130f
 
 <main class="main">
 <header class="top"><div style="display:flex;align-items:center;gap:12px"><button class="burger" aria-label="Menu" onclick="$('side').classList.toggle('open')">☰</button><h2 id="title">Home</h2></div>
-<div class="me"><span id="hName">Student</span><img class="av" id="hAv" alt=""></div></header>
+<div class="me"><button class="btn alt" id="themeBtn" onclick="toggleTheme()">☀ Light</button><span id="hName">Student</span><img class="av" id="hAv" alt=""></div></header>
 
 <!-- 1 HOME -->
 <section class="page on" id="home">
@@ -108,6 +113,8 @@ td.rk{font:600 20px var(--serif);color:var(--gold2)}tr:hover td{background:#130f
    <button class="btn" onclick="go('cycle')">Open cycle</button>
   </div>
  </div>
+
+ <div class="card lvl" id="lvlCard"><small>Your level</small><div class="n" id="lvlName">Starter</div><p id="lvlNext"></p><div class="meter"><i id="lvlBar" style="width:0%"></i></div></div>
 
  <div class="shead"><h3>My cycles</h3><button class="link" onclick="go('cycle')">See all videos</button></div>
  <div class="cyc" id="homeCycles"><div class="card empty">Loading…</div></div>
@@ -130,6 +137,9 @@ td.rk{font:600 20px var(--serif);color:var(--gold2)}tr:hover td{background:#130f
    <div class="card"><h3 style="margin-bottom:14px">Personal information</h3>
     <label>Full name</label><input class="f" id="pFull"><label>Country</label><input class="f" id="pCountry">
     <button class="btn" onclick="saveProfile()">Save changes</button><div class="msg" id="pMsg"></div></div>
+   <div class="card" style="margin-top:16px"><h3 style="margin-bottom:10px">My skills</h3><div id="skillList"><p class="empty">Your skills appear here.</p></div>
+    <label style="display:flex;gap:8px;align-items:center;margin-top:14px"><input type="checkbox" id="pPublic"> Show my profile and skills to companies</label>
+    <button class="btn alt" style="margin-top:12px" onclick="savePublic()">Save visibility</button><div class="msg" id="vMsg"></div></div>
    <div class="two" style="margin-top:16px">
     <div class="card"><h3 style="margin-bottom:14px">Change email</h3><label>New email</label><input class="f" id="newEmail" type="email">
      <button class="btn" onclick="changeEmail()">Change email</button><div class="msg" id="eMsg"></div></div>
@@ -143,8 +153,11 @@ td.rk{font:600 20px var(--serif);color:var(--gold2)}tr:hover td{background:#130f
 
 <!-- 3 COURSES -->
 <section class="page" id="courses">
- <div class="hero"><small style="color:var(--gold)">Learning</small><h1>My courses</h1><p>The skills you have enrolled in.</p></div>
+ <div class="hero"><small style="color:var(--gold)">Learning</small><h1>My courses</h1><p>Your enrolled skills and levels. Prices depend on the group: Lower, Medium or High. A course opens after payment is confirmed.</p></div>
  <div class="grid" id="courseList"></div>
+ <div class="msg" id="cMsg"></div>
+ <h3 class="sec">Browse courses</h3>
+ <div id="catalog"></div>
 </section>
 
 <!-- 4 ANALYSIS -->
@@ -226,7 +239,7 @@ document.querySelectorAll(".nav[data-p]").forEach(b=>b.onclick=()=>{
 async function loadProfile(){
  const{data}=await db.from("profiles").select("*").eq("id",user.id).maybeSingle();if(!data)return;
  const n=data.full_name||"Student";["sName","hName","wName","pName"].forEach(i=>say(i,n));
- $("pFull").value=data.full_name||"";$("pCountry").value=data.country||"";
+ $("pFull").value=data.full_name||"";$("pCountry").value=data.country||"";$("pPublic").checked=!!data.is_public;
  if(data.avatar_url){$("pPhoto").src=data.avatar_url;$("hAv").src=data.avatar_url}}
 async function saveProfile(){const full_name=$("pFull").value.trim();if(!full_name)return say("pMsg","Enter your full name.");
  const{error}=await db.from("profiles").upsert({id:user.id,email:user.email,full_name,country:$("pCountry").value.trim(),updated_at:new Date().toISOString()},{onConflict:"id"});
@@ -278,8 +291,39 @@ async function loadNext(){
  tick();nxTimer=setInterval(tick,30000)}
 
 /* 3 COURSES */
-async function loadCourses(){const{data,error}=await db.from("enrollments").select("*").eq("student_id",user.id);
- cards("courseList",error?[]:data||[],c=>`<small>Course</small><h3 style="margin-top:8px">${esc(c.skill_name)}</h3><p>${tag(c.status)}</p><p>Since ${day(c.created_at)}</p>`,"You have not enrolled in a course yet.")}
+const COURSES={Lower:["Video Editing","Thumbnail","Movie Recap","Digital Marketing","Dropshipping","Affiliate Marketing"],Medium:["FX","Crypto","AI Agent","English","Cybersecurity","Data Analysis"],High:["Python","Java","Web Development","AI App","AI Web"]};
+const LEVEL_PRICE={Lower:[5,8,12],Medium:[15,20,30],High:[40,55,80]};
+const LEVELS=[[0,"Starter"],[50,"Rising"],[150,"Skilled"],[300,"Pro"],[600,"Elite"]];
+let myCourses=[];
+const lv=c=>parseInt(String(c.level).replace(/\D/g,""))||1;
+async function loadCourses(){
+ const{data,error}=await db.from("enrollments").select("*").eq("student_id",user.id);
+ myCourses=error?[]:data||[];
+ cards("courseList",myCourses,c=>`<small>Course</small><h3 style="margin-top:8px">${esc(c.skill_name)}</h3><p>Level ${lv(c)} ${tag(c.status,c.status==="active"?"ok":"")}</p>`+(c.status==="active"?`<div class="crs"><button class="btn alt" onclick="openLessons('${esc(c.skill_name)}')">Watch lessons</button></div>`:"<p>Waiting for payment confirmation.</p>"),"You have not enrolled in a course yet.");
+ $("catalog").innerHTML=Object.entries(COURSES).map(([g,list])=>`<h3 class="sec" style="font-size:20px">${g}</h3><div class="grid g3">`+list.map(s=>`<div class="card"><h3>${esc(s)}</h3><div class="crs">`+[1,2,3].map(l=>myCourses.some(c=>c.skill_name===s&&lv(c)===l)?tag("Level "+l,"ok"):`<button class="btn alt" onclick="enroll('${esc(s)}',${l})">Level ${l} $${LEVEL_PRICE[g][l-1]}</button>`).join("")+"</div></div>").join("")+"</div>").join("");
+ renderSkills();updateLevel()}
+async function enroll(skill,level){
+ if(myCourses.some(c=>c.skill_name===skill&&lv(c)===level))return;
+ const{error}=await db.from("enrollments").insert({student_id:user.id,skill_name:skill,level:level,status:"pending"});
+ say("cMsg",error?error.message:skill+" Level "+level+" requested. It opens after payment is confirmed.");
+ loadCourses()}
+function openLessons(s){lessonSkill=s;lessonChips();loadLessons();go("home")}
+function renderSkills(){
+ const m={};
+ myCourses.filter(c=>c.status==="active").forEach(c=>{const o=m[c.skill_name]=m[c.skill_name]||{};o.level=Math.max(o.level||0,lv(c))});
+ myEntries.forEach(e=>{const o=m[e.skill_name]=m[e.skill_name]||{};o.comp=true;const r=Number(e.rank);if(r>0)o.rank=Math.min(o.rank||Infinity,r)});
+ const k=Object.keys(m);
+ $("skillList").innerHTML=k.length?k.map(s=>`<div class="skl"><b>${esc(s)}</b><span>${m[s].level?tag("Level "+m[s].level,"ok")+" ":""}${m[s].comp?tag("Competitor")+" ":""}${m[s].rank?tag("Rank "+m[s].rank.toLocaleString()):""}</span></div>`).join(""):'<p class="empty">Your skills appear here after your first course or competition.</p>'}
+function updateLevel(){
+ const p=myEntries.reduce((s,e)=>s+Number(e.points||0),0);let i=0;
+ LEVELS.forEach((l,x)=>{if(p>=l[0])i=x});
+ const nx=LEVELS[i+1];
+ say("lvlName",LEVELS[i][1]);
+ say("lvlNext",nx?(nx[0]-p)+" points to reach "+nx[1]:"You reached the top level.");
+ $("lvlBar").style.width=(nx?Math.round((p-LEVELS[i][0])/(nx[0]-LEVELS[i][0])*100):100)+"%"}
+async function savePublic(){
+ const{error}=await db.from("profiles").upsert({id:user.id,email:user.email,is_public:$("pPublic").checked,updated_at:new Date().toISOString()},{onConflict:"id"});
+ say("vMsg",error?error.message:"Saved.")}
 
 /* ENTRIES (shared) */
 async function loadEntries(){
@@ -293,7 +337,7 @@ async function loadEntries(){
   const{data:s}=await db.from("submissions").select("id").eq("entry_id",e.id).eq("student_id",user.id);
   return{e,total:(t||[]).length||8,done:(s||[]).length}}));
  cards("homeCycles",rows,r=>`<small>${esc(groupOf(r.e.skill_name)||"")} cycle</small><h3 style="margin-top:6px">${esc(r.e.skill_name)}</h3><p>${r.done} of ${r.total} videos submitted</p><div class="meter"><i style="width:${Math.round(r.done/r.total*100)}%"></i></div><p>Deadline ${day(r.e.deadline)}</p>`,"You have not joined a cycle yet. Open the Cycle page to start.");
- loadNext();
+ renderSkills();updateLevel();loadNext();
 }
 
 /* 4 ANALYSIS */
@@ -344,21 +388,4 @@ async function loadCycle(){
   const sub=done.get(t.id),late=new Date(t.deadline)<new Date()||(cy&&(!cy.is_open||new Date(cy.deadline)<new Date()));
   const st=sub?tag("Submitted","ok"):late?tag("Expired","bad"):tag("Open");
   return`<div class="slot${late&&!sub?" off":""}"><small>Video ${Number(t.video_no)}</small><h3 style="margin-top:6px">${esc(t.title||"Project video")}</h3><p>Deadline ${day(t.deadline)}</p><p>${st}</p>`+
-   (sub||late?"":`<input class="f" type="file" accept="video/*" id="f${t.id}" style="margin-top:12px"><button class="btn" onclick="uploadVideo('${esc(e.id)}','${esc(t.id)}')">Upload</button><div class="msg" id="m${t.id}"></div>`)+"</div>"},"No videos have been set for this cycle yet.")}
-async function uploadVideo(entryId,taskId){
- const msg="m"+taskId,f=$("f"+taskId).files[0];
- if(!f||!f.type.startsWith("video/"))return say(msg,"Choose a video file.");if(f.size>500*1024*1024)return say(msg,"The video is over 500 MB.");
- const{data:t}=await db.from("cycle_tasks").select("deadline,cycle_id").eq("id",taskId).single();
- const{data:cy}=await db.from("competition_cycles").select("is_open,deadline").eq("id",t.cycle_id).single();
- if(new Date()>new Date(t.deadline)||!cy.is_open||new Date()>new Date(cy.deadline)){say(msg,"The deadline has passed. This video has expired.");return loadCycle()}
- say(msg,"Uploading…");
- const path=user.id+"/"+entryId+"/"+taskId+"-"+Date.now()+"-"+fname(f);
- const up=await db.storage.from("competition-projects").upload(path,f,{upsert:false});if(up.error)return say(msg,up.error.message);
- const url=db.storage.from("competition-projects").getPublicUrl(path).data.publicUrl;
- const{error}=await db.from("submissions").insert({student_id:user.id,entry_id:entryId,task_id:taskId,video_url:url});
- if(error)return say(msg,error.message);
- await db.from("competition_entries").update({status:"submitted",submitted_at:new Date().toISOString()}).eq("id",entryId).eq("student_id",user.id);
- await loadEntries();loadCycle()}
-</script>
-</body>
-</html>
+   (sub||late?"":`<input class="f" type="file" accept="video/*" id="f${t.id}" style="margin-top:12px"><button class="btn" onclick="uploadVideo('${esc(e.id)}','${esc(t.id)}')">Upload</button><div class="msg" id="m${t.id}"></div>`)+"
