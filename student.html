@@ -1,929 +1,162 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="so">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SteadyMaze | Student Portal</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-:root{
---bg:#090711;--side:#100b19;--card:#191321;
---purple:#8d45c9;--violet:#421d61;--pink:#d94c9b;
---border:#352641;--text:#f7f2ff;--muted:#a99bb7;
---green:#53d6a2;--gold:#efc56f;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
-font-family:Inter,Arial,sans-serif}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-.layout{display:grid;grid-template-columns:215px minmax(0,1fr) 230px;min-height:100vh}
-.sidebar{background:var(--side);border-right:1px solid var(--border);padding:20px 13px}
-.logo{font-size:21px;font-weight:900;padding:8px 10px 28px}
-.logo span{color:#c17bff}
-.nav-label{font-size:9px;letter-spacing:1.5px;color:#82748f;padding:13px 10px 7px}
-.nav button{display:block;width:100%;border:0;background:none;color:var(--muted);
-padding:11px;border-radius:9px;text-align:left;font-size:12px;margin:2px 0}
-.nav button:hover,.nav button.active{background:linear-gradient(90deg,#6934a0,#9a50d6);color:white}
-.main{padding:24px;min-width:0}
-.right{background:var(--side);border-left:1px solid var(--border);padding:20px 14px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;gap:10px}
-h1{font-size:27px;margin:0 0 7px}
-h2{font-size:16px;margin:0 0 7px}
-h3{font-size:13px}
-.muted{font-size:11px;color:var(--muted)}
-.eyebrow{font-size:10px;color:#c58cff;letter-spacing:1.6px;font-weight:800;margin-bottom:9px}
-.hero{background:linear-gradient(110deg,#27143b,#48205c);
-border:1px solid #593a70;border-radius:15px;padding:22px;
-display:flex;justify-content:space-between;align-items:center;gap:15px;margin:20px 0}
-.hero p{font-size:12px;color:#d0bfdc;max-width:480px;line-height:1.6}
-.btn{border:0;border-radius:8px;padding:10px 15px;
-background:linear-gradient(100deg,#9848dc,#d64d9d);color:white;font-size:11px;font-weight:800}
-.secondary{background:#251832;color:#e7d8f3;border:1px solid #503965;
-border-radius:8px;padding:9px 12px;font-size:10px}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:18px 0}
-.stat,.panel,.skill,.course,.video-card{background:var(--card);
-border:1px solid var(--border);border-radius:12px;padding:14px}
-.stat span{font-size:10px;color:var(--muted)}
-.stat strong{display:block;font-size:23px;margin:9px 0 4px}
-.stat small{font-size:9px;color:var(--green)}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin:23px 0 12px}
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.skill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
-.skill h3{margin:0 0 5px}
-.skill select,.field{width:100%;background:#21172d;border:1px solid #493457;
-border-radius:8px;color:white;padding:10px;font-size:11px;margin-top:9px}
-.skill button{width:100%;margin-top:8px}
-.level-price{font-size:10px;color:#d6b5f2}
-.progress{height:6px;background:#35283e;border-radius:10px;overflow:hidden;margin:9px 0}
-.progress i{display:block;height:100%;background:linear-gradient(90deg,#a44fe9,#e34d9d)}
-.course-grid,.video-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
-.thumb{height:100px;border-radius:8px;background:linear-gradient(135deg,#292044,#663a82);
-display:grid;place-items:center;font-size:30px;margin-bottom:10px}
-.course b,.video-card b{font-size:11px}
-.course p,.video-card p{font-size:10px;color:var(--muted)}
-.video-card iframe{width:100%;height:130px;border:0;border-radius:8px}
-.page{display:none}
-.page.active{display:block}
-.right-profile{display:flex;align-items:center;gap:10px;margin-bottom:25px}
-.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#a34fe7,#d94c9b);
-display:grid;place-items:center;font-weight:bold}
-.schedule{background:#1c1526;border-left:3px solid var(--purple);
-padding:12px;margin:12px 0;border-radius:0 8px 8px 0;font-size:10px}
-.task{padding:13px;background:linear-gradient(120deg,#5842ba,#3666c6);
-border-radius:9px;font-size:10px;margin:9px 0}
-.task.pink{background:linear-gradient(120deg,#a43cb6,#713da1)}
-.table-wrap{overflow:auto;background:var(--card);border:1px solid var(--border);border-radius:10px}
-table{border-collapse:collapse;width:100%;min-width:480px;font-size:11px}
-th,td{text-align:left;padding:13px;border-bottom:1px solid var(--border)}
-th{color:#c4b3d1}
-input.field,textarea.field{display:block}
-.notice{padding:12px;background:#261d11;border:1px solid #59452c;
-border-radius:9px;color:#efd49b;font-size:11px;margin:13px 0}
-.status{color:var(--gold)}
-.empty{padding:20px;text-align:center;color:var(--muted);font-size:11px}
-#toast{position:fixed;bottom:20px;right:20px;background:#263b30;
-border:1px solid #43815c;padding:12px 18px;border-radius:9px;
-font-size:12px;display:none;z-index:99}
-.mobile-menu{display:none}
-@media(max-width:1050px){
-.layout{grid-template-columns:180px minmax(0,1fr)}
-.right{display:none}
-.skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:650px){
-.layout{display:block}
-.sidebar{display:none;position:fixed;z-index:50;width:260px;height:100vh;overflow:auto}
-.sidebar.open{display:block}
-.main{padding:15px}
-.mobile-menu{display:inline-block}
-.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-.skill-grid{grid-template-columns:1fr}
-.course-grid,.video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.grid2{grid-template-columns:1fr}
-.hero{padding:16px}
-h1{font-size:23px}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Portal - Xisaabtaada</title>
+    <!-- Tailwind CSS -->
+    <script src="https://tailwindcss.com"></script>
+    <!-- Supabase JS SDK -->
+    <script src="https://jsdelivr.net"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
 </head>
-
-<body>
-<div class="layout">
-
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-<div class="logo"><span>◈</span> SteadyMaze</div>
-
-<nav class="nav">
-<div class="nav-label">LEARNING SPACE</div>
-<button class="active" data-page="dashboard">◈ Dashboard</button>
-<button data-page="skills">▦ Skill Universe</button>
-<button data-page="courses">▶ My Courses</button>
-<button data-page="videos">▣ Teacher Video Gallery</button>
-
-<div class="nav-label">COMPETITION</div>
-<button data-page="competition">🏆 Competition Main</button>
-<button data-page="leaderboard">☷ Leaderboard</button>
-
-<div class="nav-label">MY ACCOUNT</div>
-<button data-page="profile">◎ My Profile</button>
-<button data-page="payments">◇ Payments</button>
-<button data-page="rewards">✧ Rewards</button>
-<button data-page="support">♡ Support Points</button>
-<button data-page="career">↗ Direct Employment</button>
-<button data-page="help">? Help & Support</button>
-
-<div class="nav-label">ACCOUNT</div>
-<button id="logout">⇥ Logout</button>
-</nav>
-</aside>
-
-<!-- MAIN -->
-<main class="main">
-
-<header class="topbar">
-<div>
-<button class="secondary mobile-menu" id="menuBtn">☰</button>
-<span class="muted">STUDENT PORTAL / <span id="pageTitle">DASHBOARD</span></span>
-</div>
-<div style="display:flex;align-items:center;gap:10px">
-<span style="font-size:12px">🔔</span>
-<div class="avatar" id="topAvatar">S</div>
-<b id="topName" style="font-size:11px">Student</b>
-</div>
-</header>
-
-<!-- DASHBOARD -->
-<section class="page active" id="page-dashboard">
-<div class="eyebrow">YOUR LEARNING JOURNEY</div>
-<h1>Hello, <span id="welcomeName">Student</span>!</h1>
-<p class="muted">Welcome back. Keep moving toward your goals.</p>
-
-<div class="hero">
-<div>
-<div class="eyebrow">STEADYMAZE ACADEMY</div>
-<h2>Learn today. Lead tomorrow.</h2>
-<p>Build professional skills, learn from teachers, create projects and compete with students around the world.</p>
-<button class="btn" onclick="openPage('skills')">Explore Skills →</button>
-</div>
-<div style="font-size:48px">🎓</div>
-</div>
-
-<div class="stats">
-<div class="stat"><span>MY COURSES</span><strong id="statCourses">0</strong><small>Enrolled levels</small></div>
-<div class="stat"><span>COMPETITION ENTRIES</span><strong id="statEntries">0</strong><small>Registered entries</small></div>
-<div class="stat"><span>SUPPORT POINTS</span><strong id="statPoints">0</strong><small>Earned points</small></div>
-<div class="stat"><span>COURSE INVESTMENT</span><strong id="statMoney">$0</strong><small>Selected fees</small></div>
-</div>
-
-<div class="grid2">
-<div class="panel">
-<h2>Learning Progress</h2>
-<p class="muted">Your completed course activity</p>
-<div id="progressArea" class="muted">No progress records available yet.</div>
-</div>
-<div class="panel">
-<h2>Skill Groups</h2>
-<p class="muted">20 available learning paths</p>
-<p>Lower <b style="float:right">7 skills</b></p>
-<div class="progress"><i style="width:70%"></i></div>
-<p>Medium <b style="float:right">7 skills</b></p>
-<div class="progress"><i style="width:70%"></i></div>
-<p>High <b style="float:right">6 skills</b></p>
-<div class="progress"><i style="width:60%"></i></div>
-</div>
-</div>
-
-<div class="section-head">
-<div><h2>My Courses</h2><p class="muted">Your selected learning levels</p></div>
-<button class="secondary" onclick="openPage('courses')">View All →</button>
-</div>
-<div class="course-grid" id="homeCourses"></div>
-</section>
-
-<!-- SKILLS -->
-<section class="page" id="page-skills">
-<div class="eyebrow">20 LEARNING PATHS</div>
-<h1>Skill Universe</h1>
-<p class="muted">Choose a skill and select your learning level.</p>
-
-<div class="notice">
-Lower: $5 / $8 / $12 · Medium: $15 / $20 / $30 · High: $175 total.
-</div>
-
-<div style="display:flex;gap:7px;flex-wrap:wrap;margin:15px 0">
-<button class="secondary" onclick="renderSkills('All')">All 20</button>
-<button class="secondary" onclick="renderSkills('Lower')">Lower</button>
-<button class="secondary" onclick="renderSkills('Medium')">Medium</button>
-<button class="secondary" onclick="renderSkills('High')">High</button>
-</div>
-
-<div class="skill-grid" id="skillGrid"></div>
-</section>
-
-<!-- COURSES -->
-<section class="page" id="page-courses">
-<div class="eyebrow">YOUR LEARNING</div>
-<h1>My Courses</h1>
-<p class="muted">Your enrolled courses from your student account.</p>
-<div class="table-wrap" style="margin-top:18px">
-<table>
-<thead><tr><th>Skill</th><th>Group</th><th>Level</th><th>Price</th><th>Status</th></tr></thead>
-<tbody id="courseRows"></tbody>
-</table>
-<div id="courseEmpty" class="empty">No courses enrolled yet.</div>
-</div>
-</section>
-
-<!-- TEACHER VIDEOS -->
-<section class="page" id="page-videos">
-<div class="eyebrow">MEET YOUR INSTRUCTORS</div>
-<h1>Teacher Video Gallery</h1>
-<p class="muted">Introduction videos published by SteadyMaze teachers.</p>
-<div class="video-grid" id="videoGrid" style="margin-top:18px"></div>
-</section>
-
-<!-- COMPETITION -->
-<section class="page" id="page-competition">
-<div class="eyebrow">SHOW YOUR TALENT</div>
-<h1>Competition Main</h1>
-<div class="hero">
-<div>
-<h2>Learn. Practice. Compete.</h2>
-<p>Competition registration and submission information will appear here.</p>
-</div>
-<span style="font-size:38px">🏆</span>
-</div>
-<div class="panel">
-<h2>Competition Status</h2>
-<div id="competitionStatus" class="muted">Loading competition information...</div>
-</div>
-</section>
-
-<!-- LEADERBOARD -->
-<section class="page" id="page-leaderboard">
-<div class="eyebrow">GLOBAL RANKINGS</div>
-<h1>Leaderboards</h1>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin:15px 0">
-<select class="field" style="max-width:220px" id="rankSkill">
-<option value="">All skills</option>
-</select>
-</div>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Rank</th><th>Student</th><th>Skill</th><th>Points</th><th>Creativity</th><th>Storytelling</th></tr></thead>
-<tbody id="rankRows"></tbody>
-</table>
-</div>
-</section>
-
-<!-- PROFILE -->
-<section class="page" id="page-profile">
-<div class="eyebrow">ACCOUNT DETAILS</div>
-<h1>My Profile</h1>
-<div class="panel" style="max-width:550px;margin-top:18px">
-<div class="avatar" style="width:65px;height:65px;font-size:25px" id="profileAvatar">S</div>
-<label class="muted">Full Name</label>
-<input class="field" id="fullName" placeholder="Your full name">
-<label class="muted">Country</label>
-<input class="field" id="country" placeholder="Your country">
-<label class="muted">About Me</label>
-<textarea class="field" id="about" rows="3" placeholder="Tell us about yourself"></textarea>
-<button class="btn" id="saveProfile">Save Profile</button>
-</div>
-</section>
-
-<!-- PAYMENTS -->
-<section class="page" id="page-payments">
-<div class="eyebrow">PAYMENT CENTER</div>
-<h1>Payments</h1>
-<div class="panel" style="margin-top:18px">
-<h2>Course Fee Summary</h2>
-<h1 id="paymentTotal">$0</h1>
-<p class="muted">Your selected course levels and payment status.</p>
-</div>
-<div class="table-wrap" style="margin-top:15px">
-<table><thead><tr><th>Course</th><th>Level</th><th>Amount</th><th>Status</th></tr></thead>
-<tbody id="paymentRows"></tbody></table>
-</div>
-<div class="notice">Payment collection is not enabled yet. No card or bank details are collected by this page.</div>
-</section>
-
-<!-- REWARDS -->
-<section class="page" id="page-rewards">
-<div class="eyebrow">ACHIEVEMENTS</div>
-<h1>Rewards</h1>
-<div class="grid2" style="margin-top:18px">
-<div class="panel">🥇<h2>Lower Winners</h2><p class="muted">Official rewards pending</p></div>
-<div class="panel">🥈<h2>Medium Winners</h2><p class="muted">Official rewards pending</p></div>
-<div class="panel">🏆<h2>High Winners</h2><p class="muted">Official rewards pending</p></div>
-<div class="panel">✧<h2>My Awards</h2><p class="muted">No published awards</p></div>
-</div>
-</section>
-
-<!-- SUPPORT -->
-<section class="page" id="page-support">
-<div class="eyebrow">STUDENT COMMUNITY</div>
-<h1>Support Points</h1>
-<div class="hero"><div><h2 id="supportBalance">0 Points</h2><p>Your official support points balance.</p></div><span>✧</span></div>
-</section>
-
-<!-- CAREER -->
-<section class="page" id="page-career">
-<div class="eyebrow">CAREER GATEWAY</div>
-<h1>Direct Employment</h1>
-<div class="panel" style="margin-top:18px">
-<h2>Prepare for opportunities</h2>
-<p class="muted">Your completed courses and projects can help build a professional portfolio for future employer opportunities.</p>
-<button class="secondary" onclick="openPage('profile')">Complete Profile</button>
-</div>
-</section>
-
-<!-- HELP -->
-<section class="page" id="page-help">
-<div class="eyebrow">SUPPORT CENTER</div>
-<h1>Help & Support</h1>
-<div class="panel" style="margin-top:18px">
-<h2>Contact SteadyMaze</h2>
-<p class="muted">Use the official SteadyMaze support channel for account and course questions.</p>
-</div>
-</section>
-
-</main>
-
-<!-- RIGHT SIDEBAR -->
-<aside class="right">
-<div class="right-profile">
-<div class="avatar" id="rightAvatar">S</div>
-<div><b id="rightName" style="font-size:11px">Student</b><p class="muted">Student Account</p></div>
-</div>
-<h3>Your Classes</h3>
-<p class="muted">YOUR LEARNING SCHEDULE</p>
-<div class="schedule">09:00 — Learning Session<br><span class="muted">Course study</span></div>
-<div class="schedule" style="border-color:#d94c9b">12:00 — Practice<br><span class="muted">Skill development</span></div>
-<div class="schedule" style="border-color:#efc56f">15:00 — Project Work<br><span class="muted">Build your portfolio</span></div>
-<h3 style="margin-top:28px">Daily Tasks</h3>
-<div class="task">Complete one lesson</div>
-<div class="task" style="background:linear-gradient(120deg,#a33db7,#713da4)">Practice your skill</div>
-<div style="margin-top:35px;border-top:1px solid var(--border);padding-top:15px">
-<p class="muted">STEADYMAZE ACADEMY</p>
-</div>
-</aside>
-
-</div>
-<div id="toast"></div>
-
-<script>
-/* =========================================
-   STEADYMAZE SUPABASE CONFIGURATION
-========================================= */
-
-const SUPABASE_URL = "https://uxrltzlxdttbjstomhkb.supabase.co";
-const SUPABASE_KEY = "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
-
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-/* =========================================
-   SKILLS AND PRICES
-========================================= */
-
-const skills = [
-["Video Editing","Lower","🎬"],
-["Movie Recap","Lower","🎞️"],
-["Affiliate Marketing","Lower","🔗"],
-["Dropshipping","Lower","📦"],
-["Digital Marketing","Lower","📣"],
-["Thumbnail Design","Lower","🖼️"],
-["Graphic Design","Lower","🎨"],
-
-["FX Trading","Medium","💱"],
-["Cryptocurrency","Medium","₿"],
-["Data Analysis","Medium","📊"],
-["English","Medium","🌐"],
-["Cybersecurity","Medium","🛡️"],
-["AI Agent","Medium","🤖"],
-["UI/UX Design","Medium","✏️"],
-
-["Python","High","🐍"],
-["Java","High","☕"],
-["AI Web Development","High","🧠"],
-["AI App Development","High","📱"],
-["Web Development","High","💻"],
-["Mobile App Development","High","📲"]
-];
-
-const prices = {
- Lower:[5,8,12],
- Medium:[15,20,30],
- High:[35,55,85]
-};
-
-let user = null;
-let profile = null;
-let enrollments = [];
-
-/* =========================================
-   GENERAL FUNCTIONS
-========================================= */
-
-function toast(message){
- const t=document.getElementById("toast");
- t.textContent=message;
- t.style.display="block";
- setTimeout(()=>t.style.display="none",3000);
-}
-
-function money(value){
- return "$"+Number(value||0).toFixed(2);
-}
-
-function openPage(name){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.getElementById("page-"+name).classList.add("active");
-
- document.querySelectorAll(".nav button[data-page]").forEach(b=>{
-  b.classList.toggle("active",b.dataset.page===name);
- });
-
- document.getElementById("pageTitle").textContent=name.toUpperCase();
- document.getElementById("sidebar").classList.remove("open");
-
- if(name==="courses") renderCourses();
- if(name==="payments") renderPayments();
- if(name==="videos") loadTeacherVideos();
- if(name==="leaderboard") loadLeaderboard();
- if(name==="competition") loadCompetition();
-}
-
-/* =========================================
-   AUTHENTICATION
-========================================= */
-
-async function checkStudent(){
-
- const {data,error}=await db.auth.getSession();
-
- if(error){
-  console.error(error);
- }
-
- if(!data.session){
-  window.location.href="login.html";
-  return;
- }
-
- user=data.session.user;
-
- await loadProfile();
- await loadEnrollments();
- await loadDashboardData();
-}
-
-db.auth.onAuthStateChange((event,session)=>{
- if(event==="SIGNED_OUT"){
-  window.location.href="login.html";
- }
-});
-
-/* =========================================
-   PROFILE
-========================================= */
-
-async function loadProfile(){
-
- const {data,error}=await db
- .from("profiles")
- .select("*")
- .eq("id",user.id)
- .maybeSingle();
-
- if(error){
-  console.error("Profile error:",error.message);
-  toast("Profile could not be loaded. Check Supabase tables.");
-  return;
- }
-
- profile=data;
-
- if(!profile){
-  const initial={
-   id:user.id,
-   full_name:user.user_metadata?.full_name || user.email?.split("@")[0] || "Student",
-   email:user.email
-  };
-
-  const result=await db.from("profiles").upsert(initial).select().single();
-
-  if(result.error){
-   console.error(result.error);
-   toast("Could not create profile. Check database permissions.");
-   return;
-  }
-
-  profile=result.data;
- }
-
- document.getElementById("fullName").value=profile.full_name||"";
- document.getElementById("country").value=profile.country||"";
- document.getElementById("about").value=profile.about||"";
-
- updateStudentName();
-}
-
-function updateStudentName(){
-
- const name=profile?.full_name||"Student";
- const first=name.charAt(0).toUpperCase();
-
- document.getElementById("welcomeName").textContent=name;
- document.getElementById("topName").textContent=name;
- document.getElementById("rightName").textContent=name;
-
- ["topAvatar","rightAvatar","profileAvatar"].forEach(id=>{
-  document.getElementById(id).textContent=first;
- });
-}
-
-document.getElementById("saveProfile").addEventListener("click",async()=>{
-
- const full_name=document.getElementById("fullName").value.trim();
-
- if(!full_name){
-  toast("Full name is required.");
-  return;
- }
-
- const updates={
-  id:user.id,
-  full_name,
-  country:document.getElementById("country").value.trim(),
-  about:document.getElementById("about").value.trim(),
-  email:user.email,
-  updated_at:new Date().toISOString()
- };
-
- const {data,error}=await db
- .from("profiles")
- .upsert(updates)
- .select()
- .single();
-
- if(error){
-  console.error(error);
-  toast("Profile save failed: "+error.message);
-  return;
- }
-
- profile=data;
- updateStudentName();
- toast("Profile saved successfully.");
-});
-
-/* =========================================
-   ENROLLMENTS
-========================================= */
-
-async function loadEnrollments(){
-
- const {data,error}=await db
- .from("student_enrollments")
- .select("*")
- .eq("student_id",user.id)
- .order("created_at",{ascending:false});
-
- if(error){
-  console.error("Enrollment error:",error.message);
-  toast("Courses could not load. Check database setup.");
-  return;
- }
-
- enrollments=data||[];
- renderCourses();
- updateStats();
-}
-
-async function enrollSkill(index){
-
- const skill=skills[index];
- const level=Number(document.getElementById("level-"+index).value);
-
- if(!level){
-  toast("Please choose a course level.");
-  return;
- }
-
- const existing=enrollments.find(e=>
-  e.skill_name===skill[0] && Number(e.level)===level
- );
-
- if(existing){
-  toast("You already enrolled in this level.");
-  return;
- }
-
- const amount=prices[skill[1]][level-1];
-
- const {data,error}=await db
- .from("student_enrollments")
- .insert({
-  student_id:user.id,
-  skill_name:skill[0],
-  group_name:skill[1],
-  level:level,
-  price:amount,
-  payment_status:"pending",
-  enrollment_status:"active"
- })
- .select()
- .single();
-
- if(error){
-  console.error(error);
-  toast("Enrollment failed: "+error.message);
-  return;
- }
-
- enrollments.unshift(data);
-
- renderCourses();
- updateStats();
- renderSkills("All");
-
- toast(skill[0]+" Level "+level+" enrolled successfully.");
-}
-
-/* =========================================
-   SKILL DISPLAY
-========================================= */
-
-function renderSkills(group="All"){
-
- const grid=document.getElementById("skillGrid");
-
- grid.innerHTML=skills.map((s,index)=>{
-
-  if(group!=="All" && s[1]!==group) return "";
-
-  const levelOptions=prices[s[1]].map((price,i)=>
-   `<option value="${i+1}">Level ${i+1} — ${money(price)}</option>`
-  ).join("");
-
-  return `
-  <div class="skill">
-   <div style="font-size:23px">${s[2]}</div>
-   <h3>${s[0]}</h3>
-   <div class="muted">${s[1]} Group</div>
-   <select id="level-${index}">
-    <option value="">Select Level</option>
-    ${levelOptions}
-   </select>
-   ${s[1]==="High"?
-    '<p class="level-price">Full High course: $175</p>':
-    '<p class="level-price">Choose your learning level</p>'}
-   <button class="btn" onclick="enrollSkill(${index})">Enroll Now</button>
-  </div>`;
- }).join("");
-}
-
-/* =========================================
-   COURSE DISPLAY
-========================================= */
-
-function renderCourses(){
-
- const rows=document.getElementById("courseRows");
- const empty=document.getElementById("courseEmpty");
-
- rows.innerHTML=enrollments.map(e=>`
- <tr>
-  <td>${escapeHTML(e.skill_name)}</td>
-  <td>${escapeHTML(e.group_name)}</td>
-  <td>Level ${e.level}</td>
-  <td>${money(e.price)}</td>
-  <td class="status">${escapeHTML(e.payment_status||"pending")}</td>
- </tr>
- `).join("");
-
- empty.style.display=enrollments.length?"none":"block";
-
- document.getElementById("homeCourses").innerHTML=enrollments.length?
- enrollments.slice(0,3).map(e=>`
- <div class="course">
-  <div class="thumb">📚</div>
-  <b>${escapeHTML(e.skill_name)}</b>
-  <p>${escapeHTML(e.group_name)} · Level ${e.level}</p>
-  <div class="progress"><i style="width:0%"></i></div>
-  <span class="muted">${money(e.price)}</span>
- </div>`).join("") :
- '<div class="panel muted">No courses selected yet.</div>';
-}
-
-function updateStats(){
-
- const total=enrollments.reduce((sum,e)=>sum+Number(e.price||0),0);
-
- document.getElementById("statCourses").textContent=enrollments.length;
- document.getElementById("statMoney").textContent=money(total);
-}
-
-/* =========================================
-   PAYMENT HISTORY
-========================================= */
-
-async function renderPayments(){
-
- const rows=document.getElementById("paymentRows");
-
- rows.innerHTML=enrollments.map(e=>`
- <tr>
-  <td>${escapeHTML(e.skill_name)}</td>
-  <td>Level ${e.level}</td>
-  <td>${money(e.price)}</td>
-  <td class="status">${escapeHTML(e.payment_status||"pending")}</td>
- </tr>`).join("");
-
- const total=enrollments.reduce((sum,e)=>sum+Number(e.price||0),0);
-
- document.getElementById("paymentTotal").textContent=money(total);
-}
-
-/* =========================================
-   TEACHER VIDEO GALLERY
-========================================= */
-
-async function loadTeacherVideos(){
-
- const grid=document.getElementById("videoGrid");
-
- grid.innerHTML='<div class="empty">Loading teacher videos...</div>';
-
- const {data,error}=await db
- .from("teacher_videos")
- .select("id,title,description,video_url,thumbnail_url,teacher_name")
- .eq("published",true)
- .order("created_at",{ascending:false});
-
- if(error){
-  console.error(error);
-  grid.innerHTML='<div class="empty">Teacher video data is unavailable. Check teacher_videos table.</div>';
-  return;
- }
-
- if(!data?.length){
-  grid.innerHTML='<div class="empty">No teacher introduction videos have been published yet.</div>';
-  return;
- }
-
- grid.innerHTML=data.map(v=>`
- <div class="video-card">
-  ${v.thumbnail_url?
-   `<img src="${escapeHTML(v.thumbnail_url)}" style="width:100%;height:120px;object-fit:cover;border-radius:8px">`:
-   '<div class="thumb">▶</div>'}
-  <b>${escapeHTML(v.title)}</b>
-  <p>${escapeHTML(v.teacher_name||"SteadyMaze Teacher")}</p>
-  <p>${escapeHTML(v.description||"")}</p>
-  <button class="secondary" onclick="openTeacherVideo('${encodeURIComponent(v.video_url||"")}')">Watch Video</button>
- </div>
- `).join("");
-}
-
-function openTeacherVideo(url){
- const decoded=decodeURIComponent(url);
- if(!decoded){toast("Video link is unavailable.");return;}
- if(!/^https:\/\//i.test(decoded)){toast("Invalid video link.");return;}
- window.open(decoded,"_blank","noopener");
-}
-
-/* =========================================
-   COMPETITION
-========================================= */
-
-async function loadCompetition(){
-
- const target=document.getElementById("competitionStatus");
-
- const {data,error}=await db
- .from("competitions")
- .select("*")
- .eq("is_open",true);
-
- if(error){
-  target.textContent="Competition information is not available.";
-  console.error(error);
-  return;
- }
-
- if(!data?.length){
-  target.textContent="No competition is currently open.";
-  return;
- }
-
- target.innerHTML=data.map(c=>`
- <div class="panel" style="margin:10px 0">
- <b>${escapeHTML(c.title)}</b>
- <p class="muted">${escapeHTML(c.group_name||"Competition")}</p>
- <span class="status">OPEN</span>
- </div>`).join("");
-}
-
-/* =========================================
-   LEADERBOARD
-========================================= */
-
-async function loadLeaderboard(){
-
- const rows=document.getElementById("rankRows");
-
- const {data,error}=await db
- .from("leaderboard")
- .select("*")
- .order("points",{ascending:false})
- .limit(100);
-
- if(error){
-  rows.innerHTML='<tr><td colspan="6">Leaderboard is not available yet.</td></tr>';
-  console.error(error);
-  return;
- }
-
- rows.innerHTML=(data||[]).map((r,i)=>`
- <tr>
-  <td>${r.rank||i+1}</td>
-  <td>${escapeHTML(r.student_name||"Student")}</td>
-  <td>${escapeHTML(r.skill_name||"")}</td>
-  <td>${r.points||0}</td>
-  <td>${r.creativity||0}</td>
-  <td>${r.storytelling||0}</td>
- </tr>`).join("") || '<tr><td colspan="6">No results published yet.</td></tr>';
-}
-
-/* =========================================
-   OTHER DASHBOARD DATA
-========================================= */
-
-async function loadDashboardData(){
-
- const {data,error}=await db
- .from("support_points")
- .select("points")
- .eq("student_id",user.id);
-
- if(!error){
-  const total=(data||[]).reduce((sum,r)=>sum+Number(r.points||0),0);
-  document.getElementById("statPoints").textContent=total;
-  document.getElementById("supportBalance").textContent=total+" Points";
- }
-
- const {count}=await db
- .from("competition_entries")
- .select("*",{count:"exact",head:true})
- .eq("student_id",user.id);
-
- document.getElementById("statEntries").textContent=count||0;
-}
-
-/* =========================================
-   SECURITY AND HELPERS
-========================================= */
-
-function escapeHTML(value){
- return String(value??"").replace(/[&<>"']/g,char=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",
- '"':"&quot;","'":"&#39;"
- })[char]);
-}
-
-/* =========================================
-   NAVIGATION
-========================================= */
-
-document.querySelectorAll(".nav button[data-page]").forEach(button=>{
- button.addEventListener("click",()=>openPage(button.dataset.page));
-});
-
-document.getElementById("menuBtn").addEventListener("click",()=>{
- document.getElementById("sidebar").classList.toggle("open");
-});
-
-document.getElementById("logout").addEventListener("click",async()=>{
- const {error}=await db.auth.signOut();
- if(error){toast("Logout failed.");return;}
- window.location.href="login.html";
-});
-
-/* =========================================
-   START STUDENT PORTAL
-========================================= */
-
-renderSkills();
-checkStudent();
-
-</script>
-</body>
-</html>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- ========================================== -->
+    <!-- 1. QAYBTA LOGIN & SIGNUP (MARKA UUSAN GALIN) -->
+    <!-- ========================================== -->
+    <div id="auth-section" class="flex-1 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-xl border border-slate-200/60 overflow-hidden">
+            
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-700 p-8 text-center text-white">
+                <div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h1 class="text-2xl font-bold" id="auth-title">Ku Soo Dhawoow</h1>
+                <p class="text-indigo-100 text-sm mt-1" id="auth-subtitle">Gali xogtaada si aad u maamusho xisaabtaada</p>
+            </div>
+
+            <!-- Tabs (Login / Register) -->
+            <div class="flex border-b border-slate-200">
+                <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-3.5 text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 transition">
+                    Soo Gal (Login)
+                </button>
+                <button onclick="switchAuthTab('signup')" id="tab-signup" class="flex-1 py-3.5 text-sm font-semibold text-slate-500 hover:text-slate-700 transition">
+                    Is-diiwaangeli (Sign Up)
+                </button>
+            </div>
+
+            <!-- Alert Box -->
+            <div id="auth-alert" class="hidden mx-6 mt-6 p-3.5 rounded-xl text-sm font-medium"></div>
+
+            <!-- LOGIN FORM -->
+            <form id="login-form" class="p-6 sm:p-8 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Email-kaaga</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="email" id="login-email" required placeholder="magaca@gmail.com"
+                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Erayga Sirta ah (Password)</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="password" id="login-password" required placeholder="••••••••"
+                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    </div>
+                </div>
+
+                <button type="submit" id="login-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2 mt-2">
+                    <span>Soo Gal Hadda</span>
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                </button>
+            </form>
+
+            <!-- SIGNUP FORM -->
+            <form id="signup-form" class="hidden p-6 sm:p-8 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Magacaaga oo buuxa</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="signup-name" required placeholder="Axmed Maxamed"
+                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Lambarka Telefoonka</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="tel" id="signup-phone" required placeholder="+252 61 XXXXXXX"
+                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Email-kaaga</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="email" id="signup-email" required placeholder="magaca@gmail.com"
+                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Erayga Sirta ah (Ugu yaraan 6 xaraf)</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="password" id="signup-password" required minlength="6" placeholder="••••••••"
+                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    </div>
+                </div>
+
+                <button type="submit" id="signup-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2 mt-2">
+                    <span>Samee Xisaab Cusub</span>
+                    <i class="fa-solid fa-user-plus"></i>
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- 2. USER DASHBOARD (MARKA UU SOO GALO)      -->
+    <!-- ========================================== -->
+    <div id="dashboard-section" class="hidden flex-1 flex flex-col">
+        
+        <!-- Top Navbar -->
+        <nav class="bg-white border-b border-slate-200 sticky top-0 z-30">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex justify-between items-center">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <span class="font-bold text-lg text-slate-900">User<span class="text-indigo-600">Portal</span></span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span id="nav-user-email" class="hidden sm:inline-block text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full"></span>
+                    <button onclick="handleLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-right-from-bracket"></i> Ka Bax
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Main Content -->
+        <main class="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
+            
+            <!-- Welcome Banner -->
+            <div class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-800 rounded-3xl p-6 sm:p-8 text-white shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div id="user-avatar" class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl font-bold border border-white/30 shrink-0">
+                        U
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-indigo-200">Xisaabtaada Gaarka ah</span>
+                        <h2 id="dash-user-name" class="text-2xl font-bold mt-0.5">Soo Dhawoow!</h2>
+                        <p id="dash-user-id" class="text-xs text-indigo-200 mt-1 font-mono opacity-80">ID: ...</p>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10 text-xs">
+                    <span class="text-indigo-200 block">Xaaladda Xisaabta:</span>
