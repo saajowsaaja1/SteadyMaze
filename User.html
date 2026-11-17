@@ -60,10 +60,11 @@
             </nav>
         </div>
 
-        <div class="pt-6 border-t border-gray-800/60">
-            <a href="#settings" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-gray-800/50 hover:text-white transition">
-                <i class="fa-solid fa-gear"></i><span>Settings</span>
-            </a>
+        <div class="pt-6 border-t border-gray-800/60 space-y-3">
+            <div id="userEmailDisplay" class="text-xs text-gray-400 px-4 truncate">Loading user...</div>
+            <button onclick="logoutUser()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 transition font-medium text-sm">
+                <i class="fa-solid fa-right-from-bracket"></i><span>Logout</span>
+            </button>
         </div>
     </aside>
 
@@ -212,16 +213,42 @@
 
     <!-- SUPABASE CLIENT & REALTIME LOGIC -->
     <script>
-        // Your exact Supabase URL and Publishable Key
         const SUPABASE_URL = 'https://uxrltzlxdttbjstomhkb.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b';
         
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // 1. AUTH GUARD: Hubi in ardaygu uu soo galay login-ka
+        async function checkAuth() {
+            const { data: { session }, error } = await supabaseClient.auth.getSession();
+            if (!session) {
+                // Haddusan logged in ahayn, u celi login.html
+                window.location.replace("login.html");
+            } else {
+                // Haddi uu jiro, soo bandhig emailkiisa
+                const userEmail = session.user.email;
+                document.getElementById('userEmailDisplay').innerText = userEmail;
+                // Sidoo kale magaca ka buuxi input-ka haddii la heli karo
+                const metaName = session.user.user_metadata?.full_name;
+                if(metaName) {
+                    document.getElementById('userName').value = metaName;
+                }
+            }
+        }
+
+        // 2. LOGOUT FUNCTION
+        async function logoutUser() {
+            await supabaseClient.auth.signOut();
+            window.location.replace("login.html");
+        }
 
         // Fetch Leaderboard for the selected skill
         async function fetchLeaderboard() {
             const selectedSkill = document.getElementById('skillSelect').value;
-            document.getElementById('tableTitle').innerText = `Leaderboard: ${document.getElementById('skillSelect').selectedOptions[0].text}`;
+            const selectElement = document.getElementById('skillSelect');
+            if(selectElement && selectElement.selectedOptions.length > 0) {
+                document.getElementById('tableTitle').innerText = `Leaderboard: ${selectElement.selectedOptions[0].text}`;
+            }
 
             try {
                 const { data, error } = await supabaseClient
@@ -303,6 +330,7 @@
 
         // Initialize on page load
         window.onload = () => {
+            checkAuth();
             fetchLeaderboard();
         };
     </script>
