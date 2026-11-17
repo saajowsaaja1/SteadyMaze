@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteadyMaze | Student Login</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+    font-family:Arial,Helvetica,sans-serif;color:white;
+    background:radial-gradient(circle at 15% 20%, rgba(255,0,60,.22), transparent 30%),
+               radial-gradient(circle at 85% 15%, rgba(255,140,0,.20), transparent 30%),
+               radial-gradient(circle at 50% 100%, rgba(128,0,255,.20), transparent 35%), #07030a;
+}
+.auth-card{
+    width:100%;max-width:440px;padding:36px;
+    background:linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.035));
+    border:1px solid rgba(255,215,120,.25);border-radius:25px;
+    box-shadow:0 30px 100px rgba(0,0,0,.65), 0 0 50px rgba(255,0,60,.08);
+    backdrop-filter:blur(22px);
+}
+.logo{
+    text-align:center;font-size:34px;font-weight:900;letter-spacing:-1px;margin-bottom:7px;
+    background:linear-gradient(90deg, #ffd700, #ff8c00, #ff304f, #b65cff);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.subtitle{text-align:center;color:#c7bdca;font-size:10px;font-weight:700;letter-spacing:2px;margin-bottom:27px;}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;margin-bottom:23px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.07);border-radius:13px;}
+.tab{border:0;padding:13px;border-radius:9px;background:transparent;color:#8f8793;font-size:10px;font-weight:900;cursor:pointer;}
+.tab.active{color:white;background:linear-gradient(90deg, #ff1744, #ff8c00);box-shadow:0 7px 22px rgba(255,60,0,.20);}
+.form{display:none;}
+.form.active{display:block;}
+label{display:block;margin-bottom:7px;color:#ddd4df;font-size:9px;font-weight:900;letter-spacing:1px;}
+input{
+    width:100%;padding:14px;margin-bottom:16px;background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.10);border-radius:11px;outline:none;color:white;font-size:11px;
+}
+input:focus{border-color:#ff9d00;box-shadow:0 0 0 3px rgba(255,140,0,.08);}
+.main-button{
+    width:100%;padding:15px;margin-top:3px;border:0;border-radius:11px;
+    background:linear-gradient(90deg, #ff1744, #ff8c00, #ffd000);color:#170600;font-size:10px;font-weight:900;cursor:pointer;
+    box-shadow:0 10px 30px rgba(255,70,0,.18);
+}
+.message{display:none;margin-bottom:15px;padding:11px;border-radius:10px;background:rgba(255,166,0,.08);border:1px solid rgba(255,166,0,.15);color:#ffd166;font-size:9px;text-align:center;}
+.message.error{background:rgba(255,0,60,.09);border-color:rgba(255,0,60,.18);color:#ff7189;}
+.back{display:block;margin-top:25px;text-align:center;color:#8d8292;font-size:9px;text-decoration:none;}
+.back:hover{color:#ffd166;}
+</style>
+</head>
+<body>
+
+<div class="auth-card">
+    <div class="logo">SteadyMaze</div>
+    <div class="subtitle">STUDENT PORTAL</div>
+
+    <div id="message" class="message"></div>
+
+    <div class="tabs" id="tabs">
+        <button id="loginTab" class="tab active" type="button" onclick="showLogin()">LOGIN</button>
+        <button id="signupTab" class="tab" type="button" onclick="showSignup()">SIGN UP</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm" class="form active" onsubmit="loginStudent(event)">
+        <label>EMAIL</label>
+        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+        <label>PASSWORD</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+        <button type="submit" id="loginButton" class="main-button">LOGIN</button>
+    </form>
+
+    <!-- SIGNUP FORM -->
+    <form id="signupForm" class="form" onsubmit="createStudent(event)">
+        <label>FULL NAME</label>
+        <input type="text" id="signupName" placeholder="Enter your full name" required>
+        <label>EMAIL</label>
+        <input type="email" id="signupEmail" placeholder="Enter your email" required>
+        <label>PASSWORD</label>
+        <input type="password" id="signupPassword" placeholder="Create password (min 6 chars)" minlength="6" required>
+        <button type="submit" id="signupButton" class="main-button">CREATE ACCOUNT</button>
+    </form>
+
+    <a href="index.html" class="back">← Back To Homepage</a>
+</div>
+
+<!-- SUPABASE SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = "https://uxrltzlxdttbjstomhkb.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    function showMessage(text, isError=false) {
+        const box = document.getElementById("message");
+        box.textContent = text;
+        box.style.display = "block";
+        box.classList.toggle("error", isError);
+    }
+
+    function showLogin() {
+        document.getElementById("loginForm").classList.add("active");
+        document.getElementById("signupForm").classList.remove("active");
+        document.getElementById("loginTab").classList.add("active");
+        document.getElementById("signupTab").classList.remove("active");
+    }
+
+    function showSignup() {
+        document.getElementById("signupForm").classList.add("active");
+        document.getElementById("loginForm").classList.remove("active");
+        document.getElementById("signupTab").classList.add("active");
+        document.getElementById("loginTab").classList.remove("active");
+    }
+
+    async function loginStudent(event) {
+        event.preventDefault();
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value;
+        const button = document.getElementById("loginButton");
+
+        button.disabled = true;
+        button.textContent = "LOGGING IN...";
+
+        try {
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (error) throw error;
+
+            // Waxaa si toos ah loogu dirayaa user.html
+            window.location.replace("user.html");
+
+        } catch (error) {
+            showMessage(error.message || "Login failed.", true);
+            button.disabled = false;
+            button.textContent = "LOGIN";
+        }
+    }
+
+    async function createStudent(event) {
+        event.preventDefault();
+        const name = document.getElementById("signupName").value.trim();
+        const email = document.getElementById("signupEmail").value.trim();
+        const password = document.getElementById("signupPassword").value;
+        const button = document.getElementById("signupButton");
+
+        button.disabled = true;
+        button.textContent = "CREATING...";
+
+        try {
+            const { data, error } = await supabaseClient.auth.signUp({
+                email,
+                password,
+                options: { data: { full_name: name, role: "student" } }
+            });
+            if (error) throw error;
+
+            showMessage("Account created successfully! Please login.");
+            showLogin();
+        } catch (error) {
+            showMessage(error.message || "Could not create account.", true);
+        } finally {
+            button.disabled = false;
+            button.textContent = "CREATE ACCOUNT";
+        }
+    }
+</script>
+</body>
+</html>
