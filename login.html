@@ -672,7 +672,7 @@ input:focus{
 <script>
 
 /* =========================================
-   SUPABASE
+   SUPABASE (Connected to your project)
 ========================================= */
 
 const SUPABASE_URL =
@@ -902,26 +902,18 @@ async function createStudent(event){
 
     try{
 
-        /*
-         * Supabase Auth only.
-         *
-         * No localStorage.
-         */
-
         const {
             data,
             error
         } =
         await supabaseClient.auth.signUp({
 
-            email:email,
-
-            password:password,
-
-            options:{
-                data:{
-                    full_name:name,
-                    role:"student"
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: name,
+                    role: "student"
                 }
             }
 
@@ -931,11 +923,6 @@ async function createStudent(event){
             throw error;
         }
 
-        /*
-         * If email confirmation is enabled,
-         * Supabase will handle it.
-         */
-
         if(!data.session){
 
             document
@@ -943,16 +930,12 @@ async function createStudent(event){
                 .reset();
 
             showMessage(
-                "Account created. Please follow the Supabase email confirmation process before logging in."
+                "Account created successfully. You can now login."
             );
 
+            showLogin();
             return;
         }
-
-        /*
-         * If confirmation is disabled,
-         * login can continue normally.
-         */
 
         await supabaseClient.auth.signOut();
 
@@ -986,7 +969,7 @@ async function createStudent(event){
 
 
 /* =========================================
-   LOGIN STUDENT
+   LOGIN STUDENT (Directs to user.html)
 ========================================= */
 
 async function loginStudent(event){
@@ -1019,21 +1002,14 @@ async function loginStudent(event){
 
     try{
 
-        /*
-         * Login through Supabase Auth.
-         */
-
         const {
             data,
             error
         } =
         await supabaseClient.auth
             .signInWithPassword({
-
-                email:email,
-
-                password:password
-
+                email: email,
+                password: password
             });
 
         if(error){
@@ -1041,32 +1017,12 @@ async function loginStudent(event){
         }
 
         if(!data.user){
-
-            throw new Error(
-                "Account not found."
-            );
+            throw new Error("Account not found.");
         }
 
-        /*
-         * IMPORTANT:
-         *
-         * We do NOT query
-         * students.full_name.
-         *
-         * This prevents:
-         *
-         * column students.full_name
-         * does not exist
-         *
-         * from breaking the login.
-         *
-         * Supabase Auth has already
-         * successfully authenticated
-         * the student.
-         */
-
+        // Si toos ah ugu gudub user.html markuu login-ka guuleysto
         window.location.replace(
-            "student.html"
+            "user.html"
         );
 
     }catch(error){
@@ -1075,30 +1031,12 @@ async function loginStudent(event){
             error.message ||
             "Login failed.";
 
-        /*
-         * Friendly Supabase errors.
-         */
-
         if(
             message
                 .toLowerCase()
                 .includes("invalid login credentials")
         ){
-
-            message =
-                "Incorrect email or password.";
-
-        }
-
-        if(
-            message
-                .toLowerCase()
-                .includes("email not confirmed")
-        ){
-
-            message =
-                "Please confirm your email before logging in.";
-
+            message = "Incorrect email or password.";
         }
 
         showMessage(
@@ -1243,7 +1181,7 @@ async function changePassword(event){
         } =
         await supabaseClient.auth
             .updateUser({
-                password:password
+                password: password
             });
 
         if(error){
