@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stezion – Learn skills. Compete. Get hired.</title>
+<style>
+:root{color-scheme:dark;--bg:#05060a;--card:#0e1017;--line:#1f2230;--ink:#f4f1ea;--muted:#9a9db0;--gold:#F5B301;--red:#E8192C;--purple:#8B3DFF;--orange:#FF7A1A}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;overflow-x:hidden;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px;position:relative}
+a{color:inherit}
+.glow{position:absolute;border-radius:50%;filter:blur(110px);opacity:.45;pointer-events:none;z-index:0}
+.g1{width:380px;height:380px;background:var(--purple);top:-80px;right:-80px}
+.g2{width:260px;height:260px;background:var(--red);top:260px;left:-120px;opacity:.28}
+.hero{position:relative;padding-bottom:70px;overflow:hidden}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;position:relative;z-index:1}
+.logo{font-weight:800;font-size:1.4rem;text-decoration:none;color:var(--gold)}
+nav ul{display:flex;gap:18px;list-style:none;padding:0;font-size:.95rem;flex-wrap:wrap}
+nav a{text-decoration:none;color:var(--muted)}
+nav a:hover{color:var(--orange)}
+h1{font-size:clamp(2.4rem,8vw,4.6rem);font-weight:800;line-height:1.05;max-width:13ch;margin-top:46px;position:relative;z-index:1;background:linear-gradient(90deg,var(--gold),var(--orange) 55%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{max-width:52ch;margin-top:18px;color:var(--muted);font-size:1.1rem;position:relative;z-index:1}
+.btns{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;position:relative;z-index:1}
+.btn{display:inline-block;padding:13px 24px;border-radius:10px;font-weight:700;text-decoration:none;border:2px solid transparent}
+.btn.p{background:linear-gradient(90deg,var(--orange),var(--red));color:#fff;box-shadow:0 4px 14px rgba(232,25,44,.35)}
+.btn.o{border-color:var(--gold);color:var(--gold)}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+section{padding:64px 0;position:relative}
+h2{font-size:clamp(1.8rem,4.5vw,2.6rem);line-height:1.1;margin-bottom:10px}
+.lead{color:var(--muted);max-width:60ch;margin-bottom:30px}
+.tiers,.fees,.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
+.tier,.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 2px 8px rgba(139,61,255,.18)}
+.tier h3{font-size:1.4rem;color:var(--gold)}
+.tier ul{padding-left:18px;margin:12px 0;color:var(--muted);font-size:.93rem;columns:2}
+.prices{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.prices span{border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.88rem}
+.prices b{color:var(--orange)}
+.comp{background:#090a10;border-block:1px solid var(--line);overflow:hidden}
+.comp .g1{top:auto;bottom:-120px;right:-100px;opacity:.3}
+.fees{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:28px;position:relative;z-index:1}
+.fee{border-radius:14px;padding:20px;background:var(--card);border:1px solid var(--line);box-shadow:0 2px 8px rgba(139,61,255,.2)}
+.fee .n{font-size:2.6rem;font-weight:800;color:var(--gold)}
+.fee small{color:var(--muted);display:block}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;position:relative;z-index:1}
+.rules{padding-left:20px}
+.rules li{margin-bottom:10px;color:#d7d5cf}
+.skills div{border-left:4px solid var(--red);padding:6px 14px;background:var(--card);border-radius:0 8px 8px 0;margin-bottom:12px}
+.skills b{display:block}
+.skills span{color:var(--muted);font-size:.92rem}
+.steps{counter-reset:s}
+.step{counter-increment:s}
+.step::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--gold);color:#000;font-weight:800;margin-bottom:10px}
+.step h3{font-size:1.15rem;margin-bottom:6px}
+.step p{color:var(--muted);font-size:.95rem}
+.cta{background:linear-gradient(120deg,var(--purple),var(--red) 60%,var(--orange));text-align:center;padding:56px 20px}
+.cta h2{margin-bottom:18px}
+.cta .btn{background:#05060a;color:var(--gold)}
+footer{padding:26px 0;color:var(--muted);font-size:.9rem;text-align:center}
+
+#lessons{background:#07080d}
+#lessons .glow{top:-60px;left:auto;right:-100px;width:320px;height:320px;background:var(--purple);opacity:.3}
+#lessons .wrap{z-index:1}
+#lessons .bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chip{background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:6px 14px;font:inherit;font-size:.85rem;cursor:pointer}
+.chip.on{border-color:var(--gold);color:var(--gold)}
+.chip.grp.on{background:linear-gradient(90deg,var(--red),var(--orange));border-color:transparent;color:#fff;font-weight:600}
+.chip:focus-visible,.card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+#note{color:var(--muted);font-size:.85rem;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;text-align:left;color:inherit;font:inherit;padding:0;box-shadow:0 2px 8px rgba(139,61,255,.2)}
+.th{aspect-ratio:16/9;display:grid;place-items:center;position:relative;background-size:cover;background-position:center}
+.th i{width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.55);display:grid;place-items:center;font-style:normal}
+.tag{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);font-size:.7rem;padding:2px 8px;border-radius:6px}
+.info{padding:12px}
+.info b{display:block;font-size:.95rem}
+.info small{color:var(--muted);display:block;margin-top:4px;font-size:.8rem}
+.price{margin-top:8px;display:flex;justify-content:space-between;font-size:.82rem}
+.price span:last-child{color:var(--orange);font-weight:700}
+dialog{background:#0b0d14;color:var(--ink);border:1px solid var(--line);border-radius:14px;width:min(760px,94vw);padding:0;margin:auto}
+dialog::backdrop{background:rgba(0,0,0,.8)}
+.mh{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.mh button{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:4px 12px;cursor:pointer}
+.tabs{display:flex;gap:8px;padding:12px 18px 0}
+.stage{margin:12px 18px;aspect-ratio:16/9;background:#000;border-radius:10px;overflow:hidden;display:grid;place-items:center;color:var(--muted);text-align:center;padding:12px}
+.stage video,.stage iframe{width:100%;height:100%;border:0}
+.mb{padding:0 18px 18px;color:var(--muted);font-size:.9rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#">Stezion</a>
+      <ul>
+        <li><a href="#lessons">Lessons</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#competition">Competition</a></li>
+        <li><a href="#hire">Direct Employment</a></li>
+      </ul>
+    </nav>
+    <h1>Learn skills. Compete. Get hired.</h1>
+    <p class="sub">Courses from $5, open skill competitions, and a dedicated marketplace where clients discover your work.</p>
+    <div class="btns"><a class="btn p" href="#lessons">Start learning</a><a class="btn o" href="#competition">Join a competition</a></div>
+  </div>
+</header>
+
+<section id="lessons">
+  <div class="glow"></div>
+  <div class="wrap">
+    <h2>Lesson library</h2>
+    <p class="lead">Every skill has a teacher intro and full video lessons. Pick a tier, pick a skill, press play.</p>
+    <div class="bar" id="gbar"></div>
+    <div class="bar" id="sbar"></div>
+    <p id="note">Loading…</p>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+<dialog id="dlg">
+  <div class="mh"><b id="mt"></b><button id="mc" aria-label="Close">Close</button></div>
+  <div class="tabs"><button class="chip on" id="t1">Teacher</button><button class="chip" id="t2">Lesson</button></div>
+  <div class="stage" id="stage"></div>
+  <div class="mb" id="mb"></div>
+</dialog>
+
+<section id="courses">
+  <div class="wrap">
+    <h2>Standard courses</h2>
+    <p class="lead">Start at the beginning. Every course has three levels, priced by difficulty.</p>
+    <div class="tiers">
+      <article class="tier"><h3>Beginner tier</h3>
+        <ul><li>Video editing</li><li>Thumbnail</li><li>Affiliate marketing</li><li>Dropshipping</li><li>Digital marketing</li><li>Photo editing</li><li>Graphic design</li><li>Movie recap</li><li>Logo creator</li></ul>
+        <div class="prices"><span>Level 1 <b>$5</b></span><span>Level 2 <b>$8</b></span><span>Level 3 <b>$12</b></span></div></article>
+      <article class="tier"><h3>Intermediate tier</h3>
+        <ul><li>FX</li><li>Crypto</li><li>AI agent</li><li>Cybersecurity</li><li>UI/UX</li><li>English</li><li>Data analysis</li></ul>
+        <div class="prices"><span>Level 1 <b>$15</b></span><span>Level 2 <b>$20</b></span><span>Level 3 <b>$30</b></span></div></article>
+      <article class="tier"><h3>Advanced tier</h3>
+        <ul><li>Python</li><li>Java</li><li>AI app</li><li>AI web</li><li>Web development</li><li>Machine learning</li></ul>
+        <div class="prices"><span>Pricing coming soon</span></div></article>
+    </div>
+  </div>
+</section>
+
+<section id="competition" class="comp">
+  <div class="glow g1"></div>
+  <div class="wrap">
+    <h2>Skill competition</h2>
+    <p class="lead">Build real work, earn a ranking, and get seen. The entry fee depends on the tier.</p>
+    <div class="fees">
+      <div class="fee"><div class="n">$8</div>Beginner<small>Video editing, thumbnail, photo editing, graphic design, movie recap, logo</small></div>
+      <div class="fee"><div class="n">$10</div>Intermediate<small>AI agent, English, UI/UX, data analysis</small></div>
+      <div class="fee"><div class="n">$13</div>Advanced<small>AI app, AI web, Python, Java, web development</small></div>
+    </div>
+    <div class="cols">
+      <div><h3 style="margin-bottom:12px">Rules</h3>
+        <ol class="rules">
+          <li>A competition runs for <b>2 months</b>. You must complete <b>8 videos</b>.</li>
+          <li>The next competition starts 2 months later, continuously.</li>
+          <li>The entry fee must be paid in advance. No payment, no entry.</li>
+          <li>Students who finish <b>Level 2</b> of a standard course get <b>one free entry</b>.</li>
+          <li>If you are removed, you get one chance to <b>book</b> a spot in the following 2-month competition and keep your place.</li>
+          <li>Someone who completed the 8 videos has already competed; others may take their place.</li>
+        </ol></div>
+      <div class="skills"><h3 style="margin-bottom:12px">Competition skills</h3>
+        <div><b>Beginner</b><span>Video editing, thumbnail creator, photo editing, graphic design, movie recap, logo creator</span></div>
+        <div><b>Intermediate</b><span>AI agent, English, UI/UX, data analysis</span></div>
+        <div><b>Advanced</b><span>AI app, AI web, Python, Java, web development</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hire">
+  <div class="wrap">
+    <h2>Direct Employment</h2>
+    <p class="lead">A dedicated marketing page. Competition work is shown to people who want to buy, with no expensive agency in between.</p>
+    <div class="steps">
+      <div class="step"><h3>Build and compete</h3><p>For example, a student who learned Python builds a food app, a game or a video app.</p></div>
+      <div class="step"><h3>Earn your rank</h3><p>The best work moves up the competition rankings.</p></div>
+      <div class="step"><h3>Buyers browse</h3><p>Clients visit and see the showcased work.</p></div>
+      <div class="step"><h3>Get hired or sold</h3><p>Say 100 buyers arrive: the top-ranked creator's app sells, and the other 13 get opportunities too.</p></div>
+    </div>
+    <p class="lead" style="margin-top:26px">Every seller here is a small creator, so if you are the best, you get the most buyers. Nobody sells everything to everyone.</p>
+  </div>
+</section>
+
+<div class="cta"><h2>Ready to start?</h2><a class="btn" href="#lessons">Browse lessons</a></div>
+<footer><div class="wrap">© 2026 Stezion. All rights reserved.</div></footer>
+<script>
+const SB_URL='https://uxrltzlxdttbjstomhkb.supabase.co/rest/v1';
+const SB_KEY='sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b'; // publishable key: safe when RLS is enabled
+const SKILLS={lower:['Video editing','Thumbnail','Affiliate marketing','Dropshipping','Digital marketing','Photo editing','Graphic design','Movie recap','Logo creator'],medium:['FX','Crypto','AI agent','Cybersecurity','UI/UX','English','Data analysis'],high:['Python','Java','AI app','AI web','Web development','Machine learning']};
+const PRICE={lower:5,medium:15,high:null};
+const GN={all:'All',lower:'Beginner',medium:'Intermediate',high:'Advanced'};
+const COL=['#E8192C','#F5B301','#8B3DFF','#FF7A1A'];
+let all=[],group='all',skill='all',cur=null;
+const $=id=>document.getElementById(id);
+function demo(){const r=[];let n=0;for(const g in SKILLS)for(const s of SKILLS[g])r.push({id:'d'+n,skill:s,level_group:g,title:s+' – Level 1',teacher_name:'Teacher coming soon',price:PRICE[g],c:COL[n++%4]});return r}
+async function load(){
+  try{const r=await fetch(SB_URL+'/courses?select=*&order=id',{headers:{apikey:SB_KEY}});if(!r.ok)throw new Error(r.status);const d=await r.json();if(!d.length)throw new Error('empty');all=d;$('note').textContent='Lessons loaded from Supabase.'}
+  catch(e){all=demo();$('note').textContent='No lessons in the database yet ('+e.message+'). Showing the skill list. Run schema.sql in Supabase and add lessons.'}
+  draw()}
+function draw(){
+  $('gbar').innerHTML=Object.keys(GN).map(g=>`<button class="chip grp ${g===group?'on':''}" data-g="${g}">${GN[g]}</button>`).join('');
+  const pool=all.filter(c=>group==='all'||c.level_group===group);
+  $('sbar').innerHTML=['all',...new Set(pool.map(c=>c.skill))].map(s=>`<button class="chip ${s===skill?'on':''}" data-s="${s}">${s==='all'?'All skills':s}</button>`).join('');
+  const list=pool.filter(c=>skill==='all'||c.skill===skill);
+  $('grid').innerHTML=list.map((c,i)=>{const bg=c.thumbnail_url?`background-image:url('${c.thumbnail_url}')`:`background:linear-gradient(135deg,${c.c||COL[i%4]}66,#05060a)`;
+    return `<button class="card" data-i="${c.id}"><div class="th" style="${bg}"><i>▶</i>${c.duration?`<span class="tag">${c.duration}</span>`:''}</div><div class="info"><b>${c.title}</b><small>${c.teacher_name||''}</small><div class="price"><span>${GN[c.level_group]}</span><span>${c.price?'$'+c.price:'Soon'}</span></div></div></button>`}).join('')||'<p style="grid-column:1/-1;color:var(--muted)">No lessons found.</p>'}
+function player(u,m){if(!u)return m;const y=u.match(/(?:youtu\.be\/|v=)([\w-]{11})/);return y?`<iframe src="https://www.youtube.com/embed/${y[1]}" allowfullscreen></iframe>`:`<video src="${u}" controls playsinline></video>`}
+function tab(n){$('t1').classList.toggle('on',n===1);$('t2').classList.toggle('on',n===2);$('stage').innerHTML=n===1?player(cur.teacher_intro_url,'Teacher intro video not added yet.'):player(cur.video_url,'Lesson video not added yet.')}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-g]');if(g){group=g.dataset.g;skill='all';draw();return}
+  const s=e.target.closest('[data-s]');if(s){skill=s.dataset.s;draw();return}
+  const c=e.target.closest('.card');if(c){cur=all.find(x=>String(x.id)===c.dataset.i);$('mt').textContent=cur.title;$('mb').textContent=(cur.teacher_name||'')+(cur.description?' – '+cur.description:'');tab(1);$('dlg').showModal()}});
+$('t1').onclick=()=>tab(1);$('t2').onclick=()=>tab(2);
+$('mc').onclick=()=>$('dlg').close();
+$('dlg').addEventListener('close',()=>{$('stage').innerHTML=''});
+load();
+</script>
+</body>
+</html>
