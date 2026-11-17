@@ -125,8 +125,8 @@ input:focus{border-color:#ff9d00;box-shadow:0 0 0 3px rgba(255,140,0,.08);}
             const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) throw error;
 
-            // Waxaa si toos ah loogu dirayaa user.html
-            window.location.replace("user.html");
+            // ISBADALKA LA SAMEEYAY: Wuxuu hadda si toos ah u aadayaa student.html
+            window.location.replace("student.html");
 
         } catch (error) {
             showMessage(error.message || "Login failed.", true);
