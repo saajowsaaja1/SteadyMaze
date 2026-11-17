@@ -1,162 +1,310 @@
 <!DOCTYPE html>
-<html lang="so">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Portal - Xisaabtaada</title>
-    <!-- Tailwind CSS -->
-    <script src="https://tailwindcss.com"></script>
+    <title>Steadymaze | Pro Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: 'rgba(17, 24, 39, 0.7)',
+                        accentPurple: '#8b5cf6',
+                        accentPink: '#ec4899',
+                    }
+                }
+            }
+        }
+    </script>
     <!-- Supabase JS SDK -->
-    <script src="https://jsdelivr.net"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://googleapis.com');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+<body class="bg-darkBg text-gray-100 font-sans antialiased min-h-screen flex">
 
-    <!-- ========================================== -->
-    <!-- 1. QAYBTA LOGIN & SIGNUP (MARKA UUSAN GALIN) -->
-    <!-- ========================================== -->
-    <div id="auth-section" class="flex-1 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-3xl shadow-xl border border-slate-200/60 overflow-hidden">
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="w-64 glass-card border-r border-gray-800 hidden md:flex flex-col justify-between p-6 fixed h-full z-20">
+        <div>
+            <div class="flex items-center space-x-3 mb-10">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center font-bold text-xl shadow-lg shadow-purple-500/30">S</div>
+                <span class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-white via-gray-200 to-purple-400 bg-clip-text text-transparent">Steadymaze</span>
+            </div>
             
-            <!-- Header -->
-            <div class="bg-gradient-to-r from-indigo-600 to-purple-700 p-8 text-center text-white">
-                <div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
-                    <i class="fa-solid fa-user-shield"></i>
-                </div>
-                <h1 class="text-2xl font-bold" id="auth-title">Ku Soo Dhawoow</h1>
-                <p class="text-indigo-100 text-sm mt-1" id="auth-subtitle">Gali xogtaada si aad u maamusho xisaabtaada</p>
+            <nav class="space-y-2">
+                <a href="#overview" onclick="switchTab('overview')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl bg-purple-600/20 text-purple-400 border border-purple-500/30 transition font-medium">
+                    <i class="fa-solid fa-chart-pie"></i><span>Overview</span>
+                </a>
+                <a href="#courses" onclick="switchTab('courses')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-gray-800/50 hover:text-white transition font-medium">
+                    <i class="fa-solid fa-graduation-cap"></i><span>Normal Courses</span>
+                </a>
+                <a href="#competitions" onclick="switchTab('competitions')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-gray-800/50 hover:text-white transition font-medium">
+                    <i class="fa-solid fa-trophy"></i><span>Competitions (13)</span>
+                </a>
+                <a href="#upload-section" onclick="switchTab('upload-section')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-gray-800/50 hover:text-white transition font-medium">
+                    <i class="fa-solid fa-cloud-arrow-up"></i><span>Upload Project</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="pt-6 border-t border-gray-800/60">
+            <a href="#settings" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-gray-800/50 hover:text-white transition">
+                <i class="fa-solid fa-gear"></i><span>Settings</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 md:ml-64 p-4 md:p-8 overflow-y-auto">
+        
+        <!-- TOP HEADER BAR -->
+        <header class="flex justify-between items-center mb-8 pb-4 border-b border-gray-800/60">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Creator Dashboard</h1>
+                <p class="text-sm text-gray-400">Welcome back! Manage your 13 skills and live leaderboards.</p>
             </div>
-
-            <!-- Tabs (Login / Register) -->
-            <div class="flex border-b border-slate-200">
-                <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-3.5 text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 transition">
-                    Soo Gal (Login)
+            <div class="flex items-center space-x-4">
+                <button onclick="refreshData()" class="px-4 py-2 rounded-xl glass-card text-sm font-semibold hover:bg-gray-800 transition flex items-center space-x-2 border border-gray-700">
+                    <i class="fa-solid fa-rotate-right"></i><span>Refresh Data</span>
                 </button>
-                <button onclick="switchAuthTab('signup')" id="tab-signup" class="flex-1 py-3.5 text-sm font-semibold text-slate-500 hover:text-slate-700 transition">
-                    Is-diiwaangeli (Sign Up)
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center font-bold text-white shadow-md">
+                    SM
+                </div>
+            </div>
+        </header>
+
+        <!-- STATS OVERVIEW CARDS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+                <div class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">Today Revenue</div>
+                <div class="text-2xl font-extrabold text-white mb-1">$15.00</div>
+                <div class="text-xs text-emerald-400 font-semibold"><i class="fa-solid fa-arrow-up"></i> +17.65% from yesterday</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+                <div class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">Current USD Balance</div>
+                <div class="text-2xl font-extrabold text-white mb-1">$10,893.87</div>
+                <div class="text-xs text-purple-400 font-semibold">Ready for withdrawal</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl relative overflow-hidden">
+                <div class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">Subscribers / Students</div>
+                <div class="text-2xl font-extrabold text-white mb-1">33</div>
+                <div class="text-xs text-blue-400 font-semibold">Growing steadily</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl relative overflow-hidden border-purple-500/30">
+                <div class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">Boost Balance</div>
+                <div class="text-2xl font-extrabold text-purple-300 mb-2">231.8K</div>
+                <button class="w-full py-1.5 px-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-lg text-xs font-bold transition shadow-lg shadow-purple-600/30">
+                    Convert to USD
                 </button>
             </div>
+        </div>
 
-            <!-- Alert Box -->
-            <div id="auth-alert" class="hidden mx-6 mt-6 p-3.5 rounded-xl text-sm font-medium"></div>
+        <!-- TAB CONTENT -->
+        <div id="tab-content" class="space-y-10">
 
-            <!-- LOGIN FORM -->
-            <form id="login-form" class="p-6 sm:p-8 space-y-4">
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Email-kaaga</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="email" id="login-email" required placeholder="magaca@gmail.com"
-                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                    </div>
+            <!-- 1. UPLOAD PROJECT SECTION -->
+            <section id="upload-section" class="glass-card p-6 rounded-2xl space-y-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold flex items-center space-x-2">
+                        <i class="fa-solid fa-cloud-arrow-up text-pink-500"></i><span>Submit Competition Project</span>
+                    </h2>
+                    <span class="text-xs text-purple-400 font-medium">Instant Supabase Live Sync</span>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Erayga Sirta ah (Password)</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="password" id="login-password" required placeholder="••••••••"
-                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                <form id="uploadForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Select Skill / Competition</label>
+                            <select id="skillSelect" required onchange="filterLeaderboard()" class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500">
+                                <optgroup label="Lower Level ($7 - 8 Videos / 2M)">
+                                    <option value="video_editing">1. Video Editing ($7)</option>
+                                    <option value="movie_recap">2. Movie Recap ($7)</option>
+                                    <option value="thumbnail">3. Thumbnail ($7)</option>
+                                    <option value="graphic_design">4. Graphic Design ($7)</option>
+                                    <option value="logo_design">5. Logo Design ($7)</option>
+                                    <option value="photo_editing">6. Photo Editing ($7)</option>
+                                </optgroup>
+                                <optgroup label="Medium Level ($10 - 8 Videos / 2M)">
+                                    <option value="english">7. English ($10)</option>
+                                    <option value="data_analysis">8. Data Analysis ($10)</option>
+                                    <option value="ai_agent">9. AI Agent ($10)</option>
+                                    <option value="ui_ux">10. UI/UX ($10)</option>
+                                </optgroup>
+                                <optgroup label="High Level ($13 - 8 Videos / 2M)">
+                                    <option value="ai_web">11. AI Web ($13)</option>
+                                    <option value="ai_app">12. AI App ($13)</option>
+                                    <option value="web_development">13. Web Development ($13)</option>
+                                    <option value="python">14. Python ($13)</option>
+                                    <option value="java">15. Java ($13)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Your Full Name</label>
+                            <input type="text" id="userName" placeholder="e.g. Ahmed Ali" required class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500">
+                        </div>
                     </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Project Video Link / URL</label>
+                            <input type="url" id="videoUrl" placeholder="https://youtube.com/..." required class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500">
+                        </div>
+                        <div class="pt-6">
+                            <button type="submit" class="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-bold rounded-xl transition shadow-lg shadow-purple-600/30 text-sm">
+                                Submit & Publish to Live Table
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- 2. LIVE LEADERBOARD TABLE SECTION FOR SELECTED SKILL -->
+            <section id="competitions" class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold flex items-center space-x-2">
+                        <i class="fa-solid fa-trophy text-amber-400"></i><span id="tableTitle">Live Leaderboard (1 - 900K)</span>
+                    </h2>
+                    <span id="activeSkillBadge" class="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs rounded-full font-semibold">Live Database Connected</span>
                 </div>
 
-                <button type="submit" id="login-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2 mt-2">
-                    <span>Soo Gal Hadda</span>
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                </button>
-            </form>
-
-            <!-- SIGNUP FORM -->
-            <form id="signup-form" class="hidden p-6 sm:p-8 space-y-4">
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Magacaaga oo buuxa</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" id="signup-name" required placeholder="Axmed Maxamed"
-                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                <div class="glass-card rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-gray-800 text-xs uppercase text-gray-400 bg-gray-900/40">
+                                    <th class="p-4 font-semibold">Rank</th>
+                                    <th class="p-4 font-semibold">Name</th>
+                                    <th class="p-4 font-semibold">Profile</th>
+                                    <th class="p-4 font-semibold">Points</th>
+                                    <th class="p-4 font-semibold">Creativity</th>
+                                    <th class="p-4 font-semibold">Quality</th>
+                                    <th class="p-4 font-semibold">Storytelling</th>
+                                    <th class="p-4 font-semibold">Video Link</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboardBody" class="divide-y divide-gray-800/60 text-sm">
+                                <!-- Dynamic rows will load here -->
+                                <tr>
+                                    <td colspan="8" class="p-6 text-center text-gray-400">Loading data from Supabase...</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Lambarka Telefoonka</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="tel" id="signup-phone" required placeholder="+252 61 XXXXXXX"
-                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Email-kaaga</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="email" id="signup-email" required placeholder="magaca@gmail.com"
-                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Erayga Sirta ah (Ugu yaraan 6 xaraf)</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="password" id="signup-password" required minlength="6" placeholder="••••••••"
-                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                    </div>
-                </div>
-
-                <button type="submit" id="signup-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2 mt-2">
-                    <span>Samee Xisaab Cusub</span>
-                    <i class="fa-solid fa-user-plus"></i>
-                </button>
-            </form>
+            </section>
 
         </div>
-    </div>
+    </main>
 
-
-    <!-- ========================================== -->
-    <!-- 2. USER DASHBOARD (MARKA UU SOO GALO)      -->
-    <!-- ========================================== -->
-    <div id="dashboard-section" class="hidden flex-1 flex flex-col">
+    <!-- SUPABASE CLIENT & REALTIME LOGIC -->
+    <script>
+        // Your exact Supabase URL and Publishable Key
+        const SUPABASE_URL = 'https://uxrltzlxdttbjstomhkb.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b';
         
-        <!-- Top Navbar -->
-        <nav class="bg-white border-b border-slate-200 sticky top-0 z-30">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex justify-between items-center">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold">
-                        <i class="fa-solid fa-layer-group"></i>
-                    </div>
-                    <span class="font-bold text-lg text-slate-900">User<span class="text-indigo-600">Portal</span></span>
-                </div>
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-                <div class="flex items-center gap-3">
-                    <span id="nav-user-email" class="hidden sm:inline-block text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full"></span>
-                    <button onclick="handleLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-right-from-bracket"></i> Ka Bax
-                    </button>
-                </div>
-            </div>
-        </nav>
+        // Fetch Leaderboard for the selected skill
+        async function fetchLeaderboard() {
+            const selectedSkill = document.getElementById('skillSelect').value;
+            document.getElementById('tableTitle').innerText = `Leaderboard: ${document.getElementById('skillSelect').selectedOptions[0].text}`;
 
-        <!-- Dashboard Main Content -->
-        <main class="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
-            
-            <!-- Welcome Banner -->
-            <div class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-800 rounded-3xl p-6 sm:p-8 text-white shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div class="flex items-center gap-4">
-                    <div id="user-avatar" class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl font-bold border border-white/30 shrink-0">
-                        U
-                    </div>
-                    <div>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-indigo-200">Xisaabtaada Gaarka ah</span>
-                        <h2 id="dash-user-name" class="text-2xl font-bold mt-0.5">Soo Dhawoow!</h2>
-                        <p id="dash-user-id" class="text-xs text-indigo-200 mt-1 font-mono opacity-80">ID: ...</p>
-                    </div>
-                </div>
-                <div class="bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10 text-xs">
-                    <span class="text-indigo-200 block">Xaaladda Xisaabta:</span>
+            try {
+                const { data, error } = await supabaseClient
+                    .from('leaderboard')
+                    .select('*')
+                    .eq('skill', selectedSkill)
+                    .order('points', { ascending: false })
+                    .limit(50);
+
+                if (error) throw error;
+
+                const tbody = document.getElementById('leaderboardBody');
+                if (data && data.length > 0) {
+                    tbody.innerHTML = '';
+                    data.forEach((row, index) => {
+                        tbody.innerHTML += `
+                            <tr class="hover:bg-gray-800/30 transition">
+                                <td class="p-4 font-bold text-amber-400">#${index + 1}</td>
+                                <td class="p-4 font-medium text-white">${row.name}</td>
+                                <td class="p-4"><div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-xs font-bold">${row.name ? row.name.substring(0,2).toUpperCase() : 'SM'}</div></td>
+                                <td class="p-4 font-bold text-emerald-400">${row.points || 100}</td>
+                                <td class="p-4">${row.creativity || 85}</td>
+                                <td class="p-4">${row.quality || 90}</td>
+                                <td class="p-4">${row.storytelling || 88}</td>
+                                <td class="p-4"><a href="${row.video_url}" target="_blank" class="text-purple-400 hover:underline"><i class="fa-solid fa-play-circle"></i> Watch</a></td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-gray-400">No submissions yet for this skill. Be the first to upload!</td></tr>`;
+                }
+            } catch (err) {
+                console.error("Supabase Error:", err.message);
+                document.getElementById('leaderboardBody').innerHTML = `<tr><td colspan="8" class="p-6 text-center text-red-400">Please make sure the 'leaderboard' table exists in your Supabase database.</td></tr>`;
+            }
+        }
+
+        function filterLeaderboard() {
+            fetchLeaderboard();
+        }
+
+        // Handle Form Submission for Project Upload
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const skill = document.getElementById('skillSelect').value;
+            const name = document.getElementById('userName').value;
+            const videoUrl = document.getElementById('videoUrl').value;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('leaderboard')
+                    .insert([
+                        { 
+                            name: name, 
+                            skill: skill, 
+                            video_url: videoUrl, 
+                            points: Math.floor(Math.random() * 50) + 90, 
+                            creativity: 90, 
+                            quality: 92, 
+                            storytelling: 95 
+                        }
+                    ]);
+
+                if (error) {
+                    alert("Error uploading: " + error.message);
+                } else {
+                    alert("Project successfully published to the Live Table!");
+                    document.getElementById('uploadForm').reset();
+                    fetchLeaderboard();
+                }
+            } catch (err) {
+                alert("Connection error: " + err.message);
+            }
+        });
+
+        function refreshData() {
+            fetchLeaderboard();
+        }
+
+        // Initialize on page load
+        window.onload = () => {
+            fetchLeaderboard();
+        };
+    </script>
+</body>
+</html>
