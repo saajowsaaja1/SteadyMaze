@@ -120,6 +120,13 @@ body{background:radial-gradient(1200px 600px at 80% -10%,rgba(124,58,237,.35),tr
 .cc .pr{font-size:1.7rem;font-weight:800;color:var(--gold)}
 .cc .pr small{font-size:.8rem;color:var(--muted);font-weight:500}
 .cc a.btn{text-align:center;padding:10px 14px}
+#adlg{width:min(420px,94vw);padding:28px;border-radius:22px}
+#adlg h3{font-size:1.6rem;margin-bottom:4px;background:linear-gradient(90deg,#fff,#F5C542);-webkit-background-clip:text;background-clip:text;color:transparent}
+#adlg input{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:12px;padding:13px;margin:0 0 10px;font:inherit}
+#adlg input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,197,66,.2)}
+#adlg input::placeholder{color:#bdb4d8}
+#adlg .x{position:absolute;top:12px;right:14px;background:none;border:0;color:#fff;font-size:1.4rem;cursor:pointer}
+#amsg{min-height:1.3em;font-size:.88rem;margin-top:8px;color:#FFB36B}
 </style>
 </head>
 <body>
@@ -139,7 +146,7 @@ body{background:radial-gradient(1200px 600px at 80% -10%,rgba(124,58,237,.35),tr
     </nav>
     <h1>Learn skills. Compete. Get hired.</h1>
     <p class="sub">Courses from $5, open skill competitions, and a dedicated marketplace where clients discover your work.</p>
-    <div class="btns"><a class="btn p" href="user.html">Start learning</a><a class="btn o" href="#competition">Join a competition</a></div>
+    <div class="btns"><a class="btn p js-signup" href="user.html#signup">Get started</a><a class="btn o" href="#competition">Join a competition</a></div>
   </div>
 </header>
 
@@ -270,7 +277,39 @@ fetch(SB_URL+'/competitions?select=*&status=in.(open,running)&order=start_date&l
   document.getElementById('lbt').textContent='Top 5 · '+c[0].skill;
   document.getElementById('lbb').innerHTML=t.map(x=>`<tr><td style="padding:6px;color:var(--gold)">#${esc(x.rank)}</td><td>${esc(x.name)}</td><td style="text-align:right">${esc(x.score)} pts</td></tr>`).join('')||'<tr><td class="sm">No ranked students yet.</td></tr>'}).catch(()=>{})})();
 </script>
+<dialog id="adlg" aria-labelledby="at2">
+  <button class="x" id="ax" aria-label="Close">×</button>
+  <h3 id="at2">Log in</h3>
+  <p class="sm" style="margin-bottom:16px">Welcome to Stezeo. Learn, compete, get hired.</p>
+  <input id="anm" placeholder="Full name" autocomplete="name" hidden>
+  <input id="aem" type="email" placeholder="Email" autocomplete="email">
+  <input id="apw" type="password" placeholder="Password" autocomplete="current-password">
+  <button class="btn p" id="ago" style="width:100%;padding:14px">Log in</button>
+  <p class="sm" style="margin-top:12px"><a href="#" id="asw" style="color:var(--gold)">No account? Sign up</a></p>
+  <p id="amsg"></p>
+</dialog>
 <script>
+(()=>{const $=i=>document.getElementById(i);let su=false;
+const hasS=()=>{try{return !!localStorage.getItem('stz')}catch(e){return false}};
+function mode(x){su=x;$('at2').textContent=x?'Create your account':'Log in';$('ago').textContent=x?'Create account':'Log in';$('anm').hidden=!x;$('asw').textContent=x?'Have an account? Log in':'No account? Sign up';$('amsg').textContent=''}
+document.addEventListener('click',e=>{const a=e.target.closest('.js-login,.js-signup');if(!a)return;e.preventDefault();
+  if(hasS()){location.href='user.html';return}
+  mode(a.classList.contains('js-signup'));$('adlg').showModal()});
+$('ax').onclick=()=>$('adlg').close();
+$('asw').onclick=e=>{e.preventDefault();mode(!su)};
+async function call(path,body){const r=await fetch(SB_URL.replace('/rest/v1','')+path,{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.msg||j.message||j.error_description||r.status);return j}
+$('ago').onclick=async()=>{const m=$('amsg');m.style.color='#FFB36B';m.textContent='';
+  const b={email:$('aem').value.trim(),password:$('apw').value};if(!b.email||!b.password){m.textContent='Enter your email and password.';return}
+  $('ago').disabled=true;
+  try{let s;
+    if(su){s=await call('/auth/v1/signup',{...b,data:{full_name:$('anm').value}});
+      if(!s.access_token){m.style.color='#7be3a6';m.textContent='Account created. Check your email to confirm, then log in.';$('ago').disabled=false;return}}
+    else s=await call('/auth/v1/token?grant_type=password',b);
+    localStorage.setItem('stz',JSON.stringify(s));
+    if(su)await fetch(SB_URL+'/profiles',{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+s.access_token,'Content-Type':'application/json'},body:JSON.stringify({id:s.user.id,full_name:$('anm').value})}).catch(()=>{});
+    location.href='user.html'}
+  catch(e){m.textContent=e.message;$('ago').disabled=false}};
+if(location.hash==='#login'||location.hash==='#signup'){if(!hasS()){mode(location.hash==='#signup');$('adlg').showModal()}}})();
 try{if(localStorage.getItem('stz')){document.querySelectorAll('.js-login').forEach(a=>{a.textContent='My dashboard'});document.querySelectorAll('.js-signup').forEach(a=>{a.style.display='none'})}}catch(e){}
 </script>
 </body>
