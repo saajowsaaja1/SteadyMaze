@@ -289,6 +289,10 @@ fetch(SB_URL+'/competitions?select=*&status=in.(open,running)&order=start_date&l
   <p id="amsg"></p>
 </dialog>
 <script>
+/* Email-confirmation link lands here with a token in the URL: log in and go to the dashboard */
+(async()=>{const h=new URLSearchParams(location.hash.slice(1)),t=h.get('access_token');if(!t)return;
+ try{const u=await (await fetch(SB_URL.replace('/rest/v1','')+'/auth/v1/user',{headers:{apikey:SB_KEY,Authorization:'Bearer '+t}})).json();
+ localStorage.setItem('stz',JSON.stringify({access_token:t,refresh_token:h.get('refresh_token'),user:u}));location.replace('user.html')}catch(e){}})();
 (()=>{const $=i=>document.getElementById(i);let su=false;
 const hasS=()=>{try{return !!localStorage.getItem('stz')}catch(e){return false}};
 function mode(x){su=x;$('at2').textContent=x?'Create your account':'Log in';$('ago').textContent=x?'Create account':'Log in';$('anm').hidden=!x;$('asw').textContent=x?'Have an account? Log in':'No account? Sign up';$('amsg').textContent=''}
