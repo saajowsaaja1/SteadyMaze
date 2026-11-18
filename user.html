@@ -328,7 +328,9 @@ document.addEventListener('click',async e=>{const E=s=>e.target.closest(s);let x
 document.addEventListener('change',e=>{if(e.target.dataset.up)upload(e.target)});
 $('dc').onclick=()=>$('dlg').close();
 $('dlg').addEventListener('close',()=>{$('dv').innerHTML=''});
-if(sess)start();else if(location.hash==='#signup')$('sw').click();
+(async()=>{const h=new URLSearchParams(location.hash.slice(1)),t=h.get('access_token');
+ if(t){try{const us=await (await fetch(URL_+'/auth/v1/user',{headers:{apikey:KEY,Authorization:'Bearer '+t}})).json();sess={access_token:t,refresh_token:h.get('refresh_token'),user:us};localStorage.setItem('stz',JSON.stringify(sess));history.replaceState(null,'',location.pathname)}catch(e){}}
+ if(sess)start();else if(location.hash==='#signup')$('sw').click()})();
 </script>
 </body>
 </html>
