@@ -3,134 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Stezeo – My Dashboard</title>
+<title>Stezeo – Dashboard</title>
 <style>
-:root{color-scheme:dark;--bg:#05060a;--card:#0e1017;--line:#1f2230;--ink:#f4f1ea;--muted:#9a9db0;--gold:#F5B301;--red:#E8192C;--purple:#8B3DFF;--orange:#FF7A1A;--ok:#2fd27a}
+:root{color-scheme:dark;--bg:#0b0912;--panel:#14111d;--card:rgba(255,255,255,.045);--line:rgba(255,255,255,.1);--ink:#fff;--muted:#b4abcc;--gold:#F5C542;--orange:#F5A24A;--purple:#7C3AED;--ok:#2fd27a;--red:#ff5d73}
 *{box-sizing:border-box;margin:0}
-body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;min-height:100vh;overflow-x:hidden;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
-body::before{content:"";position:fixed;top:-120px;right:-100px;width:360px;height:360px;background:var(--purple);filter:blur(120px);opacity:.3;pointer-events:none}
-.wrap{max-width:980px;margin:0 auto;padding:0 18px 50px;position:relative}
-header{display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:10px;flex-wrap:wrap}
-.logo{font-weight:800;font-size:1.3rem;color:var(--gold);text-decoration:none}
-button,input{font:inherit}
-.btn{background:linear-gradient(90deg,var(--orange),var(--red));color:#fff;border:0;border-radius:9px;padding:10px 18px;font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(232,25,44,.3)}
-.btn.s{background:none;border:1px solid var(--line);box-shadow:none;color:var(--ink);padding:6px 12px;font-weight:500}
-.btn:disabled{opacity:.5;cursor:default}
-.btn:focus-visible,.tab:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(139,61,255,.18)}
-#auth{max-width:380px;margin:50px auto}
-#auth h1{font-size:1.7rem;margin-bottom:14px;color:var(--gold)}
-input{width:100%;background:#07080d;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:11px;margin-bottom:10px}
-#msg{color:var(--orange);font-size:.9rem;margin-top:10px;min-height:1.2em}
-.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
-.tab{background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:7px 16px;cursor:pointer}
-.tab.on{background:linear-gradient(90deg,var(--red),var(--orange));border-color:transparent;color:#fff;font-weight:600}
-h2{font-size:1.5rem;margin-bottom:14px}
-.list{display:grid;gap:14px}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;min-height:100vh;overflow-x:hidden;padding-top:env(safe-area-inset-top,0)}
+body::before{content:"";position:fixed;top:-140px;right:-100px;width:420px;height:420px;background:var(--purple);filter:blur(140px);opacity:.3;pointer-events:none}
+body::after{content:"";position:fixed;bottom:-160px;left:20%;width:380px;height:380px;background:#9F67FF;filter:blur(150px);opacity:.18;pointer-events:none}
+button,input,select{font:inherit;color:inherit}
+.shell{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh;position:relative;z-index:1}
+.side{position:sticky;top:0;height:100vh;padding:22px 14px;background:rgba(15,12,22,.92);backdrop-filter:blur(16px);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px;overflow:auto}
+.logo{font-weight:800;font-size:1.45rem;color:var(--gold);text-decoration:none;padding:0 12px 16px;text-shadow:0 0 24px rgba(245,197,66,.45)}
+.nv{display:flex;gap:12px;align-items:center;padding:11px 14px;border-radius:12px;background:none;border:0;color:var(--muted);cursor:pointer;text-align:left}
+.nv:hover{color:#fff}.nv.on{background:rgba(255,255,255,.09);color:#fff;font-weight:600}
+.nv svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ls{display:none}
+.promo{margin-top:auto;border-radius:18px;padding:16px;background:linear-gradient(135deg,#FFE9A8,#F5A24A);color:#1b1204}
+.promo b{display:block;font-size:1.05rem;line-height:1.2;margin-bottom:10px}
+.main{padding:18px 26px 50px;min-width:0}
+.top{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
+.search{flex:1;min-width:200px;max-width:520px}
+.search input{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:12px;padding:11px 14px 11px 38px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23b4abcc' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
+.badges{display:flex;gap:8px;align-items:center}
+.pt{background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:.85rem;white-space:nowrap}
+.av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#F5C542);display:inline-grid;place-items:center;font-weight:700;font-size:.85rem;color:#fff;object-fit:cover;vertical-align:middle;margin-right:8px;flex:none}
+#tav{margin:0}
+h2{font-size:1.6rem;margin-bottom:14px}.gt{margin:22px 0 10px;font-size:1.15rem}.gt .muted{font-weight:400;margin-left:8px}
+.muted{color:var(--muted);font-size:.88rem}.sm{font-size:.8rem;opacity:.9}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;backdrop-filter:blur(16px);box-shadow:0 8px 28px rgba(8,4,22,.45),inset 0 1px 0 rgba(255,255,255,.06)}
 .row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
-.bar{height:8px;background:#1a1d29;border-radius:9px;overflow:hidden;margin-top:10px}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--orange))}
-.muted{color:var(--muted);font-size:.88rem}
-.pill{font-size:.75rem;padding:2px 10px;border-radius:99px;border:1px solid var(--line)}
-.pill.active,.pill.finished{color:var(--ok);border-color:var(--ok)}
-.pill.pending,.pill.booked{color:var(--gold);border-color:var(--gold)}
-.pill.removed,.pill.closed{color:var(--red);border-color:var(--red)}
-.vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:14px}
-.v{background:#07080d;border:1px solid var(--line);border-radius:10px;padding:12px}
-.v.done{border-color:var(--ok)}
-.v b{display:block;margin-bottom:4px}
-.v .row{margin-top:8px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.stat b{display:block;font-size:1.5rem;color:var(--gold)}
-.big{font-size:1.7rem;font-weight:800;color:var(--orange);font-variant-numeric:tabular-nums}
-.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px}
-.mi{text-align:left;color:inherit;cursor:pointer}.mi b{display:block;color:var(--gold)}
-.clock{font-variant-numeric:tabular-nums;color:var(--orange);font-weight:600}
-select{background:#07080d;color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:9px}
-tr.me td{background:rgba(245,179,1,.12)}
-.up{cursor:pointer;display:inline-block}
-table{width:100%;border-collapse:collapse;font-size:.9rem}
-th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
-th{color:var(--muted);font-weight:500}
-.scroll{overflow-x:auto}
-dialog{background:#0b0d14;color:var(--ink);border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);padding:16px;margin:auto}
-dialog::backdrop{background:rgba(0,0,0,.8)}
-dialog video,dialog iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#000;margin:12px 0}
-
-/* ===== Luxury purple / gold theme ===== */
-:root{--bg:#07040f;--card:rgba(255,255,255,.045);--line:rgba(255,255,255,.11);--ink:#fff;--muted:#bdb4d8;--gold:#F5C542;--orange:#FFE08A;--red:#9F67FF;--purple:#7C3AED}
-body{background:radial-gradient(1200px 600px at 80% -10%,rgba(124,58,237,.35),transparent 60%),radial-gradient(900px 500px at -10% 40%,rgba(159,103,255,.22),transparent 60%),#07040f}
-.glow{filter:blur(140px)!important;opacity:.55!important}
-.tier,.step,.fee,.card,.box,dialog,.v{background:rgba(255,255,255,.045)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12)!important;box-shadow:0 8px 30px rgba(10,4,30,.5),inset 0 1px 0 rgba(255,255,255,.08)!important}
-.comp,#lessons{background:rgba(10,5,24,.55)!important}
-.btn.p,.cta .btn,.btn:not(.s):not(.o){background:linear-gradient(135deg,#FFF3B8,#F5C542 45%,#C8921A)!important;color:#1b1204!important;border:1px solid #ffe9a0!important;font-weight:800;letter-spacing:.02em;position:relative;overflow:hidden;box-shadow:0 8px 26px rgba(245,197,66,.38),inset 0 1px 0 rgba(255,255,255,.75)!important;transition:transform .15s,box-shadow .2s}
-.btn.p::after,.cta .btn::after,.btn:not(.s):not(.o)::after{content:"";position:absolute;top:0;left:-120%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.8),transparent);transition:left .7s}
-.btn.p:hover::after,.cta .btn:hover::after,.btn:not(.s):not(.o):hover::after{left:140%}
-.btn.p:hover,.cta .btn:hover,.btn:not(.s):not(.o):hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(245,197,66,.5),inset 0 1px 0 rgba(255,255,255,.75)!important}
-.btn.o,.btn.s{background:rgba(255,255,255,.06)!important;border:1px solid rgba(245,197,66,.55)!important;color:#ffe9a0!important;backdrop-filter:blur(10px);box-shadow:none!important}
-.btn.o:hover,.btn.s:hover{background:rgba(245,197,66,.14)!important}
-.btn:disabled{opacity:.45;transform:none!important}
-.chip{background:rgba(255,255,255,.06)!important;backdrop-filter:blur(8px)}
-.chip.on{border-color:var(--gold)!important;color:var(--gold)!important}
-.chip.grp.on,.tab.on{background:linear-gradient(135deg,#FFF3B8,#F5C542 45%,#C8921A)!important;color:#1b1204!important;border-color:transparent!important}
-.cta{background:linear-gradient(120deg,#3b1a8a,#7C3AED 55%,#a678ff)!important}
-.logo{text-shadow:0 0 24px rgba(245,197,66,.55)}
-.sm{font-size:.78rem;color:#fff;opacity:.85}
-@media(prefers-reduced-motion:reduce){.btn::after{display:none}}
-
-body::after{content:"";position:fixed;bottom:-140px;left:-120px;width:380px;height:380px;background:#9F67FF;filter:blur(130px);opacity:.3;pointer-events:none}
-#auth{max-width:420px;margin:60px auto;padding:30px!important;border-radius:22px!important;box-shadow:0 20px 60px rgba(124,58,237,.35),inset 0 1px 0 rgba(255,255,255,.1)!important}
-#auth h1{background:linear-gradient(90deg,#fff,#F5C542);-webkit-background-clip:text;background-clip:text;color:transparent}
-#auth .sub{color:#fff;opacity:.8;font-size:.8rem;margin:-6px 0 16px}
-input,select{background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.16)!important;color:#fff!important;border-radius:12px!important;padding:13px!important}
-input::placeholder{color:#bdb4d8}
-input:focus{border-color:var(--gold)!important;box-shadow:0 0 0 3px rgba(245,197,66,.2)}
-#go{padding:14px!important;font-size:1rem}
-
-.tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;scrollbar-width:none}.tab{white-space:nowrap}
-.gt{margin:22px 0 10px;font-size:1.15rem}.gt .muted{font-weight:400;margin-left:8px}
-.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
-.tile{text-align:left;color:inherit;font:inherit;cursor:pointer;border-radius:14px;padding:14px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(14px);transition:transform .15s,border-color .2s}
-.tile:hover{transform:translateY(-3px);border-color:var(--gold)}
-.tile b{display:block;margin-bottom:6px}.tile .muted{display:block;margin-top:6px;font-size:.78rem}
-.av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#F5C542);display:inline-grid;place-items:center;font-weight:700;font-size:.8rem;color:#fff;object-fit:cover;vertical-align:middle;margin-right:8px}
-.mb{height:9px;border-radius:9px;background:rgba(255,255,255,.08);position:relative;margin:4px 0 12px}.mb i{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:linear-gradient(90deg,#9F67FF,#F5C542)}.mb u{position:absolute;top:-3px;bottom:-3px;width:3px;background:#fff;border-radius:2px}
-.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.chart{display:flex;align-items:flex-end;gap:6px;height:130px;margin-top:10px}.chart div{flex:1;background:linear-gradient(180deg,#F5C542,#7C3AED);border-radius:6px 6px 0 0;min-height:3px;position:relative}.chart div span{position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:.7rem;color:#fff}
-.lab{display:flex;gap:6px;margin-top:6px;font-size:.7rem;color:var(--muted)}.lab span{flex:1;text-align:center}
-.srch{max-width:360px;margin:0 0 14px!important}
+.list{display:grid;gap:14px}
+.btn{background:linear-gradient(135deg,#FFF3B8,#F5C542 45%,#C8921A);color:#1b1204;border:1px solid #ffe9a0;border-radius:11px;padding:10px 18px;font-weight:800;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 6px 20px rgba(245,197,66,.3),inset 0 1px 0 rgba(255,255,255,.7);transition:transform .15s}
+.btn::after{content:"";position:absolute;top:0;left:-120%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.8),transparent);transition:left .7s}
+.btn:hover{transform:translateY(-2px)}.btn:hover::after{left:140%}
+.btn.s{background:rgba(255,255,255,.06);border:1px solid rgba(245,197,66,.5);color:#ffe9a0;box-shadow:none;padding:6px 12px;font-weight:500}
+.btn.s::after{display:none}.btn:disabled{opacity:.45;transform:none}
+.btn:focus-visible,.nv:focus-visible,.chip:focus-visible,.tile:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+input,select{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:11px;padding:11px 12px}
+select option{background:#14111d}
+.chip{background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:6px 14px;font-size:.85rem;cursor:pointer}
+.chip.on{border-color:var(--gold);color:var(--gold)}
+.chips,.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:7px 16px;cursor:pointer}
+.tab.on{background:linear-gradient(135deg,#FFF3B8,#F5C542 45%,#C8921A);color:#1b1204;border-color:transparent;font-weight:700}
+.hero{border-radius:22px;padding:26px;background:linear-gradient(120deg,#5e3a1e,#a8743a 55%,#d9a45b);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:20px;align-items:center;margin-bottom:22px;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.hero h1{font-size:clamp(1.6rem,3.4vw,2.5rem);line-height:1.08;margin-top:6px}
+.hc{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.hcard{flex:1 0 135px;background:#fff;color:#14111d;border:0;border-radius:16px;padding:14px;text-align:left;cursor:pointer;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .15s}
+.hcard:hover{transform:translateY(-3px)}.hcard b{font-size:1.05rem;line-height:1.15}.sm2{font-size:.75rem;color:#c98a3a;font-weight:700}.hi{font-size:2.2rem}
+.dash{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:22px;align-items:start}
+.rail{display:grid;gap:16px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.tile{text-align:left;cursor:pointer;border-radius:14px;padding:14px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(14px);transition:transform .15s,border-color .2s;display:block}
+.tile:hover{transform:translateY(-3px);border-color:var(--gold)}.tile b{display:block;margin:6px 0}.tile .muted{display:block;margin-top:6px;font-size:.78rem}.ti{font-size:1.5rem}
+.pill{font-size:.72rem;padding:2px 10px;border-radius:99px;border:1px solid var(--line);display:inline-block}
+.pill.active,.pill.finished,.pill.open{color:var(--ok);border-color:var(--ok)}.pill.pending,.pill.booked,.pill.running{color:var(--gold);border-color:var(--gold)}.pill.removed,.pill.closed{color:var(--red);border-color:var(--red)}
+.bar{height:8px;background:rgba(255,255,255,.08);border-radius:9px;overflow:hidden;margin:10px 0 6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--orange))}
+.mods{display:grid;gap:8px;margin-top:12px}
+.mod{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;text-align:left;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:9px 12px;cursor:pointer}
+.mod:hover{border-color:var(--gold)}
+.ck{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);font-size:.8rem;color:var(--muted)}.ck.on{background:var(--gold);color:#1b1204;border-color:var(--gold);font-weight:800}
+.stage2{aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;display:grid;place-items:center}.stage2 video,.stage2 iframe{width:100%;height:100%;border:0}.stage2.ph{color:var(--muted);font-size:.85rem;text-align:center;padding:12px;background:linear-gradient(135deg,#1c1530,#0b0912)}
+.ann{padding:10px 0;border-bottom:1px solid var(--line)}.ann:last-child{border:0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.stat b{display:block;font-size:1.6rem;color:var(--gold)}
+.big{font-size:1.7rem;font-weight:800;color:var(--orange);font-variant-numeric:tabular-nums}.clock{font-variant-numeric:tabular-nums;color:var(--orange);font-weight:600}
+.vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px}.v{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:12px}.v.done{border-color:var(--ok)}.v b{display:block;margin-bottom:4px}.v .row{margin-top:8px}.up{cursor:pointer;display:inline-block}
 .les{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
-select{margin-right:6px}
-dialog{width:min(780px,95vw)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:500}.scroll{overflow-x:auto}tr.me td{background:rgba(245,197,66,.12)}
+.chart{display:flex;align-items:flex-end;gap:6px;height:130px;margin-top:10px}.chart div{flex:1;background:linear-gradient(180deg,#F5C542,#7C3AED);border-radius:6px 6px 0 0;min-height:3px;position:relative}.chart div span{position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:.7rem}
+.lab{display:flex;gap:6px;margin-top:6px;font-size:.7rem;color:var(--muted)}.lab span{flex:1;text-align:center}.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.mb{height:9px;border-radius:9px;background:rgba(255,255,255,.08);position:relative;margin:4px 0 12px}.mb i{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:linear-gradient(90deg,#9F67FF,#F5C542)}.mb u{position:absolute;top:-3px;bottom:-3px;width:3px;background:#fff;border-radius:2px}
+.tip{margin-top:8px;padding:10px 12px;border-radius:10px;background:rgba(124,58,237,.18);border:1px solid rgba(159,103,255,.4);font-size:.88rem}
+.paygrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px;align-items:start}
+.paytabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.lb{display:block;margin:12px 0 5px;font-size:.8rem;color:var(--muted)}.paygrid input,.paygrid select{width:100%}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.balance{background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(245,197,66,.18))}
+.ccard{aspect-ratio:1.586;max-width:380px;margin:0 auto 6px;border-radius:20px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(circle at 20% 0%,#3a2a66,transparent 55%),linear-gradient(135deg,#1a1326,#050308 60%,#2a1f06);border:1px solid rgba(245,197,66,.4);box-shadow:0 18px 40px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.18);position:relative;overflow:hidden;transition:transform .5s}
+.ccard::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.12) 45%,transparent 60%)}
+.ccard.flip{transform:rotateY(8deg) rotateX(4deg)}
+.ctop,.cbot{display:flex;justify-content:space-between;align-items:center;position:relative}.cbot{align-items:flex-end;gap:10px}.cbot small{display:block;font-size:.55rem;letter-spacing:.12em;color:#c9bfe6}.cbot div{font-size:.85rem;letter-spacing:.06em}
+.chip3{width:44px;height:34px;border-radius:7px;background:linear-gradient(135deg,#f6e3a0,#c9972b);box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}.nfc{font-size:1.1rem;color:#d8cfee;letter-spacing:-2px}
+.cnum{font-size:clamp(1.05rem,3.4vw,1.5rem);letter-spacing:.14em;font-family:ui-monospace,Menlo,monospace;position:relative;text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.vs{font-weight:900;font-style:italic;font-size:1.5rem;letter-spacing:.04em;color:#fff}.pp{font-weight:800;font-size:1.1rem;color:#9fd0ff}
+.mcl{display:inline-flex}.mcl i{width:26px;height:26px;border-radius:50%;background:#eb001b}.mcl i+i{background:#f79e1b;margin-left:-10px;mix-blend-mode:screen}
+dialog{background:#14111d;color:var(--ink);border:1px solid var(--line);border-radius:16px;width:min(780px,95vw);padding:16px;margin:auto}dialog::backdrop{background:rgba(0,0,0,.8)}
+dialog video,dialog iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#000;margin:12px 0}
+@media(max-width:1100px){.dash{grid-template-columns:1fr}.paygrid{grid-template-columns:1fr}.rail{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}}
+@media(max-width:1023px){.shell{grid-template-columns:76px minmax(0,1fr)}.lf,.promo,.logo span{display:none}.nv{justify-content:center;padding:12px}.logo{padding:0 0 14px;text-align:center;font-size:1.2rem}.hero{grid-template-columns:1fr}}
+@media(max-width:640px){.shell{display:block}.side{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction:row;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0));border-right:0;border-top:1px solid var(--line);z-index:30;overflow:visible;gap:0}
+.side .logo{display:none}.nv{flex-direction:column;gap:3px;padding:6px 2px;flex:1;font-size:.62rem;border-radius:10px}.ls{display:block}.main{padding:14px 14px 96px}.hero{padding:18px}.top{gap:10px}.pt{padding:5px 10px;font-size:.78rem}.two{grid-template-columns:1fr 1fr}.btn.s#lo{display:none}}
+@media(prefers-reduced-motion:reduce){.btn::after{display:none}*{transition:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header><a class="logo" href="index.html">Stezeo</a><div id="who" class="row" style="gap:10px"></div></header>
-
-<div id="auth" class="box">
-  <h1 id="at">Log in</h1>
-  <p class="sub">Welcome to Stezeo. Learn, compete, get hired.</p>
-  <input id="nm" placeholder="Full name" autocomplete="name" hidden>
-  <input id="em" type="email" placeholder="Email" autocomplete="email">
-  <input id="pw" type="password" placeholder="Password" autocomplete="current-password">
-  <button class="btn" id="go" style="width:100%">Log in</button>
-  <p class="muted" style="margin-top:12px"><a href="#" id="sw" style="color:var(--gold)">No account? Sign up</a></p>
-  <p id="msg"></p>
-</div>
-
-<div id="app" hidden>
-  <nav class="tabs" aria-label="Menu">
-    <button class="tab on" data-t="home">Home</button>
-    <button class="tab" data-t="train">My training</button>
-    <button class="tab" data-t="comp">Competition</button>
-    <button class="tab" data-t="pay">Payments</button>
-    <button class="tab" data-t="ana">Analytics</button>
-    <button class="tab" data-t="stand">My standing</button>
-  </nav>
-  <div id="home"></div><div id="train" hidden></div><div id="comp" hidden></div><div id="pay" hidden></div><div id="ana" hidden></div><div id="stand" hidden></div>
-</div>
-</div>
+<div class="shell" id="app" hidden>
+<nav class="side" aria-label="Menu"><a class="logo" href="index.html">S<span>tezeo</span></a><button class="nv on" data-t="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span class="lf">Dashboard</span><span class="ls">Home</span></button><button class="nv" data-t="train"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg><span class="lf">My training</span><span class="ls">Training</span></button><button class="nv" data-t="comp"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span class="lf">Competition</span><span class="ls">Compete</span></button><button class="nv" data-t="pay"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span class="lf">Payments</span><span class="ls">Pay</span></button><button class="nv" data-t="ana"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span class="lf">Analytics</span><span class="ls">Stats</span></button><button class="nv" data-t="stand"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M8.5 13L7 22l5-3 5 3-1.5-9"/></svg><span class="lf">Competition status</span><span class="ls">Status</span></button>
+<div class="promo"><b>Join the next competition</b><button class="btn" data-go="comp" style="width:100%">See cycles ↗</button></div></nav>
+<div class="main">
+<div class="top"><div class="search"><input id="gs" type="search" placeholder="Search a course, lesson, skill…" aria-label="Search"></div>
+<div class="badges"><span class="pt" id="tpts">0 pts</span><span class="pt" id="tstreak">0 days</span><button class="btn s" id="lo">Log out</button><span class="av" id="tav">?</span></div></div>
+<div id="home"></div><div id="train" hidden></div><div id="comp" hidden></div><div id="pay" hidden></div><div id="ana" hidden></div><div id="stand" hidden></div>
+</div></div>
 <dialog id="dlg"><div class="row"><b id="dt"></b><button class="btn s" id="dc">Close</button></div><div id="dv"></div></dialog>
 <script>
 const URL_='https://uxrltzlxdttbjstomhkb.supabase.co';
@@ -152,33 +124,24 @@ const q=(t,qs='')=>api('/rest/v1/'+t+'?'+qs);
 const nm=()=>(sess.user.user_metadata&&sess.user.user_metadata.full_name)||sess.user.email;
 const avatar=(n,u)=>u?`<img class="av" src="${esc(u)}" alt="">`:`<span class="av">${esc((n||'?')[0].toUpperCase())}</span>`;
 
-/* ---------- auth ---------- */
-$('sw').onclick=e=>{e.preventDefault();signup=!signup;$('at').textContent=signup?'Sign up':'Log in';$('go').textContent=signup?'Create account':'Log in';$('nm').hidden=!signup;$('sw').textContent=signup?'Have an account? Log in':'No account? Sign up';$('msg').textContent=''};
-$('go').onclick=async()=>{$('msg').textContent='';
-  try{const b={email:$('em').value.trim(),password:$('pw').value};
-    if(signup){const r=await api('/auth/v1/signup',{method:'POST',body:JSON.stringify({...b,data:{full_name:$('nm').value}})});
-      if(!r.access_token){$('msg').style.color='var(--ok)';$('msg').textContent='Account created. Check your email to confirm, then log in.';return}sess=r}
-    else sess=await api('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify(b)});
-    localStorage.setItem('stz',JSON.stringify(sess));
-    if(signup)await api('/rest/v1/profiles',{method:'POST',body:JSON.stringify({id:sess.user.id,full_name:$('nm').value})}).catch(()=>{});
-    start()}catch(e){$('msg').style.color='var(--orange)';$('msg').textContent=e.message}};
-function logout(){sess=null;try{localStorage.removeItem('stz')}catch(e){}$('app').hidden=true;$('auth').hidden=false;$('who').innerHTML=''}
+/* ---------- session: login lives on index.html ---------- */
+function logout(){sess=null;try{localStorage.removeItem('stz')}catch(e){}location.replace('index.html')}
 
 /* ---------- load ---------- */
 async function start(){
-  $('auth').hidden=true;$('app').hidden=false;
-  $('who').innerHTML=`<span class="muted">${esc(sess.user.email)}</span><button class="btn s" id="lo">Log out</button>`;$('lo').onclick=logout;
+  $('app').hidden=false;
+  $('lo').onclick=logout;
   const uid=sess.user.id,f=(t,qs)=>q(t,qs).catch(()=>[]);
-  const [enr,comps,ent,subs,courses,lp,pays,skills,tr]=await Promise.all([
+  const [enr,comps,ent,subs,courses,lp,pays,skills,tr,ann,bal]=await Promise.all([
     f('enrollments','select=*&user_id=eq.'+uid),f('competitions','select=*&order=start_date.desc'),
     f('competition_entries','select=*&user_id=eq.'+uid),f('submissions','select=*&user_id=eq.'+uid+'&order=competition_id,number'),
-    f('courses','select=id,skill,level_group,level,title,video_url,duration,teacher_name&order=id'),
+    f('courses','select=id,skill,level_group,level,title,video_url,duration,teacher_name,teacher_intro_url&order=id'),
     f('lesson_progress','select=course_id,watched_at&user_id=eq.'+uid),f('payments','select=*&user_id=eq.'+uid+'&order=created_at.desc'),
-    f('skills','select=*'),f('training_rank','select=*&user_id=eq.'+uid)]);
-  D={enr,comps,ent,subs,courses,lpRows:lp,lp:new Set(lp.map(x=>x.course_id)),pays,skills,tr:tr[0]||null};
+    f('skills','select=*'),f('training_rank','select=*&user_id=eq.'+uid),f('announcements','select=*&order=created_at.desc&limit=6'),f('my_balance','select=balance')]);
+  D={enr,comps,ent,subs,courses,lpRows:lp,lp:new Set(lp.map(x=>x.course_id)),pays,skills,tr:tr[0]||null,ann,bal:Number((bal[0]||{}).balance||0)};
   T.sel=(enr[0]||{}).id||null;drawAll();
   const p=new URLSearchParams(location.search),k=p.get('enroll');if(k)enrollFromUrl(p)}
-function drawAll(){drawHome();drawTrain();drawComp();drawPay();drawAna()}
+function drawAll(){drawTop();drawHome();drawTrain();drawComp();drawPay();drawAna()}
 const compFor=s=>D.comps.find(c=>c.skill===s&&c.status!=='closed')||D.comps.find(c=>c.skill===s);
 const entFor=c=>c&&D.ent.find(e=>e.competition_id===c.id);
 const subsFor=c=>c?D.subs.filter(s=>s.competition_id===c.id):[];
@@ -191,20 +154,36 @@ function tick(){document.querySelectorAll('.clock').forEach(el=>{const ms=new Da
 setInterval(tick,1000);
 
 /* ---------- 1. home: all competition skills + 8-video cycle ---------- */
+const ICON={'Video editing':'🎬','Thumbnail creator':'🖼️','Photo editing':'📷','Graphic design':'🎨','Movie recap':'🎞️','Logo creator':'✒️','AI agent':'🤖','English':'🗣️','UI/UX':'🧩','Data analysis':'📊','AI app':'📱','AI web':'🌐','Python':'🐍','Java':'☕','Web development':'💻'};
+let HT='all';
+const pts=()=>D.subs.filter(s=>s.status==='approved').reduce((a,s)=>a+Number(s.score),0);
+function streak(){const ds=new Set(D.lpRows.map(x=>(x.watched_at||'').slice(0,10)));let n=0;for(let i=0;i<400;i++){const d=new Date(Date.now()-i*864e5).toISOString().slice(0,10);if(ds.has(d))n++;else if(i>0)break}return n}
+function drawTop(){$('tpts').textContent=Number(pts()).toLocaleString()+' pts';$('tstreak').textContent=streak()+' days';$('tav').textContent=(nm()||'?')[0].toUpperCase()}
+const vid=u=>{if(!u)return '';const y=u.match(/(?:youtu\.be\/|v=)([\w-]{11})/);return y?`<iframe src="https://www.youtube.com/embed/${y[1]}" allowfullscreen></iframe>`:`<video src="${esc(u)}" controls playsinline></video>`};
 function tile(s,t){const c=compFor(s),e=entFor(c),n=subsFor(c).length;
   const st=!c?['No cycle yet','']:e?[e.status,e.status]:['Not joined','closed'];
-  return `<button class="tile" data-cyc="${esc(s)}" data-tier="${t}"><b>${esc(s)}</b><span class="pill ${st[1]}">${esc(st[0])}</span>
-  ${e&&e.status==='active'?`<div class="bar"><i style="width:${n/8*100}%"></i></div><span class="muted">${n}/8 videos</span>`:''}
+  return `<button class="tile" data-cyc="${esc(s)}"><span class="ti">${ICON[s]||'⭐'}</span><b>${esc(s)}</b><span class="pill ${st[1]}">${esc(st[0])}</span>
+  ${e&&e.status==='active'?`<div class="bar"><i style="width:${n/8*100}%"></i></div><span class="muted">${n}/8 videos</span>`:`<span class="muted">${GN[Object.keys(C).find(k=>C[k].includes(s))]} · $${FEE[Object.keys(C).find(k=>C[k].includes(s))]}</span>`}
   ${c&&c.status!=='closed'?`<span class="muted">${clock(c.end_date)}</span>`:''}</button>`}
 function drawHome(){
-  const act=D.ent.filter(e=>e.status==='active').length,pts=D.subs.filter(s=>s.status==='approved').reduce((a,s)=>a+Number(s.score),0);
-  $('home').innerHTML=`<h2>Welcome, ${esc(nm())}</h2><div class="stats">
-  <div class="box stat"><span class="muted">Active competitions</span><b>${act}</b></div>
-  <div class="box stat"><span class="muted">Videos submitted</span><b>${D.subs.length}</b></div>
-  <div class="box stat"><span class="muted">Points</span><b>${pts}</b></div>
-  <div class="box stat"><span class="muted">Courses</span><b>${D.enr.length}</b></div></div>
-  <p class="muted" style="margin-top:14px">Choose a skill to open its 8-video cycle, upload your videos and track the clock.</p>`+
-  Object.keys(C).map(t=>`<h3 class="gt">${GN[t]}<span class="muted">${C[t].length} skills · $${FEE[t]} entry</span></h3><div class="tiles">${C[t].map(s=>tile(s,t)).join('')}</div>`).join('');tick()}
+  const week=D.lpRows.filter(x=>Date.now()-new Date(x.watched_at)<6048e5).length;
+  const act=D.ent.filter(e=>e.status==='active'),first=act.map(e=>(D.comps.find(c=>c.id===e.competition_id)||{}).skill).filter(Boolean);
+  const heroSk=[...first,...Object.keys(C).map(k=>C[k][0])].filter((s,i,a)=>a.indexOf(s)===i).slice(0,3);
+  const tiers=['all',...Object.keys(C)],skills=HT==='all'?Object.values(C).flat():C[HT];
+  const ae=act[0],ac=ae&&D.comps.find(c=>c.id===ae.competition_id),as=subsFor(ac);
+  const ti=D.courses.find(c=>c.teacher_intro_url&&D.enr.some(e=>e.skill===c.skill))||D.courses.find(c=>c.teacher_intro_url);
+  const open=D.comps.filter(c=>c.status!=='closed').slice(0,3);
+  $('home').innerHTML=`<section class="hero"><div><div class="sm">Welcome back, ${esc(nm())}!</div><h1>You've watched ${week} lesson${week==1?'':'s'} this week</h1><p class="sm" style="margin:8px 0 16px">${D.subs.length} videos submitted · ${Number(pts()).toLocaleString()} points</p><button class="btn" data-go="ana">View progress ↗</button></div>
+  <div class="hc">${heroSk.map((s,i)=>`<button class="hcard" data-cyc="${esc(s)}"><span class="sm2">0${i+1}</span><b>${esc(s)}</b><span class="hi">${ICON[s]||'⭐'}</span></button>`).join('')}</div></section>
+  <div class="dash"><div>
+    <div class="row" style="margin-bottom:12px"><h3 class="gt" style="margin:0">Skills & 8-video cycles</h3><div class="chips">${tiers.map(t=>`<button class="chip ${t===HT?'on':''}" data-ht="${t}">${t==='all'?'All':GN[t]}</button>`).join('')}</div></div>
+    <div class="tiles">${skills.map(s=>tile(s)).join('')}</div>
+    ${ac?`<div class="box" style="margin-top:20px"><div class="row"><div><span class="muted">Active cycle · ${GN[ac.level_group]}</span><h3 style="font-size:1.25rem">${esc(ac.skill)}</h3></div><span class="big" style="font-size:1.3rem">${Math.round(as.length/8*100)}%</span></div><div class="bar"><i style="width:${as.length/8*100}%"></i></div><div class="mods">${Array.from({length:8},(_,i)=>{const s=as.find(x=>x.number===i+1);return `<button class="mod" data-cyc="${esc(ac.skill)}"><span class="ck ${s?'on':''}">${s?'✓':i+1}</span><b>Video ${i+1}</b><span class="muted">${s?esc(s.status)+(s.status==='approved'?' · '+s.score+' pts':''):'Upload'}</span></button>`}).join('')}</div></div>`:`<div class="box muted" style="margin-top:20px">No active cycle yet. Pick a skill above and book your spot.</div>`}
+  </div><aside class="rail">
+    <div class="box"><h3 class="gt" style="margin:0 0 10px">Meet your teacher</h3>${ti?`<div class="stage2">${vid(ti.teacher_intro_url)}</div><p class="muted" style="margin-top:8px">${esc(ti.teacher_name||'')} · ${esc(ti.skill)}</p>`:'<div class="stage2 ph">Teacher intro video coming soon</div>'}</div>
+    <div class="box"><div class="row"><h3 class="gt" style="margin:0">Website updates</h3></div>${(D.ann||[]).map(a=>`<div class="ann"><div class="row"><b>${esc(a.title)}</b><span class="pill ${a.tag==='offer'?'pending':'active'}">${esc(a.tag)}</span></div><div class="muted">${esc(a.body||'')}</div></div>`).join('')||'<p class="muted">No updates yet.</p>'}</div>
+    <div class="box"><h3 class="gt" style="margin:0 0 10px">Upcoming</h3>${open.map(c=>`<div class="ann"><div class="row"><b>${esc(c.skill)}</b><span class="pill ${c.status}">${esc(c.status)}</span></div><div class="muted">${GN[c.level_group]} · $${esc(c.fee)} · ${clock(c.end_date)}</div></div>`).join('')||'<p class="muted">No open cycles.</p>'}</div>
+  </aside></div>`;tick()}
 
 function openCycle(skill){
   curSkill=skill;const c=compFor(skill),e=entFor(c),subs=subsFor(c);let h='';
@@ -228,10 +207,10 @@ const prog=e=>{const l=lessonsOf(e),d=l.filter(c=>D.lp.has(c.id)).length;return{
 function drawTrain(){
   const qq=T.q.toLowerCase(),list=D.enr.filter(e=>!qq||e.skill.toLowerCase().includes(qq)||lessonsOf(e).some(c=>(c.title||'').toLowerCase().includes(qq)));
   const sel=D.enr.find(e=>e.id===T.sel)||list[0];
-  $('train').innerHTML=`<h2>My training</h2><input class="srch" id="tq" placeholder="Search my courses and videos" value="${esc(T.q)}">`+
+  $('train').innerHTML=`<h2>My training</h2><p class="muted" style="margin-bottom:12px">${T.q?'Results for “'+esc(T.q)+'”. Clear the search bar to see everything.':'Use the search bar above to find a course or a video.'}</p>`+
   (D.enr.length?`<div class="list">${list.map(e=>{const p=prog(e);return `<div class="box" style="${sel&&sel.id===e.id?'border-color:var(--gold)!important':''}"><div class="row"><b>${esc(e.skill)} – Level ${e.level}</b><span class="pill ${e.paid?'active':'pending'}">${e.paid?'Paid':'Awaiting payment'}</span></div><div class="muted">${GN[e.level_group]||''} · ${p.d}/${p.t} videos (${p.p}%)</div><div class="bar"><i style="width:${p.p}%"></i></div><div class="row" style="margin-top:10px"><button class="btn s" data-sel="${e.id}">Open videos</button>${e.level>=2?'<span class="sm" style="color:var(--gold)">Free competition entry unlocked</span>':''}</div></div>`}).join('')||'<div class="box muted">No match.</div>'}</div>`:'<div class="box muted">No courses yet. <a href="index.html#courses" style="color:var(--gold)">Browse courses</a></div>')+
   (sel?`<h3 class="gt">${esc(sel.skill)} – Level ${sel.level} videos</h3><div class="box">${lessonsOf(sel).filter(c=>!qq||(c.title||'').toLowerCase().includes(qq)||sel.skill.toLowerCase().includes(qq)).map((c,i)=>`<div class="les"><span>${i+1}. ${esc(c.title)} <span class="muted">${esc(c.duration||'')}</span></span><span><button class="btn s" data-lesson="${c.id}" ${sel.paid?'':'disabled'}>${D.lp.has(c.id)?'Watched ✓ · Replay':'Play'}</button></span></div>`).join('')||'<span class="muted">No videos uploaded for this level yet.</span>'}${sel.paid?'':'<p class="sm" style="margin-top:10px">Videos unlock once your payment is confirmed.</p>'}</div>`:'');
-  const t=$('tq');t.oninput=()=>{T.q=t.value;const p=t.selectionStart;drawTrain();$('tq').focus();$('tq').setSelectionRange(p,p)}}
+}
 function playLesson(id){const c=D.courses.find(x=>x.id==id);$('dt').textContent=c.title;
   const y=(c.video_url||'').match(/(?:youtu\.be\/|v=)([\w-]{11})/);
   $('dv').innerHTML=(c.video_url?(y?`<iframe src="https://www.youtube.com/embed/${y[1]}" allowfullscreen></iframe>`:`<video src="${esc(c.video_url)}" controls playsinline></video>`):'<p class="muted">Video not uploaded yet.</p>')+`<button class="btn" data-watched="${c.id}" ${D.lp.has(c.id)?'disabled':''}>${D.lp.has(c.id)?'Watched ✓':'Mark as watched'}</button>`;$('dlg').showModal()}
@@ -264,13 +243,47 @@ function paintRank(){const b=$('rb');if(!b)return;const c=compFor(R.skill);
 /* ---------- 4. payments ---------- */
 const priceOf=e=>{const s=D.skills.find(x=>x.skill===e.skill);return s?s['price_'+e.level]:null};
 const reviewing=(k,id)=>D.pays.some(p=>p.kind===k&&p.ref_id==id&&p.status==='pending');
+let PM='visa';
+const luhn=n=>{let s=0,a=false;for(let i=n.length-1;i>=0;i--){let d=+n[i];if(a){d*=2;if(d>9)d-=9}s+=d;a=!a}return n.length>=13&&s%10===0};
+const logo=b=>b==='visa'?'<span class="vs">VISA</span>':b==='mc'?'<span class="mcl"><i></i><i></i></span>':b==='paypal'?'<span class="pp">PayPal</span>':'<span class="vs">PAY</span>';
+function dueList(){const due=[];D.enr.filter(e=>!e.paid).forEach(e=>due.push({k:'course',id:e.id,label:`${e.skill} – Level ${e.level}`,amt:priceOf(e)}));
+  D.ent.filter(e=>!e.paid&&['pending','booked'].includes(e.status)).forEach(e=>{const c=D.comps.find(x=>x.id===e.competition_id);if(c)due.push({k:'competition',id:e.id,label:`Competition: ${c.skill}`,amt:e.free_entry?0:c.fee})});return due}
 function drawPay(){
-  const due=[];D.enr.filter(e=>!e.paid).forEach(e=>due.push({k:'course',id:e.id,label:`${e.skill} – Level ${e.level}`,amt:priceOf(e)}));
-  D.ent.filter(e=>!e.paid&&['pending','booked'].includes(e.status)).forEach(e=>{const c=D.comps.find(x=>x.id===e.competition_id);if(c)due.push({k:'competition',id:e.id,label:`Competition: ${c.skill}`,amt:e.free_entry?0:c.fee})});
-  $('pay').innerHTML=`<h2>Payments</h2><h3 class="gt" style="margin-top:0">To pay</h3><div class="list">${due.map(x=>`<div class="box row"><div><b>${esc(x.label)}</b><div class="muted">${x.amt===0?'Free entry, no payment needed':x.amt==null?'Price coming soon':'$'+x.amt}</div></div>${reviewing(x.k,x.id)?'<span class="pill pending">Under review</span>':x.amt?`<button class="btn" data-pay="${x.k}:${x.id}:${x.amt}">Pay now</button>`:''}</div>`).join('')||'<div class="box muted">Nothing to pay. 🎉</div>'}</div>
-  <h3 class="gt">History</h3><div class="box scroll"><table><thead><tr><th>Date</th><th>For</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead><tbody>${D.pays.map(p=>`<tr><td>${esc((p.created_at||'').slice(0,10))}</td><td>${esc(p.kind)}</td><td>$${esc(p.amount)}</td><td>${esc(p.method)}</td><td><span class="pill ${p.status==='confirmed'?'active':p.status==='rejected'?'removed':'pending'}">${esc(p.status)}</span></td></tr>`).join('')||'<tr><td colspan="5" class="muted">No payments yet.</td></tr>'}</tbody></table></div>`}
-function payForm(k,id,amt){$('dt').textContent='Pay $'+amt;
-  $('dv').innerHTML=`<p class="muted" style="margin:10px 0">Send the amount, then enter your transaction reference. The admin confirms it and activates your access.</p><select id="pm" style="width:100%;margin-bottom:10px">${METHODS.map(m=>`<option>${m}</option>`).join('')}</select><input id="pr" placeholder="Transaction reference / phone number"><button class="btn" id="ps" data-pk="${k}:${id}:${amt}" style="width:100%">I have paid</button>`;$('dlg').showModal()}
+  const due=dueList().filter(x=>x.amt&&!reviewing(x.k,x.id));
+  $('pay').innerHTML=`<h2>Payments</h2><div class="paygrid"><div>
+    <div class="box"><div class="paytabs">${[['visa','Visa'],['mc','Mastercard'],['paypal','PayPal'],['mobile','Mobile money']].map(m=>`<button class="chip ${PM===m[0]?'on':''}" data-pm="${m[0]}">${m[1]}</button>`).join('')}</div>
+    ${PM==='mobile'||PM==='paypal'?'':`<div class="ccard" id="cc"><div class="ctop"><span class="chip3"></span><span class="nfc">))))</span><span class="cl">${logo(PM)}</span></div><div class="cnum" id="pvn">•••• •••• •••• ••••</div><div class="cbot"><div><small>CARD HOLDER</small><div id="pvh">YOUR NAME</div></div><div><small>EXPIRES</small><div id="pve">MM/YY</div></div><div><small>CVV</small><div id="pvc">•••</div></div></div></div>`}
+    <label class="lb">What are you paying?</label><select id="pw2" style="width:100%">${due.map(x=>`<option value="${x.k}:${x.id}:${x.amt}">${esc(x.label)} – $${x.amt}</option>`).join('')}<option value="topup:0:0">Top up my balance</option></select>
+    <div id="tu" ${due.length?'hidden':''}><label class="lb">Top-up amount (USD)</label><input id="ta" type="number" min="1" placeholder="25"></div>
+    ${PM==='paypal'?`<button class="btn" id="cpay" style="width:100%;margin-top:14px">Continue with PayPal</button>`:PM==='mobile'?`<label class="lb">Provider</label><select id="mp" style="width:100%">${['EVC Plus','Zaad','Sahal'].map(m=>`<option>${m}</option>`).join('')}</select><label class="lb">Transaction reference / phone</label><input id="mr" placeholder="Reference"><button class="btn" id="cpay" style="width:100%;margin-top:14px">I have paid</button>`:
+    `<label class="lb">Card number</label><input id="cn" inputmode="numeric" autocomplete="cc-number" maxlength="23" placeholder="1234 5678 9012 3456"><label class="lb">Name on card</label><input id="ch" autocomplete="cc-name" placeholder="Full name"><div class="two"><div><label class="lb">Expiry</label><input id="ce" inputmode="numeric" autocomplete="cc-exp" maxlength="5" placeholder="MM/YY"></div><div><label class="lb">CVV</label><input id="cv" type="password" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="•••"></div></div><button class="btn" id="cpay" style="width:100%;margin-top:14px">Pay securely</button>`}
+    <p id="pmsg" class="muted" style="margin-top:10px"></p><p class="sm" style="margin-top:6px">🔒 Card numbers and CVV are never stored by Stezeo. Card charging runs through your payment provider once it is connected.</p></div></div>
+  <div><div class="box balance"><span class="muted">Balance</span><div class="big" style="font-size:2.2rem">$${Number(D.bal||0).toFixed(2)}</div><span class="sm">Confirmed top-ups minus purchases</span></div>
+  <div class="box" style="margin-top:14px"><h3 class="gt" style="margin:0 0 10px">To pay</h3>${dueList().map(x=>`<div class="ann row"><div><b>${esc(x.label)}</b><div class="muted">${x.amt===0?'Free entry':x.amt==null?'Price soon':'$'+x.amt}</div></div>${reviewing(x.k,x.id)?'<span class="pill pending">Under review</span>':''}</div>`).join('')||'<p class="muted">Nothing to pay. 🎉</p>'}</div></div></div>
+  <h3 class="gt">History</h3><div class="box scroll"><table><thead><tr><th>Date</th><th>For</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead><tbody>${D.pays.map(p=>`<tr><td>${esc((p.created_at||'').slice(0,10))}</td><td>${esc(p.kind)}</td><td>$${esc(p.amount)}</td><td>${esc(p.method)}</td><td><span class="pill ${p.status==='confirmed'?'active':p.status==='rejected'?'removed':'pending'}">${esc(p.status)}</span></td></tr>`).join('')||'<tr><td colspan="5" class="muted">No payments yet.</td></tr>'}</tbody></table></div>`;
+  const g=i=>$(i);
+  if(g('cn')){g('cn').oninput=e=>{const v=e.target.value.replace(/\D/g,'').slice(0,19);e.target.value=v.replace(/(.{4})/g,'$1 ').trim();g('pvn').textContent=(v.padEnd(16,'•').slice(0,16)).replace(/(.{4})/g,'$1 ').trim()||'•••• •••• •••• ••••'};
+    g('ch').oninput=e=>g('pvh').textContent=(e.target.value||'YOUR NAME').toUpperCase();
+    g('ce').oninput=e=>{let v=e.target.value.replace(/\D/g,'').slice(0,4);if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);e.target.value=v;g('pve').textContent=v||'MM/YY'};
+    g('cv').onfocus=()=>g('cc').classList.add('flip');g('cv').onblur=()=>g('cc').classList.remove('flip');
+    g('cv').oninput=e=>{e.target.value=e.target.value.replace(/\D/g,'');g('pvc').textContent='•'.repeat(e.target.value.length||3)}}
+  g('pw2').onchange=e=>{g('tu').hidden=!e.target.value.startsWith('topup')};g('tu').hidden=!g('pw2').value.startsWith('topup');
+  g('cpay').onclick=submitPay}
+async function submitPay(){
+  const msg=$('pmsg');msg.style.color='var(--orange)';msg.textContent='';
+  let [k,id,a]=$('pw2').value.split(':');a=+a;if(k==='topup'){a=+$('ta').value;if(!(a>0)){msg.textContent='Enter an amount.';return}}
+  let method,ref;
+  if(PM==='mobile'){ref=$('mr').value.trim();if(!ref){msg.textContent='Enter your transaction reference.';return}method=$('mp').value}
+  else if(PM==='paypal'){method='PayPal';ref='paypal-awaiting-provider'}
+  else{const n=$('cn').value.replace(/\D/g,''),e=$('ce').value,cv=$('cv').value;
+    if(!luhn(n)){msg.textContent='Card number looks invalid.';return}
+    const m=+e.slice(0,2),y=2000+ +e.slice(3,5);if(!(m>=1&&m<=12)||new Date(y,m,1)<=new Date()){msg.textContent='Card is expired or the date is invalid.';return}
+    if(cv.length<3){msg.textContent='Enter the 3-4 digit CVV.';return}
+    method=(PM==='visa'?'Visa':'Mastercard')+' •••• '+n.slice(-4);ref='card-awaiting-provider';
+    /* The card number and CVV stay in this page only. Send them to Stripe/PayPal here, never to your own database. */
+    $('cn').value='';$('cv').value=''}
+  try{const r=await api('/rest/v1/payments',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({user_id:sess.user.id,kind:k,ref_id:k==='topup'?null:+id,amount:a,method,reference:ref,status:'pending'})});
+    D.pays.unshift(r[0]);drawPay();$('pmsg').style.color='var(--ok)';$('pmsg').textContent='Payment request saved. It will be confirmed shortly.'}catch(er){msg.textContent=er.message}}
 
 /* ---------- 5. analytics ---------- */
 function drawAna(){
@@ -287,34 +300,41 @@ function drawAna(){
   <div class="box"><b>Points per submitted video</b><div class="chart">${sp.map(s=>`<div style="height:${Number(s.score)/sm*100}%"><span>${s.score||''}</span></div>`).join('')||'<span class="muted">No videos yet.</span>'}</div></div></div>
   <div class="box" style="margin-top:14px"><b>My judging averages</b>${[['Creativity','creativity'],['Storytelling','storytelling'],['Quality','quality']].map(m=>`<div class="row" style="margin-top:10px"><span>${m[0]}</span><b>${avg(m[1])}</b></div>`).join('')}</div>`}
 
-/* ---------- 6. my standing: training rank + competition rank vs others ---------- */
+/* ---------- 6. competition status ---------- */
+const TIPS={Creativity:'Open with an unusual hook in the first 5 seconds and try one idea nobody else will.',Storytelling:'Plan a clear beginning, middle and end before you record, and cut anything that does not move the story.',Quality:'Check lighting, clean audio and export in full HD. Re-watch before uploading.'};
 async function drawStand(){
-  const el=$('stand');el.innerHTML='<h2>My standing</h2><div class="box muted">Loading…</div>';let h='<h2>My standing</h2>';
+  const el=$('stand');el.innerHTML='<h2>Competition status</h2><div class="box muted">Loading…</div>';
+  const fin=D.ent.filter(e=>e.status==='finished').length,act=D.ent.filter(e=>e.status==='active').length,rej=D.subs.filter(s=>s.status==='rejected').length;
+  let h=`<h2>Competition status</h2><div class="stats"><div class="box stat"><span class="muted">Rounds completed</span><b>${fin}</b></div><div class="box stat"><span class="muted">Competitions joined</span><b>${D.ent.length}</b></div><div class="box stat"><span class="muted">Active now</span><b>${act}</b></div><div class="box stat"><span class="muted">Videos rejected</span><b>${rej}</b></div></div>
+  <h3 class="gt">My rounds</h3><div class="box scroll"><table><thead><tr><th>Skill</th><th>Tier</th><th>Cycle</th><th>Videos</th><th>Status</th></tr></thead><tbody>${D.ent.map(e=>{const c=D.comps.find(x=>x.id===e.competition_id);if(!c)return '';return `<tr><td>${esc(c.skill)}</td><td>${GN[c.level_group]}</td><td>${esc(c.start_date)} → ${esc(c.end_date)}</td><td>${subsFor(c).length}/8</td><td><span class="pill ${e.status}">${esc(e.status)}</span></td></tr>`}).join('')||'<tr><td colspan="5" class="muted">You have not joined a competition yet.</td></tr>'}</tbody></table></div>`;
   try{
     const tr=D.tr,tot=await raw('/rest/v1/training_rank?select=user_id&limit=1',{headers:{Prefer:'count=estimated'}});
     const n=+((tot.headers.get('content-range')||'').split('/')[1])||0;
-    h+=`<div class="box"><div class="muted">Training rank (lessons watched)</div><div class="big">${tr?'#'+Number(tr.rank).toLocaleString():'–'}${n?` <span class="muted" style="font-size:.9rem">of ~${n.toLocaleString()}</span>`:''}</div><div class="muted">${tr?tr.lessons+' lessons watched':'Watch course videos to get ranked.'}</div></div>`;
-    const act=D.ent.filter(e=>['active','finished'].includes(e.status));
-    for(const e of act){const c=D.comps.find(x=>x.id===e.competition_id);if(!c)continue;
-      const [me,cs,ah]=await Promise.all([q('leaderboard',`select=*&competition_id=eq.${c.id}&user_id=eq.${sess.user.id}`),q('cohort_stats',`select=*&competition_id=eq.${c.id}`),q('leaderboard',`select=name,score,rank&competition_id=eq.${c.id}&order=rank.desc,user_id.asc&limit=1&rank=lt.${(await q('leaderboard',`select=rank&competition_id=eq.${c.id}&user_id=eq.${sess.user.id}`))[0]?.rank||0}`)]);
-      const m=me[0],s=cs[0];if(!m||!s){h+=`<div class="box" style="margin-top:14px"><b>${esc(c.skill)}</b><div class="muted">No scores yet. Submit videos to get ranked.</div></div>`;continue}
-      const mets=[['Creativity','creativity'],['Storytelling','storytelling'],['Quality','quality']].map(x=>({n:x[0],me:+m[x[1]],avg:+s['avg_'+x[1]],top:+s['top_'+x[1]]||1}));
+    h+=`<h3 class="gt">Training rank</h3><div class="box"><div class="big">${tr?'#'+Number(tr.rank).toLocaleString():'–'}${n?` <span class="muted" style="font-size:.9rem">of ~${n.toLocaleString()}</span>`:''}</div><div class="muted">${tr?tr.lessons+' course lessons watched':'Watch course videos to get ranked.'}</div></div><h3 class="gt">How you compare with other players</h3>`;
+    const live=D.ent.filter(e=>['active','finished'].includes(e.status));
+    for(const e of live){const c=D.comps.find(x=>x.id===e.competition_id);if(!c)continue;
+      const me=(await q('leaderboard',`select=*&competition_id=eq.${c.id}&user_id=eq.${sess.user.id}`))[0],s=(await q('cohort_stats',`select=*&competition_id=eq.${c.id}`))[0];
+      if(!me||!s){h+=`<div class="box" style="margin-bottom:14px"><b>${esc(c.skill)}</b><div class="muted">No scores yet. Submit videos to get ranked.</div></div>`;continue}
+      const ah=(await q('leaderboard',`select=score,rank&competition_id=eq.${c.id}&rank=lt.${me.rank}&order=rank.desc&limit=1`))[0];
+      const mets=[['Creativity','creativity'],['Quality','quality'],['Storytelling','storytelling']].map(x=>({n:x[0],me:+me[x[1]],avg:+s['avg_'+x[1]],top:+s['top_'+x[1]]||1}));
       const ratio=x=>x.avg?x.me/x.avg:x.me,best=[...mets].sort((a,b)=>ratio(b)-ratio(a))[0],worst=[...mets].sort((a,b)=>ratio(a)-ratio(b))[0];
-      const pct=s.players?Math.max(1,Math.round(100-(m.rank-1)/s.players*100)):0;
-      h+=`<div class="box" style="margin-top:14px"><div class="row"><b>${esc(c.skill)} <span class="muted">· ${GN[c.level_group]}</span></b><span class="big" style="font-size:1.5rem">#${Number(m.rank).toLocaleString()}</span></div>
-      <div class="muted">${m.score} points · better than ${pct}% of ${Number(s.players).toLocaleString()} players · average ${s.avg_points} · top ${s.top_points}</div>
-      ${ah[0]?`<p class="sm" style="margin:8px 0;color:var(--gold)">${(Number(ah[0].score)-Number(m.score)).toFixed(1)} points to pass #${ah[0].rank}</p>`:'<p class="sm" style="margin:8px 0;color:var(--gold)">You are #1. Keep the lead!</p>'}
+      const pct=s.players?Math.max(1,Math.round(100-(me.rank-1)/s.players*100)):0;
+      h+=`<div class="box" style="margin-bottom:14px"><div class="row"><b>${esc(c.skill)} <span class="muted">· ${GN[c.level_group]}</span></b><span class="big" style="font-size:1.5rem">#${Number(me.rank).toLocaleString()}</span></div>
+      <div class="muted">${me.score} points · better than ${pct}% of ${Number(s.players).toLocaleString()} players · average ${s.avg_points} · top ${s.top_points}</div>
+      <p class="sm" style="margin:8px 0;color:var(--gold)">${ah?(Number(ah.score)-Number(me.score)).toFixed(1)+' points to pass #'+ah.rank:'You are #1. Keep the lead!'}</p>
       ${mets.map(x=>`<div class="row"><span>${x.n}</span><span class="muted">you ${x.me} · avg ${x.avg} · top ${x.top}</span></div><div class="mb"><i style="width:${Math.min(100,x.me/x.top*100)}%"></i><u style="left:${Math.min(100,x.avg/x.top*100)}%"></u></div>`).join('')}
-      <p class="sm">White marker = average player. Strongest: <b>${best.n}</b>. Needs work: <b>${worst.n}</b>.</p></div>`}
-    if(!act.length)h+='<div class="box muted" style="margin-top:14px">Join a competition to see how you compare with other players.</div>'
-  }catch(e){h+=`<div class="box" style="margin-top:14px">Could not load standing: ${esc(e.message)}. Run schema_v3.sql in Supabase.</div>`}
-  el.innerHTML=h}
+      <p class="sm">White marker = average player. Strongest: <b>${best.n}</b>. To improve: <b>${worst.n}</b>.</p><div class="tip">💡 ${TIPS[worst.n]}</div></div>`}
+    if(!live.length)h+='<div class="box muted">Join a competition to see how you compare with other players.</div>'
+  }catch(e){h+=`<div class="box">Could not load standing: ${esc(e.message)}. Run schema_v3.sql in Supabase.</div>`}
+  el.innerHTML=h;tick()}
 
 /* ---------- events ---------- */
-function go(t){document.querySelectorAll('nav.tabs .tab').forEach(x=>x.classList.toggle('on',x.dataset.t===t));['home','train','comp','pay','ana','stand'].forEach(id=>$(id).hidden=id!==t);
+function go(t){document.querySelectorAll('nav.side .nv').forEach(x=>x.classList.toggle('on',x.dataset.t===t));['home','train','comp','pay','ana','stand'].forEach(id=>$(id).hidden=id!==t);
   if(t==='comp'&&!R.rows.length)loadRank(0);if(t==='stand')drawStand();tick()}
 document.addEventListener('click',async e=>{const E=s=>e.target.closest(s);let x;
-  if(x=E('nav.tabs .tab'))return go(x.dataset.t);
+  if(x=E('nav.side .nv'))return go(x.dataset.t);
+  if(x=E('[data-go]'))return go(x.dataset.go);
+  if(x=E('[data-ht]')){HT=x.dataset.ht;drawHome();return}
   if(x=E('[data-cyc]'))return openCycle(x.dataset.cyc);
   if(x=E('[data-join]')){try{const r=await api('/rest/v1/competition_entries',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({user_id:sess.user.id,competition_id:+x.dataset.join,status:'booked'})});D.ent.push(r[0]);drawHome();drawPay();openCycle(curSkill)}catch(er){alert(er.message)}return}
   if(x=E('[data-sel]')){T.sel=+x.dataset.sel;drawTrain();return}
@@ -328,9 +348,10 @@ document.addEventListener('click',async e=>{const E=s=>e.target.closest(s);let x
 document.addEventListener('change',e=>{if(e.target.dataset.up)upload(e.target)});
 $('dc').onclick=()=>$('dlg').close();
 $('dlg').addEventListener('close',()=>{$('dv').innerHTML=''});
+$('gs').addEventListener('input',e=>{T.q=e.target.value.trim();if(T.q)go('train');drawTrain()});
 (async()=>{const h=new URLSearchParams(location.hash.slice(1)),t=h.get('access_token');
  if(t){try{const us=await (await fetch(URL_+'/auth/v1/user',{headers:{apikey:KEY,Authorization:'Bearer '+t}})).json();sess={access_token:t,refresh_token:h.get('refresh_token'),user:us};localStorage.setItem('stz',JSON.stringify(sess));history.replaceState(null,'',location.pathname)}catch(e){}}
- if(sess)start();else if(location.hash==='#signup')$('sw').click()})();
+ if(sess)start();else location.replace('index.html#login')})();
 </script>
 </body>
 </html>
