@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stezeo – Log in</title>
+<style>
+:root{color-scheme:dark;--gold:#E6B93C;--yellow:#FFD84A;--orange:#FF8A1F;--green:#10B36A}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;display:grid;place-items:center;padding:24px;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#fff;line-height:1.6;
+ background:radial-gradient(1200px 600px at 80% -10%,rgba(16,179,106,.32),transparent 60%),radial-gradient(900px 500px at -10% 40%,rgba(230,185,60,.14),transparent 60%),#04120c}
+.card{width:min(420px,100%);padding:30px 26px;border-radius:22px;background:rgba(255,255,255,.05);border:1px solid rgba(230,185,60,.28);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 8px 30px rgba(0,20,10,.55),inset 0 1px 0 rgba(255,216,74,.10)}
+.logo{display:inline-block;font-weight:800;font-size:1.4rem;color:var(--gold);text-decoration:none;text-shadow:0 0 24px rgba(255,216,74,.5);margin-bottom:14px}
+h1{font-size:1.8rem;line-height:1.15;margin-bottom:4px;background:linear-gradient(90deg,#fff,#FFD84A);-webkit-background-clip:text;background-clip:text;color:transparent}
+p.sm{font-size:.9rem;margin-bottom:18px}
+input{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:12px;padding:13px;margin:0 0 10px;font:inherit}
+input[hidden]{display:none}
+input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(230,185,60,.22)}
+input::placeholder{color:#d5dcd6}
+button.go{width:100%;padding:14px;border-radius:12px;border:1px solid #FFE680;font:inherit;font-weight:800;letter-spacing:.02em;cursor:pointer;color:#1b1204;background:linear-gradient(135deg,#FFF1A8,#FFD84A 42%,#FF9A2E);box-shadow:0 8px 26px rgba(255,154,46,.38),inset 0 1px 0 rgba(255,255,255,.75)}
+button.go:disabled{opacity:.5;cursor:default}
+a{color:var(--yellow)}
+.links{margin-top:14px;font-size:.9rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#msg{min-height:1.3em;font-size:.9rem;margin-top:10px;color:#FFB36B}
+</style>
+<meta name="stz-page" content="login">
+<script>
+/* Safe links between pages: finds the real URL of the sibling page so it never lands on a 404 */
+(function(){
+var DEF={index:"index.html",user:"user.html",login:"login.html",competition:"compo.html",training:"training.html",trainer:"joing.stezeo.html"};
+function cands(p){var f=DEF[p].replace(/\.html$/,""),a=[f+".html",f,"/"+f+".html","/"+f,f+"/"];if(p==="competition")a.push("competition.html");if(p==="index")a.push("./","/");return a}
+function check(u,p){var c=new AbortController(),t=setTimeout(function(){c.abort()},3000);
+ return fetch(u,{cache:"no-store",signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)return false;
+  return r.text().then(function(x){return x.indexOf('name="stz-page" content="'+p+'"')>-1})}).catch(function(){clearTimeout(t);return null})}
+async function resolve(p){
+ try{var k=sessionStorage.getItem("stz_nav_"+p);if(k)return k}catch(e){}
+ var l=cands(p);
+ for(var i=0;i<l.length;i++){var u=new URL(l[i],location.href).href,r=await check(u,p);
+  if(r===true){try{sessionStorage.setItem("stz_nav_"+p,u)}catch(e){}return u}
+  if(r===null)return DEF[p]}
+ return null}
+function fail(p){var d=document.createElement("div");
+ d.style.cssText="position:fixed;left:12px;right:12px;top:12px;z-index:99999;background:#2a0a0a;color:#fff;border:1px solid #E8192C;border-radius:12px;padding:14px 16px;font:600 14px/1.4 system-ui,sans-serif";
+ d.textContent="Page not found: "+DEF[p]+". Put all Stezeo pages in the same folder with these exact names. / Bogga "+DEF[p]+" lama helin: dhammaan faylasha isla galka (folder) geli.";
+ document.body.appendChild(d);setTimeout(function(){d.remove()},9000)}
+var RX=/^(index|user|login|compo|competition|training|joing\.stezeo)(?:\.html)?([?#][\s\S]*)?$/,MAP={compo:"competition","joing.stezeo":"trainer"};
+window.stzGo=async function(rel,replace){
+ var m=RX.exec(rel);
+ if(!m){location[replace?"replace":"assign"](rel);return}
+ var pg=MAP[m[1]]||m[1];var u=await resolve(pg);if(!u){fail(pg);return}
+ location[replace?"replace":"assign"](u+(m[2]||""))};
+document.addEventListener("click",function(e){
+ if(e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+ var a=e.target.closest&&e.target.closest("a[href]");
+ if(!a||a.target)return;
+ var h=a.getAttribute("href");if(!/^(index|user|login|compo|competition|training|joing\.stezeo)\.html([?#]|$)/.test(h))return;
+ e.preventDefault();window.stzGo(h)});
+})();
+</script>
+</head>
+<body>
+<main class="card">
+  <a class="logo" href="index.html">Stezeo</a>
+  <h1 id="ttl">Log in</h1>
+  <p class="sm">Welcome to Stezeo. Learn, compete, get hired.</p>
+  <input id="nm" placeholder="Full name" autocomplete="name" hidden>
+  <input id="em" type="email" placeholder="Email" autocomplete="email">
+  <input id="pw" type="password" placeholder="Password" autocomplete="current-password">
+  <button class="go" id="go">Log in</button>
+  <p id="msg"></p>
+  <div class="links"><a href="#" id="sw">No account? Sign up</a><a href="index.html">Back to home</a></div>
+</main>
+<script>
+const SB='https://uxrltzlxdttbjstomhkb.supabase.co',KEY='sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b',AUTH='sb-uxrltzlxdttbjstomhkb-auth-token';
+const $=i=>document.getElementById(i);let su=false;
+/* the session is stored where user.html (supabase-js) reads it */
+const saveSession=s=>{s.expires_at=s.expires_at||Math.floor(Date.now()/1000)+(s.expires_in||3600);localStorage.setItem(AUTH,JSON.stringify(s));localStorage.setItem('stz','1')};
+const hasS=()=>{try{return !!localStorage.getItem(AUTH)}catch(e){return false}};
+/* after login go back to the page the person came from (any Stezeo member page), else the dashboard */
+const goNext=()=>{const n=new URLSearchParams(location.search).get('next')||'';return /^(user|training|joing\.stezeo|compo)\.html([?#].*)?$/.test(n)?n:'user.html'};
+function mode(x){su=x;$('ttl').textContent=x?'Create your account':'Log in';$('go').textContent=x?'Create account':'Log in';$('nm').hidden=!x;$('sw').textContent=x?'Have an account? Log in':'No account? Sign up';$('msg').textContent=''}
+async function call(path,body){const r=await fetch(SB+path,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.msg||j.message||j.error_description||r.status);return j}
+$('sw').onclick=e=>{e.preventDefault();mode(!su)};
+$('go').onclick=async()=>{const m=$('msg');m.style.color='#FFB36B';m.textContent='';
+  const b={email:$('em').value.trim(),password:$('pw').value};if(!b.email||!b.password){m.textContent='Enter your email and password.';return}
+  $('go').disabled=true;
+  try{let s;
+    if(su){s=await call('/auth/v1/signup',{...b,data:{full_name:$('nm').value}});
+      if(!s.access_token){m.style.color='#7be3a6';m.textContent='Account created. Check your email to confirm, then log in.';$('go').disabled=false;return}}
+    else s=await call('/auth/v1/token?grant_type=password',b);
+    saveSession(s);
+    if(su)await fetch(SB+'/rest/v1/profiles',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+s.access_token,'Content-Type':'application/json'},body:JSON.stringify({id:s.user.id,full_name:$('nm').value})}).catch(()=>{});
+    stzGo(goNext())}
+  catch(e){m.textContent=e.message;$('go').disabled=false}};
+['em','pw','nm'].forEach(id=>$(id).addEventListener('keydown',e=>{if(e.key==='Enter')$('go').click()}));
+(async()=>{
+  const h=new URLSearchParams(location.hash.slice(1)),t=h.get('access_token');
+  if(t){/* email-confirmation link: log in and go to the dashboard */
+    try{const u=await (await fetch(SB+'/auth/v1/user',{headers:{apikey:KEY,Authorization:'Bearer '+t}})).json();
+      saveSession({access_token:t,refresh_token:h.get('refresh_token'),token_type:'bearer',user:u});stzGo('user.html',true);return}catch(e){}}
+  if(hasS()){stzGo(goNext(),true);return}
+  if(location.hash==='#signup')mode(true)})();
+</script>
+</body>
+</html>
