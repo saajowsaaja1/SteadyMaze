@@ -394,11 +394,30 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
   if(/invalid login credentials/i.test(m))return 'Wrong email or password.';
   if(/email not confirmed/i.test(m))return 'Please confirm your email first (check your inbox), then log in.';
   if(/already registered|already been registered/i.test(m))return 'This email already has an account. Please log in.';
+  if(/database error saving new user/i.test(m))return 'Supabase could not save the new user. Run the latest schema.sql in Supabase \u2192 SQL Editor, then try again.';
+  if(/signups? not allowed|signup is disabled|signups are disabled/i.test(m))return 'New sign ups are turned OFF in Supabase (Authentication \u2192 Sign In / Providers).';
+  if(/email.*rate limit|over_email_send_rate_limit/i.test(m))return 'Supabase allows only a few confirmation emails per hour. For testing: Supabase \u2192 Authentication \u2192 Providers \u2192 Email \u2192 turn OFF "Confirm email", then try again.';
+  if(/invalid api key|apikey/i.test(m))return 'Supabase rejected the API key. Copy the publishable/anon key from Supabase \u2192 Settings \u2192 API.';
+  if(/password.*(weak|short|characters)/i.test(m))return m;
   if(/rate limit|too many/i.test(m))return 'Too many attempts. Please wait a minute and try again.';
   if(/failed to fetch|network/i.test(m))return 'Cannot reach Stezeo servers. Check your internet connection.';
   return m||'Something went wrong. Please try again.'};
+
+ var diagDone=false;
+ async function diagnose(){
+  if(diagDone)return;diagDone=true;
+  try{
+   var r=await fetch(SB_URL+'/auth/v1/settings',{headers:{apikey:SB_KEY}});
+   if(r.status===401||r.status===403){say('Supabase rejected the API key. Copy the publishable/anon key from Supabase \u2192 Settings \u2192 API into this page.');return}
+   if(!r.ok){say('Supabase answered with an error ('+r.status+'). Check that the project is not paused.');return}
+   var j=await r.json();
+   if(j.disable_signup){say('New sign ups are turned OFF in Supabase. Turn them on: Authentication \u2192 Sign In / Providers \u2192 allow new users.');return}
+   if(j.external&&j.external.email===false){say('Email login is turned OFF in Supabase (Authentication \u2192 Providers \u2192 Email).');return}
+   if(!j.mailer_autoconfirm)$('amMsg').dataset.info='1';
+  }catch(e){say('Cannot reach Supabase. Check your internet connection (or if the project is paused).')}
+ }
  function mode(v){signup=v;$('amT').textContent=v?'Create your account':'Log in';$('amGo').textContent=v?'Create account':'Log in';$('amNm').hidden=!v;$('amRl').hidden=!v;$('amPw').autocomplete=v?'new-password':'current-password';$('amSw').textContent=v?'Have an account? Log in':'No account? Sign up';say('')}
- function openM(v,t){target=t||'';mode(v);$('am').classList.add('open');$('am').setAttribute('aria-hidden','false');setTimeout(function(){$(v?'amNm':'amEm').focus()},50)}
+ function openM(v,t){target=t||'';mode(v);$('am').classList.add('open');$('am').setAttribute('aria-hidden','false');setTimeout(function(){$(v?'amNm':'amEm').focus()},50);diagnose()}
  function closeM(){$('am').classList.remove('open');$('am').setAttribute('aria-hidden','true')}
  $('amX').onclick=closeM;$('am').addEventListener('mousedown',function(e){if(e.target===$('am'))closeM()});
  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM()});
@@ -440,8 +459,8 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
   document.documentElement.classList.remove('guest');
   var p=await sb.from('profiles').select('role').eq('id',s.data.session.user.id).maybeSingle();
   var dash=(p.data&&p.data.role==='trainer')?'trainer.html':'user.html';
-  document.querySelectorAll('.js-login').forEach(function(a){a.textContent='My dashboard';a.setAttribute('href',dash)});
-  document.querySelectorAll('.js-signup,.js-dash').forEach(function(a){var li=a.closest('li');(li&&a.classList.contains('js-dash')?li:a).style.display='none'});
+  document.querySelectorAll('.js-login').forEach(function(a){var li=a.closest('li');if(li){li.style.display='none'}else{a.textContent='My dashboard';a.setAttribute('href',dash)}});
+  document.querySelectorAll('.js-signup').forEach(function(a){var li=a.closest('li');(li||a).style.display='none'});
   return;
  }
  /* visitor is NOT logged in: these buttons open the form on this page */
