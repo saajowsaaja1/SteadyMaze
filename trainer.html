@@ -91,7 +91,7 @@ label.mut{display:block}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <meta name="stz-page" content="trainer">
-<style id="gate">html{visibility:hidden}</style>
+<style id="gate">html::before{content:"STEZEO \00B7  Loading your dashboard\2026";position:fixed;inset:0;z-index:99999;display:grid;place-items:center;text-align:center;padding:24px;background:radial-gradient(1200px 600px at 80% -10%,rgba(16,179,106,.32),transparent 60%),#04120c;color:#E6B93C;font:800 1.15rem Inter,system-ui,sans-serif;letter-spacing:.04em;animation:stzpulse 1.2s ease-in-out infinite alternate}@keyframes stzpulse{from{opacity:.55}to{opacity:1}}</style>
 <noscript><meta http-equiv="refresh" content="0;url=login.html"></noscript>
 
 <script>
@@ -113,6 +113,9 @@ window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[repl
   <button class="nav" data-p="anal">Analytics</button>
   <button class="nav" data-p="earn">Earnings</button>
   <button class="nav" data-p="settings">Settings</button>
+  <a class="nav" href="user.html">User Dashboard</a>
+  <a class="nav" href="trainng.html">Training Videos</a>
+  <a class="nav" href="compotion.html">Competition</a>
   <button class="nav" id="out">Log out</button>
  </nav>
  <div class="promo"><svg viewBox="0 0 64 64" fill="none" stroke="#2a1704" stroke-width="3" aria-hidden="true"><circle cx="32" cy="26" r="14"/><path d="M20 52c2-9 8-12 12-12s10 3 12 12"/><path d="M18 14l6 6M46 14l-6 6"/></svg><b>Share your skills with STEZEO users</b><button class="btn" style="background:#2a1704;color:#fff;width:100%" data-go="upload">Upload training</button></div>
@@ -311,14 +314,6 @@ const match=s=>!Q||norm(s).includes(Q);
 async function verifyTrainer(session){
  if(!session){stzGo(LOGIN,true);return}
  user=session.user;
- const [pr,tr]=await Promise.all([
-  db.from("profiles").select("role").eq("id",user.id).maybeSingle(),
-  db.from("teacher_profiles").select("user_id").eq("user_id",user.id).maybeSingle()
- ]);
- if(!pr.error&&!tr.data&&pr.data&&(pr.data.role==="student"||pr.data.role==="admin")){stzGo("user.html",true);return}
- if(pr.error||tr.error||(!tr.data && (!pr.data||pr.data.role!=="trainer"))){
-  await db.auth.signOut();location.replace("login.html?error=trainer-only");return;
- }
  document.getElementById("gate")&&document.getElementById("gate").remove();start();
 }
 db.auth.getSession().then(({data})=>verifyTrainer(data.session)).catch(()=>stzGo(LOGIN,true));
@@ -471,8 +466,9 @@ function rEarn(){
  say("eTot",money(tot));say("eWal",money(wallet))}
 
 /* ---------- Settings ---------- */
+const saveProfile=async patch=>{patch.updated_at=new Date().toISOString();let r=await db.from("profiles").update(patch).eq("id",user.id).select("id");if(!r.error&&(!r.data||!r.data.length))r=await db.from("profiles").upsert({id:user.id,...patch},{onConflict:"id"}).select("id");if(r.error)return r.error;if(!r.data||!r.data.length)return{message:"Not saved. Please log out and log in again."};return null};
 $("saveP").onclick=async()=>{const full_name=$("pFull").value.trim();if(!full_name)return say("pMsg","Enter your full name.");
- const{error}=await db.from("profiles").update({full_name,country:$("pCountry").value.trim(),bio:$("pBio").value.trim(),updated_at:new Date().toISOString()}).eq("id",user.id);
+ const error=await saveProfile({full_name,country:$("pCountry").value.trim(),bio:$("pBio").value.trim()});
  if(error)return say("pMsg",error.message);
  const t=await db.from("teacher_profiles").upsert({user_id:user.id,specialization:$("pSpec").value.trim()},{onConflict:"user_id"});
  say("pMsg",t.error?"Saved. (Specialization could not be saved: "+t.error.message+")":"Saved.");loadProfile()};
@@ -480,7 +476,7 @@ $("avBtn").onclick=async()=>{const f=$("avFile").files[0];
  if(!f||!f.type.startsWith("image/"))return say("pMsg","Choose an image file.");if(f.size>5*1024*1024)return say("pMsg","The image must be under 5 MB.");
  const path=user.id+"/profile-"+Date.now()+"-"+fname(f),up=await db.storage.from(B.avatar).upload(path,f,{upsert:true});
  if(up.error)return say("pMsg",up.error.message);
- const{error}=await db.from("profiles").update({profile_photo:db.storage.from(B.avatar).getPublicUrl(path).data.publicUrl,updated_at:new Date().toISOString()}).eq("id",user.id);
+ const error=await saveProfile({profile_photo:db.storage.from(B.avatar).getPublicUrl(path).data.publicUrl});
  say("pMsg",error?error.message:"Photo saved.");loadProfile()};
 $("chg").onclick=async()=>{
  const p=$("np").value;if(p.length<8)return say("wMsg","Use at least 8 characters.");
