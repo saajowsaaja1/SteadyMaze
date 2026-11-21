@@ -171,6 +171,23 @@ h2,h3,.info b{color:#fff}
 <script>
 window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[replace?"replace":"assign"](u);};
 </script>
+<style id="auth-modal-css">
+#am{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,8,5,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#am.open{display:flex}
+#am .box{position:relative;width:min(420px,100%);max-height:92vh;overflow:auto;padding:28px 24px;border-radius:22px;background:#07160f;border:1px solid rgba(230,185,60,.35);box-shadow:0 18px 60px rgba(0,0,0,.6);color:#fff}
+#am h2{font-size:1.6rem;line-height:1.15;margin:0 0 4px;background:linear-gradient(90deg,#fff,#FFD84A);-webkit-background-clip:text;background-clip:text;color:transparent}
+#am p.sm{font-size:.9rem;margin:0 0 16px;color:#e8eee9}
+#am input,#am select{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:12px;padding:13px;margin:0 0 10px;font:inherit}
+#am select option{background:#04120c;color:#fff}
+#am input:focus,#am select:focus{outline:none;border-color:#E6B93C;box-shadow:0 0 0 3px rgba(230,185,60,.22)}
+#am [hidden]{display:none}
+#am button.go{width:100%;padding:14px;border-radius:12px;border:1px solid #FFE680;font:inherit;font-weight:800;cursor:pointer;color:#1b1204;background:linear-gradient(135deg,#FFF1A8,#FFD84A 42%,#FF9A2E)}
+#am button.go:disabled{opacity:.5;cursor:default}
+#am .x{position:absolute;top:10px;right:12px;background:none;border:0;color:#FFE680;font-size:1.6rem;line-height:1;cursor:pointer}
+#am #amMsg{min-height:1.3em;font-size:.9rem;margin-top:10px;color:#FFB36B}
+#am .lk{margin-top:12px;font-size:.9rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#am a{color:#FFD84A}
+</style>
 </head>
 <body>
 <header class="hero">
@@ -350,22 +367,87 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
  }catch(e){}
 })();
 </script>
+<div id="am" role="dialog" aria-modal="true" aria-labelledby="amT" aria-hidden="true">
+ <div class="box">
+  <button class="x" id="amX" aria-label="Close">&times;</button>
+  <h2 id="amT">Log in</h2>
+  <p class="sm">Welcome to Stezeo. Students and trainers log in here.</p>
+  <input id="amNm" placeholder="Full name" autocomplete="name" hidden>
+  <select id="amRl" aria-label="Account type" hidden><option value="student">I am a Student</option><option value="trainer">I am a Trainer</option></select>
+  <input id="amEm" type="email" placeholder="Email" autocomplete="email">
+  <input id="amPw" type="password" placeholder="Password" autocomplete="current-password">
+  <button class="go" id="amGo">Log in</button>
+  <p id="amMsg"></p>
+  <div class="lk"><a href="#" id="amSw">No account? Sign up</a><a href="login.html">Open full login page</a></div>
+ </div>
+</div>
 <script>
-/* Login lives on login.html. Here we only link to it, and show "My dashboard" when already logged in */
 (async function(){
- /* index.html is public. Log in / Sign up buttons open login.html.
-    If the visitor already has a verified Supabase session, "Log in" becomes "My dashboard". */
+ /* index.html is public. Log in / Sign up open a form right here (real Supabase Auth, same as login.html).
+    Logged-in visitors: "Log in" becomes "My dashboard". Dashboards open only after login. */
  if(location.hash.indexOf('access_token')>-1){stzGo('login.html'+location.hash,true);return}
- try{
-  var sb=window.supabase.createClient('https://uxrltzlxdttbjstomhkb.supabase.co','sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b');
-  var s=await sb.auth.getSession();
-  if(!s.data.session)return;
+ var SB_URL='https://uxrltzlxdttbjstomhkb.supabase.co',SB_KEY='sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b';
+ var sb;try{sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}})}catch(e){return}
+ var $=function(id){return document.getElementById(id)},signup=false,busy=false,target='';
+ var say=function(t,c){$('amMsg').style.color=c||'#FFB36B';$('amMsg').textContent=t};
+ var friendly=function(e){var m=String(e&&e.message||e||'');
+  if(/invalid login credentials/i.test(m))return 'Wrong email or password.';
+  if(/email not confirmed/i.test(m))return 'Please confirm your email first (check your inbox), then log in.';
+  if(/already registered|already been registered/i.test(m))return 'This email already has an account. Please log in.';
+  if(/rate limit|too many/i.test(m))return 'Too many attempts. Please wait a minute and try again.';
+  if(/failed to fetch|network/i.test(m))return 'Cannot reach Stezeo servers. Check your internet connection.';
+  return m||'Something went wrong. Please try again.'};
+ function mode(v){signup=v;$('amT').textContent=v?'Create your account':'Log in';$('amGo').textContent=v?'Create account':'Log in';$('amNm').hidden=!v;$('amRl').hidden=!v;$('amPw').autocomplete=v?'new-password':'current-password';$('amSw').textContent=v?'Have an account? Log in':'No account? Sign up';say('')}
+ function openM(v,t){target=t||'';mode(v);$('am').classList.add('open');$('am').setAttribute('aria-hidden','false');setTimeout(function(){$(v?'amNm':'amEm').focus()},50)}
+ function closeM(){$('am').classList.remove('open');$('am').setAttribute('aria-hidden','true')}
+ $('amX').onclick=closeM;$('am').addEventListener('mousedown',function(e){if(e.target===$('am'))closeM()});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM()});
+ $('amSw').onclick=function(e){e.preventDefault();mode(!signup)};
+ ['amEm','amPw','amNm'].forEach(function(id){$(id).addEventListener('keydown',function(e){if(e.key==='Enter')$('amGo').click()})});
+ async function routeUser(session,name,chosen){
+  var r=await sb.from('profiles').select('role').eq('id',session.user.id).maybeSingle();
+  if(r.error)throw new Error('Could not check your account profile: '+r.error.message);
+  var role=r.data&&r.data.role;
+  if(!role){var meta=session.user.user_metadata||{};role=(chosen||meta.account_type||meta.role)==='trainer'?'trainer':'student';
+   var fn=name||meta.full_name||(session.user.email||'').split('@')[0]||(role==='trainer'?'Trainer':'Student');
+   var u=await sb.from('profiles').upsert({id:session.user.id,full_name:fn,role:role},{onConflict:'id'});
+   if(u.error)throw new Error('Signed in, but the profile could not be saved: '+u.error.message+' Run schema.sql in Supabase first.')}
+  location.replace(target||(role==='trainer'?'trainer.html':'user.html'));
+ }
+ $('amGo').onclick=async function(){
+  if(busy)return;var email=$('amEm').value.trim(),pw=$('amPw').value,name=$('amNm').value.trim();
+  if(!email||!pw||(signup&&!name)){say(signup?'Enter your full name, email and password.':'Enter your email and password.');return}
+  if(pw.length<6){say('Password must contain at least 6 characters.');return}
+  busy=true;$('amGo').disabled=true;say('Connecting securely to Stezeo\u2026','#7be3a6');
+  try{
+   if(signup){
+    var role=$('amRl').value;
+    var a=await sb.auth.signUp({email:email,password:pw,options:{data:{full_name:name,role:role,account_type:role},emailRedirectTo:new URL('login.html',location.href).href}});
+    if(a.error)throw a.error;
+    if(a.data.user&&Array.isArray(a.data.user.identities)&&a.data.user.identities.length===0)throw new Error('This email already has an account. Please log in.');
+    if(!a.data.session){say('Your account has been created. Check your email, confirm your address, then log in.','#7be3a6');return}
+    await routeUser(a.data.session,name,role);return;
+   }
+   var b=await sb.auth.signInWithPassword({email:email,password:pw});
+   if(b.error)throw b.error;
+   if(!b.data||!b.data.session)throw new Error('Login failed. Please try again.');
+   await routeUser(b.data.session,'','');
+  }catch(e){say(friendly(e))}
+  finally{busy=false;$('amGo').disabled=false}
+ };
+ var s=await sb.auth.getSession();
+ if(s.data&&s.data.session){
   document.documentElement.classList.remove('guest');
   var p=await sb.from('profiles').select('role').eq('id',s.data.session.user.id).maybeSingle();
   var dash=(p.data&&p.data.role==='trainer')?'trainer.html':'user.html';
   document.querySelectorAll('.js-login').forEach(function(a){a.textContent='My dashboard';a.setAttribute('href',dash)});
   document.querySelectorAll('.js-signup,.js-dash').forEach(function(a){var li=a.closest('li');(li&&a.classList.contains('js-dash')?li:a).style.display='none'});
- }catch(e){}
+  return;
+ }
+ /* visitor is NOT logged in: these buttons open the form on this page */
+ document.querySelectorAll('.js-login').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();openM(false,'')})});
+ document.querySelectorAll('.js-signup').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();openM(true,'')})});
+ document.querySelectorAll('.js-dash').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();openM(false,a.getAttribute('href'))})});
 })();
 </script>
 </body>
