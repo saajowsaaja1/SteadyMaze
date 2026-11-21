@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Stezeo | My Training</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#100e0c;--side:#14110f;--panel:#1b1814;--card:#221e19;--line:rgba(255,255,255,.08);--o:#f59a3d;--o2:#ffb866;--b1:#5a3b1b;--b2:#b9843f;--cream:#fff7ea;--ink:#f7f0e7;--mute:#a69c90;--gold:#f3c26b;--violet:#8a4fd6;--red:#8b0000;--ok:#7bd1a0;--bad:#e07a7a;--serif:"Cormorant Garamond",Georgia,serif;--sans:Figtree,system-ui,sans-serif;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.55 var(--sans);min-height:100vh;padding-bottom:env(safe-area-inset-bottom,0)}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--o);outline-offset:2px}
+.app{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:26px 16px;background:var(--side);border-right:1px solid var(--line);z-index:30}
+.logo{font:700 30px var(--serif);color:var(--o);padding:0 10px 26px}.logo b{color:var(--ink);font-weight:700}
+.side nav{flex:1;overflow-y:auto}
+.nav{display:block;width:100%;text-align:left;background:none;border:0;padding:12px 16px;margin:3px 0;border-radius:14px;color:var(--mute);font-weight:500;transition:.2s}
+.nav:hover{color:var(--ink)}.nav.on{background:#2a251f;color:#fff;font-weight:700}
+.promo{border-radius:20px;padding:18px;background:linear-gradient(160deg,#ffd9a1,var(--o));color:#2a1704;margin-top:14px}
+.promo b{display:block;font-size:17px;line-height:1.2;margin-bottom:12px}
+.promo svg{width:54px;height:54px;margin-bottom:8px}
+.main{min-width:0;padding:20px 28px 50px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.burger{display:none;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.top .f{margin:0;flex:1;max-width:420px}
+.pills{margin-left:auto;display:flex;gap:10px;align-items:center}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:13px;white-space:nowrap}.pill b{color:var(--o2)}
+.avb{width:40px;height:40px;border-radius:50%;border:2px solid var(--o);background:var(--card);overflow:hidden;display:grid;place-items:center;font-weight:700;padding:0;text-decoration:none;color:inherit}.avb img{width:100%;height:100%;object-fit:cover}
+.f{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin:6px 0 14px}.f:focus{border-color:var(--o);outline:0}
+.btn{background:linear-gradient(135deg,var(--o2),var(--o));color:#2a1704;border:0;border-radius:999px;padding:10px 20px;font-weight:700;transition:.2s}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn.alt{background:var(--card);color:var(--ink);border:1px solid var(--line)}.btn.sm{padding:6px 14px;font-size:13px}
+.page{display:none}.page.on{display:block}
+.hero{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr);gap:20px;align-items:center;padding:28px;border-radius:24px;background:linear-gradient(120deg,var(--b1),var(--b2));margin-bottom:22px;overflow:hidden}
+.hero small{opacity:.9;font-size:14px}.hero h1{font:800 clamp(28px,3.6vw,46px)/1.05 var(--sans);margin:6px 0 22px;color:#fff}
+.hero .btn{background:var(--o);color:#fff}
+.hcards{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.hc{flex:0 0 150px;min-height:200px;border:0;border-radius:18px;padding:14px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;background:#fff;color:#1d1408;transition:.2s}
+.hc.c1{background:#f9c58a}.hc:hover{transform:translateY(-4px)}
+.hc small{color:#c9791f;font-weight:700}.hc b{font-size:18px;line-height:1.1}
+.hi,.mono{width:100%;height:90px;object-fit:cover;border-radius:12px;display:grid;place-items:center;background:#f1e4cf;color:#8a5a1f;font:700 28px var(--serif)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;align-items:start}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:18px}
+.box h3,.sec{font-size:20px;font-weight:700}.sec{margin:6px 0 14px}
+.box small,.mut{color:var(--mute);font-size:12px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.pct{display:flex;align-items:center;gap:10px;min-width:150px}.pct .meter{flex:1}.pct b{color:var(--o2)}
+.meter{height:7px;background:#2c2620;border-radius:6px;overflow:hidden;margin-top:8px}.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--o),var(--o2))}
+.les{display:flex;gap:14px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:14px 0}
+.les b{display:block}.les small{color:var(--mute)}.les.on b{color:var(--o2)}
+.ck{flex:0 0 26px;height:26px;border-radius:50%;border:2px solid #4a4036}.ck.on{background:var(--o);border-color:var(--o)}
+.empty{color:var(--mute);text-align:center;padding:24px}
+.tag{display:inline-block;padding:3px 11px;border-radius:999px;font-size:12px;border:1px solid #4a4036;color:var(--o2)}
+.tag.ok{color:var(--ok);border-color:var(--ok)}.tag.bad{color:var(--bad);border-color:var(--bad)}
+.day{color:var(--mute);font-size:12px;margin:14px 0 8px}
+.up{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px}.up b{display:block}.up .row small{color:var(--mute)}
+.note{background:var(--card);border-left:3px solid var(--o);border-radius:12px;padding:12px;margin-bottom:10px}
+.vid{aspect-ratio:16/9;width:100%;border:0;border-radius:12px;background:#000;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px}
+.chip{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 16px;color:var(--mute)}
+.chip.on{background:linear-gradient(135deg,var(--o2),var(--o));color:#2a1704;border-color:transparent;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+.stat{background:var(--card);border-radius:14px;padding:14px}.stat small{display:block}.stat b{font:700 26px var(--serif);color:var(--o2)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,#1d1914,#14110e);margin-bottom:18px}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:13px}
+th{color:var(--o2);font-weight:600;background:#241f19;white-space:nowrap}
+tr:hover td{background:#201b16}
+.msg{margin-top:10px;color:var(--o2);min-height:18px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:80;display:none;align-items:center;justify-content:center;padding:16px}.modal.on{display:flex}
+.mbox{width:100%;max-width:760px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px;max-height:92vh;overflow:auto}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--card);border:1px solid var(--o);padding:10px 18px;border-radius:12px;z-index:90;display:none;max-width:90vw}.toast.on{display:block}
+a.nav{text-decoration:none}
+/* page-specific, same palette */
+.lay{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.list{max-height:560px;overflow:auto}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.cert{background:linear-gradient(135deg,#fff7ea,#f6e3b8);color:#2a1704;border:6px double #b9843f;border-radius:14px;padding:38px 28px;text-align:center}
+.cert small{color:#7a5a2a;letter-spacing:.2em;text-transform:uppercase;font-size:12px}
+.cert h2{font:700 clamp(28px,5vw,44px)/1.1 var(--serif);margin:12px 0}
+.cert .nm{font:700 clamp(26px,4.5vw,38px) var(--serif);color:#8a5a1f;border-bottom:2px solid #b9843f;display:inline-block;padding:0 22px;margin:10px 0}
+.cert p{color:#4a3518;margin:6px 0}
+@media(max-width:1100px){.grid2,.lay{grid-template-columns:1fr}.hero{grid-template-columns:1fr}}
+@media(max-width:760px){.app{display:block}.side{position:fixed;inset:0 auto 0 0;width:250px;transform:translateX(-100%);transition:transform .25s}.side.open{transform:none}.burger{display:block}.main{padding:16px 14px 40px}.pills .pill:nth-child(2){display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{.app,.toast{display:none!important}.modal{position:static;background:#fff;padding:0;display:block}.mbox{max-width:none;border:0;background:#fff;padding:0}.noprint{display:none!important}}
+</style>
+<meta name="stz-page" content="training">
+<script>
+window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[replace?"replace":"assign"](u);};
+</script>
+</head>
+<body>
+<div class="app">
+<aside class="side" id="side">
+ <div class="logo">Ste<b>zeo</b></div>
+ <nav>
+  <button class="nav on" data-p="ov">Training Overview</button>
+  <button class="nav" data-p="levels">Training Levels</button>
+  <button class="nav" data-p="lessons">Video Lessons</button>
+  <button class="nav" data-p="mat">Learning Materials</button>
+  <button class="nav" data-p="practice">Practice</button>
+  <button class="nav" data-p="assign">Assignments</button>
+  <button class="nav" data-p="projects">Projects</button>
+  <button class="nav" data-p="prog">Progress Tracking</button>
+  <button class="nav" data-p="assess">Assessment</button>
+  <button class="nav" data-p="cert">Certificates</button>
+  <a class="nav" href="user.html">User Dashboard</a>
+  <a class="nav" href="compotion.html">Competition</a>
+  <button class="nav" id="out">Log out</button>
+ </nav>
+ <div class="promo"><svg viewBox="0 0 64 64" fill="none" stroke="#2a1704" stroke-width="3" aria-hidden="true"><circle cx="32" cy="26" r="14"/><path d="M20 52c2-9 8-12 12-12s10 3 12 12"/><path d="M18 14l6 6M46 14l-6 6"/></svg><b>Keep learning every day</b><button class="btn" style="background:#2a1704;color:#fff;width:100%" data-go="lessons">Continue lessons</button></div>
+</aside>
+
+<div class="main">
+<header class="top">
+ <button class="burger" id="burger" aria-label="Menu">Menu</button>
+ <select class="f" id="curSel" aria-label="Active training"></select>
+ <div class="pills"><span class="pill"><b id="pPct">0%</b> complete</span><span class="pill"><b id="pStr">0</b> days</span><a class="avb" id="tav" href="user.html#profile" aria-label="Profile"></a></div>
+</header>
+
+<section class="page on" id="ov">
+ <div class="hero">
+  <div><small id="hello">Hello!</small><h1 id="heroT">Start your training</h1><button class="btn" id="heroBtn" data-go="lessons">Continue learning</button></div>
+  <div class="hcards" id="hcards"></div>
+ </div>
+ <div class="stats" id="ovStats"></div>
+ <div class="grid2">
+  <div><h2 class="sec">About this training</h2><div class="box" id="ovAbout"></div></div>
+  <aside><div class="box"><h3>Next up</h3><div id="ovNext" style="margin-top:10px"></div></div></aside>
+ </div>
+</section>
+
+<section class="page" id="levels">
+ <h2 class="sec">Training Levels</h2>
+ <div class="chips" id="lvSkills"></div>
+ <div id="lvList"></div><div class="msg" id="lvMsg"></div>
+</section>
+
+<section class="page" id="lessons">
+ <div class="lay">
+  <div>
+   <div id="stage"></div>
+   <div class="box" style="margin-top:14px"><div class="row"><div><small id="lSub"></small><h3 id="lTitle">Video Lessons</h3></div><div class="acts" style="margin:0"><button class="btn alt sm" id="lPrev">Previous</button><button class="btn sm" id="lDone">Mark as complete</button><button class="btn alt sm" id="lNext">Next</button></div></div><p class="mut" id="lDesc" style="margin-top:10px;white-space:pre-line"></p></div>
+  </div>
+  <aside class="box"><div class="row"><h3>Lessons</h3><div class="pct"><div class="meter"><i id="lBar" style="width:0"></i></div><b id="lPct">0%</b></div></div><div class="list" id="lList"></div></aside>
+ </div>
+</section>
+
+<section class="page" id="mat"><h2 class="sec">Learning Materials</h2><div class="box" id="mList"></div></section>
+<section class="page" id="practice"><h2 class="sec">Practice</h2><div class="grid" id="tPractice"></div></section>
+<section class="page" id="assign"><h2 class="sec">Assignments</h2><div class="grid" id="tAssign"></div></section>
+<section class="page" id="projects"><h2 class="sec">Projects</h2><div class="grid" id="tProjects"></div></section>
+
+<section class="page" id="prog">
+ <h2 class="sec">Progress Tracking</h2><div class="stats" id="pgStats"></div>
+ <div class="tw"><table><thead><tr><th>Item</th><th>Type</th><th>Status</th></tr></thead><tbody id="pgBody"></tbody></table></div>
+</section>
+
+<section class="page" id="assess"><h2 class="sec">Assessment</h2><div class="stats" id="asStats"></div><div class="grid" id="tAssess"></div></section>
+
+<section class="page" id="cert"><h2 class="sec">Certificates</h2><div class="grid" id="certList"></div><div class="msg" id="certMsg"></div></section>
+</div>
+</div>
+<div class="modal" id="modal"><div class="mbox"><div class="noprint" style="text-align:right;margin-bottom:10px"><button class="btn alt sm" id="mx">Close</button></div><div id="mb"></div></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const db=window.supabase.createClient("https://uxrltzlxdttbjstomhkb.supabase.co","sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b");
+const $=id=>document.getElementById(id);
+const LOGIN="login.html?next="+encodeURIComponent((location.pathname.split("/").pop()||"trainng.html")+location.search+location.hash);
+const B={avatar:"avatars",lesson:"lesson-videos",files:"training-files"};
+const OK=["active"],KIND={assignment:"Assignment",practice:"Practice",project:"Project",assessment:"Assessment"};
+let user=null,me={},allC=[],skillMap={},levelMap={},tName={},cacc=[],certs=[],cur=null,LS=[],PG={},TK=[],SUB={},extras=true,li=0,lvSkill=null,curPage="ov";
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+const say=(id,t)=>{const e=$(id);if(e)e.textContent=t};
+const norm=s=>String(s||"").trim().toLowerCase();
+const day=v=>v?new Date(v).toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"}):"—";
+const tag=(v,c="")=>`<span class="tag ${c}">${esc(v)}</span>`;
+const fname=f=>f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+const url=(v,b)=>!v?"":/^https?:/.test(v)?v:db.storage.from(b).getPublicUrl(v).data.publicUrl;
+const toast=t=>{const e=$("toast");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),4500)};
+const sel=async p=>{const{data,error}=await p;if(error){toast("Some data could not load: "+error.message);return[]}return data||[]};
+const qq=async p=>{const{data,error}=await p;if(error&&/training_|schema cache|does not exist/i.test(error.message))extras=false;return data||[]};
+function embed(u){try{const x=new URL(u);
+ if(x.hostname.includes("youtube.com")&&x.pathname==="/watch")return"https://www.youtube.com/embed/"+x.searchParams.get("v");
+ if(x.hostname==="youtu.be")return"https://www.youtube.com/embed"+x.pathname;
+ if(x.hostname.includes("vimeo.com"))return"https://player.vimeo.com/video"+x.pathname;return""}catch{return""}}
+const player=u=>{const e=embed(u);return e?`<iframe class="vid" src="${esc(e)}" allowfullscreen></iframe>`:`<video class="vid" controls playsinline src="${esc(u)}"></video>`};
+const openM=h=>{$("mb").innerHTML=h;$("modal").classList.add("on")};
+const closeM=()=>{$("modal").classList.remove("on");$("mb").innerHTML=""};
+const skImg=n=>{const k=norm(n),s=Object.values(skillMap).find(x=>norm(x.name)===k);return s&&s.image_url?url(s.image_url,"skills"):""};
+const thumb=(n,c="hi")=>{const u=skImg(n);return u?`<img class="${c}" src="${esc(u)}" alt="">`:`<span class="mono ${c}">${esc(String(n||"?").split(/\s+/).map(w=>w[0]).join("").slice(0,2).toUpperCase())}</span>`};
+const hasAccess=id=>cacc.some(a=>String(a.course_id)===String(id)&&OK.includes(a.access_status));
+const owned=()=>allC.filter(c=>hasAccess(c.id));
+const curC=()=>allC.find(c=>String(c.id)===String(cur))||null;
+const sname=c=>(skillMap[c&&c.skill_id]||{}).name||"Training";
+const lvN=id=>(levelMap[id]||{}).level_number||0;
+const empty=(id,msg)=>{$(id).innerHTML=`<div class="box empty" style="grid-column:1/-1">${msg}<br><br><button class="btn" data-go="levels">Browse trainings</button></div>`};
+
+/* session */
+db.auth.getSession().then(async({data,error})=>{if(error||!data.session){try{localStorage.removeItem("sb-uxrltzlxdttbjstomhkb-auth-token")}catch(e){}stzGo(LOGIN,true);return}user=data.session.user;const p=await db.from("profiles").select("role").eq("id",user.id).maybeSingle();if(p.data?.role==="trainer"){stzGo("trainer.html",true);return}start()});
+db.auth.onAuthStateChange(ev=>{if(ev==="SIGNED_OUT")stzGo(LOGIN,true)});
+const logout=async()=>{try{localStorage.removeItem("stz")}catch(e){}await db.auth.signOut();stzGo("index.html",true)};
+
+async function start(){
+ await Promise.all([loadProfile(),loadCatalog()]);
+ pick();await loadCurrent();drawSel();renderAll();openHash()}
+function openHash(){const h=location.hash.slice(1);if(["ov","levels","lessons","mat","practice","assign","projects","prog","assess","cert"].includes(h))go(h)}
+function go(p){curPage=p;
+ document.querySelectorAll(".page").forEach(x=>x.classList.toggle("on",x.id===p));
+ document.querySelectorAll(".nav[data-p]").forEach(x=>x.classList.toggle("on",x.dataset.p===p));
+ $("side").classList.remove("open");window.scrollTo(0,0);
+ if(p==="lessons"&&LS.length&&!$("stage").children.length)play(li)}
+
+async function loadProfile(){
+ const r=await sel(db.from("profiles").select("full_name,profile_photo").eq("id",user.id));me=r[0]||{};
+ const n=me.full_name||"User",ph=url(me.profile_photo,B.avatar);$("tav").innerHTML=ph?`<img src="${esc(ph)}" alt="">`:esc(n[0].toUpperCase());say("hello","Hello, "+n+"!")}
+async function loadCatalog(){
+ const[c,sk,lv]=await Promise.all([sel(db.from("courses").select("*")),sel(db.from("skills").select("*").order("display_order")),sel(db.from("skill_levels").select("*").order("level_number"))]);
+ allC=c;skillMap=Object.fromEntries(sk.map(s=>[s.id,s]));levelMap=Object.fromEntries(lv.map(l=>[l.id,l]));
+ cacc=await sel(db.from("course_access").select("*").eq("student_id",user.id));
+ const tid=[...new Set(allC.map(x=>x.teacher_id).filter(Boolean))],tp=tid.length?await sel(db.from("profiles").select("id,full_name").in("id",tid)):[];tName=Object.fromEntries(tp.map(p=>[p.id,p.full_name]));
+ certs=await qq(db.from("training_certificates").select("*").eq("student_id",user.id))}
+function pick(){const p=new URLSearchParams(location.search),o=owned();let id=p.get("c")||p.get("course");
+ if(!id&&p.get("skill")){const s=Object.values(skillMap).find(x=>norm(x.name)===norm(p.get("skill"))),c=s&&o.find(x=>x.skill_id===s.id);if(c)id=c.id}
+ if(!id)try{id=localStorage.getItem("stz_cur")}catch(e){}
+ cur=o.find(c=>String(c.id)===String(id))?String(id):o[0]?String(o[0].id):null;
+ const c=curC();lvSkill=c?c.skill_id:(Object.values(skillMap)[0]||{}).id}
+async function loadCurrent(){
+ LS=[];PG={};TK=[];SUB={};li=0;if(!cur)return;try{localStorage.setItem("stz_cur",cur)}catch(e){}
+ LS=await sel(db.from("lessons").select("*").eq("course_id",cur).eq("status","published").order("lesson_order"));
+ const ids=LS.map(l=>l.id),pg=ids.length?await sel(db.from("lesson_progress").select("*").eq("student_id",user.id).in("lesson_id",ids)):[];PG=Object.fromEntries(pg.map(p=>[p.lesson_id,p]));
+ extras=true;TK=await qq(db.from("training_tasks").select("*").eq("course_id",cur).order("created_at"));
+ const sb=TK.length?await qq(db.from("training_submissions").select("*").eq("student_id",user.id).in("task_id",TK.map(t=>t.id))):[];SUB=Object.fromEntries(sb.map(s=>[s.task_id,s]));
+ const first=LS.findIndex(l=>!(PG[l.id]&&PG[l.id].completed));li=first<0?0:first}
+function drawSel(){const o=owned();$("curSel").innerHTML=o.length?o.map(c=>`<option value="${esc(c.id)}"${String(c.id)===cur?" selected":""}>${esc(c.title)}</option>`).join(""):'<option value="">No training unlocked yet</option>'}
+$("curSel").onchange=async e=>{cur=e.target.value||null;await loadCurrent();renderAll()};
+
+const done=()=>LS.filter(l=>PG[l.id]&&PG[l.id].completed).length;
+const tdone=()=>TK.filter(t=>SUB[t.id]).length;
+const overall=()=>{const n=LS.length+TK.length;return n?Math.round((done()+tdone())/n*100):0};
+const lessonPct=()=>LS.length?Math.round(done()/LS.length*100):0;
+function streak(){const d=new Set(Object.values(PG).map(p=>(p.last_watched_at||"").slice(0,10)));let n=0;for(let i=0;i<400;i++){const k=new Date(Date.now()-i*864e5).toISOString().slice(0,10);if(d.has(k))n++;else if(i>0)break}return n}
+function renderAll(){rHead();rOv();rLevels();rLessons();rMat();rTasks();rProg();rCert()}
+function rHead(){say("pPct",overall()+"%");say("pStr",streak())}
+
+/* ---------- Overview ---------- */
+function rOv(){const c=curC();
+ if(!c){say("heroT","Start your training");$("heroBtn").textContent="Browse trainings";$("heroBtn").dataset.go="levels";$("hcards").innerHTML='<button class="hc" data-go="levels"><b>Pick your first training</b></button>';$("ovStats").innerHTML="";
+  $("ovAbout").innerHTML='<p class="empty">No training unlocked yet. Buy a training to unlock videos, materials, practice and certificates.</p>';$("ovNext").innerHTML='<p class="empty">Nothing yet.</p>';return}
+ say("heroT",c.title);$("heroBtn").textContent="Continue learning";$("heroBtn").dataset.go="lessons";
+ $("hcards").innerHTML=owned().slice(0,3).map((x,i)=>`<button class="hc c${i%2}" data-cur="${esc(x.id)}"><small>0${i+1}</small><b>${esc(x.title)}</b>${thumb(sname(x))}</button>`).join("");
+ $("ovStats").innerHTML=[["Overall progress",overall()+"%"],["Videos done",done()+" / "+LS.length],["Tasks done",tdone()+" / "+TK.length],["Day streak",streak()]].map(([k,v])=>`<div class="stat"><small>${k}</small><b>${esc(v)}</b></div>`).join("");
+ $("ovAbout").innerHTML=`<small>${esc(sname(c))} · Level ${esc(lvN(c.skill_level_id)||"")}</small><h3 style="margin:6px 0">${esc(c.title)}</h3><p class="mut">Trainer: ${esc(tName[c.teacher_id]||"Stezeo trainer")}</p><p style="margin-top:10px;white-space:pre-line">${esc(c.description||"Watch every video, practice, finish the tasks and earn your certificate.")}</p><div class="pct" style="margin-top:12px"><div class="meter"><i style="width:${overall()}%"></i></div><b>${overall()}%</b></div>`;
+ const nl=LS.find(l=>!(PG[l.id]&&PG[l.id].completed)),nt=TK.find(t=>!SUB[t.id]);
+ $("ovNext").innerHTML=(nl?`<div class="note"><b>${esc(nl.title)}</b><div class="mut">Next video</div><button class="btn sm" style="margin-top:8px" data-playl="${esc(nl.id)}">Watch</button></div>`:"")+(nt?`<div class="note"><b>${esc(nt.title)}</b><div class="mut">${KIND[nt.kind]}${nt.due_at?" · due "+day(nt.due_at):""}</div><button class="btn sm" style="margin-top:8px" data-go="${nt.kind==="project"?"projects":nt.kind==="practice"?"practice":nt.kind==="assessment"?"assess":"assign"}">Open</button></div>`:"")||'<p class="empty">You are all caught up. Check Certificates.</p>'}
+
+/* ---------- Levels ---------- */
+function rLevels(){
+ $("lvSkills").innerHTML=Object.values(skillMap).map(s=>`<button class="chip ${s.id===lvSkill?"on":""}" data-ls="${esc(s.id)}">${esc(s.name)}</button>`).join("");
+ const cs=allC.filter(c=>c.skill_id===lvSkill).sort((a,b)=>lvN(a.skill_level_id)-lvN(b.skill_level_id));
+ $("lvList").innerHTML=cs.length?`<div class="grid">`+cs.map(c=>{const l=levelMap[c.skill_level_id]||{},own=hasAccess(c.id),price=Number(c.price||l.price||0);
+  return`<div class="box"><small>Level ${esc(l.level_number||"")} ${esc(l.level_name||"")}</small><h3 style="margin:6px 0">${esc(c.title)}</h3><p class="mut">${esc(tName[c.teacher_id]||"Stezeo trainer")}</p><div class="stat" style="background:none;padding:6px 0"><b>${esc(c.currency||"USD")} ${price}</b></div>${own?`<div class="acts"><button class="btn sm" data-cur="${esc(c.id)}">Open training</button>${String(c.id)===cur?tag("Active","ok"):""}</div>`:`<button class="btn sm" data-buy="${esc(c.id)}">Buy</button>`}</div>`}).join("")+"</div>":'<div class="box empty">No trainings published for this skill yet.</div>'}
+async function buy(id){say("lvMsg","Opening checkout…");const{data,error}=await db.functions.invoke("create-checkout",{body:{course_id:id}});
+ if(error||!(data&&data.url))return say("lvMsg","Online payment is not connected yet. Please contact support to buy this training.");location.href=data.url}
+
+/* ---------- Video lessons ---------- */
+function rLessons(){
+ if(!cur||!LS.length){$("stage").innerHTML=`<div class="box empty">${cur?"No videos in this training yet.":"No training unlocked yet."}</div>`;$("lList").innerHTML="";say("lTitle","Video Lessons");say("lSub","");say("lDesc","");return rBar()}
+ $("lList").innerHTML=LS.map((l,i)=>`<button class="les ${i===li?"on":""}" data-pl="${i}"><span class="ck ${PG[l.id]&&PG[l.id].completed?"on":""}"></span><span><b>${i+1}. ${esc(l.title)}</b><small>${PG[l.id]&&PG[l.id].completed?"Completed":esc(l.description||"")}</small></span></button>`).join("");rBar()}
+function rBar(){$("lBar").style.width=lessonPct()+"%";say("lPct",lessonPct()+"%")}
+function play(i,auto){if(!LS.length)return;li=Math.max(0,Math.min(i,LS.length-1));const l=LS[li];
+ $("stage").innerHTML=player(url(l.video_url,B.lesson));const v=$("stage").querySelector("video");if(v)v.addEventListener("ended",()=>saveProg(l.id,true));
+ say("lTitle",(li+1)+". "+l.title);say("lSub",sname(curC()));say("lDesc",l.description||"");saveProg(l.id,false);rLessons();if(auto)go("lessons")}
+async function saveProg(id,fin){
+ const ex=PG[id],now=new Date().toISOString(),pl={progress_percent:fin?100:Math.max((ex&&ex.progress_percent)||0,5),completed:fin||!!(ex&&ex.completed),last_watched_at:now,completed_at:fin?now:(ex&&ex.completed_at)||null};
+ if(ex){const{error}=await db.from("lesson_progress").update(pl).eq("id",ex.id).eq("student_id",user.id);if(!error)PG[id]={...ex,...pl}}
+ else{const r=await db.from("lesson_progress").insert({student_id:user.id,lesson_id:id,...pl}).select().single();if(r.data)PG[id]=r.data}
+ if(fin){toast("Lesson completed.")}rHead();rOv();rLessons();rProg();rCert()}
+$("lDone").onclick=()=>{if(LS[li])saveProg(LS[li].id,true)};
+$("lNext").onclick=()=>play(li+1);$("lPrev").onclick=()=>play(li-1);
+
+/* ---------- Materials ---------- */
+async function rMat(){const c=curC();if(!c){$("mList").innerHTML='<p class="empty">No training unlocked yet.</p>';return}
+ const base=c.teacher_id+"/materials/"+c.id,{data,error}=await db.storage.from(B.files).list(base,{limit:200,sortBy:{column:"created_at",order:"desc"}});
+ if(error){$("mList").innerHTML='<p class="empty">Materials are not available yet.</p>';return}
+ const files=(data||[]).filter(f=>f.name&&f.id!==null);if(!files.length){$("mList").innerHTML='<p class="empty">Your trainer has not added materials yet.</p>';return}
+ const s=await db.storage.from(B.files).createSignedUrls(files.map(f=>base+"/"+f.name),3600),u=Object.fromEntries((s.data||[]).map(x=>[x.path,x.signedUrl]));
+ $("mList").innerHTML=files.map(f=>{const p=base+"/"+f.name;return`<div class="row" style="padding:10px 0;border-top:1px solid var(--line)"><b>${esc(f.name.replace(/^\d+-/,""))}</b>${u[p]?`<a class="btn sm" style="text-decoration:none" href="${esc(u[p])}" target="_blank" rel="noopener">Open</a>`:""}</div>`}).join("")}
+
+/* ---------- Tasks (practice / assignments / projects / assessment) ---------- */
+const lateTag=t=>t.due_at&&new Date(t.due_at)<new Date()&&!SUB[t.id]?tag("Late","bad"):"";
+function taskCard(t){const s=SUB[t.id],g=s&&s.score!=null,id=esc(t.id);
+ return`<div class="box"><div class="row"><div><small>${KIND[t.kind]||t.kind}${t.due_at?" · due "+day(t.due_at):""}</small><h3>${esc(t.title)}</h3></div>${g?tag("Score "+Number(s.score)+" / "+Number(t.max_score),"ok"):s?tag("Submitted"):tag("Open")} ${lateTag(t)}</div>
+ <p class="mut" style="white-space:pre-line;margin:8px 0">${esc(t.instructions||"")}</p>
+ ${s&&s.feedback?`<div class="note"><b>Feedback</b><div class="mut">${esc(s.feedback)}</div></div>`:""}
+ ${g?"":`<textarea class="f" id="tx-${id}" rows="3" placeholder="Write your answer or notes">${esc(s?s.content||"":"")}</textarea><input class="f" type="file" id="tf-${id}"><button class="btn sm" data-sub="${id}">${s?"Update submission":"Submit"}</button><div class="msg" id="tm-${id}"></div>`}</div>`}
+function fillTasks(el,kind,none){if(!cur)return empty(el,"No training unlocked yet.");
+ if(!extras){$(el).innerHTML='<div class="box empty" style="grid-column:1/-1">This section is being set up. Please check back soon.</div>';return}
+ const l=TK.filter(t=>t.kind===kind);$(el).innerHTML=l.length?l.map(taskCard).join(""):`<div class="box empty" style="grid-column:1/-1">${none}</div>`}
+function rTasks(){fillTasks("tPractice","practice","No practice tasks yet.");fillTasks("tAssign","assignment","No assignments yet.");fillTasks("tProjects","project","No projects yet.");fillTasks("tAssess","assessment","No assessments yet.");
+ const g=TK.filter(t=>t.kind==="assessment"&&SUB[t.id]&&SUB[t.id].score!=null),av=g.length?Math.round(g.reduce((a,t)=>a+Number(SUB[t.id].score)/Number(t.max_score||100)*100,0)/g.length):null;
+ $("asStats").innerHTML=[["Assessments",TK.filter(t=>t.kind==="assessment").length],["Graded",g.length],["Average",av==null?"—":av+"%"]].map(([k,v])=>`<div class="stat"><small>${k}</small><b>${esc(v)}</b></div>`).join("")}
+async function submitTask(id){const t=TK.find(x=>x.id===id),m="tm-"+id,txt=$("tx-"+id).value.trim(),f=$("tf-"+id).files[0],old=SUB[id];
+ if(!txt&&!f&&!(old&&old.file_path))return say(m,"Write an answer or choose a file.");if(f&&f.size>100*1024*1024)return say(m,"The file is over 100 MB.");
+ say(m,"Sending…");let path=old?old.file_path:null;
+ if(f){path=user.id+"/submissions/"+id+"-"+Date.now()+"-"+fname(f);const up=await db.storage.from(B.files).upload(path,f);if(up.error)return say(m,up.error.message)}
+ const row={content:txt,file_path:path,status:"submitted",updated_at:new Date().toISOString()};
+ const r=old?await db.from("training_submissions").update(row).eq("id",old.id).eq("student_id",user.id).select().single():await db.from("training_submissions").insert({task_id:id,student_id:user.id,...row}).select().single();
+ if(r.error)return say(m,r.error.message);SUB[id]=r.data;toast("Submitted.");rHead();rOv();rTasks();rProg();rCert()}
+
+/* ---------- Progress ---------- */
+function rProg(){
+ if(!cur){$("pgStats").innerHTML="";$("pgBody").innerHTML='<tr><td colspan="3" class="empty">No training unlocked yet.</td></tr>';return}
+ $("pgStats").innerHTML=[["Overall",overall()+"%"],["Videos",done()+" / "+LS.length],["Tasks",tdone()+" / "+TK.length],["Streak",streak()+" days"]].map(([k,v])=>`<div class="stat"><small>${k}</small><b>${esc(v)}</b></div>`).join("");
+ $("pgBody").innerHTML=LS.map((l,i)=>`<tr><td>${i+1}. ${esc(l.title)}</td><td>Video</td><td>${PG[l.id]&&PG[l.id].completed?tag("Completed","ok"):PG[l.id]?tag("In progress"):tag("Not started")}</td></tr>`).join("")+
+  TK.map(t=>{const s=SUB[t.id];return`<tr><td>${esc(t.title)}</td><td>${KIND[t.kind]||t.kind}</td><td>${s&&s.score!=null?tag("Score "+Number(s.score)+" / "+Number(t.max_score),"ok"):s?tag("Submitted"):tag("Open")}</td></tr>`}).join("")||'<tr><td colspan="3" class="empty">Nothing to track yet.</td></tr>'}
+
+/* ---------- Certificates ---------- */
+function rCert(){const o=owned();
+ $("certList").innerHTML=o.length?o.map(c=>{const ct=certs.find(x=>String(x.course_id)===String(c.id)),isCur=String(c.id)===cur,ready=isCur&&LS.length>0&&done()>=LS.length;
+  return`<div class="box"><small>${esc(sname(c))} · Level ${esc(lvN(c.skill_level_id)||"")}</small><h3 style="margin:6px 0">${esc(c.title)}</h3>${ct?`${tag("Earned","ok")}<p class="mut" style="margin-top:8px">Issued ${day(ct.issued_at)}</p><button class="btn sm" style="margin-top:10px" data-cv="${esc(ct.id)}">View certificate</button>`:ready?`<p class="mut">All videos completed.</p><button class="btn sm" style="margin-top:10px" data-claim="${esc(c.id)}">Get certificate</button>`:isCur?`<p class="mut">Complete all videos to unlock (${done()} / ${LS.length}).</p><div class="meter"><i style="width:${lessonPct()}%"></i></div>`:`<button class="btn alt sm" data-cur="${esc(c.id)}" style="margin-top:6px">Open to check progress</button>`}</div>`}).join(""):'<div class="box empty" style="grid-column:1/-1">Buy a training to earn a certificate.</div>'}
+async function claim(id){say("certMsg","Checking your progress…");const{data,error}=await db.rpc("claim_training_certificate",{p_course:String(id)});
+ if(error)return say("certMsg","Certificate is not available yet: "+error.message);
+ if(data&&data.ok===false)return say("certMsg",data.error==="not_complete"?"Finish all videos first.":"Not available.");
+ certs=await qq(db.from("training_certificates").select("*").eq("student_id",user.id));say("certMsg","Certificate issued.");rCert();const c=certs.find(x=>String(x.course_id)===String(id));if(c)viewCert(c.id)}
+function viewCert(id){const ct=certs.find(x=>x.id===id);if(!ct)return;const c=allC.find(x=>String(x.id)===String(ct.course_id))||{};
+ openM(`<div class="cert"><small>Certificate of completion</small><h2>Stezeo</h2><p>This certifies that</p><div class="nm">${esc(me.full_name||"User")}</div><p>has successfully completed the training</p><h3 style="font:700 26px var(--serif);margin:8px 0">${esc(c.title||"Training")}</h3><p>${esc(sname(c))} · Trainer ${esc(tName[c.teacher_id]||"Stezeo trainer")}</p><p style="margin-top:14px">Issued ${day(ct.issued_at)} · Code ${esc(ct.code)}</p></div><div class="noprint" style="text-align:center;margin-top:14px"><button class="btn" id="prt">Print or save as PDF</button></div>`);$("prt").onclick=()=>window.print()}
+
+/* ---------- events ---------- */
+document.addEventListener("click",async e=>{const E=s=>e.target.closest(s);let x;
+ if(x=E(".nav[data-p]"))return go(x.dataset.p);
+ if(x=E("[data-go]"))return go(x.dataset.go);
+ if(x=E("[data-cur]")){cur=x.dataset.cur;drawSel();await loadCurrent();const c=curC();if(c)lvSkill=c.skill_id;renderAll();return go("ov")}
+ if(x=E("[data-ls]")){lvSkill=x.dataset.ls;return rLevels()}
+ if(x=E("[data-buy]"))return buy(x.dataset.buy);
+ if(x=E("[data-pl]")){play(+x.dataset.pl);return}
+ if(x=E("[data-playl]")){go("lessons");play(LS.findIndex(l=>String(l.id)===x.dataset.playl));return}
+ if(x=E("[data-sub]"))return submitTask(x.dataset.sub);
+ if(x=E("[data-claim]"))return claim(x.dataset.claim);
+ if(x=E("[data-cv]"))return viewCert(x.dataset.cv);
+ if(e.target===$("modal"))closeM()});
+$("mx").onclick=closeM;$("out").onclick=logout;$("burger").onclick=()=>$("side").classList.toggle("open");
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeM()});
+</script>
+</body>
+</html>
