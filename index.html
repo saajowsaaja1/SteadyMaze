@@ -357,9 +357,7 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
   var sb=window.supabase.createClient('https://uxrltzlxdttbjstomhkb.supabase.co','sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b');
   var s=await sb.auth.getSession();
   if(!s.data.session)return;
-  var u=await sb.auth.getUser();
-  if(u.error||!u.data.user)return;
-  var p=await sb.from('profiles').select('role').eq('id',u.data.user.id).maybeSingle();
+  var p=await sb.from('profiles').select('role').eq('id',s.data.session.user.id).maybeSingle();
   var dash=(p.data&&p.data.role==='trainer')?'trainer.html':'user.html';
   document.querySelectorAll('.js-login').forEach(function(a){a.textContent='My dashboard';a.setAttribute('href',dash)});
   document.querySelectorAll('.js-signup').forEach(function(a){a.style.display='none'});
