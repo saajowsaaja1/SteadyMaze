@@ -38,7 +38,6 @@ window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[repl
   <h1 id="ttl">Log in</h1>
   <p class="sm">Welcome to Stezeo. Students and trainers log in here.</p>
   <input id="nm" placeholder="Full name" autocomplete="name" hidden>
-  <select id="rl" aria-label="Account type" hidden><option value="student">I am a Student</option><option value="trainer">I am a Trainer</option></select>
   <input id="em" type="email" placeholder="Email" autocomplete="email">
   <input id="pw" type="password" placeholder="Password" autocomplete="current-password">
   <button class="go" id="go">Log in</button>
@@ -63,7 +62,7 @@ const friendly=e=>{const m=String(e&&e.message||e||'');
  if(/rate limit|too many/i.test(m))return 'Too many attempts. Please wait a minute and try again.';
  if(/failed to fetch|network/i.test(m))return 'Cannot reach Stezeo servers. Check your internet connection.';
  return m||'Something went wrong. Please try again.'};
-const nextPage=(role)=>{const n=new URLSearchParams(location.search).get('next')||'';if(/^(user|trainer|trainng|compotion)\.html([?#].*)?$/.test(n))return n;return role==='trainer'?'trainer.html':'user.html'};
+const nextPage=(role)=>{const n=new URLSearchParams(location.search).get('next')||'';if(/^(user|trainer|trainng|compotion)\.html([?#].*)?$/.test(n))return n;return 'user.html'};
 /* One login for everyone: the account's role decides which dashboard opens. */
 async function routeUser(session,name='',chosen=''){
   const {data:profile,error:readError}=await db.from('profiles').select('role').eq('id',session.user.id).maybeSingle();
@@ -78,6 +77,7 @@ async function routeUser(session,name='',chosen=''){
   }
   location.replace(nextPage(role));
 }
+let needConfirm=false;const CONFIRM_NOTE='Email confirmation is ON in Supabase: after you press Create account you must open the confirmation email before you can log in. To skip this: Supabase \u2192 Authentication \u2192 Providers \u2192 Email \u2192 turn OFF Confirm email.';
 async function diagnose(){
  try{
   const r=await fetch(SB_URL+'/auth/v1/settings',{headers:{apikey:SB_KEY}});
@@ -86,10 +86,11 @@ async function diagnose(){
   const j=await r.json();
   if(j.disable_signup)return say('New sign ups are turned OFF in Supabase. Turn them on: Authentication → Sign In / Providers → allow new users.');
   if(j.external&&j.external.email===false)return say('Email login is turned OFF in Supabase (Authentication → Providers → Email).');
+  if(!j.mailer_autoconfirm){needConfirm=true;if(signup)say(CONFIRM_NOTE)}
  }catch(e){say('Cannot reach Supabase. Check your internet connection (or if the project is paused).')}
 }
 diagnose();
-function mode(v){signup=v;$('ttl').textContent=v?'Create your account':'Log in';$('go').textContent=v?'Create account':'Log in';$('nm').hidden=!v;$('rl').hidden=!v;$('nm').required=v;$('pw').autocomplete=v?'new-password':'current-password';$('sw').textContent=v?'Have an account? Log in':'No account? Sign up';say('');}
+function mode(v){signup=v;$('ttl').textContent=v?'Create your account':'Log in';$('go').textContent=v?'Create account':'Log in';$('nm').hidden=!v;if(v&&needConfirm)say(CONFIRM_NOTE);$('nm').required=v;$('pw').autocomplete=v?'new-password':'current-password';$('sw').textContent=v?'Have an account? Log in':'No account? Sign up';say('');}
 $('sw').onclick=e=>{e.preventDefault();mode(!signup)};
 $('go').onclick=async()=>{
  if(busy)return;const email=$('em').value.trim(),password=$('pw').value,name=$('nm').value.trim();
@@ -98,11 +99,11 @@ $('go').onclick=async()=>{
  busy=true;$('go').disabled=true;say('Connecting securely to Stezeo…','#7be3a6');
  try{
   if(signup){
-   const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:name,role:$('rl').value,account_type:$('rl').value},emailRedirectTo:location.origin+location.pathname}});
+   const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:name},...(/^https?:/.test(location.protocol)?{emailRedirectTo:location.origin+location.pathname}:{})}});
    if(error)throw error;
    if(data.user&&Array.isArray(data.user.identities)&&data.user.identities.length===0)throw new Error('This email already has an account. Please log in.');
-   if(!data.session){say('Your account has been created. Check your email, confirm your address, then log in.','#7be3a6');return}
-   await routeUser(data.session,name,$('rl').value);return;
+   if(!data.session){say('Account created. Now open the confirmation email we sent to '+email+' (check Spam too), then come back and log in.','#7be3a6');return}
+   await routeUser(data.session,name,'');return;
   }
   const {data,error}=await db.auth.signInWithPassword({email,password});if(error)throw error;
   if(!data||!data.session)throw new Error('Login failed. Please try again.');
