@@ -373,7 +373,6 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
   <h2 id="amT">Log in</h2>
   <p class="sm">Welcome to Stezeo. Students and trainers log in here.</p>
   <input id="amNm" placeholder="Full name" autocomplete="name" hidden>
-  <select id="amRl" aria-label="Account type" hidden><option value="student">I am a Student</option><option value="trainer">I am a Trainer</option></select>
   <input id="amEm" type="email" placeholder="Email" autocomplete="email">
   <input id="amPw" type="password" placeholder="Password" autocomplete="current-password">
   <button class="go" id="amGo">Log in</button>
@@ -403,7 +402,7 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
   if(/failed to fetch|network/i.test(m))return 'Cannot reach Stezeo servers. Check your internet connection.';
   return m||'Something went wrong. Please try again.'};
 
- var diagDone=false;
+ var diagDone=false,needConfirm=false,CONFIRM_NOTE='Email confirmation is ON in Supabase: after you press Create account you must open the confirmation email before you can log in. To skip this: Supabase \u2192 Authentication \u2192 Providers \u2192 Email \u2192 turn OFF Confirm email.';
  async function diagnose(){
   if(diagDone)return;diagDone=true;
   try{
@@ -413,10 +412,10 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
    var j=await r.json();
    if(j.disable_signup){say('New sign ups are turned OFF in Supabase. Turn them on: Authentication \u2192 Sign In / Providers \u2192 allow new users.');return}
    if(j.external&&j.external.email===false){say('Email login is turned OFF in Supabase (Authentication \u2192 Providers \u2192 Email).');return}
-   if(!j.mailer_autoconfirm)$('amMsg').dataset.info='1';
+   if(!j.mailer_autoconfirm){needConfirm=true;if(signup)say(CONFIRM_NOTE)}
   }catch(e){say('Cannot reach Supabase. Check your internet connection (or if the project is paused).')}
  }
- function mode(v){signup=v;$('amT').textContent=v?'Create your account':'Log in';$('amGo').textContent=v?'Create account':'Log in';$('amNm').hidden=!v;$('amRl').hidden=!v;$('amPw').autocomplete=v?'new-password':'current-password';$('amSw').textContent=v?'Have an account? Log in':'No account? Sign up';say('')}
+ function mode(v){signup=v;$('amT').textContent=v?'Create your account':'Log in';$('amGo').textContent=v?'Create account':'Log in';$('amNm').hidden=!v;if(v&&needConfirm)say(CONFIRM_NOTE);$('amPw').autocomplete=v?'new-password':'current-password';$('amSw').textContent=v?'Have an account? Log in':'No account? Sign up';say('')}
  function openM(v,t){target=t||'';mode(v);$('am').classList.add('open');$('am').setAttribute('aria-hidden','false');setTimeout(function(){$(v?'amNm':'amEm').focus()},50);diagnose()}
  function closeM(){$('am').classList.remove('open');$('am').setAttribute('aria-hidden','true')}
  $('amX').onclick=closeM;$('am').addEventListener('mousedown',function(e){if(e.target===$('am'))closeM()});
@@ -431,7 +430,7 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
    var fn=name||meta.full_name||(session.user.email||'').split('@')[0]||(role==='trainer'?'Trainer':'Student');
    var u=await sb.from('profiles').upsert({id:session.user.id,full_name:fn,role:role},{onConflict:'id'});
    if(u.error)throw new Error('Signed in, but the profile could not be saved: '+u.error.message+' Run schema.sql in Supabase first.')}
-  location.replace(target||(role==='trainer'?'trainer.html':'user.html'));
+  location.replace(target||'user.html');
  }
  $('amGo').onclick=async function(){
   if(busy)return;var email=$('amEm').value.trim(),pw=$('amPw').value,name=$('amNm').value.trim();
@@ -440,12 +439,11 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
   busy=true;$('amGo').disabled=true;say('Connecting securely to Stezeo\u2026','#7be3a6');
   try{
    if(signup){
-    var role=$('amRl').value;
-    var a=await sb.auth.signUp({email:email,password:pw,options:{data:{full_name:name,role:role,account_type:role},emailRedirectTo:new URL('login.html',location.href).href}});
+    var a=await sb.auth.signUp({email:email,password:pw,options:Object.assign({data:{full_name:name}},/^https?:/.test(location.protocol)?{emailRedirectTo:new URL('login.html',location.href).href}:{})});
     if(a.error)throw a.error;
     if(a.data.user&&Array.isArray(a.data.user.identities)&&a.data.user.identities.length===0)throw new Error('This email already has an account. Please log in.');
-    if(!a.data.session){say('Your account has been created. Check your email, confirm your address, then log in.','#7be3a6');return}
-    await routeUser(a.data.session,name,role);return;
+    if(!a.data.session){say('Account created. Now open the confirmation email we sent to '+email+' (check Spam too), then come back and log in.','#7be3a6');return}
+    await routeUser(a.data.session,name,'');return;
    }
    var b=await sb.auth.signInWithPassword({email:email,password:pw});
    if(b.error)throw b.error;
