@@ -358,13 +358,13 @@ return `<article class="cc tier"><span class="tier-tag">${(T[c.g]||{}).n||c.g}</
 document.addEventListener('click',e=>{const a=e.target.closest('[data-f]');if(a){f=a.dataset.f;draw();return}
 const b=e.target.closest('.lv button');if(b){L.find(c=>c.k===b.dataset.k).lv=+b.dataset.l;draw()}});draw();
 const H={headers:{apikey:SB_KEY}},esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-Promise.all([fetch(SB_URL+'/skills?select=*&order=display_order',H),fetch(SB_URL+'/skill_levels?select=*&order=level_number',H)]).then(async([a,b])=>{
+Promise.all([fetch(SB_URL+'/skills?select=*',H),fetch(SB_URL+'/skill_levels?select=*&order=level_number',H)]).then(async([a,b])=>{
  const s=a.ok?await a.json():[],lv=b.ok?await b.json():[];if(!s.length)return;
  const grp=n=>{n=String(n).toLowerCase();for(const g in T)if(T[g].s.some(x=>x.toLowerCase()===n))return g;return null};
  L=s.filter(r=>r.is_training_visible!==false).map(r=>{
   const mine=lv.filter(l=>!l.skill_id||String(l.skill_id)===String(r.id));
   const g=String(r.level_group||r.tier||grp(r.name)||'lower').toLowerCase();
-  const p=[1,2,3].map(n=>{const x=mine.find(l=>Number(l.level_number)===n);return x&&x.price!=null?Number(x.price):(T[g]?T[g].p[n-1]:null)});
+  const p=[1,2,3].map(n=>{if(r['price_'+n]!=null)return Number(r['price_'+n]);const x=mine.find(l=>Number(l.level_number)===n);return x&&x.price!=null?Number(x.price):(T[g]?T[g].p[n-1]:null)});
   return {k:r.name,g,lv:1,p}});
  draw()}).catch(()=>{});
 fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&order=starts_at.desc&limit=1',H).then(r=>r.ok?r.json():[]).then(async cy=>{
