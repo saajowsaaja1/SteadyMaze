@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stezeo – Trainer Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="stz-page" content="trainer">
+<style>
+:root{color-scheme:dark;--gold:#E6B93C;--yellow:#FFD84A;--orange:#FF8A1F;--green:#10B36A;--bg:#04120c;--line:rgba(255,255,255,.14)}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#fff;line-height:1.55;padding-bottom:env(safe-area-inset-bottom,0);
+ background:radial-gradient(1200px 600px at 80% -10%,rgba(16,179,106,.30),transparent 60%),radial-gradient(900px 500px at -10% 40%,rgba(230,185,60,.12),transparent 60%),var(--bg)}
+#gate{position:fixed;inset:0;z-index:99;display:grid;place-items:center;background:var(--bg);color:var(--yellow);font-weight:700;text-align:center;padding:24px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;padding-top:calc(14px + env(safe-area-inset-top,0px));border-bottom:1px solid var(--line);flex-wrap:wrap}
+.logo{font-weight:800;font-size:1.3rem;color:var(--gold);text-decoration:none;text-shadow:0 0 24px rgba(255,216,74,.45)}
+.hl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.9rem}
+.hl a,.hl button{color:var(--yellow);background:none;border:1px solid var(--line);border-radius:10px;padding:6px 12px;font:inherit;cursor:pointer;text-decoration:none}
+nav.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 18px;border-bottom:1px solid var(--line)}
+nav.tabs button{flex:none;background:rgba(255,255,255,.06);border:1px solid var(--line);color:#fff;border-radius:999px;padding:8px 16px;font:inherit;font-weight:600;cursor:pointer}
+nav.tabs button.on{background:linear-gradient(135deg,#FFF1A8,#FFD84A 42%,#FF9A2E);color:#1b1204;border-color:#FFE680}
+main{max-width:900px;margin:0 auto;padding:20px 18px 60px}
+section{display:none}section.on{display:block}
+h1{font-size:1.6rem;margin-bottom:4px;background:linear-gradient(90deg,#fff,#FFD84A);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:1.2rem;margin:0 0 6px;color:var(--yellow)}
+p.sm,.mut{font-size:.9rem;color:#cfd8d2}
+.card{padding:20px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(230,185,60,.28);margin:14px 0;box-shadow:0 8px 30px rgba(0,20,10,.5)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{padding:16px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.stat b{display:block;font-size:1.7rem;color:var(--yellow)}
+label{display:block;font-size:.85rem;font-weight:600;margin:12px 0 5px;color:#e8efe9}
+input,select,textarea{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:12px;padding:12px;font:inherit}
+textarea{min-height:90px;resize:vertical}
+select option,select optgroup{background:#04120c;color:#fff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(230,185,60,.22)}
+input[type=file]{padding:10px}
+input[type=checkbox],input[type=radio]{width:auto}
+.btn{padding:13px 20px;border-radius:12px;border:1px solid #FFE680;font:inherit;font-weight:800;cursor:pointer;color:#1b1204;background:linear-gradient(135deg,#FFF1A8,#FFD84A 42%,#FF9A2E);margin-top:16px}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.s{padding:7px 12px;margin:0;font-size:.85rem}
+.btn.d{background:rgba(255,80,60,.15);color:#ffb3a8;border-color:rgba(255,120,100,.5)}
+.msg{min-height:1.3em;font-size:.9rem;margin-top:10px;color:#FFB36B}
+.msg.ok{color:#7be3a6}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips label{margin:0;display:inline-flex;gap:6px;align-items:center;font-weight:500;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chips label:has(input:checked){border-color:var(--gold);background:rgba(230,185,60,.18)}
+.gt{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin:14px 0 6px}
+.lv{display:flex;gap:8px}
+.lv label{flex:1;margin:0;text-align:center;padding:12px 6px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:rgba(255,255,255,.06)}
+.lv label:has(input:checked){border-color:var(--gold);background:rgba(230,185,60,.2)}
+.lv input{display:none}
+.price{display:flex;align-items:center;gap:10px;padding:14px;border-radius:12px;background:rgba(16,179,106,.14);border:1px solid rgba(16,179,106,.5);margin-top:12px;flex-wrap:wrap}
+.price b{font-size:1.5rem;color:#7be3a6}
+.rules li{margin:6px 0 6px 18px;font-size:.92rem;color:#e6ece8}
+video{width:100%;max-height:300px;border-radius:12px;background:#000;margin-top:10px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.tag{display:inline-block;font-size:.75rem;padding:2px 10px;border-radius:999px;background:rgba(255,216,74,.16);color:var(--yellow);margin:2px 4px 2px 0}
+.tag.g{background:rgba(16,179,106,.2);color:#7be3a6}.tag.r{background:rgba(255,120,100,.2);color:#ffb3a8}
+.lesson{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:.92rem}
+</style>
+<script>window.stzGo=function(rel,replace){location[replace?"replace":"assign"](String(rel||"index.html"))};</script>
+</head>
+<body>
+<div id="gate">Stezeo · Loading trainer dashboard…</div>
+
+<header>
+  <a class="logo" href="index.html">Stezeo</a>
+  <div class="hl"><span id="who" class="mut"></span><a href="index.html">Home</a><a href="user.html">Student view</a><button id="out">Log out</button></div>
+</header>
+<nav class="tabs" id="tabs">
+  <button data-t="home" class="on">Dashboard</button>
+  <button data-t="intro">My intro video</button>
+  <button data-t="create">Add training</button>
+  <button data-t="mine">My trainings</button>
+  <button data-t="profile">Profile</button>
+</nav>
+
+<main>
+<section id="home" class="on">
+  <h1>Trainer dashboard</h1>
+  <p class="sm">Upload your introduction and your training videos here. Students see them on the Stezeo website.</p>
+  <div class="grid" style="margin-top:14px">
+    <div class="stat"><b id="s1">0</b>Intro video</div>
+    <div class="stat"><b id="s2">0</b>Trainings</div>
+    <div class="stat"><b id="s3">0</b>Training videos</div>
+  </div>
+  <div class="card">
+    <h2>Rules for trainers</h2>
+    <ul class="rules">
+      <li>You can only teach the <b>21 skills</b> listed on Stezeo. Other skills are not allowed.</li>
+      <li>You <b>cannot set the price</b>. Stezeo sets it automatically by skill tier and level.</li>
+      <li>Upload only your own work. No copied videos, no adult, hateful or illegal content.</li>
+      <li>Your intro video is shown on the Home page and on every student dashboard.</li>
+      <li>Your training videos appear in the student <b>Training</b> page after the student pays.</li>
+      <li>Video files: MP4, WebM or MOV, maximum <span class="mxmb"></span> MB each.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="intro">
+  <h1>My introduction video</h1>
+  <p class="sm">A short video that introduces you. It appears on <b>index.html</b> (Home) and on <b>user.html</b> (student dashboard).</p>
+  <div id="introList"></div>
+  <div class="card" id="introForm">
+    <h2>Upload introduction</h2>
+    <label for="iTitle">Title</label><input id="iTitle" maxlength="90" placeholder="Example: Hi, I teach Video Editing">
+    <label for="iDesc">About you (bio)</label><textarea id="iDesc" maxlength="600" placeholder="Who are you, your experience, what students will learn"></textarea>
+    <label>Skills you teach (allowed skills only)</label><div id="iSkills"></div>
+    <label for="iFile">Intro video</label><input id="iFile" type="file" accept="video/mp4,video/webm,video/quicktime">
+    <label for="iThumb">Thumbnail image (optional)</label><input id="iThumb" type="file" accept="image/png,image/jpeg,image/webp">
+    <label style="display:flex;gap:8px;align-items:flex-start;font-weight:500"><input type="checkbox" id="iOk" style="margin-top:4px"> I confirm this video is my own and is about the allowed skills only.</label>
+    <button class="btn" id="iGo">Upload and publish</button>
+    <p class="msg" id="iMsg"></p>
+  </div>
+</section>
+
+<section id="create">
+  <h1>Add a training</h1>
+  <p class="sm">Choose the skill and the level. The price is set by Stezeo and cannot be changed.</p>
+  <div class="card">
+    <label for="cSkill">Skill</label><select id="cSkill"></select>
+    <label>Level</label>
+    <div class="lv" id="cLv">
+      <label><input type="radio" name="lv" value="1" checked>Level 1</label>
+      <label><input type="radio" name="lv" value="2">Level 2</label>
+      <label><input type="radio" name="lv" value="3">Level 3</label>
+    </div>
+    <div class="price"><span>Price set by Stezeo:</span><b id="cPrice">$0</b><span class="mut" id="cTier"></span></div>
+    <label for="cTitle">Training title</label><input id="cTitle" maxlength="90" placeholder="Example: Video Editing for Beginners">
+    <label for="cDesc">Training bio (what students will learn)</label><textarea id="cDesc" maxlength="800"></textarea>
+    <label for="cLTitle">First video title</label><input id="cLTitle" maxlength="90" placeholder="Lesson 1: Introduction">
+    <label for="cFile">Training video</label><input id="cFile" type="file" accept="video/mp4,video/webm,video/quicktime">
+    <label for="cThumb">Cover image (optional)</label><input id="cThumb" type="file" accept="image/png,image/jpeg,image/webp">
+    <label style="display:flex;gap:8px;align-items:flex-start;font-weight:500"><input type="checkbox" id="cOk" style="margin-top:4px"> I confirm this training is my own work and matches the selected skill.</label>
+    <button class="btn" id="cGo">Upload training</button>
+    <p class="msg" id="cMsg"></p>
+  </div>
+</section>
+
+<section id="mine">
+  <h1>My trainings</h1>
+  <p class="sm">Add more videos to a training, or hide it from students.</p>
+  <div id="mineList"></div>
+</section>
+
+<section id="profile">
+  <h1>Profile</h1>
+  <div class="card">
+    <label for="pName">Full name</label><input id="pName" maxlength="80">
+    <label for="pSpec">Specialization</label><input id="pSpec" maxlength="120" placeholder="Example: Video editor with 5 years experience">
+    <label for="pBio">Bio</label><textarea id="pBio" maxlength="600"></textarea>
+    <button class="btn" id="pGo">Save profile</button>
+    <p class="msg" id="pMsg"></p>
+  </div>
+</section>
+</main>
+
+<script>
+const SB_URL='https://uxrltzlxdttbjstomhkb.supabase.co';
+const SB_KEY='sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b';
+const db=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+const MAXMB=50,MAXB=MAXMB*1024*1024;
+const B={intro:'trainer-intro-videos',lesson:'lesson-videos'};
+/* The ONLY skills and prices allowed on Stezeo (price per level 1/2/3). Trainers cannot change them. */
+const TIERS={
+ lower:{n:'Lower',p:[5,8,12],s:['Video Editing','Thumbnail Creator','Graphic Design','Digital Marketing','Affiliate Marketing','Dropshipping','Photo Editing','Movie Recap','Logo Editing']},
+ medium:{n:'Medium',p:[15,20,30],s:['FX','Crypto','AI Agent','English','UI/UX','Cybersecurity']},
+ high:{n:'High',p:[35,60,80],s:['AI Web','AI App','Python','Java','Web Development','Machine Learning']}
+};
+const ALL=[];for(const g in TIERS)TIERS[g].s.forEach(s=>ALL.push({name:s,g}));
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').trim().toLowerCase();
+const fname=f=>f.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+const say=(id,t,ok)=>{const e=$(id);e.textContent=t;e.className='msg'+(ok?' ok':'')};
+const priceOf=(skill,lv)=>{const a=ALL.find(x=>norm(x.name)===norm(skill));return a?TIERS[a.g].p[lv-1]:null};
+const tierOf=skill=>{const a=ALL.find(x=>norm(x.name)===norm(skill));return a?TIERS[a.g].n:''};
+document.querySelectorAll('.mxmb').forEach(e=>e.textContent=MAXMB);
+
+let user=null,skillsDb=[],levelsDb=[],myIntros=[],myCourses=[],myLessons=[];
+
+/* ---------- guard: only logged-in trainers ---------- */
+(async()=>{
+ try{
+  const {data:{session}}=await db.auth.getSession();
+  if(!session){stzGo('login.html?next=trainer.html',true);return}
+  user=session.user;
+  const {data:p}=await db.from('profiles').select('role,full_name,bio').eq('id',user.id).maybeSingle();
+  if(!p||(p.role!=='trainer'&&p.role!=='admin')){stzGo('user.html',true);return}
+  $('who').textContent=p.full_name||user.email;$('pName').value=p.full_name||'';$('pBio').value=p.bio||'';
+  const {data:tp}=await db.from('teacher_profiles').select('*').eq('user_id',user.id).maybeSingle();
+  if(!tp)await db.from('teacher_profiles').insert({user_id:user.id,total_students:0,total_courses:0,verified:false});
+  else $('pSpec').value=tp.specialization||'';
+  $('gate').remove();
+  drawForms();await loadAll();
+ }catch(e){$('gate').textContent='Could not load. Check your internet and refresh. '+(e.message||'')}
+})();
+db.auth.onAuthStateChange(ev=>{if(ev==='SIGNED_OUT')stzGo('index.html',true)});
+$('out').onclick=async()=>{await db.auth.signOut();stzGo('index.html',true)};
+
+/* ---------- tabs ---------- */
+function tab(t){document.querySelectorAll('main section').forEach(s=>s.classList.toggle('on',s.id===t));document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));window.scrollTo(0,0)}
+$('tabs').onclick=e=>{const b=e.target.closest('[data-t]');if(b)tab(b.dataset.t)};
+
+/* ---------- forms ---------- */
+function drawForms(){
+ $('iSkills').innerHTML=Object.keys(TIERS).map(g=>`<div class="gt">${TIERS[g].n}</div><div class="chips">${TIERS[g].s.map(s=>`<label><input type="checkbox" name="isk" value="${esc(s)}">${esc(s)}</label>`).join('')}</div>`).join('');
+ $('cSkill').innerHTML=Object.keys(TIERS).map(g=>`<optgroup label="${TIERS[g].n}">${TIERS[g].s.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('')}</optgroup>`).join('');
+ showPrice();
+}
+const curLv=()=>+(document.querySelector('input[name=lv]:checked')||{value:1}).value;
+function showPrice(){const s=$('cSkill').value,l=curLv(),p=priceOf(s,l);$('cPrice').textContent=p?'$'+p:'—';$('cTier').textContent=tierOf(s)+' · Level '+l}
+$('cSkill').onchange=showPrice;$('cLv').onchange=showPrice;
+
+function checkVideo(f){
+ if(!f)return 'Choose a video file.';
+ if(!/^video\/(mp4|webm|quicktime)$/.test(f.type))return 'Video must be MP4, WebM or MOV.';
+ if(f.size>MAXB)return 'Video is too big ('+Math.round(f.size/1048576)+' MB). Maximum is '+MAXMB+' MB. Compress it or cut it into shorter videos.';
+ return '';
+}
+function checkImg(f){if(!f)return '';if(!/^image\/(png|jpeg|webp)$/.test(f.type))return 'Image must be PNG, JPG or WEBP.';if(f.size>5*1048576)return 'Image must be under 5 MB.';return ''}
+const pubUrl=(b,path)=>db.storage.from(b).getPublicUrl(path).data.publicUrl;
+async function upload(bucket,path,file){const r=await db.storage.from(bucket).upload(path,file,{contentType:file.type,upsert:false});if(r.error)throw new Error('Upload failed: '+r.error.message);return path}
+
+/* ---------- load everything ---------- */
+async function loadAll(){
+ const [sk,lv,iv,co]=await Promise.all([
+  db.from('skills').select('*'),db.from('skill_levels').select('*'),
+  db.from('teacher_intro_videos').select('*').eq('teacher_user_id',user.id).order('published_at',{ascending:false,nullsFirst:false}),
+  db.from('courses').select('*').eq('teacher_id',user.id).order('created_at',{ascending:false})]);
+ skillsDb=sk.data||[];levelsDb=lv.data||[];myIntros=iv.data||[];myCourses=co.data||[];
+ const ids=myCourses.map(c=>c.id);
+ if(ids.length){const r=await db.from('lessons').select('*').in('course_id',ids).order('lesson_order');myLessons=r.data||[]}else myLessons=[];
+ $('s1').textContent=myIntros.length;$('s2').textContent=myCourses.length;$('s3').textContent=myLessons.length;
+ drawIntros();drawMine();
+}
+
+/* ---------- INTRO ---------- */
+function drawIntros(){
+ $('introList').innerHTML=myIntros.map(v=>`<div class="card"><div class="row"><div><h2>${esc(v.title)}</h2>${(Array.isArray(v.skills)?v.skills:[]).map(s=>`<span class="tag">${esc(s)}</span>`).join('')}<span class="tag ${v.is_published?'g':'r'}">${v.is_published?'Published':'Hidden'}</span></div>
+  <div style="display:flex;gap:8px"><button class="btn s" data-ipub="${esc(v.id)}">${v.is_published?'Hide':'Publish'}</button><button class="btn s d" data-idel="${esc(v.id)}">Delete</button></div></div>
+  <p class="sm" style="margin-top:6px">${esc(v.description||'')}</p><video controls playsinline preload="metadata" src="${esc(/^https?:/.test(v.video_url)?v.video_url:pubUrl(B.intro,v.video_url))}"></video></div>`).join('');
+ $('introForm').style.display=myIntros.length?'none':'block';
+ if(myIntros.length)$('introList').insertAdjacentHTML('beforeend','<p class="sm">You already have an introduction. Delete it first if you want to upload a new one.</p>');
+}
+$('iGo').onclick=async()=>{
+ const title=$('iTitle').value.trim(),desc=$('iDesc').value.trim(),skills=[...document.querySelectorAll('input[name=isk]:checked')].map(x=>x.value),f=$('iFile').files[0],th=$('iThumb').files[0];
+ if(title.length<3)return say('iMsg','Write a title.');
+ if(desc.length<20)return say('iMsg','Write your bio (at least 20 characters).');
+ if(!skills.length)return say('iMsg','Choose at least one skill.');
+ if(skills.some(s=>!ALL.find(a=>a.name===s)))return say('iMsg','One skill is not allowed.');
+ let e=checkVideo(f)||checkImg(th);if(e)return say('iMsg',e);
+ if(!$('iOk').checked)return say('iMsg','Please tick the confirmation box.');
+ $('iGo').disabled=true;say('iMsg','Uploading… do not close this page.','ok');
+ const up=[];
+ try{
+  const vp=user.id+'/intro-'+Date.now()+'-'+fname(f);await upload(B.intro,vp,f);up.push(vp);
+  let tp=null;if(th){tp=user.id+'/intro-thumb-'+Date.now()+'-'+fname(th);await upload(B.intro,tp,th);up.push(tp)}
+  const r=await db.from('teacher_intro_videos').insert({teacher_user_id:user.id,title,description:desc,video_url:vp,thumbnail_url:tp,skills,is_published:true,published_at:new Date().toISOString()});
+  if(r.error)throw new Error(r.error.message);
+  say('iMsg','Done! Your introduction is now published on Home and on student dashboards.','ok');
+  ['iTitle','iDesc','iFile','iThumb'].forEach(i=>$(i).value='');$('iOk').checked=false;
+  await loadAll();
+ }catch(err){if(up.length)await db.storage.from(B.intro).remove(up);say('iMsg',err.message)}
+ finally{$('iGo').disabled=false}
+};
+
+/* ---------- CREATE TRAINING ---------- */
+function resolveIds(skillName,lv){
+ const sk=skillsDb.find(s=>norm(s.name)===norm(skillName));if(!sk)return {err:'The skill "'+skillName+'" is missing in the database. Run trainer_setup.sql in Supabase first.'};
+ const lvRow=levelsDb.find(l=>String(l.skill_id)===String(sk.id)&&Number(l.level_number)===lv)||levelsDb.find(l=>!l.skill_id&&Number(l.level_number)===lv);
+ if(!lvRow)return {err:'Level '+lv+' for this skill is missing in the database. Run trainer_setup.sql in Supabase first.'};
+ return {skill_id:sk.id,skill_level_id:lvRow.id};
+}
+$('cGo').onclick=async()=>{
+ const skill=$('cSkill').value,lv=curLv(),price=priceOf(skill,lv),title=$('cTitle').value.trim(),desc=$('cDesc').value.trim(),lt=$('cLTitle').value.trim(),f=$('cFile').files[0],th=$('cThumb').files[0];
+ if(!price)return say('cMsg','This skill is not allowed.');
+ if(title.length<3)return say('cMsg','Write the training title.');
+ if(desc.length<20)return say('cMsg','Write the training bio (at least 20 characters).');
+ if(lt.length<2)return say('cMsg','Write the first video title.');
+ let e=checkVideo(f)||checkImg(th);if(e)return say('cMsg',e);
+ if(!$('cOk').checked)return say('cMsg','Please tick the confirmation box.');
+ const ids=resolveIds(skill,lv);if(ids.err)return say('cMsg',ids.err);
+ if(myCourses.some(c=>String(c.skill_id)===String(ids.skill_id)&&String(c.skill_level_id)===String(ids.skill_level_id)))return say('cMsg','You already have '+skill+' Level '+lv+'. Open "My trainings" and add more videos there.');
+ $('cGo').disabled=true;say('cMsg','Uploading… do not close this page.','ok');
+ const up=[];let courseId=null;
+ try{
+  const vp=user.id+'/'+Date.now()+'-'+fname(f);await upload(B.lesson,vp,f);up.push([B.lesson,vp]);
+  let turl=null;if(th){const tp=user.id+'/course-thumb-'+Date.now()+'-'+fname(th);await upload(B.intro,tp,th);up.push([B.intro,tp]);turl=pubUrl(B.intro,tp)}
+  const c=await db.from('courses').insert({teacher_id:user.id,skill_id:ids.skill_id,skill_level_id:ids.skill_level_id,title,description:desc,price,currency:'USD',thumbnail_url:turl,status:'published'}).select().single();
+  if(c.error)throw new Error(c.error.message);courseId=c.data.id;
+  const l=await db.from('lessons').insert({course_id:courseId,title:lt,description:'',video_url:vp,lesson_order:1,status:'published'});
+  if(l.error)throw new Error(l.error.message);
+  say('cMsg','Done! Your training is published. Students will find it in the Training page.','ok');
+  ['cTitle','cDesc','cLTitle','cFile','cThumb'].forEach(i=>$(i).value='');$('cOk').checked=false;
+  await loadAll();tab('mine');
+ }catch(err){
+  if(courseId)await db.from('courses').delete().eq('id',courseId);
+  for(const [b,p] of up)await db.storage.from(b).remove([p]);
+  say('cMsg',err.message);
+ }finally{$('cGo').disabled=false}
+};
+
+/* ---------- MY TRAININGS ---------- */
+function drawMine(){
+ const sName=id=>(skillsDb.find(s=>String(s.id)===String(id))||{}).name||'Skill';
+ const lNum=id=>(levelsDb.find(l=>String(l.id)===String(id))||{}).level_number||'';
+ $('mineList').innerHTML=myCourses.map(c=>{const ls=myLessons.filter(l=>String(l.course_id)===String(c.id));
+  return `<div class="card"><div class="row"><div><h2>${esc(c.title)}</h2><span class="tag">${esc(sName(c.skill_id))}</span><span class="tag">Level ${esc(lNum(c.skill_level_id))}</span><span class="tag">$${esc(c.price)}</span><span class="tag ${c.status==='published'?'g':'r'}">${c.status==='published'?'Published':'Hidden'}</span></div>
+  <button class="btn s" data-cpub="${esc(c.id)}">${c.status==='published'?'Hide':'Publish'}</button></div>
+  <p class="sm" style="margin-top:6px">${esc(c.description||'')}</p>
+  <div style="margin-top:10px">${ls.map(l=>`<div class="lesson"><span>${esc(l.lesson_order)}. ${esc(l.title)}</span><button class="btn s d" data-ldel="${esc(l.id)}">Delete</button></div>`).join('')||'<p class="sm">No videos yet.</p>'}</div>
+  <div style="margin-top:12px;border-top:1px solid var(--line);padding-top:6px"><label>Add another video</label>
+  <input id="nt-${esc(c.id)}" placeholder="Video title" maxlength="90"><input id="nf-${esc(c.id)}" type="file" accept="video/mp4,video/webm,video/quicktime" style="margin-top:8px">
+  <button class="btn s" style="margin-top:10px" data-ladd="${esc(c.id)}">Upload video</button><p class="msg" id="nm-${esc(c.id)}"></p></div></div>`}).join('')||'<div class="card"><p class="sm">You have no trainings yet. Open "Add training" to create your first one.</p></div>';
+}
+$('mineList').onclick=async e=>{
+ const pub=e.target.closest('[data-cpub]'),del=e.target.closest('[data-ldel]'),add=e.target.closest('[data-ladd]');
+ if(pub){const c=myCourses.find(x=>String(x.id)===pub.dataset.cpub);const r=await db.from('courses').update({status:c.status==='published'?'draft':'published'}).eq('id',c.id).eq('teacher_id',user.id);if(r.error)alert(r.error.message);await loadAll()}
+ if(del){if(!confirm('Delete this video?'))return;const l=myLessons.find(x=>String(x.id)===del.dataset.ldel);const r=await db.from('lessons').delete().eq('id',l.id);if(r.error)return alert(r.error.message);if(l.video_url&&!/^https?:/.test(l.video_url))await db.storage.from(B.lesson).remove([l.video_url]);await loadAll()}
+ if(add){const id=add.dataset.ladd,m='nm-'+id,t=$('nt-'+id).value.trim(),f=$('nf-'+id).files[0];
+  if(t.length<2)return say(m,'Write the video title.');const er=checkVideo(f);if(er)return say(m,er);
+  add.disabled=true;say(m,'Uploading… do not close this page.','ok');let vp=null;
+  try{vp=user.id+'/'+Date.now()+'-'+fname(f);await upload(B.lesson,vp,f);
+   const n=Math.max(0,...myLessons.filter(l=>String(l.course_id)===id).map(l=>+l.lesson_order||0))+1;
+   const r=await db.from('lessons').insert({course_id:id,title:t,description:'',video_url:vp,lesson_order:n,status:'published'});if(r.error)throw new Error(r.error.message);
+   await loadAll()}catch(err){if(vp)await db.storage.from(B.lesson).remove([vp]);say(m,err.message);add.disabled=false}}
+};
+
+/* ---------- intro list actions ---------- */
+$('introList').onclick=async e=>{
+ const pub=e.target.closest('[data-ipub]'),del=e.target.closest('[data-idel]');
+ if(pub){const v=myIntros.find(x=>String(x.id)===pub.dataset.ipub);const r=await db.from('teacher_intro_videos').update({is_published:!v.is_published,published_at:new Date().toISOString()}).eq('id',v.id).eq('teacher_user_id',user.id);if(r.error)alert(r.error.message);await loadAll()}
+ if(del){if(!confirm('Delete your introduction video?'))return;const v=myIntros.find(x=>String(x.id)===del.dataset.idel);const r=await db.from('teacher_intro_videos').delete().eq('id',v.id).eq('teacher_user_id',user.id);if(r.error)return alert(r.error.message);
+  const files=[v.video_url,v.thumbnail_url].filter(x=>x&&!/^https?:/.test(x));if(files.length)await db.storage.from(B.intro).remove(files);await loadAll()}
+};
+
+/* ---------- profile ---------- */
+$('pGo').onclick=async()=>{
+ const full_name=$('pName').value.trim();if(!full_name)return say('pMsg','Enter your name.');
+ const a=await db.from('profiles').update({full_name,bio:$('pBio').value.trim(),updated_at:new Date().toISOString()}).eq('id',user.id);
+ const b=await db.from('teacher_profiles').update({specialization:$('pSpec').value.trim()}).eq('user_id',user.id);
+ const er=a.error||b.error;say('pMsg',er?er.message:'Saved.',!er);if(!er)$('who').textContent=full_name;
+};
+</script>
+</body>
+</html>
