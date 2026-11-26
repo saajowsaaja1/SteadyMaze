@@ -115,7 +115,7 @@ window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[repl
  <nav>
   <button class="nav on" data-p="home">Dashboard</button>
   <button class="nav" data-p="training">My training</button>
-  <a class="nav" href="trainng.html">Training Videos</a>
+  <a class="nav" href="training.html">Training Videos</a>
   <a class="nav" href="compotion.html">Competition</a>
   <button class="nav" data-p="payments">Payments</button>
   
@@ -367,7 +367,7 @@ document.addEventListener("click",e=>{const E=s=>e.target.closest(s);let x;
  if(x=E("[data-sk]")){const c=comps.find(y=>norm(y.skill_name)===norm(x.dataset.sk));if(c)stzGo("compotion.html?skill="+encodeURIComponent(x.dataset.sk));else go("training");return}
  if(x=E("[data-l]"))return playLesson(x.dataset.l);
  if(x=E("[data-done]"))return saveProg(x.dataset.done,true);
- if(x=E("[data-oc]"))return stzGo("trainng.html?c="+encodeURIComponent(x.dataset.oc));
+ if(x=E("[data-oc]"))return stzGo("training.html?c="+encodeURIComponent(x.dataset.oc));
  if(x=E("[data-buy]"))return buy(x.dataset.buy);
  if(x=E("[data-n]")){const id=x.dataset.n;db.from("notifications").update({is_read:true}).eq("id",id).eq("user_id",user.id).then(()=>{const n=notes.find(y=>String(y.id)===id);if(n)n.is_read=true;drawNotes()});return}
  if(x=E("[data-w]")){const t=introList.find(y=>String(y.id)===x.dataset.w);if(t)openM(player(url(t.video_url,B.teacher))+`<h3 style="margin:12px 0 4px">${esc(t.title)}</h3><p class="mut">${esc(t.description||"")}</p>`);return}
