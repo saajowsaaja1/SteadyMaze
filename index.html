@@ -306,7 +306,7 @@ window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[repl
 <script>
 const SB_URL='https://uxrltzlxdttbjstomhkb.supabase.co/rest/v1';
 const SB_KEY='sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b'; // publishable key: safe when RLS is enabled
-const SKILLS={lower:['Video Editing','Graphic Design','Thumbnail Creator','Photo Editor','Logo Editing','Movie Recap','Digital Marketing','Affiliate Marketing','Dropshipping'],medium:['FX','Crypto','Data Analysis','English','UI/UX','Cybersecurity','AI Agent'],high:['Python','Java','AI Web','AI App','Web Development']};
+const SKILLS={lower:['Video Editing','Graphic Design','Thumbnail Creator','Photo Editor','Logo Editing','Movie Recap','Digital Marketing','Affiliate Marketing','Dropshipping'],medium:['FX','Crypto','AI Agent','English','UI/UX','Cybersecurity'],high:['AI Web','AI App','Python','Java','Web Development','Machine Learning']};
 const PRICE={lower:5,medium:15,high:35};
 const GN={all:'All',lower:'Lower',medium:'Medium',high:'High'};
 const COL=['#E8192C','#F5B301','#8B3DFF','#FF7A1A'];
@@ -348,8 +348,8 @@ load();
 </script>
 <script>
 (()=>{const T={lower:{n:'Lower',p:[5,8,12],s:['Video Editing','Graphic Design','Thumbnail Creator','Photo Editor','Logo Editing','Movie Recap','Digital Marketing','Affiliate Marketing','Dropshipping']},
-medium:{n:'Medium',p:[15,20,30],s:['FX','Crypto','Data Analysis','English','UI/UX','Cybersecurity','AI Agent']},
-high:{n:'High',p:[35,60,80],s:['Python','Java','AI Web','AI App','Web Development']}};
+medium:{n:'Medium',p:[15,20,30],s:['FX','Crypto','AI Agent','English','UI/UX','Cybersecurity']},
+high:{n:'High',p:[35,60,80],s:['AI Web','AI App','Python','Java','Web Development','Machine Learning']}};
 let L=[];for(const g in T)T[g].s.forEach(k=>L.push({k,g,lv:1,p:T[g].p}));let f='all';
 const bar=document.getElementById('cbar'),grid=document.getElementById('cgrid');
 function draw(){bar.innerHTML=[['all','All']].concat(Object.keys(T).map(g=>[g,T[g].n])).map(x=>`<button class="chip grp ${x[0]===f?'on':''}" data-f="${x[0]}">${x[1]}</button>`).join('');
