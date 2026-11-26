@@ -14,47 +14,76 @@ body{min-height:100vh;display:grid;place-items:center;padding:24px;font:15px/1.6
 h1{font-size:1.5rem;margin-bottom:4px}
 p.sm{color:#9aa0c7;font-size:.9rem;margin-bottom:16px}
 input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;border-radius:12px;padding:13px;margin-bottom:10px;font:inherit}
+input[hidden]{display:none}
 input:focus{outline:none;border-color:var(--pu);box-shadow:0 0 0 3px rgba(139,92,246,.25)}
 button{width:100%;padding:14px;border:0;border-radius:12px;font:inherit;font-weight:700;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--pu),#6366f1)}
 button:disabled{opacity:.5}
-#msg{min-height:1.3em;margin-top:10px;font-size:.9rem;color:#f87171}
+#msg{min-height:1.3em;margin-top:10px;font-size:.9rem;color:#f87171}#msg.ok{color:#34d399}
+.l{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 a{color:var(--cy);font-size:.9rem;display:inline-block;margin-top:14px}
 </style>
 </head>
 <body>
 <main class="card">
   <div class="lg">Ste<b>zeo</b> Admin</div>
-  <h1>Admin login</h1>
-  <p class="sm">For administrators only.</p>
+  <h1 id="ttl">Admin login</h1>
+  <p class="sm" id="sub">For administrators only. Student and trainer emails cannot enter here.</p>
+  <input id="nm" placeholder="Full name" autocomplete="name" hidden>
   <input id="em" type="email" placeholder="Admin email" autocomplete="email">
-  <input id="pw" type="password" placeholder="Password" autocomplete="current-password">
+  <input id="pw" type="password" placeholder="Password (min 6)" autocomplete="current-password">
+  <input id="ac" type="password" placeholder="Secret admin code" autocomplete="off" hidden>
   <button id="go">Log in</button>
   <p id="msg"></p>
-  <a href="index.html">← Back to website</a>
+  <div class="l"><a href="#" id="sw">New admin? Sign up</a><a href="#" id="adm">Have an admin code?</a><a href="index.html">← Website</a></div>
 </main>
 <script>
 const db=window.supabase.createClient('https://uxrltzlxdttbjstomhkb.supabase.co','sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b',{auth:{persistSession:true,autoRefreshToken:true}});
-const $=id=>document.getElementById(id);let busy=false;
-const say=t=>$('msg').textContent=t;
-async function check(session){
- const {data:p,error}=await db.from('profiles').select('role').eq('id',session.user.id).maybeSingle();
+const $=id=>document.getElementById(id);let busy=false,signup=false;
+const say=(t,ok)=>{$('msg').textContent=t;$('msg').className=ok?'ok':''};
+function mode(v){signup=v;$('nm').hidden=!v;$('ac').hidden=!v;$('adm').style.display=v?'none':'';$('ttl').textContent=v?'Admin sign up':'Admin login';
+ $('sub').textContent=v?'Needs the secret admin code. Works only with a new email.':'For administrators only. Student and trainer emails cannot enter here.';
+ $('go').textContent=v?'Create admin account':'Log in';$('sw').textContent=v?'Have an account? Log in':'New admin? Sign up';$('pw').autocomplete=v?'new-password':'current-password';say('')}
+$('sw').onclick=e=>{e.preventDefault();mode(!signup);if(!signup)$('ac').hidden=true};
+$('adm').onclick=e=>{e.preventDefault();$('ac').hidden=!$('ac').hidden};
+/* Only role = admin gets in. Everyone else is signed out. */
+async function check(session,code,name){
+ let {data:p,error}=await db.from('profiles').select('role').eq('id',session.user.id).maybeSingle();
  if(error)throw new Error('Could not check your account: '+error.message);
- if(!p||p.role!=='admin'){await db.auth.signOut();throw new Error('This account is not an administrator.')}
+ if(!p&&code){const u=await db.from('profiles').upsert({id:session.user.id,full_name:name||session.user.email.split('@')[0],role:'student'},{onConflict:'id'});if(u.error)throw new Error(u.error.message);p={role:'student'}}
+ if(p&&p.role!=='admin'&&code){
+  const r=await db.rpc('stz_claim_admin',{p_code:code});
+  if(r.error){await db.auth.signOut();throw new Error(r.error.message)}
+  if(!r.data){await db.auth.signOut();throw new Error('Wrong admin code.')}
+  p={role:'admin'};
+ }
+ if(!p||p.role!=='admin'){await db.auth.signOut();throw new Error('This account is not an administrator. Student and trainer accounts cannot enter the admin dashboard.')}
  location.replace('admin.html');
 }
 $('go').onclick=async()=>{
- if(busy)return;const email=$('em').value.trim(),password=$('pw').value;
+ if(busy)return;const email=$('em').value.trim(),password=$('pw').value,name=$('nm').value.trim(),code=$('ac').hidden?'':$('ac').value.trim();
  if(!email||!password)return say('Enter your email and password.');
+ if(password.length<6)return say('Password must have at least 6 characters.');
+ if(signup&&(!name||!code))return say('Enter your name and the secret admin code.');
  busy=true;$('go').disabled=true;say('');
  try{
-  const {data,error}=await db.auth.signInWithPassword({email,password});
-  if(error)throw new Error(/invalid login/i.test(error.message)?'Wrong email or password.':error.message);
-  await check(data.session);
+  let session;
+  if(signup){
+   const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:name,role:'student',account_type:'student'}}});
+   if(error)throw new Error(/already/i.test(error.message)?'This email already has an account, so it cannot become admin.':error.message);
+   if(data.user&&Array.isArray(data.user.identities)&&data.user.identities.length===0)throw new Error('This email already has an account, so it cannot become admin.');
+   if(!data.session){say('Account created. Open the confirmation email sent to '+email+', then come back, press "Log in" and enter your admin code.',true);mode(false);$('ac').hidden=false;return}
+   session=data.session;
+  }else{
+   const {data,error}=await db.auth.signInWithPassword({email,password});
+   if(error)throw new Error(/invalid login/i.test(error.message)?'Wrong email or password.':error.message);
+   session=data.session;
+  }
+  await check(session,code,name);
  }catch(e){say(e.message)}
  finally{busy=false;$('go').disabled=false}
 };
-['em','pw'].forEach(i=>$(i).addEventListener('keydown',e=>{if(e.key==='Enter')$('go').click()}));
-(async()=>{const {data:{session}}=await db.auth.getSession();if(session){try{await check(session)}catch(e){say(e.message)}}})();
+['em','pw','nm','ac'].forEach(i=>$(i).addEventListener('keydown',e=>{if(e.key==='Enter')$('go').click()}));
+(async()=>{const {data:{session}}=await db.auth.getSession();if(session){try{await check(session,'','')}catch(e){say(e.message)}}})();
 </script>
 </body>
 </html>
