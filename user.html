@@ -72,7 +72,7 @@ button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
 .chip.on{background:linear-gradient(135deg,var(--o2),var(--o));color:#2a1704;border-color:transparent;font-weight:700}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:18px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
-.stat{background:var(--card);border-radius:14px;padding:14px}.stat small{display:block}.stat b{font:700 26px var(--serif);color:var(--o2)}
+.stat{background:var(--card);border-radius:14px;padding:14px}.stat small{display:block}.stat b{font:700 30px var(--serif);background:linear-gradient(90deg,#B388FF,#9EF0C4);-webkit-background-clip:text;background-clip:text;color:transparent}
 .sh{display:flex;gap:16px;align-items:center;margin-bottom:6px}.sh img,.sh .mono{width:84px;height:84px;border-radius:18px;flex:none;font-size:30px}
 .sh h2{font:800 28px var(--sans)}
 .tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,#1d1914,#14110e)}
@@ -331,7 +331,8 @@ function drawCourses(){
  const own=new Set(activeAccess.map(e=>String(e.course_id)));
  $("cat").innerHTML=Object.values(skillMap).map(s=>{const cs=Object.values(courseMap).filter(c=>c.skill_id===s.id&&(!catQ||(c.title||"").toLowerCase().includes(catQ)||norm(s.name).includes(catQ))).sort((a,b)=>lvN(a.skill_level_id)-lvN(b.skill_level_id));
   if(!cs.length)return"";
-  return`<h3 class="sec" style="font-size:18px">${esc(s.name)}</h3><div class="grid">`+cs.map(c=>{const l=levelMap[c.skill_level_id]||{};return`<div class="box"><small>Level ${esc(l.level_number||"")} ${esc(l.level_name||"")}</small><h3 style="margin:6px 0">${esc(c.title)}</h3><p class="mut">${esc(tName[c.teacher_id]||"Stezeo trainer")}</p><div class="stat" style="background:none;padding:6px 0"><b>${esc(c.currency||"USD")} ${Number(c.price||l.price||0)}</b></div>${own.has(String(c.id))?tag("Owned","ok"):`<button class="btn sm" data-buy="${esc(c.id)}">Buy</button>`}</div>`}).join("")+"</div>"}).join("")||'<p class="empty">No published trainings found.</p>'}
+  const grp=s.level_group||s.tier||"";
+  return`<h3 class="sec" style="font-size:18px">${esc(s.name)} ${grp?tag(TIERS[String(grp).toLowerCase()]||grp):""}</h3><div class="grid">`+cs.map(c=>{const l=levelMap[c.skill_level_id]||{};return`<div class="box"><small>Level ${esc(l.level_number||"")} ${esc(l.level_name||"")}</small><h3 style="margin:6px 0">${esc(c.title)}</h3><p class="mut">${esc(tName[c.teacher_id]||"Stezeo trainer")}</p><div class="stat" style="background:none;padding:6px 0"><b>${esc(c.currency||"USD")} ${Number(l.price||c.price||0)}</b></div>${own.has(String(c.id))?tag("Owned","ok"):`<button class="btn sm" data-buy="${esc(c.id)}">Buy</button>`}</div>`}).join("")+"</div>"}).join("")||'<p class="empty">No published trainings found.</p>'}
 async function buy(id){say("cMsg","Opening checkout…");const{data,error}=await db.functions.invoke("create-checkout",{body:{course_id:id}});
  if(error||!(data&&data.url))return say("cMsg","Online payment is not connected yet. Please contact support to buy this training.");location.href=data.url}
 async function openCourse(cid){
