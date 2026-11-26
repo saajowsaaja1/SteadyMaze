@@ -329,7 +329,8 @@ async function upd(t,id,patch,opt=[]){let r=await db.from(t).update(patch).eq("i
 const cname=id=>(myC.find(c=>String(c.id)===String(id))||{}).title||"Training";
 const sname=c=>(skillMap[c.skill_id]||{}).name||"Training";
 /* price always comes from the level (set by Stezeo); trainers cannot change it */
-const priceOf=c=>Number((levelMap[c.skill_level_id]||{}).price||c.price||0);
+const lvPrice=(sid,lid)=>{const s=skillMap[sid]||{},l=levelMap[lid]||{};return Number(s["price_"+(l.level_number||1)]??l.price??0)};
+const priceOf=c=>{const v=lvPrice(c.skill_id,c.skill_level_id);return v||Number(c.price||0)};
 const grpOf=s=>{const g=norm(s.level_group||s.tier||"");if(GRP[g])return g;const n=norm(s.name);for(const k in GRP)if(GRP[k].includes(n))return k;return"lower"};
 const studentsOf=id=>new Set(AC.filter(a=>String(a.course_id)===String(id)&&OK.includes(a.access_status)).map(a=>a.student_id)).size;
 const lessonsOf=id=>LS.filter(l=>String(l.course_id)===String(id));
@@ -396,7 +397,7 @@ function fillSkillSel(){
  $("nS").innerHTML=list.map(s=>`<option value="${esc(s.id)}">${esc(s.name)}</option>`).join("")||'<option value="">No skills in this tier</option>';fillLevels()}
 function fillLevels(){const sid=$("nS").value;
  $("nL").innerHTML=Object.values(levelMap).filter(l=>!l.skill_id||String(l.skill_id)===String(sid)).map(l=>`<option value="${esc(l.id)}">Level ${esc(l.level_number)} ${esc(l.level_name||"")}</option>`).join("");showPrice()}
-function showPrice(){const l=levelMap[$("nL").value]||{};say("nPrice",l.price!=null?"$"+Number(l.price):"—")}
+function showPrice(){const v=lvPrice($("nS").value,$("nL").value);say("nPrice",v?"$"+v:"—")}
 $("nG").onchange=fillSkillSel;$("nS").onchange=fillLevels;$("nL").onchange=showPrice;
 function rTrain(){
  if(!$("nS").options.length)fillSkillSel();
@@ -405,7 +406,7 @@ function rTrain(){
   return`<div class="box">${th?`<img class="cthumb" src="${esc(th)}" alt="">`:""}<small>${esc(sname(c))} · Level ${esc(lv.level_number||"")}</small><h3 style="margin:6px 0">${esc(c.title)}</h3><p class="mut">${n} video${n===1?"":"s"} · ${studentsOf(c.id)} user${studentsOf(c.id)===1?"":"s"} · ${money(priceOf(c))}</p><p style="margin-top:8px">${hasSt?tag(pub?"Published":"Draft",pub?"ok":"warn"):""}</p><div class="acts"><button class="btn sm" data-addv="${esc(c.id)}">Add videos</button><button class="btn alt sm" data-edit="${esc(c.id)}">Edit</button>${hasSt?`<button class="btn alt sm" data-pub="${esc(c.id)}">${pub?"Unpublish":"Publish"}</button>`:""}<button class="btn dn sm" data-del="${esc(c.id)}">Delete</button></div></div>`},"You have not created a training yet.")}
 $("nBtn").onclick=async()=>{
  const title=$("nT").value.trim(),sid=$("nS").value,lid=$("nL").value;if(!title)return say("nMsg","Enter a title.");if(!sid||!lid)return say("nMsg","Choose a skill and a level.");
- const price=Number((levelMap[lid]||{}).price||0);
+ const price=lvPrice(sid,lid);
  say("nMsg","Creating…");$("nBtn").disabled=true;
  let thumbnail_url=null;const th=$("nTh").files[0];
  if(th){
