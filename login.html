@@ -65,7 +65,7 @@ const friendly=e=>{const m=String(e&&e.message||e||'');
  if(/rate limit|too many/i.test(m))return 'Too many attempts. Please wait a minute and try again.';
  if(/failed to fetch|network/i.test(m))return 'Cannot reach Stezeo servers. Check your internet connection.';
  return m||'Something went wrong. Please try again.'};
-const nextPage=(role)=>{const n=new URLSearchParams(location.search).get('next')||'';if(/^(user|trainer|trainng|compotion)\.html([?#].*)?$/.test(n))return n;return 'user.html'};
+const nextPage=(role)=>{const n=new URLSearchParams(location.search).get('next')||'';if(/^(user|trainer|training|compotion)\.html([?#].*)?$/.test(n))return n;return role==='trainer'?'trainer.html':'user.html'};
 /* One login for everyone: the account's role decides which dashboard opens. */
 async function routeUser(session,name='',chosen=''){
   const {data:profile,error:readError}=await db.from('profiles').select('role').eq('id',session.user.id).maybeSingle();
