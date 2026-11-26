@@ -39,6 +39,13 @@ a{color:var(--cy);font-size:.9rem;display:inline-block;margin-top:14px}
 <script>
 const db=window.supabase.createClient('https://uxrltzlxdttbjstomhkb.supabase.co','sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b',{auth:{persistSession:true,autoRefreshToken:true}});
 const $=id=>document.getElementById(id);let busy=false,signup=false;
+const friendly=e=>{const m=String(e&&e.message||e||'');
+ if(/504|gateway|timeout|timed out/i.test(m))return 'Supabase did not answer in time (504). In Supabase turn OFF Authentication > Providers > Email > Confirm email (and remove custom SMTP), make sure the project is not paused, wait a minute and try again.';
+ if(/email.*rate limit|over_email_send_rate_limit/i.test(m))return 'Too many confirmation emails. In Supabase turn OFF Confirm email while testing, then try again.';
+ if(/database error saving new user/i.test(m))return 'Supabase could not save the new user. Run the latest schema.sql in Supabase > SQL Editor.';
+ if(/signups? not allowed|signups are disabled/i.test(m))return 'New sign ups are OFF in Supabase (Authentication > Sign In / Providers).';
+ if(/failed to fetch|network/i.test(m))return 'Cannot reach Supabase. Check your internet connection.';
+ return m||'Something went wrong. Please try again.'};
 const say=(t,ok)=>{$('msg').textContent=t;$('msg').className=ok?'ok':''};
 function mode(v){signup=v;$('nm').hidden=!v;$('ac').hidden=!v;$('adm').style.display=v?'none':'';$('ttl').textContent=v?'Admin sign up':'Admin login';
  $('sub').textContent=v?'Needs the secret admin code. Works only with a new email.':'For administrators only. Student and trainer emails cannot enter here.';
@@ -52,7 +59,7 @@ async function check(session,code,name){
  if(!p&&code){const u=await db.from('profiles').upsert({id:session.user.id,full_name:name||session.user.email.split('@')[0],role:'student'},{onConflict:'id'});if(u.error)throw new Error(u.error.message);p={role:'student'}}
  if(p&&p.role!=='admin'&&code){
   const r=await db.rpc('stz_claim_admin',{p_code:code});
-  if(r.error){await db.auth.signOut();throw new Error(r.error.message)}
+  if(r.error){await db.auth.signOut();throw new Error(/stz_claim_admin|function/i.test(r.error.message)?'Admin setup is missing. Run admin_setup.sql in Supabase > SQL Editor first.':r.error.message)}
   if(!r.data){await db.auth.signOut();throw new Error('Wrong admin code.')}
   p={role:'admin'};
  }
@@ -79,11 +86,11 @@ $('go').onclick=async()=>{
    session=data.session;
   }
   await check(session,code,name);
- }catch(e){say(e.message)}
+ }catch(e){say(friendly(e))}
  finally{busy=false;$('go').disabled=false}
 };
 ['em','pw','nm','ac'].forEach(i=>$(i).addEventListener('keydown',e=>{if(e.key==='Enter')$('go').click()}));
-(async()=>{const {data:{session}}=await db.auth.getSession();if(session){try{await check(session,'','')}catch(e){say(e.message)}}})();
+(async()=>{const {data:{session}}=await db.auth.getSession();if(session){try{await check(session,'','')}catch(e){say(friendly(e))}}})();
 </script>
 </body>
 </html>
