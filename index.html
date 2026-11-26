@@ -165,8 +165,15 @@ h2,h3,.info b{color:#fff}
 #adlg h3{background:linear-gradient(90deg,#fff,#FFD84A);-webkit-background-clip:text;background-clip:text;color:transparent}
 #adlg input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(230,185,60,.22)}
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+<style>
+/* Luxury prices: purple + light green, serif numbers */
+.cc .pr,.price span:last-child,.fee .n{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;background:linear-gradient(90deg,#B388FF,#9EF0C4);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.cc .pr{font-size:2.3rem}
+.cc .pr small{-webkit-text-fill-color:#fff;font-family:Inter,system-ui,sans-serif}
+</style>
 <meta name="stz-page" content="index">
-<style>html.guest section,html.guest .cta,html.guest footer,html.guest .mem{display:none!important}</style>
+<style>html.guest section:not(#intro):not(#trainings),html.guest .cta,html.guest footer,html.guest .mem:not(.pub){display:none!important}</style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[replace?"replace":"assign"](u);};
@@ -197,8 +204,8 @@ window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[repl
       <a class="logo" href="#">Stezeo</a>
       <ul>
         <li class="mem"><a href="#lessons">Lessons</a></li>
-        <li class="mem"><a href="#intro">Intro</a></li>
-        <li class="mem"><a href="#trainings">Trainings</a></li>
+        <li class="mem pub"><a href="#intro">Intro</a></li>
+        <li class="mem pub"><a href="#trainings">Trainings</a></li>
         <li class="mem"><a href="#competition">Competition</a></li>
         <li class="mem"><a href="#hire">Direct Employment</a></li>
         <li><a href="user.html" class="js-dash">My dashboard</a></li>
@@ -299,7 +306,7 @@ window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[repl
 <script>
 const SB_URL='https://uxrltzlxdttbjstomhkb.supabase.co/rest/v1';
 const SB_KEY='sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b'; // publishable key: safe when RLS is enabled
-const SKILLS={lower:['Video Editing','Movie Recap','Graphic Design','Logo Editing','Photo Editing','Affiliate Marketing','Dropshipping','Digital Marketing','Thumbnail Creator'],medium:['FX','Crypto','AI Agent','UI/UX','English','Data Analysis','Cybersecurity'],high:['AI Agent','AI Web','Web Development','Python','Java']};
+const SKILLS={lower:['Video Editing','Graphic Design','Thumbnail Creator','Photo Editor','Logo Editing','Movie Recap','Digital Marketing','Affiliate Marketing','Dropshipping'],medium:['FX','Crypto','Data Analysis','English','UI/UX','Cybersecurity','AI Agent'],high:['Python','Java','AI Web','AI App','Web Development']};
 const PRICE={lower:5,medium:15,high:35};
 const GN={all:'All',lower:'Lower',medium:'Medium',high:'High'};
 const COL=['#E8192C','#F5B301','#8B3DFF','#FF7A1A'];
@@ -340,18 +347,26 @@ $('dlg').addEventListener('close',()=>{$('stage').innerHTML=''});
 load();
 </script>
 <script>
-(()=>{const T={lower:{n:'Lower',p:[5,8,12],s:['Video Editing','Movie Recap','Graphic Design','Logo Editing','Photo Editing','Affiliate Marketing','Dropshipping','Digital Marketing','Thumbnail Creator']},
-medium:{n:'Medium',p:[15,20,30],s:['FX','Crypto','AI Agent','UI/UX','English','Data Analysis','Cybersecurity']},
-high:{n:'High',p:[35,60,80],s:['AI Agent','AI Web','Web Development','Python','Java']}};
+(()=>{const T={lower:{n:'Lower',p:[5,8,12],s:['Video Editing','Graphic Design','Thumbnail Creator','Photo Editor','Logo Editing','Movie Recap','Digital Marketing','Affiliate Marketing','Dropshipping']},
+medium:{n:'Medium',p:[15,20,30],s:['FX','Crypto','Data Analysis','English','UI/UX','Cybersecurity','AI Agent']},
+high:{n:'High',p:[35,60,80],s:['Python','Java','AI Web','AI App','Web Development']}};
 let L=[];for(const g in T)T[g].s.forEach(k=>L.push({k,g,lv:1,p:T[g].p}));let f='all';
 const bar=document.getElementById('cbar'),grid=document.getElementById('cgrid');
 function draw(){bar.innerHTML=[['all','All']].concat(Object.keys(T).map(g=>[g,T[g].n])).map(x=>`<button class="chip grp ${x[0]===f?'on':''}" data-f="${x[0]}">${x[1]}</button>`).join('');
 grid.innerHTML=L.filter(c=>f==='all'||c.g===f).map((c,i)=>{const p=c.p[c.lv-1];
-return `<article class="cc tier"><span class="tier-tag">${T[c.g].n}</span><h3>${c.k}</h3><div class="lv">${[1,2,3].map(n=>`<button data-k="${c.k}" data-l="${n}" class="${n===c.lv?'on':''}">Level ${n}</button>`).join('')}</div><div class="pr">${p?'$'+p:'Soon'} <small>${p?'one-time':'pricing soon'}</small></div><a class="btn p" href="user.html?enroll=${encodeURIComponent(c.k)}&g=${c.g}&level=${c.lv}">Enroll</a></article>`}).join('')}
+return `<article class="cc tier"><span class="tier-tag">${(T[c.g]||{}).n||c.g}</span><h3>${c.k}</h3><div class="lv">${[1,2,3].map(n=>`<button data-k="${c.k}" data-l="${n}" class="${n===c.lv?'on':''}">Level ${n}</button>`).join('')}</div><div class="pr">${p?'$'+p:'Soon'} <small>${p?'one-time':'pricing soon'}</small></div><a class="btn p" href="user.html?enroll=${encodeURIComponent(c.k)}&g=${c.g}&level=${c.lv}">Enroll</a></article>`}).join('')}
 document.addEventListener('click',e=>{const a=e.target.closest('[data-f]');if(a){f=a.dataset.f;draw();return}
 const b=e.target.closest('.lv button');if(b){L.find(c=>c.k===b.dataset.k).lv=+b.dataset.l;draw()}});draw();
 const H={headers:{apikey:SB_KEY}},esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-fetch(SB_URL+'/skills?select=*&order=sort',H).then(r=>r.ok?r.json():[]).then(d=>{if(d.length){L=d.filter(r=>r.is_training_visible!==false).map(r=>({k:r.skill,g:r.level_group,lv:1,p:[r.price_1,r.price_2,r.price_3]}));draw()}}).catch(()=>{});
+Promise.all([fetch(SB_URL+'/skills?select=*&order=display_order',H),fetch(SB_URL+'/skill_levels?select=*&order=level_number',H)]).then(async([a,b])=>{
+ const s=a.ok?await a.json():[],lv=b.ok?await b.json():[];if(!s.length)return;
+ const grp=n=>{n=String(n).toLowerCase();for(const g in T)if(T[g].s.some(x=>x.toLowerCase()===n))return g;return null};
+ L=s.filter(r=>r.is_training_visible!==false).map(r=>{
+  const mine=lv.filter(l=>!l.skill_id||String(l.skill_id)===String(r.id));
+  const g=String(r.level_group||r.tier||grp(r.name)||'lower').toLowerCase();
+  const p=[1,2,3].map(n=>{const x=mine.find(l=>Number(l.level_number)===n);return x&&x.price!=null?Number(x.price):(T[g]?T[g].p[n-1]:null)});
+  return {k:r.name,g,lv:1,p}});
+ draw()}).catch(()=>{});
 fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&order=starts_at.desc&limit=1',H).then(r=>r.ok?r.json():[]).then(async cy=>{
   if(!cy.length)return;
   const r=await fetch(SB_URL+'/skill_competitions?select=entry_price,tier,skills(name)&cycle_id=eq.'+cy[0].id,H);if(!r.ok)return;const c=await r.json();if(!c.length)return;
@@ -365,8 +380,10 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
 /* Published trainer introductions: same Supabase records shown in user.html */
 (async()=>{
  const E=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const base=SB_URL.replace('/rest/v1','/storage/v1/object/public/teacher-intro-videos/');
+ const base=SB_URL.replace('/rest/v1','/storage/v1/object/public/trainer-intro-videos/');
+ const avBase=SB_URL.replace('/rest/v1','/storage/v1/object/public/avatars/');
  const U=v=>!v?'':/^https?:/.test(v)?v:base+v;
+ const AV=v=>!v?'':/^https?:/.test(v)?v:avBase+v;
  try{
   const r=await fetch(SB_URL+'/teacher_intro_videos?select=*&is_published=eq.true&order=published_at.desc&limit=8',{headers:{apikey:SB_KEY}});
   if(!r.ok)throw new Error('Could not read published introductions ('+r.status+'). Check table SELECT policy.');
@@ -385,8 +402,8 @@ fetch(SB_URL+'/competition_cycles?select=id,cycle_number,ends_at&status=eq.open&
   const pm=Object.fromEntries(profiles.map(p=>[p.id,p]));
   const tm=Object.fromEntries(trainerProfiles.map(p=>[p.user_id,p]));
   $('vg').innerHTML=d.map(v=>{
-   const p=pm[v.teacher_user_id]||{},t=tm[v.teacher_user_id]||{};
-   return `<button class="card vc" data-iv="${E(v.id)}"><div class="th" style="${v.thumbnail_url?`background-image:url('${E(U(v.thumbnail_url))}')`:''}"><i>▶</i></div><div class="info"><b>${E(v.title)}</b><small>${E(p.full_name||'Stezeo trainer')}${t.specialization?' · '+E(t.specialization):''}</small><small>${(v.skills||[]).map(E).join(' · ')}</small></div></button>`;
+   const p=pm[v.teacher_user_id]||{},t=tm[v.teacher_user_id]||{},nm=p.full_name||'Stezeo trainer',ph=AV(p.profile_photo);
+   return `<button class="card vc" data-iv="${E(v.id)}"><div class="th" style="${v.thumbnail_url?`background-image:url('${E(U(v.thumbnail_url))}')`:''}"><i>▶</i></div><div class="info"><div style="display:flex;gap:8px;align-items:center">${ph?`<img src="${E(ph)}" alt="" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--gold)">`:''}<b>${E(v.title)}</b></div><small>${E(nm)}${t.specialization?' · '+E(t.specialization):''}</small><small>${(v.skills||[]).map(E).join(' · ')}</small></div></button>`;
   }).join('')||'<p class="sm">Intro videos are coming soon.</p>';
   document.addEventListener('click',e=>{
    const b=e.target.closest('[data-iv]');if(!b)return;
