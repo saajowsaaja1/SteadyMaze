@@ -89,6 +89,16 @@ label.mut{display:block}
 @media(max-width:1100px){.grid2{grid-template-columns:1fr}.hero{grid-template-columns:1fr}}
 @media(max-width:760px){.app{display:block}.side{position:fixed;inset:0 auto 0 0;width:250px;transform:translateX(-100%);transition:transform .25s}.side.open{transform:none}.burger{display:block}.main{padding:16px 14px 40px}.top .f{display:none}.prof{grid-template-columns:1fr}.pills .pill:nth-child(2){display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+/* luxury purple glass quick-action buttons */
+.luxbar{position:relative;display:flex;gap:14px;flex-wrap:wrap;margin:0 0 22px;padding:14px;border-radius:22px;background:linear-gradient(135deg,rgba(40,16,78,.55),rgba(14,8,30,.65));border:1px solid rgba(160,110,255,.28);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);box-shadow:0 14px 40px rgba(70,25,150,.35),inset 0 1px 0 rgba(255,255,255,.12);overflow:hidden}
+.luxbar::before{content:"";position:absolute;width:260px;height:260px;right:-60px;top:-120px;background:radial-gradient(circle,rgba(150,90,255,.45),transparent 65%);pointer-events:none}
+.lux{position:relative;flex:1 1 230px;display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:15px 22px;border-radius:16px;border:1px solid rgba(190,150,255,.5);background:linear-gradient(135deg,rgba(150,90,235,.62),rgba(62,22,125,.66));color:#fff;font-weight:800;font-size:15px;letter-spacing:.03em;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 30px rgba(90,40,190,.5),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .2s,box-shadow .2s,border-color .2s;overflow:hidden}
+.lux::after{content:"";position:absolute;top:0;left:-120%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transition:left .6s}
+.lux:hover{transform:translateY(-2px);border-color:rgba(220,190,255,.85);box-shadow:0 16px 40px rgba(120,60,230,.65),inset 0 1px 0 rgba(255,255,255,.4)}
+.lux:hover::after{left:140%}
+.lux.on{border-color:#e4d0ff;box-shadow:0 0 0 2px rgba(190,150,255,.45),0 12px 34px rgba(120,60,230,.6),inset 0 1px 0 rgba(255,255,255,.4)}
+.lux svg{width:22px;height:22px;flex:0 0 22px}
+@media(max-width:760px){.luxbar{padding:10px;gap:10px}.lux{flex:1 1 100%;padding:14px 16px}}
 </style>
 <meta name="stz-page" content="trainer">
 <style id="gate">html::before{content:"STEZEO \00B7  Loading your dashboard\2026";position:fixed;inset:0;z-index:99999;display:grid;place-items:center;text-align:center;padding:24px;background:radial-gradient(1200px 600px at 80% -10%,rgba(16,179,106,.32),transparent 60%),#04120c;color:#E6B93C;font:800 1.15rem Inter,system-ui,sans-serif;letter-spacing:.04em;animation:stzpulse 1.2s ease-in-out infinite alternate}@keyframes stzpulse{from{opacity:.55}to{opacity:1}}</style>
@@ -127,6 +137,10 @@ window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[repl
  <input class="f" id="q" type="search" placeholder="Search your trainings and videos" aria-label="Search">
  <div class="pills"><span class="pill"><b id="pTr">0</b> trainings</span><span class="pill"><b id="pSt">0</b> users</span><button class="avb" id="tav" aria-label="Settings" data-go="settings"></button></div>
 </header>
+<div class="luxbar" id="luxbar">
+ <button class="lux" data-go="upload" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="14" height="14" rx="3"/><path d="M16 10l6-3v10l-6-3"/><path d="M9 15V9M6.5 11.5L9 9l2.5 2.5"/></svg>Upload training video</button>
+ <button class="lux" data-go="intro" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.5-6.5 8-6.5s7 2 8 6.5"/><path d="M12 12.5v-4M10.3 10.2L12 8.5l1.7 1.7"/></svg>Upload intro</button>
+</div>
 
 <!-- OVERVIEW -->
 <section class="page on" id="ov">
@@ -314,9 +328,6 @@ const match=s=>!Q||norm(s).includes(Q);
 async function verifyTrainer(session){
  if(!session){stzGo(LOGIN,true);return}
  user=session.user;
- const {data:profile,error}=await db.from("profiles").select("role").eq("id",user.id).maybeSingle();
- if(error){stzGo(LOGIN+"?error=profile",true);return}
- if(!profile||profile.role!=="trainer"){stzGo("user.html",true);return}
  document.getElementById("gate")&&document.getElementById("gate").remove();start();
 }
 db.auth.getSession().then(({data})=>verifyTrainer(data.session)).catch(()=>stzGo(LOGIN,true));
@@ -331,7 +342,7 @@ function openHash(){const h=location.hash.slice(1);if(["ov","train","upload","in
 function go(p){cur=p;
  document.querySelectorAll(".page").forEach(x=>x.classList.toggle("on",x.id===p));
  document.querySelectorAll(".nav[data-p]").forEach(x=>x.classList.toggle("on",x.dataset.p===p));
- $("side").classList.remove("open");window.scrollTo(0,0);
+ document.querySelectorAll(".lux[data-go]").forEach(x=>x.classList.toggle("on",x.dataset.go===p));$("side").classList.remove("open");window.scrollTo(0,0);
  if(p==="mat")loadMat();if(p==="earn")rEarn()}
 
 async function loadProfile(){
@@ -563,4 +574,3 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeM()});
 </script>
 </body>
 </html>
-
