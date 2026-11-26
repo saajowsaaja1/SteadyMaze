@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stezeo – Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="stz-page" content="admin">
+<style>
+:root{color-scheme:dark;--bg:#080a1a;--pn:#12142b;--ln:rgba(255,255,255,.09);--pu:#8b5cf6;--cy:#22d3ee;--tx:#e9ebff;--mu:#9aa0c7;--ok:#34d399;--no:#f87171}
+*{box-sizing:border-box;margin:0}
+body{font:14px/1.5 Inter,system-ui,sans-serif;color:var(--tx);background:radial-gradient(900px 500px at 70% -10%,rgba(139,92,246,.25),transparent 60%),var(--bg);min-height:100vh}
+#gate{position:fixed;inset:0;z-index:99;display:grid;place-items:center;background:var(--bg);color:var(--cy);font-weight:700;text-align:center;padding:24px}
+#sb{position:fixed;inset:0 auto 0 0;width:220px;background:#0d0f24;border-right:1px solid var(--ln);padding:18px 12px;padding-top:calc(18px + env(safe-area-inset-top,0px));overflow:auto;z-index:20;transition:transform .2s}
+.lg{font-weight:800;font-size:1.2rem;color:#fff;margin:0 8px 16px}.lg b{color:var(--pu)}
+#sb button,#sb a{display:block;width:100%;text-align:left;background:none;border:0;color:var(--mu);padding:10px 12px;border-radius:10px;font:inherit;cursor:pointer;text-decoration:none;margin-bottom:2px}
+#sb button.on{background:rgba(139,92,246,.22);color:#fff}
+#sb button:hover,#sb a:hover{color:#fff}
+.sec{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:#5f658f;margin:16px 10px 6px}
+.main{margin-left:220px;padding:0 22px 50px}
+header{display:flex;align-items:center;gap:12px;padding:16px 0;padding-top:calc(16px + env(safe-area-inset-top,0px));border-bottom:1px solid var(--ln);margin-bottom:18px}
+header h1{font-size:1.3rem;flex:1}
+#bg{display:none;background:var(--pn);border:1px solid var(--ln);color:#fff;border-radius:10px;padding:7px 12px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:16px}
+.st{padding:16px;border-radius:16px;border:1px solid rgba(139,92,246,.4);background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(34,211,238,.08))}
+.st small{color:var(--mu)}.st b{display:block;font-size:1.7rem}
+.cd{background:var(--pn);border:1px solid var(--ln);border-radius:16px;padding:16px;margin-bottom:14px}
+h2{font-size:1.05rem;margin-bottom:8px}
+.sm,.mu{color:var(--mu);font-size:.88rem}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{color:var(--mu);font-weight:500;text-align:left}
+th,td{padding:9px 8px;border-bottom:1px solid var(--ln);white-space:nowrap}
+.b{border:0;border-radius:9px;padding:7px 12px;font:inherit;font-weight:600;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--pu),#6366f1);margin:2px 4px 2px 0}
+.b.g2{background:rgba(52,211,153,.2);color:var(--ok)}.b.r{background:rgba(248,113,113,.18);color:var(--no)}.b.n{background:rgba(255,255,255,.08);color:var(--tx)}
+.t{display:inline-block;padding:1px 9px;border-radius:99px;font-size:.74rem;background:rgba(139,92,246,.22);color:#c4b5fd;margin-right:4px}
+.t.ok{background:rgba(52,211,153,.18);color:var(--ok)}.t.no{background:rgba(248,113,113,.18);color:var(--no)}
+input{background:rgba(255,255,255,.06);border:1px solid var(--ln);color:#fff;border-radius:9px;padding:7px 9px;font:inherit;width:90px}
+video{width:100%;max-width:420px;border-radius:12px;background:#000;margin-top:8px;display:block}
+.lsn{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 0;border-top:1px solid var(--ln)}
+#tt{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1d1f3f;border:1px solid var(--pu);padding:10px 16px;border-radius:12px;display:none;z-index:50;max-width:90%}
+@media(max-width:800px){#sb{transform:translateX(-100%)}#sb.o{transform:none}.main{margin-left:0;padding:0 14px 50px}#bg{display:block}}
+</style>
+<script>window.stzGo=function(r,p){location[p?"replace":"assign"](String(r||"index.html"))}</script>
+</head>
+<body>
+<div id="gate">Stezeo · Loading admin…</div>
+<aside id="sb">
+ <div class="lg">Ste<b>zeo</b> Admin</div>
+ <button data-p="ov" class="on">Overview</button>
+ <button data-p="rev">Review queue <span class="t no" id="pc">0</span></button>
+ <button data-p="con">All content</button>
+ <button data-p="tr">Trainers</button>
+ <button data-p="pay">Payments & access</button>
+ <button data-p="cmp">Competition</button>
+ <button data-p="sk">Skills & prices</button>
+ <div class="sec">Open pages</div>
+ <a href="index.html">index.html (Home)</a><a href="user.html">user.html</a><a href="trainer.html">trainer.html</a><a href="training.html">training.html</a><a href="compotion.html">compotion.html</a>
+ <div class="sec">Account</div>
+ <button id="out">Log out</button>
+</aside>
+<div class="main">
+ <header><button id="bg">☰</button><h1 id="ti">Overview</h1><span class="mu" id="me"></span></header>
+ <div id="v"></div>
+</div>
+<div id="tt"></div>
+<script>
+const db=window.supabase.createClient('https://uxrltzlxdttbjstomhkb.supabase.co','sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b',{auth:{persistSession:true,autoRefreshToken:true}});
+const $=id=>document.getElementById(id);
+const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const TT={ov:'Overview',rev:'Review queue',con:'All content',tr:'Trainers',pay:'Payments & access',cmp:'Competition',sk:'Skills & prices'};
+const PRICES={lower:[5,8,12],medium:[15,20,30],high:[35,60,80]};
+const GRP={lower:['video editing','thumbnail creator','graphic design','digital marketing','affiliate marketing','dropshipping','photo editing','movie recap','logo editing'],medium:['fx','crypto','ai agent','english','ui/ux','cybersecurity'],high:['ai web','ai app','python','java','web development','machine learning']};
+const fixed=(n,l)=>{for(const g in GRP)if(GRP[g].includes(String(n||'').toLowerCase()))return PRICES[g][l-1];return ''};
+let cur='ov',D={};
+const toast=t=>{const e=$('tt');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',4500)};
+const q=async p=>{const r=await p;if(r.error){toast(r.error.message);return[]}return r.data||[]};
+const cnt=async p=>{const r=await p;return r.count||0};
+const nm=id=>(D.pr&&D.pr[id]&&D.pr[id].full_name)||'—';
+const day=v=>v?new Date(v).toLocaleDateString():'—';
+const sign=async(p)=>{const r=await db.storage.from('lesson-videos').createSignedUrl(p,3600);return r.error?'':r.data.signedUrl};
+const pub=(b,p)=>!p?'':/^https?:/.test(p)?p:db.storage.from(b).getPublicUrl(p).data.publicUrl;
+
+(async()=>{
+ try{
+  const {data:{session}}=await db.auth.getSession();
+  if(!session){stzGo('admin-login.html',true);return}
+  const {data:p}=await db.from('profiles').select('role,full_name').eq('id',session.user.id).maybeSingle();
+  if(!p||p.role!=='admin'){stzGo('admin-login.html',true);return}
+  $('me').textContent=p.full_name||'Admin';$('gate').remove();go('ov');
+ }catch(e){$('gate').textContent='Could not load: '+e.message}
+})();
+$('out').onclick=async()=>{await db.auth.signOut();stzGo('admin-login.html',true)};
+$('bg').onclick=()=>$('sb').classList.toggle('o');
+$('sb').onclick=e=>{const b=e.target.closest('[data-p]');if(b){go(b.dataset.p);$('sb').classList.remove('o')}};
+async function go(p){cur=p;$('ti').textContent=TT[p];document.querySelectorAll('#sb [data-p]').forEach(b=>b.classList.toggle('on',b.dataset.p===p));$('v').innerHTML='<p class="mu">Loading…</p>';await load();$('v').innerHTML=V[p]();}
+
+async function load(){
+ const [pr,iv,co,ls,sk,lv]=await Promise.all([q(db.from('profiles').select('id,full_name,role,created_at')),q(db.from('teacher_intro_videos').select('*').order('created_at',{ascending:false})),q(db.from('courses').select('*').order('created_at',{ascending:false})),q(db.from('lessons').select('*').order('lesson_order')),q(db.from('skills').select('*')),q(db.from('skill_levels').select('*'))]);
+ D={pr:Object.fromEntries(pr.map(x=>[x.id,x])),profiles:pr,iv,co,ls,sk,lv,skm:Object.fromEntries(sk.map(x=>[x.id,x])),lvm:Object.fromEntries(lv.map(x=>[x.id,x]))};
+ D.pi=iv.filter(x=>x.review_status==='pending');D.pc=co.filter(x=>x.status==='pending');
+ $('pc').textContent=D.pi.length+D.pc.length;
+ if(cur==='tr')D.tp=await q(db.from('teacher_profiles').select('*'));
+ if(cur==='pay'){D.pay=await q(db.from('payments').select('*').order('created_at',{ascending:false}).limit(100));D.acc=await q(db.from('course_access').select('*').limit(200))}
+ if(cur==='cmp'){D.cy=await q(db.from('competition_cycles').select('*').order('starts_at',{ascending:false}).limit(10));D.sc=await q(db.from('skill_competitions').select('*,skills(name)'))}
+}
+const skName=c=>(D.skm[c.skill_id]||{}).name||'Skill',lvNo=c=>(D.lvm[c.skill_level_id]||{}).level_number||1;
+function introCard(v){return`<div class="cd"><b>${E(v.title)}</b> <span class="t ${v.is_published?'ok':'no'}">${v.is_published?'Live':v.review_status==='pending'?'Pending':'Hidden'}</span><div class="sm">${E(nm(v.teacher_user_id))} · ${(Array.isArray(v.skills)?v.skills:[]).map(s=>`<span class="t">${E(s)}</span>`).join('')}</div><p class="sm">${E(v.description)}</p><video controls preload="metadata" src="${E(pub('trainer-intro-videos',v.video_url))}"></video>
+ <div style="margin-top:8px">${v.is_published?`<button class="b n" data-a="ihide" data-id="${E(v.id)}">Hide</button>`:`<button class="b g2" data-a="iok" data-id="${E(v.id)}">Approve & publish</button>`}<button class="b r" data-a="idel" data-id="${E(v.id)}">Delete</button></div></div>`}
+function courseCard(c){const ls=D.ls.filter(l=>String(l.course_id)===String(c.id)),pend=c.status==='pending';
+ return`<div class="cd"><b>${E(c.title)}</b> <span class="t">${E(skName(c))}</span><span class="t">Level ${lvNo(c)}</span><span class="t ${c.status==='published'?'ok':'no'}">${E(c.status)}</span><div class="sm">${E(nm(c.teacher_id))} · now $${E(c.price??'—')}</div><p class="sm">${E(c.description)}</p>
+ ${ls.map(l=>`<div class="lsn"><span>${E(l.lesson_order)}. ${E(l.title)}</span><button class="b n" data-a="watch" data-p="${E(l.video_url)}">Watch</button></div>`).join('')||'<p class="sm">No videos</p>'}
+ <div style="margin-top:8px">${pend?`Price $ <input id="pr-${E(c.id)}" type="number" min="1" value="${E(fixed(skName(c),lvNo(c)))}"> <button class="b g2" data-a="cok" data-id="${E(c.id)}">Set price & publish</button>`:c.status==='published'?`<button class="b n" data-a="chide" data-id="${E(c.id)}">Hide</button>`:`<button class="b g2" data-a="cshow" data-id="${E(c.id)}">Publish</button>`}<button class="b r" data-a="cdel" data-id="${E(c.id)}">Delete</button></div></div>`}
+function tbl(rows,cols,fn){return`<div class="tw"><table><tr>${cols.map(c=>`<th>${E(c)}</th>`).join('')}</tr>${rows.map(fn).join('')||`<tr><td colspan="${cols.length}" class="mu">Nothing yet.</td></tr>`}</table></div>`}
+function gen(rows){if(!rows.length)return'<p class="mu">Nothing yet.</p>';const pref=['created_at','student_id','user_id','course_id','amount','currency','status','access_status','provider'],keys=pref.filter(k=>k in rows[0]);const ks=keys.length?keys:Object.keys(rows[0]).slice(0,6);
+ return tbl(rows,ks,r=>`<tr>${ks.map(k=>`<td>${k.endsWith('_id')?E(nm(r[k])!=='—'?nm(r[k]):String(r[k]).slice(0,8)):k.endsWith('_at')?day(r[k]):E(r[k])}</td>`).join('')}</tr>`)}
+
+const V={
+ ov(){const tr=D.profiles.filter(x=>x.role==='trainer').length,st=D.profiles.filter(x=>x.role==='student').length,pub=D.co.filter(c=>c.status==='published').length;
+  return`<div class="g"><div class="st"><small>Trainers</small><b>${tr}</b></div><div class="st"><small>Students</small><b>${st}</b></div><div class="st"><small>Live trainings</small><b>${pub}</b></div><div class="st"><small>Waiting for review</small><b>${D.pi.length+D.pc.length}</b></div></div>
+  <div class="cd"><h2>What to do</h2><p class="sm">Open <b>Review queue</b> to approve trainer intro videos and long trainings. For a training you set the price, then it goes live in training.html. Intro videos go live on index.html and user.html.</p></div>`},
+ rev(){return`<h2>Intro videos (${D.pi.length})</h2>${D.pi.map(introCard).join('')||'<p class="mu">No intro videos waiting.</p>'}<h2 style="margin-top:14px">Trainings (${D.pc.length})</h2>${D.pc.map(courseCard).join('')||'<p class="mu">No trainings waiting.</p>'}`},
+ con(){return`<h2>Intro videos</h2>${D.iv.filter(x=>x.review_status!=='pending').map(introCard).join('')||'<p class="mu">None.</p>'}<h2 style="margin-top:14px">Trainings</h2>${D.co.filter(x=>x.status!=='pending').map(courseCard).join('')||'<p class="mu">None.</p>'}`},
+ tr(){const tm=Object.fromEntries((D.tp||[]).map(t=>[t.user_id,t]));return`<div class="cd">${tbl(D.profiles.filter(x=>x.role==='trainer'),['Name','Trainings','Verified',''],p=>{const t=tm[p.id]||{};return`<tr><td>${E(p.full_name)}</td><td>${D.co.filter(c=>c.teacher_id===p.id).length}</td><td><span class="t ${t.verified?'ok':'no'}">${t.verified?'Yes':'No'}</span></td><td><button class="b n" data-a="ver" data-id="${E(p.id)}" data-x="${t.verified?0:1}">${t.verified?'Unverify':'Verify'}</button></td></tr>`})}</div>`},
+ pay(){return`<div class="cd"><h2>Payments</h2>${gen(D.pay||[])}</div><div class="cd"><h2>Course access (block or activate a student)</h2>${tbl(D.acc||[],['Student','Course','Status',''],a=>`<tr><td>${E(nm(a.student_id))}</td><td>${E(((D.co.find(c=>String(c.id)===String(a.course_id)))||{}).title||String(a.course_id).slice(0,8))}</td><td><span class="t ${a.access_status==='active'?'ok':'no'}">${E(a.access_status)}</span></td><td><button class="b n" data-a="acc" data-id="${E(a.id)}" data-x="${a.access_status==='active'?'blocked':'active'}">${a.access_status==='active'?'Block':'Activate'}</button></td></tr>`)}</div>`},
+ cmp(){return`<div class="cd"><h2>Cycles</h2>${tbl(D.cy||[],['Cycle','Starts','Ends','Status',''],c=>`<tr><td>#${E(c.cycle_number)}</td><td>${day(c.starts_at)}</td><td>${day(c.ends_at)}</td><td><span class="t ${c.status==='open'?'ok':'no'}">${E(c.status)}</span></td><td><button class="b n" data-a="cyc" data-id="${E(c.id)}" data-x="${c.status==='open'?'closed':'open'}">${c.status==='open'?'Close':'Open'}</button></td></tr>`)}</div>
+  <div class="cd"><h2>Competition skills (entry fee & registration)</h2>${tbl(D.sc||[],['Skill','Tier','Entry $','Registration',''],c=>`<tr><td>${E((c.skills||{}).name)}</td><td>${E(c.tier)}</td><td><input id="ep-${E(c.id)}" type="number" value="${E(c.entry_price)}"> <button class="b" data-a="fee" data-id="${E(c.id)}">Save</button></td><td><span class="t ${c.registration_open?'ok':'no'}">${c.registration_open?'Open':'Closed'}</span></td><td><button class="b n" data-a="reg" data-id="${E(c.id)}" data-x="${c.registration_open?0:1}">${c.registration_open?'Close':'Open'}</button></td></tr>`)}</div>`},
+ sk(){return`<div class="cd"><p class="sm">Default prices for trainings (level 1 / 2 / 3). Long trainings are priced by you when you approve them.</p>${tbl(D.sk.filter(s=>s.is_training_visible!==false),['Skill','Level 1 $','Level 2 $','Level 3 $',''],s=>`<tr><td>${E(s.name)}</td>${[1,2,3].map(n=>`<td><input id="sp-${E(s.id)}-${n}" type="number" value="${E(s['price_'+n])}"></td>`).join('')}<td><button class="b" data-a="sp" data-id="${E(s.id)}">Save</button></td></tr>`)}</div>`}
+};
+
+const upd=async(t,id,patch,col='id')=>{const r=await db.from(t).update(patch).eq(col,id);if(r.error){toast(r.error.message);return false}return true};
+$('v').onclick=async e=>{
+ const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=b.dataset.id,x=b.dataset.x;let ok=false;
+ if(a==='watch'){const u=await sign(b.dataset.p);if(!u)return toast('Could not open the video.');b.outerHTML=`<video controls autoplay src="${E(u)}"></video>`;return}
+ if(a==='iok')ok=await upd('teacher_intro_videos',id,{is_published:true,review_status:'approved',published_at:new Date().toISOString()});
+ if(a==='ihide')ok=await upd('teacher_intro_videos',id,{is_published:false,review_status:'hidden'});
+ if(a==='idel'&&confirm('Delete this intro video?')){const v=D.iv.find(i=>String(i.id)===id);const r=await db.from('teacher_intro_videos').delete().eq('id',id);if(r.error)return toast(r.error.message);const f=[v.video_url,v.thumbnail_url].filter(y=>y&&!/^https?:/.test(y));if(f.length)await db.storage.from('trainer-intro-videos').remove(f);ok=true}
+ if(a==='cok'){const p=Number($('pr-'+id).value);if(!(p>0))return toast('Enter a price.');ok=await upd('courses',id,{price:p,status:'published'})}
+ if(a==='chide')ok=await upd('courses',id,{status:'draft'});
+ if(a==='cshow')ok=await upd('courses',id,{status:'published'});
+ if(a==='cdel'&&confirm('Delete this training and its videos?')){const ls=D.ls.filter(l=>String(l.course_id)===id);let r=await db.from('lessons').delete().eq('course_id',id);if(r.error)return toast(r.error.message);r=await db.from('courses').delete().eq('id',id);if(r.error)return toast(r.error.message);const f=ls.map(l=>l.video_url).filter(y=>y&&!/^https?:/.test(y));if(f.length)await db.storage.from('lesson-videos').remove(f);ok=true}
+ if(a==='ver'){const r=await db.from('teacher_profiles').update({verified:x==='1'}).eq('user_id',id);if(r.error)return toast(r.error.message);ok=true}
+ if(a==='acc')ok=await upd('course_access',id,{access_status:x});
+ if(a==='cyc')ok=await upd('competition_cycles',id,{status:x});
+ if(a==='fee'){const p=Number($('ep-'+id).value);if(!(p>=0))return toast('Enter a fee.');ok=await upd('skill_competitions',id,{entry_price:p})}
+ if(a==='reg')ok=await upd('skill_competitions',id,{registration_open:x==='1'});
+ if(a==='sp'){const pr=[1,2,3].map(n=>Number($(`sp-${id}-${n}`).value)),patch={price_1:pr[0],price_2:pr[1],price_3:pr[2]};ok=await upd('skills',id,patch);if(ok)for(let n=1;n<=3;n++)await db.from('skill_levels').update({price:pr[n-1]}).eq('skill_id',id).eq('level_number',n)}
+ if(ok){toast('Done.');go(cur)}
+};
+</script>
+</body>
+</html>
