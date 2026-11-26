@@ -180,9 +180,11 @@ window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[repl
 
 <!-- UPLOAD TRAINING -->
 <section class="page" id="upload">
+ <div class="box" style="border-color:var(--o)"><h3 style="margin-bottom:8px">Before you upload</h3><ol class="mut" style="padding-left:18px;line-height:1.9;font-size:13px"><li>First create a training in <b>My Training</b>: choose the Tier (Lower, Medium or High), the Skill and the Level (1, 2 or 3).</li><li>The skills belong to Stezeo. You cannot add a new skill.</li><li>The price is set automatically by Stezeo for that skill and level. You cannot change it.</li><li>Then come back here, choose your training and upload its videos in order (1, 2, 3...). Students see them only after they buy the training.</li><li>Your introduction video is uploaded in <b>Introduction Video</b> and appears on the homepage after admin approval.</li></ol></div>
  <div class="box">
   <h3 style="margin-bottom:6px">Upload a training video</h3>
   <p class="mut" style="margin-bottom:12px">Upload a video file, or paste a YouTube / Vimeo link. Learners with access see it in their Training page.</p>
+  <div class="note" id="uInfo" style="margin-bottom:12px"></div>
   <div class="fg">
    <div><label class="mut" for="uC">Training</label><select class="f" id="uC"></select></div>
    <div><label class="mut" for="uT">Video title</label><input class="f" id="uT" placeholder="1. Introduction"></div>
@@ -201,10 +203,10 @@ window.stzGo=function(rel,replace){var u=String(rel||"index.html");location[repl
 <section class="page" id="intro">
  <div class="box">
   <h3 style="margin-bottom:6px">Trainer introduction video</h3>
-  <p class="mut" style="margin-bottom:14px">Upload a short introduction for the public STEZEO homepage. This video is public; training lessons remain private.</p>
+  <p class="mut" style="margin-bottom:14px">Upload a short introduction for the public STEZEO homepage. This video is public; training lessons remain private. Choose only skills from the Stezeo list. You cannot write your own skill.</p>
   <div class="fg">
    <div><label class="mut" for="iTitle">Video title</label><input class="f" id="iTitle" maxlength="120" placeholder="Meet your trainer"></div>
-   <div><label class="mut" for="iSkills">Skills (comma separated)</label><input class="f" id="iSkills" placeholder="Video Editing, Graphic Design"></div>
+   <div><label class="mut">Skills you teach (tap to choose)</label><div class="chips" id="iSkills"></div></div>
   </div>
   <label class="mut" for="iDesc">Introduction</label><textarea class="f" id="iDesc" rows="3" maxlength="1000" placeholder="Tell visitors what you teach and what they can expect."></textarea>
   <div class="fg">
@@ -378,7 +380,9 @@ async function loadAll(){
  if(sid.length)(await qq(db.from("profiles").select("id,full_name").in("id",sid))).forEach(p=>PN[p.id]=p.full_name);
  const w=await qq(db.from("wallets").select("*").eq("user_id",user.id));wallet=Number((w[0]||{}).balance||0);
  renderAll()}
-function renderAll(){rOv();rTrain();rUpload();rLib();rMatSel();rAssign();rAnal();rEarn()}
+function renderAll(){rOv();rTrain();rUpload();rLib();rMatSel();rAssign();rAnal();rEarn();rIntroSkills()}
+function rIntroSkills(){const on=new Set([...document.querySelectorAll("#iSkills .chip.on")].map(b=>b.dataset.isk)),o={lower:1,medium:2,high:3};
+ $("iSkills").innerHTML=Object.values(skillMap).sort((a,b)=>o[grpOf(a)]-o[grpOf(b)]).map(s=>`<button type="button" class="chip ${on.has(s.name)?"on":""}" data-isk="${esc(s.name)}">${esc(s.name)}</button>`).join("")||'<span class="mut">No skills available.</span>'}
 
 /* ---------- Overview ---------- */
 function rOv(){
@@ -420,7 +424,7 @@ $("nBtn").onclick=async()=>{
  if(r.error)r=await ins("courses",row,["thumbnail_url","status","description","currency"]);
  $("nBtn").disabled=false;
  if(r.error)return say("nMsg",r.error.message);
- say("nMsg","Training created.");$("nT").value="";$("nD").value="";$("nTh").value="";await loadAll();go("upload");$("uC").value=String(r.data.id)};
+ say("nMsg","Training created.");$("nT").value="";$("nD").value="";$("nTh").value="";await loadAll();go("upload");$("uC").value=String(r.data.id);uInfo()};
 function editTraining(id){const c=myC.find(x=>String(x.id)===String(id));if(!c)return;
  openM(`<h3 class="sec">Edit training</h3><label class="mut" for="eT">Title</label><input class="f" id="eT" value="${esc(c.title)}"><label class="mut">Price (set by Stezeo)</label><div class="pricebox">${money(priceOf(c))}</div>${"description" in c?`<label class="mut" for="eD">Description</label><textarea class="f" id="eD" rows="3">${esc(c.description||"")}</textarea>`:""}<button class="btn" data-esave="${esc(id)}">Save</button><div class="msg" id="eMsg"></div>`)}
 async function saveEdit(id){const p={title:$("eT").value.trim()};if($("eD"))p.description=$("eD").value.trim();if(!p.title)return say("eMsg","Enter a title.");
@@ -432,7 +436,10 @@ async function delTraining(id){if(!confirm("Delete this training and all its vid
 
 /* ---------- Upload ---------- */
 const trainOpts=()=>myC.map(c=>`<option value="${esc(c.id)}">${esc(c.title)}</option>`).join("")||'<option value="">Create a training first</option>';
-function rUpload(){["uC","mC","aC"].forEach(id=>{const s=$(id),v=s.value;s.innerHTML=trainOpts();if(v&&[...s.options].some(o=>o.value===v))s.value=v})}
+function rUpload(){["uC","mC","aC"].forEach(id=>{const s=$(id),v=s.value;s.innerHTML=trainOpts();if(v&&[...s.options].some(o=>o.value===v))s.value=v});uInfo()}
+function uInfo(){const c=myC.find(x=>String(x.id)===String($("uC").value)),e=$("uInfo");if(!e)return;if(!c){e.innerHTML="<b>No training selected.</b> Create a training first.";return}
+ const s=skillMap[c.skill_id]||{},l=levelMap[c.skill_level_id]||{},g=grpOf(s);e.innerHTML="<b>"+esc(s.name||"Skill")+"</b> · "+g.charAt(0).toUpperCase()+g.slice(1)+" · Level "+esc(l.level_number||"")+" · Price <b>"+money(priceOf(c))+"</b> (set by Stezeo)"}
+$("uC").onchange=uInfo;
 const nextOrder=cid=>lessonsOf(cid).reduce((m,l)=>Math.max(m,Number(l.lesson_order||0)),0)+1;
 $("uBtn").onclick=async()=>{const m="uMsg",cid=$("uC").value,title=$("uT").value.trim(),f=$("uF").files[0],link=$("uL").value.trim();
  if(!cid)return say(m,"Create a training first.");if(!title)return say(m,"Enter a video title.");if(!f&&!link)return say(m,"Choose a video file or paste a link.");
@@ -542,6 +549,7 @@ $("iUpload").onclick=async()=>{
  if(!title)return say("iMsg","Enter a video title.");
  if(!f||!f.type.startsWith("video/"))return say("iMsg","Choose an introduction video.");
  if(f.size>250*1024*1024)return say("iMsg","The video must be under 250 MB.");
+ const picked=[...document.querySelectorAll("#iSkills .chip.on")].map(b=>b.dataset.isk);if(!picked.length)return say("iMsg","Choose at least one skill from the list.");
  const safe=f.name.replace(/[^a-zA-Z0-9._-]/g,"_"),path=user.id+"/intro-"+Date.now()+"-"+safe;
  say("iMsg","Uploading introduction…");$("iUpload").disabled=true;
  const up=await db.storage.from("trainer-intro-videos").upload(path,f,{upsert:false,contentType:f.type});
@@ -554,13 +562,13 @@ $("iUpload").onclick=async()=>{
   if(tu.error){await db.storage.from("trainer-intro-videos").remove([path]);$("iUpload").disabled=false;return say("iMsg",tu.error.message);}
   thumbnail_url=db.storage.from("trainer-intro-videos").getPublicUrl(tp).data.publicUrl;
  }
- const skills=$("iSkills").value.split(",").map(x=>x.trim()).filter(Boolean).slice(0,12);
+ const skills=picked.slice(0,12);
  const row={teacher_user_id:user.id,title,description:$("iDesc").value.trim(),video_url:path,thumbnail_url,skills,is_published:true,published_at:new Date().toISOString()};
  const insr=await db.from("teacher_intro_videos").insert(row);
  $("iUpload").disabled=false;
  if(insr.error){await db.storage.from("trainer-intro-videos").remove([path]);return say("iMsg",insr.error.message);}
- $("iMsg").textContent="Introduction published. It can now appear on the STEZEO homepage.";
- ["iTitle","iSkills","iDesc","iVideo","iThumb"].forEach(id=>$(id).value="");
+ $("iMsg").textContent="Introduction uploaded. It will appear on the STEZEO homepage after admin approval.";
+ ["iTitle","iDesc","iVideo","iThumb"].forEach(id=>$(id).value="");document.querySelectorAll("#iSkills .chip.on").forEach(b=>b.classList.remove("on"));
  await loadMyIntro();
 };
 async function deleteIntro(id){
@@ -573,9 +581,10 @@ async function deleteIntro(id){
 
 /* ---------- events ---------- */
 document.addEventListener("click",e=>{const introDel=e.target.closest("[data-intro-del]");if(introDel){deleteIntro(introDel.dataset.introDel);return}const E=s=>e.target.closest(s);let x;
+ if(x=E("[data-isk]")){x.classList.toggle("on");return}
  if(x=E(".nav[data-p]"))return go(x.dataset.p);
  if(x=E("[data-go]"))return go(x.dataset.go);
- if(x=E("[data-addv]")){go("upload");$("uC").value=x.dataset.addv;return}
+ if(x=E("[data-addv]")){go("upload");$("uC").value=x.dataset.addv;uInfo();return}
  if(x=E("[data-edit]"))return editTraining(x.dataset.edit);
  if(x=E("[data-esave]"))return saveEdit(x.dataset.esave);
  if(x=E("[data-pub]"))return togglePub(x.dataset.pub);
