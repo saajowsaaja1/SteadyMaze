@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,6 +46,7 @@ const friendly=e=>{const m=String(e&&e.message||e||'');
  if(/504|gateway|timeout|timed out/i.test(m))return 'Supabase did not answer in time. Check that the project is not paused, wait a minute and try again.';
  if(/failed to fetch|network/i.test(m))return 'Cannot reach Supabase. Check your internet connection.';
  return m||'Something went wrong. Please try again.'};
+
 /* Only profiles.role = admin can enter. */
 async function enter(session,code){
  let {data:p,error}=await db.from('profiles').select('role').eq('id',session.user.id).maybeSingle();
@@ -62,6 +64,7 @@ async function enter(session,code){
   throw new Error(code?'This account could not become admin.':'This account is not an admin yet. Enter your secret admin code once, then log in.')}
  location.replace('Admin.html');
 }
+
 $('go').onclick=async()=>{
  if(busy)return;
  const email=$('em').value.trim(),password=$('pw').value,code=$('ac').value.trim();
@@ -82,10 +85,16 @@ $('go').onclick=async()=>{
  }catch(e){say(friendly(e))}
  finally{busy=false;$('go').disabled=false}
 };
+
 ['em','pw','ac'].forEach(i=>$(i).addEventListener('keydown',e=>{if(e.key==='Enter')$('go').click()}));
-(async()=>{const {data:{session}}=await db.auth.getSession();
- if(session){const {data:p}=await db.from('profiles').select('role').eq('id',session.user.id).maybeSingle();
-  if(p&&p.role==='admin')location.replace('Admin.html')}})();
+
+(async()=>{
+ const {data:{session}}=await db.auth.getSession();
+ if(session){
+  const {data:p}=await db.from('profiles').select('role').eq('id',session.user.id).maybeSingle();
+  if(p&&p.role==='admin')location.replace('Admin.html')
+ }
+})();
 </script>
 </body>
 </html>
