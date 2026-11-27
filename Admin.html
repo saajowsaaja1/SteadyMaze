@@ -51,6 +51,8 @@ video{width:100%;max-width:420px;border-radius:12px;background:#000;margin-top:8
  <button data-p="rev">Review queue <span class="t no" id="pc">0</span></button>
  <button data-p="con">All content</button>
  <button data-p="tr">Trainers</button>
+ <button data-p="usr">Users</button>
+ <button data-p="nt">Notifications</button>
  <button data-p="pay">Payments & access</button>
  <button data-p="cmp">Competition</button>
  <button data-p="sk">Skills & prices</button>
@@ -68,11 +70,11 @@ video{width:100%;max-width:420px;border-radius:12px;background:#000;margin-top:8
 const db=window.supabase.createClient('https://uxrltzlxdttbjstomhkb.supabase.co','sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b',{auth:{persistSession:true,autoRefreshToken:true}});
 const $=id=>document.getElementById(id);
 const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const TT={ov:'Overview',rev:'Review queue',con:'All content',tr:'Trainers',pay:'Payments & access',cmp:'Competition',sk:'Skills & prices'};
+const TT={ov:'Overview',rev:'Review queue',con:'All content',tr:'Trainers',usr:'Users',nt:'Notifications',pay:'Payments & access',cmp:'Competition',sk:'Skills & prices'};
 const PRICES={lower:[5,8,12],medium:[15,20,30],high:[35,60,80]};
 const GRP={lower:['video editing','thumbnail creator','graphic design','digital marketing','affiliate marketing','dropshipping','photo editing','movie recap','logo editing'],medium:['fx','crypto','ai agent','english','ui/ux','cybersecurity'],high:['ai web','ai app','python','java','web development','machine learning']};
 const fixed=(n,l)=>{for(const g in GRP)if(GRP[g].includes(String(n||'').toLowerCase()))return PRICES[g][l-1];return ''};
-let cur='ov',D={};
+let cur='ov',D={},meId='';
 const toast=t=>{const e=$('tt');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',4500)};
 const q=async p=>{const r=await p;if(r.error){toast(r.error.message);return[]}return r.data||[]};
 const cnt=async p=>{const r=await p;return r.count||0};
@@ -87,7 +89,7 @@ const pub=(b,p)=>!p?'':/^https?:/.test(p)?p:db.storage.from(b).getPublicUrl(p).d
   if(!session){stzGo('admin-login.html',true);return}
   const {data:p}=await db.from('profiles').select('role,full_name').eq('id',session.user.id).maybeSingle();
   if(!p||p.role!=='admin'){stzGo('admin-login.html',true);return}
-  $('me').textContent=p.full_name||'Admin';$('gate').remove();go('ov');
+  meId=session.user.id;$('me').textContent=p.full_name||'Admin';$('gate').remove();go('ov');
  }catch(e){$('gate').textContent='Could not load: '+e.message}
 })();
 $('out').onclick=async()=>{await db.auth.signOut();stzGo('admin-login.html',true)};
@@ -100,6 +102,7 @@ async function load(){
  D={pr:Object.fromEntries(pr.map(x=>[x.id,x])),profiles:pr,iv,co,ls,sk,lv,skm:Object.fromEntries(sk.map(x=>[x.id,x])),lvm:Object.fromEntries(lv.map(x=>[x.id,x]))};
  D.pi=iv.filter(x=>x.review_status==='pending');D.pc=co.filter(x=>x.status==='pending');
  $('pc').textContent=D.pi.length+D.pc.length;
+ if(cur==='nt')D.nt=await q(db.from('notifications').select('*').order('created_at',{ascending:false}).limit(30));
  if(cur==='tr')D.tp=await q(db.from('teacher_profiles').select('*'));
  if(cur==='pay'){D.pay=await q(db.from('payments').select('*').order('created_at',{ascending:false}).limit(100));D.acc=await q(db.from('course_access').select('*').limit(200))}
  if(cur==='cmp'){D.cy=await q(db.from('competition_cycles').select('*').order('starts_at',{ascending:false}).limit(10));D.sc=await q(db.from('skill_competitions').select('*,skills(name)'))}
@@ -115,7 +118,10 @@ function tbl(rows,cols,fn){return`<div class="tw"><table><tr>${cols.map(c=>`<th>
 function gen(rows){if(!rows.length)return'<p class="mu">Nothing yet.</p>';const pref=['created_at','student_id','user_id','course_id','amount','currency','status','access_status','provider'],keys=pref.filter(k=>k in rows[0]);const ks=keys.length?keys:Object.keys(rows[0]).slice(0,6);
  return tbl(rows,ks,r=>`<tr>${ks.map(k=>`<td>${k.endsWith('_id')?E(nm(r[k])!=='—'?nm(r[k]):String(r[k]).slice(0,8)):k.endsWith('_at')?day(r[k]):E(r[k])}</td>`).join('')}</tr>`)}
 
+function fu(t){t=t.toLowerCase();document.querySelectorAll('.ur').forEach(r=>r.style.display=r.dataset.s.includes(t)?'':'none')}
 const V={
+ usr(){return`<div class="cd"><input placeholder="Search name or role" oninput="fu(this.value)" style="width:100%;margin-bottom:10px">${tbl(D.profiles,['Name','Role','Joined',''],p=>`<tr class="ur" data-s="${E((String(p.full_name||'')+' '+p.role).toLowerCase())}"><td>${E(p.full_name)}</td><td><select id="ro-${E(p.id)}">${['student','trainer','admin'].map(r=>`<option${r===p.role?' selected':''}>${r}</option>`).join('')}</select></td><td>${day(p.created_at)}</td><td><button class="b" data-a="role" data-id="${E(p.id)}">Save</button></td></tr>`)}</div>`},
+ nt(){return`<div class="cd"><h2>Send a notification</h2><select id="nta"><option value="all">Everyone</option><option value="student">Students</option><option value="trainer">Trainers</option></select> <input id="ntt" placeholder="Title" maxlength="90"><br><textarea id="ntm" placeholder="Message" maxlength="500" style="width:100%;margin-top:8px"></textarea><br><button class="b g2" data-a="send">Send</button></div><div class="cd"><h2>Recent</h2>${tbl(D.nt||[],['Date','Title','Message','Read'],n=>`<tr><td>${day(n.created_at)}</td><td>${E(n.title)}</td><td>${E(n.message)}</td><td>${n.is_read?'Yes':'No'}</td></tr>`)}</div>`},
  ov(){const tr=D.profiles.filter(x=>x.role==='trainer').length,st=D.profiles.filter(x=>x.role==='student').length,pub=D.co.filter(c=>c.status==='published').length;
   return`<div class="g"><div class="st"><small>Trainers</small><b>${tr}</b></div><div class="st"><small>Students</small><b>${st}</b></div><div class="st"><small>Live trainings</small><b>${pub}</b></div><div class="st"><small>Waiting for review</small><b>${D.pi.length+D.pc.length}</b></div></div>
   <div class="cd"><h2>What to do</h2><p class="sm">Open <b>Review queue</b> to approve trainer intro videos and long trainings. For a training you set the price, then it goes live in training.html. Intro videos go live on index.html and user.html.</p></div>`},
@@ -132,6 +138,10 @@ const upd=async(t,id,patch,col='id')=>{const r=await db.from(t).update(patch).eq
 $('v').onclick=async e=>{
  const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=b.dataset.id,x=b.dataset.x;let ok=false;
  if(a==='watch'){const u=await sign(b.dataset.p);if(!u)return toast('Could not open the video.');b.outerHTML=`<video controls autoplay src="${E(u)}"></video>`;return}
+
+ if(a==='role'){const r=$('ro-'+id).value;if(id===meId&&r!=='admin')return toast('You cannot remove your own admin role.');ok=await upd('profiles',id,{role:r})}
+ if(a==='send'){const t=$('ntt').value.trim(),m=$('ntm').value.trim(),w=$('nta').value,to=D.profiles.filter(p=>w==='all'||p.role===w);if(!t||!m)return toast('Enter a title and message.');if(!to.length)return toast('No users to send to.');
+  for(let i=0;i<to.length;i+=500){const r=await db.from('notifications').insert(to.slice(i,i+500).map(p=>({user_id:p.id,title:t,message:m})));if(r.error)return toast(r.error.message)}ok=true}
  if(a==='iok')ok=await upd('teacher_intro_videos',id,{is_published:true,review_status:'approved',published_at:new Date().toISOString()});
  if(a==='ihide')ok=await upd('teacher_intro_videos',id,{is_published:false,review_status:'hidden'});
  if(a==='idel'&&confirm('Delete this intro video?')){const v=D.iv.find(i=>String(i.id)===id);const r=await db.from('teacher_intro_videos').delete().eq('id',id);if(r.error)return toast(r.error.message);const f=[v.video_url,v.thumbnail_url].filter(y=>y&&!/^https?:/.test(y));if(f.length)await db.storage.from('trainer-intro-videos').remove(f);ok=true}
