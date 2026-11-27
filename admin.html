@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stezeo — Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#090817;--panel:rgba(25,20,48,.78);--panel2:rgba(34,25,58,.78);--purple:#a78bfa;--red:#fb7185;--gold:#facc15;--orange:#fb923c;--cyan:#67e8f9;--muted:#aaa3c4;--line:rgba(255,255,255,.1);--shadow:0 18px 60px #0008}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 12% 5%,#592b80 0,transparent 33%),radial-gradient(ellipse at 90% 20%,#7d293f55 0,transparent 30%),radial-gradient(ellipse at 60% 100%,#a65b1833 0,transparent 34%),var(--bg);color:#f7f3ff;font:15px/1.5 Inter,system-ui,Segoe UI,sans-serif;min-height:100vh}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(120deg,transparent 0 48%,#fff1 49%,transparent 50%);background-size:80px 80px;animation:drift 18s linear infinite}@keyframes drift{to{background-position:400px 300px}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}@keyframes glow{0%,100%{box-shadow:0 0 15px #a78bfa22}50%{box-shadow:0 0 32px #a78bfa55}} 
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0}.app{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:100vh}.side{position:sticky;top:0;height:100vh;padding:22px 16px;background:rgba(12,10,29,.76);backdrop-filter:blur(24px);border-right:1px solid var(--line);z-index:5;overflow:auto}.brand{display:flex;align-items:center;gap:12px;padding:8px 10px 24px}.logo{width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,var(--purple),var(--red),var(--orange));display:grid;place-items:center;font-weight:900;color:#1a1028;box-shadow:0 0 25px #a78bfa66}.brand b{font-size:19px;letter-spacing:.4px}.brand small{display:block;color:var(--muted);font-size:11px}.navlabel{color:#827b9e;text-transform:uppercase;font-size:10px;letter-spacing:1.7px;padding:12px 12px 7px}.nav{width:100%;display:flex;align-items:center;gap:12px;text-align:left;color:#c8c0df;background:transparent;padding:11px 13px;border-radius:13px;margin:3px 0;transition:.22s}.nav .ic{width:22px;text-align:center;font-size:17px}.nav:hover,.nav.active{background:linear-gradient(100deg,#9b78ef33,#fb718522);color:#fff;transform:translateX(3px)}.nav.active{border:1px solid #b69af344;box-shadow:inset 3px 0 var(--purple)}.sidefoot{margin-top:24px;padding:14px;border:1px solid var(--line);border-radius:16px;background:#ffffff08;color:var(--muted);font-size:12px}.main{padding:26px clamp(16px,3vw,42px);min-width:0}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.top h1{font-size:clamp(24px,3vw,34px);margin:0;letter-spacing:-1px}.sub{color:var(--muted);font-size:13px;margin-top:4px}.topright{display:flex;align-items:center;gap:10px}.pill{border:1px solid var(--line);border-radius:99px;padding:8px 12px;background:#ffffff0b;color:#ddd5f2;font-size:12px}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--purple),var(--orange));color:#20142e;font-weight:900}.hamb{display:none;background:#ffffff12;color:white;border:1px solid var(--line);border-radius:11px;padding:9px 12px}.page{display:none;animation:appear .3s ease}.page.show{display:block}@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}.hero{padding:26px;border-radius:23px;background:linear-gradient(115deg,#7443b855,#bd4e6233,#e28b2833),rgba(26,20,48,.7);border:1px solid #d5b6ff33;backdrop-filter:blur(20px);box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:"✦";position:absolute;right:35px;top:-30px;font-size:150px;color:#fff1;animation:float 5s ease-in-out infinite}.hero h2{margin:0 0 7px;font-size:26px}.hero p{color:#ddd4f2;margin:0;max-width:620px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:18px 0}.stat,.panel{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(22px);border-radius:19px;box-shadow:var(--shadow)}.stat{padding:18px;position:relative;overflow:hidden}.stat:after{content:"";position:absolute;width:100px;height:100px;border-radius:50%;right:-40px;bottom:-48px;background:var(--accent,#a78bfa);filter:blur(35px);opacity:.25}.stat small{color:var(--muted)}.stat strong{display:block;font-size:29px;margin-top:8px}.stat .sicon{float:right;font-size:22px}.panel{padding:20px;margin:16px 0}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.panel h3{margin:0;font-size:17px}.muted{color:var(--muted);font-size:13px}.btn{padding:10px 14px;border-radius:11px;color:#1c132a;font-weight:750;background:linear-gradient(110deg,var(--purple),#e5b8ff);box-shadow:0 5px 18px #a78bfa33;transition:.2s}.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}.btn.red{background:linear-gradient(110deg,#fb7185,#fda4af)}.btn.gold{background:linear-gradient(110deg,var(--gold),var(--orange))}.btn.ghost{background:#ffffff0c;color:#e9e2fa;border:1px solid var(--line);box-shadow:none}.btn.sm{padding:7px 10px;font-size:12px}.actions{display:flex;gap:7px;flex-wrap:wrap}.field{width:100%;padding:12px 13px;border-radius:12px;border:1px solid #ffffff1c;background:#100d22;color:#fff;outline:none}.field:focus{border-color:var(--purple);box-shadow:0 0 0 3px #a78bfa22}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.formgrid .wide{grid-column:1/-1}label{display:block;color:#c9c1df;font-size:12px;margin:0 0 6px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:620px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}th{color:#a99fc5;font-size:11px;text-transform:uppercase;letter-spacing:1px}td{color:#e9e3f7}.tag{display:inline-block;border-radius:99px;padding:4px 9px;background:#a78bfa20;color:#d8c8ff;font-size:11px}.tag.green{background:#34d39920;color:#6ee7b7}.tag.red{background:#fb718520;color:#fda4af}.tag.gold{background:#facc1520;color:#fde68a}.empty{padding:28px;text-align:center;color:var(--muted)}.search{max-width:280px}.notice{padding:12px 14px;border-radius:12px;background:#facc1512;border:1px solid #facc1533;color:#fce7a1;font-size:12px;margin-bottom:14px}.toast{position:fixed;right:20px;bottom:20px;z-index:20;background:#211a39;border:1px solid #a78bfa66;padding:13px 18px;border-radius:13px;box-shadow:var(--shadow);display:none}.toast.on{display:block;animation:appear .2s}.mobilecover{display:none}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.app{grid-template-columns:225px minmax(0,1fr)}}
+@media(max-width:720px){.app{display:block}.side{position:fixed;left:-280px;width:260px;transition:.25s}.side.open{left:0}.mobilecover.show{display:block;position:fixed;inset:0;background:#0009;z-index:4}.hamb{display:block}.main{padding:18px 14px}.top{align-items:flex-start}.grid{gap:10px}.stat{padding:14px}.stat strong{font-size:24px}.formgrid{grid-template-columns:1fr}.formgrid .wide{grid-column:auto}.topright .pill{display:none}}
+@media(max-width:420px){.grid{grid-template-columns:1fr 1fr}.hero{padding:20px}.hero h2{font-size:22px}.panel{padding:15px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side" id="side">
+ <div class="brand"><div class="logo">S</div><div><b>STEZEO</b><small>ADMIN CONTROL CENTER</small></div></div>
+ <div class="navlabel">Workspace</div>
+ <button class="nav active" data-page="overview"><span class="ic">◈</span>Overview</button>
+ <button class="nav" data-page="users"><span class="ic">♙</span>Users</button>
+ <button class="nav" data-page="trainers"><span class="ic">♟</span>Trainers</button>
+ <button class="nav" data-page="intros"><span class="ic">▶</span>Intro reviews</button>
+ <button class="nav" data-page="courses"><span class="ic">▤</span>Courses & training</button>
+ <button class="nav" data-page="competition"><span class="ic">♛</span>Competition</button>
+ <button class="nav" data-page="payments"><span class="ic">＄</span>Payments & access</button>
+ <button class="nav" data-page="notifications"><span class="ic">♧</span>Notifications</button>
+ <div class="navlabel">Website pages</div>
+ <a class="nav" href="index.html"><span class="ic">⌂</span>Homepage</a>
+ <a class="nav" href="user.html"><span class="ic">♙</span>User page</a>
+ <a class="nav" href="trainer.html"><span class="ic">♟</span>Trainer page</a>
+ <a class="nav" href="training.html"><span class="ic">▤</span>Training page</a>
+ <a class="nav" href="compotion.html"><span class="ic">♛</span>Competition page</a>
+ <div class="sidefoot">✦ Stezeo Admin<br><span id="sideEmail">Checking admin session…</span></div>
+</aside>
+<div class="mobilecover" id="cover"></div>
+<main class="main">
+ <header class="top"><div style="display:flex;align-items:center;gap:12px"><button class="hamb" id="hamb">☰</button><div><h1 id="pageTitle">Overview</h1><div class="sub">Manage your Stezeo website from one place</div></div></div><div class="topright"><span class="pill">● Secure admin session</span><div class="avatar" id="avatar">S</div></div></header>
+ <div id="gate" class="panel"><h3>Checking administrator access…</h3><p class="muted">Please wait while Stezeo verifies your active account.</p></div>
+ <div id="dashboard" style="display:none">
+  <section class="page show" id="overview">
+   <div class="hero"><h2>Welcome to Stezeo Control ✨</h2><p>Your website, community, trainers and learning content — managed in one beautiful workspace.</p></div>
+   <div class="grid">
+    <div class="stat" style="--accent:#a78bfa"><span class="sicon">♙</span><small>Total users</small><strong id="sUsers">—</strong></div>
+    <div class="stat" style="--accent:#fb7185"><span class="sicon">♟</span><small>Trainers</small><strong id="sTrainers">—</strong></div>
+    <div class="stat" style="--accent:#facc15"><span class="sicon">▶</span><small>Intro videos</small><strong id="sIntros">—</strong></div>
+    <div class="stat" style="--accent:#fb923c"><span class="sicon">▤</span><small>Courses</small><strong id="sCourses">—</strong></div>
+   </div>
+   <div class="panel"><div class="panelhead"><h3>Quick actions</h3><span class="muted">Shortcuts</span></div><div class="actions"><button class="btn" data-jump="intros">Review introductions</button><button class="btn red" data-jump="notifications">Send notification</button><button class="btn gold" data-jump="users">Manage users</button></div></div>
+   <div class="panel"><div class="panelhead"><h3>Website navigation</h3><span class="muted">Open your live pages</span></div><div class="actions"><a class="btn ghost" href="index.html">index.html ↗</a><a class="btn ghost" href="user.html">user.html ↗</a><a class="btn ghost" href="trainer.html">trainer.html ↗</a><a class="btn ghost" href="training.html">training.html ↗</a><a class="btn ghost" href="compotion.html">compotion.html ↗</a></div></div>
+  </section>
+  <section class="page" id="users"><div class="panel"><div class="panelhead"><div><h3>Users management</h3><div class="muted">View accounts and manage user roles</div></div><input class="field search" id="userSearch" placeholder="Search name or email…"></div><div class="tablewrap"><table><thead><tr><th>Name</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead><tbody id="usersBody"></tbody></table></div></div></section>
+  <section class="page" id="trainers"><div class="panel"><div class="panelhead"><div><h3>Trainer management</h3><div class="muted">Review trainer accounts and verification status</div></div><input class="field search" id="trainerSearch" placeholder="Search trainer…"></div><div class="tablewrap"><table><thead><tr><th>Trainer</th><th>Specialization</th><th>Verified</th><th>Action</th></tr></thead><tbody id="trainersBody"></tbody></table></div></div></section>
+  <section class="page" id="intros"><div class="panel"><div class="panelhead"><div><h3>Trainer introduction reviews</h3><div class="muted">Approve to show the intro on the homepage and user page, or reject it</div></div><button class="btn ghost sm" id="reloadIntros">Refresh</button></div><div class="notice">Review workflow: Approve sets is_published = true. Reject sets is_published = false. The current trainer upload page may publish intros immediately; see the important note below.</div><div class="tablewrap"><table><thead><tr><th>Introduction</th><th>Trainer</th><th>Status</th><th>Submitted</th><th>Review action</th></tr></thead><tbody id="introsBody"></tbody></table></div></div></section>
+  <section class="page" id="courses"><div class="panel"><div class="panelhead"><div><h3>Courses & training</h3><div class="muted">Manage course publishing and prices</div></div><input class="field search" id="courseSearch" placeholder="Search course…"></div><div class="tablewrap"><table><thead><tr><th>Course</th><th>Skill</th><th>Price</th><th>Status</th><th>Action</th></tr></thead><tbody id="coursesBody"></tbody></table></div></div><div class="panel"><div class="panelhead"><h3>Lessons overview</h3><button class="btn ghost sm" id="reloadLessons">Refresh</button></div><div class="tablewrap"><table><thead><tr><th>Lesson</th><th>Course ID</th><th>Status</th></tr></thead><tbody id="lessonsBody"></tbody></table></div></div></section>
+  <section class="page" id="competition"><div class="panel"><div class="panelhead"><div><h3>Competition cycles</h3><div class="muted">Open or close cycles and control whether students can request entry</div></div><div class="actions"><button class="btn ghost sm" id="reloadCycles">Refresh</button><a class="btn ghost sm" href="compotion.html">Open compotion.html ↗</a></div></div><div class="notice">OPEN makes this cycle visible on the homepage and competition page, and opens entry requests for its skill competitions. CLOSED hides it from the active competition view and closes new entry requests.</div><div class="tablewrap"><table><thead><tr><th>Cycle</th><th>Status</th><th>Dates</th><th>Action</th></tr></thead><tbody id="competitionBody"></tbody></table></div></div></section>
+  <section class="page" id="payments"><div class="panel"><div class="panelhead"><div><h3>Payments</h3><div class="muted">Recent payment records</div></div></div><div class="tablewrap"><table><thead><tr><th>Payment</th><th>User</th><th>Amount</th><th>Status</th></tr></thead><tbody id="paymentsBody"></tbody></table></div></div><div class="panel"><div class="panelhead"><h3>Course access</h3><div class="muted">Activate or block access</div></div><div class="tablewrap"><table><thead><tr><th>Access</th><th>User</th><th>Course</th><th>Status</th><th>Action</th></tr></thead><tbody id="accessBody"></tbody></table></div></div></section>
+  <section class="page" id="notifications"><div class="panel"><div class="panelhead"><div><h3>Send notification to all users</h3><div class="muted">A notification will be created for each profile account</div></div></div><div class="formgrid"><div class="wide"><label>Notification title</label><input class="field" id="noteTitle" maxlength="100" placeholder="e.g. New courses are available"></div><div class="wide"><label>Message</label><textarea class="field" id="noteMessage" rows="4" maxlength="1000" placeholder="Write your announcement…"></textarea></div><div class="wide actions"><button class="btn red" id="sendAll">Send to all users</button><span class="muted" id="noteResult"></span></div></div></div><div class="panel"><h3>How notifications work</h3><p class="muted">Messages are saved in the notifications table and appear in the user dashboard when that user opens or refreshes their notifications.</p></div></section>
+ </div>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(()=> {
+ const SB_URL="https://uxrltzlxdttbjstomhkb.supabase.co";
+ const SB_KEY="sb_publishable_bAbA5_9yIPt5IWQ0WwphMg_gdZ6E8-b";
+ const db=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+ const $=id=>document.getElementById(id);
+ let me=null,profiles=[],teacherProfiles=[],intros=[],courses=[],lessons=[],cycles=[],payments=[],accessRows=[],skillCompetitions=[];
+ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const toast=t=>{$("toast").textContent=t;$("toast").classList.add("on");setTimeout(()=>$("toast").classList.remove("on"),3500)};
+ const date=v=>v?new Date(v).toLocaleDateString():"—";
+ const status=v=>`<span class="tag ${v===true||v==="published"||v==="active"||v==="approved"?"green":v===false||v==="rejected"||v==="blocked"?"red":"gold"}">${esc(v===true?"Published":v===false?"Hidden":v||"Unknown")}</span>`;
+ const fail=(where,e)=>{console.error(where,e);toast(where+": "+(e?.message||"Request failed"))};
+ async function init(){
+  const {data:{session},error}=await db.auth.getSession();
+  if(error||!session){$("gate").innerHTML='<h3>Admin session required</h3><p class="muted">Sign in with your existing Stezeo account first, then open admin.html again. This page does not contain a separate login form.</p><a class="btn" href="login.html?next=admin.html">Open normal login</a>';return}
+  me=session.user;
+  const p=await db.from("profiles").select("id,full_name,role,created_at,email").eq("id",me.id).maybeSingle();
+  if(p.error||!p.data||String(p.data.role).toLowerCase()!=="admin"){
+   $("gate").innerHTML='<h3>Administrator access denied</h3><p class="muted">This signed-in account does not have the admin role in profiles.role.</p><button class="btn ghost" id="signout">Sign out</button>';
+   $("signout").onclick=async()=>{await db.auth.signOut();location.href="login.html"};return;
+  }
+  $("sideEmail").textContent=me.email||p.data.full_name||"Administrator";$("avatar").textContent=(p.data.full_name||me.email||"S").charAt(0).toUpperCase();
+  $("gate").style.display="none";$("dashboard").style.display="block";
+  await loadAll();
+ }
+ async function rows(table,select="*"){const r=await db.from(table).select(select).limit(500);if(r.error)throw r.error;return r.data||[]}
+ async function loadAll(){
+  try{
+   [profiles,intros,courses,lessons,cycles,payments,accessRows]=await Promise.all([
+    rows("profiles","id,full_name,role,created_at"),rows("teacher_intro_videos"),rows("courses"),rows("lessons"),rows("competition_cycles"),rows("payments"),rows("course_access")
+   ]);
+   const [tr,sc]=await Promise.all([db.from("teacher_profiles").select("*").limit(500),db.from("skill_competitions").select("id,cycle_id,registration_open").limit(1000)]);
+   if(tr.error)throw tr.error;if(sc.error)throw sc.error;teacherProfiles=tr.data||[];skillCompetitions=sc.data||[];
+   drawOverview();drawUsers();drawTrainers();drawIntros();drawCourses();drawLessons();drawCycles();drawPayments();drawAccess();
+  }catch(e){fail("Could not load dashboard",e)}
+ }
+ function drawOverview(){
+  $("sUsers").textContent=profiles.length;$("sTrainers").textContent=profiles.filter(p=>p.role==="trainer").length;
+  $("sIntros").textContent=intros.length;$("sCourses").textContent=courses.length;
+ }
+ function drawUsers(){
+  const q=($("userSearch")?.value||"").toLowerCase(),list=profiles.filter(p=>(p.full_name||"").toLowerCase().includes(q)||(p.role||"").toLowerCase().includes(q));
+  $("usersBody").innerHTML=list.map(p=>`<tr><td><b>${esc(p.full_name||"Unnamed user")}</b><div class="muted">${esc(p.id)}</div></td><td>${status(p.role)}</td><td>${date(p.created_at)}</td><td><div class="actions"><button class="btn sm ghost" data-role="${esc(p.id)}" data-next="${p.role==="admin"?"user":"admin"}">${p.role==="admin"?"Remove admin":"Make admin"}</button></div></td></tr>`).join("")||'<tr><td colspan="4" class="empty">No users found.</td></tr>';
+ }
+ function drawTrainers(){
+  const q=($("trainerSearch")?.value||"").toLowerCase(),list=profiles.filter(p=>p.role==="trainer"&&(p.full_name||"").toLowerCase().includes(q));
+  $("trainersBody").innerHTML=list.map(p=>{const t=teacherProfiles.find(x=>x.user_id===p.id)||{};return `<tr><td><b>${esc(p.full_name||"Trainer")}</b></td><td>${esc(t.specialization||"—")}</td><td>${status(!!t.is_verified)}</td><td><button class="btn sm ${t.is_verified?"red":"gold"}" data-verify="${esc(p.id)}" data-val="${!t.is_verified}">${t.is_verified?"Unverify":"Verify"}</button></td></tr>`}).join("")||'<tr><td colspan="4" class="empty">No trainers found.</td></tr>';
+ }
+ function drawIntros(){
+  $("introsBody").innerHTML=intros.map(v=>{const p=profiles.find(x=>x.id===v.teacher_user_id)||{};return `<tr><td><b>${esc(v.title||"Untitled intro")}</b><div class="muted">${esc(v.description||"").slice(0,100)}</div>${v.video_url?`<a target="_blank" rel="noopener" href="${esc(/^https?:/.test(v.video_url)?v.video_url:db.storage.from("trainer-intro-videos").getPublicUrl(v.video_url).data.publicUrl)}">Open video ↗</a>`:""}</td><td>${esc(p.full_name||"Trainer")}</td><td>${status(!!v.is_published)}</td><td>${date(v.created_at||v.published_at)}</td><td><div class="actions"><button class="btn sm gold" data-intro="${esc(v.id)}" data-pub="true">Accept</button><button class="btn sm red" data-intro="${esc(v.id)}" data-pub="false">Reject</button></div></td></tr>`}).join("")||'<tr><td colspan="5" class="empty">No trainer introductions found.</td></tr>';
+ }
+ function drawCourses(){
+  const q=($("courseSearch")?.value||"").toLowerCase(),list=courses.filter(c=>(c.title||"").toLowerCase().includes(q)||(c.skill_name||"").toLowerCase().includes(q));
+  $("coursesBody").innerHTML=list.map(c=>`<tr><td><b>${esc(c.title||"Untitled course")}</b><div class="muted">${esc(c.id)}</div></td><td>${esc(c.skill_name||c.skill_id||"—")}</td><td>${esc(c.price??"—")}</td><td>${status(c.status||c.is_published)}</td><td><div class="actions"><button class="btn sm ghost" data-course="${esc(c.id)}" data-status="${c.status==="published"?"draft":"published"}">${c.status==="published"?"Unpublish":"Publish"}</button><button class="btn sm gold" data-price="${esc(c.id)}">Set price</button></div></td></tr>`).join("")||'<tr><td colspan="5" class="empty">No courses found.</td></tr>';
+ }
+ function drawLessons(){$("lessonsBody").innerHTML=lessons.map(l=>`<tr><td>${esc(l.title||"Lesson")}</td><td>${esc(l.course_id||"—")}</td><td>${status(l.status||"—")}</td></tr>`).join("")||'<tr><td colspan="3" class="empty">No lessons found.</td></tr>'}
+ function drawCycles(){$("competitionBody").innerHTML=cycles.map(c=>`<tr><td><b>${esc(c.title||c.name||"Competition cycle")}</b><div class="muted">${esc(c.id)}</div></td><td>${status(c.status)}</td><td>${date(c.starts_at||c.start_date)} – ${date(c.ends_at||c.end_date)}</td><td><button class="btn sm ${c.status==="open"?"red":"gold"}" data-cycle="${esc(c.id)}" data-state="${c.status==="open"?"closed":"open"}">${c.status==="open"?"Close competition":"Open competition"}</button></td></tr>`).join("")||'<tr><td colspan="4" class="empty">No competition cycles found.</td></tr>'}
+ function drawPayments(){$("paymentsBody").innerHTML=payments.slice(0,100).map(p=>`<tr><td>${esc(p.id)}</td><td>${esc(p.user_id||"—")}</td><td>${esc(p.amount??p.price??"—")}</td><td>${status(p.status)}</td></tr>`).join("")||'<tr><td colspan="4" class="empty">No payment records found.</td></tr>'}
+ function drawAccess(){$("accessBody").innerHTML=accessRows.map(a=>`<tr><td>${esc(a.id)}</td><td>${esc(a.user_id||"—")}</td><td>${esc(a.course_id||"—")}</td><td>${status(a.status)}</td><td><button class="btn sm ${a.status==="active"?"red":"gold"}" data-access="${esc(a.id)}" data-state="${a.status==="active"?"blocked":"active"}">${a.status==="active"?"Block":"Activate"}</button></td></tr>`).join("")||'<tr><td colspan="5" class="empty">No course access records found.</td></tr>'}
+ async function update(table,patch,id){const r=await db.from(table).update(patch).eq("id",id);if(r.error)throw r.error;return r}
+ document.addEventListener("click",async e=>{
+  const b=e.target.closest("button");if(!b)return;
+  try{
+   if(b.dataset.page||b.dataset.jump){showPage(b.dataset.page||b.dataset.jump);return}
+   if(b.dataset.role){if(!confirm("Change this account role to "+b.dataset.next+"?"))return;await update("profiles",{role:b.dataset.next},b.dataset.role);await loadAll();toast("User role updated");return}
+   if(b.dataset.verify){await db.from("teacher_profiles").update({is_verified:b.dataset.val==="true"}).eq("user_id",b.dataset.verify).then(r=>{if(r.error)throw r.error});await loadAll();toast("Trainer status updated");return}
+   if(b.dataset.intro){await update("teacher_intro_videos",{is_published:b.dataset.pub==="true",published_at:b.dataset.pub==="true"?new Date().toISOString():null},b.dataset.intro);await loadAll();toast(b.dataset.pub==="true"?"Introduction accepted and published":"Introduction rejected / hidden");return}
+   if(b.dataset.course){const c=courses.find(x=>String(x.id)===b.dataset.course);let patch={};if("status"in c)patch.status=b.dataset.status;else patch.is_published=b.dataset.status==="published";await update("courses",patch,b.dataset.course);await loadAll();toast("Course updated");return}
+   if(b.dataset.price){const c=courses.find(x=>String(x.id)===b.dataset.price),v=prompt("Enter course price",c?.price??"");if(v===null)return;if(!Number.isFinite(Number(v))||Number(v)<0)return toast("Enter a valid price");await update("courses",{price:Number(v)},b.dataset.price);await loadAll();toast("Price updated");return}
+   if(b.dataset.cycle){
+    const nextState=b.dataset.state,cycleId=b.dataset.cycle;
+    await update("competition_cycles",{status:nextState},cycleId);
+    const related=skillCompetitions.filter(x=>String(x.cycle_id)===String(cycleId));
+    if(related.length){
+      const scUpdate=await db.from("skill_competitions").update({registration_open:nextState==="open"}).eq("cycle_id",cycleId);
+      if(scUpdate.error)throw scUpdate.error;
+    }
+    await loadAll();toast(nextState==="open"?"Competition opened; entry requests enabled":"Competition closed; entry requests disabled");return
+   }
+   if(b.dataset.access){await update("course_access",{status:b.dataset.state},b.dataset.access);await loadAll();toast("Course access updated");return}
+  }catch(err){fail("Action failed",err)}
+ });
+ function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("show",p.id===id));document.querySelectorAll(".nav[data-page]").forEach(n=>n.classList.toggle("active",n.dataset.page===id));$("pageTitle").textContent=({overview:"Overview",users:"Users",trainers:"Trainers",intros:"Intro reviews",courses:"Courses & training",competition:"Competition",payments:"Payments & access",notifications:"Notifications"})[id]||"Overview";$("side").classList.remove("open");$("cover").classList.remove("show");}
+ $("hamb").onclick=()=>{$("side").classList.toggle("open");$("cover").classList.toggle("show")};$("cover").onclick=()=>$("hamb").click();
+ $("userSearch").oninput=drawUsers;$("trainerSearch").oninput=drawTrainers;$("courseSearch").oninput=drawCourses;
+ $("reloadIntros").onclick=loadAll;$("reloadLessons").onclick=loadAll;$("reloadCycles").onclick=loadAll;
+ $("sendAll").onclick=async()=>{
+  const title=$("noteTitle").value.trim(),message=$("noteMessage").value.trim();if(!title||!message)return toast("Enter a title and message first");
+  const btn=$("sendAll");btn.disabled=true;btn.textContent="Sending…";
+  try{
+   const ids=profiles.filter(p=>p.id!==me.id).map(p=>p.id);
+   if(!ids.length)throw new Error("No user profiles found");
+   const payload=ids.map(user_id=>({user_id,title,message,is_read:false}));
+   for(let i=0;i<payload.length;i+=400){const r=await db.from("notifications").insert(payload.slice(i,i+400));if(r.error)throw r.error}
+   $("noteResult").textContent="Sent to "+ids.length+" user accounts."; $("noteTitle").value="";$("noteMessage").value="";toast("Notification sent to all users");
+  }catch(err){fail("Notification not sent",err)}
+  finally{btn.disabled=false;btn.textContent="Send to all users"}
+ };
+ init();
+})();
+</script>
+</body>
+</html>
